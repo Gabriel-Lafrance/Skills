@@ -9,7 +9,7 @@ Plan mode, CreatePlan, simple entry points, folder structure, tasteful UI, and a
 From any project (or globally with `-g`):
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/GabrielLafrance-Skills -a cursor
+npx skills@latest add Gabriel-Lafrance/Skills -a cursor
 ```
 
 Then in Cursor:
@@ -59,7 +59,6 @@ skills/
     examples.md       # optional progressive disclosure
 LICENSE
 README.md
-CONTRIBUTING.md
 ```
 
 ## Why Cursor-only
