@@ -1,80 +1,119 @@
 ---
 name: create-plan
 description: >-
-  Turn the current conversation into a concrete Cursor plan via Plan mode and
-  CreatePlan. The user must confirm before any implementation. Use after grilling
-  or when the user asks to plan a non-trivial change.
+  Write an implementation plan into a goal workspace
+  (.scratch/goals/<goal-id>/PLAN.md) so concurrent goals never clash. Stays in
+  Agent mode. Use after grilling, under /goal, or when planning non-trivial work.
 disable-model-invocation: true
 ---
 
-# Create Plan (Cursor)
+# Create Plan
 
-This skill is the **validation gate**. Implementation starts only after the user confirms the plan in Cursor.
+Write a durable plan file inside **one goal workspace**. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
+
+## Plan location
+
+Under `/goal` (or when `goal-id` is known):
+
+```text
+.scratch/goals/<goal-id>/PLAN.md
+```
+
+Standalone (no goal yet): create a workspace first:
+
+1. Allocate `goal-id` (same rules as `/goal`: ticket id, or slug + short suffix)
+2. Create `.scratch/goals/<goal-id>/` and a minimal `GOAL.md` + `STATUS.md`
+3. Upsert `.scratch/goals/REGISTRY.md`
+4. Write `PLAN.md` there
+
+**Never** write `.scratch/plans/ACTIVE.md` or any global singleton plan file.
+
+If `PLAN.md` already exists for that id, replace it only for **this** id — leave other goals’ plans untouched.
 
 ## Process
 
-### 1. Stay in / switch to Plan mode
+### 1. Gather context (subagents explore; you decide)
 
-If not already in Plan mode, call `SwitchMode` with `target_mode_id: "plan"` and a short explanation.
+Follow **`/orchestrate`**. Point explores at this goal’s `GOAL.md`.
 
-Do **not** edit application code in this skill.
+- Read **`/taste`**
+- Ticket in play → `/trackers` brief
+- `CONTEXT.md` / ADRs if present
+- Parallel `explore` Tasks: sibling, lane, seams
+- Multi-file / UI → `/architecture` (+ `/design` Mode B if UI)
 
-### 2. Gather enough context (read-only)
+One clarifying question only if the entry shape is a real undecided product choice.
 
-- Read **`/taste`** — plans must not propose shapes that violate it
-- If a Linear/GitHub ticket is in play, use the `/trackers` brief (fetch first if missing)
-- Read `CONTEXT.md` and relevant ADRs if present
-- Explore only what is needed for an accurate plan; **cite a sibling** feature when one exists
-- Prefer existing seams over new ones; fewest seams wins (ideal: one)
-- If the change adds more than one file, extracts logic, or touches UI state: follow `/architecture` and draft the structure card first
-- If the change creates or substantially changes UI: follow **`/design`** Mode B and include a Design card
+Do **not** implement feature code here.
 
-If test seams or the entry-point shape are unclear, confirm with the user **before** CreatePlan (one question).
+### 2. Write PLAN.md
 
-### 3. Call CreatePlan
+Path: `.scratch/goals/<goal-id>/PLAN.md`
 
-Use the CreatePlan tool with:
+```markdown
+# <title>
 
-- **name**: short plan title
-- **overview**: 1–2 sentences
-- **plan**: concise, actionable markdown
-- **todos**: concrete implementation todos when the work has multiple steps
+**Status:** active
+**Updated:** <ISO date>
+**Goal id:** <goal-id>
+**Goal / ticket:** <none | IN-1234 | #42 — URL>
+**Path:** `.scratch/goals/<goal-id>/PLAN.md`
 
-Plan body must include:
+## Overview
+<1–2 sentences>
 
-1. **Problem** — user perspective (ticket Ask when present)  
-2. **Approach** — concrete chosen approach (no Option A/B left open); must fit `/taste`  
-3. **Structure** — from `/architecture`: entry point, folder map, extension seam when big, **Scalability** (stored on write / indexes / not recomputed on render)  
-4. **Design** — from `/design` Mode B when UI is in scope (job, hierarchy, surfaces, depth, states, ethical psychology)  
-5. **Key files** — markdown links under that folder map (Convex names without `-`/`_`)  
-6. **Seams / tests** — verify at the entry point when possible; prefer running localhost + Convex as the check, not ritual lint  
-7. **Acceptance criteria** — checklist `/validate` will use later, including an explicit scalable-data row when metrics/lists/stats exist  
-8. **Out of scope** — explicit non-goals  
-9. **Ticket** — ID + URL when the plan resolves a tracker issue  
-10. **Sibling** — path of the pattern being mirrored, or "greenfield"  
+## Problem
+…
 
-Cite essential snippets only. Use mermaid only when it clarifies architecture or flow.
+## Approach
+<concrete; fits /taste; no Option A/B>
 
-### 4. Stop for confirmation
+## Structure
+<entry point, folder map, extension seam, Scalability>
 
-After CreatePlan succeeds, tell the user the plan is ready for review in the plan UI.
+## Design
+<Mode B card or n/a>
 
-**Do not:**
+## Key files
+- [path](path) — why
 
-- Switch to Agent and start coding
-- Split the work yet (that is `/split-task`)
-- Claim the work is approved
+## File lane (multi-goal)
+Paths this goal may write (workers must stay inside; avoid other running goals’ lanes)
 
-When they confirm / ask to implement:
+## Seams / verification
+…
 
-- Multi-session or large → recommend `/split-task` then `/implement` per piece  
-- Small → `/implement` (Agent mode) using the approved plan  
+## Acceptance criteria
+- [ ] …
+- [ ] <scalable-data row when needed>
+
+## Out of scope
+…
+
+## Todos
+- [ ] …
+```
+
+Also bump `.scratch/goals/<goal-id>/STATUS.md` (`last: plan written`).
+
+### 3. Hand off
+
+Announce: `Plan written to .scratch/goals/<goal-id>/PLAN.md`.
+
+**Under `/goal` or user asked to build:** continue to `/split-task` or `/implement` with that `goal-id`. No confirmation wait.
+
+**Standalone “just plan”:** stop unless they ask to implement.
+
+### 4. Subagent rule
+
+Task prompts must say: read `.scratch/goals/<goal-id>/GOAL.md` and `PLAN.md` — **not** another id.
 
 ## Anti-patterns
 
-- Freeform mega-plan in chat instead of CreatePlan
-- Leaving open alternatives inside the plan
-- Coding “just a little” before confirmation
-- Skipping acceptance criteria (breaks `/validate`)
-- Listing loose files with no folder map or entry point
-- Proposing `{ success: false }` APIs, dynamic imports, or Convex files with `-`/`_`
+- Global ACTIVE plan files
+- Writing into the wrong `goal-id`
+- `SwitchMode` / CreatePlan UI
+- Plan only in chat
+- Coding the feature in this skill
+- Skipping acceptance criteria / folder map / entry point
+- `{ success: false }` APIs, dynamic imports, Convex names with `-`/`_`

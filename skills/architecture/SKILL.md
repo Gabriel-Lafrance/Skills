@@ -17,6 +17,8 @@ Read **`/taste`** first (and [examples.md](../taste/examples.md) when unsure). F
 
 This skill is the structural gate. Run it before `/create-plan` when structure or data shape matters, or mid-`/implement` when the diff is about to sprawl or recompute on read.
 
+**Explore via subagents** (`/orchestrate`): dispatch parallel `explore` Tasks for sibling features and target folders; you write the structure card from their reports.
+
 ## Doctrine
 
 ### 1. One simple entry point

@@ -14,14 +14,11 @@ A **flow** is a path through the skills. Most work rides the **main flow**. On-r
 
 ## Main flow: idea → ship
 
-1. **Substantial + verifiable end state?** → **`/goal`** (shapes Done when, then drives the pack until evidence proves completion). Ticket IDs welcome: **`/goal IN-1234`** or **`/goal #42`**.
-2. Otherwise sharpen with **`/grill-me`**. If structure matters (multi-file, extraction, UI state), run **`/architecture`** (after **`/taste`**). If UI is in scope, run **`/design`** Mode B, then **`/create-plan`** — Plan mode + CreatePlan, **wait for user confirmation**. Do not code before confirm.
-3. **Multi-session or too big for one agent?**
-   - **Yes** → **`/split-task`**, then fresh chat per piece with **`/implement`**
-   - **No** → **`/implement`** in Agent mode after plan approval
-4. **`/validate`** — Done when / plan acceptance criteria
-5. **`/code-review`** — Standards + Spec via Cursor subagents
-6. **Ticket goal achieved?** → **`/trackers`** close-out (comment + Done / close)
+1. **Substantial + verifiable end state?** → **`/goal`** (isolated `.scratch/goals/<goal-id>/`; many goals can run at once). Tickets: **`/goal IN-1234`** / **`/goal #42`**. See **`/orchestrate`**.
+2. Otherwise sharpen with **`/grill-me`**. Structure → **`/architecture`**. UI → **`/design`** Mode B. Then **`/create-plan`** into that goal workspace.
+3. **Multi-session or too big?** → **`/split-task`** into `pieces/`, then **`/implement`** with parallel workers (respect other running goals’ file lanes)
+4. **`/validate`** / **`/code-review`** scoped to the same `goal-id`
+5. **Ticket goal achieved?** → **`/trackers`** close-out
 
 ### Context hygiene
 
@@ -42,18 +39,19 @@ If the window is getting heavy before the split is done, hand off a short markdo
 | Creating UI inside a goal/plan | `/design` (Mode B) then continue flow |
 | Coding style / "make it like I like" | `/taste` |
 | Plan/task too big for one agent | `/split-task` |
-| Approved plan or piece ready | `/implement` |
+| Plan file ready / continue build | `/implement` |
+| Max subagents / how to delegate | `/orchestrate` |
 | "Are we done?" | `/validate` |
 | Review branch / PR | `/code-review` |
 
 ## Cursor rules (always)
 
-- Prefer **Plan mode + CreatePlan** for non-trivial work
-- **Never** start Agent implementation until the user confirms the plan
-- Use **Task** subagents (`explore`, `bugbot`, `security-review`) instead of inventing parallel review rituals
-- Prefer **throw + try/catch** over `success: false` return patterns when advising code style in this author's projects
-- Structure and naming follow **`/taste`** + **`/architecture`**
-- UI looks/feel follow **`/design`**
+- Stay in **Agent mode** — per-goal plans under `.scratch/goals/<goal-id>/PLAN.md`
+- **Main orchestrates; subagents labor** — `/orchestrate`
+- **Concurrent goals OK** — each has its own workspace + REGISTRY; never stomp another id
+- Every Task prompt includes that **goal-id**’s GOAL.md + PLAN.md
+- Prefer **throw + try/catch** over `success: false` in this author's projects
+- Structure/naming → **`/taste`** + **`/architecture`**; UI → **`/design`**
 
 ## How to answer
 

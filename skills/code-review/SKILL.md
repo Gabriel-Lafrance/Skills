@@ -13,7 +13,7 @@ Review the diff between `HEAD` and a fixed point along two axes (plus structure 
 - **Standards** — coding standards + smell baseline + `/architecture` structure
 - **Spec** — does the change match the plan / ticket / PRD?
 
-Run axes as **parallel Cursor Task subagents**, then aggregate. Do not merge findings into one ranked list.
+Run axes as **parallel Cursor Task subagents** (required — see `/orchestrate`), then you aggregate. Do not solo-review a large diff when workers can. Do not merge findings into one ranked list.
 
 If you need issue context, run `/trackers` (Linear MCP or `gh`). Do not invent the ticket body.
 
@@ -37,11 +37,14 @@ Fail early on bad ref or empty diff.
 
 In order:
 
-1. Active `/goal` ticket brief from `/trackers`
-2. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
-3. Path the user passed
-4. Approved plan / file under `docs/`, `specs/`
-5. Ask; if none, Spec axis reports "no spec available"
+1. `.scratch/goals/<goal-id>/GOAL.md` + `PLAN.md` (require goal-id when under `/goal`)
+2. Active `/goal` ticket brief from `/trackers`
+3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
+4. Path the user passed
+5. Plan / file under `docs/`, `specs/`
+6. Ask; if none, Spec axis reports "no spec available"
+
+Tell Spec/Standards Task subagents to **read that goal-id’s paths only** — never another workspace.
 
 ### 3. Standards sources
 

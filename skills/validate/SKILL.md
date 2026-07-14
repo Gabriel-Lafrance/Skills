@@ -9,16 +9,18 @@ disable-model-invocation: true
 
 # Validate
 
-Close the loop on Cursor's plan confirmation: the plan was the **gate in**; this skill is the **gate out**.
+Close the loop: the on-disk plan / goal contract was the **gate in**; this skill is the **gate out**.
 
 ## Inputs
 
-Resolve acceptance criteria from, in order:
+Resolve **`goal-id`** first (chat binding, user, or path). Then criteria from, in order:
 
-1. Active `/goal` **Done when** rows (if a goal is driving this session)
+1. `.scratch/goals/<goal-id>/GOAL.md` **Done when** rows
 2. The `/trackers` ticket brief acceptance checklist (Linear / GitHub)
-3. The confirmed CreatePlan / plan file the user approved
+3. `.scratch/goals/<goal-id>/PLAN.md` acceptance criteria
 4. Explicit criteria the user pasted in chat
+
+Do not mix criteria from another goal-id’s workspace.
 
 Also run:
 
@@ -35,6 +37,8 @@ If none of 1–4 exist, stop and ask — do not invent a vague "looks good."
 List each acceptance criterion as a checkbox. No new scope.
 
 ### 2. Evidence pass
+
+You **judge** pass/fail. Optionally dispatch a `shell` / `explore` Task (see `/orchestrate`) to collect logs or summarize the diff — still you fill the table.
 
 For each criterion, gather evidence **in this order** (see `/taste` Verify):
 

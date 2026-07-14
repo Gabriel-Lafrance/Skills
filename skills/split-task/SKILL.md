@@ -30,7 +30,7 @@ If a piece still needs "and then also…" — split again.
 
 ### 1. Capture the parent
 
-Normalize what was given into one parent statement. If the parent is a Linear/GitHub ticket, keep the same **Ticket ID** on every child and use the `/trackers` brief as the Ask.
+Normalize what was given into one parent statement. Resolve **`goal-id`** and read `.scratch/goals/<goal-id>/GOAL.md` + `PLAN.md`. Write piece briefs under `.scratch/goals/<goal-id>/pieces/` and link those paths so implement agents re-read the same workspace only. If the parent is a Linear/GitHub ticket, keep the same **Ticket ID** on every child and use the `/trackers` brief as the Ask.
 
 ```markdown
 # Parent

@@ -17,7 +17,7 @@ Interview the user relentlessly about every aspect of the idea until you share u
 3. Ask **one question at a time**. Wait for the answer.
 4. If a *fact* is in the repo or tools, look it up — do not ask.
 5. *Decisions* belong to the user — put each to them and wait.
-6. Do **not** implement, edit files for the feature, or call CreatePlan until they confirm shared understanding.
+6. Do **not** implement feature code until they confirm shared understanding. Then `/create-plan` (disk plan) or `/goal` may proceed — no Plan mode.
 
 ## After shared understanding
 
