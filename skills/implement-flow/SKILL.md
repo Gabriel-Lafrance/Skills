@@ -1,34 +1,35 @@
 ---
 name: implement-flow
 description: >-
-  Goal-scoped implement: frontier workers from plans/INDEX under
-  .agents/temp/goals/<goal-id>/. Looked up by /goal after plans exist. Not for
-  auto-invocation — use /implement for a single plan outside the loop.
+  Internal implement: frontier workers from plans/INDEX under
+  .agents/temp/goals/<goal-id>/. Looked up by /goal only. Never for users or
+  auto-invocation.
 disable-model-invocation: true
 ---
 
 # Implement Flow
 
-Build **inside an active `/goal`**. Worker rules live in **`/orchestrate-flow`**; single-plan process mirrors **`/implement`**.
+Build from **one plan file** inside a goal workspace. Follow **`/orchestrate-flow`**.
 
 ## Preconditions
 
-1. Resolve **`goal-id`** + plan file / INDEX frontier
-2. Refuse if grill never completed / no plans yet → `/goal` Phase 0–1b
-3. `/taste-flow` (+ `/design-flow` if UI); ticket → `/trackers-flow`
-4. REGISTRY lane check
+1. Resolve **`goal-id`** and **plan file** (`plans/NN-*.md` or frontier from `plans/INDEX.md`)
+2. Read `GOAL.md`, `GRILL.md` (if any), that plan file, `plans/INDEX.md`
+3. `/taste-flow` (+ `/design-flow` if UI); ticket brief via `/trackers-flow` if needed
+4. REGISTRY: serialize if another running goal shares File lane
 
 ## Process
 
-1. Gaps → `/architecture-flow` / `/design-flow` on **this** plan
-2. Parallel `/orchestrate-flow` workers for non-overlapping frontier plans
-3. Integrate; mark INDEX statuses
-4. Verify via terminals (`/taste` Verify) — no Convex MCP ritual
-5. Continue frontier until INDEX done or hand back to `/goal`
-6. Wave done → `/validate-flow` / `/code-review-flow` per `/goal`
+1. Structure/design gaps → update **this** plan via `/architecture-flow` / `/design-flow`
+2. Dispatch `generalPurpose` for this plan (parallel only across non-overlapping plans)
+3. Integrate; mark INDEX row status
+4. Taste check; verify via **existing terminals** (`/taste-flow` Verify) — **no** Convex MCP ritual
+5. `/validate-flow` / `/code-review` when this plan (or wave) is done — prefer terminals over MCP
+6. No tracker close here; commit only if asked
 
-## Anti-patterns
+## Notes
 
-- Implementing before grill/plans
-- Workers missing goal-id / wrong plan file
-- Touching another goal’s tree
+- Paths: `.agents/temp/goals/<goal-id>/…` only
+- One plan file per worker prompt
+- Never write another goal-id’s tree
+- After a slice: one terminals glance is enough if `convex dev` is quiet/green

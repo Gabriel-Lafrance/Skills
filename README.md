@@ -2,114 +2,97 @@
 
 Cursor-first agent skills for real engineering — not vibe coding.
 
-Autonomous `/goal` as **orchestrator**: Task subagents do explore/implement/review; on-disk plans keep them aligned. Plus tasteful UI, simple entry points, and validate-before-ship. Inspired by [Matt Pocock's skills](https://github.com/mattpocock/skills), rewritten for Cursor.
+Autonomous `/goal` as **orchestrator**: Task subagents explore/implement/review; on-disk plans keep them aligned. Dual skills ship as **standalone + `*-flow`** so each can be tweaked for who calls it. Inspired by [Matt Pocock's skills](https://github.com/mattpocock/skills), rewritten for Cursor.
 
 ## Install
-
-Install the full pack into Cursor (no per-skill checkboxes):
 
 ```bash
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -y
 ```
 
-Global (all projects):
+Global:
 
 ```bash
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 ```
-
-`-s '*'` selects every skill; `-y` skips prompts. Omit `-s '*'` only if you want the interactive picker.
-
-Update all installed skills (global):
 
 ```bash
 npx skills@latest update -g -y
 ```
 
-Or reinstall this pack fresh:
-
-```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
-```
-
 Then in Cursor:
 
-1. When unsure, agents may auto-load `/ask-gabriel` — or run it yourself.
-2. For long verifiable work, run `/goal` (agents may auto-invoke it too).
-3. For a tracker ticket: `/goal IN-1234` (Linear) or `/goal #42` (GitHub).
+1. Run `/goal` for long verifiable work (agents may auto-start it).
+2. Outside a goal: `/grill-me`, `/architecture`, `/design`, `/create-plan`, `/code-review`.
+3. Ticket: `/goal IN-1234` or `/goal #42` — `/goal` loads read-only `/trackers-flow` internally.
 
 ## Invocation model
 
-| Kind | Examples | Auto-invoke | Who uses it |
+| Kind | Skills | Auto-invoke | Who uses it |
 | --- | --- | --- | --- |
-| **Flow skill** | `goal`, `ask-gabriel` | Yes | Agents + user; no `*-flow` twin |
-| **Standalone** | `design`, `grill-me`, `architecture`, … | Yes | One-shot work outside `/goal` |
-| **Flow variant** | `design-flow`, `grill-me-flow`, … | No (`disable-model-invocation`) | Only `/goal` (and explicit `/name-flow`) |
-| **Library** | `trackers`, `trackers-flow` | No | Callees of goal/review/validate/plan only; **read-only** |
+| **Flow skill** | `goal` | Yes | Users + agents; no twin |
+| **Standalone (public)** | `grill-me`, `architecture`, `design`, `create-plan`, `code-review` | Yes | Users + agents outside `/goal` |
+| **Flow twin** | `grill-me-flow`, `architecture-flow`, `design-flow`, `create-plan-flow`, `code-review-flow` | No | Only `/goal` (and explicit `/name-flow`) |
+| **Internal only** | `orchestrate-flow`, `trackers-flow`, `taste-flow`, `split-task-flow`, `implement-flow`, `validate-flow` | No | Pack callees only — no standalone twin |
+
+Example: `/code-review` = diff vs `main` (or what the user asked). `/code-review-flow` = review what this goal’s plans shipped.
 
 ## Main flow
 
 ```text
-/goal  (main agent = orchestrator; agents may auto-start)
+/goal
    → .agents/temp/goals/<goal-id>/
-   → /grill-me-flow until shared understanding (hard gate)
-   → explore → /architecture-flow (+ /design-flow if UI)
-   → plans/INDEX.md + plans/01.md, 02.md, … (via /create-plan-flow)
-   → /implement-flow via parallel workers (per plan file)
+   → /trackers-flow (read only) if ticket
+   → /grill-me-flow
+   → /architecture-flow (+ /design-flow if UI)
+   → /create-plan-flow → plans/INDEX + plans/NN-*.md
+   → /implement-flow
    → /validate-flow → /code-review-flow
-   → on ACHIEVED: delete that goal workspace (ticket close is manual — trackers are read-only)
+   → ACHIEVED: delete workspace (ticket close manual)
 ```
 
-See **`/orchestrate-flow`** for conductor/worker rules and multi-goal file-lane safety.
+### Verify
 
+Prefer **existing terminals** (frontend + `npx convex dev`). No ritual Convex MCP / lint / tsc.
+
+## Public skills
 
 | Skill | When to use |
 | --- | --- |
-| [ask-gabriel](./skills/ask-gabriel/SKILL.md) | Router — which skill/flow fits (auto) |
-| [goal](./skills/goal/SKILL.md) | Autonomous goal loop (auto; looks up `*-flow`) |
-| [orchestrate](./skills/orchestrate/SKILL.md) / [orchestrate-flow](./skills/orchestrate-flow/SKILL.md) | Main vs Task subagents |
-| [trackers](./skills/trackers/SKILL.md) / [trackers-flow](./skills/trackers-flow/SKILL.md) | Read-only Linear/GitHub context (callee only) |
-| [taste](./skills/taste/SKILL.md) / [taste-flow](./skills/taste-flow/SKILL.md) | Author coding taste |
-| [design](./skills/design/SKILL.md) / [design-flow](./skills/design-flow/SKILL.md) | UI craft — polish vs goal Design card |
-| [grill-me](./skills/grill-me/SKILL.md) / [grill-me-flow](./skills/grill-me-flow/SKILL.md) | Sharpen intent |
-| [architecture](./skills/architecture/SKILL.md) / [architecture-flow](./skills/architecture-flow/SKILL.md) | Entry points + folders + scale |
-| [create-plan](./skills/create-plan/SKILL.md) / [create-plan-flow](./skills/create-plan-flow/SKILL.md) | Write `plans/NN-*.md` |
-| [split-task](./skills/split-task/SKILL.md) / [split-task-flow](./skills/split-task-flow/SKILL.md) | Agent-sized pieces / INDEX |
-| [implement](./skills/implement/SKILL.md) / [implement-flow](./skills/implement-flow/SKILL.md) | Dispatch slice workers |
-| [validate](./skills/validate/SKILL.md) / [validate-flow](./skills/validate-flow/SKILL.md) | Done when / taste / design / scale |
-| [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Standards (taste/architecture + thermonuclear) + Spec |
+| [goal](./skills/goal/SKILL.md) | Autonomous goal loop |
+| [grill-me](./skills/grill-me/SKILL.md) / [grill-me-flow](./skills/grill-me-flow/SKILL.md) | Sharpen intent (solo vs goal gate) |
+| [architecture](./skills/architecture/SKILL.md) / [architecture-flow](./skills/architecture-flow/SKILL.md) | Structure card (solo vs into plans) |
+| [design](./skills/design/SKILL.md) / [design-flow](./skills/design-flow/SKILL.md) | UI polish vs goal Design card |
+| [create-plan](./skills/create-plan/SKILL.md) / [create-plan-flow](./skills/create-plan-flow/SKILL.md) | Plan file (solo vs after grill) |
+| [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Diff vs main/user ask vs goal Spec |
 
+## Internal flow skills
+
+| Skill | Role |
+| --- | --- |
+| [orchestrate-flow](./skills/orchestrate-flow/SKILL.md) | Bind Task workers to goal-id |
+| [trackers-flow](./skills/trackers-flow/SKILL.md) | Read-only Linear/GitHub |
+| [taste-flow](./skills/taste-flow/SKILL.md) | Author taste (+ [examples](./skills/taste-flow/examples.md)) |
+| [split-task-flow](./skills/split-task-flow/SKILL.md) | INDEX / agent-sized plans |
+| [implement-flow](./skills/implement-flow/SKILL.md) | Slice workers |
+| [validate-flow](./skills/validate-flow/SKILL.md) | Done when gate |
 
 ## Repo layout
 
 ```text
 skills/
-  <skill-name>/
-    SKILL.md          # required — name + description frontmatter
-    examples.md       # optional progressive disclosure
+  <name>/SKILL.md
+  <name>-flow/SKILL.md   # when dual
 LICENSE
 README.md
+scripts/validate-skills.sh
 ```
 
-## Why Cursor-only
-
-
-| Agent-agnostic packs              | This pack                                         |
-| --------------------------------- | ------------------------------------------------- |
-| Freeform plans in chat     | `.agents/temp/goals/<id>/plans/NN-*.md` (after grill) |
-| One agent does everything  | Main orchestrates; Task subagents labor (`/orchestrate-flow`) |
-| Single global ACTIVE files | Isolated workspaces + REGISTRY — concurrent `/goal`s OK |
-| Skip straight to coding    | Mandatory `/grill-me-flow` before any plan files             |
-| Ad-hoc “done?”             | `/validate-flow` against Done when                       |
-| Flat file dumps            | `/architecture-flow` requires entry point + folder map   |
-| Native Claude `/goal` hook | `/goal` drives an autonomous subagent loop          |
-
-
-
+Artifacts: **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`.
 
 ## Attribution
 
-Workflow ideas inspired by [mattpocock/skills](https://github.com/mattpocock/skills) (MIT). `/goal` pattern inspired by [Claude Code's](https://code.claude.com/docs/en/goal) `/goal`, reimplemented for Cursor.
+Inspired by [mattpocock/skills](https://github.com/mattpocock/skills) (MIT). `/goal` from [Claude Code](https://code.claude.com/docs/en/goal), Cursor reimplementation. Standards thermonuclear bar from Cursor’s [thermo-nuclear-code-quality-review](https://github.com/cursor/plugins/blob/main/cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md).
 
 ## License
 
