@@ -3,18 +3,20 @@ name: goal
 description: >-
   Autonomous Cursor goal loop: grill until shared understanding, then write one
   or more plans under .agents/temp/goals/<goal-id>/, orchestrate Task subagents,
-  validate until done. Concurrent goals isolated. Use when the user says /goal,
-  passes a ticket ID, keep going until, or wants subagent-driven progress.
-disable-model-invocation: true
+  validate until done. Concurrent goals isolated. Agents may auto-invoke. Use
+  when the user says /goal, passes a ticket ID, keep going until, or wants
+  subagent-driven progress. Looks up *-flow skills only — not standalone twins.
 ---
 
 # Goal (Cursor)
 
 Autonomous loop toward one verifiable completion condition. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
 
-**You are the orchestrator; Task subagents do the labor.** Follow **`/orchestrate`**.
+**You are the orchestrator; Task subagents do the labor.** Follow **`/orchestrate-flow`**.
 
-**Grill before plans.** Do not write plan files until `/grill-me` reaches shared understanding (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan.
+**Grill before plans.** Do not write plan files until `/grill-me-flow` reaches shared understanding (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan.
+
+**Lookup rule:** inside this loop, always use **`*-flow`** skills (`/design-flow`, `/create-plan-flow`, …). Do not call standalone `/design`, `/grill-me`, etc. for in-loop steps.
 
 ## Workspace layout
 
@@ -24,7 +26,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
   <goal-id>/
     GOAL.md
     STATUS.md
-    GRILL.md                 # decisions locked during /grill-me
+    GRILL.md                 # decisions locked during /grill-me-flow
     plans/
       INDEX.md               # ordered list of plan files
       01-<slug>.md
@@ -61,7 +63,7 @@ On **achieved**: delete `<goal-id>/`; registry row keeps `workspace: (deleted)`.
 
 ## Ticket-driven goals
 
-Fetch via `/trackers` first. Still **grill** on open product decisions the ticket does not settle. On ACHIEVED → close-out after validate.
+Fetch via `/trackers-flow` first. Still **grill** on open product decisions the ticket does not settle. On ACHIEVED → close-out after validate.
 
 ## Suitability gate
 
@@ -81,7 +83,7 @@ Otherwise grill is **mandatory**.
 
 1. Allocate `goal-id`; create `.agents/temp/goals/<goal-id>/`
 2. Write draft `GOAL.md` + `STATUS.md` (`last: grilling`); upsert `REGISTRY.md`
-3. **Run `/grill-me` fully** (one question at a time, recommended answer first):
+3. **Run `/grill-me-flow` fully** (one question at a time, recommended answer first):
    - Outcome, non-goals, users, edge cases
    - Architecture entry shape (hook/class/facade) when multi-file/UI
    - Data/scale decisions when lists/metrics exist
@@ -104,16 +106,16 @@ Otherwise grill is **mandatory**.
 
 ### 1a. Explore + structure
 
-Parallel `explore` Tasks → `/taste` + `/architecture` (+ `/design` Mode B if UI). Fold into plan drafts.
+Parallel `explore` Tasks via `/orchestrate-flow` → `/taste-flow` + `/architecture-flow` (+ `/design-flow` if UI). Fold into plan drafts.
 
 ### 1b. Split into plans
 
 From grill + explore, decide how many plans:
 
-- **Default:** prefer **multiple small plans** over one fat plan (same spirit as `/split-task`)
+- **Default:** prefer **multiple small plans** over one fat plan (same spirit as `/split-task-flow`)
 - Each plan = one demoable vertical slice / one agent-sized unit
 - Write `plans/INDEX.md` listing order + blockers between plans
-- For each entry, run `/create-plan` with **goal-id** + **plan-file** `plans/NN-<slug>.md`
+- For each entry, run `/create-plan-flow` with **goal-id** + **plan-file** `plans/NN-<slug>.md`
 - Quiz the user once on the **INDEX only** (granularity / merge / split) when more than one plan — then write files and continue (no Plan-mode UI)
 
 `plans/INDEX.md` example:
@@ -132,20 +134,20 @@ goal-id: <goal-id>
 
 Work the frontier (plans with blockers done):
 
-- Parallel `/implement` workers for non-overlapping plans/lanes
+- Parallel `/implement-flow` workers for non-overlapping plans/lanes
 - Each worker reads `GOAL.md` + **that** `plans/NN-*.md` only
 - Mark INDEX statuses as you go
 
 ### 1d. Validate + review
 
-- `/validate` against GOAL Done when + completed plans’ AC — **read terminals once**, not Convex MCP
-- `/code-review` parallel axes
+- `/validate-flow` against GOAL Done when + completed plans’ AC — **read terminals once**, not Convex MCP
+- `/code-review-flow` parallel axes
 - Fix → re-validate only if the diff changed (re-read terminals; still no MCP ritual)
 - Update `STATUS.md` each checkpoint
 
 ## Phase 2 — Achieve or clear
 
-**Achieved:** validate pass → tracker close-out if Ticket → REGISTRY `achieved` + `(deleted)` → **`rm -rf` this `<goal-id>/` only** → announce ACHIEVED.
+**Achieved:** validate pass → `/trackers-flow` close-out if Ticket → REGISTRY `achieved` + `(deleted)` → **`rm -rf` this `<goal-id>/` only** → announce ACHIEVED.
 
 If close-out fails: leave workspace, `blocked`, ask.
 
@@ -155,6 +157,7 @@ If close-out fails: leave workspace, `blocked`, ask.
 
 - Writing under `.scratch/`
 - Writing `plans/*` before grill shared-understanding yes
+- Calling standalone `/design` / `/grill-me` / etc. inside this loop instead of `*-flow`
 - One mega-plan when the grill revealed multiple slices
 - Skipping grill on fuzzy/product work
 - Global ACTIVE singletons

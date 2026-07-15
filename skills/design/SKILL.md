@@ -1,12 +1,11 @@
 ---
 name: design
 description: >-
-  UI/UX craft for screens that feel clear, deep, and usable. Standalone: fix the
-  current UI. Under /goal or when creating UI: shape hierarchy, color, depth,
-  states, and ethical psychology before/while building. Use when the user says
-  /design, fix this UI, polish the UI, or when a goal/plan/implement touches
-  user-facing interface.
-disable-model-invocation: true
+  UI/UX craft for screens that feel clear, deep, and usable. Fix or polish the
+  current UI, or shape hierarchy, color, depth, states, and ethical psychology
+  when creating UI outside a goal. Agents may auto-invoke. Use when the user
+  says /design, fix this UI, polish the UI, or when creating user-facing
+  interface without an active /goal. Under /goal use /design-flow instead.
 ---
 
 # Design
@@ -17,24 +16,16 @@ Also respect `/taste` (mobile-first, anti–AI-default looks, one component per 
 
 For good vs bad pairs, see [examples.md](examples.md).
 
-## Mode A — Standalone `/design` (fix current UI)
+Inside a `/goal` workspace, use **`/design-flow`** instead of this skill.
 
-User wants the **existing** screen improved. Do not invent new product scope.
+## Standalone — fix or create UI
+
+User wants the **existing** screen improved, or is creating UI **outside** `/goal`. Do not invent new product scope on a polish pass.
 
 1. Identify the target (path, component, or “what’s on localhost”).
 2. Read the current UI code + running frontend if useful (`/taste` Verify).
 3. Diagnose with the **checklist** below (boring flat, weak hierarchy, missing states, decision fatigue, etc.).
-4. Apply the **smallest depth/color/hierarchy/psychology fixes** that move average → good. Prefer CSS/token changes over structural rewrites.
-5. Show a short before→after intent list; then edit.
-6. Re-check running localhost — no ritual lint.
-
-Stop at “good” (depth + hierarchy + clear next action). Do not gold-plate to S-tier polish unless asked.
-
-## Mode B — Called by `/goal` / plan / implement (create good UI)
-
-When the work **creates or substantially changes** UI:
-
-1. Before coding pixels: write a tiny **Design card** (include in `/create-plan` when planning):
+4. When **creating** UI: write a tiny **Design card** first, then implement against it (mobile first).
 
 ```markdown
 ## Design
@@ -48,10 +39,13 @@ When the work **creates or substantially changes** UI:
 **Out of scope visually:** …
 ```
 
-2. Implement against that card; mobile first.
-3. Validate visually via localhost; taste self-check still applies.
+5. Apply the **smallest depth/color/hierarchy/psychology fixes** that move average → good. Prefer CSS/token changes over structural rewrites when polishing.
+6. Show a short before→after intent list; then edit.
+7. Re-check running localhost — no ritual lint.
 
-## Doctrine (use in both modes)
+Stop at “good” (depth + hierarchy + clear next action). Do not gold-plate to S-tier polish unless asked.
+
+## Doctrine
 
 ### 1. Signifiers & feedback
 
@@ -150,3 +144,4 @@ Prefer gradient (and optional progressive blur) into a readable text region over
 - Structure / folders → `/architecture` + `/taste`
 - Behavior Done when → `/validate` (localhost evidence)
 - Standalone fix done → stop (or `/validate` if user wants a gate)
+- Inside `/goal` → `/design-flow`

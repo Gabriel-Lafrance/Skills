@@ -3,15 +3,15 @@ name: create-plan
 description: >-
   Write one implementation plan file under
   .agents/temp/goals/<goal-id>/plans/NN-slug.md (multi-plan friendly). Stays in
-  Agent mode. Use after /grill-me under /goal, or when planning a slice.
-disable-model-invocation: true
+  Agent mode. Agents may auto-invoke. Use when planning a slice outside or
+  without an active /goal loop. Under /goal after grill use /create-plan-flow.
 ---
 
 # Create Plan
 
 Write **one** plan file into a goal workspace. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
 
-Under `/goal`, plans are written **only after** grill shared understanding (see `/goal` Phase 0).
+Inside an active `/goal` loop (after grill), use **`/create-plan-flow`** instead.
 
 ## Location
 
@@ -21,8 +21,8 @@ Under `/goal`, plans are written **only after** grill shared understanding (see 
 ```
 
 - `<NN>`: `01`, `02`, … dependency order (blockers first)
-- If only one plan for the whole goal: still use `plans/01-<slug>.md` (not a root `PLAN.md`)
-- Standalone (no goal yet): allocate `goal-id`, create workspace + minimal `GOAL.md`/`STATUS.md`, upsert `REGISTRY.md`, then write the plan
+- If only one plan: still use `plans/01-<slug>.md` (not a root `PLAN.md`)
+- No goal yet: allocate `goal-id`, create workspace + minimal `GOAL.md`/`STATUS.md`, upsert `REGISTRY.md`, then write the plan
 - **Never** use `.scratch/` or a global ACTIVE plan file
 
 ## Process
@@ -32,8 +32,8 @@ Under `/goal`, plans are written **only after** grill shared understanding (see 
 Follow **`/orchestrate`**. Read `GOAL.md` + `GRILL.md` when present.
 
 - `/taste`; ticket → `/trackers` brief
-- Parallel `explore` if not already done this goal
-- `/architecture` (+ `/design` Mode B if UI) into this plan’s Structure/Design
+- Parallel `explore` if needed
+- `/architecture` (+ `/design` if UI) into this plan’s Structure/Design
 
 ### 2. Write the plan file
 
@@ -59,7 +59,7 @@ Follow **`/orchestrate`**. Read `GOAL.md` + `GRILL.md` when present.
 …
 
 ## Design
-<n/a or Mode B>
+<n/a or Design card>
 
 ## Key files
 - …
@@ -84,18 +84,15 @@ Update `plans/INDEX.md` row for this NN. Bump `STATUS.md` (`last: plan NN writte
 
 ### 3. Hand off
 
-Announce the path. Under `/goal` / build requests: continue to next plan in INDEX or `/implement` for frontier plans. No confirmation UI.
-
-Multiple plans: call this skill **once per INDEX row** (or batch writes in one turn) until INDEX is complete — then implement.
+Announce the path. Continue to `/implement` for this plan, or `/goal` if they want the full loop. No confirmation UI.
 
 ### 4. Subagents
 
-Task prompts: `goal-id` + `GOAL.md` + **this** `plans/NN-*.md` (not every plan unless needed).
+Task prompts: `goal-id` + `GOAL.md` + **this** `plans/NN-*.md`.
 
 ## Anti-patterns
 
 - `.scratch/` paths
 - Single root `PLAN.md` when INDEX has multiple slices
-- Planning before grill yes (under `/goal`)
 - `SwitchMode` / CreatePlan UI
 - Coding the feature here

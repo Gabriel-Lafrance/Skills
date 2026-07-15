@@ -2,8 +2,9 @@
 name: code-review
 description: >-
   Two-axis review (Standards + Spec) of changes since a fixed point, using
-  Cursor Task subagents in parallel. Use when reviewing a branch, PR, or
-  work-in-progress after implement/validate.
+  Cursor Task subagents in parallel. Agents may auto-invoke. Use when reviewing
+  a branch, PR, or work-in-progress after implement/validate. Under /goal use
+  /code-review-flow.
 ---
 
 # Code Review
@@ -14,6 +15,8 @@ Review the diff between `HEAD` and a fixed point along two axes (plus structure 
 - **Spec** — does the change match the plan / ticket / PRD?
 
 Run axes as **parallel Cursor Task subagents** (required — see `/orchestrate`), then you aggregate. Do not solo-review a large diff when workers can. Do not merge findings into one ranked list.
+
+Inside an active `/goal` loop, use **`/code-review-flow`** instead.
 
 If you need issue context, run `/trackers` (Linear MCP or `gh`). Do not invent the ticket body.
 
@@ -38,7 +41,7 @@ Fail early on bad ref or empty diff.
 In order:
 
 1. `.agents/temp/goals/<goal-id>/GOAL.md` + `GRILL.md` + `plans/INDEX.md` + relevant `plans/NN-*.md`
-2. Active `/goal` ticket brief from `/trackers`
+2. Active ticket brief from `/trackers`
 3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
 4. Path the user passed
 5. Plan / file under `docs/`, `specs/`

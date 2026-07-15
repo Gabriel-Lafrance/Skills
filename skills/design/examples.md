@@ -110,7 +110,7 @@ Never fake urgency, scarcity, progress, or reviews.
 
 **Good** — brand + one headline + one line + one CTA group + one dominant visual. Mobile first.
 
-## Design card (Mode B)
+## Design card (standalone create / design-flow)
 
 **Good** — written before coding pixels:
 

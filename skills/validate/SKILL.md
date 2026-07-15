@@ -2,22 +2,24 @@
 name: validate
 description: >-
   Validate implemented work against plan/ticket acceptance criteria, taste,
-  design (if UI), and scalability (no compute-on-render aggregates). Use before
-  claiming done, before review, or when the user asks if the work is complete.
-disable-model-invocation: true
+  design (if UI), and scalability (no compute-on-render aggregates). Agents may
+  auto-invoke. Use before claiming done, before review, or when asking if work
+  is complete. Under /goal use /validate-flow.
 ---
 
 # Validate
 
 Close the loop: the on-disk plan / goal contract was the **gate in**; this skill is the **gate out**.
 
+Inside an active `/goal` loop, use **`/validate-flow`** instead.
+
 ## Inputs
 
-Resolve **`goal-id`** first (chat binding, user, or path). Then criteria from, in order:
+Criteria from, in order (resolve **`goal-id`** when workspace-based):
 
 1. `.agents/temp/goals/<goal-id>/GOAL.md` **Done when** rows
 2. The `/trackers` ticket brief acceptance checklist (Linear / GitHub)
-3. All completed rows in `.agents/temp/goals/<goal-id>/plans/INDEX.md` → each `plans/NN-*.md` acceptance criteria
+3. Completed rows in `plans/INDEX.md` → each `plans/NN-*.md` acceptance criteria
 4. Explicit criteria the user pasted in chat
 
 Do not mix criteria from another goal-id’s workspace.
@@ -105,7 +107,7 @@ Scalability **fail** blocks “done” the same way a failed acceptance criterio
 
 ### 5. Next step
 
-- **All pass** (including scalability) → recommend `/code-review` (or `/trackers` close-out when a ticket goal already reviewed; or commit if user asked and review already done)
+- **All pass** (including scalability) → recommend `/code-review` (or `/trackers` close-out when a ticket already reviewed; or commit if user asked and review already done)
 - **Any fail** → fix in Agent mode, then re-run `/validate` (do not skip)
 - **Blocked** → ask the user how to verify
 

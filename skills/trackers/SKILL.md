@@ -1,15 +1,17 @@
 ---
 name: trackers
 description: >-
-  Fetch and update Linear and GitHub issues from ticket IDs or URLs. Use when
-  the user passes TEAM-123, IN-1234, #123, owner/repo#123, a Linear/GitHub URL,
-  or when /goal /validate /code-review need tracker context or close-out.
-disable-model-invocation: true
+  Fetch and update Linear and GitHub issues from ticket IDs or URLs. Agents may
+  auto-invoke. Use when the user passes TEAM-123, IN-1234, #123, owner/repo#123,
+  or a Linear/GitHub URL. Under /goal use /trackers-flow for ticket goals and
+  close-out.
 ---
 
 # Trackers (Linear + GitHub)
 
 This pack expects **Linear** and **GitHub** as the issue surfaces. Cursor account linking (Cloud Agents) is separate — local skills talk to trackers via **MCP** and **`gh`**.
+
+Inside an active `/goal` loop, use **`/trackers-flow`** for fetch + ACHIEVED close-out.
 
 ## Detect the tracker
 

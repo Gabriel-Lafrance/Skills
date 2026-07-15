@@ -2,11 +2,10 @@
 name: taste
 description: >-
   Author coding taste — futureproofing, pragmatic OOP/SOLID, DRY, smart
-  responsibility, naming, errors, React/UI, Convex. Shared contract for plan,
-  architecture, implement, validate, and code-review. Use when writing or
-  reviewing code in this author's style, or when other pack skills say to
-  follow /taste.
-disable-model-invocation: true
+  responsibility, naming, errors, React/UI, Convex. Agents may auto-invoke.
+  Shared contract for plan, architecture, implement, validate, and code-review.
+  Use when writing or reviewing code in this author's style. Under /goal use
+  /taste-flow instead.
 ---
 
 # Taste
@@ -14,6 +13,8 @@ disable-model-invocation: true
 Shared style contract for this pack. **Other skills must read this before planning or writing code** — not only when `/taste` is invoked alone.
 
 For good vs bad snippets, see [examples.md](examples.md).
+
+Inside a `/goal` workspace, prefer **`/taste-flow`** (same doctrine, goal-scoped reminder).
 
 ## Non-negotiables
 
@@ -102,7 +103,7 @@ Keep inheritance / interface stacks **shallow**:
 
 - **Mobile first**, then widen
 - One component per file; keep components thin — complexity in hook/class behind the entry
-- **Visual craft** → follow **`/design`** (hierarchy, color shades, depth, states, ethical UX psychology)
+- **Visual craft** → follow **`/design`** (hierarchy, color shades, depth, states, ethical UX psychology); under `/goal` → `/design-flow`
 - When touching marketing/landing UI, avoid AI-default looks: purple-on-white gradients, cream+terracotta serif clichés, flat single-color voids, card-heavy heroes, pill clusters, emoji decoration
 - Landing first viewport: brand + one headline + one line + CTA + one dominant image — nothing else
 
@@ -122,7 +123,7 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/create-plan` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed.
+When `/create-plan` / `/create-plan-flow` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed.
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
@@ -138,8 +139,8 @@ Plans must not propose shapes that violate this file (including SOLID-maximalist
 - [ ] Big feature: foundation seam + first impl shipped together (no “wait for second impl”); entry signature stays stable
 - [ ] Did not ritual-run lint/typecheck **or Convex MCP**; checked existing terminal output instead (unless terminals errored / user asked)
 
-Fail any box → fix before `/validate`.
+Fail any box → fix before `/validate` / `/validate-flow`.
 
 ## Review
 
-`/code-review` Standards axis treats violations of this file as **hard** unless the repo's own `AGENTS.md` / `.cursor/rules` contradict (repo wins on conflict).
+`/code-review` / `/code-review-flow` Standards axis treats violations of this file as **hard** unless the repo's own `AGENTS.md` / `.cursor/rules` contradict (repo wins on conflict).

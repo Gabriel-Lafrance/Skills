@@ -3,10 +3,9 @@ name: architecture
 description: >-
   Shape scalable code: simple entry points, clear folders, and write-path data
   design (store aggregates on write — never recompute metrics on every render or
-  read). Use before or during planning/implementation when adding features,
-  splitting logic, designing data/reads, or when the agent is about to dump
-  files or scan-on-read.
-disable-model-invocation: true
+  read). Agents may auto-invoke. Use before or during planning/implementation
+  when adding features, splitting logic, designing data/reads, or when about to
+  dump files or scan-on-read. Under /goal use /architecture-flow instead.
 ---
 
 # Architecture
@@ -14,6 +13,8 @@ disable-model-invocation: true
 Quality code here means: **callers see a small surface; complexity lives behind it; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
 Read **`/taste`** first (and [examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, and file rules — this skill owns the structure card **and scalability**.
+
+Inside a `/goal` workspace, use **`/architecture-flow`** instead of this skill.
 
 This skill is the structural gate. Run it before `/create-plan` when structure or data shape matters, or mid-`/implement` when the diff is about to sprawl or recompute on read.
 
@@ -176,4 +177,4 @@ Ask one question only if the entry shape, folder root, or write-vs-read tradeoff
 - Any feature with lists, dashboards, counts, totals, leaderboards, or “stats”
 - Any query that would scan children to answer a parent-level question
 
-Hand off: structure card → `/create-plan` (if not approved) → `/implement`. `/validate` will fail scale anti-patterns.
+Hand off: structure card → `/create-plan` (if not approved) → `/implement`. `/validate` will fail scale anti-patterns. Under `/goal` → `/architecture-flow` → `/create-plan-flow`.
