@@ -45,6 +45,7 @@ Then in Cursor:
 | **Flow skill** | `goal`, `ask-gabriel` | Yes | Agents + user; no `*-flow` twin |
 | **Standalone** | `design`, `grill-me`, `architecture`, … | Yes | One-shot work outside `/goal` |
 | **Flow variant** | `design-flow`, `grill-me-flow`, … | No (`disable-model-invocation`) | Only `/goal` (and explicit `/name-flow`) |
+| **Library** | `trackers`, `trackers-flow` | No | Callees of goal/review/validate/plan only; **read-only** |
 
 ## Main flow
 
@@ -56,7 +57,7 @@ Then in Cursor:
    → plans/INDEX.md + plans/01.md, 02.md, … (via /create-plan-flow)
    → /implement-flow via parallel workers (per plan file)
    → /validate-flow → /code-review-flow
-   → on ACHIEVED: /trackers-flow close-out → delete that goal workspace
+   → on ACHIEVED: delete that goal workspace (ticket close is manual — trackers are read-only)
 ```
 
 See **`/orchestrate-flow`** for conductor/worker rules and multi-goal file-lane safety.
@@ -67,7 +68,7 @@ See **`/orchestrate-flow`** for conductor/worker rules and multi-goal file-lane 
 | [ask-gabriel](./skills/ask-gabriel/SKILL.md) | Router — which skill/flow fits (auto) |
 | [goal](./skills/goal/SKILL.md) | Autonomous goal loop (auto; looks up `*-flow`) |
 | [orchestrate](./skills/orchestrate/SKILL.md) / [orchestrate-flow](./skills/orchestrate-flow/SKILL.md) | Main vs Task subagents |
-| [trackers](./skills/trackers/SKILL.md) / [trackers-flow](./skills/trackers-flow/SKILL.md) | Linear + GitHub fetch / close-out |
+| [trackers](./skills/trackers/SKILL.md) / [trackers-flow](./skills/trackers-flow/SKILL.md) | Read-only Linear/GitHub context (callee only) |
 | [taste](./skills/taste/SKILL.md) / [taste-flow](./skills/taste-flow/SKILL.md) | Author coding taste |
 | [design](./skills/design/SKILL.md) / [design-flow](./skills/design-flow/SKILL.md) | UI craft — polish vs goal Design card |
 | [grill-me](./skills/grill-me/SKILL.md) / [grill-me-flow](./skills/grill-me-flow/SKILL.md) | Sharpen intent |
@@ -76,7 +77,7 @@ See **`/orchestrate-flow`** for conductor/worker rules and multi-goal file-lane 
 | [split-task](./skills/split-task/SKILL.md) / [split-task-flow](./skills/split-task-flow/SKILL.md) | Agent-sized pieces / INDEX |
 | [implement](./skills/implement/SKILL.md) / [implement-flow](./skills/implement-flow/SKILL.md) | Dispatch slice workers |
 | [validate](./skills/validate/SKILL.md) / [validate-flow](./skills/validate-flow/SKILL.md) | Done when / taste / design / scale |
-| [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Standards + Spec |
+| [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Standards (taste/architecture + thermonuclear) + Spec |
 
 
 ## Repo layout

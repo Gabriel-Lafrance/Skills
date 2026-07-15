@@ -107,7 +107,7 @@ Scalability **fail** blocks “done” the same way a failed acceptance criterio
 
 ### 5. Next step
 
-- **All pass** (including scalability) → recommend `/code-review` (or `/trackers` close-out when a ticket already reviewed; or commit if user asked and review already done)
+- **All pass** (including scalability) → recommend `/code-review` (or commit if user asked and review already done). Never ask `/trackers` to close tickets.
 - **Any fail** → fix in Agent mode, then re-run `/validate` (do not skip)
 - **Blocked** → ask the user how to verify
 

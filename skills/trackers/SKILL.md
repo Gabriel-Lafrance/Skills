@@ -1,17 +1,34 @@
 ---
 name: trackers
 description: >-
-  Fetch and update Linear and GitHub issues from ticket IDs or URLs. Agents may
-  auto-invoke. Use when the user passes TEAM-123, IN-1234, #123, owner/repo#123,
-  or a Linear/GitHub URL. Under /goal use /trackers-flow for ticket goals and
-  close-out.
+  Read-only Linear/GitHub context: fetch issues, PRs, comments, and QA/acceptance
+  checklists into a ticket brief. Looked up by /goal, /code-review, /validate,
+  /create-plan, /implement (and *-flow twins). Never invoke alone; never write
+  to trackers.
+disable-model-invocation: true
 ---
 
-# Trackers (Linear + GitHub)
+# Trackers (Linear + GitHub) — read only
 
-This pack expects **Linear** and **GitHub** as the issue surfaces. Cursor account linking (Cloud Agents) is separate — local skills talk to trackers via **MCP** and **`gh`**.
+**Library skill.** Other pack skills load this for Spec / Done when context. Do **not** run it as a standalone user on-ramp.
 
-Inside an active `/goal` loop, use **`/trackers-flow`** for fetch + ACHIEVED close-out.
+This pack talks to trackers via **MCP** and **`gh`**. Cursor Cloud Agent linking is separate.
+
+Inside an active `/goal` loop, callers use **`/trackers-flow`** (same rules, goal-scoped).
+
+## Hard rule: read only
+
+**Allowed:** get/list/view issue, PR, comments, statuses (for understanding), checklists in description, linked QA notes.
+
+**Forbidden (never):**
+
+- Status / state changes (“In Progress”, Done, close)
+- Comments, replies, or resolution notes
+- `save_issue` / `update_issue` / create / assign
+- `gh issue comment`, `gh issue close`, `gh pr comment` (write), or any mutate API
+- Closing or “close-out” after ACHIEVED
+
+Ticket close is the **user’s** job (manual or PR merge). This skill only **reads**.
 
 ## Detect the tracker
 
@@ -20,42 +37,45 @@ Inside an active `/goal` loop, use **`/trackers-flow`** for fetch + ACHIEVED clo
 | `IN-1234`, `ENG-99`, `TEAM-123` (letters-digits) | **Linear** |
 | `linear.app/.../issue/...` URL | **Linear** |
 | `#123`, `owner/repo#123`, `github.com/.../issues/123` | **GitHub** |
+| `github.com/.../pull/N` or PR ref | **GitHub** (PR) |
 | Ambiguous number only | Ask once: Linear or GitHub? |
 
-One ticket ID per goal unless the user explicitly names several related ones.
+One ticket ID per goal unless the caller explicitly names several related ones.
 
 ## Discover tools first
 
 Before calling anything:
 
 1. `GetMcpTools` with pattern `linear|github` (or inspect the Linear / GitHub server directly).
-2. Read the live tool schema — names drift (`save_issue` vs `update_issue`). Prefer whatever the server lists **now**.
+2. Read the live tool schema — prefer **read** tools (`get_issue`, `list_comments`, `get_pull_request`, …). Ignore write tools.
 3. If a server is `needsAuth`, run its `mcp_auth` once, then rediscover tools.
 
-## Fetch (required before planning)
+## Fetch
 
 ### Linear
 
-Prefer MCP tools matching: `get_issue`, `list_comments`, `list_issue_statuses` (exact names from discovery).
+Prefer MCP read tools matching: `get_issue`, `list_comments`, `list_issue_statuses` (exact names from discovery — statuses are for labeling the brief, not for writing).
 
 Pass the identifier as given (`IN-1234`). Pull:
 
 - Title, description, status, priority, labels, assignee
-- Acceptance criteria / checklist in the description
+- Acceptance criteria / QA checklists in the description
 - Comments that add constraints (ignore pure chatter)
-- Linked PRs / git branch if present
+- Linked PRs / git branch if present — then fetch PR title/body/review comments when available (read only)
 
 ### GitHub
 
-Prefer GitHub MCP if present; otherwise **`gh`**:
+Prefer GitHub MCP read tools if present; otherwise **`gh`** view/list only:
 
 ```bash
 gh issue view <N> --json number,title,body,labels,assignees,state,url,comments
 # or
 gh issue view owner/repo#N --json number,title,body,labels,assignees,state,url,comments
+
+gh pr view <N> --json number,title,body,url,comments,reviews,commits
 ```
 
-If `gh` is missing or unauthenticated, say so and stop — do not invent the ticket body.
+If `gh` is missing or unauthenticated, say so and stop — do not invent the ticket/PR body.
 
 ## Normalize into a ticket brief
 
@@ -69,7 +89,7 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 # Ask
 <what the ticket wants, user perspective>
 
-# Acceptance (from ticket)
+# Acceptance / QA (from ticket)
 1. …
 2. …
 
@@ -79,44 +99,21 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 # Out of scope
 - … (explicit non-goals from ticket or comments)
 
+# Linked PR (if any)
+- **URL:** …
+- **Summary:** …
+- **Review notes worth keeping:** …
+
 # Raw
 <link or path only — do not paste the full body into every later prompt>
 ```
 
-Missing acceptance criteria → ask **one** question or derive binary Done when from the Ask (and show it for approval).
+Missing acceptance criteria → ask **one** question or derive binary Done when from the Ask (and show it for approval). Do not write that back to the tracker.
 
-## While working
+## How callers use the brief
 
-- Treat the ticket brief as the **spec source** for `/create-plan`, `/validate`, `/code-review`.
-- Do **not** spam status comments on every checkpoint.
-- Optional: set Linear/GitHub status to In Progress / started once implementation begins (only if a clear "started" state exists and the user did not forbid writes).
-
-## Close-out (after ACHIEVED)
-
-Only after `/validate` passes every Done when / acceptance row.
-
-### Linear
-
-1. Comment with a short resolution: what changed, how verified, PR/branch link if any.
-2. Move status to **Done** / **Completed** (use `list_issue_statuses` / save-or-update issue tool from discovery — never guess state IDs).
-
-### GitHub
-
-```bash
-gh issue comment <N> --body "$(cat <<'EOF'
-## Resolved
-<summary>
-
-### Evidence
-- <validate highlights>
-- <PR or commit if any>
-EOF
-)"
-
-gh issue close <N> --reason completed
-```
-
-If the workflow is "PR closes the issue", open/link the PR with `Fixes #N` and leave closing to merge — say that explicitly instead of double-closing.
+- Spec source for `/create-plan`, `/validate`, `/code-review` (and `*-flow` twins)
+- Store a **link** in `GOAL.md` under `/goal` — not the full body in every prompt
 
 ## Failures
 
@@ -124,12 +121,12 @@ If the workflow is "PR closes the issue", open/link the PR with `Fixes #N` and l
 | --- | --- |
 | No Linear MCP | Tell the user to add Linear from Cursor MCP tools (`https://mcp.linear.app/mcp`), then retry. Do not fake the ticket. |
 | No `gh` / not logged in | Ask them to install/auth `gh`, or paste the issue body once. |
-| Ticket not found | Stop; confirm ID / team / repo. |
-| Write tools missing | Still implement locally; report that close-out must be manual. |
+| Ticket / PR not found | Stop; confirm ID / team / repo. |
 
 ## Anti-patterns
 
+- Invoking this skill alone as “update my ticket”
 - Inventing title/AC from the ID alone
-- Closing the ticket before validate evidence exists
+- Any write/close/comment to Linear or GitHub
 - Dumping the full ticket body into every skill turn (keep the brief; link the raw)
 - Using Cloud Agent Linear assignment as a substitute for fetch in this chat

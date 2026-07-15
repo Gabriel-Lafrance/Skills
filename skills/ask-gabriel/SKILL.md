@@ -18,7 +18,7 @@ A **flow** is a path through skills. Most substantial work rides **`/goal`**, wh
 2. Standalone sharpen → **`/grill-me`**, then **`/architecture`** / **`/design`**, then **`/create-plan`**
 3. **Too big?** → **`/split-task`** (or under goal: `/split-task-flow` → INDEX) + parallel **`/implement`** / **`/implement-flow`**
 4. **`/validate`** / **`/code-review`** (under goal: `*-flow`)
-5. **Ticket done?** → **`/trackers`** / **`/trackers-flow`** close-out
+5. **Ticket context?** → `/goal` or `/code-review` loads **`/trackers`** (read only) — never run trackers alone or to close issues
 
 ### Context hygiene
 
