@@ -26,30 +26,34 @@ For good vs bad snippets, see [examples.md](examples.md).
 7. **Cite a sibling** — before inventing shape, mirror one nearby feature in the repo
 8. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB)
 9. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns
-10. **Don't spam lint/typecheck** — verification comes from running local servers first (see below)
+10. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
 
-## Verify (local servers first)
+## Verify (terminals first — not MCP)
 
-This author almost always has **frontend localhost** and **`npx convex dev`** (or equivalent) already running. Typecheck/lint are covered by **CI** — do not re-run them as a ritual.
+This author almost always has **frontend localhost** and **`npx convex dev`** already running. CI owns type/lint. **Do not** re-verify by poking Convex MCP, re-running `convex` CLI, or spamming status tools.
 
 **Prefer, in order:**
 
-1. Read the IDE **terminals** folder / running process output for the frontend and Convex (errors, HMR, deploy/push failures)
-2. Hit or inspect the running app behavior when the change is user-visible
-3. Read the diff + Convex function results / logs for backend changes
+1. **Read existing terminal output** (IDE terminals folder / running `convex dev` + frontend logs) for push success, compile errors, HMR, runtime stacks
+2. Diff + structural checks for the change
+3. Only if terminals are silent/missing: say so — then ask, or start the **minimal** command once
 
-**Do not** by default:
+**Do not** by default (ritual anti-patterns):
 
-- Run `eslint`, `tsc --noEmit`, `npm run lint`, full test suites, or “just to be sure” verify scripts after every slice
-- Start a second dev server when one is already up
+- Call **Convex MCP** (`status`, `data`, `tables`, `logs`, `run`, `runOneoffQuery`, `insights`, `functionSpec`, env tools, etc.) “just to verify”
+- Re-run `npx convex …`, deploy, or codegen after every slice when `convex dev` is already watching
+- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or “just to be sure” scripts
+- Start a second frontend/Convex process when one is already up
+- Dispatch a subagent whose only job is MCP verification
 
-**Do run deeper checks only when:**
+**Do use Convex MCP / deeper checks only when:**
 
-- Local servers are throwing errors related to this change
-- The user asks for lint/typecheck/tests
-- No local servers are running and you cannot get signal another way (say so, then ask or run the minimal command)
+- Terminals show an error you cannot diagnose from the log text alone
+- You need a one-off data read the user asked for
+- No Convex terminal exists and you said so first
+- The user explicitly asks for MCP/dashboard/CLI verification
 
-CI remains the safety net for type and lint. Agent time is for shape, behavior, and fixing what the running stack actually reports.
+Evidence citations should look like: `terminals/3.txt — convex push ok` — not a fresh MCP round-trip.
 
 ## Futureproofing (open to extend, closed to break)
 
@@ -132,7 +136,7 @@ Plans must not propose shapes that violate this file (including SOLID-maximalist
 - [ ] Each new type has one clear responsibility (no logger-that-also-sends-mail)
 - [ ] Class/interface chain ≤ 2 deep; composition if more is needed
 - [ ] Big feature: foundation seam + first impl shipped together (no “wait for second impl”); entry signature stays stable
-- [ ] Did not ritual-run lint/typecheck; checked running server/Convex output instead (unless servers errored)
+- [ ] Did not ritual-run lint/typecheck **or Convex MCP**; checked existing terminal output instead (unless terminals errored / user asked)
 
 Fail any box → fix before `/validate`.
 

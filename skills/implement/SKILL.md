@@ -1,50 +1,38 @@
 ---
 name: implement
 description: >-
-  Orchestrate implementation from .scratch/goals/<goal-id>/PLAN.md using Task
-  subagents scoped to that workspace so concurrent goals do not clash. Use under
-  /goal, after /create-plan, or when given a goal-id.
+  Orchestrate implementation from
+  .agents/temp/goals/<goal-id>/plans/NN-*.md using Task subagents scoped to that
+  plan’s file lane. Use under /goal after plans exist, or when given goal-id +
+  plan path.
 disable-model-invocation: true
 ---
 
 # Implement
 
-Build from **one** goal workspace. Follow **`/orchestrate`**.
+Build from **one plan file** inside a goal workspace. Follow **`/orchestrate`**.
 
 ## Preconditions
 
-1. Resolve **`goal-id`** (from `/goal` binding, user, or plan path). Read:
-   - `.scratch/goals/<goal-id>/PLAN.md`
-   - `.scratch/goals/<goal-id>/GOAL.md`
-2. If PLAN missing and non-trivial → `/create-plan` for **that** id
-3. Stay in Agent mode
-4. Read **`/taste`** (+ **`/design`** if UI)
-5. Ticket without brief → `/trackers` fetch
-6. Skim `.scratch/goals/REGISTRY.md` — if another `running` goal shares your File lane, serialize overlapping work
+1. Resolve **`goal-id`** and **plan file** (`plans/NN-*.md` or frontier from `plans/INDEX.md`)
+2. Read `GOAL.md`, `GRILL.md` (if any), that plan file, `plans/INDEX.md`
+3. Under `/goal`: refuse to implement if grill never completed / no plans yet → send back to `/goal` Phase 0–1b
+4. `/taste` (+ `/design` if UI); ticket brief via `/trackers` if needed
+5. REGISTRY: serialize if another running goal shares File lane
 
 ## Process
 
-1. Structure/design gaps → `/architecture` / `/design` Mode B into **this** PLAN
-2. Sibling cite → parallel `explore` (prompt includes this goal-id)
-3. Slice → `/split-task` into `.scratch/goals/<goal-id>/pieces/` when needed
-4. Dispatch `generalPurpose` workers — one slice each; parallel only if no file overlap **and** no conflict with other running goals
-5. Integrate; enforce entry point + folders
-6. Taste (+ design) check on merged diff
-7. Verify via running stack (`/taste` Verify)
-8. `/validate` for **this** goal-id
-9. `/code-review` for **this** goal-id
-10. Do not close tracker here
-11. Commit only if user asked
+1. Structure/design gaps → update **this** plan via `/architecture` / `/design`
+2. Dispatch `generalPurpose` for this plan (parallel only across non-overlapping plans)
+3. Integrate; mark INDEX row status
+4. Taste check; verify via **existing terminals** (`/taste` Verify) — **no** Convex MCP ritual
+5. When implementing under `/goal`, continue frontier plans until INDEX done or hand back to `/goal`
+6. `/validate` / `/code-review` at goal level when all frontier work for this wave is done (or per `/goal`) — validate must also prefer terminals over MCP
+7. No tracker close here; commit only if asked
 
-## Cursor notes
+## Notes
 
-- Every Task prompt: `goal-id` + this workspace paths + Touch only
-- Never write another `.scratch/goals/<other-id>/`
-- Update this `PLAN.md` if scope changes
-- Default labor = subagents
-
-## Done means
-
-- `/validate` pass for this goal
-- Taste / architecture / design checks pass
-- No scope creep beyond this PLAN/GOAL
+- Paths: `.agents/temp/goals/<goal-id>/…` only
+- One plan file per worker prompt
+- Never write another goal-id’s tree
+- After a slice: one terminals glance is enough if `convex dev` is quiet/green

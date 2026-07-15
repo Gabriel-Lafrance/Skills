@@ -20,6 +20,18 @@ npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 
 `-s '*'` selects every skill; `-y` skips prompts. Omit `-s '*'` only if you want the interactive picker.
 
+Update all installed skills (global):
+
+```bash
+npx skills@latest update -g -y
+```
+
+Or reinstall this pack fresh:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+```
+
 Then in Cursor:
 
 1. When unsure, run `/ask-gabriel`.
@@ -30,13 +42,13 @@ Then in Cursor:
 
 ```text
 /goal  (main agent = orchestrator)
-   → .scratch/goals/<goal-id>/   (isolated; many goals at once)
-   → REGISTRY.md updated
-   → parallel explore subagents → /architecture (+ /design if UI)
-   → /create-plan → PLAN.md in that workspace
-   → /split-task → pieces/ if needed
-   → /implement via parallel workers (scoped to goal-id + file lane)
+   → .agents/temp/goals/<goal-id>/
+   → /grill-me until shared understanding (hard gate)
+   → explore → /architecture (+ /design if UI)
+   → plans/INDEX.md + plans/01.md, 02.md, … (multiple small plans)
+   → /implement via parallel workers (per plan file)
    → /validate → /code-review
+   → on ACHIEVED: delete that goal workspace
 ```
 
 See **`/orchestrate`** for conductor/worker rules and multi-goal file-lane safety.
@@ -52,7 +64,7 @@ See **`/orchestrate`** for conductor/worker rules and multi-goal file-lane safet
 | [design](./skills/design/SKILL.md)             | UI craft — fix current UI, or Design card when creating UI |
 | [grill-me](./skills/grill-me/SKILL.md)         | Relentless interview to sharpen intent                     |
 | [architecture](./skills/architecture/SKILL.md) | Simple entry points + folders + scalable data              |
-| [create-plan](./skills/create-plan/SKILL.md)   | Write `PLAN.md` into a goal workspace                      |
+| [create-plan](./skills/create-plan/SKILL.md)   | Write `plans/NN-*.md` into a goal workspace                |
 | [split-task](./skills/split-task/SKILL.md)     | Split work into agent-sized pieces                         |
 | [implement](./skills/implement/SKILL.md)       | Dispatch slice workers; integrate                          |
 | [validate](./skills/validate/SKILL.md)         | Check Done when / plan / taste / design                    |
@@ -75,9 +87,10 @@ README.md
 
 | Agent-agnostic packs              | This pack                                         |
 | --------------------------------- | ------------------------------------------------- |
-| Freeform plans in chat     | Per-goal `.scratch/goals/<id>/PLAN.md` (no mode switch) |
+| Freeform plans in chat     | `.agents/temp/goals/<id>/plans/NN-*.md` (after grill) |
 | One agent does everything  | Main orchestrates; Task subagents labor (`/orchestrate`) |
 | Single global ACTIVE files | Isolated workspaces + REGISTRY — concurrent `/goal`s OK |
+| Skip straight to coding    | Mandatory `/grill-me` before any plan files             |
 | Ad-hoc “done?”             | `/validate` against Done when                       |
 | Flat file dumps            | `/architecture` requires entry point + folder map   |
 | Native Claude `/goal` hook | `/goal` drives an autonomous subagent loop          |

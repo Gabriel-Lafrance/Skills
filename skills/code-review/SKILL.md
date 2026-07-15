@@ -37,7 +37,7 @@ Fail early on bad ref or empty diff.
 
 In order:
 
-1. `.scratch/goals/<goal-id>/GOAL.md` + `PLAN.md` (require goal-id when under `/goal`)
+1. `.agents/temp/goals/<goal-id>/GOAL.md` + `GRILL.md` + `plans/INDEX.md` + relevant `plans/NN-*.md`
 2. Active `/goal` ticket brief from `/trackers`
 3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
 4. Path the user passed
@@ -104,4 +104,4 @@ Present `## Standards` and `## Spec` separately (verbatim or lightly cleaned). O
 
 Standards-clean wrong feature ≠ done. Spec-perfect mess ≠ done. Keep axes separate so one cannot mask the other.
 
-Do **not** flag “agent didn’t run eslint/tsc” as a Standards failure — CI owns lint/type; `/taste` Verify prefers running localhost + Convex output.
+Do **not** flag “agent didn’t run eslint/tsc” or “didn’t call Convex MCP” as a Standards failure — CI owns lint/type; `/taste` Verify is **read existing terminals**, not MCP.

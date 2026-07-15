@@ -15,9 +15,9 @@ Close the loop: the on-disk plan / goal contract was the **gate in**; this skill
 
 Resolve **`goal-id`** first (chat binding, user, or path). Then criteria from, in order:
 
-1. `.scratch/goals/<goal-id>/GOAL.md` **Done when** rows
+1. `.agents/temp/goals/<goal-id>/GOAL.md` **Done when** rows
 2. The `/trackers` ticket brief acceptance checklist (Linear / GitHub)
-3. `.scratch/goals/<goal-id>/PLAN.md` acceptance criteria
+3. All completed rows in `.agents/temp/goals/<goal-id>/plans/INDEX.md` → each `plans/NN-*.md` acceptance criteria
 4. Explicit criteria the user pasted in chat
 
 Do not mix criteria from another goal-id’s workspace.
@@ -36,19 +36,21 @@ If none of 1–4 exist, stop and ask — do not invent a vague "looks good."
 
 List each acceptance criterion as a checkbox. No new scope.
 
-### 2. Evidence pass
+### 2. Evidence pass (cheap — one terminals read)
 
-You **judge** pass/fail. Optionally dispatch a `shell` / `explore` Task (see `/orchestrate`) to collect logs or summarize the diff — still you fill the table.
+You **judge** pass/fail. **Do not** open Convex MCP or re-run Convex CLI for routine validate.
 
-For each criterion, gather evidence **in this order** (see `/taste` Verify):
+Gather evidence **once** in this order (`/taste` Verify):
 
-1. Running **frontend localhost** and **Convex dev** terminal output — compile errors, push failures, runtime stacks
-2. Diff / structural checks (files, APIs, copy, entry point)
-3. Behavior via the running app when relevant
+1. **Read the terminals folder** for already-running frontend + `convex dev` (prefer a single pass; cite `terminals/<id>.txt`)
+2. Diff / structural checks (files, APIs, entry point)
+3. UI criterion → existing localhost behavior if needed; mark **blocked** if you cannot see it — don’t invent MCP checks
 
-**Do not** default to `lint`, `tsc`, or full test suites. CI covers type and lint. Run those commands only if local servers error on this change, the criterion explicitly requires a command, or the user asks.
+**Forbidden as default validate steps:** Convex MCP (`logs`, `data`, `status`, `run`, …), second `convex dev`, ritual `lint`/`tsc`/full suites, a subagent whose only job is “verify via MCP”.
 
-If a criterion needs a browser path you cannot reach, say so and mark it **blocked**, not passed. Prefer reading existing terminal output over starting new processes.
+**Allowed exceptions:** terminals show an error you must diagnose; user asked for MCP/CLI; no Convex terminal and you said so first.
+
+Optional: one `shell`/read Task to **summarize existing terminal files** — still no MCP.
 
 ### 3. Scalability check (required)
 
@@ -111,7 +113,9 @@ Scalability **fail** blocks “done” the same way a failed acceptance criterio
 
 - Marking done because tests pass but criteria were never checked
 - Skipping the scalability section or waving through scan-on-read metrics
-- Ritual `lint` / `tsc` / full suite when localhost + Convex are already the signal
+- Ritual `lint` / `tsc` / full suite when localhost + Convex terminals are already the signal
+- **Convex MCP verify loops** after every slice when `convex dev` terminal already shows push/ok or the error
 - Expanding acceptance criteria mid-flight without re-planning
 - Silent "LGTM" without evidence rows
 - Passing validate while `/taste` self-check fails
+- Re-running validate with fresh MCP calls when nothing in the diff changed since the last terminals read

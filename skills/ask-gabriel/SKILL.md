@@ -14,11 +14,11 @@ A **flow** is a path through the skills. Most work rides the **main flow**. On-r
 
 ## Main flow: idea → ship
 
-1. **Substantial + verifiable end state?** → **`/goal`** (isolated `.scratch/goals/<goal-id>/`; many goals can run at once). Tickets: **`/goal IN-1234`** / **`/goal #42`**. See **`/orchestrate`**.
-2. Otherwise sharpen with **`/grill-me`**. Structure → **`/architecture`**. UI → **`/design`** Mode B. Then **`/create-plan`** into that goal workspace.
-3. **Multi-session or too big?** → **`/split-task`** into `pieces/`, then **`/implement`** with parallel workers (respect other running goals’ file lanes)
-4. **`/validate`** / **`/code-review`** scoped to the same `goal-id`
-5. **Ticket goal achieved?** → **`/trackers`** close-out
+1. **Substantial + verifiable end state?** → **`/goal`** (grill first → multiple `plans/` under `.agents/temp/goals/<goal-id>/`). Tickets: **`/goal IN-1234`** / **`/goal #42`**.
+2. Standalone sharpen → **`/grill-me`**, then **`/architecture`** / **`/design`**, then **`/create-plan`**
+3. **Too big?** → more plan files in INDEX + parallel **`/implement`** workers (file-lane safe)
+4. **`/validate`** / **`/code-review`** on the same `goal-id`
+5. **Ticket done?** → **`/trackers`** close-out
 
 ### Context hygiene
 
@@ -46,10 +46,11 @@ If the window is getting heavy before the split is done, hand off a short markdo
 
 ## Cursor rules (always)
 
-- Stay in **Agent mode** — per-goal plans under `.scratch/goals/<goal-id>/PLAN.md`
+- Stay in **Agent mode** — artifacts under `.agents/temp/goals/<goal-id>/`
+- **`/goal` must grill** before writing `plans/*`; prefer multiple small plans
 - **Main orchestrates; subagents labor** — `/orchestrate`
-- **Concurrent goals OK** — each has its own workspace + REGISTRY; never stomp another id
-- Every Task prompt includes that **goal-id**’s GOAL.md + PLAN.md
+- **Concurrent goals OK** — REGISTRY + isolated workspaces
+- Task prompts include goal-id + specific `plans/NN-*.md`
 - Prefer **throw + try/catch** over `success: false` in this author's projects
 - Structure/naming → **`/taste`** + **`/architecture`**; UI → **`/design`**
 

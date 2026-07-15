@@ -1,104 +1,81 @@
 ---
 name: orchestrate
 description: >-
-  Main-agent orchestration doctrine: you are the conductor; Task subagents do
-  the labor. Always scope workers to a goal-id workspace so concurrent goals
-  never clash. Use under /goal and /implement or whenever work can be delegated.
+  Main-agent orchestration: Task subagents do the labor. Scope every worker to
+  .agents/temp/goals/<goal-id>/ (and a specific plans/NN file). Use under /goal
+  and /implement.
 disable-model-invocation: true
 ---
 
 # Orchestrate
 
-**You (the main agent) are the orchestrator.** Task subagents are workers. Prefer delegating over deep solo work.
+**You are the orchestrator.** Task subagents are workers. Prefer delegating.
 
-**Every running `/goal` has its own workspace** — pass **that** `goal-id`’s paths into every Task. See `/goal` layout.
+Scope workers to **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`.
 
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| **Main agent** | Bind `goal-id`, shape GOAL/PLAN, assign Tasks, merge, `/validate`, close tickets | Solo-explore everything; write another goal’s files; paste huge plans into prompts |
-| **Subagent** | One Job inside the given workspace + file lane | Chat with user; switch goal-id; touch files outside Touch only |
+| **Main** | Bind goal-id, grill, INDEX/plans, assign Tasks, merge, validate | Solo-explore everything; touch other goal workspaces |
+| **Subagent** | One Job in the given plan file lane | Chat with user; other goal-ids |
 
 ## Always pass artifacts
 
 ```text
 goal-id: <goal-id>
 Read first:
-- .scratch/goals/<goal-id>/GOAL.md
-- .scratch/goals/<goal-id>/PLAN.md
-- .scratch/goals/<goal-id>/pieces/<optional>
-Touch only: <paths from this plan’s File lane>
-Return: <deliverable>
+- .agents/temp/goals/<goal-id>/GOAL.md
+- .agents/temp/goals/<goal-id>/GRILL.md
+- .agents/temp/goals/<goal-id>/plans/INDEX.md
+- .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md   # the plan for THIS job
+Touch only: <File lane from that plan>
+Do not read/write other .agents/temp/goals/* workspaces.
 Do not ask the user — report blockers to the orchestrator.
-Do not read or write other .scratch/goals/* workspaces.
 ```
 
-## When to spawn (default yes)
+## When to spawn
 
 | Work | Subagent | Notes |
 | --- | --- | --- |
-| Sibling / lane discovery | `explore` | Parallel explores OK |
-| Implement one slice | `generalPurpose` | One slice per worker |
-| Independent slices | **parallel** `generalPurpose` | No shared files; check other running goals’ lanes in REGISTRY |
-| Shell/git | `shell` | |
-| Standards / Spec review | `generalPurpose` or `explore` | Parallel axes; scoped to this goal’s diff/plan |
-| Security / bugs | `security-review` / `bugbot` | If user/goal asks |
-
-Solo only for tiny edits or user decision questions.
+| Explore sibling/lane | `explore` | Parallel OK |
+| Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
+| Independent plans | **parallel** workers | No shared files; check REGISTRY lanes |
+| Standards / Spec | parallel Tasks | Scoped to this goal’s plans/diff |
+| Verify / logs | **Read terminals folder** | Never Convex MCP by default — `/taste` Verify |
 
 ## Multi-goal safety
 
-Before parallel implement waves:
+Read `.agents/temp/goals/REGISTRY.md` before parallel implement. Overlap → serialize or ask.
 
-1. Read `.scratch/goals/REGISTRY.md` for other `running` goals
-2. Compare File lanes — if overlap, **do not** parallel those writers; serialize or ask user
-3. Never delete/clear another id’s workspace
-
-## Parallelism
-
-One turn → all independent Tasks. After returns: synthesize, update **this** `PLAN.md` / `STATUS.md`, next wave.
-
-## Worker prompt template
+## Worker template
 
 ```markdown
 ## Job
-<one sentence>
+…
 
 ## goal-id
-<goal-id>
+…
 
 ## Read first
-- .scratch/goals/<goal-id>/GOAL.md
-- .scratch/goals/<goal-id>/PLAN.md
+- .agents/temp/goals/<goal-id>/GOAL.md
+- .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md
 
 ## Constraints
-- Follow /taste and plan Structure
-- Throw on errors; no `{ success: false }` bags
-- Touch only: <lane>
-- Do not commit unless told
-- Do not touch other goal workspaces
+- /taste + Structure from that plan
+- Touch only: …
+- No other goal workspaces
+- Do not call Convex MCP to verify — read terminals if needed
 
 ## Done when
-- <checks>
-- Report: files changed + how to verify
+- …
 ```
-
-## Main-agent loop
-
-1. Persist this goal’s GOAL/PLAN  
-2. Explore wave → update PLAN  
-3. Implement wave → integrate  
-4. Review wave → fix / re-dispatch  
-5. You `/validate` (optional worker gathers logs)
-
-You own ACHIEVED / On block / user questions.
 
 ## Anti-patterns
 
-- Global ACTIVE.md artifacts
-- Task without `goal-id` paths
-- Two goals writing the same files in parallel
-- Serial Tasks that could be parallel
+- `.scratch/` paths
+- Task without goal-id + specific plan file
+- Two goals writing same files in parallel
 - Subagent asking the user
-- Treating subagents as optional
+- Optional subagents — they are the default labor pool
+- Verify-via-Convex-MCP subagents after every slice
