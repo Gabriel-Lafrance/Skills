@@ -63,7 +63,7 @@ On **achieved**: delete `<goal-id>/`; registry row keeps `workspace: (deleted)`.
 
 ## Ticket-driven goals
 
-Fetch via `/trackers-flow` first. Still **grill** on open product decisions the ticket does not settle. On ACHIEVED → close-out after validate.
+Fetch via `/trackers-flow` first (**read only** — issues/PRs/comments/QA). Still **grill** on open product decisions the ticket does not settle. On ACHIEVED do **not** write to the tracker; user closes the ticket / merges the PR.
 
 ## Suitability gate
 
@@ -147,9 +147,7 @@ Work the frontier (plans with blockers done):
 
 ## Phase 2 — Achieve or clear
 
-**Achieved:** validate pass → `/trackers-flow` close-out if Ticket → REGISTRY `achieved` + `(deleted)` → **`rm -rf` this `<goal-id>/` only** → announce ACHIEVED.
-
-If close-out fails: leave workspace, `blocked`, ask.
+**Achieved:** `/validate-flow` + `/code-review-flow` pass → REGISTRY `achieved` + `(deleted)` → **`rm -rf` this `<goal-id>/` only** → announce ACHIEVED. Remind the user to close the ticket or rely on PR merge — **never** comment/close via `/trackers-flow`.
 
 **Cleared:** REGISTRY/STATUS `cleared`; **keep** workspace unless user asks to delete.
 
@@ -165,3 +163,4 @@ If close-out fails: leave workspace, `blocked`, ask.
 - Two goals writing the same files in parallel
 - `SwitchMode` / CreatePlan UI
 - **Convex MCP / CLI verify loops** when `convex dev` terminal already has the signal
+- Writing/closing Linear or GitHub tickets via `/trackers-flow` (read-only)

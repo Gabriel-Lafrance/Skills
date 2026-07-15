@@ -1,30 +1,31 @@
 ---
 name: trackers-flow
 description: >-
-  Goal-scoped Linear/GitHub fetch and ACHIEVED close-out for ticket-driven
-  goals under .agents/temp/goals/<goal-id>/. Looked up by /goal. Not for
-  auto-invocation — use /trackers for ad-hoc issue work.
+  Goal-scoped read-only Linear/GitHub fetch into a ticket brief for
+  .agents/temp/goals/<goal-id>/. Looked up by /goal and other *-flow callers.
+  Never invoke alone; never write or close-out tickets.
 disable-model-invocation: true
 ---
 
 # Trackers Flow
 
-Ticket ops **inside an active `/goal`**. Detect/fetch/normalize/close-out doctrine lives in **`/trackers`** — follow it.
+Read-only ticket context **inside an active `/goal`**. Fetch/normalize doctrine lives in **`/trackers`** — follow it (including the **never write** rule).
 
 ## Preconditions
 
-1. Resolve **`goal-id`** and ticket id from GOAL / user
-2. Fetch **before** planning; still grill open product decisions via `/grill-me-flow`
-3. Close-out **only** after `/validate-flow` pass (and usually `/code-review-flow`)
+1. Resolve **`goal-id`** and ticket/PR id from GOAL / user
+2. Caller is `/goal` or another `*-flow` skill — not a standalone user slash for “update Linear”
+3. Fetch **before** planning; still grill open product decisions via `/grill-me-flow`
 
 ## Process
 
-1. **Start:** fetch → ticket brief → store link in `GOAL.md` (not full body spam).
-2. **While running:** brief is spec for `/create-plan-flow` / `/validate-flow` / `/code-review-flow`; optional In Progress once.
-3. **ACHIEVED:** `/trackers` close-out steps → then `/goal` deletes workspace.
+1. **Fetch** via `/trackers` (issue + comments + linked PR/QA when present).
+2. Store **link** (+ short Ask pointer) in `GOAL.md` — not full-body spam.
+3. Brief is Spec / Done when source for `/create-plan-flow`, `/validate-flow`, `/code-review-flow`.
+4. **Never** set In Progress, comment, close, or ACHIEVED close-out. Ticket close is manual / user’s PR flow after `/goal` announces ACHIEVED.
 
 ## Anti-patterns
 
-- Closing before validate evidence
+- Any tracker write
 - Inventing AC from the id alone
-- Using this outside a goal for casual issue edits — use `/trackers`
+- Invoking this outside a goal for casual issue edits — still read-only via `/trackers`, and only as a callee of another skill

@@ -23,7 +23,7 @@ Gate out **inside an active `/goal`**. Report format, scalability table, and evi
 2. One terminals read (`/taste` Verify) — **no** Convex MCP by default.
 3. Scalability section required.
 4. Report with `/validate` template.
-5. All pass → `/code-review-flow` (then `/trackers-flow` close-out if ticket); any fail → fix and re-run; blocked → ask.
+5. All pass → `/code-review-flow`; any fail → fix and re-run; blocked → ask. Ticket close is manual (trackers are read-only).
 
 ## Anti-patterns
 
