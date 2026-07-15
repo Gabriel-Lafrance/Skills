@@ -14,7 +14,7 @@ Write **one** plan file **inside an active `/goal`**. Template and location rule
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Grill shared understanding yes (`GRILL.md` present) — else send back to `/grill-me-flow`
+2. Grill shared understanding yes (`GRILL.md` present) — else `/grill-me-flow`
 3. Stay in Agent mode — no `SwitchMode`, no CreatePlan UI
 
 ## Process
@@ -23,10 +23,10 @@ Write **one** plan file **inside an active `/goal`**. Template and location rule
 2. Explore if needed; `/architecture-flow` (+ `/design-flow` if UI) into Structure/Design
 3. Write `.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md` using the `/create-plan` template
 4. Update `plans/INDEX.md` + `STATUS.md`
-5. Call once per INDEX row (or batch in one turn) until INDEX complete — then `/implement-flow` for frontier plans
+5. Once per INDEX row until complete — then `/implement-flow` for frontier plans
 
 ## Anti-patterns
 
 - Planning before grill yes
-- `.scratch/` or root `PLAN.md` instead of `plans/NN-*.md`
+- `.scratch/` or root `PLAN.md`
 - Coding the feature here

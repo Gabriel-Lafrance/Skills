@@ -1,24 +1,19 @@
 ---
 name: orchestrate-flow
 description: >-
-  Goal-scoped orchestration: every Task worker bound to
+  Internal conductor: Task subagents do the labor, every worker bound to
   .agents/temp/goals/<goal-id>/ and a specific plans/NN file. Looked up by /goal
-  and implement-flow. Not for auto-invocation — use /orchestrate for general
-  delegation advice.
+  and implement-flow only. Never for users or auto-invocation.
 disable-model-invocation: true
 ---
 
 # Orchestrate Flow
 
-Conductor rules **inside an active `/goal`**. General delegation doctrine lives in **`/orchestrate`** — follow it, plus the bindings below.
+**Internal flow skill.** You are the orchestrator. Task subagents are workers. Prefer delegating. Always bind workers to a **goal-id**.
 
-## Preconditions
+Scope workers to **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`.
 
-1. Resolve **`goal-id`**
-2. Scope workers to **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`
-3. Read `REGISTRY.md` before parallel implement — overlap → serialize or ask
-
-## Roles (goal)
+## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
@@ -39,15 +34,19 @@ Do not read/write other .agents/temp/goals/* workspaces.
 Do not ask the user — report blockers to the orchestrator.
 ```
 
-## When to spawn (goal)
+## When to spawn
 
 | Work | Subagent | Notes |
 | --- | --- | --- |
 | Explore sibling/lane | `explore` | Parallel OK |
 | Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
 | Independent plans | **parallel** workers | No shared files; check REGISTRY lanes |
-| Standards / Spec | parallel Tasks | Scoped to this goal’s plans/diff |
-| Verify / logs | **Read terminals folder** | Never Convex MCP by default — `/taste` Verify |
+| Standards / Spec | parallel Tasks | See `/code-review`; scoped to this goal |
+| Verify / logs | **Read terminals folder** | Never Convex MCP by default — `/taste-flow` Verify |
+
+## Multi-goal safety
+
+Read `.agents/temp/goals/REGISTRY.md` before parallel implement. Overlap → serialize or ask.
 
 ## Worker template
 
@@ -63,7 +62,7 @@ Do not ask the user — report blockers to the orchestrator.
 - .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md
 
 ## Constraints
-- /taste + Structure from that plan
+- /taste-flow + Structure from that plan
 - Touch only: …
 - No other goal workspaces
 - Do not call Convex MCP to verify — read terminals if needed
@@ -78,4 +77,5 @@ Do not ask the user — report blockers to the orchestrator.
 - Task without goal-id + specific plan file
 - Two goals writing same files in parallel
 - Subagent asking the user
+- Optional subagents — they are the default labor pool
 - Verify-via-Convex-MCP subagents after every slice

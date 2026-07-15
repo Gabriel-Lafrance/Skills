@@ -3,15 +3,15 @@ name: create-plan
 description: >-
   Write one implementation plan file under
   .agents/temp/goals/<goal-id>/plans/NN-slug.md (multi-plan friendly). Stays in
-  Agent mode. Agents may auto-invoke. Use when planning a slice outside or
-  without an active /goal loop. Under /goal after grill use /create-plan-flow.
+  Agent mode. Agents may auto-invoke. Use when planning a slice outside the
+  /goal loop. Under /goal after grill use /create-plan-flow.
 ---
 
 # Create Plan
 
 Write **one** plan file into a goal workspace. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
 
-Inside an active `/goal` loop (after grill), use **`/create-plan-flow`** instead.
+**Standalone** — for the active `/goal` loop after grill, use **`/create-plan-flow`**.
 
 ## Location
 
@@ -29,9 +29,9 @@ Inside an active `/goal` loop (after grill), use **`/create-plan-flow`** instead
 
 ### 1. Context
 
-Follow **`/orchestrate`**. Read `GOAL.md` + `GRILL.md` when present.
+Read `GOAL.md` + `GRILL.md` when present.
 
-- `/taste`; ticket → `/trackers` brief
+- `/taste-flow`; ticket → `/trackers-flow` brief
 - Parallel `explore` if needed
 - `/architecture` (+ `/design` if UI) into this plan’s Structure/Design
 
@@ -53,7 +53,7 @@ Follow **`/orchestrate`**. Read `GOAL.md` + `GRILL.md` when present.
 …
 
 ## Approach
-<concrete; /taste; no Option A/B>
+<concrete; /taste-flow; no Option A/B>
 
 ## Structure
 …
@@ -84,7 +84,7 @@ Update `plans/INDEX.md` row for this NN. Bump `STATUS.md` (`last: plan NN writte
 
 ### 3. Hand off
 
-Announce the path. Continue to `/implement` for this plan, or `/goal` if they want the full loop. No confirmation UI.
+Announce the path. Continue to `/goal` if they want the full loop, or stop. No confirmation UI.
 
 ### 4. Subagents
 

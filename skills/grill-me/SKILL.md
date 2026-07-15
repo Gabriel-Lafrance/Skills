@@ -2,16 +2,13 @@
 name: grill-me
 description: >-
   Relentless interview to sharpen a plan or design until shared understanding.
-  Agents may auto-invoke. Use when grilling, clarifying fuzzy intent, or
-  settling product/architecture decisions outside a goal. Under /goal use
-  /grill-me-flow instead.
+  Agents may auto-invoke. Use when grilling or clarifying fuzzy intent outside
+  /goal. Under /goal use /grill-me-flow.
 ---
 
 # Grill Me
 
-Interview until you and the user share understanding.
-
-Inside a `/goal` workspace, use **`/grill-me-flow`** instead of this skill.
+Interview until you and the user share understanding. **Standalone** — for goal workspaces use **`/grill-me-flow`**.
 
 ## Rules
 
@@ -23,7 +20,7 @@ Inside a `/goal` workspace, use **`/grill-me-flow`** instead of this skill.
 6. Cover at least (skip only if already settled):
    - Exact outcome and non-goals
    - Who it is for / critical edge cases
-   - Entry shape when multi-file or UI (hook vs class vs facade — default from `/taste` + sibling)
+   - Entry shape when multi-file or UI (hook vs class vs facade — default from `/taste-flow` + sibling)
    - Data/scale: anything counted/listed often → store on write?
    - **How many separate plans** the work should become (prefer more small plans)
    - File lanes / what must not be touched
