@@ -21,11 +21,12 @@ Build from **one plan file** inside a goal workspace. Follow **`/orchestrate-flo
 ## Process
 
 1. Structure/design gaps → update **this** plan via `/architecture-flow` / `/design-flow`
-2. Dispatch `generalPurpose` for this plan (parallel only across non-overlapping plans)
+2. Dispatch `generalPurpose` for this plan (parallel only across non-overlapping plans). **Omit Task `model`** — inherit parent (see `/orchestrate-flow`)
 3. Integrate; mark INDEX row status
 4. Taste check; verify via **existing terminals** (`/taste-flow` Verify) — **no** Convex MCP ritual
-5. `/validate-flow` / `/code-review` when this plan (or wave) is done — prefer terminals over MCP
-6. No tracker close here; commit only if asked
+5. Bugs mid-slice → **`/repair-flow`** (pessimistic hunt → grill what/how → acceptance → smallest fix → **`/validate-flow`**)
+6. `/validate-flow` / `/code-review-flow` when this plan (or wave) is done — prefer terminals over MCP
+7. No tracker close here; commit only if asked
 
 ## Notes
 

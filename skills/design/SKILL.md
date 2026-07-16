@@ -142,6 +142,6 @@ Prefer gradient (and optional progressive blur) into a readable text region over
 ## Hand-offs
 
 - Structure / folders → `/architecture` + `/taste-flow`
-- Behavior Done when → `/validate` (localhost evidence)
-- Standalone fix done → stop (or `/validate` if user wants a gate)
+- Behavior Done when → `/validate-flow` (path walk + live evidence)
+- Standalone fix done → stop (or `/validate-flow` if a gate is needed)
 - Inside `/goal` → `/design-flow`
