@@ -23,8 +23,8 @@ npx skills@latest update -g -y
 Then in Cursor:
 
 1. Run `/goal` for long verifiable work (agents may auto-start it).
-2. Outside a goal: `/grill-me`, `/architecture`, `/design`, `/create-plan`, `/code-review`.
-3. Ticket: `/goal IN-1234` or `/goal #42` — `/goal` loads read-only `/trackers-flow` internally.
+2. Outside a goal: `/grill-me`, `/architecture`, `/design`, `/create-plan`, `/code-review`, `/write-ticket`.
+3. Ticket: `/goal IN-1234` or `/goal #42` — `/goal` loads read-only `/trackers-flow` internally. Refine/create tickets first with `/write-ticket` (standalone; writes after draft approval).
 
 ## Invocation model
 
@@ -32,6 +32,7 @@ Then in Cursor:
 | --- | --- | --- | --- |
 | **Flow skill** | `goal` | Yes | Users + agents; no twin |
 | **Standalone (public)** | `grill-me`, `architecture`, `design`, `create-plan`, `code-review` | Yes | Users + agents outside `/goal` |
+| **Standalone only (no twin)** | `write-ticket` | Yes | Never under `/goal` / any `*-flow`; may write to trackers after draft approval |
 | **Flow twin** | `grill-me-flow`, `architecture-flow`, `design-flow`, `create-plan-flow`, `code-review-flow` | No | Only `/goal` (and explicit `/name-flow`) |
 | **Internal only** | `orchestrate-flow`, `trackers-flow`, `taste-flow`, `split-task-flow`, `implement-flow`, `validate-flow` | No | Pack callees only — no standalone twin |
 
@@ -65,6 +66,7 @@ Prefer **existing terminals** (frontend + `npx convex dev`). No ritual Convex MC
 | [design](./skills/design/SKILL.md) / [design-flow](./skills/design-flow/SKILL.md) | UI polish vs goal Design card |
 | [create-plan](./skills/create-plan/SKILL.md) / [create-plan-flow](./skills/create-plan-flow/SKILL.md) | Plan file (solo vs after grill) |
 | [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Diff vs main/user ask vs goal Spec |
+| [write-ticket](./skills/write-ticket/SKILL.md) | Standalone only — explore via Task subagents, then refine/create Linear/GitHub tickets (Done, entrypoints, expected behavior); draft → write |
 
 ## Internal flow skills
 
