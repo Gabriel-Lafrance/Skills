@@ -30,10 +30,10 @@ npx skills@latest update -g -y
 | One plan file | `/create-plan` |
 | Review a branch vs `main` (or a ref you name) | `/code-review` |
 | Fix a bug (smallest footprint) | `/repair` |
-| Refine or create a Linear/GitHub ticket | `/write-ticket` |
+| Refine or create a Linear/GitHub ticket (research + interface sketch) | `/write-ticket` |
 | Lock complex behavior with durable tests | `/create-test` (manual only — you must ask) |
 
-**Ticket tip:** refine with `/write-ticket` first (Done, entrypoints, expected behavior), then `/goal IN-1234`. Inside `/goal`, ticket fetch is read-only via `/trackers-flow`.
+**Ticket tip:** refine with `/write-ticket` first (Done, entrypoints, expected behavior, proposed architecture/interface), then `/goal IN-1234`. Inside `/goal`, ticket fetch is read-only via `/trackers-flow`.
 
 **Bug tip:** `/repair` for local defects; escalate massive multi-layer bugs to `/goal`.
 
@@ -95,7 +95,7 @@ Artifacts live under **`.agents/temp/goals/<goal-id>/`** and **`.agents/temp/rep
 
 | Skill | Role |
 | --- | --- |
-| [write-ticket](./skills/write-ticket/SKILL.md) | Explore via Task subagents → grill → ticket must have **Expected behavior**, **Definition of Done**, **Entrypoints** → draft → write to Linear/GitHub |
+| [write-ticket](./skills/write-ticket/SKILL.md) | Research crunch via Task subagents → grill → ticket must have **Expected behavior**, **Definition of Done**, **Entrypoints**, **Proposed architecture / interface** (shapes/signatures only) → draft → write to Linear/GitHub |
 | [create-test](./skills/create-test/SKILL.md) | Manual behavior-lock tests for complex hooks / domain logic / facades so outside edits cannot silently break them |
 
 ### Internal flow skills (pack callees)
