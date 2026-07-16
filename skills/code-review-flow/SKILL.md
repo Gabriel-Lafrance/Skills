@@ -1,18 +1,18 @@
 ---
 name: code-review-flow
 description: >-
-  Goal-scoped two-axis review of work produced under
-  .agents/temp/goals/<goal-id>/ (plans, GOAL Done when, file lane). Looked up by
-  /goal after validate-flow. Not for auto-invocation — use /code-review for
+  Goal-scoped three-axis review (Standards + Spec + Routes) of work produced
+  under .agents/temp/goals/<goal-id>/ (plans, GOAL Done when, file lane). Looked
+  up by /goal after validate-flow. Not for auto-invocation — use /code-review for
   branch/main diffs the user asked for.
 disable-model-invocation: true
 ---
 
 # Code Review Flow
 
-Standards + Spec review **of what this `/goal` is shipping** — not an arbitrary “diff vs main” unless that is also the goal’s fixed point.
+Standards + Spec + Routes review **of what this `/goal` is shipping** — not an arbitrary “diff vs main” unless that is also the goal’s fixed point.
 
-Full Standards doctrine (taste-flow, architecture examples, smells, thermonuclear bar) lives in **`/code-review`** — follow those sections, but **Spec and scope are goal-bound** below so this skill can be tweaked independently.
+Full Standards + Routes doctrine (taste-flow, architecture examples, smells, thermonuclear bar, out-loud codepath walk) lives in **`/code-review`** — follow those sections, but **Spec and scope are goal-bound** below so this skill can be tweaked independently.
 
 ## Preconditions
 
@@ -43,14 +43,21 @@ Tell Task subagents: **read this goal-id’s paths only** — never another work
 
 ### 3. Parallel axes
 
-Same two-axis pattern as `/code-review`:
+Same three-axis pattern as `/code-review`:
 
 - **Standards** — paste `/taste-flow` non-negotiables + thermonuclear rules from `/code-review`; cite architecture/taste examples
 - **Spec** — quote GOAL Done when + plan AC; missing/partial, scope creep, wrong implementations
+- **Routes** — top-down out-loud walk of paths in the goal’s file lane; loose callers, dead ends, missing links; tag critical/important/nit (see `/code-review` Routes)
+
+**Model:** omit Task `model` (see `/orchestrate-flow`) — inherit parent.
 
 ### 4. Aggregate + hand-off
 
-Present `## Standards` and `## Spec` separately. Failures → fix → re-`/validate-flow` if behavior changed → continue `/goal` ACHIEVED (no tracker writes).
+Present `## Standards`, `## Spec`, and `## Routes` separately. Keep Routes path summaries readable. Failures → fix → re-`/validate-flow` if behavior changed → continue `/goal` ACHIEVED (no tracker writes).
+
+### 5. Behavior-lock recommendations (tell the user — do not run)
+
+Same as `/code-review` §10: if the goal’s file lane ships complex hooks / business logic / facades without a durable behavior lock, list them under `## Needs /create-test` and **tell the user** to run `/create-test`. Never invoke it from this flow (no twin; never autonomous).
 
 ## Anti-patterns
 
@@ -58,3 +65,4 @@ Present `## Standards` and `## Spec` separately. Failures → fix → re-`/valid
 - Solo-reviewing a large goal diff when workers can
 - Writing/closing tickets
 - Approving “it works” when the `/code-review` thermonuclear bar fails
+- Auto-running `/create-test` instead of recommending it to the user

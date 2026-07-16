@@ -1,20 +1,23 @@
 ---
 name: code-review
 description: >-
-  Two-axis review (Standards + Spec) of a git diff since a fixed point the user
-  names (default main/master). Standards = taste-flow + architecture examples +
-  thermonuclear maintainability. Agents may auto-invoke. Use for branch/PR
-  review outside /goal. Under /goal use /code-review-flow.
+  Three-axis review (Standards + Spec + Routes) of a git diff since a fixed
+  point the user names (default main/master). Standards = taste-flow +
+  architecture examples + thermonuclear maintainability. Routes = out-loud
+  top-down codepath walk for loose callers, dead ends, wrong wiring. Agents may
+  auto-invoke. Use for branch/PR review outside /goal. Under /goal use
+  /code-review-flow.
 ---
 
 # Code Review
 
 **Standalone** review of whatever the user asked to review — typically `main...HEAD` (or another fixed point they name). Not the goal-loop reviewer; that is **`/code-review-flow`**.
 
-Review along **two axes** (Matt Pocock style). Do not merge findings into one ranked list.
+Review along **three axes** (Matt Pocock style + Routes). Do not merge findings into one ranked list.
 
 - **Standards** — `/taste-flow` + `/architecture` examples + thermonuclear maintainability
 - **Spec** — does the change match the ticket / PR / PRD / what the user said?
+- **Routes** — top-down codepath walk: loose parts, wrong callers, dead ends, missing links
 
 Run axes as **parallel Cursor Task subagents**, then you aggregate. Do not solo-review a large diff when workers can.
 
@@ -60,7 +63,7 @@ Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession
 
 Flat file dump; missing simple entry point; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big features; mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
 
-### 6. Thermonuclear maintainability (Standards — not a third axis)
+### 6. Thermonuclear maintainability (Standards — not Routes)
 
 Be **ambitious** about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it.
 
@@ -79,16 +82,70 @@ Be **ambitious** about structure. Search for **code judo**: preserve behavior wh
 
 **Approval bar:** behavior-correct is **not** enough. Presumptive blockers: visible judo path ignored; file crosses 1k lines; ad-hoc branching; feature checks in shared code; unnecessary wrapper/cast churn; wrong layer / duplicate helper.
 
-### 7. Parallel Task subagents
+### 7. Routes axis (codepath walk — out loud)
 
-Launch Standards + Spec Tasks in one message (`generalPurpose` or `explore`). Optionally `bugbot` / `security-review` only if the user asked.
+Hunt **call-graph / wiring** problems in the diff’s changed surface — not taste, not ticket wording.
+
+**Start at the top**, walk **down** every relevant runtime path the change touches. Narrate **out loud** so a human can follow the trail (same spirit as `/validate-flow` path walk, but review-focused).
+
+**Hunt for:**
+
+- Loose / public surfaces that can be called with the wrong args, wrong auth, wrong order, or from the wrong layer
+- Dead ends — export never imported, handler never registered, branch that returns nothing useful, unreachable after a guard
+- Missing links — UI → action, action → mutation, schema write ↔ read, env required but unread
+- Ambiguous entry points — two ways in with different invariants; optional params that skip critical checks
+- Wrong composition — helper safe alone but dangerous when this caller wires it
+
+**Severity (required on every finding):**
+
+| Tag | Use when |
+| --- | --- |
+| **critical** | Broken path, wrong caller can corrupt/leak/skip auth, dead end on a shipped flow |
+| **important** | Real risk under plausible misuse or incomplete wiring; should fix before merge |
+| **nit** | Clarity / naming / minor dead code that does not break a path |
+
+**Routes Task output shape** (worker must use this):
+
+```markdown
+## Path: <entry → outcome name>
+### Walk (out loud)
+1. Entry: <route / UI / CLI / exported API>
+2. → <fn/module> — <what it assumes / guards>
+3. → <next hop> — <linked? how?>
+4. → <terminal: DB / response / side effect>
+### Summary
+<2–4 sentences: what this path does and where it is fragile>
+### Findings
+- **critical|important|nit**: <issue> @ <file/symbol>
+```
+
+One Task may cover multiple paths. Prefer fewer high-conviction path summaries over listing every private helper.
+
+### 8. Parallel Task subagents
+
+Launch **Standards + Spec + Routes** Tasks in one message (`generalPurpose` or `explore`). Skip Spec only if no spec. Optionally `bugbot` / `security-review` only if the user asked.
+
+**Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
 
 **Standards prompt** — diff + commits; `/taste-flow` non-negotiables; taste/architecture examples; thermonuclear rules; hard vs judgement; under ~400–500 words.
 
 **Spec prompt** — diff + commits + spec path/contents; missing/partial requirements, scope creep, wrong implementations; under 400 words. Skip Spec if no spec.
 
-### 8. Aggregate
+**Routes prompt** — diff + commits; entry points touched by the change; instruct: start top-down, narrate walk out loud, summarize each path, tag every finding critical/important/nit; under ~400–500 words. Do not re-litigate taste or ticket AC here.
 
-Present `## Standards` and `## Spec` separately. One-line summary per axis. Do not pick a cross-axis winner.
+### 9. Aggregate
+
+Present `## Standards`, `## Spec`, and `## Routes` separately. One-line summary per axis. Do not pick a cross-axis winner. Under Routes, keep the path walk summaries readable — do not collapse them into a flat severity list only.
+
+### 10. Behavior-lock recommendations (tell the user — do not run)
+
+After the axes, if the diff touches a **complex architectural part** whose deep behavior is easy to break from the outside (complex hooks, domain/business logic, facades, stateful classes) and there is **no durable behavior lock**, add a short section:
+
+```markdown
+## Needs /create-test
+- `path/to/symbol` — <one-line why a lock matters>
+```
+
+**Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` yourself. Do not recommend locks for trivial wrappers, UI chrome, or coverage theater.
 
 Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste-flow` Verify is **read existing terminals**.
