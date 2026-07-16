@@ -2,7 +2,9 @@
 
 Cursor-first agent skills for real engineering — not vibe coding.
 
-Autonomous `/goal` as **orchestrator**: Task subagents explore/implement/review; on-disk plans keep them aligned. Dual skills ship as **standalone + `*-flow`** so each can be tweaked for who calls it. Inspired by [Matt Pocock's skills](https://github.com/mattpocock/skills), rewritten for Cursor.
+**`/goal`** is the autonomous orchestrator: Task subagents explore, implement, and review against on-disk plans. Most craft skills ship as a **standalone** (you / agents outside a goal) plus a **`*-flow`** twin (only `/goal` looks those up). A few skills are **standalone-only** — no flow twin, never inside `/goal`.
+
+Inspired by [Matt Pocock's skills](https://github.com/mattpocock/skills), rewritten for Cursor.
 
 ## Install
 
@@ -14,83 +16,112 @@ Global:
 
 ```bash
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
-```
-
-```bash
 npx skills@latest update -g -y
 ```
 
-Then in Cursor:
+## Quick start
 
-1. Run `/goal` for long verifiable work (agents may auto-start it).
-2. Outside a goal: `/grill-me`, `/architecture`, `/design`, `/create-plan`, `/code-review`, `/write-ticket`.
-3. Ticket: `/goal IN-1234` or `/goal #42` — `/goal` loads read-only `/trackers-flow` internally. Refine/create tickets first with `/write-ticket` (standalone; writes after draft approval).
+| You want… | Run |
+| --- | --- |
+| Long, verifiable feature work | `/goal` (or `/goal IN-1234` / `/goal #42`) |
+| Sharpen fuzzy intent | `/grill-me` |
+| Structure / data shape | `/architecture` |
+| UI polish or new UI craft | `/design` |
+| One plan file | `/create-plan` |
+| Review a branch vs `main` (or a ref you name) | `/code-review` |
+| Fix a bug (smallest footprint) | `/repair` |
+| Refine or create a Linear/GitHub ticket | `/write-ticket` |
+| Lock complex behavior with durable tests | `/create-test` (manual only — you must ask) |
+
+**Ticket tip:** refine with `/write-ticket` first (Done, entrypoints, expected behavior), then `/goal IN-1234`. Inside `/goal`, ticket fetch is read-only via `/trackers-flow`.
+
+**Bug tip:** `/repair` for local defects; escalate massive multi-layer bugs to `/goal`.
 
 ## Invocation model
 
 | Kind | Skills | Auto-invoke | Who uses it |
 | --- | --- | --- | --- |
-| **Flow skill** | `goal` | Yes | Users + agents; no twin |
-| **Standalone (public)** | `grill-me`, `architecture`, `design`, `create-plan`, `code-review` | Yes | Users + agents outside `/goal` |
-| **Standalone only (no twin)** | `write-ticket` | Yes | Never under `/goal` / any `*-flow`; may write to trackers after draft approval |
-| **Flow twin** | `grill-me-flow`, `architecture-flow`, `design-flow`, `create-plan-flow`, `code-review-flow` | No | Only `/goal` (and explicit `/name-flow`) |
-| **Internal only** | `orchestrate-flow`, `trackers-flow`, `taste-flow`, `split-task-flow`, `implement-flow`, `validate-flow` | No | Pack callees only — no standalone twin |
+| **Orchestrator** | `goal` | Yes | Users + agents; no twin |
+| **Standalone + flow twin** | `grill-me`, `architecture`, `design`, `create-plan`, `code-review`, `repair` | Standalone: yes · Flow: no | Standalone outside `/goal`; `*-flow` only under `/goal` (or explicit `/name-flow`) |
+| **Standalone only** | `write-ticket` | Yes | Never under `/goal` / any `*-flow`; may **write** trackers after draft approval |
+| **Standalone only (manual)** | `create-test` | No | Never in a flow, never autonomous — user runs `/create-test`; `/code-review` may recommend it |
+| **Internal only** | `orchestrate-flow`, `trackers-flow`, `taste-flow`, `split-task-flow`, `implement-flow`, `validate-flow` | No | Pack callees only — no user-facing twin |
 
-Example: `/code-review` = diff vs `main` (or what the user asked). `/code-review-flow` = review what this goal’s plans shipped.
+Rule of thumb: outside `/goal` use the bare name (`/code-review`). Inside `/goal` the orchestrator uses the `*-flow` twin (`/code-review-flow`).
 
-## Main flow
+## `/goal` loop
 
 ```text
 /goal
    → .agents/temp/goals/<goal-id>/
    → /trackers-flow (read only) if ticket
-   → /grill-me-flow
+   → /grill-me-flow  (+ taste / architecture / design topics with the user)
    → /architecture-flow (+ /design-flow if UI)
-   → /create-plan-flow → plans/INDEX + plans/NN-*.md
-   → /implement-flow
-   → /validate-flow → /code-review-flow
-   → ACHIEVED: delete workspace (ticket close manual)
+   → /split-task-flow (when multi-slice) → /create-plan-flow
+   → /implement-flow (via /orchestrate-flow)
+   → mid-build bugs → /repair-flow → /validate-flow
+   → /validate-flow → /code-review-flow  (both required)
+   → ACHIEVED summary → delete workspace
 ```
 
 ### Verify
 
-Prefer **existing terminals** (frontend + `npx convex dev`). No ritual Convex MCP / lint / tsc.
+Prefer **existing terminals** (frontend, backend, types, lint, Convex, …) plus narrow CLI when needed. No ritual Convex MCP.
 
-## Public skills
+Artifacts live under **`.agents/temp/goals/<goal-id>/`** and **`.agents/temp/repairs/<repair-id>/`** — never `.scratch/`.
 
-| Skill | When to use |
-| --- | --- |
-| [goal](./skills/goal/SKILL.md) | Autonomous goal loop |
-| [grill-me](./skills/grill-me/SKILL.md) / [grill-me-flow](./skills/grill-me-flow/SKILL.md) | Sharpen intent (solo vs goal gate) |
-| [architecture](./skills/architecture/SKILL.md) / [architecture-flow](./skills/architecture-flow/SKILL.md) | Structure card (solo vs into plans) |
-| [design](./skills/design/SKILL.md) / [design-flow](./skills/design-flow/SKILL.md) | UI polish vs goal Design card |
-| [create-plan](./skills/create-plan/SKILL.md) / [create-plan-flow](./skills/create-plan-flow/SKILL.md) | Plan file (solo vs after grill) |
-| [code-review](./skills/code-review/SKILL.md) / [code-review-flow](./skills/code-review-flow/SKILL.md) | Diff vs main/user ask vs goal Spec |
-| [write-ticket](./skills/write-ticket/SKILL.md) | Standalone only — explore via Task subagents, then refine/create Linear/GitHub tickets (Done, entrypoints, expected behavior); draft → write |
+---
 
-## Internal flow skills
+## Skill catalog
+
+### Orchestrator
 
 | Skill | Role |
 | --- | --- |
-| [orchestrate-flow](./skills/orchestrate-flow/SKILL.md) | Bind Task workers to goal-id |
-| [trackers-flow](./skills/trackers-flow/SKILL.md) | Read-only Linear/GitHub |
-| [taste-flow](./skills/taste-flow/SKILL.md) | Author taste (+ [examples](./skills/taste-flow/examples.md)) |
-| [split-task-flow](./skills/split-task-flow/SKILL.md) | INDEX / agent-sized plans |
-| [implement-flow](./skills/implement-flow/SKILL.md) | Slice workers |
-| [validate-flow](./skills/validate-flow/SKILL.md) | Done when gate |
+| [goal](./skills/goal/SKILL.md) | Autonomous loop: grill → plans → Task workers → validate + code-review → ACHIEVED |
+
+### Public standalones (and their flow twins)
+
+| Standalone | Flow twin | When to use |
+| --- | --- | --- |
+| [grill-me](./skills/grill-me/SKILL.md) | [grill-me-flow](./skills/grill-me-flow/SKILL.md) | Sharpen intent until shared understanding (solo vs hard gate before plans) |
+| [architecture](./skills/architecture/SKILL.md) | [architecture-flow](./skills/architecture-flow/SKILL.md) | Entry points, folders, write-path data design (solo vs Structure card into plans) |
+| [design](./skills/design/SKILL.md) | [design-flow](./skills/design-flow/SKILL.md) | UI craft / polish (solo vs Design card into plans) |
+| [create-plan](./skills/create-plan/SKILL.md) | [create-plan-flow](./skills/create-plan-flow/SKILL.md) | One `plans/NN-slug.md` (solo vs after grill in a goal) |
+| [code-review](./skills/code-review/SKILL.md) | [code-review-flow](./skills/code-review-flow/SKILL.md) | Standards + Spec + Routes on a diff (vs `main`/ref you name vs this goal’s plans) |
+| [repair](./skills/repair/SKILL.md) | [repair-flow](./skills/repair-flow/SKILL.md) | Pessimistic bug hunt → grill → acceptance → smallest fix → `/validate-flow` |
+
+### Standalone only (no `*-flow` twin)
+
+| Skill | Role |
+| --- | --- |
+| [write-ticket](./skills/write-ticket/SKILL.md) | Explore via Task subagents → grill → ticket must have **Expected behavior**, **Definition of Done**, **Entrypoints** → draft → write to Linear/GitHub |
+| [create-test](./skills/create-test/SKILL.md) | Manual behavior-lock tests for complex hooks / domain logic / facades so outside edits cannot silently break them |
+
+### Internal flow skills (pack callees)
+
+| Skill | Role |
+| --- | --- |
+| [orchestrate-flow](./skills/orchestrate-flow/SKILL.md) | Bind Task workers to `goal-id` + plan file; **omit Task `model`** (inherit parent chat model) |
+| [trackers-flow](./skills/trackers-flow/SKILL.md) | Read-only Linear/GitHub brief — never write/close/comment |
+| [taste-flow](./skills/taste-flow/SKILL.md) | Author coding taste contract (+ [examples](./skills/taste-flow/examples.md)) |
+| [split-task-flow](./skills/split-task-flow/SKILL.md) | Shape `plans/INDEX` into agent-sized slices |
+| [implement-flow](./skills/implement-flow/SKILL.md) | Frontier workers that build from one plan file |
+| [validate-flow](./skills/validate-flow/SKILL.md) | Gate out: out-loud path walk + live terminals/CLI vs acceptance |
+
+---
 
 ## Repo layout
 
 ```text
 skills/
-  <name>/SKILL.md
-  <name>-flow/SKILL.md   # when dual
+  <name>/SKILL.md            # standalone or orchestrator
+  <name>-flow/SKILL.md       # goal/internal twin when dual
+  <name>/examples.md         # optional (architecture, design, taste-flow, …)
 LICENSE
 README.md
 scripts/validate-skills.sh
 ```
-
-Artifacts: **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`.
 
 ## Attribution
 
