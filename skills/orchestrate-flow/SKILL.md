@@ -2,8 +2,9 @@
 name: orchestrate-flow
 description: >-
   Internal conductor: Task subagents do the labor, every worker bound to
-  .agents/temp/goals/<goal-id>/ and a specific plans/NN file. Looked up by /goal
-  and implement-flow only. Never for users or auto-invocation.
+  .agents/temp/goals/<goal-id>/ and a specific plans/NN file. Workers return
+  Progress lines; main posts Progress after each wave. Looked up by /goal and
+  implement-flow only. Never for users or auto-invocation.
 disable-model-invocation: true
 ---
 
@@ -13,12 +14,17 @@ disable-model-invocation: true
 
 Scope workers to **`.agents/temp/goals/<goal-id>/`** — never `.scratch/`.
 
+## Subagent model (hard rule)
+
+- **Omit** Task `model` — inherit parent chat model
+- Pass `model` **only** when the user explicitly asked for that model
+
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| **Main** | Bind goal-id, grill, INDEX/plans, assign Tasks, merge, validate | Solo-explore everything; touch other goal workspaces |
-| **Subagent** | One Job in the given plan file lane | Chat with user; other goal-ids |
+| **Main** | Bind goal-id, grill, INDEX/plans, assign Tasks, merge, post **Progress**, `/validate-flow` | Solo-explore everything; separate deep link-check (validate owns seams) |
+| **Subagent** | One Job in the given plan file lane; end with **Progress** | Chat with user; other goal-ids |
 
 ## Always pass artifacts
 
@@ -28,25 +34,21 @@ Read first:
 - .agents/temp/goals/<goal-id>/GOAL.md
 - .agents/temp/goals/<goal-id>/GRILL.md
 - .agents/temp/goals/<goal-id>/plans/INDEX.md
-- .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md   # the plan for THIS job
+- .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md
 Touch only: <File lane from that plan>
-Do not read/write other .agents/temp/goals/* workspaces.
 Do not ask the user — report blockers to the orchestrator.
+End your report with ## Progress (required).
 ```
 
 ## When to spawn
 
 | Work | Subagent | Notes |
 | --- | --- | --- |
-| Explore sibling/lane | `explore` | Parallel OK |
+| Explore sibling/lane | `explore` | Parallel OK; Progress required |
 | Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
 | Independent plans | **parallel** workers | No shared files; check REGISTRY lanes |
-| Standards / Spec | parallel Tasks | See `/code-review`; scoped to this goal |
-| Verify / logs | **Read terminals folder** | Never Convex MCP by default — `/taste-flow` Verify |
-
-## Multi-goal safety
-
-Read `.agents/temp/goals/REGISTRY.md` before parallel implement. Overlap → serialize or ask.
+| Standards / Spec / Routes | parallel Tasks | See `/code-review`; Progress required |
+| Verify / logs | **Read terminals folder** | Never Convex MCP by default |
 
 ## Worker template
 
@@ -69,13 +71,21 @@ Read `.agents/temp/goals/REGISTRY.md` before parallel implement. Overlap → ser
 
 ## Done when
 - …
+
+## Progress
+plan: <NN|explore|standards|spec|routes> · status: done|blocked · files: <N> · next: <one line>
 ```
+
+## After a wave
+
+1. Collect each worker’s **Progress** block
+2. Post user-facing **Progress** line (see `/goal` doctrine) and update `STATUS.md`
+3. After **all** implement workers for the frontier return → **`/validate-flow`** (owns cross-plan seams when 2+ plans) — do not run a separate link-check step
 
 ## Anti-patterns
 
-- `.scratch/` paths
-- Task without goal-id + specific plan file
-- Two goals writing same files in parallel
-- Subagent asking the user
-- Optional subagents — they are the default labor pool
-- Verify-via-Convex-MCP subagents after every slice
+- Task without goal-id + specific plan file (for implement)
+- Worker report without `## Progress`
+- Silent merges with no user Progress line
+- Separate cross-plan link-check in the orchestrator (validate-flow owns it)
+- Passing Task `model` when the user did not ask

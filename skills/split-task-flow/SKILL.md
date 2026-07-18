@@ -45,7 +45,7 @@ Normalize what was given into one parent statement.
 1. <binary check>
 ```
 
-If the parent is still vague, ask **one** clarifying question, then continue. Do not invent scope.
+If the parent is still vague, include clarifying items in a **Questions batch** ([../asking.md](../asking.md)), then continue. Do not invent scope.
 
 ### 2. Split ruthlessly
 
@@ -73,9 +73,13 @@ Each child:
 
 List pieces so blockers come first. Mark the **frontier** (Blocked by: none).
 
-### 4. Quiz the user
+### 4. Quiz the user (batched)
 
-Show a numbered list. Ask only what changes the split (too big / wrong edges / missing). Iterate until they approve. Do not start `/implement-flow` unless `/goal` asks.
+Show the numbered split list, then ask with [../asking.md](../asking.md). Include the split confirm **and** any other known opens in **one** Questions batch (e.g. non-goals / shared understanding when those gates are still open in `/grill-me-flow` / `/goal`).
+
+Example item: `Split into these N plans?` → `a) yes` / `b) no — say what changes (too big / wrong edges / missing)`.
+
+On no: revise, then a follow-up batch for unresolved items. Iterate until the split gate is yes. Do not start `/implement-flow` unless `/goal` asks.
 
 ### 5. Hand off
 

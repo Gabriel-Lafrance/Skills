@@ -1,35 +1,20 @@
 ---
 name: write-ticket
 description: >-
-  Standalone only — never used in /goal or any *-flow. Reads a Linear/GitHub
-  ticket (or creates from a rough idea), crunches repo research via Task
-  subagents, grills until Expected behavior, Definition of Done, Entrypoints,
-  and Proposed architecture/interface are solid, then writes back after draft
-  approval. Use when refining or writing a tracker ticket before work starts.
-  Not for /goal, /grill-me-flow, or /trackers-flow.
+  Standalone only — never used in /goal or any *-flow. Loads or seeds a
+  Linear/GitHub ticket, runs /analyze for research, grills until Expected
+  behavior, Definition of Done, Entrypoints, and Proposed architecture/interface
+  are solid, then writes after draft approval. Use when refining or writing a
+  tracker ticket. For analysis without a ticket use /analyze.
 ---
 
 # Write Ticket
 
-**Standalone only.** Never call from `/goal`, never ship a `write-ticket-flow`. This skill **writes** to Linear/GitHub — unlike `/trackers-flow` (read-only).
+**Standalone only.** Never call from `/goal`, never ship a `write-ticket-flow`. This skill **writes** to Linear/GitHub — unlike `/trackers-flow` (read-only) and `/analyze` (research only).
 
-Refine an existing ticket **or** create one from a rough idea. **Crunch research first** (parallel Task `explore` + analysis), then grill until the ticket is implementable, then **draft → user yes → write**.
+Refine an existing ticket **or** create one from a rough idea. **Research via `/analyze`**, then grill until the ticket is implementable, then **draft → user yes → write**.
 
-This skill front-loads discovery so `/goal` / implementers inherit a sharp brief — not a vague wish. Do the analysis here; do **not** leave research for later.
-
-**Subagent model:** when launching Task workers, **omit `model`** so workers inherit this chat’s parent model. Never hard-code a model unless the user asked for one.
-
-### Waiting on subagents (hard rule)
-
-Research **blocks on Task completion** — never invent a clock.
-
-| Do | Do not |
-| --- | --- |
-| Launch explore Tasks and **wait for their Task results** (prefer `run_in_background: false` so this turn blocks until they return) | `AwaitShell` / `sleep` / “timeout 2 minutes” / polling loops while Tasks run |
-| Launch **parallel** explores in **one** message, then synthesize when **all** results are back | Guess a wait duration (“subagents usually take 2 min”) |
-| If a Task was backgrounded: **end the turn** and resume on the completion notification — or do other non-blocking work (read `/taste-flow`) | Vacuous `AwaitShell` with `block_until_ms: 120000` (or any fixed sleep) “to wait for subagents” |
-
-Fixed sleeps leave the user hanging after workers already finished. **Forbidden.**
+**Ask style:** [../asking.md](../asking.md). **Subagent model:** omit Task `model` unless the user asked for one (workers launched by `/analyze`).
 
 ## Required ticket sections
 
@@ -39,24 +24,21 @@ Every finished ticket **must** include all four (hard gate before write):
 | --- | --- |
 | **Expected behavior** | What happens when done — user-visible or system-visible outcomes |
 | **Definition of Done** | Binary, checkable items (pass/fail). No vibes |
-| **Entrypoints** | Concrete files / modules / routes where the feature or edit starts (paths the implementer opens first) |
-| **Proposed architecture / interface** | Non-concrete shape: entry kind, key signatures / hook surface, responsibilities — **not** the implementation |
+| **Entrypoints** | Concrete files / modules / routes where the feature or edit starts |
+| **Proposed architecture / interface** | Contract: entry kind, signatures, responsibilities — **not** the implementation |
 
-Optional but preferred: Ask (problem), Non-goals, Constraints, Out of scope, Research notes (short).
+Optional but preferred: Ask, Non-goals, Constraints, Out of scope, Research notes (from `/analyze` memo).
 
-### What “Proposed architecture / interface” means
-
-Sketch the **contract**, not the body:
+### Proposed architecture / interface grain
 
 | Include | Exclude |
 | --- | --- |
-| Entry shape bias (hook / class / facade / narrow function) grounded in repo siblings + `/taste-flow` / `/architecture` | Full algorithm or step-by-step impl |
-| Proposed names + signatures the caller will use (e.g. `useCheckout(): …`, `chargeInvoice(id): Promise<…>`) | Method bodies, pseudo-code dumps |
-| What the surface **owns** vs what stays behind it | New file trees unless folder placement is a locked decision |
-| Testability note (e.g. “hook returns X so UI can assert without mounting the whole page”) | Test file contents |
+| Entry shape + names/signatures callers use | Method bodies, algorithms |
+| What the surface owns vs keeps behind it | Full file trees unless placement is locked |
+| Testability note when useful | Test file contents |
 
-Example grain (good): “Reusable `useInvoiceStatus(invoiceId)` — loads status, exposes `{ status, error, retry }`; pure `formatInvoiceStatus(status)` for display.”  
-Example grain (bad): “Implement useEffect that fetches… then setState…”
+Good: “Reusable `useInvoiceStatus(invoiceId)` → `{ status, error, retry }`.”  
+Bad: “Implement useEffect that fetches… then setState…”
 
 ## Inputs
 
@@ -73,62 +55,46 @@ One ticket per run unless the user explicitly names several related ones.
 
 ### 1. Load or seed
 
-**Existing:** discover MCP tools (`linear|github`), prefer **read** first (`get_issue`, …). Else `gh issue view … --json …`. Normalize into a brief (title, ask, what’s already there). Do **not** invent the body.
+**Existing:** discover MCP tools (`linear|github`), prefer **read** first. Else `gh issue view … --json …`. Normalize into a brief. Do **not** invent the body.
 
-**Create:** no fetch. Seed from the user’s idea only — research is step 2.
+**Create:** no fetch. Seed from the user’s idea only.
 
-If Linear MCP needs auth → `mcp_auth` once, rediscover. If `gh` missing/unauth → say so; allow paste-once fallback for refine, or stop for create.
+If Linear MCP needs auth → `mcp_auth` once. If `gh` missing/unauth → say so; allow paste-once fallback for refine, or stop for create.
 
-### 2. Research crunch (required — do most analysis here)
+### 2. Analyze (required)
 
-Before gap check or grill, **exhaust discovery**. You orchestrate; Task workers dig. Prefer **parallel** `explore` Tasks in one message, **`run_in_background: false`**, then synthesize as soon as results return. **Omit `model`.** Thoroughness: `medium` default; `very thorough` when multi-domain.
+Run **`/analyze`** on the seeded brief (read [../analyze/SKILL.md](../analyze/SKILL.md) and follow it). Carry forward the on-disk memo at `.agents/temp/analyses/<id>/ANALYSIS.md` — do not re-explore from scratch here. Skip analyze’s goal-promote hand-off when already inside write-ticket (ticket write is the path); sharpen/Questions from analyze are fine.
 
-**Do not** sleep, timeout, or `AwaitShell`-wait for Task subagents — see **Waiting on subagents** above.
-
-| Wave | What to find |
-| --- | --- |
-| **Entrypoints** | Files, routes, hooks, Convex functions, components where this change would start |
-| **Sibling patterns** | How similar features are shaped (folders, naming, error style, entry kind) |
-| **Touch surface** | Likely edit/create paths, existing tests, what must not sprawl |
-| **Constraints from code** | APIs, schema, auth, feature flags that bound the ask |
-| **Interface candidates** | Existing hooks/facades/functions to extend vs new surface; copy their grain |
-
-Also read **`/taste-flow`** (and `/architecture` when structure/data is in play) so recommendations match pack doctrine — do not invent style.
-
-**Synthesize** (you, after workers return) into a short research memo used for grill recommendations:
-
-1. Current behavior (what code does today)
-2. Likely entrypoints (paths + why)
-3. 1–2 architecture options (e.g. reusable testable hook vs narrow pure functions vs facade) with a **recommended** default
-4. Draft interface sketch (names + signatures + responsibilities only)
-5. Risks / unknowns that still need the user
-
-If explore returns nothing useful (greenfield), say so once; mark recommendations as guesses.
-
-Do **not** ask the user for paths, sibling patterns, or “where does X live” when research can answer. Front-load that into the memo and into recommended grill answers.
+Waiting-on-subagents rules live in `/analyze` — do not sleep/poll for Tasks from this skill.
 
 ### 3. Gap check
 
-Against the **four** required sections, using the ticket brief **plus** the research memo. Mark each: present / weak / missing.
+Against the **four** required sections, using the ticket brief **plus** the analyze memo. Mark each: present / weak / missing.
 
-### 4. Grill (same style as `/grill-me`)
+### 4. Grill
 
-1. One question at a time. Wait.
-2. Recommended answer first (one-word accept) — grounded in the research memo.
-3. Walk gaps in order: **Expected behavior** → **Definition of Done** → **Entrypoints** → **Proposed architecture / interface** → then non-goals / constraints if still fuzzy.
-4. On architecture / interface, ask explicitly when still open — e.g. reusable testable hook vs known function signature vs class/facade — with your recommended option first. Lock the **surface** (name, inputs/outputs, responsibilities), not the impl.
-5. Decisions are the user’s.
-6. Do **not** implement code, write `plans/*`, or start `/goal`.
+1. **Batch** all known gap questions ([../asking.md](../asking.md)).
+2. Recommended options grounded in the analyze memo (and asking.md defaults).
+3. Cover gaps: **Expected behavior** → **Definition of Done** → **Entrypoints** → **Proposed architecture / interface** → non-goals / constraints if still fuzzy.
+4. Lock the **surface**, not the impl.
+5. Do **not** implement code, write `plans/*`, or start `/goal`.
 
-Stop grilling when all four required sections are solid, Done items are binary, and the interface sketch has no implementation leakage.
+Stop when all four sections are solid and Done items are binary.
 
 ### 5. Draft (required before any write)
 
-Show the full proposed ticket body using the template below. Explicit ask:
+Show the full proposed ticket body (template below). Approve via asking.md batch:
 
-> Draft ready for `<ID or NEW>`. Write this to Linear/GitHub?
+```markdown
+## Questions
+Reply like: `1a`
 
-**Wait for yes.** No silent writes. Edits → revise draft → ask again.
+1. Draft ready for `<ID or NEW>`. Write this to Linear/GitHub?
+   - a) yes ← recommended
+   - b) no — say what to edit
+```
+
+**Wait for the batch.** No silent writes.
 
 ### 6. Write
 
@@ -136,14 +102,12 @@ On yes only:
 
 | Tracker | Action |
 | --- | --- |
-| **Linear** (refine) | MCP update tool from live schema (`save_issue` / `update_issue` / equiv.) — set description/body to the draft |
-| **Linear** (create) | MCP create tool — title + body from draft; return ID/URL |
-| **GitHub** (refine) | `gh issue edit <N> --body-file …` (or MCP update if present) |
-| **GitHub** (create) | `gh issue create --title … --body-file …` (or MCP create) |
+| **Linear** (refine) | MCP update — description/body = draft |
+| **Linear** (create) | MCP create — title + body; return ID/URL |
+| **GitHub** (refine) | `gh issue edit <N> --body-file …` |
+| **GitHub** (create) | `gh issue create --title … --body-file …` |
 
-Prefer writing via a temp body file so markdown survives. Confirm with the issue URL when done.
-
-Do **not** change status, assign, close, or spam comments unless the user asked.
+Prefer a temp body file. Confirm with the issue URL. Do **not** change status, assign, or close unless asked.
 
 ## Ticket body template
 
@@ -164,11 +128,11 @@ Do **not** change status, assign, close, or spam comments unless the user asked.
 - `path/or/route` — …
 
 ## Proposed architecture / interface
-**Shape:** <hook | class | facade | function(s)> — why (sibling / taste)
+**Shape:** <hook | class | facade | service | function(s)> — why (sibling / taste)
 **Surface:**
 - `useThing(args): { … }` — owns …
-- `helperName(input): Output` — pure / boundary; owns …
-**Behind the surface:** <what stays private — one line>
+- `helperName(input): Output` — owns …
+**Behind the surface:** <one line>
 **Not in scope of this sketch:** implementation details
 
 ## Non-goals
@@ -178,10 +142,10 @@ Do **not** change status, assign, close, or spam comments unless the user asked.
 - …
 
 ## Research notes
-- <optional: 2–5 bullets from the crunch — siblings cited, risks>
+- <2–5 bullets from /analyze memo — siblings cited, risks>
 ```
 
-Preserve useful existing ticket content; merge rather than wipe when refining. Keep required sections under those exact headings so later `/goal` / `/trackers-flow` can find them.
+Preserve useful existing ticket content when refining. Keep required section headings exact so `/goal` / `/trackers-flow` can find them.
 
 ## Failures
 
@@ -192,18 +156,16 @@ Preserve useful existing ticket content; merge rather than wipe when refining. K
 | Ticket not found | Stop; confirm ID / team / repo |
 | User declines write | Leave draft in chat; do not write |
 | Missing required section after grill | Keep grilling — never write incomplete |
+| Analyze skipped | Do not draft from ticket text alone — run `/analyze` first |
 
 ## Anti-patterns
 
 - Invoking this under `/goal` or as a flow twin
-- Skipping research and grilling from the ticket text alone
-- Solo deep-diving the whole repo when parallel `explore` Tasks should do the labor
-- Sleeping / fixed timeouts / `AwaitShell` polling while waiting for Task subagents
-- Leaving architecture / interface vague (“clean up the module”) with no surface
-- Writing implementation into the ticket (bodies, algorithms, “then call setState…”)
+- Skipping `/analyze` and grilling from the ticket text alone
+- Re-doing a full explore when `/analyze` just returned a memo
+- Leaving architecture / interface vague (“clean up the module”)
+- Writing implementation into the ticket
 - Writing before draft approval
-- Shipping without Expected behavior, Definition of Done, Entrypoints, or Proposed architecture / interface
-- Vague Done (“works well”, “feels right”)
-- Entrypoints as “the backend” with no paths
-- Using `/trackers-flow` to write (it is read-only)
+- Shipping without the four required sections
+- Using `/trackers-flow` to write (read-only)
 - Implementing the feature in this skill

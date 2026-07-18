@@ -58,7 +58,7 @@ State in one sentence: **what behavior is being locked** and **what outside edit
 
 ### 2. Grill Why / What / How (blocking — must approve)
 
-Every lock needs three answers. Draft them from the code first, then grill like `/grill-me` (one at a time, recommended answer first) until solid.
+Every lock needs three answers. Draft them from the code first, then grill per [../asking.md](../asking.md) (batch, recommended marked) until solid.
 
 | Bullet | Must answer |
 | --- | --- |
@@ -66,22 +66,28 @@ Every lock needs three answers. Draft them from the code first, then grill like 
 | **What** | What observable contract is locked (outcomes / invariants / must-nots) — not internals |
 | **How** | How the test exercises it (public entry, key setup, what it asserts) |
 
-Show the draft:
+Show every draft you need now, then **one Questions batch**:
 
 ```markdown
 ## Lock brief — <symbol>
 - Why: …
 - What: …
 - How: …
+
+## Questions
+Reply like: `1a, 2a`
+
+1. Approve Why / What / How for `<symbol>`?
+   - a) yes ← recommended
+   - b) no — say what to edit
+2. (If another main test) Approve Why / What / How for `<other>`?
+   - a) yes ← recommended
+   - b) no — say what to edit
 ```
 
-Explicit ask:
+**Wait for the batch.** Edits → revise → follow-up batch for unresolved locks. Do **not** write test code until each required brief is approved.
 
-> Approve this Why / What / How for `<symbol>`? (yes / edit)
-
-**Wait for yes.** Edits → revise → ask again. Do **not** write test code until approved.
-
-If several main tests (distinct claims), grill+approve a brief per main test — do not batch-approve vague blurbs.
+If several main tests (distinct claims), put **all** their briefs + approve items in the **same** first batch — do not approve vague blurbs, and do not drip one symbol per message when several are ready.
 
 Also keep a short contract list when useful (`Given/when/then`, invariants) — the Why/What/How brief is the hard gate.
 

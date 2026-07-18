@@ -2,6 +2,79 @@
 
 Concrete good vs bad. Prefer matching **good**.
 
+## Services own domain capabilities
+
+**Bad** — each feature invents its own billing:
+
+```typescript
+// features/checkout/checkout.ts
+await stripe.checkout.sessions.create({ … });
+
+// features/upgrade/upgrade.ts
+await stripe.checkout.sessions.create({ … }); // copy-paste “just this once”
+```
+
+**Good** — one billing service; features call it:
+
+```typescript
+// services/billing/billing.ts — public API
+export async function makeUserPay(input: MakeUserPayInput): Promise<PaymentResult> {
+  // Stripe / webhooks / idempotency live here — not in features
+}
+
+// features/checkout/use-checkout.ts
+await makeUserPay({ userId, cents, reason: "checkout" });
+
+// features/upgrade/use-upgrade.ts
+await makeUserPay({ userId, cents, reason: "upgrade" });
+```
+
+```text
+services/billing/
+  billing.ts            # makeUserPay, refundPayment — only exports features import
+  billing-stripe.ts     # private
+features/checkout/      # UI + orchestration — calls makeUserPay
+features/upgrade/       # same
+```
+
+**Bad** — feature reaches into service internals:
+
+```typescript
+import { createStripeSession } from "@/services/billing/billing-stripe";
+```
+
+**Good** — public API only:
+
+```typescript
+import { makeUserPay } from "@/services/billing/billing";
+```
+
+## Prior mistakes are not sacred (move, don’t copy)
+
+**Bad** — leave Stripe in checkout and add another copy in upgrade “to match existing”:
+
+```typescript
+// features/checkout/checkout.ts — already wrong
+await stripe.checkout.sessions.create({ … });
+
+// features/upgrade/upgrade.ts — agent copies the debt
+await stripe.checkout.sessions.create({ … });
+```
+
+**Good** — behavior-preserving move into a billing service; both features call it; old path deleted:
+
+```typescript
+// services/billing/billing.ts
+export async function makeUserPay(input: MakeUserPayInput): Promise<PaymentResult> {
+  // moved Stripe / idempotency here
+}
+
+// features/checkout + features/upgrade — same call, same outcomes as before
+await makeUserPay({ userId, cents, reason: "checkout" /* or upgrade */ });
+```
+
+Prove old behavior still holds (tests / path walk / terminals). Do not recommend “leave checkout as-is” when this move is clear.
+
 ## Folders before files
 
 **Bad** — flat dump next to unrelated code:
@@ -148,20 +221,20 @@ for (const post of posts) {
 
 **Good** — store `authorName`, `likeCount` on the post; update `likeCount` when a like is inserted.
 
-## Foundation seam (big feature)
+## Foundation seam (big service)
 
-**Bad** — Stripe hardcoded in every call site; PayPal forces a rewrite.
+**Bad** — Stripe hardcoded in every feature; PayPal forces a rewrite of checkout + upgrade + invoices.
 
-**Good** — day one:
+**Good** — day one, behind the billing service public API:
 
 ```text
-payments/
-  charge.ts              # entry / facade
+services/billing/
+  billing.ts             # public: makeUserPay / refundPayment
   payment-method.ts      # seam (interface / abstract)
   stripe-payment.ts      # first impl
 ```
 
-Callers only use `charge`; next provider is a new file behind the seam.
+Features only call `makeUserPay`; next provider is a new file behind the seam — not a new copy in each feature.
 
 ## OOP depth
 
