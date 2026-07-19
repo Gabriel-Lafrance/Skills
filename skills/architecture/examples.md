@@ -49,6 +49,33 @@ import { createStripeSession } from "@/services/billing/billing-stripe";
 import { makeUserPay } from "@/services/billing/billing";
 ```
 
+## Deep vs shallow service API
+
+**Bad — shallow** — “service” still forces callers to orchestrate collaborators (complex interface, little depth):
+
+```typescript
+// features/checkout/use-checkout.ts
+import { createStripeSession } from "@/services/billing/billing-stripe";
+import { recordPaymentAttempt } from "@/services/billing/billing-ledger";
+import { sendReceiptEmail } from "@/services/billing/billing-email";
+
+const session = await createStripeSession(input);
+await recordPaymentAttempt(session.id);
+await sendReceiptEmail(session.id);
+```
+
+**Good — deep** — one rich public operation; Stripe / ledger / email stay behind it:
+
+```typescript
+// services/billing/billing.ts
+export async function makeUserPay(input: MakeUserPayInput): Promise<PaymentResult> {
+  // session + ledger + receipt live here
+}
+
+// features/checkout/use-checkout.ts
+await makeUserPay({ userId, cents, reason: "checkout" });
+```
+
 ## Prior mistakes are not sacred (move, don’t copy)
 
 **Bad** — leave Stripe in checkout and add another copy in upgrade “to match existing”:

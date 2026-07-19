@@ -1,8 +1,8 @@
 # Architecture Doctrine
 
-Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a small surface; complexity lives behind it; files live in folders that match the domain; data stays cheap to read as the product grows.**
+Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a deep public surface; complexity lives behind it; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
-Read **`/taste-flow`** first (and [../taste-flow/examples.md](../taste-flow/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, and file rules — this skill owns the structure card **and scalability**.
+Read **`/taste-flow`** first — especially **Bad code = complexity and entropy** (and [../taste-flow/examples.md](../taste-flow/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
 ## Doctrine
 
@@ -44,9 +44,9 @@ Anti-patterns:
 - Features importing service internals (`billing-stripe`) instead of the public API
 - A `utils/payments.ts` dumping ground with no clear public contract
 
-### 2. One simple entry point
+### 2. Deep public surface (one simple entry point)
 
-Hide messy orchestration behind **one** thing the caller uses. For a domain concern, that entry **is the service's public API**. For UI, it's usually a hook that **calls** services.
+Hide messy orchestration behind **one deep** thing the caller uses — **simple interface, rich functionality** (Ousterhout deep module). For a domain concern, that entry **is the service's public API**. For UI, it's usually a hook that **calls** services.
 
 | Shape | When |
 | --- | --- |
@@ -61,25 +61,28 @@ Rules:
 - Call sites should not know about helpers, parsers, adapters, or edge-case branches
 - One main export / one main type per file when practical
 - Prefer **class** for stateful domain behavior; hooks for React; **service** for shared domain I/O — details in `/taste-flow`
+- Pull complexity **down** into collaborators; keep the public surface deep
 
 The entry point is not always a TypeScript `interface`. Pick the shape that fits the stack.
 
+Anti-pattern: **shallow modules** — complex interface relative to what they do (many params/options/leaked steps, callers still orchestrate the how).
+
 ### 3. Prior mistakes are not sacred (behavior-preserving moves)
 
-Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there."
+Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there." Leaving or copying wrong placement is **entropy growth** (`/taste-flow`).
 
 When explore shows wrong folder, duplicated domain logic, a feature-forked service (billing/auth inside a feature), or a sibling that violates this skill / `/taste-flow`:
 
 - **Do not copy it.** Cite a *good* sibling or service — or create the correct shape.
-- Prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path.
+- Prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**.
 - Name the old observable behavior and how you will prove it still holds (existing tests, `/create-test` if complex, path walk + `/validate-flow` / terminals). If you **cannot** be sure → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement → patch the plan Structure, then move.
 - Same spirit as `/code-review` code judo — apply it while **building**, not only at review time.
 
 Anti-patterns:
 
-- Bolting new code onto a known-wrong shape "because it was already there"
-- Copying a bad sibling to stay consistent with debt
+- Bolting new code onto a known-wrong shape "because it was already there" (entropy)
+- Copying a bad sibling to stay consistent with debt (entropy)
 - Asking "leave it where it is?" as the recommended option when a clear move preserves behavior
 
 ### 4. Folders before files
@@ -185,8 +188,9 @@ Present this before writing code (and include it in `/create-plan` when planning
 - **Calls (existing):** `billing.makeUserPay`, `auth.requireUser`, … — never reimplements these
 - **Must not duplicate:** <Stripe / JWT / email provider / …>
 **Moves / corrections:** <relocate X → services/billing; delete old path> | _none_
-**Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI)
+**Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI); **deep** surface
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
+**Complexity / entropy:** public API deep? change reduces or holds entropy in touched lane? (see `/taste-flow`)
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
@@ -223,7 +227,8 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 - [ ] A new reader can use the feature from its entry point alone
 - [ ] Related new files share one folder (or an existing convention)
 - [ ] No flat file dump / no anonymous `utils` bag standing in for a service
-- [ ] Complexity is inside collaborators, not at every call site
+- [ ] Public API is **deep** (simple surface); complexity is inside collaborators, not at every call site
+- [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
 - [ ] `/taste-flow` naming and error style respected
 - [ ] No hot-path "compute metrics on render/read" — aggregates stored and updated on write
 - [ ] Indexes cover the queries; no unbounded collect on growing data

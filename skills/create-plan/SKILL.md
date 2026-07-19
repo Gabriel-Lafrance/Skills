@@ -29,7 +29,7 @@ Write **one** plan file into a goal workspace. Stay in **Agent mode** — no `Sw
 
 ### 1. Context
 
-Read `GOAL.md` + `GRILL.md` when present.
+Read `GOAL.md` + `GRILL.md` when present. Also read `.agents/temp/grills/language.md`, `choice.md`, `rules.md` when present — use those terms in Overview/Approach/AC; honor choices and rules.
 
 - `/taste-flow`; ticket → `/trackers-flow` brief
 - Parallel `explore` if needed
@@ -71,7 +71,7 @@ Paths this plan may write
 …
 
 ## Acceptance criteria
-- [ ] …
+- [ ] … (when structure is in play: callers stay thin; complexity behind service X; no entropy growth in touched lane)
 
 ## Out of scope
 …

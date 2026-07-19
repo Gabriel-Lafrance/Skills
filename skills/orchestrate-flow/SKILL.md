@@ -35,7 +35,11 @@ Read first:
 - .agents/temp/goals/<goal-id>/GRILL.md
 - .agents/temp/goals/<goal-id>/plans/INDEX.md
 - .agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md
+- .agents/temp/grills/language.md (if present)
+- .agents/temp/grills/choice.md (if present)
+- .agents/temp/grills/rules.md (if present)
 Touch only: <File lane from that plan>
+Honor language terms, choices, and app rules from grills/.
 Do not ask the user — report blockers to the orchestrator.
 End your report with ## Progress (required).
 ```

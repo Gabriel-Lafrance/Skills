@@ -46,11 +46,13 @@ Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession
 
 ## Architecture + taste checks (hard unless repo docs contradict)
 
-Flat file dump; missing simple entry point; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §3); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
+Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §3 — entropy); **complexity regression** or **entropy growth** (`/taste-flow`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
 
 ## Thermonuclear maintainability (Standards — not Routes)
 
 Be **ambitious** about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it. **Builders** apply the same courage via `/architecture` prior-mistakes — not only at review time.
+
+Lens (from `/taste-flow`): **complexity** (hard to understand/change) and **entropy** (disorder that spreads when copied or left in a touched dirty lane).
 
 **Non-negotiable additional standards:**
 
@@ -63,10 +65,12 @@ Be **ambitious** about structure. Search for **code judo**: preserve behavior wh
 6. Canonical layer + reuse existing helpers
 7. Avoid needless sequential orchestration / half-applied state when atomic structure is obvious
 8. **Should-have-moved** — prior debt in the touched lane left in place (or copied) when a clear behavior-preserving relocation exists
+9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry
+10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live
 
-**Prioritize:** structural regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Prefer fewer high-conviction comments over nit floods.
+**Prioritize:** structural regressions → complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Prefer fewer high-conviction comments over nit floods.
 
-**Approval bar:** behavior-correct is **not** enough. Presumptive blockers: visible judo path ignored; **should-have-moved debt ignored**; file crosses 1k lines; ad-hoc branching; feature checks in shared code; unnecessary wrapper/cast churn; wrong layer / duplicate helper.
+**Approval bar:** behavior-correct is **not** enough. Presumptive blockers: visible judo path ignored; **should-have-moved debt ignored**; **clear complexity or entropy regression**; file crosses 1k lines; ad-hoc branching; feature checks in shared code; unnecessary wrapper/cast churn; wrong layer / duplicate helper.
 
 ## Routes axis (codepath walk — out loud)
 
@@ -114,7 +118,7 @@ Launch **Standards + Spec + Routes** Tasks in one message (`generalPurpose` or `
 
 **Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
 
-**Standards prompt** — diff + commits; `/taste-flow` non-negotiables; taste/architecture examples; thermonuclear rules; hunt **should-have-moved** debt in the touched lane and propose the relocation (not "nit: consider later"); hard vs judgement; under ~400–500 words.
+**Standards prompt** — diff + commits; `/taste-flow` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; under ~400–500 words.
 
 **Spec prompt** — diff + commits + spec path/contents; missing/partial requirements, scope creep, wrong implementations; under 400 words. Skip Spec if no spec.
 
@@ -189,7 +193,7 @@ If the backlog is a **single tiny defect** and the user already said how to fix 
 - Coding fixes immediately on "yes" without `/goal` + grill
 - Dripping one review follow-up question per message when several are known
 - Treating nits as mandatory backlog items unless the user asked
-- Waiving structural debt as "pre-existing, leave it"; approving "it works" while the shape violates `/architecture` services / prior-mistakes doctrine
+- Waiving structural debt as "pre-existing, leave it"; approving "it works" while the shape violates `/architecture` services / prior-mistakes doctrine or `/taste-flow` complexity/entropy
 - Treating relocation backlog items as out-of-scope refactors
 - Writing to Linear/GitHub from this skill
 - Auto-running `/create-test` instead of recommending it

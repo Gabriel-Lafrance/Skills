@@ -22,6 +22,9 @@ When drafting options, prefer these as **recommended** unless the user already l
 | Taste / entry shape | Match `/taste-flow` + a **good** sibling |
 | Architecture | Services over feature-forked domain logic; folders before files |
 | Prior mistakes / debt | **Behavior-preserving move** into the right service/folder — not “leave it where it is” |
+| Complexity / entropy | **Deep module** + behavior-preserving cleanup over “leave debt / add another shallow helper” |
+| Package / vendor / storage | Lock a one-phrase pick into `.agents/temp/grills/choice.md` |
+| Actor / business policy | Lock a one-phrase rule into `.agents/temp/grills/rules.md` |
 | Repair | **Smallest patch** that fixes the defect |
 | Design polish (Mode B) | Smallest depth/color/hierarchy fix over structural rewrite |
 | Closing gates (non-goals / split / shared understanding) | `a) yes` when the recap already matches locked GRILL answers |

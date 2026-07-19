@@ -2,9 +2,9 @@
 
 Concrete good vs bad. Prefer matching **good**.
 
-## Entry point vs leaked helpers
+## Deep vs shallow module (entry point vs leaked helpers)
 
-**Bad** — call site orchestrates internals:
+**Bad — shallow module** — call site orchestrates internals (high complexity at every caller):
 
 ```typescript
 import { loadCart } from "./cart-load";
@@ -16,12 +16,29 @@ const items = await loadCart(userId);
 store.setItems(applyTax(items));
 ```
 
-**Good** — one entry:
+**Good — deep module** — simple surface, rich behind it:
 
 ```typescript
 import { useCart } from "./use-cart";
 
 const cart = useCart(userId);
+```
+
+## Entropy / broken window
+
+**Bad** — copy a known-wrong sibling so the new feature "matches" debt (entropy spreads):
+
+```typescript
+// features/upgrade/upgrade.ts — Stripe wired here because checkout did it that way
+await stripe.checkout.sessions.create({ … });
+```
+
+**Good** — behavior-preserving move into the right service; cite the good shape (`/architecture` §3):
+
+```typescript
+// services/billing/billing.ts — makeUserPay owns Stripe
+// features/upgrade/use-upgrade.ts
+await makeUserPay({ userId, cents, reason: "upgrade" });
 ```
 
 ## Never-nest

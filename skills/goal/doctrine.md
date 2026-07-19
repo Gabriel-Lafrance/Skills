@@ -51,19 +51,25 @@ Track these in `STATUS.md` as you go. Do not announce ACHIEVED until every requi
 ## Workspace layout
 
 ```text
+.agents/temp/grills/              # shared themes (survive across goals)
+  REGISTRY.md
+  language.md                     # ubiquitous language
+  choice.md                       # locked A-over-B / package picks
+  rules.md                        # app rules (actors + policies)
+
 .agents/temp/goals/
   REGISTRY.md
   achieved/
     <goal-id>/              # archived on ACHIEVED
       GOAL.md
       STATUS.md
-      GRILL.md
+      GRILL.md              # goal-scoped only
       plans/
       pieces/
   <goal-id>/                  # active running/blocked goals
     GOAL.md
     STATUS.md
-    GRILL.md                 # decisions locked during /grill-me-flow
+    GRILL.md                 # goal-scoped: outcome, gates, taste/arch/design — not shared glossary
     plans/
       INDEX.md
       01-<slug>.md
@@ -71,7 +77,7 @@ Track these in `STATUS.md` as you go. Do not announce ACHIEVED until every requi
     pieces/
 ```
 
-Base path is always **`.agents/temp/goals/`** — never `.scratch/`.
+Goal artifacts under **`.agents/temp/goals/`**; shared grill themes under **`.agents/temp/grills/`** — never `.scratch/`. Language / choices / rules are upserted by `/grill-me` and `/grill-me-flow` into `grills/` (see `/grill-me` doctrine).
 
 ### Goal id
 
@@ -94,7 +100,7 @@ On **`/goal clear [id]`**: set registry `status: cleared`; delete the active tre
 
 ### Isolation
 
-- All artifacts for a goal stay under `.agents/temp/goals/<goal-id>/` (active) or `.agents/temp/goals/achieved/<goal-id>/` (archived)
+- All artifacts for a goal stay under `.agents/temp/goals/<goal-id>/` (active) or `.agents/temp/goals/achieved/<goal-id>/` (archived); shared language/choices/rules stay under `.agents/temp/grills/`
 - Task prompts get **that** id's `GOAL.md` + relevant `plans/*.md` only
 - Overlapping file lanes with another `running` goal → serialize or ask
 - Bare `/goal` → this chat's id status + other `running` rows
@@ -154,10 +160,10 @@ Fetch via `/trackers-flow` first (**read only**). Still **grill** on open produc
 2. Write draft `GOAL.md` + `STATUS.md` (`phase: grilling`, `last: grilling`); upsert `REGISTRY.md`
 3. Seeded from `/analyze` promote? → pull Done when / Lane / Context from `.agents/temp/analyses/<id>/ANALYSIS.md` (link that path in GOAL Context); do not re-research from scratch
 4. Ticket? → `/trackers-flow` brief (link in GOAL)
-5. **Run `/grill-me-flow` fully** — it must pull **`/taste-flow`**, **`/architecture-flow`**, and **`/design-flow`** (if UI) into the interview
-6. Persist locked answers in `GRILL.md`
+5. **Run `/grill-me-flow` fully** — it must pull **`/taste-flow`**, **`/architecture-flow`**, and **`/design-flow`** (if UI) into the interview; upsert `grills/{language,choice,rules}.md` when terms/choices/rules lock
+6. Persist **goal-scoped** locked answers in `GRILL.md` (pointer to Themes paths); do not dump shared glossary into goal `GRILL.md`
 7. Update `GOAL.md` Done when / Constraints from the grill
-8. **Closing gates in the grill batch** — one Questions message via [../asking.md](../asking.md)
+8. **Closing gates in the grill batch** — one Questions message via [../asking.md](../asking.md) (recap new language/choices/rules)
 9. Only after all three gate yeses enter Phase 1. **Never** write `plans/*` before that.
 
 ### Closing gates (same batch as other grill questions)
@@ -238,7 +244,8 @@ After archive, the main agent's **final** user-facing message must be a polished
 - **Evidence:** terminals / localhost cite (no MCP ritual)
 
 ## Decisions locked (grill)
-- …
+- Goal: … (from `GRILL.md`)
+- Themes: … (from `grills/language.md`, `choice.md`, `rules.md` — or _none new_)
 
 ## Manual next steps (you)
 - [ ] Close / merge ticket or PR if any (trackers are read-only)

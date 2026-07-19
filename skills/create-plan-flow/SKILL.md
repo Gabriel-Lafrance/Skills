@@ -19,9 +19,9 @@ Write **one** plan file **inside an active `/goal`**. Template and location rule
 
 ## Process
 
-1. Context: `/orchestrate-flow`, `/taste-flow`, ticket → `/trackers-flow`
+1. Context: `/orchestrate-flow`, `/taste-flow`, ticket → `/trackers-flow`; read `grills/language.md`, `choice.md`, `rules.md` when present
 2. Explore if needed; `/architecture-flow` (+ `/design-flow` if UI) into Structure/Design
-3. Write `.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md` using the `/create-plan` template
+3. Write `.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md` using the `/create-plan` template (name with language terms; honor choices/rules)
 4. Update `plans/INDEX.md` + `STATUS.md`
 5. Once per INDEX row until complete — then `/implement-flow` for frontier plans
 

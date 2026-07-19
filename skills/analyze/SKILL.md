@@ -85,7 +85,7 @@ You orchestrate; Task workers dig. Prefer **parallel** `explore` Tasks, **`run_i
 | **Constraints from code** | APIs, schema, auth, feature flags that bound the ask |
 | **Interface candidates** | Existing hooks/facades/services to extend vs new surface |
 
-Also read **`/taste-flow`** (and `/architecture` when structure/data is in play). Prefer **good** siblings; prior mistakes → recommend a behavior-preserving move.
+Also read **`/taste-flow`** (and `/architecture` when structure/data is in play). Prefer **good** siblings and **deep** surfaces; prior mistakes → recommend a behavior-preserving move (**reduce entropy**).
 
 Do **not** ask the user for paths when research can answer.
 
@@ -111,7 +111,7 @@ After workers return, **write/update the file** (not chat-only). Shape:
 2. <option>
 
 ## Interface sketch
-**Shape:** <hook | class | service/facade | function(s)>
+**Shape:** <hook | class | service/facade | function(s)> — prefer **deep** surface
 **Surface:**
 - `name(args): …` — owns …
 **Behind the surface:** …
@@ -121,7 +121,7 @@ After workers return, **write/update the file** (not chat-only). Shape:
 - …
 
 ## Risks / unknowns
-- …
+- … (flag **entropy** risks: copying debt, shallow APIs, feature-forked services)
 
 ## Draft goal contract (optional preview)
 # Goal
