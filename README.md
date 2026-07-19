@@ -31,6 +31,7 @@ These are the skills **you** run. Everything else is internal and only used by `
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
 | [`/create-plan`](./skills/create-plan/SKILL.md) | Write one plan file without starting a full `/goal`. |
 | [`/code-review`](./skills/code-review/SKILL.md) | Review a branch vs `main` (or another ref you name). |
+| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate an open PR with strict taste/architecture/design; show full draft comments; ask what to publish/modify; post on the Pull Request. |
 | [`/repair`](./skills/repair/SKILL.md) | Fix a bug with the smallest safe change. Escalate big multi-layer bugs to `/goal`. |
 | [`/create-test`](./skills/create-test/SKILL.md) | Lock complex behavior with durable tests. Manual only — you must ask for it. |
 
@@ -40,6 +41,7 @@ These are the skills **you** run. Everything else is internal and only used by `
 - **Ticket then build** → `/write-ticket` → `/goal IN-1234`
 - **Build now** → `/goal` (or `/goal` + a short brief)
 - **Stuck on intent** → `/grill-me`
+- **Review a PR** → `/pr-review`
 - **Bug** → `/repair` (or `/goal` if it's huge)
 
 ## License
