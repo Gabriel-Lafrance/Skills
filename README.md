@@ -30,7 +30,7 @@ These are the skills **you** run. Everything else is internal and only used by `
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
 | [`/code-review`](./skills/code-review/SKILL.md) | Review a branch vs `main` (or another ref you name). |
-| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate a PR: per prior comment ask resolve/reply, then rescan; one finding per draft/comment; publish on the Pull Request. |
+| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate a PR: triage all prior finding comments, rescan; one comment per finding; no summary comments; post via gh only. |
 | [`/repair`](./skills/repair/SKILL.md) | Fix a bug with the smallest safe change. Escalate big multi-layer bugs to `/goal`. |
 | [`/create-test`](./skills/create-test/SKILL.md) | Lock complex behavior with durable tests. Manual only — you must ask for it. |
 

@@ -8,17 +8,37 @@
 
 **vs `/code-review`:** that skill offers a Fix backlog → `/goal`. This skill posts comments on the PR. Do not auto-start `/goal` from here.
 
-## Hard rule: one finding, one comment
+## Hard rules (posting)
 
-**Never** bundle multiple issues into a single PR comment (no mega-comment with a list of unrelated fixes).
+### One finding, one comment
+
+**Never** bundle multiple issues into a single PR comment.
 
 | Do | Do not |
 | --- | --- |
-| One thread / one inline comment per distinct edit | One comment that stacks "also fix X, also fix Y" |
-| Separate drafts for separate root causes | A 2nd-pass dump that rolls up all priors into one body |
+| One inline / thread reply per distinct edit | One comment that stacks "also fix X, also fix Y" |
+| Separate drafts for separate root causes | A pass dump that rolls up findings into one body |
 | Reply on the **existing** thread for that prior issue | A new top-level comment that re-lists every old finding |
 
-If you find three problems, you draft (and later post) **three** comments.
+If you find three problems, draft and post **three** comments.
+
+### No summary / announcement comments on the PR
+
+**Never** post a PR comment whose job is to announce, index, or summarize other comments. That includes:
+
+- "Posted N review comments below"
+- "Summary of this pass"
+- "New findings:" followed by a list of links or bullets that only point at other comments
+- "Pass 2 complete" / changelog-of-the-review style bodies
+- A conversation comment that only exists to say drafts were published
+
+Post **only** the finding comments (and Pass A thread replies / resolves the user approved). Tell the user what you posted **in chat**, not on the PR.
+
+### No helper scripts in the repo
+
+**Never** create, commit, or leave behind files to post comments (e.g. `build-review.cjs`, `post-review.mjs`, `scripts/gh-review.ts`, temp JSON payloads checked into the tree).
+
+Use **`gh`** / **`gh api`** only (shell). If you need a payload, pipe via stdin / process substitution / ephemeral `/tmp` outside the repo. Do not add review tooling to the project.
 
 ## Strict pack gates (hard)
 
@@ -38,17 +58,35 @@ When UI is unclear, check the diff for components/pages/styles. If any UI is pre
 ## Resolve PR + context
 
 1. PR from URL, number, or `gh pr view` for the current branch. Fail clearly if none or `gh` missing/unauth.
-2. Read PR body, commits, **and all existing review comments / threads**. Do not write yet.
+2. Read PR body, commits, and **every** prior review artifact (see below). Do not write yet.
 3. Linked Linear (`IN-1234`) or GitHub issue → read via Linear MCP / `/trackers-flow` for **Spec only**. Do **not** post comments on Linear.
 4. Base = PR base branch. Diff via `gh pr diff` or `git diff <base>...HEAD`.
-5. If prior review comments exist → **Pass A** (priors) **then** **Pass B** (new scan). Never skip Pass A. Never merge Pass A outcomes into one posted comment.
+5. If **any** prior review comments/threads exist (any pass, any review submission) → **Pass A** then **Pass B**. Never skip Pass A.
+
+### Load ALL prior comments (N-pass)
+
+On every follow-up (`N`th pass), Pass A must cover **the full history**, not only the last review submission.
+
+Fetch and include:
+
+- All **inline review comments** on the PR (`gh api repos/.../pulls/<n>/comments`) across **all** reviews / all pages
+- All **review threads** (GraphQL `reviewThreads` or equivalent), including **resolved** and **unresolved**
+- Your prior finding-style **PR conversation** comments if any were posted as fallbacks (still one issue each)
+
+Do **not**:
+
+- Limit to "latest review only" or "comments since last push" unless the user explicitly scopes that
+- Drop resolved threads from the Pass A list (still show them; user may confirm stay-resolved or reopen)
+- Treat a previous pass's mega-summary comment as a "finding" to triage (ignore announcement noise; focus on real Where/Issue threads)
+
+Prefer threads **you** authored; still list other reviewers' open blockers if they affect merge readiness.
 
 ## Pass A: Prior comments (follow-up runs)
 
-**Required whenever the PR already has review comments.** Complete Pass A **before** drafting or asking about **new** findings.
+**Required whenever any prior review comments exist.** Complete Pass A **before** drafting or asking about **new** findings.
 
-1. List threads (prefer yours; note other reviewers' open blockers). One row per thread.
-2. For **each** prior thread, judge the **current** diff:
+1. Build the full prior list (all passes). One entry per real finding thread.
+2. For **each**, judge the **current** diff:
 
 | Status | Meaning |
 | --- | --- |
@@ -58,11 +96,12 @@ When UI is unclear, check the diff for components/pages/styles. If any UI is pre
 | **Outdated** | Line/context gone; moot or moved |
 | **Disputed** | Author disagreed; weigh evidence |
 
-3. **Show and ask per prior issue first** (do not jump to a new-issue dump). For each prior thread, a short "here's what's done" summary, then a Questions item for **that** thread only.
+3. **Show and ask per prior issue** (chat only). For each: short "here's what's done", then one Questions item.
 
 ```markdown
 ## Prior issues (Pass A)
-Nothing new has been posted yet. Decide each prior thread.
+Covering all prior review comments on this PR (every pass), not only the last one.
+Nothing new has been posted yet.
 
 ### P1 — `billing.ts` / makeUserPay
 **Original ask:** Call `makeUserPay` instead of Stripe in checkout.
@@ -89,14 +128,14 @@ Reply like: `1a, 2b, 3a`
    - d) Other — say what
 ```
 
-4. **Wait** for Pass A replies. Then apply only what they approved (resolve threads, post **one reply per thread** they chose). Still **one thread → one reply body** about that issue only.
-5. Do **not** start Pass B publish until Pass A write actions for that batch are done (or user said leave-all-open with no writes).
+4. **Wait** for Pass A replies. Apply only approved actions (**one reply per thread** they chose, or resolve). No summary PR comment after Pass A.
+5. Do **not** start Pass B until Pass A writes for that batch are done (or user chose no writes).
 
-If there are no prior comments, skip Pass A.
+If there are no prior finding comments, skip Pass A.
 
 ## Pass B: Fresh rescan (always after Pass A, or alone on first review)
 
-**Always** rescan the current diff for **new** issues (issues not already covered by an open prior thread).
+**Always** rescan the current diff for **new** issues (not already covered by an open prior finding thread).
 
 Launch **Standards + Spec + Routes** in parallel. **Omit Task `model`**.
 
@@ -130,16 +169,17 @@ Blocking: | Non-blocking: | Nit:
 - Cite doctrine briefly when relevant.
 - No vague "consider refactoring" without a target shape.
 - Prefer **inline** when a precise line exists.
+- Body must be the finding itself, not a pointer to "see comments below."
 
 ## Pass B drafts, then publish triage
 
-**Never post new comments, and never ask publish for new drafts, until the user has seen every full new draft.**
+**Never post new comments, and never ask publish for new drafts, until the user has seen every full new draft (in chat).**
 
-### 1. Show all **new** drafts (one section per finding)
+### 1. Show all **new** drafts in chat (one section per finding)
 
 ```markdown
 ## New draft PR comments (Pass B)
-Review these before anything is posted. Each draft is one issue / one future comment.
+Review these in chat before anything is posted. Each draft becomes its own PR comment. No summary comment will be posted.
 
 ### Draft 1 — new · blocking (proposed) · inline `auth.ts` L20
 …
@@ -148,7 +188,7 @@ Review these before anything is posted. Each draft is one issue / one future com
 …
 ```
 
-If zero new drafts: say so. Then review-event question only (Approve only if Pass A left no open blockers).
+If zero new drafts: say so in chat. Then review-event question only.
 
 ### 2. Questions for new drafts
 
@@ -163,31 +203,36 @@ Reply like: `1a, 2b, 3a`
    - d) Modify then publish — paste revised text or say what to change
 2. Draft 2?
    - a) …
-N. Submit the GitHub review as?
+N. Submit the GitHub review event as?
    - a) Request changes ← recommended if any blocking published or open prior blockers remain
-   - b) Comment only
+   - b) Comment (event only; still no summary body) ← if posting inlines without a review body
    - c) Approve (only if no blocking kept and priors are resolved / cleared)
 ```
 
-**Wait.** Apply modifications. Publish **each** approved draft as its **own** review comment (separate inline/API comment). Never concatenate approved drafts into one body.
+**Wait.** Apply modifications. Publish **each** approved draft as its **own** review comment object. Never concatenate drafts. Never add an extra PR comment that only summarizes what was published.
+
+For `gh pr review`: prefer submitting the review **with inline comments only** and an empty/minimal review body, or omit a narrative body entirely. If the API requires a body, use a single neutral character or empty string if allowed. **Do not** put the list of findings in the review body.
 
 ## Posting (Pull Request only)
 
-1. Pass A writes: resolve and/or **one reply per prior thread** as approved.
-2. Pass B writes: **one GitHub review comment per approved draft**. Prefer multiple inline comments in one `gh pr review` / API review, still **separate comment objects**, not one text blob.
-3. If inline fails, fall back to a PR conversation comment **for that one issue**; say you fell back.
+1. Pass A: resolve and/or **one reply per prior thread** as approved. No Pass A summary comment.
+2. Pass B: **one GitHub review comment per approved draft** via `gh` / `gh api` only. Separate comment objects. No repo scripts.
+3. If inline fails, one PR conversation comment **for that one issue**; say in chat that you fell back.
 4. Prefix `Blocking:` / `Non-blocking:` / `Nit:` as triaged. Strip em dashes.
 5. Do not close/merge the PR. Do not write Linear.
+6. Afterward: list what posted **in chat only**.
 
-After post: summarize (per comment / thread). Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
+Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 
 ## Anti-patterns
 
-- Bundling multiple findings into one PR comment (2nd-pass mega-comment)
+- Posting a summary / announcement / "new comments" index on the PR
+- Creating `build-review.cjs` (or any repo file) to submit the review
+- Bundling multiple findings into one PR comment or into the review body
+- Pass A only on the latest review / latest pass (must include **all** historical finding comments)
 - Skipping Pass A when prior threads exist
-- Asking about new drafts before finishing per-prior "what's done / resolve?" triage
-- Re-listing all old issues in a single new comment instead of per-thread actions
-- Asking publish/skip before showing full draft bodies (Pass B)
+- Asking about new drafts before finishing per-prior triage
+- Asking publish/skip before showing full draft bodies in chat (Pass B)
 - Softening taste / architecture / design failures into nits
 - Em dashes in comments
 - "LGTM" / Approve while prior blockers are Unanswered or Partial
