@@ -2,7 +2,7 @@
 
 Pessimistic bug hunt + **smallest possible fix**. Persist state like `/goal` does.
 
-Under `/goal` / `/implement-flow`, use **`/repair-flow`** instead.
+Under `/goal` / `/implement`, use **`/repair`** instead.
 
 ## Framing (required — pessimistic)
 
@@ -16,12 +16,12 @@ Do **not** assume the code is correct. Do **not** say "if there is a bug." Prefe
 
 1. **Dumbest & smallest first** — banal failures before architecture theories
 2. **Grill before you cut** — when you find a defect, **`/grill-me`** on *what* to fix and *how* (batched Questions via [../asking.md](../asking.md); smallest footprint options). Do not silently rewrite
-3. **Acceptance before patch** — write binary Done when for this repair; `/validate-flow` uses them
+3. **Acceptance before patch** — write binary Done when for this repair; `/validate` uses them
 4. **Smallest footprint** — prefer a tight `if` / early return over a feature rewrite
 5. **One bug, one cut** — no drive-by product refactors unrelated to the defect
 6. **Massive → escalate** — multi-feature / multi-layer / redesign → stop and send to `/goal`. **Structural misplacement** (wrong folder / feature-forked service) discovered while hunting → escalate to an `/architecture` behavior-preserving move / `/goal` plan update — do **not** ship a clever one-line that hardens the wrong place
-7. **Repair → validate-flow** — after a Local/Narrow fix, always run **`/validate-flow`** against this repair's acceptance (path walk + live terminals/CLI). Fail → back to repair (or escalate)
-8. **Verify cheap** — any relevant terminal + narrow CLI (`/validate-flow`). No Convex MCP ritual
+7. **Repair → validate-flow** — after a Local/Narrow fix, always run **`/validate`** against this repair's acceptance (path walk + live terminals/CLI). Fail → back to repair (or escalate)
+8. **Verify cheap** — any relevant terminal + narrow CLI (`/validate`). No Convex MCP ritual
 
 ## Workspace (required)
 
@@ -59,7 +59,7 @@ On **validated**: keep workspace unless user asks delete (unlike goals — repai
 
 1. User description / repro
 2. Stacks, screenshots, failing URLs
-3. **`/trackers-flow`** (read only) for `IN-1234`, `#42`, Linear/GitHub URLs
+3. **`/trackers`** (read only) for `IN-1234`, `#42`, Linear/GitHub URLs
 4. Diff / PR if pointed at
 
 ## Process
@@ -78,7 +78,7 @@ Create `.agents/temp/repairs/<repair-id>/`, draft `BUG.md` + `STATUS.md` (`last:
 
 | Class | Action |
 | --- | --- |
-| **Local** / **Narrow** | Grill → acceptance → fix → `/validate-flow` |
+| **Local** / **Narrow** | Grill → acceptance → fix → `/validate` |
 | **Massive** | Escalate to `/goal` — do not patch-sprawl |
 
 ### 3. Grill what/how to fix (blocking for Local/Narrow)
@@ -115,11 +115,11 @@ Write `ACCEPTANCE.md`:
 
 ### 5. Smallest fix
 
-Apply only the grilled approach. Update `FIX.md` briefly. Match nearby style lightly (`/taste-flow`) — no taste cleanup sprees.
+Apply only the grilled approach. Update `FIX.md` briefly. Match nearby style lightly (`/taste`) — no taste cleanup sprees.
 
 ### 6. Validate (required)
 
-Run **`/validate-flow`** with this repair's `ACCEPTANCE.md` (and context: repair id). It will path-walk linking and gather live evidence from any terminals / fast CLI.
+Run **`/validate`** with this repair's `ACCEPTANCE.md` (and context: repair id). It will path-walk linking and gather live evidence from any terminals / fast CLI.
 
 | Result | Next |
 | --- | --- |
@@ -144,14 +144,14 @@ REGISTRY → `escalated`. Do not leave a half-rewrite.
 
 ## Hand-offs
 
-- After `/validate-flow` pass → stop (or `/code-review` if user wants)
-- Inside goal/implement → `/repair-flow` (then `/validate-flow`)
+- After `/validate` pass → stop (or `/code-review` if user wants)
+- Inside goal/implement → `/repair` (then `/validate`)
 - Massive → `/goal`
 
 ## Anti-patterns
 
 - Optimistic "maybe it's fine" framing
 - Fixing before grill + acceptance
-- Skipping `/validate-flow` after a patch
+- Skipping `/validate` after a patch
 - Feature rewrites for local bugs
 - Closing tracker issues (read only)

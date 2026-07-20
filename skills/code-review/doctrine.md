@@ -1,14 +1,27 @@
 # Code Review Doctrine
 
-Review along **three axes** (Matt Pocock style + Routes). Do not merge findings into one ranked list.
+Review along **three axes** (do not merge findings into one ranked list):
 
-- **Standards** — `/taste-flow` + `/architecture` examples + thermonuclear maintainability
+- **Standards** — `/taste` + `/architecture` examples + thermonuclear maintainability
 - **Spec** — does the change match the ticket / PR / PRD / what the user said?
 - **Routes** — top-down codepath walk: loose parts, wrong callers, dead ends, missing links
 
+`/pr-review` reuses these axes for posting on GitHub; this doctrine owns axis mechanics. `/pr-review` owns PR comment craft.
+
+## Stance (A+ exam)
+
+**Operational stance — not chat roleplay.** Behave with exam intensity; do not narrate as a student in chat. Findings stay factual.
+
+You are the examinee. `/pr-review` is the hardcore grader. Assume anything you miss becomes a failure on the PR.
+
+- **Stress-driven thoroughness** — re-walk paths, re-check taste/architecture, treat "it works" as not enough. Keep a 100% A+ average by catching defects before the teacher does.
+- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, and Routes critical/important (the same defects `/pr-review` will mark Blocking).
+- **Prefer over-finding** on the Fix backlog over a clean rubber stamp. Nits stay optional.
+- **Anti-patterns:** casual pass; waiving structural debt without naming it; solo shallow skim when Tasks can run.
+
 Run axes as **parallel Cursor Task subagents**, then you aggregate. Do not solo-review a large diff when workers can.
 
-If you need issue/PR/comment context, load **`/trackers-flow`** (read only). Never write to trackers.
+If you need issue/PR/comment context, load **`/trackers`** (read only). Never write to trackers.
 
 ## Pin the fixed point
 
@@ -27,14 +40,14 @@ Fail early on bad ref or empty diff.
 In order (standalone — **not** a goal workspace unless the user points at one):
 
 1. What the user pasted or asked to verify against
-2. Linked PR / issue via `/trackers-flow` (read: body, comments, QA checklists)
-3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers-flow`
+2. Linked PR / issue via `/trackers` (read: body, comments, QA checklists)
+3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
 4. Path the user passed (`docs/`, `specs/`, …)
 5. Ask; if none, Spec axis reports "no spec available"
 
 ## Standards sources (force order)
 
-1. **`/taste-flow`** + [examples.md](../taste-flow/examples.md) — hard; paste non-negotiables + naming into the Standards prompt
+1. **`/taste`** + [examples.md](../taste/examples.md) — hard; paste non-negotiables + naming into the Standards prompt
 2. **`/architecture`** + [examples.md](../architecture/examples.md) — hard; entry points, folders, write-path aggregates
 3. Repo `AGENTS.md` / `.cursor/rules/` when present — **repo wins** on conflict
 4. Optional extras only if present — **do not** require `CODING_STANDARDS.md`
@@ -46,13 +59,13 @@ Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession
 
 ## Architecture + taste checks (hard unless repo docs contradict)
 
-Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §3 — entropy); **complexity regression** or **entropy growth** (`/taste-flow`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
+Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §3 — entropy); **complexity regression** or **entropy growth** (`/taste`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
 
 ## Thermonuclear maintainability (Standards — not Routes)
 
 Be **ambitious** about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it. **Builders** apply the same courage via `/architecture` prior-mistakes — not only at review time.
 
-Lens (from `/taste-flow`): **complexity** (hard to understand/change) and **entropy** (disorder that spreads when copied or left in a touched dirty lane).
+Lens (from `/taste`): **complexity** (hard to understand/change) and **entropy** (disorder that spreads when copied or left in a touched dirty lane).
 
 **Non-negotiable additional standards:**
 
@@ -76,7 +89,7 @@ Lens (from `/taste-flow`): **complexity** (hard to understand/change) and **entr
 
 Hunt **call-graph / wiring** problems in the diff's changed surface — not taste, not ticket wording.
 
-**Start at the top**, walk **down** every relevant runtime path the change touches. Narrate **out loud** so a human can follow the trail (same spirit as `/validate-flow` path walk, but review-focused).
+**Start at the top**, walk **down** every relevant runtime path the change touches. Narrate **out loud** so a human can follow the trail (same spirit as `/validate` path walk, but review-focused).
 
 **Hunt for:**
 
@@ -118,11 +131,11 @@ Launch **Standards + Spec + Routes** Tasks in one message (`generalPurpose` or `
 
 **Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
 
-**Standards prompt** — diff + commits; `/taste-flow` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; under ~400–500 words.
+**Standards prompt** — diff + commits; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under ~400–500 words.
 
-**Spec prompt** — diff + commits + spec path/contents; missing/partial requirements, scope creep, wrong implementations; under 400 words. Skip Spec if no spec.
+**Spec prompt** — diff + commits + spec path/contents; missing/partial requirements, scope creep, wrong implementations; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under 400 words. Skip Spec if no spec.
 
-**Routes prompt** — diff + commits; entry points touched by the change; instruct: start top-down, narrate walk out loud, summarize each path, tag every finding critical/important/nit; under ~400–500 words. Do not re-litigate taste or ticket AC here.
+**Routes prompt** — diff + commits; entry points touched by the change; instruct: start top-down, narrate walk out loud, summarize each path, tag every finding critical/important/nit; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under ~400–500 words. Do not re-litigate taste or ticket AC here.
 
 ## Aggregate
 
@@ -139,7 +152,9 @@ After the axes, if the diff touches a **complex architectural part** whose deep 
 
 **Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` yourself. Do not recommend locks for trivial wrappers, UI chrome, or coverage theater.
 
-Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste-flow` Verify is **read existing terminals**.
+**Persist follow-ups:** when a goal workspace is in play, append each Needs `/create-test` row to `.agents/temp/goals/<goal-id>/FOLLOWUPS.md` (create if missing) as unchecked items, and mirror a one-line pointer in `STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
+
+Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste` Verify is **read existing terminals**.
 
 ## Offer to fix (batch ask → grill → `/goal`)
 
@@ -177,9 +192,9 @@ Reply like: `1a, 2b`
 | Step | Do |
 | --- | --- |
 | Goal contract | Goal = fix the Fix backlog; Done when = binary check per backlog item (or tight groups); Context = this review + fixed-point diff; Constraints = no unrelated product scope — **behavior-preserving moves listed in the backlog are in scope** |
-| Grill | Run **`/grill-me-flow`** (via `/goal` Phase 0) focused on the findings — **one batched Questions** for what/how/footprint/non-goals/split; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §3) |
+| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — **one batched Questions** for what/how/footprint/non-goals/split; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §3) |
 | Gates | Non-goals + split + shared understanding in that same batch |
-| Build | Continue `/goal` Phase 1 (plans → implement → link checkup → validate → `/code-review-flow`) |
+| Build | Continue `/goal` Phase 1 (plans → implement → link checkup → validate → `/code-review`) |
 
 Do **not** start coding between "yes" and grill shared-understanding. Do **not** silently pick approaches — grill first (batched).
 
@@ -189,11 +204,13 @@ If the backlog is a **single tiny defect** and the user already said how to fix 
 
 ## Anti-patterns
 
+- Casual pass / rubber stamp while defects remain that `/pr-review` would Blocking
 - Ending the review without the Fix backlog + Questions batch when critical/important/Standards/Spec failures exist
 - Coding fixes immediately on "yes" without `/goal` + grill
 - Dripping one review follow-up question per message when several are known
 - Treating nits as mandatory backlog items unless the user asked
-- Waiving structural debt as "pre-existing, leave it"; approving "it works" while the shape violates `/architecture` services / prior-mistakes doctrine or `/taste-flow` complexity/entropy
+- Waiving structural debt as "pre-existing, leave it"; approving "it works" while the shape violates `/architecture` services / prior-mistakes doctrine or `/taste` complexity/entropy
 - Treating relocation backlog items as out-of-scope refactors
 - Writing to Linear/GitHub from this skill
 - Auto-running `/create-test` instead of recommending it
+- Narrating exam roleplay in chat ("I'm the stressed student…") instead of factual findings

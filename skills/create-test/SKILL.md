@@ -12,9 +12,11 @@ disable-model-invocation: true
 
 # Create Test
 
-**Standalone only.** Never call from `/goal`, never ship a `create-test-flow`, never auto-invoke. Other skills (especially `/code-review`) may **tell the user** a part needs a lock — only the user starts `/create-test`.
+**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 
-Tests are meant to **LOCK a behavior** of a complex architectural part — complex hooks, business logic, and other crucial big parts — so outside modification does not fuck up already deeply thought-through logic.
+**Standalone only.** Never call from `/goal`, never auto-invoke. Other skills (especially `/code-review`) may **tell the user** a part needs a lock — only the user starts `/create-test`.
+
+Tests **lock behavior** of a complex architectural part — complex hooks, domain logic, facades, stateful classes — so outside edits cannot silently break already settled logic.
 
 ## When this skill applies
 
@@ -39,7 +41,7 @@ If the target is trivial, say so and stop. Do not invent tests to look productiv
 7. **Fail on behavior drift** — a wrong outside edit must turn the test red. A rename/extract that preserves behavior must stay green.
 8. **Mirror the repo** — use the existing test runner, folder layout, and helpers. Do not introduce a new framework.
 9. **Narrow verify** — run the new/changed test file (or focused filter). No full-suite ritual unless the user asks or the narrow run is inconclusive.
-10. **No `{ success: false }` bags in test helpers** — throw on setup failure; try/catch at boundaries. Match `/taste-flow`.
+10. **No `{ success: false }` bags in test helpers** — throw on setup failure; try/catch at boundaries. Match `/taste`.
 11. **One file, one subject** — tests for `use-checkout.ts` live beside or under the project’s usual colocated pattern; do not dump unrelated locks into a junk drawer.
 
 ## Process
@@ -146,7 +148,7 @@ Do **not** start `/goal`, expand scope into refactors, or “improve” the subj
 
 ## Anti-patterns
 
-- Invoking under `/goal` / any `*-flow`, or auto-starting without the user
+- Invoking under `/goal`, or auto-starting without the user
 - Writing tests before Why / What / How is **approved**
 - Omitting the three-bullet comment above the main test
 - Inventing Why / What / How in the comment that the user never saw
@@ -163,10 +165,10 @@ Do **not** start `/goal`, expand scope into refactors, or “improve” the subj
 
 | Skill | Role |
 | --- | --- |
-| `/code-review` / `/code-review-flow` | May **recommend** “run `/create-test` on `<path>`” — does not run this skill |
-| `/validate-flow` | Runtime/path acceptance — not a substitute for behavior locks |
+| `/code-review` / `/code-review` | May **recommend** “run `/create-test` on `<path>`” — does not run this skill |
+| `/validate` | Runtime/path acceptance — not a substitute for behavior locks |
 | `/repair` | May leave a regression lock need; user still starts `/create-test` |
-| `/taste-flow` | Style contract for helpers and verify discipline |
+| `/taste` | Style contract for helpers and verify discipline |
 
 ## Failures
 

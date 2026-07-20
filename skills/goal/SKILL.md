@@ -2,17 +2,20 @@
 name: goal
 description: >-
   Autonomous Cursor goal loop: batched grill, plans under
-  .agents/temp/goals/<goal-id>/, Task workers with Progress lines, validate-flow
-  (owns cross-plan seams) + code-review-flow, archive on ACHIEVED. Resume/pause
-  via STATUS. Agents may auto-invoke. Looks up *-flow twins; never standalone
-  /design or /code-review inside this loop.
+  .agents/temp/goals/<goal-id>/, Task workers with Progress lines, validate
+  (owns cross-plan seams) + code-review, archive on ACHIEVED. Resume/pause via
+  STATUS. Dual skills pick flow via variants.md. User must invoke. Unsure →
+  /ask-gabriel.
+disable-model-invocation: true
 ---
 
 # Goal (Cursor)
 
-**Read:** [doctrine.md](doctrine.md) · **Ask style:** [../asking.md](../asking.md)
+**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 
-Orchestrator only — Task workers do the labor via `/orchestrate-flow` (**omit Task `model`**). Stay in Agent mode.
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../asking.md](../asking.md)
+
+Orchestrator only — Task workers do the labor via `/orchestrate` (**omit Task `model`**). Stay in Agent mode.
 
 ## Runbook
 
@@ -39,17 +42,17 @@ After every phase change and each Task wave, chat + `STATUS.md`:
 ### Phase 0 — Workspace + grill
 
 1. Allocate id; create workspace; draft GOAL/STATUS; upsert REGISTRY
-2. Ticket? → `/trackers-flow` (read only)
-3. `/grill-me-flow` (+ taste / architecture / design topics) — one Questions batch per asking.md
+2. Ticket? → `/trackers` (read only)
+3. `/grill-me` (+ taste / architecture / design topics) — one Questions batch per asking.md
 4. Persist GRILL gates; never write `plans/*` before all three yeses
 5. Progress + `resume_at: 1a-explore`
 
 ### Phase 1 — Plans → build → validate → review
 
-1. **1a** Explore + `/architecture-flow` (+ `/design-flow` if UI)
-2. **1b** `/split-task-flow` if needed → `/create-plan-flow` per INDEX row
-3. **1c** `/implement-flow` workers (Progress from each worker — see `/orchestrate-flow`)
-4. **1d** `/validate-flow` (includes **cross-plan seams** when INDEX has 2+ plans — no separate link-check step) → `/code-review-flow`
+1. **1a** Explore + `/architecture` (+ `/design` if UI)
+2. **1b** `/split-task` if needed → `/create-plan` per INDEX row
+3. **1c** `/implement` workers (Progress from each worker — see `/orchestrate`)
+4. **1d** `/validate` (includes **cross-plan seams** when INDEX has 2+ plans — no separate link-check step) → `/code-review`
 5. Fix offer yes → findings grill → implement → validate → review again; no → ACHIEVED only if blockers fixed or waived by name
 
 ### Phase 2 — Achieve or clear
@@ -59,8 +62,8 @@ After every phase change and each Task wave, chat + `STATUS.md`:
 
 ## Lookup (in-loop)
 
-Use `*-flow` / internals only — see doctrine table. Mandatory checklist in doctrine.
+Call pack skills by public name (`/grill-me`, `/validate`, …). Dual skills load **flow** via [variants.md](../variants.md). Mandatory checklist in doctrine. Unsure → `/ask-gabriel`.
 
 ## Anti-patterns (short)
 
-See doctrine. Highlights: no separate goal link-check; no delete-on-achieve; no drip questions; no ACHIEVED without `/code-review-flow`.
+See doctrine. Highlights: no separate goal link-check; no delete-on-achieve; no drip questions; no ACHIEVED without `/code-review`.

@@ -1,6 +1,6 @@
 # Grill Me Doctrine
 
-Interview until you and the user share understanding. **Standalone** — for goal workspaces use **`/grill-me-flow`**.
+Interview until you and the user share understanding. **Standalone** — for goal workspaces use **`/grill-me`**.
 
 **Pack-wide ask style:** follow [../asking.md](../asking.md) — batch, not drip.
 
@@ -22,7 +22,7 @@ Durable domain facts live under **`.agents/temp/grills/`** as **theme files** �
 | `choice.md` | A-over-B / package / storage / vendor picks (+ hard limits framed as picks) | `Stripe over Polar — need custom metered billing` · `Cookie over localStorage — SSR needs auth token` |
 | `rules.md` | **App rules:** who can do what + standing business policies | `Owner — can invite members and change billing` · `Refund — allowed within 30 days of Charge` |
 
-**Both** `/grill-me` and `/grill-me-flow` **upsert** the matching theme file(s) when terms, choices, or rules lock. Append/update lines — do not wipe unrelated prior entries. Prefer exact term match over synonyms. Align code/service names with `language.md` (DDD).
+**Both** `/grill-me` and `/grill-me` **upsert** the matching theme file(s) when terms, choices, or rules lock. Append/update lines — do not wipe unrelated prior entries. Prefer exact term match over synonyms. Align code/service names with `language.md` (DDD).
 
 After each batch that locks any of these, **write the theme file(s)** — not chat-only. Upsert `REGISTRY.md` (`theme` | `updated`).
 
@@ -53,7 +53,7 @@ Theme file shapes:
 ## Rules
 
 1. Walk each branch of the decision tree. Resolve dependencies — if Q2 depends on Q1's answer, either give options that cover both paths in one batch, or ask Q1's batch first then a follow-up batch.
-2. For every optioned question, give your **recommended** answer (marked). When architecture debt is visible and a **behavior-preserving move** is clear (`/architecture` §3), **recommend the move** to **reduce entropy** (`/taste-flow` complexity & entropy) — not "keep where it is."
+2. For every optioned question, give your **recommended** answer (marked). When architecture debt is visible and a **behavior-preserving move** is clear (`/architecture` §3), **recommend the move** to **reduce entropy** (`/taste` complexity & entropy) — not "keep where it is."
 3. **Batch** per [../asking.md](../asking.md) — do not ask one at a time when several are known.
 4. Cover at least (skip only if already settled) — put all unsettled items in the **same** first batch when possible:
    - Exact outcome and non-goals
@@ -61,12 +61,12 @@ Theme file shapes:
    - **Language** — domain terms / aliases / named events → upsert `grills/language.md` when locked
    - **Choices** — packages, vendors, storage, auth transport → upsert `grills/choice.md` when locked
    - **App rules** — actors/roles + policies → upsert `grills/rules.md` when locked
-   - **Taste** — when relevant, read `/taste-flow` and ask about entry shape, errors, naming, verify style; prefer **deep** surfaces over shallow helpers
-   - **Architecture** — when multi-file/data/scale, read `/architecture` (or under goal: `/architecture-flow`): which **service** owns the domain, folders, write-path aggregates; when explore found debt, include **move vs leave** with **move** recommended if old behavior can be preserved (**reduce entropy**)
-   - **Design** — when UI, read `/design` (or under goal: `/design-flow`) and lock Design-card topics with the user
+   - **Taste** — when relevant, read `/taste` and ask about entry shape, errors, naming, verify style; prefer **deep** surfaces over shallow helpers
+   - **Architecture** — when multi-file/data/scale, read `/architecture` (or under goal: `/architecture`): which **service** owns the domain, folders, write-path aggregates; when explore found debt, include **move vs leave** with **move** recommended if old behavior can be preserved (**reduce entropy**)
+   - **Design** — when UI, read `/design` (or under goal: `/design`) and lock Design-card topics with the user
    - **How many separate plans** the work should become (prefer more small plans)
    - File lanes / what must not be touched
-5. Do **not** write `plans/*`, implement feature code, or skip to plans until the closing gates in the batch all pass (goal flow via `/create-plan-flow`). Standalone may stop after themes + shared understanding without a goal workspace.
+5. Do **not** write `plans/*`, implement feature code, or skip to plans until the closing gates in the batch all pass (goal flow via `/create-plan`). Standalone may stop after themes + shared understanding without a goal workspace.
 
 ## Closing
 

@@ -1,18 +1,24 @@
 ---
 name: pr-review
 description: >-
-  Standalone only — evaluate an open GitHub PR with strict taste/architecture/design.
-  On Nth pass, triage ALL prior finding comments (not just last pass), then rescan.
-  One finding per PR comment; never summary/announcement comments; never repo helper
-  scripts (use gh only). Show drafts in chat before publish. No em dashes. Never under
+  Standalone only — hardcore teacher: dock points / fail imperfect work on an
+  open GitHub PR with strict taste/architecture/design. On Nth pass, triage ALL
+  prior finding comments (not just last pass), then rescan. One finding per PR
+  comment; never summary/announcement comments; never repo helper scripts (use
+  gh only). Show drafts in chat before publish. No em dashes. Never under
   /goal. For local fix loops use /code-review.
+disable-model-invocation: true
 ---
 
 # PR Review
 
+**Stance:** hardcore teacher — hunt Blocking defects; mercy low, fairness stays (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
+
+**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
+
 **Standalone only.** Never call from `/goal`, never ship a `pr-review-flow`. Posts on the **Pull Request**. Linked Linear is **read-only** Spec.
 
-**Read:** [doctrine.md](doctrine.md) · **Ask style:** [../asking.md](../asking.md) · **Axes:** [../code-review/doctrine.md](../code-review/doctrine.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../asking.md](../asking.md) · **Axes:** [../code-review/doctrine.md](../code-review/doctrine.md) (posting owned here)
 
 **Hard:**
 

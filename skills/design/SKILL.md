@@ -1,30 +1,20 @@
 ---
 name: design
 description: >-
-  UI/UX craft for screens that feel clear, deep, and usable. Fix or polish the
-  current UI, or shape hierarchy, color, depth, states, and ethical psychology
-  when creating UI outside a goal. Agents may auto-invoke. Use when the user
-  says /design, fix this UI, polish the UI, or when creating user-facing
-  interface without an active /goal. Under /goal use /design-flow instead.
+  UI/UX craft for screens that feel clear, deep, and usable. Dual skill: agent
+  picks standalone vs flow via variants.md. Use when fixing/polishing UI or
+  creating user-facing interface. User must invoke (not auto).
+disable-model-invocation: true
 ---
 
 # Design
 
-Visual + interaction craft for this pack. Read [doctrine.md](doctrine.md) · [examples.md](examples.md). Respect **`/taste-flow`**.
+**Ask style:** [../asking.md](../asking.md) · **Variants:** [../variants.md](../variants.md)
 
-Inside a `/goal` workspace, use **`/design-flow`** instead.
+## Variant
 
-## Process (standalone)
+Choose **exactly one** per [variants.md](../variants.md) — never both:
 
-1. Identify target (path, component, localhost)
-2. Read UI code + running frontend if useful
-3. Diagnose with doctrine checklist
-4. **Creating UI:** write Design card first (doctrine Mode A template)
-5. Apply smallest fixes that move average → good
-6. Re-check localhost — no ritual lint
-
-## Hand-offs
-
-- Structure → `/architecture` + `/taste-flow`
-- Gate needed → `/validate-flow`
-- Inside `/goal` → `/design-flow`
+- Standalone fits → Read [standalone.md](standalone.md) only
+- Flow fits → Read [flow.md](flow.md) only
+- Missing file → matching missing-variant message; do not invent process

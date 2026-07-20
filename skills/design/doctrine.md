@@ -2,18 +2,18 @@
 
 Visual + interaction craft for this pack: **signifiers, hierarchy, color as shades, depth that sells light, and ethical psychology that makes the next step feel easy.**
 
-Also respect `/taste-flow` (mobile-first, anti–AI-default looks, one component per file). Design owns **how it looks and feels**; taste/architecture own code shape.
+Also respect `/taste` (mobile-first, anti–AI-default looks, one component per file). Design owns **how it looks and feels**; taste/architecture own code shape.
 
 For good vs bad pairs, see [examples.md](examples.md).
 
-Inside a `/goal` workspace, use **`/design-flow`** instead of this skill.
+Inside a `/goal` workspace, use **`/design`** instead of this skill.
 
 ## Mode A — Standalone: fix or create UI
 
 User wants the **existing** screen improved, or is creating UI **outside** `/goal`. Do not invent new product scope on a polish pass.
 
 1. Identify the target (path, component, or "what's on localhost").
-2. Read the current UI code + running frontend if useful (`/taste-flow` Verify).
+2. Read the current UI code + running frontend if useful (`/taste` Verify).
 3. Diagnose with the **checklist** below (boring flat, weak hierarchy, missing states, decision fatigue, etc.).
 4. When **creating** UI: write a tiny **Design card** first, then implement against it (mobile first).
 
@@ -125,13 +125,13 @@ Prefer gradient (and optional progressive blur) into a readable text region over
 - Decorative color with no semantic job
 - Missing hover/focus/disabled/error states
 - Blank forms / 0% progress / hostage "sign up to see results"
-- AI-default purple gradients, pill spam, emoji decoration (see `/taste-flow`)
+- AI-default purple gradients, pill spam, emoji decoration (see `/taste`)
 - Rewriting architecture when a depth/token pass would fix "boring"
 - Naming surfaces `gray-1` / `gray-2` without role names that survive light/dark
 
 ## Hand-offs
 
-- Structure / folders → `/architecture` + `/taste-flow`
-- Behavior Done when → `/validate-flow` (path walk + live evidence)
-- Standalone fix done → stop (or `/validate-flow` if a gate is needed)
-- Inside `/goal` → `/design-flow`
+- Structure / folders → `/architecture` + `/taste`
+- Behavior Done when → `/validate` (path walk + live evidence)
+- Standalone fix done → stop (or `/validate` if a gate is needed)
+- Inside `/goal` → `/design`

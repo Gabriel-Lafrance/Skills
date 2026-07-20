@@ -1,16 +1,20 @@
 ---
 name: write-ticket
 description: >-
-  Standalone only — never used in /goal or any *-flow. Loads or seeds a
+  Standalone only — never used in /goal. Loads or seeds a
   Linear/GitHub ticket, runs /analyze for research, grills until Expected
   behavior, Definition of Done, Entrypoints, and Proposed architecture/interface
   are solid, then writes after draft approval. Use when refining or writing a
-  tracker ticket. For analysis without a ticket use /analyze.
+  tracker ticket. For analysis without a ticket use /analyze. Unsure →
+  /ask-gabriel.
+disable-model-invocation: true
 ---
 
 # Write Ticket
 
-**Standalone only.** Never call from `/goal`, never ship a `write-ticket-flow`. This skill **writes** to Linear/GitHub — unlike `/trackers-flow` (read-only) and `/analyze` (research only).
+**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
+
+**Standalone only.** Never call from `/goal`, never ship a `write-ticket-flow`. This skill **writes** to Linear/GitHub — unlike `/trackers` (read-only) and `/analyze` (research only).
 
 Refine an existing ticket **or** create one from a rough idea. **Research via `/analyze`**, then grill until the ticket is implementable, then **draft → user yes → write**.
 
@@ -145,7 +149,7 @@ Prefer a temp body file. Confirm with the issue URL. Do **not** change status, a
 - <2–5 bullets from /analyze memo — siblings cited, risks>
 ```
 
-Preserve useful existing ticket content when refining. Keep required section headings exact so `/goal` / `/trackers-flow` can find them.
+Preserve useful existing ticket content when refining. Keep required section headings exact so `/goal` / `/trackers` can find them.
 
 ## Failures
 
@@ -167,5 +171,5 @@ Preserve useful existing ticket content when refining. Keep required section hea
 - Writing implementation into the ticket
 - Writing before draft approval
 - Shipping without the four required sections
-- Using `/trackers-flow` to write (read-only)
+- Using `/trackers` to write (read-only)
 - Implementing the feature in this skill

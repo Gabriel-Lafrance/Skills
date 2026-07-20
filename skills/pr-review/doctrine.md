@@ -1,12 +1,23 @@
 # PR Review Doctrine
 
-**Standalone only.** Evaluate an open GitHub Pull Request, triage with the user, post actionable review comments **on the PR**. Never under `/goal` (use `/code-review-flow` there). Never ship a `pr-review-flow`.
+**Standalone only.** Evaluate an open GitHub Pull Request, triage with the user, post actionable review comments **on the PR**. Never under `/goal` (use `/code-review` there). Never ship a `pr-review-flow`.
 
 **Ask style:** [../asking.md](../asking.md).
 
 **Axis mechanics:** reuse [../code-review/doctrine.md](../code-review/doctrine.md) for Standards / Spec / Routes Task shape, prompts, and aggregation. This doctrine owns **strict pack gates**, **reviewer craft**, **comment triage**, and **PR posting**.
 
 **vs `/code-review`:** that skill offers a Fix backlog → `/goal`. This skill posts comments on the PR. Do not auto-start `/goal` from here.
+
+## Stance (hardcore teacher)
+
+**Operational stance — not chat roleplay.** Behave with grading intensity; do not narrate as a teacher in chat. Findings stay factual. Invent no fake failures — only real doctrine / Spec / Routes defects, graded hard.
+
+You are grading to fail imperfect work. Actively search for point deductions against taste, architecture, design (when UI), thermonuclear, and Routes.
+
+- **Dock points** — pack violations default to **Blocking**; do not soften must-edit into Nit.
+- **Assume finished-looking work** — the student (`/code-review` prep) tried to look clean; verify paths and touched-lane debt; do not trust "LGTM" vibes.
+- **Craft still holds** — one finding per comment, high-conviction only, no invented issues, no summary spam.
+- **Tandem** — student prep is `/code-review`; after posting, fix loop remains `/code-review` then `/goal` (do not auto-start).
 
 ## Hard rules (posting)
 
@@ -46,7 +57,7 @@ Before drafting **new** comments, Standards (and you) **must** read and enforce:
 
 | Doctrine | Treat violations as |
 | --- | --- |
-| [`/taste-flow`](../taste-flow/doctrine.md) (never-nest, DRY, throw/catch, naming, deep entry, complexity/entropy) | **Blocking** unless truly cosmetic |
+| [`/taste`](../taste/doctrine.md) (never-nest, DRY, throw/catch, naming, deep entry, complexity/entropy) | **Blocking** unless truly cosmetic |
 | [`/architecture`](../architecture/doctrine.md) (services, deep public surface, prior-mistakes / entropy moves, folders, write-path scale) | **Blocking** when the PR introduces or extends the wrong shape |
 | [`/design`](../design/doctrine.md) when UI files are in the diff | **Blocking** for ship-breaking UX; nits only for tiny polish |
 | [code-review](../code-review/doctrine.md) thermonuclear + Routes critical/important | Same bar; should-have-moved in the touched lane → **Blocking** candidate |
@@ -59,7 +70,7 @@ When UI is unclear, check the diff for components/pages/styles. If any UI is pre
 
 1. PR from URL, number, or `gh pr view` for the current branch. Fail clearly if none or `gh` missing/unauth.
 2. Read PR body, commits, and **every** prior review artifact (see below). Do not write yet.
-3. Linked Linear (`IN-1234`) or GitHub issue → read via Linear MCP / `/trackers-flow` for **Spec only**. Do **not** post comments on Linear.
+3. Linked Linear (`IN-1234`) or GitHub issue → read via Linear MCP / `/trackers` for **Spec only**. Do **not** post comments on Linear.
 4. Base = PR base branch. Diff via `gh pr diff` or `git diff <base>...HEAD`.
 5. If **any** prior review comments/threads exist (any pass, any review submission) → **Pass A** then **Pass B**. Never skip Pass A.
 
@@ -154,12 +165,13 @@ If there are no prior finding comments, skip Pass A.
 
 Launch **Standards + Spec + Routes** in parallel. **Omit Task `model`**.
 
-**Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one finding per comment; skip issues already tracked by an open prior thread.
+**Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one finding per comment; skip issues already tracked by an open prior thread; **teacher posture:** hunt hard for point deductions — anything the student missed is fair game if real.
 
 Aggregate: `## Standards`, `## Spec`, `## Routes`.
 
 ## Reviewer craft
 
+- **Hunting intensity is high; mercy is low; fairness stays** — real defects only; never invent issues to dock points.
 - Review the **diff and runtime paths**, not the author.
 - Prefer **fewer, high-conviction** comments; still **split** them (one each).
 - Every comment: **where**, **what is wrong**, **why it matters**, **what good looks like**.
@@ -170,90 +182,9 @@ Aggregate: `## Standards`, `## Spec`, `## Routes`.
 - Do not restate the diff. Add insight.
 - Praise sparingly (one line max). Never bury real issues.
 
-## Comment body rules (hard)
+## Additional resources
 
-Draft and post only in this shape (**single issue only**):
-
-```text
-Blocking: | Nit:
-
-**Where:** `path` (symbol / line context)
-**Issue:** <one clear sentence about ONE problem>
-**Why:** <risk / user impact / maintainability / which doctrine>
-**Fix:** <concrete direction for THAT problem>
-```
-
-- **No em dashes** (`—`) in drafted or posted PR comments.
-- Cite doctrine briefly when relevant.
-- No vague "consider refactoring" without a target shape.
-- Prefer **inline** when a precise line exists.
-- Body must be the finding itself, not a pointer to "see comments below."
-- Prefix is **Blocking:** or **Nit:** only. Never `Non-blocking:`.
-
-## Pass B drafts, then one publish question
-
-**Never post, and never ask to publish, until the user has seen every full new draft in chat** (with severity already chosen on each draft).
-
-### 1. Show all **new** drafts in chat (one section per finding)
-
-Severity is **already set** on each draft (Blocking or Nit). Do not ask per-draft severity.
-
-```markdown
-## New draft PR comments (Pass B)
-Review these in chat before anything is posted. Each draft becomes its own PR comment. No summary comment will be posted.
-
-### Draft 1 — Blocking · inline `auth.ts` L20
-Blocking:
-
-**Where:** …
-**Issue:** …
-**Why:** …
-**Fix:** …
-
-### Draft 2 — Nit · inline `page.tsx` L55
-Nit:
-
-**Where:** …
-**Issue:** …
-**Why:** …
-**Fix:** …
-```
-
-If zero new drafts: say so in chat. No Pass B Questions (unless you only need a review event with no new comments; usually stop or Approve only when clean and priors clear).
-
-### 2. Exactly **one** Questions item for Pass B
-
-Do **not** ask one question per draft. Do **not** ask blocking vs nit again (already visible on the drafts). Do **not** add a separate "review event" question; derive it on publish:
-
-- Any **Blocking** draft published → GitHub review event **Request changes**
-- Only **Nit** drafts published → review event **Comment** (minimal/empty body)
-- No drafts / user declined publish, priors clear → may **Approve** only if nothing open remains
-
-```markdown
-## Questions
-Reply like: `1a` (recommended answer filled in; change the letter to override).
-
-1. Publish all drafts above as shown?
-   - a) yes — post each as its own PR comment ← recommended
-   - b) no — say what to change, drop, or rewrite
-```
-
-**Wait.** On **yes**: post every shown draft as its own comment (severity unchanged). On **no**: apply their instructions, show revised drafts again if needed, then the same single question once more.
-
-Never concatenate drafts. Never add an extra PR comment that only summarizes what was published.
-
-For `gh pr review`: inline comments only + empty/minimal review body. **Do not** put the list of findings in the review body.
-
-## Posting (Pull Request only)
-
-1. Pass A: resolve and/or **one reply per prior thread** as approved. No Pass A summary comment.
-2. Pass B: **one GitHub review comment per draft** via `gh` / `gh api` only (after the single yes). Separate comment objects. No repo scripts.
-3. If inline fails, one PR conversation comment **for that one issue**; say in chat that you fell back.
-4. Prefix `Blocking:` or `Nit:` only. Strip em dashes.
-5. Do not close/merge the PR. Do not write Linear.
-6. Afterward: list what posted **in chat only**.
-
-Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
+- Draft / post templates: [reference.md](reference.md)
 
 ## Anti-patterns
 
@@ -269,8 +200,11 @@ Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 - Asking about new drafts before finishing per-prior triage (when Pass A has questions)
 - Asking to publish before showing full draft bodies in chat (Pass B)
 - Softening must-edit findings into nits
+- Soft-approving / "LGTM" when pack or Routes defects remain
 - Em dashes in comments
 - "LGTM" / Approve while prior blockers are Unanswered or Partial
 - Posting on the Linear issue instead of the PR
 - Starting `/goal` automatically
 - Invoking under `/goal` or as a flow twin
+- Narrating teacher roleplay in chat ("I'm failing this student…") instead of factual findings
+- Inventing fake failures to dock points

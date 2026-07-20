@@ -1,28 +1,21 @@
 ---
 name: code-review
 description: >-
-  Three-axis review (Standards + Spec + Routes) of a git diff since a fixed
-  point the user names (default main/master). After findings, offers a batched Questions ask to fix; on yes starts /goal
-  (grill → plans → implement) to clear the backlog.
-  Standards = taste-flow + architecture examples + thermonuclear
-  maintainability. Routes = out-loud top-down codepath walk. Agents may
-  auto-invoke. Use for branch/PR review outside /goal. Under /goal use
-  /code-review-flow.
+  Three-axis review (Standards + Spec + Routes) of a git diff or goal ship.
+  A+ exam posture: stressed student self-catch before /pr-review grades hard.
+  Dual skill: agent picks standalone vs flow via variants.md. Use for branch
+  review or after validate in a goal. User must invoke (not auto).
+disable-model-invocation: true
 ---
 
 # Code Review
 
-**Standalone** review of whatever the user asked to review — typically `main...HEAD` (or another fixed point they name). Not the goal-loop reviewer; that is **`/code-review-flow`**.
+**Ask style:** [../asking.md](../asking.md) · **Variants:** [../variants.md](../variants.md)
 
-**Read:** [doctrine.md](doctrine.md)
+## Variant
 
-## Process
+Choose **exactly one** per [variants.md](../variants.md) — never both:
 
-1. **Pin fixed point** — `git diff <fixed-point>...HEAD` (doctrine)
-2. **Resolve spec source** — user paste, PR/issue, commits, or ask
-3. **Launch parallel Tasks** — Standards + Spec + Routes (doctrine prompts)
-4. **Aggregate** — separate `## Standards`, `## Spec`, `## Routes`
-5. **Needs /create-test** — recommend to user; do not run (doctrine §10)
-6. **Offer to fix** — Fix backlog + Questions batch via [../asking.md](../asking.md); on yes → `/goal` (doctrine §11)
-
-Under `/goal` → **`/code-review-flow`**.
+- Standalone fits → Read [standalone.md](standalone.md) only
+- Flow fits → Read [flow.md](flow.md) only
+- Missing file → matching missing-variant message; do not invent process

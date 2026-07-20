@@ -2,7 +2,7 @@
 
 Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a deep public surface; complexity lives behind it; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
-Read **`/taste-flow`** first — especially **Bad code = complexity and entropy** (and [../taste-flow/examples.md](../taste-flow/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
+Read **`/taste`** first — especially **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
 ## Doctrine
 
@@ -34,7 +34,7 @@ Rules:
 - If the concern is new, **create the service** (folder + public entry) and have the feature call it — even when only one feature needs it today. The next feature must reuse, not fork.
 - Features import **only** the service's public surface. Stripe/SDK/DB helpers stay behind that surface.
 - Name public functions as **verbs the product understands** (`makeUserPay`, not `runStripeCheckoutSessionHelper`).
-- Prefer **throw + try/catch** at service boundaries (see `/taste-flow`) — not `{ success: false }` bags.
+- Prefer **throw + try/catch** at service boundaries (see `/taste`) — not `{ success: false }` bags.
 - One service ≠ one giant file: public entry + collaborators inside the service folder (see §5).
 
 Anti-patterns:
@@ -60,7 +60,7 @@ Rules:
 - The entry point's signature should be obvious in one glance
 - Call sites should not know about helpers, parsers, adapters, or edge-case branches
 - One main export / one main type per file when practical
-- Prefer **class** for stateful domain behavior; hooks for React; **service** for shared domain I/O — details in `/taste-flow`
+- Prefer **class** for stateful domain behavior; hooks for React; **service** for shared domain I/O — details in `/taste`
 - Pull complexity **down** into collaborators; keep the public surface deep
 
 The entry point is not always a TypeScript `interface`. Pick the shape that fits the stack.
@@ -69,13 +69,13 @@ Anti-pattern: **shallow modules** — complex interface relative to what they do
 
 ### 3. Prior mistakes are not sacred (behavior-preserving moves)
 
-Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there." Leaving or copying wrong placement is **entropy growth** (`/taste-flow`).
+Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there." Leaving or copying wrong placement is **entropy growth** (`/taste`).
 
-When explore shows wrong folder, duplicated domain logic, a feature-forked service (billing/auth inside a feature), or a sibling that violates this skill / `/taste-flow`:
+When explore shows wrong folder, duplicated domain logic, a feature-forked service (billing/auth inside a feature), or a sibling that violates this skill / `/taste`:
 
 - **Do not copy it.** Cite a *good* sibling or service — or create the correct shape.
 - Prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**.
-- Name the old observable behavior and how you will prove it still holds (existing tests, `/create-test` if complex, path walk + `/validate-flow` / terminals). If you **cannot** be sure → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
+- Name the old observable behavior and how you will prove it still holds (existing tests, `/create-test` if complex, path walk + `/validate` / terminals). If you **cannot** be sure → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement → patch the plan Structure, then move.
 - Same spirit as `/code-review` code judo — apply it while **building**, not only at review time.
 
@@ -93,7 +93,7 @@ Never sprinkle related files across a flat directory. **Propose the folder map b
 2. Prefer **`services/<concern>/`** (or the repo's equivalent) for shared domain APIs; **feature folders** for product UI/orchestration that *calls* those services
 3. If no convention fits, create a **feature/domain folder** and put the cluster inside it
 4. Colocate what changes together; separate what changes for different reasons
-5. Name files per **`/taste-flow`** — `lowercase-with-hyphens` in app/UI; **no `-` or `_` in `convex/` filenames**
+5. Name files per **`/taste`** — `lowercase-with-hyphens` in app/UI; **no `-` or `_` in `convex/` filenames**
 6. Avoid `utils.ts` / `helpers.ts` dumping grounds — name the concept (often: promote to a service)
 7. Cite a **good** sibling feature **or existing service** when one exists (taste: cite-a-sibling) — bad nearby code is debt to move, not a template
 
@@ -178,7 +178,7 @@ Read nearby folders. Note:
 
 ### 2. Draft the structure card
 
-Present this before writing code (and include it in `/create-plan-flow` when planning under `/goal`):
+Present this before writing code (and include it in `/create-plan` when planning under `/goal`):
 
 ```markdown
 ## Structure
@@ -190,7 +190,7 @@ Present this before writing code (and include it in `/create-plan-flow` when pla
 **Moves / corrections:** <relocate X → services/billing; delete old path> | _none_
 **Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI); **deep** surface
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
-**Complexity / entropy:** public API deep? change reduces or holds entropy in touched lane? (see `/taste-flow`)
+**Complexity / entropy:** public API deep? change reduces or holds entropy in touched lane? (see `/taste`)
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
@@ -204,7 +204,7 @@ Present this before writing code (and include it in `/create-plan-flow` when pla
 - `features/<slice>/`       # calls services — no domain fork
   - entry + UI…
 **Fits existing pattern:** yes (cite **good** service / feature) | correcting debt (what) | new (why)
-**Taste:** follows `/taste-flow` naming + entry shape + ≤2 class/interface depth
+**Taste:** follows `/taste` naming + entry shape + ≤2 class/interface depth
 ```
 
 If service boundary, public API shape, folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (reply `1a, 2b`) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
@@ -229,12 +229,12 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 - [ ] No flat file dump / no anonymous `utils` bag standing in for a service
 - [ ] Public API is **deep** (simple surface); complexity is inside collaborators, not at every call site
 - [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
-- [ ] `/taste-flow` naming and error style respected
+- [ ] `/taste` naming and error style respected
 - [ ] No hot-path "compute metrics on render/read" — aggregates stored and updated on write
 - [ ] Indexes cover the queries; no unbounded collect on growing data
 - [ ] Observable old behavior still holds (tests / path walk / terminals) after any move
 
-## When `/create-plan-flow` or `/implement-flow` should invoke this
+## When `/create-plan` or `/implement` should invoke this
 
 - New feature with more than one new file
 - Any domain capability (payments, auth, email, …) a second feature might need
@@ -246,4 +246,4 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 - Any feature with lists, dashboards, counts, totals, leaderboards, or "stats"
 - Any query that would scan children to answer a parent-level question
 
-Hand off: structure card → `/goal` (plans via `/create-plan-flow`). `/validate-flow` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture-flow` → `/create-plan-flow`.
+Hand off: structure card → `/goal` (plans via `/create-plan`). `/validate` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → `/create-plan`.
