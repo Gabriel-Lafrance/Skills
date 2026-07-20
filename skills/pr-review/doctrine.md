@@ -1,6 +1,6 @@
 # PR Review Doctrine
 
-**Standalone only.** Evaluate an open GitHub Pull Request, triage comments with the user, post actionable review comments **on the PR**. Never under `/goal` (use `/code-review-flow` there). Never ship a `pr-review-flow`.
+**Standalone only.** Evaluate an open GitHub Pull Request, triage with the user, post actionable review comments **on the PR**. Never under `/goal` (use `/code-review-flow` there). Never ship a `pr-review-flow`.
 
 **Ask style:** [../asking.md](../asking.md).
 
@@ -8,15 +8,27 @@
 
 **vs `/code-review`:** that skill offers a Fix backlog → `/goal`. This skill posts comments on the PR. Do not auto-start `/goal` from here.
 
+## Hard rule: one finding, one comment
+
+**Never** bundle multiple issues into a single PR comment (no mega-comment with a list of unrelated fixes).
+
+| Do | Do not |
+| --- | --- |
+| One thread / one inline comment per distinct edit | One comment that stacks "also fix X, also fix Y" |
+| Separate drafts for separate root causes | A 2nd-pass dump that rolls up all priors into one body |
+| Reply on the **existing** thread for that prior issue | A new top-level comment that re-lists every old finding |
+
+If you find three problems, you draft (and later post) **three** comments.
+
 ## Strict pack gates (hard)
 
-Before drafting comments, Standards (and you) **must** read and enforce:
+Before drafting **new** comments, Standards (and you) **must** read and enforce:
 
 | Doctrine | Treat violations as |
 | --- | --- |
 | [`/taste-flow`](../taste-flow/doctrine.md) (never-nest, DRY, throw/catch, naming, deep entry, complexity/entropy) | **Blocking** unless truly cosmetic |
 | [`/architecture`](../architecture/doctrine.md) (services, deep public surface, prior-mistakes / entropy moves, folders, write-path scale) | **Blocking** when the PR introduces or extends the wrong shape |
-| [`/design`](../design/doctrine.md) when UI files are in the diff | **Blocking** for ship-breaking UX (hierarchy, primary action, states); nits only for tiny polish |
+| [`/design`](../design/doctrine.md) when UI files are in the diff | **Blocking** for ship-breaking UX; nits only for tiny polish |
 | [code-review](../code-review/doctrine.md) thermonuclear + Routes critical/important | Same bar; should-have-moved in the touched lane → **Blocking** candidate |
 
 Recommended triage default: **post as blocking** for taste / architecture / design failures. Do **not** waive as "pre-existing" when the PR touched that lane.
@@ -26,190 +38,159 @@ When UI is unclear, check the diff for components/pages/styles. If any UI is pre
 ## Resolve PR + context
 
 1. PR from URL, number, or `gh pr view` for the current branch. Fail clearly if none or `gh` missing/unauth.
-2. Read PR body, commits, **and all existing review comments / threads** (`gh api` / `gh pr view --comments` / review comments). Do not write yet.
+2. Read PR body, commits, **and all existing review comments / threads**. Do not write yet.
 3. Linked Linear (`IN-1234`) or GitHub issue → read via Linear MCP / `/trackers-flow` for **Spec only**. Do **not** post comments on Linear.
-4. Base = PR base branch (not always `main`). Diff via `gh pr diff` or `git diff <base>...HEAD`.
-5. **Detect follow-up mode** — if the PR already has review comments (especially yours from a prior `/pr-review` or review), run **Prior comments check** below **and** a full new-issue rescan. Never skip the rescan just because old threads exist.
+4. Base = PR base branch. Diff via `gh pr diff` or `git diff <base>...HEAD`.
+5. If prior review comments exist → **Pass A** (priors) **then** **Pass B** (new scan). Never skip Pass A. Never merge Pass A outcomes into one posted comment.
 
-## Prior comments check (when threads already exist)
+## Pass A: Prior comments (follow-up runs)
 
-**Required whenever the PR has prior review comments.** Do this in parallel with (or before) the fresh axes rescan.
+**Required whenever the PR already has review comments.** Complete Pass A **before** drafting or asking about **new** findings.
 
-1. List open (and recently resolved) review threads: body, path/line, author, replies, resolved state.
-2. Prefer threads **you** authored; still note other reviewers' open blocking threads if they affect merge readiness.
-3. For **each** prior comment of yours (and any you choose to track), judge against the **current** diff:
+1. List threads (prefer yours; note other reviewers' open blockers). One row per thread.
+2. For **each** prior thread, judge the **current** diff:
 
 | Status | Meaning |
 | --- | --- |
-| **Addressed** | Diff (or a clear reply) fully satisfies the ask |
-| **Partial** | Some progress; gap remains |
-| **Unanswered** | No meaningful code change and no substantive reply |
-| **Outdated** | Line/context gone; issue may be moot or moved (re-locate or drop) |
-| **Disputed** | Author replied disagreeing; evidence still favors your call or theirs |
+| **Addressed** | Diff (or clear reply) fully satisfies that one ask |
+| **Partial** | Some progress; gap remains on **that** ask |
+| **Unanswered** | No meaningful change and no substantive reply |
+| **Outdated** | Line/context gone; moot or moved |
+| **Disputed** | Author disagreed; weigh evidence |
 
-4. Present a short ledger **before** new drafts:
+3. **Show and ask per prior issue first** (do not jump to a new-issue dump). For each prior thread, a short "here's what's done" summary, then a Questions item for **that** thread only.
 
 ```markdown
-## Prior comments
-| # | Thread | Status | Note |
-| --- | --- | --- | --- |
-| P1 | `billing.ts` makeUserPay | Addressed | Now calls billing service |
-| P2 | never-nest in checkout | Unanswered | Nesting still present L88 |
-| P3 | cookie vs localStorage | Partial | Cookie set; SSR read still missing |
+## Prior issues (Pass A)
+Nothing new has been posted yet. Decide each prior thread.
+
+### P1 — `billing.ts` / makeUserPay
+**Original ask:** Call `makeUserPay` instead of Stripe in checkout.
+**What I see now:** Checkout imports `makeUserPay` and the direct Stripe call is gone.
+**My read:** Addressed.
+
+### P2 — never-nest in checkout
+**Original ask:** Flatten nesting in `placeOrder`.
+**What I see now:** Early returns added for missing user; charge path still nested 3 levels.
+**My read:** Partial.
+
+## Questions
+Reply like: `1a, 2b, 3a`
+
+1. P1 (makeUserPay)?
+   - a) Mark resolved (ack + resolve thread) ← recommended when Addressed
+   - b) Leave open — no reply
+   - c) Reply on thread — say what (still blocking / note / thanks)
+   - d) Other — say what
+2. P2 (never-nest)?
+   - a) Mark resolved
+   - b) Leave open — no reply
+   - c) Reply on thread (still open / partial) ← recommended when Partial or Unanswered
+   - d) Other — say what
 ```
 
-5. For **Unanswered**, **Partial**, **Disputed**, or **Outdated-but-still-real**: draft a **follow-up** (reply on the thread and/or a new inline if the line moved). Do not silently ignore unanswered blocking comments.
-6. For **Addressed**: do not re-post the same issue. Optionally draft a one-line resolve/ack reply if the thread is still open (triage: publish ack or skip).
-7. **Never** duplicate a prior comment as a brand-new finding if the same root cause is still open: prefer a **thread reply** ("Still open: …") over a second top-level comment.
+4. **Wait** for Pass A replies. Then apply only what they approved (resolve threads, post **one reply per thread** they chose). Still **one thread → one reply body** about that issue only.
+5. Do **not** start Pass B publish until Pass A write actions for that batch are done (or user said leave-all-open with no writes).
 
-## Review axes (always: fresh rescan)
+If there are no prior comments, skip Pass A.
 
-**Always** rescan the current diff for **new** issues, even on follow-up runs. Prior-comment check does not replace axes.
+## Pass B: Fresh rescan (always after Pass A, or alone on first review)
 
-Launch **Standards + Spec + Routes** in parallel (`generalPurpose` or `explore`). **Omit Task `model`**.
+**Always** rescan the current diff for **new** issues (issues not already covered by an open prior thread).
 
-**Standards prompt extras (required):** paste that taste + architecture (+ design if UI) are **hard**; pack violations are presumptive **blocking**; hunt should-have-moved / complexity / entropy in the touched lane; under ~400–500 words. Also: skip re-filing issues already covered by an open prior thread (flag those under Prior comments instead).
+Launch **Standards + Spec + Routes** in parallel. **Omit Task `model`**.
 
-**Spec:** PR body + linked Linear/GitHub issue first.
+**Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one finding per comment; skip issues already tracked by an open prior thread.
 
-**Routes:** same as code-review (out-loud path walk; critical/important/nit).
-
-Aggregate separately: `## Standards`, `## Spec`, `## Routes`. Call out taste / architecture / design failures by name.
+Aggregate: `## Standards`, `## Spec`, `## Routes`.
 
 ## Reviewer craft
 
 - Review the **diff and runtime paths**, not the author.
-- Prefer **fewer, high-conviction** comments over nit floods.
-- Every comment must answer: **where**, **what is wrong**, **why it matters**, **what good looks like** (concrete next step).
-- **Blocking** = should not merge until fixed. **Non-blocking** = should fix soon. **Nit** = optional polish.
-- Do not restate the diff ("you added a function here"). Add insight the author may have missed.
-- Prefer clear claims when evidence is strong; questions only when genuinely ambiguous.
-- Praise sparingly and specifically (one line max) when something is unusually good. Never bury real issues under fluff.
-- One comment per root cause. Do not stack five comments that are the same architecture miss.
+- Prefer **fewer, high-conviction** comments; still **split** them (one each).
+- Every comment: **where**, **what is wrong**, **why it matters**, **what good looks like**.
+- **Blocking** / **Non-blocking** / **Nit** as usual.
+- Do not restate the diff. Add insight.
+- Praise sparingly (one line max). Never bury real issues.
 
 ## Comment body rules (hard)
 
-Draft and post only in this shape:
+Draft and post only in this shape (**single issue only**):
 
 ```text
 Blocking: | Non-blocking: | Nit:
 
 **Where:** `path` (symbol / line context)
-**Issue:** <one clear sentence>
+**Issue:** <one clear sentence about ONE problem>
 **Why:** <risk / user impact / maintainability / which doctrine>
-**Fix:** <concrete direction: service API, folder, pattern, sibling to mirror>
+**Fix:** <concrete direction for THAT problem>
 ```
 
-- **No em dashes** (`—`) and no en dashes used as em dashes in any drafted or posted PR comment. Use commas, periods, colons, or parentheses.
-- Cite the doctrine briefly when relevant (`architecture: call billing.makeUserPay`, `taste: never-nest`).
+- **No em dashes** (`—`) in drafted or posted PR comments.
+- Cite doctrine briefly when relevant.
 - No vague "consider refactoring" without a target shape.
-- No demand for unrelated scope.
-- Prefer **inline** comments when a precise file line exists; otherwise a PR conversation comment with path refs.
+- Prefer **inline** when a precise line exists.
 
-## Drafts first, then publish triage (hard order)
+## Pass B drafts, then publish triage
 
-**Never post, and never ask publish questions, until the user has seen every full draft.**
+**Never post new comments, and never ask publish for new drafts, until the user has seen every full new draft.**
 
-### 1. Show all drafts (required first message after prior ledger + axes)
-
-Order in the message:
-
-1. `## Prior comments` ledger (if any threads) — table above
-2. `## Draft PR comments` — **follow-ups** first, then **new** findings
-
-From high-conviction findings only, build drafts (skip pure noise and skip duplicates of open prior threads). In **one message**, show **every** draft in full (not one-line summaries only):
+### 1. Show all **new** drafts (one section per finding)
 
 ```markdown
-## Prior comments
-| # | Thread | Status | Note |
-| --- | --- | --- | --- |
-| P1 | … | Addressed | … |
-| P2 | … | Unanswered | … |
+## New draft PR comments (Pass B)
+Review these before anything is posted. Each draft is one issue / one future comment.
 
-## Draft PR comments
-Review these before anything is posted. Nothing has been published yet.
+### Draft 1 — new · blocking (proposed) · inline `auth.ts` L20
+…
 
-### Draft 1 — follow-up (P2) · reply on thread · blocking (proposed)
-Blocking:
-
-**Where:** `features/checkout/checkout.ts` (still nested)
-
-**Issue:** Prior never-nest comment is unanswered; nesting remains.
-
-**Why:** Taste: never-nest; same defect as thread P2.
-
-**Fix:** Extract early returns / helpers as in the original comment.
-
-### Draft 2 — new · blocking (proposed) · inline `billing.ts` L42
-Blocking:
-
-**Where:** `services/billing` not used; `features/checkout/checkout.ts`
-
-**Issue:** Checkout calls Stripe directly instead of `makeUserPay`.
-
-**Why:** Architecture: features must call the billing service; this forks payment logic (entropy).
-
-**Fix:** Move the charge into `billing.makeUserPay` and call that from checkout. Mirror `features/upgrade`.
+### Draft 2 — new · non-blocking (proposed) · inline `page.tsx` L55
+…
 ```
 
-Label drafts clearly: **follow-up (P#)** vs **new**. Each draft must include: proposed severity, target (thread reply / inline path+line / PR conversation), and the **full** Where / Issue / Why / Fix body. **No em dashes.**
+If zero new drafts: say so. Then review-event question only (Approve only if Pass A left no open blockers).
 
-If there are zero new drafts and all prior are Addressed: say so. Offer resolve/ack replies and/or Approve only if the review is clean.
-
-### 2. Then ask what to publish (second step, same turn OK if drafts are above)
-
-**After** the full drafts (same message is fine: Prior ledger + drafts first, Questions below), one Questions batch per [asking.md](../asking.md):
+### 2. Questions for new drafts
 
 ```markdown
 ## Questions
-Reply like: `1a, 2b, 3c, 4a`
+Reply like: `1a, 2b, 3a`
 
-1. Draft 1 (follow-up P2)?
+1. Draft 1?
    - a) Publish as blocking ← recommended
    - b) Publish as non-blocking
-   - c) Skip (do not publish)
-   - d) Modify then publish — paste the revised text or say what to change
-2. Draft 2 (new)?
+   - c) Skip
+   - d) Modify then publish — paste revised text or say what to change
+2. Draft 2?
    - a) …
-3. (If any Addressed + open threads) Resolve/ack addressed threads?
-   - a) yes — short ack and resolve where API allows ← recommended
-   - b) no — leave threads as-is
 N. Submit the GitHub review as?
-   - a) Request changes ← recommended if any blocking kept or unanswered prior blockers remain
+   - a) Request changes ← recommended if any blocking published or open prior blockers remain
    - b) Comment only
-   - c) Approve (only if no blocking/non-blocking kept and prior blockers are Addressed)
+   - c) Approve (only if no blocking kept and priors are resolved / cleared)
 ```
 
-**Wait** for the reply before any `gh` write. On **modify**: apply their edits (or rewrite per notes), show the revised draft(s) again if the change is material, then publish only what they approved. Do not publish skipped drafts.
-
-Empty publish set after triage → stop; nothing posted.
+**Wait.** Apply modifications. Publish **each** approved draft as its **own** review comment (separate inline/API comment). Never concatenate approved drafts into one body.
 
 ## Posting (Pull Request only)
 
-1. Post **only** after the user has seen full drafts **and** answered the publish triage. Never post drafts that were skipped.
-2. Prefer one `gh pr review` (or `gh api` pull request review) with multiple **inline** comments when path+line are known.
-3. **Follow-ups:** prefer `gh api` replies on the existing review-comment / thread when the draft is labeled follow-up (P#). New findings: new inline or conversation comments as usual.
-4. If inline fails (outdated line / force-push), fall back to a PR conversation comment with path reference; say that you fell back.
-5. Prefix bodies with `Blocking:` / `Non-blocking:` / `Nit:` as triage decided.
-6. Strip any em dashes before post (scan drafts).
-7. Resolve threads **only** when the user approved ack/resolve for Addressed items (or explicitly asked). Do not resolve unanswered or partial threads.
-8. Do not close or merge the PR.
-9. Do not write Linear comments, create tickets, or change issue state.
+1. Pass A writes: resolve and/or **one reply per prior thread** as approved.
+2. Pass B writes: **one GitHub review comment per approved draft**. Prefer multiple inline comments in one `gh pr review` / API review, still **separate comment objects**, not one text blob.
+3. If inline fails, fall back to a PR conversation comment **for that one issue**; say you fell back.
+4. Prefix `Blocking:` / `Non-blocking:` / `Nit:` as triaged. Strip em dashes.
+5. Do not close/merge the PR. Do not write Linear.
 
-After post: summarize what landed (review URL / comment count). If they want to fix in a loop → point to `/code-review` then `/goal`. Do not auto-start `/goal`.
+After post: summarize (per comment / thread). Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 
 ## Anti-patterns
 
-- Asking publish/skip before showing full draft bodies
-- Skipping prior-comment check when the PR already has review threads
-- Treating follow-up runs as "new comments only" and ignoring unanswered prior blockers
-- Re-posting the same finding as a new top-level comment instead of a thread follow-up
+- Bundling multiple findings into one PR comment (2nd-pass mega-comment)
+- Skipping Pass A when prior threads exist
+- Asking about new drafts before finishing per-prior "what's done / resolve?" triage
+- Re-listing all old issues in a single new comment instead of per-thread actions
+- Asking publish/skip before showing full draft bodies (Pass B)
 - Softening taste / architecture / design failures into nits
-- Posting before triage
 - Em dashes in comments
-- Nit floods; duplicate root-cause comments
 - "LGTM" / Approve while prior blockers are Unanswered or Partial
-- Posting findings on the Linear issue instead of the PR
+- Posting on the Linear issue instead of the PR
 - Starting `/goal` automatically
 - Invoking under `/goal` or as a flow twin
-- Writing Linear tickets from this skill (`/write-ticket`)
