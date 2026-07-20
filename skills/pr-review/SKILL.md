@@ -31,15 +31,15 @@ description: >-
 
 ### Pass A (if any prior finding comments exist)
 
-4. For **each** prior finding (full history): short **"here's what's done"** + read (Addressed / Partial / Unanswered / …).
-5. **Questions** — per prior: mark resolved / leave open / reply / other. Wait for `1a, 2b, …`.
-6. Apply approved actions only (**one reply or resolve per thread**). **Do not** post a Pass A summary on the PR.
+4. Check **all** prior findings. List **No action needed** (e.g. already correctly resolved) without Questions.
+5. **Questions only for actionable priors** (open needing resolve/reply, or closed wrongly). `Reply like:` = recommended letters for that batch. Wait if any questions.
+6. Apply approved actions only (**one reply or resolve per thread**). **Do not** post a Pass A summary on the PR. If nothing actionable, skip Questions and go to Pass B.
 
 ### Pass B (always: first review or after Pass A)
 
 7. **Fresh rescan** — Standards + Spec + Routes. Skip issues already on an open prior finding thread.
 8. **Show new drafts in chat** — **one full draft per new finding**. Nothing on the PR yet. **No em dashes.**
-9. **Questions** — publish / skip / modify **per draft**; review event (Request changes / Comment / Approve). Wait.
+9. **Questions** — publish / skip / modify **per draft**; review event. `Reply like:` uses recommended letters. Wait.
 10. **Post via `gh` only** — each approved draft as its **own** inline/API comment. Empty/minimal review body. **Never** a summary PR comment. **Never** write `build-review.cjs` (or any review helper) into the repo.
 11. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
 
@@ -48,8 +48,10 @@ description: >-
 - Summary / "posted N comments" / index comment on the PR
 - `build-review.cjs` or other repo files to submit reviews
 - One comment or review body containing multiple findings
+- Asking about correctly closed priors with nothing to do
+- `Reply like:` not matching recommended answers
 - Pass A only on the latest pass
-- Skipping per-prior triage; asking Pass B before Pass A is answered
+- Skipping per-prior triage when actions exist; asking Pass B before Pass A questions are answered
 - Posting before showing full drafts in chat
 - Approving while prior blockers remain open
 - Writing Linear comments; starting `/goal`; using inside `/goal`

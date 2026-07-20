@@ -7,11 +7,12 @@ Every pack skill that needs decisions follows this contract. Do **not** restate 
 1. **Batch every question you already know** into **one** message — never drip one-at-a-time when multiple opens are known.
 2. Number them `1`, `2`, `3`… Each item: short prompt + lettered options when discrete.
 3. **Every optioned item must mark a recommended option** (`← recommended`).
-4. Tell the user to reply like: `1a, 2b, 3a` (or `1a — short note` per number).
+4. Tell the user to reply like the **recommended** answers filled in, e.g. `Reply like: 1a, 2b, 3a` where those letters **are** your recommendations for this batch (so accepting defaults is copy-paste). They may override any letter. Optional: `1a — short note` per number.
 5. **Wait** for that batch reply before acting on those decisions.
 6. After explore/implement/review and **new** unknowns appear, send a **new** batch — that is fine. Do not re-ask settled items.
 7. Look up facts in the repo/tools — do not put those in the batch.
 8. Decisions are the user’s — honor overrides of recommended options.
+9. **Only ask when an action is needed.** Do not put items in Questions if there is nothing to decide (e.g. already correctly done). Still may list them briefly as info outside the Questions block.
 
 ## Recommended defaults (bias)
 
@@ -33,7 +34,7 @@ When drafting options, prefer these as **recommended** unless the user already l
 
 ```markdown
 ## Questions
-Reply like: `1a, 2b, 3a` (add a short note after a letter if needed).
+Reply like: `1a, 2c, 3a` (recommended answers already filled in; change any letter to override; add a short note after a letter if needed).
 
 1. <topic>?
    - a) <recommended> ← recommended
@@ -42,10 +43,13 @@ Reply like: `1a, 2b, 3a` (add a short note after a letter if needed).
 2. <topic>?
    - a) …
    - b) …
+   - c) <recommended> ← recommended
 3. <topic>?
    - a) yes ← recommended
    - b) no — say what to change
 ```
+
+The `Reply like: …` line **must** use the recommended letter for each numbered item (here `1a, 2c, 3a`), not placeholder examples that disagree with `← recommended`.
 
 Yes/no gates use the same shape (`a) yes` / `b) no`). Freeform-only items still get a number; omit letters and ask for a short reply under that number.
 
@@ -53,4 +57,6 @@ Yes/no gates use the same shape (`a) yes` / `b) no`). Freeform-only items still 
 
 - One question per message when you already have a list of opens
 - Optioned questions with no recommended mark
+- `Reply like:` using fake letters that are not the recommended set for this batch
+- Asking about items with no decision/action (noise Questions)
 - Recommending “keep the wrong layout” when a clear move preserves behavior

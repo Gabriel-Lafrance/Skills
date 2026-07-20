@@ -76,7 +76,7 @@ Fetch and include:
 Do **not**:
 
 - Limit to "latest review only" or "comments since last push" unless the user explicitly scopes that
-- Drop resolved threads from the Pass A list (still show them; user may confirm stay-resolved or reopen)
+- Skip reviewing resolved threads entirely (you must still **check** them; see Pass A actionable filter)
 - Treat a previous pass's mega-summary comment as a "finding" to triage (ignore announcement noise; focus on real Where/Issue threads)
 
 Prefer threads **you** authored; still list other reviewers' open blockers if they affect merge readiness.
@@ -96,40 +96,55 @@ Prefer threads **you** authored; still list other reviewers' open blockers if th
 | **Outdated** | Line/context gone; moot or moved |
 | **Disputed** | Author disagreed; weigh evidence |
 
-3. **Show and ask per prior issue** (chat only). For each: short "here's what's done", then one Questions item.
+3. **Split priors: info vs Questions** (only ask when an action is needed).
+
+| Situation | In chat | In Questions? |
+| --- | --- | --- |
+| Thread **already resolved** and status is **Addressed** (correctly closed) | Brief line under **No action needed** | **No** |
+| Thread resolved but status is **Partial / Unanswered / Disputed** (closed wrongly) | Call it out under **Needs attention** | **Yes** — reopen / reply / leave |
+| Thread **open** and **Addressed** | Short "what's done" | **Yes** — mark resolved (action) |
+| Thread **open** and Partial / Unanswered / Disputed / Outdated-but-still-real | Short "what's done" | **Yes** — reply / leave / other |
+| Thread resolved + Outdated and truly moot | **No action needed** | **No** |
+
+4. **Show** all checked priors (including no-action). **Ask only** the actionable ones. `Reply like:` must list the **recommended** letters for those questions only.
 
 ```markdown
 ## Prior issues (Pass A)
-Covering all prior review comments on this PR (every pass), not only the last one.
-Nothing new has been posted yet.
+Covering all prior finding comments on this PR (every pass).
 
-### P1 — `billing.ts` / makeUserPay
-**Original ask:** Call `makeUserPay` instead of Stripe in checkout.
-**What I see now:** Checkout imports `makeUserPay` and the direct Stripe call is gone.
-**My read:** Addressed.
+### No action needed
+- P1 — `billing.ts` / makeUserPay — already resolved; still looks Addressed. Skipping.
+- P4 — outdated line on deleted helper — moot. Skipping.
 
-### P2 — never-nest in checkout
+### Needs a decision
+#### P2 — never-nest in checkout (open · Partial)
 **Original ask:** Flatten nesting in `placeOrder`.
-**What I see now:** Early returns added for missing user; charge path still nested 3 levels.
+**What I see now:** Early returns for missing user; charge path still nested 3 levels.
 **My read:** Partial.
 
-## Questions
-Reply like: `1a, 2b, 3a`
+#### P3 — cookie SSR (resolved · but still broken)
+**Original ask:** Cookie over localStorage for SSR token.
+**What I see now:** Thread is resolved; SSR read still missing.
+**My read:** Closed wrongly; should not stay resolved.
 
-1. P1 (makeUserPay)?
-   - a) Mark resolved (ack + resolve thread) ← recommended when Addressed
-   - b) Leave open — no reply
-   - c) Reply on thread — say what (still blocking / note / thanks)
-   - d) Other — say what
-2. P2 (never-nest)?
+## Questions
+Reply like: `1c, 2a` (recommended answers filled in; change any letter to override).
+
+1. P2 (never-nest)?
    - a) Mark resolved
    - b) Leave open — no reply
-   - c) Reply on thread (still open / partial) ← recommended when Partial or Unanswered
+   - c) Reply on thread (still open / partial) ← recommended
+   - d) Other — say what
+2. P3 (cookie SSR, closed wrongly)?
+   - a) Reopen + reply (still blocking) ← recommended
+   - b) Leave resolved — no reply
+   - c) Reply without reopening — say what
    - d) Other — say what
 ```
 
-4. **Wait** for Pass A replies. Apply only approved actions (**one reply per thread** they chose, or resolve). No summary PR comment after Pass A.
-5. Do **not** start Pass B until Pass A writes for that batch are done (or user chose no writes).
+5. If **every** prior is no-action: show the **No action needed** list only; **omit** the Questions block for Pass A; go to Pass B.
+6. **Wait** when there are Pass A questions. Apply only approved actions (**one reply per thread**, resolve, or reopen). No summary PR comment.
+7. Do **not** start Pass B until Pass A writes for that batch are done (or there were no Pass A questions / no writes).
 
 If there are no prior finding comments, skip Pass A.
 
@@ -194,7 +209,7 @@ If zero new drafts: say so in chat. Then review-event question only.
 
 ```markdown
 ## Questions
-Reply like: `1a, 2b, 3a`
+Reply like: `1a, 2b, 3a` (recommended answers filled in; change any letter to override).
 
 1. Draft 1?
    - a) Publish as blocking ← recommended
@@ -203,11 +218,16 @@ Reply like: `1a, 2b, 3a`
    - d) Modify then publish — paste revised text or say what to change
 2. Draft 2?
    - a) …
+   - b) Publish as non-blocking ← recommended
+   - c) Skip
+   - d) Modify then publish
 N. Submit the GitHub review event as?
    - a) Request changes ← recommended if any blocking published or open prior blockers remain
-   - b) Comment (event only; still no summary body) ← if posting inlines without a review body
+   - b) Comment (event only; still no summary body)
    - c) Approve (only if no blocking kept and priors are resolved / cleared)
 ```
+
+Only include draft numbers that need a publish decision. `Reply like:` must match the recommended letters for this batch (e.g. if draft 1 recommends `a` and draft 2 recommends `b` and review event recommends `a`, write `Reply like: 1a, 2b, 3a`).
 
 **Wait.** Apply modifications. Publish **each** approved draft as its **own** review comment object. Never concatenate drafts. Never add an extra PR comment that only summarizes what was published.
 
@@ -226,12 +246,14 @@ Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 
 ## Anti-patterns
 
+- Asking about correctly closed / no-action priors (noise Questions)
+- `Reply like:` that does not match the recommended letters for the batch
 - Posting a summary / announcement / "new comments" index on the PR
 - Creating `build-review.cjs` (or any repo file) to submit the review
 - Bundling multiple findings into one PR comment or into the review body
 - Pass A only on the latest review / latest pass (must include **all** historical finding comments)
 - Skipping Pass A when prior threads exist
-- Asking about new drafts before finishing per-prior triage
+- Asking about new drafts before finishing per-prior triage (when Pass A has questions)
 - Asking publish/skip before showing full draft bodies in chat (Pass B)
 - Softening taste / architecture / design failures into nits
 - Em dashes in comments
