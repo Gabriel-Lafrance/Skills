@@ -36,6 +36,5 @@ One phrase per line. Append/update — do not wipe unrelated entries. Announce p
 
 ## Hand-offs
 
-- Structure needed → `/architecture`, then `/create-plan` or `/goal`
-- Ready to build a loop → `/goal`
-- Ready for one plan file → `/create-plan`
+- Structure needed → `/architecture`, then `/goal`
+- Ready to build → `/goal`

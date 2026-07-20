@@ -28,7 +28,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 | Bug mid-build | `/repair-flow` → `/validate-flow` (grill + acceptance; massive → new `/goal`) |
 | Gate out | `/validate-flow` then **`/code-review-flow`** (required) |
 
-Do **not** call standalone `/grill-me`, `/architecture`, `/design`, `/create-plan`, `/code-review`, or `/repair` for in-loop steps — those are for users/agents outside `/goal`. Use `*-flow` / internals (`/validate-flow`, …) inside the loop.
+Do **not** call standalone `/grill-me`, `/architecture`, `/design`, `/code-review`, or `/repair` for in-loop steps — those are for users/agents outside `/goal`. Use `*-flow` / internals (`/validate-flow`, `/create-plan-flow`, …) inside the loop.
 
 ## Mandatory skill checklist
 

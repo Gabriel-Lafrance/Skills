@@ -178,7 +178,7 @@ Read nearby folders. Note:
 
 ### 2. Draft the structure card
 
-Present this before writing code (and include it in `/create-plan` when planning):
+Present this before writing code (and include it in `/create-plan-flow` when planning under `/goal`):
 
 ```markdown
 ## Structure
@@ -234,7 +234,7 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 - [ ] Indexes cover the queries; no unbounded collect on growing data
 - [ ] Observable old behavior still holds (tests / path walk / terminals) after any move
 
-## When `/create-plan` or `/implement-flow` should invoke this
+## When `/create-plan-flow` or `/implement-flow` should invoke this
 
 - New feature with more than one new file
 - Any domain capability (payments, auth, email, …) a second feature might need
@@ -246,4 +246,4 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 - Any feature with lists, dashboards, counts, totals, leaderboards, or "stats"
 - Any query that would scan children to answer a parent-level question
 
-Hand off: structure card → `/create-plan` (if not approved) → implement. `/validate-flow` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture-flow` → `/create-plan-flow`.
+Hand off: structure card → `/goal` (plans via `/create-plan-flow`). `/validate-flow` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture-flow` → `/create-plan-flow`.

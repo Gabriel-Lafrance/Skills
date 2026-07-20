@@ -3,7 +3,7 @@ name: trackers-flow
 description: >-
   Read-only Linear/GitHub context: fetch issues, PRs, comments, and QA/acceptance
   checklists into a ticket brief for the pack. Looked up only by /goal,
-  /code-review, /create-plan, /implement-flow, /validate-flow. Never invoke
+  /code-review, /create-plan-flow, /implement-flow, /validate-flow. Never invoke
   alone; never write to trackers; not for users or auto-invocation.
 disable-model-invocation: true
 ---
@@ -110,7 +110,7 @@ Missing acceptance criteria → ask **one** question or derive binary Done when 
 
 ## How callers use the brief
 
-- Spec source for `/create-plan`, `/validate-flow`, `/code-review`
+- Spec source for `/create-plan-flow`, `/validate-flow`, `/code-review`
 - Store a **link** in `GOAL.md` under `/goal` — not the full body in every prompt
 
 ## Failures

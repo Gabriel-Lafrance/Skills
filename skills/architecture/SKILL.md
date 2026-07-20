@@ -12,7 +12,7 @@ description: >-
 
 # Architecture
 
-This skill is the structural gate: domain services with public APIs, simple entry points, folder maps, behavior-preserving moves for prior mistakes, and write-path scalability. Run it before `/create-plan` when structure or data shape matters, or mid-implement when the diff is about to sprawl.
+This skill is the structural gate: domain services with public APIs, simple entry points, folder maps, behavior-preserving moves for prior mistakes, and write-path scalability. Run it before `/goal` planning when structure or data shape matters, or mid-implement when the diff is about to sprawl.
 
 **Read first:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · **`/taste-flow`**
 
@@ -31,6 +31,6 @@ Open structure decisions → one `/grill-me` Questions batch (follow [../asking.
 
 ## Hand-offs
 
-- Structure card approved → `/create-plan` or `/goal`
+- Structure card approved → `/goal`
 - Under `/goal` → `/architecture-flow` → `/create-plan-flow`
 - Scale or duplicated-service failures → `/validate-flow` / `/code-review-flow`

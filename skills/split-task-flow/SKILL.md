@@ -85,7 +85,7 @@ On no: revise, then a follow-up batch for unresolved items. Iterate until the sp
 
 After approval:
 
-- Prefer updating `plans/INDEX.md` + `/create-plan` under the active `/goal`
+- Prefer updating `plans/INDEX.md` + `/create-plan-flow` under the active `/goal`
 - Still fuzzy → `/grill-me` then continue `/goal`
 
 ## Output template

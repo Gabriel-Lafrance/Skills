@@ -66,7 +66,7 @@ Theme file shapes:
    - **Design** — when UI, read `/design` (or under goal: `/design-flow`) and lock Design-card topics with the user
    - **How many separate plans** the work should become (prefer more small plans)
    - File lanes / what must not be touched
-5. Do **not** write `plans/*`, implement feature code, or skip to `/create-plan` until the closing gates in the batch all pass (goal flow). Standalone may stop after themes + shared understanding without a goal workspace.
+5. Do **not** write `plans/*`, implement feature code, or skip to plans until the closing gates in the batch all pass (goal flow via `/create-plan-flow`). Standalone may stop after themes + shared understanding without a goal workspace.
 
 ## Closing
 
@@ -78,9 +78,8 @@ Include these **in the same batch** as other open grill questions when you alrea
 
 On any `b`/`no`: revise only those topics, then send a **follow-up batch** for the unresolved gates (plus any new opens). After all closing gates pass, hand off:
 
-- Structure needed → `/architecture`, then `/create-plan` or `/goal`
-- Ready to build a loop → `/goal`
-- Ready for one plan file → `/create-plan`
+- Structure needed → `/architecture`, then `/goal`
+- Ready to build → `/goal`
 
 ## Anti-patterns
 

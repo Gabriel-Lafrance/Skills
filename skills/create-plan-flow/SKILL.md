@@ -3,13 +3,26 @@ name: create-plan-flow
 description: >-
   Goal-scoped plan write: one plans/NN-slug.md under
   .agents/temp/goals/<goal-id>/ only after grill shared understanding. Looked up
-  by /goal. Not for auto-invocation — use /create-plan outside the goal loop.
+  by /goal only. Not for users or auto-invocation.
 disable-model-invocation: true
 ---
 
 # Create Plan Flow
 
-Write **one** plan file **inside an active `/goal`**. Template and location rules live in **`/create-plan`** — follow them.
+Write **one** plan file **inside an active `/goal`**. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
+
+**Internal only** — looked up by `/goal`. There is no standalone `/create-plan`; start `/goal` to plan and build.
+
+## Location
+
+```text
+.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md
+.agents/temp/goals/<goal-id>/plans/INDEX.md    # update when adding a plan
+```
+
+- `<NN>`: `01`, `02`, … dependency order (blockers first)
+- If only one plan: still use `plans/01-<slug>.md` (not a root `PLAN.md`)
+- **Never** use `.scratch/` or a global ACTIVE plan file
 
 ## Preconditions
 
@@ -19,14 +32,73 @@ Write **one** plan file **inside an active `/goal`**. Template and location rule
 
 ## Process
 
-1. Context: `/orchestrate-flow`, `/taste-flow`, ticket → `/trackers-flow`; read `grills/language.md`, `choice.md`, `rules.md` when present
+### 1. Context
+
+Read `GOAL.md` + `GRILL.md`. Also read `.agents/temp/grills/language.md`, `choice.md`, `rules.md` when present — use those terms in Overview/Approach/AC; honor choices and rules.
+
+1. `/orchestrate-flow`, `/taste-flow`, ticket → `/trackers-flow`
 2. Explore if needed; `/architecture-flow` (+ `/design-flow` if UI) into Structure/Design
-3. Write `.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md` using the `/create-plan` template (name with language terms; honor choices/rules)
-4. Update `plans/INDEX.md` + `STATUS.md`
-5. Once per INDEX row until complete — then `/implement-flow` for frontier plans
+
+### 2. Write the plan file
+
+```markdown
+# <title>
+
+**Status:** pending
+**Updated:** <ISO>
+**Goal id:** <goal-id>
+**Plan file:** `.agents/temp/goals/<goal-id>/plans/<NN>-<slug>.md`
+**Blocked by:** <none | 01-…>
+
+## Overview
+…
+
+## Problem
+…
+
+## Approach
+<concrete; /taste-flow; no Option A/B>
+
+## Structure
+…
+
+## Design
+<n/a or Design card>
+
+## Key files
+- …
+
+## File lane
+Paths this plan may write
+
+## Seams / verification
+…
+
+## Acceptance criteria
+- [ ] … (when structure is in play: callers stay thin; complexity behind service X; no entropy growth in touched lane)
+
+## Out of scope
+…
+
+## Todos
+- [ ] …
+```
+
+Update `plans/INDEX.md` row for this NN. Bump `STATUS.md` (`last: plan NN written`).
+
+### 3. Continue
+
+Once per INDEX row until complete — then `/implement-flow` for frontier plans.
+
+### 4. Subagents
+
+Task prompts: `goal-id` + `GOAL.md` + **this** `plans/NN-*.md`.
 
 ## Anti-patterns
 
 - Planning before grill yes
 - `.scratch/` or root `PLAN.md`
+- Single root `PLAN.md` when INDEX has multiple slices
+- `SwitchMode` / CreatePlan UI
 - Coding the feature here
+- Invoking this outside `/goal` as a user-facing skill

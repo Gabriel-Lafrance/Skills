@@ -2,7 +2,7 @@
 name: taste-flow
 description: >-
   Internal author coding taste for the pack. Looked up by /goal, /architecture,
-  /create-plan, /implement-flow, /validate-flow, /code-review. Never for users
+  /create-plan-flow, /implement-flow, /validate-flow, /code-review. Never for users
   or auto-invocation.
 disable-model-invocation: true
 ---

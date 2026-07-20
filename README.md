@@ -29,9 +29,8 @@ These are the skills **you** run. Everything else is internal and only used by `
 | [`/grill-me`](./skills/grill-me/SKILL.md) | Sharpen fuzzy intent until you share the same understanding. |
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
-| [`/create-plan`](./skills/create-plan/SKILL.md) | Write one plan file without starting a full `/goal`. |
 | [`/code-review`](./skills/code-review/SKILL.md) | Review a branch vs `main` (or another ref you name). |
-| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate an open PR with strict taste/architecture/design; show full draft comments; ask what to publish/modify; post on the Pull Request. |
+| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate an open PR (check prior comments were answered, rescan for new issues); show drafts; ask what to publish; post on the Pull Request. |
 | [`/repair`](./skills/repair/SKILL.md) | Fix a bug with the smallest safe change. Escalate big multi-layer bugs to `/goal`. |
 | [`/create-test`](./skills/create-test/SKILL.md) | Lock complex behavior with durable tests. Manual only — you must ask for it. |
 

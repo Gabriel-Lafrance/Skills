@@ -131,7 +131,7 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/create-plan` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; no entropy growth in the touched lane).
+When `/create-plan-flow` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; no entropy growth in the touched lane).
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
