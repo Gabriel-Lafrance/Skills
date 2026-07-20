@@ -17,9 +17,11 @@ description: >-
 **Hard:**
 
 - **One finding = one PR comment** (never bundle)
+- **Severity: Blocking or Nit only** (no non-blocking)
 - **No summary / announcement comments** on the PR (chat-only status)
 - **No helper scripts** in the repo (`build-review.cjs`, etc.) — **`gh` / `gh api` only**
 - **Nth pass:** Pass A covers **all** prior finding comments across every pass, not only the last one
+- **Pass B:** show drafts (severity already set), then **one** question: publish as shown? yes / no
 
 **Subagent model:** omit Task `model` unless the user asked for one.
 
@@ -37,10 +39,10 @@ description: >-
 
 ### Pass B (always: first review or after Pass A)
 
-7. **Fresh rescan** — Standards + Spec + Routes. Skip issues already on an open prior finding thread.
-8. **Show new drafts in chat** — **one full draft per new finding**. Nothing on the PR yet. **No em dashes.**
-9. **Questions** — publish / skip / modify **per draft**; review event. `Reply like:` uses recommended letters. Wait.
-10. **Post via `gh` only** — each approved draft as its **own** inline/API comment. Empty/minimal review body. **Never** a summary PR comment. **Never** write `build-review.cjs` (or any review helper) into the repo.
+7. **Fresh rescan** — Standards + Spec + Routes. Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
+8. **Show new drafts in chat** — **one full draft per finding** with severity already on it. Nothing on the PR yet. **No em dashes.**
+9. **One question only** — Publish all drafts as shown? `a) yes` ← recommended / `b) no — say what to change`. Do **not** ask per draft or re-ask severity. Wait for `1a` (or override).
+10. On yes: **Post via `gh` only** — each draft as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
 11. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
 
 ## Anti-patterns
@@ -48,6 +50,7 @@ description: >-
 - Summary / "posted N comments" / index comment on the PR
 - `build-review.cjs` or other repo files to submit reviews
 - One comment or review body containing multiple findings
+- **Non-blocking** severity; per-draft Pass B questions; re-asking blocking vs nit after drafts are shown
 - Asking about correctly closed priors with nothing to do
 - `Reply like:` not matching recommended answers
 - Pass A only on the latest pass

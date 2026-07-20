@@ -163,7 +163,10 @@ Aggregate: `## Standards`, `## Spec`, `## Routes`.
 - Review the **diff and runtime paths**, not the author.
 - Prefer **fewer, high-conviction** comments; still **split** them (one each).
 - Every comment: **where**, **what is wrong**, **why it matters**, **what good looks like**.
-- **Blocking** / **Non-blocking** / **Nit** as usual.
+- **Severity is only two levels:**
+  - **Blocking** — should be edited before merge (anything that must change)
+  - **Nit** — optional / whatever; nice-to-have, not required to merge
+- There is **no** "non-blocking" middle status. If it should be edited → **Blocking**. If it is truly optional → **Nit**.
 - Do not restate the diff. Add insight.
 - Praise sparingly (one line max). Never bury real issues.
 
@@ -172,7 +175,7 @@ Aggregate: `## Standards`, `## Spec`, `## Routes`.
 Draft and post only in this shape (**single issue only**):
 
 ```text
-Blocking: | Non-blocking: | Nit:
+Blocking: | Nit:
 
 **Where:** `path` (symbol / line context)
 **Issue:** <one clear sentence about ONE problem>
@@ -185,60 +188,68 @@ Blocking: | Non-blocking: | Nit:
 - No vague "consider refactoring" without a target shape.
 - Prefer **inline** when a precise line exists.
 - Body must be the finding itself, not a pointer to "see comments below."
+- Prefix is **Blocking:** or **Nit:** only. Never `Non-blocking:`.
 
-## Pass B drafts, then publish triage
+## Pass B drafts, then one publish question
 
-**Never post new comments, and never ask publish for new drafts, until the user has seen every full new draft (in chat).**
+**Never post, and never ask to publish, until the user has seen every full new draft in chat** (with severity already chosen on each draft).
 
 ### 1. Show all **new** drafts in chat (one section per finding)
+
+Severity is **already set** on each draft (Blocking or Nit). Do not ask per-draft severity.
 
 ```markdown
 ## New draft PR comments (Pass B)
 Review these in chat before anything is posted. Each draft becomes its own PR comment. No summary comment will be posted.
 
-### Draft 1 — new · blocking (proposed) · inline `auth.ts` L20
-…
+### Draft 1 — Blocking · inline `auth.ts` L20
+Blocking:
 
-### Draft 2 — new · non-blocking (proposed) · inline `page.tsx` L55
-…
+**Where:** …
+**Issue:** …
+**Why:** …
+**Fix:** …
+
+### Draft 2 — Nit · inline `page.tsx` L55
+Nit:
+
+**Where:** …
+**Issue:** …
+**Why:** …
+**Fix:** …
 ```
 
-If zero new drafts: say so in chat. Then review-event question only.
+If zero new drafts: say so in chat. No Pass B Questions (unless you only need a review event with no new comments; usually stop or Approve only when clean and priors clear).
 
-### 2. Questions for new drafts
+### 2. Exactly **one** Questions item for Pass B
+
+Do **not** ask one question per draft. Do **not** ask blocking vs nit again (already visible on the drafts). Do **not** add a separate "review event" question; derive it on publish:
+
+- Any **Blocking** draft published → GitHub review event **Request changes**
+- Only **Nit** drafts published → review event **Comment** (minimal/empty body)
+- No drafts / user declined publish, priors clear → may **Approve** only if nothing open remains
 
 ```markdown
 ## Questions
-Reply like: `1a, 2b, 3a` (recommended answers filled in; change any letter to override).
+Reply like: `1a` (recommended answer filled in; change the letter to override).
 
-1. Draft 1?
-   - a) Publish as blocking ← recommended
-   - b) Publish as non-blocking
-   - c) Skip
-   - d) Modify then publish — paste revised text or say what to change
-2. Draft 2?
-   - a) …
-   - b) Publish as non-blocking ← recommended
-   - c) Skip
-   - d) Modify then publish
-N. Submit the GitHub review event as?
-   - a) Request changes ← recommended if any blocking published or open prior blockers remain
-   - b) Comment (event only; still no summary body)
-   - c) Approve (only if no blocking kept and priors are resolved / cleared)
+1. Publish all drafts above as shown?
+   - a) yes — post each as its own PR comment ← recommended
+   - b) no — say what to change, drop, or rewrite
 ```
 
-Only include draft numbers that need a publish decision. `Reply like:` must match the recommended letters for this batch (e.g. if draft 1 recommends `a` and draft 2 recommends `b` and review event recommends `a`, write `Reply like: 1a, 2b, 3a`).
+**Wait.** On **yes**: post every shown draft as its own comment (severity unchanged). On **no**: apply their instructions, show revised drafts again if needed, then the same single question once more.
 
-**Wait.** Apply modifications. Publish **each** approved draft as its **own** review comment object. Never concatenate drafts. Never add an extra PR comment that only summarizes what was published.
+Never concatenate drafts. Never add an extra PR comment that only summarizes what was published.
 
-For `gh pr review`: prefer submitting the review **with inline comments only** and an empty/minimal review body, or omit a narrative body entirely. If the API requires a body, use a single neutral character or empty string if allowed. **Do not** put the list of findings in the review body.
+For `gh pr review`: inline comments only + empty/minimal review body. **Do not** put the list of findings in the review body.
 
 ## Posting (Pull Request only)
 
 1. Pass A: resolve and/or **one reply per prior thread** as approved. No Pass A summary comment.
-2. Pass B: **one GitHub review comment per approved draft** via `gh` / `gh api` only. Separate comment objects. No repo scripts.
+2. Pass B: **one GitHub review comment per draft** via `gh` / `gh api` only (after the single yes). Separate comment objects. No repo scripts.
 3. If inline fails, one PR conversation comment **for that one issue**; say in chat that you fell back.
-4. Prefix `Blocking:` / `Non-blocking:` / `Nit:` as triaged. Strip em dashes.
+4. Prefix `Blocking:` or `Nit:` only. Strip em dashes.
 5. Do not close/merge the PR. Do not write Linear.
 6. Afterward: list what posted **in chat only**.
 
@@ -247,6 +258,8 @@ Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 ## Anti-patterns
 
 - Asking about correctly closed / no-action priors (noise Questions)
+- One Questions item **per** Pass B draft, or re-asking blocking vs nit after drafts are shown
+- Using **non-blocking** severity (illegal; use Blocking or Nit only)
 - `Reply like:` that does not match the recommended letters for the batch
 - Posting a summary / announcement / "new comments" index on the PR
 - Creating `build-review.cjs` (or any repo file) to submit the review
@@ -254,8 +267,8 @@ Fix loop → `/code-review` then `/goal`. Do not auto-start `/goal`.
 - Pass A only on the latest review / latest pass (must include **all** historical finding comments)
 - Skipping Pass A when prior threads exist
 - Asking about new drafts before finishing per-prior triage (when Pass A has questions)
-- Asking publish/skip before showing full draft bodies in chat (Pass B)
-- Softening taste / architecture / design failures into nits
+- Asking to publish before showing full draft bodies in chat (Pass B)
+- Softening must-edit findings into nits
 - Em dashes in comments
 - "LGTM" / Approve while prior blockers are Unanswered or Partial
 - Posting on the Linear issue instead of the PR
