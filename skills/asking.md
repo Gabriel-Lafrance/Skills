@@ -24,9 +24,9 @@ When drafting options, prefer these as **recommended** unless the user already l
 | --- | --- |
 | Taste / entry shape | Match `/taste` doctrine + a **good** sibling |
 | Unsure which skill | Recommend `/ask-gabriel` |
-| Architecture | Services over feature-forked domain logic; folders before files |
+| Architecture | Services over feature-forked domain logic; folders before files; compose **primitives** inside deep modules over ad-hoc reimplementation |
 | Prior mistakes / debt | **Behavior-preserving move** into the right service/folder — not “leave it where it is” |
-| Complexity / entropy | **Deep module** + behavior-preserving cleanup over “leave debt / add another shallow helper” |
+| Complexity / entropy | **Deep module** + **primitives** (reuse, do not fork) + behavior-preserving cleanup over “leave debt / add another shallow helper” |
 | Package / vendor / storage | Lock a one-phrase pick into the active skill’s choice log (e.g. under `.agents/temp/…/choice.md`) |
 | Actor / business policy | Lock a one-phrase rule into the active skill’s rules log (e.g. under `.agents/temp/…/rules.md`) |
 | Repair | **Smallest patch** that fixes the defect |

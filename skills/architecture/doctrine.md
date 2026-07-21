@@ -1,6 +1,6 @@
 # Architecture Doctrine
 
-Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a deep public surface; complexity lives behind it; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
+Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a deep public surface; depth is built from strong primitives inside those modules; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
 Read **`/taste`** first — especially **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
@@ -35,7 +35,7 @@ Rules:
 - Features import **only** the service's public surface. Stripe/SDK/DB helpers stay behind that surface.
 - Name public functions as **verbs the product understands** (`makeUserPay`, not `runStripeCheckoutSessionHelper`).
 - Prefer **throw + try/catch** at service boundaries (see `/taste`) — not `{ success: false }` bags.
-- One service ≠ one giant file: public entry + collaborators inside the service folder (see §5).
+- One service ≠ one giant file: public entry + collaborators / primitives inside the service folder (see §3, §6).
 
 Anti-patterns:
 
@@ -61,13 +61,44 @@ Rules:
 - Call sites should not know about helpers, parsers, adapters, or edge-case branches
 - One main export / one main type per file when practical
 - Prefer **class** for stateful domain behavior; hooks for React; **service** for shared domain I/O — details in `/taste`
-- Pull complexity **down** into collaborators; keep the public surface deep
+- Pull complexity **down** into collaborators and **primitives** (§3); keep the public surface deep
 
 The entry point is not always a TypeScript `interface`. Pick the shape that fits the stack.
 
 Anti-pattern: **shallow modules** — complex interface relative to what they do (many params/options/leaked steps, callers still orchestrate the how).
 
-### 3. Prior mistakes are not sacred (behavior-preserving moves)
+### 3. Primitives (building blocks inside deep modules)
+
+A **primitive** is a **small piece of code** that is **strong yet flexible** and answers **one very specific thing**. It can be **reused independently without breaking**. Primitives are the **strong blocks** you build with — the pieces **inside services and deep modules**.
+
+| Property | Meaning |
+| --- | --- |
+| **Small** | Narrow scope — not a feature, not a god module |
+| **One specific job** | Answers one question / does one thing well |
+| **Strong** | Deep enough that callers do not reimplement that job |
+| **Flexible** | Composes / chains; reuse does not force brittle coupling |
+| **Independent reuse** | Call sites can use it without breaking it or each other |
+| **Placement** | Lives **inside** services and deep modules — building blocks of those, not a rival top-level architecture |
+
+The deep public surface (§2) is what callers see. **Primitives** are how that depth stays real without leaking every concern to every call site. Services own domain capabilities; **primitives sit inside** them (and other deep modules).
+
+Rules:
+
+1. Prefer **building with primitives** — small one-job blocks — over duplicating that job at call sites.
+2. **Explore first** — reuse an existing primitive when it already answers that specific thing.
+3. When creating one: keep it **small, one job, strong yet flexible**, safe to reuse independently.
+4. Place it **inside** the owning service / deep module (or a shared layer those modules compose) — not a dumping-ground `utils`.
+5. **Do not fork** a primitive's job in a feature or sibling helper.
+6. Reason from this **definition** — discover primitives by exploring **this** repo. Do **not** invent a canned catalog from training data.
+
+Anti-patterns:
+
+- Forking a primitive's job locally (complexity + entropy — see `/taste`)
+- Thin identity wrappers that only rename with no strength
+- Sprawling helpers that answer many things (not one specific job)
+- Promoting primitives to a parallel top-level architecture that rivals services
+
+### 4. Prior mistakes are not sacred (behavior-preserving moves)
 
 Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there." Leaving or copying wrong placement is **entropy growth** (`/taste`).
 
@@ -85,7 +116,7 @@ Anti-patterns:
 - Copying a bad sibling to stay consistent with debt (entropy)
 - Asking "leave it where it is?" as the recommended option when a clear move preserves behavior
 
-### 4. Folders before files
+### 5. Folders before files
 
 Never sprinkle related files across a flat directory. **Propose the folder map before creating files.**
 
@@ -94,14 +125,14 @@ Never sprinkle related files across a flat directory. **Propose the folder map b
 3. If no convention fits, create a **feature/domain folder** and put the cluster inside it
 4. Colocate what changes together; separate what changes for different reasons
 5. Name files per **`/taste`** — `lowercase-with-hyphens` in app/UI; **no `-` or `_` in `convex/` filenames**
-6. Avoid `utils.ts` / `helpers.ts` dumping grounds — name the concept (often: promote to a service)
+6. Avoid `utils.ts` / `helpers.ts` dumping grounds — name the concept (often: promote to a service, or a **primitive** inside one — §3)
 7. Cite a **good** sibling feature **or existing service** when one exists (taste: cite-a-sibling) — bad nearby code is debt to move, not a template
 
 Anti-pattern: five new sibling files next to unrelated code with no folder; or a new "payments helper" beside a feature when a billing service should own it.
 
-### 5. Small collaborating parts
+### 6. Small collaborating parts
 
-Inside the folder, split by responsibility:
+Inside the folder, split by responsibility — public entry, then **primitives** and collaborators:
 
 ```text
 # Service (domain)
@@ -120,9 +151,9 @@ features/checkout/
 
 Convex modules live under `convex/` with **taste naming** (`billing.ts`, not `billing-actions.ts`). A Convex service module still exposes a small public set of queries/mutations/actions; features call those — they don't duplicate Stripe/auth logic in another Convex file.
 
-Adjust names to the repo. Keep depth shallow: public entry → a few collaborators → leaf helpers. Never-nest deep control flow; extract instead.
+Adjust names to the repo. Keep depth shallow: public entry → primitives / collaborators → leaf helpers. Never-nest deep control flow; extract instead.
 
-### 6. Scalable by default (critical — AI often gets this wrong)
+### 7. Scalable by default (critical — AI often gets this wrong)
 
 **Reads must stay cheap as data grows.** Prefer **compute on write**, store the result, read it later.
 
@@ -170,6 +201,7 @@ If a one-off admin script needs a full scan, say so explicitly — never copy th
 Read nearby folders. Note:
 
 - **Existing services** for the same concern (billing, auth, …) — reuse/extend first
+- **Existing primitives** inside those services / deep modules — reuse when they already answer that specific job; do not fork
 - **Wrong existing shape in the lane** — feature-forked domain logic, bad sibling, misplaced files (plan a behavior-preserving move; do not copy)
 - How similar features call those services (public API only?)
 - Existing entry-point patterns (services vs hooks vs classes vs modules)
@@ -189,8 +221,12 @@ Present this before writing code (and include it in `/create-plan` when planning
 - **Must not duplicate:** <Stripe / JWT / email provider / …>
 **Moves / corrections:** <relocate X → services/billing; delete old path> | _none_
 **Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI); **deep** surface
+**Primitives:**
+- **Reuse (existing):** cite path + one-line job | _none_
+- **New / extend:** path — one specific job; how it stays reusable without breaking
+- **Inside:** which service / deep module owns it
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
-**Complexity / entropy:** public API deep? change reduces or holds entropy in touched lane? (see `/taste`)
+**Complexity / entropy:** public API deep? primitives reused not forked? change reduces or holds entropy in touched lane? (see `/taste`)
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
@@ -207,13 +243,14 @@ Present this before writing code (and include it in `/create-plan` when planning
 **Taste:** follows `/taste` naming + entry shape + ≤2 class/interface depth
 ```
 
-If service boundary, public API shape, folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (reply `1a, 2b`) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
+If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (reply `1a, 2b`) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
 
 ### 3. Implement against the card
 
 - Create service / feature folders first, then files
 - Perform **Moves / corrections** before bolting new feature code onto the old shape
 - Put domain logic in the **service**; features call public functions only
+- Build depth with **primitives** inside the service / deep module — reuse existing ones; do not fork their jobs
 - Wire collaborators so the public API is the only thing most call sites import
 - Do not export service internals unless another package truly needs them
 - Implement aggregate updates on the **write path** when the card says so
@@ -222,12 +259,13 @@ If service boundary, public API shape, folder root, write-vs-read, or a **move v
 
 - [ ] Domain concerns live in a **service** with a clear public API (or an existing one was extended)
 - [ ] Features **call** that API — no forked billing/auth/notifications/… inside the feature
+- [ ] **Primitives:** one job each; reused not forked; sit inside the owning service / deep module; strong yet flexible (not identity wrapper, not god helper)
 - [ ] Prior mistakes in the lane were **moved/corrected** (or explicitly `_none_`) — not copied
 - [ ] No feature imports service internals
 - [ ] A new reader can use the feature from its entry point alone
 - [ ] Related new files share one folder (or an existing convention)
 - [ ] No flat file dump / no anonymous `utils` bag standing in for a service
-- [ ] Public API is **deep** (simple surface); complexity is inside collaborators, not at every call site
+- [ ] Public API is **deep** (simple surface); complexity is inside collaborators / primitives, not at every call site
 - [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
 - [ ] `/taste` naming and error style respected
 - [ ] No hot-path "compute metrics on render/read" — aggregates stored and updated on write

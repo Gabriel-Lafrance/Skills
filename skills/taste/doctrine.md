@@ -6,12 +6,12 @@ For good vs bad snippets, see [examples.md](examples.md).
 
 ## Bad code = complexity and entropy
 
-**Bad code** is whatever **increases complexity** or **entropy**. **Good code** is deep where it matters (simple surface, rich inside), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
+**Bad code** is whatever **increases complexity** or **entropy**. **Good code** is deep where it matters (simple surface, rich inside), built from **strong primitives** inside services / deep modules (`/architecture` §3), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
 
 | Term | Meaning |
 | --- | --- |
-| **Complexity** | Change amplification, cognitive load, unknown unknowns — hard to understand or change safely. Prefer fewer concepts at the call site; put richness behind a **deep** entry (`/architecture` deep public surface). |
-| **Entropy** | Local disorder that spreads when copied or left untouched in a lane you edit (broken windows). Touching a dirty lane without a **behavior-preserving cleanup** when you can preserve behavior **increases** entropy. |
+| **Complexity** | Change amplification, cognitive load, unknown unknowns — hard to understand or change safely. Prefer fewer concepts at the call site; put richness behind a **deep** entry (`/architecture` deep public surface). Forking a **primitive's** one job locally amplifies change. |
+| **Entropy** | Local disorder that spreads when copied or left untouched in a lane you edit (broken windows). Touching a dirty lane without a **behavior-preserving cleanup** when you can preserve behavior **increases** entropy. Forking or bypassing an existing primitive's job is entropy. |
 
 **Operational tests** (apply before shipping a slice):
 
@@ -19,6 +19,7 @@ For good vs bad snippets, see [examples.md](examples.md).
 2. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
 3. **Window** — Are we copying or extending a known-wrong shape? → entropy.
 4. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it (build or review).
+5. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
 
 Non-negotiables below are **consequences** of this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies it to structure; `/code-review` blocks regressions.
 
@@ -30,7 +31,7 @@ Non-negotiables below are **consequences** of this definition (never-nest, DRY, 
 4. **One component (or main export) per file**
 5. **No dynamic `import()`** — static imports only
 6. **Comments only** to summarize big/complex functions — no narrating obvious code
-7. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §3 Prior mistakes; same spirit as `/code-review` judo while building)
+7. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building)
 8. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB)
 9. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns
 10. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
@@ -77,9 +78,10 @@ Plans and structure cards **must** name the extension seam for big features.
 ## Shape (with `/architecture`)
 
 - **Services** own domain concerns (billing, auth, …) with a small public API — features call them; never reimplement per feature
+- **Primitives** — small, strong-yet-flexible, one-job blocks **inside** services and deep modules; reuse independently without breaking; explore and compose, do not fork (`/architecture` §3)
 - Prefer **OOP** (class / abstract class) for stateful domain behavior and shared lifecycle (often *is* the service)
 - Prefer **hooks** for React state/effects; **services** (module/class/facade) for shared domain I/O
-- Call sites import the **simple entry point / service public API** only — hide collaborators
+- Call sites import the **simple entry point / service public API** only — hide collaborators and primitives behind that surface
 - Prefer over-splitting files inside a service or feature folder over god files
 - Cite a **good** sibling feature **or existing service** when one exists — do not copy debt; move/correct when touching that lane (`/architecture` prior-mistakes)
 
@@ -131,17 +133,17 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/create-plan` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; no entropy growth in the touched lane).
+When `/create-plan` or a ticket-driven `/goal` writes acceptance criteria, include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; primitives reused not forked; no entropy growth in the touched lane).
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
 ## Implement self-check (required each slice)
 
 - [ ] Sibling pattern cited is a **good** one (or explicitly "greenfield" / correcting debt)
-- [ ] Entry point + folder match `/architecture` card (including **Moves / corrections**)
+- [ ] Entry point + folder match `/architecture` card (including **Moves / corrections** and **Primitives**)
 - [ ] Did not copy a bad sibling — moved/corrected when the lane had prior mistakes
 - [ ] Change **reduces or holds complexity** at call sites (deep entry, not shallower)
-- [ ] Touched lane: **no entropy growth** (did not copy/extend known-wrong shape without a move)
+- [ ] Touched lane: **no entropy growth** (did not copy/extend known-wrong shape without a move; did not fork a primitive's job)
 - [ ] Naming rules above (especially Convex)
 - [ ] No nesting pyramids / no dynamic import / no `success: false`
 - [ ] One main export per new file

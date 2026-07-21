@@ -26,6 +26,7 @@ Also pull other skills when relevant — don't fake their checks:
 | Taste self-check | Code diffs | `/taste` |
 | Scalability | Lists, metrics, queries, dashboards | `/architecture` / `/architecture` write-path rules |
 | Services | Domain capability (billing, auth, …) | `/architecture` — features call a service public API; no per-feature fork |
+| Primitives | Structure card names them, or lane has one-job blocks inside a service / deep module | `/architecture` §3 — reuse not fork; Structure **Primitives** honored when present |
 | Design | UI in scope | `/design` (or `/design` topics) |
 | Still broken | Failures look like defects | `/repair` or `/repair` |
 
@@ -106,10 +107,11 @@ Gather live evidence for each criterion (terminals first, fast CLI if needed). M
 
 If the diff touches lists/metrics/aggregates/hot queries: **Does this code scale?** Fail = fail validate. If N/A, say why.
 
-### 6. Taste / design
+### 6. Taste / design / primitives
 
 `/taste` implement self-check on the diff — failures are **fail**.  
-UI in scope → `/design` checks.
+UI in scope → `/design` checks.  
+When the Structure card names **Primitives** (or explore shows one-job blocks in the lane): reuse not fork — fail if the card's primitives were bypassed or reimplemented locally.
 
 ### 7. Report
 
@@ -142,6 +144,11 @@ UI in scope → `/design` checks.
 | Check | Status | Evidence |
 | --- | --- | --- |
 | … | pass / fail | … |
+
+### Primitives (when Structure / lane has them)
+| Check | Status | Evidence |
+| --- | --- | --- |
+| Reuse not fork; card honored | pass / fail / N/A | … |
 
 ### Scalability
 | Question | Status | Evidence |

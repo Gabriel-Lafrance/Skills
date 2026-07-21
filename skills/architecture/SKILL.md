@@ -1,10 +1,11 @@
 ---
 name: architecture
 description: >-
-  Shape scalable code: domain services with public APIs, simple entry points,
-  clear folders, write-path data design. Dual skill: agent picks standalone vs
-  flow via variants.md. Use when adding features, splitting logic, designing
-  data/reads, or about to dump files / duplicate domain logic. User must invoke.
+  Shape scalable code: domain services with public APIs, strong primitives
+  inside deep modules, simple entry points, clear folders, write-path data
+  design. Dual skill: agent picks standalone vs flow via variants.md. Use when
+  adding features, splitting logic, designing data/reads, or about to dump
+  files / duplicate domain logic. User must invoke.
 disable-model-invocation: true
 ---
 

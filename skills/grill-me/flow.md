@@ -20,7 +20,7 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 | When | Load | Ask the user about |
 | --- | --- | --- |
 | Always | `/taste` | Error style, naming, entry shape bias (hook/class/facade), verify-via-terminals expectation, anything that would violate taste |
-| Multi-file, data, or scale | `/architecture` | Which **service** owns the domain (billing/auth/…), public API to call or add, feature vs service boundary, folder map, write-path aggregates vs compute-on-read, indexes, what must not sprawl; when debt is visible — **relocate into the right service / correct prior placement** to **reduce entropy** (recommend the behavior-preserving move, not "leave it") |
+| Multi-file, data, or scale | `/architecture` | Which **service** owns the domain (billing/auth/…), public API to call or add, feature vs service boundary, **primitives** (reuse existing one-job blocks inside the service / deep module vs new vs fork), folder map, write-path aggregates vs compute-on-read, indexes, what must not sprawl; when debt is visible — **relocate into the right service / correct prior placement** to **reduce entropy** (recommend the behavior-preserving move, not "leave it") |
 | UI in scope (or unclear) | `/design` | Job of the screen, primary action, hierarchy, surfaces/depth, states, ethical psychology — draft Design-card answers with them |
 
 3. Prefer **recommended answers** drawn from `/taste` + **good** sibling patterns + `/architecture` prior-mistakes courage + existing `grills/` themes; mark them in the batch. Do **not** recommend copying debt.

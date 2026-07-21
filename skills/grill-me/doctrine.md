@@ -53,7 +53,7 @@ Theme file shapes:
 ## Rules
 
 1. Walk each branch of the decision tree. Resolve dependencies — if Q2 depends on Q1's answer, either give options that cover both paths in one batch, or ask Q1's batch first then a follow-up batch.
-2. For every optioned question, give your **recommended** answer (marked). When architecture debt is visible and a **behavior-preserving move** is clear (`/architecture` §3), **recommend the move** to **reduce entropy** (`/taste` complexity & entropy) — not "keep where it is."
+2. For every optioned question, give your **recommended** answer (marked). When architecture debt is visible and a **behavior-preserving move** is clear (`/architecture` §4), **recommend the move** to **reduce entropy** (`/taste` complexity & entropy) — not "keep where it is."
 3. **Batch** per [../asking.md](../asking.md) — do not ask one at a time when several are known.
 4. Cover at least (skip only if already settled) — put all unsettled items in the **same** first batch when possible:
    - Exact outcome and non-goals

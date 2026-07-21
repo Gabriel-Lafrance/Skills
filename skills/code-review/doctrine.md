@@ -59,7 +59,7 @@ Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession
 
 ## Architecture + taste checks (hard unless repo docs contradict)
 
-Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §3 — entropy); **complexity regression** or **entropy growth** (`/taste`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
+Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **forking or bypassing an existing primitive's one job** (`/architecture` §3 — complexity + entropy); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §4 — entropy); **complexity regression** or **entropy growth** (`/taste`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
 
 ## Thermonuclear maintainability (Standards — not Routes)
 
@@ -73,13 +73,13 @@ Lens (from `/taste`): **complexity** (hard to understand/change) and **entropy**
 1. **1000-line file rule** — do not push a file from under 1k to over 1k without a strong reason (presumptive blocker)
 2. No spaghetti growth — ad-hoc conditionals bolted onto unrelated flows
 3. Clean design > "it works"
-4. Direct over magic / thin wrappers / identity abstractions
+4. Direct over magic / thin wrappers / identity abstractions — **strong primitives** (`/architecture` §3) are deep one-job blocks inside services/modules; identity wrappers still fail
 5. Type and boundary cleanliness — `any` / casts / muddy optionality
-6. Canonical layer + reuse existing helpers
+6. Canonical layer + reuse existing helpers **and primitives**
 7. Avoid needless sequential orchestration / half-applied state when atomic structure is obvious
 8. **Should-have-moved** — prior debt in the touched lane left in place (or copied) when a clear behavior-preserving relocation exists
-9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry
-10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live
+9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry; **forking a primitive's job**
+10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live; **bypassing an existing primitive**
 
 **Prioritize:** structural regressions → complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Prefer fewer high-conviction comments over nit floods.
 
@@ -192,7 +192,7 @@ Reply like: `1a, 2b`
 | Step | Do |
 | --- | --- |
 | Goal contract | Goal = fix the Fix backlog; Done when = binary check per backlog item (or tight groups); Context = this review + fixed-point diff; Constraints = no unrelated product scope — **behavior-preserving moves listed in the backlog are in scope** |
-| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — **one batched Questions** for what/how/footprint/non-goals/split; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §3) |
+| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — **one batched Questions** for what/how/footprint/non-goals/split; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §4) |
 | Gates | Non-goals + split + shared understanding in that same batch |
 | Build | Continue `/goal` Phase 1 (plans → implement → link checkup → validate → `/code-review`) |
 

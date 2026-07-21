@@ -33,7 +33,7 @@ const cart = useCart(userId);
 await stripe.checkout.sessions.create({ … });
 ```
 
-**Good** — behavior-preserving move into the right service; cite the good shape (`/architecture` §3):
+**Good** — behavior-preserving move into the right service; cite the good shape (`/architecture` §4):
 
 ```typescript
 // services/billing/billing.ts — makeUserPay owns Stripe
