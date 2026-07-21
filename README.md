@@ -26,7 +26,7 @@ npx skills@latest update -g -y
 | [`/ask-gabriel`](./skills/ask-gabriel/SKILL.md) | Unsure which skill; what next; before non-trivial work |
 | [`/goal`](./skills/goal/SKILL.md) | Build a feature end-to-end (grill → plans → implement → validate → review). Pass a ticket: `/goal IN-1234` or `/goal #42`. |
 | [`/analyze`](./skills/analyze/SKILL.md) | Research a task or idea. Writes findings to disk. Optionally promote to `/goal` or `/write-ticket`. |
-| [`/write-ticket`](./skills/write-ticket/SKILL.md) | Refine or create a Linear/GitHub Feature or Bug ticket (open vision/bug grill → `/analyze` → draft → write after you approve). |
+| [`/write-ticket`](./skills/write-ticket/SKILL.md) | Refine or create a Linear/GitHub Feature, Bug, or Refactor ticket (open grill → `/analyze` → draft → write after you approve). |
 | [`/grill-me`](./skills/grill-me/SKILL.md) | Sharpen fuzzy intent until you share the same understanding. |
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |

@@ -33,7 +33,7 @@ When drafting options, prefer these as **recommended** unless the user already l
 | Repair | **Smallest patch** that fixes the defect |
 | Design polish | Smallest depth/color/hierarchy fix over structural rewrite |
 | Confirm gates / recap | **Announce** non-goals + plan split + shared-understanding summary in Locked. Ask only real open product/UX/architecture/taste choices |
-| Ticket type (`/write-ticket`) | Feature when capability/enhancement; Bug when broken/wrong behavior |
+| Ticket type (`/write-ticket`) | Feature when capability/enhancement; Bug when broken/wrong behavior; Refactor when move/cleanup/debt without new product behavior |
 | Ticket metadata (`/write-ticket`) | Status: backlog/todo for create; Priority: Medium unless urgency clear; Assignee: Unassigned unless an owner is obvious |
 
 ## Batch template

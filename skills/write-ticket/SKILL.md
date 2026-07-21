@@ -1,11 +1,12 @@
 ---
 name: write-ticket
 description: >-
-  Standalone only — never used in /goal. Feature or Bug ticket for Linear/GitHub:
-  open-question vision/bug grill first, then /analyze, then (features) announce
-  principle-level solution, draft, and write after approval (status, priority,
-  assignee). Org-friendly, not implementation-deep. For analysis without a
-  ticket use /analyze. Unsure → /ask-gabriel.
+  Standalone only — never used in /goal. Feature, Bug, or Refactor ticket for
+  Linear/GitHub: open-question vision/bug/refactor grill first, then /analyze,
+  then (Feature/Refactor) announce principle-level solution, draft, and write
+  after approval (status, priority, assignee). Org-friendly, not
+  implementation-deep. For analysis without a ticket use /analyze. Unsure →
+  /ask-gabriel.
 disable-model-invocation: true
 ---
 
@@ -15,13 +16,13 @@ disable-model-invocation: true
 
 **Standalone only.** Never call from `/goal`, never ship a `write-ticket-flow`. This skill **writes** to Linear/GitHub — unlike `/trackers` (read-only) and `/analyze` (research only).
 
-Org-friendly ticket writer: **open grill** (vision or bug IT) → **`/analyze`** → **announce principle solution** (features) → **draft → approve metadata → write**. Implementation detail belongs in `/goal`, not here.
+Org-friendly ticket writer: **open grill** (vision / bug IT / refactor) → **`/analyze`** → **announce principle solution** (Feature + Refactor) → **draft → approve metadata → write**. Implementation detail belongs in `/goal`, not here.
 
 **Ask styles:**
 
 | When | Style |
 | --- | --- |
-| Vision / bug open grill | Numbered **freeform** questions — **no** `a)/b)` choices (write-ticket-only exception) |
+| Vision / bug / refactor open grill | Numbered **freeform** questions — **no** `a)/b)` choices (write-ticket-only exception) |
 | Type lock + draft metadata (write / status / priority / assignee) | Lettered batch via [../asking.md](../asking.md) |
 
 **Subagent model:** omit Task `model` unless the user asked for one (workers launched by `/analyze`).
@@ -34,6 +35,7 @@ Every run locks **one** type before the open grill:
 | --- | --- | --- |
 | **Feature** | New capability, enhancement, or intentional product change | Linear: Feature (or Feature label/type) · GitHub: `enhancement` / feature label or issue type |
 | **Bug** | Defect — wrong/broken behavior vs expected | Linear: Bug (or Bug label/type) · GitHub: `bug` label or issue type |
+| **Refactor** | Relocate / reshape / pay structural debt without changing intended product behavior | Linear: Improvement/Refactor (or label) · GitHub: `refactor` / `tech-debt` label (or issue type if present) |
 
 ### Required sections by type
 
@@ -61,20 +63,36 @@ Every run locks **one** type before the open grill:
 | **What should happen if it worked** | Expected correct behavior |
 | **Notes** | Anything else useful |
 
-Bug tickets do **not** include Definition of Done, Entrypoints, Proposed architecture, or Non-goals.
+Bug tickets do **not** include Definition of Done, Entrypoints, Proposed architecture, Pros/Cons, or Non-goals.
 
-### Proposed architecture grain (features only)
+**Refactor** (hard gate before write):
+
+| Section | Must answer |
+| --- | --- |
+| **Ask / Why** | Plain-language why this shape must change |
+| **What must not change** | User-visible / system behavior that stays the same |
+| **Pros** | What we gain (maintainability, reuse, entropy, clarity) — plain language |
+| **Cons** | Tradeoffs / risks / cost — honest, not empty |
+| **Definition of Done** | Structural outcome + “behavior still holds” checks (plain language) |
+| **Entrypoints** | Files + symbols in the lane to move/reshape |
+| **Proposed architecture** | Target principles (move into service X, compose deep modules, delete old path) |
+| **Non-goals** | Strict don’t-wants (e.g. no new features) — omit if none |
+| **Notes** | Short notes from grill + analyze |
+
+**Pros / Cons** are required on Refactor only. Draft after analyze; never ship one-sided cheerleading — Cons must name real costs.
+
+### Proposed architecture grain (Feature + Refactor)
 
 | Include | Exclude |
 | --- | --- |
-| Where it can live (`utils.ts`, new service, compose existing deep modules) | Method bodies, algorithms, signatures |
-| Reuse vs create — named modules/services when known from analyze | Full file trees unless placement is the whole point |
+| Where it can live / move (`utils.ts`, new service, compose existing deep modules) | Method bodies, algorithms, signatures |
+| Reuse vs create / delete old path — named modules when known from analyze | Full file trees unless placement is the whole point |
 | One-line “why this shape” | Implementation how-to (that is `/goal`) |
 
-Good: “Add a small helper in `billing/utils.ts`, or a `billing` service if other features will call it.”  
+Good: “Move Stripe calls into `billing` service; features call `makeUserPay` only.”  
 Bad: “Implement useEffect that fetches… then setState…”
 
-**Non-goals (features):** only explicit don’t-wants (e.g. “no OAuth”). Never invent filler non-goals.
+**Non-goals (Feature + Refactor):** only explicit don’t-wants (e.g. “no OAuth”, “no new product features”). Never invent filler non-goals.
 
 ## Inputs
 
@@ -108,9 +126,10 @@ Reply like: 1a
 1. Ticket type?
    - a) Feature ← recommended when the ask is a new/enhanced capability
    - b) Bug ← recommended when the ask is broken/wrong behavior
+   - c) Refactor ← recommended when the ask is move/cleanup/debt without new product behavior
 ```
 
-Refine: if labels/type already say Feature or Bug, recommend matching; still confirm if ambiguous. **Wait.** Do not open-grill until type is locked.
+Refine: if labels/type already say Feature, Bug, or Refactor, recommend matching; still confirm if ambiguous. **Wait.** Do not open-grill until type is locked.
 
 ### 2. Open grill (before analyze)
 
@@ -145,7 +164,20 @@ Use / adapt (skip settled):
 8. Anything else useful? (links, screenshots, notes)
 ```
 
-Do **not** ask implementation or architecture choices here. Do **not** use `Reply like: 1a 2b`.
+#### Refactor — why / preserve / tradeoffs
+
+```markdown
+## Questions (open — reply with short answers per number)
+
+1. Why refactor — what’s wrong with the shape today?
+2. What must keep working the same for users?
+3. Known area / files / symbols? (or “unsure”)
+4. What tradeoffs worry you? (or “unsure — agent will draft Pros/Cons”)
+5. What must we **not** do? (strict don’t-wants — say “none” if nothing)
+6. Anything else?
+```
+
+Do **not** ask implementation or step-by-step code here. Do **not** use `Reply like: 1a 2b`.
 
 ### 3. Analyze (required)
 
@@ -166,9 +198,23 @@ Waiting-on-subagents rules live in `/analyze` — do not sleep/poll for Tasks fr
 **Non-goals:** … | _none_
 ```
 
+**Refactor:** Locked announce including Pros and Cons:
+
+```markdown
+## Locked (correct if wrong)
+**Why:** …
+**What must not change:** …
+**Pros:** …
+**Cons:** … (real costs — not empty)
+**Definition of Done (outline):** …
+**Entrypoints:** `path` — `symbol` · …
+**Proposed architecture:** … (target shape / move / delete old path)
+**Non-goals:** … | _none_
+```
+
 No implementation Q&A. User corrects if needed; silence = accept. Then draft.
 
-**Bug:** do **not** put architecture / DoD / entrypoints on the ticket. Optionally note in chat where analyze suggests looking; fold useful bits into **Notes** only.
+**Bug:** do **not** put architecture / DoD / entrypoints / Pros/Cons on the ticket. Optionally note in chat where analyze suggests looking; fold useful bits into **Notes** only.
 
 ### 5. Draft + metadata (required before any write)
 
@@ -219,7 +265,7 @@ On write = yes only. Apply **body + type + status + priority + assignee**:
 | --- | --- |
 | **Linear** (refine) | MCP update — description/body, type/label, state, priority, assignee |
 | **Linear** (create) | MCP create — title + body + type + state + priority + assignee; return ID/URL |
-| **GitHub** (refine) | `gh issue edit` body + labels (feature/bug) + assignees; priority label if used |
+| **GitHub** (refine) | `gh issue edit` body + labels (feature/bug/refactor) + assignees; priority label if used |
 | **GitHub** (create) | `gh issue create` with title, body, label(s), assignee(s) |
 
 Prefer a temp body file. Confirm with the issue URL and echo type / status / priority / assignee.
@@ -290,6 +336,45 @@ Bug
 - …
 ```
 
+### Refactor
+
+```markdown
+## Type
+Refactor
+
+## Ask / Why
+<plain-language why the shape must change>
+
+## What must not change
+- …
+
+## Pros
+- …
+
+## Cons
+- … (real costs / risks — required)
+
+## Definition of Done
+- Structural: …
+- Behavior still holds: …
+- [ ] …
+- [ ] …
+
+## Entrypoints
+- `path/to/file` — `functionOrSymbol` — why this is in the lane
+- …
+
+## Proposed architecture
+- … (target shape / move into service / compose modules / delete old path)
+- Why: …
+
+## Non-goals
+- … (strict don’t-wants only — omit this heading if none)
+
+## Notes
+- …
+```
+
 Preserve useful existing ticket content when refining. Keep required section headings exact so `/goal` / `/trackers` can find them.
 
 ## Failures
@@ -307,17 +392,19 @@ Preserve useful existing ticket content when refining. Keep required section hea
 ## Anti-patterns
 
 - Invoking this under `/goal` or as a flow twin
-- Running `/analyze` before the open vision/bug grill
-- Lettered `a)/b)` choices on the vision/bug open grill
+- Running `/analyze` before the open vision/bug/refactor grill
+- Lettered `a)/b)` choices on the vision/bug/refactor open grill
 - Grilling implementation detail (signatures, algorithms, step-by-step code) — that is `/goal`
 - Shipping a **Constraints** section
 - Feature DoD that is jargon-only with no expected outcomes
 - Inventing filler Non-goals when the user said none
-- Putting DoD / Entrypoints / Proposed architecture on a **Bug** ticket
-- Drafting without locking Feature vs Bug
-- Using the feature template for a bug (or vice versa)
+- Putting DoD / Entrypoints / Proposed architecture / Pros/Cons on a **Bug** ticket
+- Omitting **Cons** on a Refactor or inventing fake Pros
+- Turning a Refactor into a Feature dump or a Bug who/what/when report
+- Drafting without locking Feature vs Bug vs Refactor
+- Using the wrong template for the locked type
 - Writing before draft + metadata approval
 - Skipping status / priority / assignee questions
 - Inventing workflow states, priorities, or assignees not present in the tracker
 - Using `/trackers` to write (read-only)
-- Implementing the feature/fix in this skill
+- Implementing the feature/fix/refactor in this skill
