@@ -64,17 +64,15 @@ Each child:
 
 List pieces so blockers come first. Mark the **frontier** (Blocked by: none).
 
-### 4. Quiz the user (batched)
+### 4. Show the split (announce)
 
-Show the numbered split list, then ask with [../asking.md](../asking.md). Include the split confirm **and** any other known opens in **one** Questions batch (e.g. non-goals / shared understanding when those gates are still open in `/grill-me` / `/goal`).
+Show the numbered split list in **Locked (correct if wrong)** per [../asking.md](../asking.md). Do **not** ask yes/no for the split — the agent owns keeping plans in the AI smart zone; the user corrects only if needed. Put any *other* real opens (product/UX/architecture/taste) in the same message’s Questions batch — not shared-understanding yes/no.
 
-Example item: `Split into these N plans?` → `a) yes` / `b) no — say what changes (too big / wrong edges / missing)`.
-
-On no: revise, then a follow-up batch for unresolved items. Iterate until the split gate is yes. Do not start `/implement` unless `/goal` asks.
+If the user corrects the split: revise Locked and continue. Do not start `/implement` unless `/goal` asks.
 
 ### 5. Hand off
 
-After approval:
+After the split is announced (and any Questions in that message are answered):
 
 - Prefer updating `plans/INDEX.md` + `/create-plan` under the active `/goal`
 - Still fuzzy → `/grill-me` then continue `/goal`
@@ -115,4 +113,5 @@ After approval:
 - Mega-pieces that push agents out of the smart zone
 - Vague titles without Done when
 - Publishing to a tracker unless the user asks
-- Implementing before the user accepts the split
+- Implementing before the split is announced (and any co-batched Questions answered)
+- Asking yes/no to confirm the split

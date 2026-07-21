@@ -187,3 +187,4 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 - Expanding criteria mid-flight without re-grill/re-plan
 - Skipping `/code-review` at goal ACHIEVED after a green validate
 - Skipping re-validate after a repair patch
+- Writing or editing test files to “prove” validation — only `/create-test` writes tests (after review recommends)

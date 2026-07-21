@@ -25,3 +25,4 @@ Build from **one plan file** inside a goal workspace. Follow **`/orchestrate`**.
 - One plan file per worker prompt; worker must end with `## Progress` (`/orchestrate`)
 - Never write another goal-id’s tree
 - Prior mistakes in-lane are not sacred — `/architecture` doctrine
+- **Never write or edit test files** — only `/create-test` (after `/code-review` or `/pr-review` recommends); do not invent coverage while implementing

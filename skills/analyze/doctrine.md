@@ -145,7 +145,7 @@ Always offer a hand-off Questions batch (skip only if user already named the nex
 
 ```markdown
 ## Questions
-Reply like: `1a`
+Reply like: 1a
 
 1. Next step for this analysis?
    - a) Done — keep `.agents/temp/analyses/<id>/` only ← recommended when no build yet
@@ -176,12 +176,12 @@ Only on explicit **c** or **e** (or user said “make this a goal”).
 
 #### Skip-grill / resume checklist (when promoting)
 
-Set `resume_at: 1a-explore` (and treat grill gates as pre-cleared with **one** confirmation batch) only when **all** are true:
+Set `resume_at: 1a-explore` (and treat grill as pre-cleared: announce Locked non-goals + split + shared-understanding summary) only when **all** are true:
 
 1. Draft goal contract has **binary Done when**
 2. `ANALYSIS.md` Risks has **no open** product / UX / architecture / design questions
 3. User chose promote (**c** or **e**)
-4. User said `no grill` / `skip grill`, **or** NOTES + draft contract already lock non-goals / split / shared understanding enough for a single yes/no confirmation batch
+4. User said `no grill` / `skip grill`, **or** NOTES + draft contract already lock non-goals / split / shared understanding enough to announce Locked closing and continue
 
 Otherwise `resume_at: 0-grill` and run `/grill-me` (flow) normally.
 

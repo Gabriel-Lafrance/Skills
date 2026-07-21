@@ -150,7 +150,9 @@ After the axes, if the diff touches a **complex architectural part** whose deep 
 - `path/to/symbol` — <one-line why a lock matters>
 ```
 
-**Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` yourself. Do not recommend locks for trivial wrappers, UI chrome, or coverage theater.
+**Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` yourself. Do **not** write test files from this skill. Do not recommend locks for trivial wrappers, UI chrome, or coverage theater.
+
+**Who may recommend:** only `/code-review` and `/pr-review`. Other pack skills must not recommend or start `/create-test`.
 
 **Persist follow-ups:** when a goal workspace is in play, append each Needs `/create-test` row to `.agents/temp/goals/<goal-id>/FOLLOWUPS.md` (create if missing) as unchecked items, and mirror a one-line pointer in `STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
 
@@ -175,7 +177,7 @@ Relocation / should-have-moved items are **normal backlog** — not "out of scop
 
 ```markdown
 ## Questions
-Reply like: `1a, 2b`
+Reply like: 1a 2b
 
 1. Fix the Fix backlog?
    - a) yes — start /goal to clear it ← recommended
@@ -192,8 +194,8 @@ Reply like: `1a, 2b`
 | Step | Do |
 | --- | --- |
 | Goal contract | Goal = fix the Fix backlog; Done when = binary check per backlog item (or tight groups); Context = this review + fixed-point diff; Constraints = no unrelated product scope — **behavior-preserving moves listed in the backlog are in scope** |
-| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — **one batched Questions** for what/how/footprint/non-goals/split; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §4) |
-| Gates | Non-goals + split + shared understanding in that same batch |
+| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — Questions only for real what/how/footprint opens; **announce** non-goals + split + shared-understanding summary in Locked; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §4) |
+| Gates | Announce non-goals + split + shared understanding (correct if wrong) |
 | Build | Continue `/goal` Phase 1 (plans → implement → link checkup → validate → `/code-review`) |
 
 Do **not** start coding between "yes" and grill shared-understanding. Do **not** silently pick approaches — grill first (batched).
@@ -213,4 +215,5 @@ If the backlog is a **single tiny defect** and the user already said how to fix 
 - Treating relocation backlog items as out-of-scope refactors
 - Writing to Linear/GitHub from this skill
 - Auto-running `/create-test` instead of recommending it
+- Writing or editing test files from this skill (only `/create-test` writes tests)
 - Narrating exam roleplay in chat ("I'm the stressed student…") instead of factual findings

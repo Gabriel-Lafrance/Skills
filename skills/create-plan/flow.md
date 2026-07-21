@@ -18,7 +18,7 @@ Write **one** plan file **inside an active `/goal`**. Stay in **Agent mode** —
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Grill shared understanding yes (`GRILL.md` present) — else `/grill-me`
+2. Grill Locked closing announced (`GRILL.md` present with gates ticked) — else `/grill-me`
 3. Stay in Agent mode — no `SwitchMode`, no CreatePlan UI
 
 ## Process

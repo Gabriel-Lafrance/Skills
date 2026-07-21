@@ -10,5 +10,5 @@
 2. **Resolve spec source** — user paste, PR/issue, commits, or ask
 3. **Launch parallel Tasks** — Standards + Spec + Routes (doctrine prompts)
 4. **Aggregate** — separate `## Standards`, `## Spec`, `## Routes`
-5. **Needs /create-test** — recommend to user; do not run (doctrine §10)
+5. **Needs /create-test** — recommend to user; do not run; do not write tests (doctrine §10)
 6. **Offer to fix** — Fix backlog + Questions batch via [../asking.md](../asking.md); on yes → `/goal` (doctrine §11)

@@ -6,7 +6,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 **Subagent model:** when launching Task workers, **omit `model`** so workers inherit this chat's parent model (see `/orchestrate`). Never hard-code a model unless the user asked for one.
 
-**Grill before plans.** Do not write plan files until `/grill-me` clears the three gates (non-goals, split, shared understanding) — asked in **one batched Questions message** per [../asking.md](../asking.md) (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan.
+**Grill before plans.** Do not write plan files until `/grill-me` **announces** Locked closing (non-goals + plan split + shared-understanding summary — correct if wrong) per [../asking.md](../asking.md) (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan. The agent owns the split and the understanding recap; the user corrects only if needed.
 
 **Quality bar:** every `/goal` must run the pack's quality skills — not skip straight from implement to "done". **`/validate` and `/code-review` are mandatory** before ACHIEVED. Skipping `/code-review` is an anti-pattern.
 
@@ -69,18 +69,18 @@ Fetch via `/trackers` first (**read only**). Still **grill** on open product dec
 5. **Run `/grill-me` fully** — it must pull **`/taste`**, **`/architecture`**, and **`/design`** (if UI) into the interview; upsert `grills/{language,choice,rules}.md` when terms/choices/rules lock
 6. Persist **goal-scoped** locked answers in `GRILL.md` (pointer to Themes paths); do not dump shared glossary into goal `GRILL.md`
 7. Update `GOAL.md` Done when / Constraints from the grill
-8. **Closing gates in the grill batch** — one Questions message via [../asking.md](../asking.md) (recap new language/choices/rules)
-9. Only after all three gate yeses enter Phase 1. **Never** write `plans/*` before that.
+8. **Closing** — announce non-goals + split + shared-understanding summary in Locked; ask only remaining real opens via [../asking.md](../asking.md)
+9. Only after Locked closing is written (and any co-batched Questions answered) enter Phase 1. **Never** write `plans/*` before that.
 
-### Closing gates (same batch as other grill questions)
+### Closing (announce — correct if wrong)
 
-| Gate | Options (lettered in the batch) |
+| Item | Mode |
 | --- | --- |
-| **Non-goals** | `a) yes` / `b) no — say what to change` |
-| **Split plan** | Recap intended plans / INDEX draft → `a) yes` / `b) no — …` |
-| **Shared understanding** | Short outcome bullets → `a) yes — ready to write plans` / `b) no — …` |
+| **Non-goals** | **Announce** in Locked — do not ask yes/no |
+| **Split plan** | **Announce** intended plans in Locked — agent owns the split |
+| **Shared understanding** | **Announce** a short outcome summary in Locked — not a confirm question |
 
-On any no: revise that topic only, then a **follow-up batch** for unresolved gates. Persist checkboxes in `GRILL.md`.
+On a Locked correction (or unanswered real Questions): revise / wait, then continue. Persist gate checkboxes in `GRILL.md` when each item is announced.
 
 ## Phase 1 — Plans then build
 
@@ -90,7 +90,7 @@ Parallel `explore` Tasks via `/orchestrate` → confirm `/taste` + `/architectur
 
 ### 1b. Split into plans
 
-Prefer **multiple small plans** (`/split-task` when helpful). Write `plans/INDEX.md` matching the approved split. For each entry run `/create-plan`. If INDEX diverges from the split-gate yes, include a split re-confirm in the **next Questions batch** before implementing.
+Prefer **multiple small plans** (`/split-task` when helpful). Write `plans/INDEX.md` matching the announced split. For each entry run `/create-plan`. If INDEX diverges from the announced split, **re-announce** the new Locked plans (correct if wrong) before implementing — do not ask yes/no.
 
 ### 1c. Implement wave
 
@@ -129,7 +129,8 @@ Then:
 - Announcing done **without** `/code-review`
 - Fixing review findings without the fix yes/no + findings grill
 - Loading both standalone and flow variants of a dual skill in one turn
-- Writing `plans/*` before all three gate yeses
+- Writing `plans/*` before Locked closing (non-goals + split + shared understanding)
+- Asking yes/no for non-goals, plan split, or shared understanding
 - Dripping grill questions one message at a time when multiple opens are known
 - Running a separate cross-plan link-check in `/goal` instead of letting `/validate` own it
 - Skipping `/taste` / `/architecture` / `/design` (when UI) during grill or plan
@@ -138,3 +139,5 @@ Then:
 - `SwitchMode` / CreatePlan UI
 - One-line ACHIEVED with no skill/changelog/manual-steps summary
 - Deleting goal workspace on ACHIEVED instead of archiving to `achieved/<goal-id>/`
+- Asking resume vs new when other goals are `running`/`paused` — parallel goals are normal; `/goal` starts a new id immediately
+- Writing or editing test files, or invoking `/create-test` — only `/create-test` writes tests, and only after `/code-review` / `/pr-review` recommends (user starts it)

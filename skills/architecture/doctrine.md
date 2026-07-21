@@ -106,7 +106,7 @@ When explore shows wrong folder, duplicated domain logic, a feature-forked servi
 
 - **Do not copy it.** Cite a *good* sibling or service — or create the correct shape.
 - Prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**.
-- Name the old observable behavior and how you will prove it still holds (existing tests, `/create-test` if complex, path walk + `/validate` / terminals). If you **cannot** be sure → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
+- Name the old observable behavior and how you will prove it still holds (**existing** tests if any, path walk + `/validate` / terminals). Do **not** write new tests here — locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you **cannot** be sure the move preserves behavior → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement → patch the plan Structure, then move.
 - Same spirit as `/code-review` code judo — apply it while **building**, not only at review time.
 
@@ -243,7 +243,7 @@ Present this before writing code (and include it in `/create-plan` when planning
 **Taste:** follows `/taste` naming + entry shape + ≤2 class/interface depth
 ```
 
-If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (reply `1a, 2b`) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
+If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (`Reply like: 1a 2b` per [asking.md](../asking.md)) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
 
 ### 3. Implement against the card
 

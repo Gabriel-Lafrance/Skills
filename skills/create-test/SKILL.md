@@ -5,8 +5,8 @@ description: >-
   behavior-lock tests for complex architectural parts (hooks, domain/business
   logic, facades, stateful classes). Locks deeply thought-through behavior so
   outside edits cannot silently break it. Use only when the user runs
-  /create-test (often after /code-review recommends a lock). Not for coverage
-  theater, trivial units, or /goal.
+  /create-test (only after /code-review or /pr-review recommends a lock).
+  Not for coverage theater, trivial units, or /goal.
 disable-model-invocation: true
 ---
 
@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 
-**Standalone only.** Never call from `/goal`, never auto-invoke. Other skills (especially `/code-review`) may **tell the user** a part needs a lock — only the user starts `/create-test`.
+**Standalone only.** Never call from `/goal`, never auto-invoke. **Only** `/code-review` and `/pr-review` may **recommend** a lock — and only the **user** starts `/create-test`. No other skill writes tests or invokes this skill.
 
 Tests **lock behavior** of a complex architectural part — complex hooks, domain logic, facades, stateful classes — so outside edits cannot silently break already settled logic.
 
@@ -77,7 +77,7 @@ Show every draft you need now, then **one Questions batch**:
 - How: …
 
 ## Questions
-Reply like: `1a, 2a`
+Reply like: 1a 2a
 
 1. Approve Why / What / How for `<symbol>`?
    - a) yes ← recommended
@@ -151,6 +151,7 @@ Do **not** start `/goal`, expand scope into refactors, or “improve” the subj
 - Invoking under `/goal`, or auto-starting without the user
 - Writing tests before Why / What / How is **approved**
 - Omitting the three-bullet comment above the main test
+- Being auto-invoked by `/goal`, `/implement`, `/repair`, or any skill other than user-started after `/code-review` / `/pr-review` recommend
 - Inventing Why / What / How in the comment that the user never saw
 - Testing private functions because they are “easier”
 - Mocking every collaborator so the test only proves the mock script
@@ -165,9 +166,10 @@ Do **not** start `/goal`, expand scope into refactors, or “improve” the subj
 
 | Skill | Role |
 | --- | --- |
-| `/code-review` / `/code-review` | May **recommend** “run `/create-test` on `<path>`” — does not run this skill |
+| `/code-review` | May **recommend** “run `/create-test` on `<path>`” — does not run this skill |
+| `/pr-review` | May **recommend** the same (chat and/or Nit) — does not run this skill |
 | `/validate` | Runtime/path acceptance — not a substitute for behavior locks |
-| `/repair` | May leave a regression lock need; user still starts `/create-test` |
+| `/repair` / `/implement` / `/goal` / others | **Never** write tests or invoke `/create-test` |
 | `/taste` | Style contract for helpers and verify discipline |
 
 ## Failures

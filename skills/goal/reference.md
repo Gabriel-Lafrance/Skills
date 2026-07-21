@@ -39,7 +39,7 @@ Goal artifacts under **`.agents/temp/goals/`**; shared grill themes under **`.ag
 2. Else kebab slug + 4-hex suffix → `add-billing-a3f2`
 3. Override → `/goal id:my-id …`
 
-If dir exists and status is `running`/`blocked`, resume or pick a new id — never overwrite another running goal.
+If dir exists and status is `running`/`blocked`, allocate a **new** id (suffix) — never overwrite another goal's workspace. Parallel goals are normal; do not ask the user whether to resume or start new.
 
 ### REGISTRY.md
 
@@ -82,7 +82,7 @@ Also track the mandatory skill checklist rows as they complete.
 | “continue” / “resume” | Jump to `resume_at`; re-read GOAL/GRILL/INDEX/current plan only |
 | “pause” / “stop here” | Set `blocked_on: user`, `phase: paused`; acknowledge; **no** new Tasks until continue |
 | `/goal clear [id]` | REGISTRY `cleared`; **delete** active `<goal-id>/` **or** archived `achieved/<goal-id>/` |
-| New `/goal …` while one is `paused`/`running` | Do **not** overwrite; Questions batch: resume id vs new id ([../asking.md](../asking.md)) |
+| New `/goal …` while others are `paused`/`running` | Start a **new** id immediately; leave other goals untouched. Do **not** ask resume vs new — invocation means run now |
 
 Persist gate checkboxes in `GRILL.md` so resume never re-asks cleared gates.
 
@@ -132,7 +132,7 @@ After archive, the main agent's **final** user-facing message must be a polished
 
 ## Manual next steps (you)
 - [ ] Close / merge ticket or PR if any (trackers are read-only)
-- [ ] Open `/create-test` follow-ups from `FOLLOWUPS.md` (or _none_)
+- [ ] Open `/create-test` follow-ups from `FOLLOWUPS.md` (from `/code-review` recommendations — or _none_)
 - [ ] …
 
 ## Open follow-ups (optional)
@@ -147,7 +147,7 @@ One Questions batch via [asking.md](../asking.md) — do not invent a `/ship` sk
 
 ```markdown
 ## Questions
-Reply like: `1b, 2b`
+Reply like: 1b 2b
 
 1. Commit these changes now?
    - a) yes — create a commit

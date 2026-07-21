@@ -27,7 +27,7 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | Bug / something broken | `/repair` |
 | Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
-| Lock complex behavior with tests | `/create-test` (user must ask) |
+| Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
 
 Internals (`/validate`, `/implement`, `/taste`, …) are flow steps looked up by `/goal` or `/repair` — not typical destinations. Taste/architecture/design **doctrine** is loaded by other skills when relevant.
 

@@ -40,16 +40,17 @@ disable-model-invocation: true
 ### Pass A (if any prior finding comments exist)
 
 4. Check **all** prior findings. List **No action needed** (e.g. already correctly resolved) without Questions.
-5. **Questions only for actionable priors** (open needing resolve/reply, or closed wrongly). `Reply like:` = recommended letters for that batch. Wait if any questions.
+5. **Questions only for actionable priors** (open needing resolve/reply, or closed wrongly). `Reply like:` = one row of recommended codes (`1a 2b`). Wait if any questions.
 6. Apply approved actions only (**one reply or resolve per thread**). **Do not** post a Pass A summary on the PR. If nothing actionable, skip Questions and go to Pass B.
 
 ### Pass B (always: first review or after Pass A)
 
 7. **Fresh rescan** — Standards + Spec + Routes. Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
-8. **Show new drafts in chat** — **one full draft per finding** with severity already on it. Nothing on the PR yet. **No em dashes.**
-9. **One question only** — Publish all drafts as shown? `a) yes` ← recommended / `b) no — say what to change`. Do **not** ask per draft or re-ask severity. Wait for `1a` (or override).
-10. On yes: **Post via `gh` only** — each draft as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
-11. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
+8. **Needs /create-test** — if the diff touches a complex architectural part with no durable behavior lock, list subjects in chat (`## Needs /create-test`) and/or as **Nit** drafts telling the author to run `/create-test`. **Tell the user**; do **not** invoke `/create-test` or write test files. Only `/code-review` and `/pr-review` may recommend locks.
+9. **Show new drafts in chat** — **one full draft per finding** with severity already on it. Nothing on the PR yet. **No em dashes.**
+10. **One question only** — Publish all drafts as shown? `a) yes` ← recommended / `b) no — say what to change`. Do **not** ask per draft or re-ask severity. Wait for `1a` (or override).
+11. On yes: **Post via `gh` only** — each draft as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
+12. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
 
 ## Anti-patterns
 
@@ -58,9 +59,10 @@ disable-model-invocation: true
 - One comment or review body containing multiple findings
 - **Non-blocking** severity; per-draft Pass B questions; re-asking blocking vs nit after drafts are shown
 - Asking about correctly closed priors with nothing to do
-- `Reply like:` not matching recommended answers
+- `Reply like:` not matching recommended codes (descriptions, or one answer per line)
 - Pass A only on the latest pass
 - Skipping per-prior triage when actions exist; asking Pass B before Pass A questions are answered
 - Posting before showing full drafts in chat
 - Approving while prior blockers remain open
 - Writing Linear comments; starting `/goal`; using inside `/goal`
+- Auto-running `/create-test` or writing test files (recommend only; `/create-test` is user-invoked)

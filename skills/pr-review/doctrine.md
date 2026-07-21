@@ -117,7 +117,7 @@ Prefer threads **you** authored; still list other reviewers' open blockers if th
 | Thread **open** and Partial / Unanswered / Disputed / Outdated-but-still-real | Short "what's done" | **Yes** — reply / leave / other |
 | Thread resolved + Outdated and truly moot | **No action needed** | **No** |
 
-4. **Show** all checked priors (including no-action). **Ask only** the actionable ones. `Reply like:` must list the **recommended** letters for those questions only.
+4. **Show** all checked priors (including no-action). **Ask only** the actionable ones. `Reply like:` = one row of recommended codes only (`1c 2a`) — no descriptions.
 
 ```markdown
 ## Prior issues (Pass A)
@@ -139,7 +139,7 @@ Covering all prior finding comments on this PR (every pass).
 **My read:** Closed wrongly; should not stay resolved.
 
 ## Questions
-Reply like: `1c, 2a` (recommended answers filled in; change any letter to override).
+Reply like: 1c 2a
 
 1. P2 (never-nest)?
    - a) Mark resolved
@@ -169,6 +169,17 @@ Launch **Standards + Spec + Routes** in parallel. **Omit Task `model`**.
 
 Aggregate: `## Standards`, `## Spec`, `## Routes`.
 
+## Needs /create-test
+
+After the axes, if the diff touches a **complex architectural part** whose deep behavior is easy to break from the outside and there is **no durable behavior lock**, add in **chat** (and optionally as **Nit** drafts):
+
+```markdown
+## Needs /create-test
+- `path/to/symbol` — <one-line why a lock matters>
+```
+
+**Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` or write test files. Only `/pr-review` and `/code-review` may recommend locks. Skip trivial wrappers / UI chrome / coverage theater.
+
 ## Reviewer craft
 
 - **Hunting intensity is high; mercy is low; fairness stays** — real defects only; never invent issues to dock points.
@@ -191,7 +202,7 @@ Aggregate: `## Standards`, `## Spec`, `## Routes`.
 - Asking about correctly closed / no-action priors (noise Questions)
 - One Questions item **per** Pass B draft, or re-asking blocking vs nit after drafts are shown
 - Using **non-blocking** severity (illegal; use Blocking or Nit only)
-- `Reply like:` that does not match the recommended letters for the batch
+- `Reply like:` that does not match the recommended codes for the batch (wrong letters, descriptions, or one answer per line)
 - Posting a summary / announcement / "new comments" index on the PR
 - Creating `build-review.cjs` (or any repo file) to submit the review
 - Bundling multiple findings into one PR comment or into the review body
@@ -206,5 +217,6 @@ Aggregate: `## Standards`, `## Spec`, `## Routes`.
 - Posting on the Linear issue instead of the PR
 - Starting `/goal` automatically
 - Invoking under `/goal` or as a flow twin
+- Auto-running `/create-test` or writing test files (recommend only)
 - Narrating teacher roleplay in chat ("I'm failing this student…") instead of factual findings
 - Inventing fake failures to dock points

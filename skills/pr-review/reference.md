@@ -65,7 +65,7 @@ Do **not** ask one question per draft. Do **not** ask blocking vs nit again (alr
 
 ```markdown
 ## Questions
-Reply like: `1a` (recommended answer filled in; change the letter to override).
+Reply like: 1a
 
 1. Publish all drafts above as shown?
    - a) yes — post each as its own PR comment ← recommended

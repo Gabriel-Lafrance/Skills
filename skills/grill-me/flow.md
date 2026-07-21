@@ -24,13 +24,13 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 | UI in scope (or unclear) | `/design` | Job of the screen, primary action, hierarchy, surfaces/depth, states, ethical psychology — draft Design-card answers with them |
 
 3. Prefer **recommended answers** drawn from `/taste` + **good** sibling patterns + `/architecture` prior-mistakes courage + existing `grills/` themes; mark them in the batch. Do **not** recommend copying debt.
-4. Send **one Questions batch** with every unsettled item (including the three closing gates when ready). Wait for `1a, 2b, …`. New findings later → new batch only.
+4. Send **one message**: **Locked (correct if wrong)** for non-goals + plan split + shared-understanding summary when closing; plus a **Questions** batch only for unsettled *real* opens (product/UX/architecture/taste) per asking.md. Wait only if there are Questions. If closing is Locked-only, announce and continue. New findings later → new batch only.
 5. When language / choices / rules lock → **upsert** `.agents/temp/grills/language.md`, `choice.md`, and/or `rules.md` (+ REGISTRY). Do **not** put those sections in goal `GRILL.md`.
 6. Persist **goal-scoped** locked answers in `.agents/temp/goals/<goal-id>/GRILL.md` (Taste / Architecture / Design; under Architecture list locked **Moves / corrections** when any). Add a **Themes** pointer line when theme files exist.
 7. Update `GOAL.md` Done when / Constraints from the grill (critical choices/rules may appear as one-liners in Constraints; full lists stay in `grills/`).
-8. Set `STATUS.md` `last: grilling` until the batch clears the gates.
-9. **Closing gates** (same batch when possible — see doctrine; recap new language/choices/rules). Tick checkboxes in `GRILL.md` only after yes.
-10. **Never** write `plans/*` before all three gate yeses. Return to `/goal` Phase 1 (`/create-plan` + INDEX), carrying grill decisions into Structure/Design cards. Workers must also honor `grills/` themes.
+8. Set `STATUS.md` `last: grilling` until Locked closing is written (and any co-batched Questions answered).
+9. **Closing** — announce non-goals + split + shared-understanding summary in Locked (see doctrine). Tick all three when announced. Honor corrections to Locked if the user replies.
+10. **Never** write `plans/*` before Locked closing (non-goals + split + shared understanding) is written. Return to `/goal` Phase 1 (`/create-plan` + INDEX), carrying grill decisions into Structure/Design cards. Workers must also honor `grills/` themes.
 
 ## Goal GRILL.md shape (minimum — goal-scoped only)
 
@@ -64,14 +64,15 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 …
 
 ## Gates
-- [ ] Non-goals yes
-- [ ] Split plan yes
-- [ ] Shared understanding yes
+- [ ] Non-goals announced
+- [ ] Split announced
+- [ ] Shared understanding announced
 ```
 
 ## Anti-patterns
 
-- Writing plans before all three gate yeses
+- Writing plans before Locked closing (non-goals + split + shared understanding)
+- Asking yes/no for non-goals, plan split, or shared understanding
 - Dripping one question per message when multiple opens are already known
 - Recommending "match the existing (wrong) layout" when a move preserves behavior
 - Product-only grill that never opens `/taste` / `/architecture` / `/design` when those topics apply

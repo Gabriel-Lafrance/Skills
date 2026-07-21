@@ -25,7 +25,7 @@ Standards + Spec + Routes review **of what this `/goal` is shipping**. Read [./d
 | **no** | Document waived findings in `STATUS.md`. **Critical/important blockers** block ACHIEVED until fixed or explicitly waived by name |
 | **yes** | Stay on **this** `goal-id` — no nested `/goal`. Findings-focused `/grill-me` → plans if needed → `/implement` → `/validate` → re-run this flow |
 
-5. **Needs /create-test** — doctrine §10; tell user to run `/create-test`; append to goal `FOLLOWUPS.md` + `STATUS.md`; never invoke from this flow
+5. **Needs /create-test** — doctrine §10; tell user to run `/create-test`; append to goal `FOLLOWUPS.md` + `STATUS.md`; never invoke or write tests from this flow
 
 ## Anti-patterns
 
@@ -33,6 +33,7 @@ Standards + Spec + Routes review **of what this `/goal` is shipping**. Read [./d
 - Writing/closing tickets
 - Approving "it works" when thermonuclear bar fails
 - Auto-running `/create-test` instead of recommending it
+- Writing or editing test files from this flow
 - Fixing review findings without the yes/no offer + findings grill
 - Nesting a second `/goal` from inside this flow
 - ACHIEVED while critical/important findings are neither fixed nor explicitly waived

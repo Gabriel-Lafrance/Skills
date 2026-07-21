@@ -27,7 +27,7 @@ Orchestrator only — Task workers do the labor via `/orchestrate` (**omit Task 
 | “continue” / “resume” | Jump to `resume_at` |
 | “pause” / “stop here” | `phase: paused`, `blocked_on: user`; stop Tasks |
 | `/goal clear [id]` | Cleared + **delete** active or `achieved/<id>/` |
-| New goal while one running/paused | Batch-ask: resume vs new id |
+| New `/goal …` while others running/paused | Always start a **new** id immediately — never ask resume vs new; never overwrite another goal's workspace |
 
 ### Progress (required)
 
@@ -44,7 +44,7 @@ After every phase change and each Task wave, chat + `STATUS.md`:
 1. Allocate id; create workspace; draft GOAL/STATUS; upsert REGISTRY
 2. Ticket? → `/trackers` (read only)
 3. `/grill-me` (+ taste / architecture / design topics) — one Questions batch per asking.md
-4. Persist GRILL gates; never write `plans/*` before all three yeses
+4. Persist GRILL Locked closing (non-goals + split + shared-understanding summary); never write `plans/*` before that is announced
 5. Progress + `resume_at: 1a-explore`
 
 ### Phase 1 — Plans → build → validate → review
@@ -66,4 +66,4 @@ Call pack skills by public name (`/grill-me`, `/validate`, …). Dual skills loa
 
 ## Anti-patterns (short)
 
-See doctrine. Highlights: no separate goal link-check; no delete-on-achieve; no drip questions; no ACHIEVED without `/code-review`.
+See doctrine. Highlights: no separate goal link-check; no delete-on-achieve; no drip questions; no ACHIEVED without `/code-review`; **never ask resume-vs-new when other goals are already running** — `/goal` means start now (new id); **never create tests** — `/create-test` only after review recommends.

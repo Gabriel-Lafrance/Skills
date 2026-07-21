@@ -70,13 +70,13 @@ Theme file shapes:
 
 ## Closing
 
-Include these **in the same batch** as other open grill questions when you already know them (do not send three separate messages):
+When closing, use [../asking.md](../asking.md) **announce vs ask** — all three closing items are **announce-only**:
 
-1. **Non-goals** — recap → `a) yes` / `b) no — say what to change`
-2. **Split / plan count** — titles → `a) yes` / `b) no — …` (if one plan: `One plan is enough?`)
-3. **Shared understanding** — short outcome bullets (include planned **Moves / corrections** when locked; briefly restate **new** language / choices / rules so the user confirms) → `a) yes — proceed` / `b) no — …`
+1. **Non-goals** — bullet list in **Locked (correct if wrong)**. Do **not** ask yes/no.
+2. **Split / plan count** — intended plan titles (or “one plan — …”) in the same Locked block. Prefer more small plans that keep each slice in the AI smart zone. Do **not** ask yes/no.
+3. **Shared understanding** — short **summary** of the outcome the agent believes (include planned **Moves / corrections** when locked; briefly restate **new** language / choices / rules) in the same Locked block. Do **not** ask yes/no — this is a recap, not a confirm question.
 
-On any `b`/`no`: revise only those topics, then send a **follow-up batch** for the unresolved gates (plus any new opens). After all closing gates pass, hand off:
+Tick all three when announced. Persist to `GRILL.md`. On a user correction: revise only those topics, re-announce Locked (plus Questions for any *real* remaining opens). After Locked closing stands (and any co-batched Questions are answered), hand off:
 
 - Structure needed → `/architecture`, then `/goal`
 - Ready to build → `/goal`
@@ -84,6 +84,7 @@ On any `b`/`no`: revise only those topics, then send a **follow-up batch** for t
 ## Anti-patterns
 
 - Dripping one question per message when multiple opens are known
+- Asking yes/no for non-goals, plan split, or shared understanding (announce those)
 - Recommending "match the existing (wrong) layout" to avoid disruption when a move preserves behavior
 - Treating prior placement as sacred
 - Leaving locked language / choices / rules only in chat

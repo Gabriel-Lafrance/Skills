@@ -83,7 +83,7 @@ Create `.agents/temp/repairs/<repair-id>/`, draft `BUG.md` + `STATUS.md` (`last:
 
 ### 3. Grill what/how to fix (blocking for Local/Narrow)
 
-Run **`/grill-me`** — follow [../asking.md](../asking.md); one Questions batch, reply `1a, 2b`. Cover at least (all in the same batch when known):
+Run **`/grill-me`** — follow [../asking.md](../asking.md); one Questions batch with `Reply like: 1a 2b`. Cover at least (all in the same batch when known):
 
 - Confirm the bug (symptom vs root cause)
 - **What** to change (which file/branch/behavior) — and what is **out of scope**
@@ -92,7 +92,7 @@ Run **`/grill-me`** — follow [../asking.md](../asking.md); one Questions batch
 - File lane / what must not be touched
 - Closing shared-understanding gate (`a) yes — fix now` / `b) no`)
 
-Persist locks in `GRILL.md`. **Stop** until the batch clears shared understanding before coding. New findings → new batch.
+Persist locks in `GRILL.md`. **Stop** until the batch clears (Locked closing announced; any real Questions answered) before coding. New findings → new batch.
 
 ### 4. Acceptance criteria
 
@@ -155,3 +155,4 @@ REGISTRY → `escalated`. Do not leave a half-rewrite.
 - Skipping `/validate` after a patch
 - Feature rewrites for local bugs
 - Closing tracker issues (read only)
+- Writing or editing test files, or invoking `/create-test` — recommend nothing; locks come from `/code-review` / `/pr-review` then user-run `/create-test`
