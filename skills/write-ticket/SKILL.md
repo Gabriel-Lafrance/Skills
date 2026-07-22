@@ -63,7 +63,7 @@ Every run locks **one** type before the open grill:
 | **What should happen if it worked** | Expected correct behavior |
 | **Notes** | Anything else useful |
 
-Bug tickets do **not** include Definition of Done, Entrypoints, Proposed architecture, Pros/Cons, or Non-goals.
+Bug tickets do **not** include Definition of Done, Entrypoints, Proposed architecture, Pros/Cons, Impact, or Non-goals.
 
 **Refactor** (hard gate before write):
 
@@ -73,6 +73,7 @@ Bug tickets do **not** include Definition of Done, Entrypoints, Proposed archite
 | **What must not change** | User-visible / system behavior that stays the same |
 | **Pros** | What we gain (maintainability, reuse, entropy, clarity) — plain language |
 | **Cons** | Tradeoffs / risks / cost — honest, not empty |
+| **Impact** | Estimated LoC / Performance / Architecture impact (see below) |
 | **Definition of Done** | Structural outcome + “behavior still holds” checks (plain language) |
 | **Entrypoints** | Files + symbols in the lane to move/reshape |
 | **Proposed architecture** | Target principles (move into service X, compose deep modules, delete old path) |
@@ -80,6 +81,14 @@ Bug tickets do **not** include Definition of Done, Entrypoints, Proposed archite
 | **Notes** | Short notes from grill + analyze |
 
 **Pros / Cons** are required on Refactor only. Draft after analyze; never ship one-sided cheerleading — Cons must name real costs.
+
+**Impact** is required on Refactor only. Draft after analyze (order-of-magnitude estimates OK — label confidence). Never invent precision; use “unknown / N/A” with a note when evidence is thin.
+
+| Impact pillar | Sub-fields (each needs estimate + short note) |
+| --- | --- |
+| **Lines of code** | **Affected** — estimated LoC touched / in the blast radius · **Deleted** — estimated LoC removed · **Improved** — estimated LoC clarified / consolidated / made reusable |
+| **Performance** | **Roundtrips** — estimated network/DB/API roundtrips saved or added · **Time** — estimated latency / wall-time change · **Compute** — estimated CPU/memory/work saved or added |
+| **Architecture** | **Structural change** — how much the shape moves (local tidy → cross-module relocate → new boundary) · **Complexity** — entropy / coupling / cognitive load up or down · **Overhead** — indirection, migration cost, dual-path risk, temporary scaffolding |
 
 ### Proposed architecture grain (Feature + Refactor)
 
@@ -198,7 +207,7 @@ Waiting-on-subagents rules live in `/analyze` — do not sleep/poll for Tasks fr
 **Non-goals:** … | _none_
 ```
 
-**Refactor:** Locked announce including Pros and Cons:
+**Refactor:** Locked announce including Pros, Cons, and Impact:
 
 ```markdown
 ## Locked (correct if wrong)
@@ -206,6 +215,10 @@ Waiting-on-subagents rules live in `/analyze` — do not sleep/poll for Tasks fr
 **What must not change:** …
 **Pros:** …
 **Cons:** … (real costs — not empty)
+**Impact:**
+- **LoC** — affected: … · deleted: … · improved: … (notes)
+- **Performance** — roundtrips: … · time: … · compute: … (notes)
+- **Architecture** — structural: … · complexity: … · overhead: … (notes)
 **Definition of Done (outline):** …
 **Entrypoints:** `path` — `symbol` · …
 **Proposed architecture:** … (target shape / move / delete old path)
@@ -214,7 +227,7 @@ Waiting-on-subagents rules live in `/analyze` — do not sleep/poll for Tasks fr
 
 No implementation Q&A. User corrects if needed; silence = accept. Then draft.
 
-**Bug:** do **not** put architecture / DoD / entrypoints / Pros/Cons on the ticket. Optionally note in chat where analyze suggests looking; fold useful bits into **Notes** only.
+**Bug:** do **not** put architecture / DoD / entrypoints / Pros/Cons / Impact on the ticket. Optionally note in chat where analyze suggests looking; fold useful bits into **Notes** only.
 
 ### 5. Draft + metadata (required before any write)
 
@@ -354,6 +367,23 @@ Refactor
 ## Cons
 - … (real costs / risks — required)
 
+## Impact
+
+### Lines of code
+- **Affected:** … — note: …
+- **Deleted:** … — note: …
+- **Improved:** … — note: …
+
+### Performance
+- **Roundtrips:** … — note: …
+- **Time:** … — note: …
+- **Compute:** … — note: …
+
+### Architecture
+- **Structural change:** … — note: …
+- **Complexity:** … — note: …
+- **Overhead:** … — note: …
+
 ## Definition of Done
 - Structural: …
 - Behavior still holds: …
@@ -398,8 +428,8 @@ Preserve useful existing ticket content when refining. Keep required section hea
 - Shipping a **Constraints** section
 - Feature DoD that is jargon-only with no expected outcomes
 - Inventing filler Non-goals when the user said none
-- Putting DoD / Entrypoints / Proposed architecture / Pros/Cons on a **Bug** ticket
-- Omitting **Cons** on a Refactor or inventing fake Pros
+- Putting DoD / Entrypoints / Proposed architecture / Pros/Cons / Impact on a **Bug** ticket
+- Omitting **Cons** or **Impact** on a Refactor, inventing fake Pros, or shipping Impact without notes / confidence
 - Turning a Refactor into a Feature dump or a Bug who/what/when report
 - Drafting without locking Feature vs Bug vs Refactor
 - Using the wrong template for the locked type
