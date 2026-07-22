@@ -1,6 +1,6 @@
 # Code review examples
 
-Concrete blocker vs waive vs nit. Prefer fewer high-conviction findings.
+Concrete blocker vs waive vs nit. List **every** real defect — no findings cap. Severity separates blockers from optional nits.
 
 ## Exam stance (student catch vs rubber stamp)
 
@@ -16,18 +16,44 @@ Concrete blocker vs waive vs nit. Prefer fewer high-conviction findings.
 
 **Nit** — Rename a local variable for clarity; no complexity/entropy regression.
 
-## Routes
+## Routes (+ blast radius)
 
 **Blocker (critical)** — New API handler never registered; path walk dead-ends at import.
 
 **Important** — Button calls a removed handler; UI path missing link.
 
+**Blast blocker** — Diff renames a shared helper used by three outside-diff callers; two call sites still import the old name — half-move / blast break.
+
 **Nit** — Extra unused export in a leaf module with no callers yet (still note if INDEX promised wiring this wave).
 
 ## Spec
 
-**Blocker** — Ticket Done when requires refund within 30 days; diff implements no refund path.
+**Blocker** — Ticket Done when requires refund within 30 days; AC matrix row `missing`; diff implements no refund path.
 
 **Waive** — User explicitly drops that AC for this goal and updates GOAL.md.
 
 **Nit** — Commit message wording vs ticket title mismatch with behavior correct.
+
+## BigPicture
+
+**Blocker (critical)** — Change adds a second checkout entry that bypasses the domain billing seam; product now has two inconsistent pay flows with no shared contract.
+
+**Important** — Feature ships without wiring the sibling notification seam the product already uses for the same user action.
+
+**Nit** — Naming of a new top-level folder is slightly off product vocabulary but seams are correct.
+
+## Risk
+
+**Blocker (security)** — Public mutation accepts `userId` from the client and writes without checking `ctx.auth` ownership.
+
+**Blocker (scale)** — Hot list path does unbounded `.collect()` then filters in memory; Big-O grows with table size.
+
+**Important (bug)** — Race: two concurrent checkouts can double-charge because there is no idempotency key.
+
+**Nit (scale)** — One-off admin script scans all rows; not on a shipped hot path.
+
+## Adversarial Wave 2
+
+**Catch** — Wave 1 Standards clean; Wave 2 finds the shared helper half-move Wave 1 Routes missed and tags it `routes` · critical.
+
+**Drop** — Wave 2 restates the same Stripe fork Wave 1 already listed — parent discards as duplicate.

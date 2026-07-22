@@ -119,7 +119,7 @@ After archive, the main agent's **final** user-facing message must be a polished
 | `/create-plan` | plans: … |
 | `/orchestrate` + `/implement` | … |
 | `/validate` | pass (incl. cross-plan seams if 2+ plans) |
-| `/code-review` | Standards / Spec / Routes highlights |
+| `/code-review` | Standards / Spec / Routes / BigPicture / Risk + Wave 2 highlights |
 
 ## What changed
 - **Files / areas:** …

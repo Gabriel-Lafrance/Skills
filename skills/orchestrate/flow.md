@@ -40,7 +40,7 @@ End your report with ## Progress (required).
 | Explore sibling/lane | `explore` | Parallel OK; Progress required |
 | Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
 | Independent plans | **parallel** workers | No shared files; check REGISTRY lanes |
-| Standards / Spec / Routes | parallel Tasks | See `/code-review`; Progress required |
+| Standards / Spec / Routes / BigPicture / Risk + Wave 2 | parallel Tasks then adversarial | See `/code-review`; Progress required |
 | Verify / logs | **Read terminals folder** | Never Convex MCP by default |
 
 ## Worker template

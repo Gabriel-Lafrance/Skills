@@ -2,7 +2,7 @@
 
 Load when drafting or posting. Gates stay in [doctrine.md](doctrine.md).
 
-**Stance reminder:** teacher grades hard — pack / thermonuclear / Routes must-edits stay **Blocking** by default; do not soften into Nit. Real defects only.
+**Stance reminder:** teacher grades hard — pack / thermonuclear / Routes / BigPicture / Risk must-edits stay **Blocking** by default; do not soften into Nit. Real defects only; no findings cap.
 
 ## Comment body rules (hard)
 

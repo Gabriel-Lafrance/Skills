@@ -1,10 +1,12 @@
 # Code Review Doctrine
 
-Review along **three axes** (do not merge findings into one ranked list):
+Review along **five axes** (do not merge findings into one ranked list):
 
 - **Standards** — `/taste` + `/architecture` examples + thermonuclear maintainability
 - **Spec** — does the change match the ticket / PR / PRD / what the user said?
-- **Routes** — top-down codepath walk: loose parts, wrong callers, dead ends, missing links
+- **Routes** — top-down codepath walk **plus blast radius**: loose parts, wrong callers, dead ends, missing links, outside-diff callers, half-moves
+- **BigPicture** — holistic fit: feature coherence vs product/domain shape, cross-cutting consistency, missing sibling seams
+- **Risk** — security flaws, correctness bugs, non-scalable algorithms (Big-O, unbounded work, N+1, hot-path scans), authz/race holes
 
 `/pr-review` reuses these axes for posting on GitHub; this doctrine owns axis mechanics. `/pr-review` owns PR comment craft.
 
@@ -15,11 +17,11 @@ Review along **three axes** (do not merge findings into one ranked list):
 You are the examinee. `/pr-review` is the hardcore grader. Assume anything you miss becomes a failure on the PR.
 
 - **Stress-driven thoroughness** — re-walk paths, re-check taste/architecture, treat "it works" as not enough. Keep a 100% A+ average by catching defects before the teacher does.
-- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, and Routes critical/important (the same defects `/pr-review` will mark Blocking).
-- **Prefer over-finding** on the Fix backlog over a clean rubber stamp. Nits stay optional.
-- **Anti-patterns:** casual pass; waiving structural debt without naming it; solo shallow skim when Tasks can run.
+- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, Routes critical/important, BigPicture coherence failures, and Risk security/bug/scale findings (the same defects `/pr-review` will mark Blocking).
+- **Prefer over-finding** on the Fix backlog over a clean rubber stamp. Nits stay optional on the default backlog — but **list every real defect**; there is **no findings cap**. A shitty PR should surface everything shitty about it.
+- **Anti-patterns:** casual pass; waiving structural debt without naming it; solo shallow skim when Tasks can run; skipping Wave 2.
 
-Run axes as **parallel Cursor Task subagents**, then you aggregate. Do not solo-review a large diff when workers can.
+Run **Wave 1** (five parallel Tasks) then **Wave 2** (adversarial). Do not solo-review a large diff when workers can.
 
 If you need issue/PR/comment context, load **`/trackers`** (read only). Never write to trackers.
 
@@ -53,6 +55,8 @@ In order (standalone — **not** a goal workspace unless the user points at one)
 4. Optional extras only if present — **do not** require `CODING_STANDARDS.md`
 5. Smell baseline + **thermonuclear maintainability** below
 
+When UI files are in the diff, also load **`/design`** into Standards (and BigPicture) — same gate as `/pr-review`.
+
 ## Smell baseline (judgement calls)
 
 Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest — skip what tooling already enforces.
@@ -81,34 +85,38 @@ Lens (from `/taste`): **complexity** (hard to understand/change) and **entropy**
 9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry; **forking a primitive's job**
 10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live; **bypassing an existing primitive**
 
-**Prioritize:** structural regressions → complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Prefer fewer high-conviction comments over nit floods.
+**Prioritize:** structural regressions → complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Still list **every** real defect (no findings cap); severity tags separate blockers from nits.
 
 **Approval bar:** behavior-correct is **not** enough. Presumptive blockers: visible judo path ignored; **should-have-moved debt ignored**; **clear complexity or entropy regression**; file crosses 1k lines; ad-hoc branching; feature checks in shared code; unnecessary wrapper/cast churn; wrong layer / duplicate helper.
 
-## Routes axis (codepath walk — out loud)
+## Artifact contracts (fill-or-fail)
 
-Hunt **call-graph / wiring** problems in the diff's changed surface — not taste, not ticket wording.
+Parent **rejects and relaunches** a worker that returns free-form narrative without the required shape. **No findings cap** — list every real defect. Keep “real defects only / no invented issues.”
 
-**Start at the top**, walk **down** every relevant runtime path the change touches. Narrate **out loud** so a human can follow the trail (same spirit as `/validate` path walk, but review-focused).
+### Standards output shape
 
-**Hunt for:**
+```markdown
+## Standards findings
+- **hard|judgement**: <issue> @ <file/symbol> — cite <taste|architecture|thermonuclear|smell|design>
+```
 
-- Loose / public surfaces that can be called with the wrong args, wrong auth, wrong order, or from the wrong layer
-- Dead ends — export never imported, handler never registered, branch that returns nothing useful, unreachable after a guard
-- Missing links — UI → action, action → mutation, schema write ↔ read, env required but unread
-- Ambiguous entry points — two ways in with different invariants; optional params that skip critical checks
-- Wrong composition — helper safe alone but dangerous when this caller wires it
-- **Half-moves** — old path still live alongside the new service/API (both wired or callers split incorrectly)
+### Spec output shape
 
-**Severity (required on every finding):**
+```markdown
+## AC matrix
+| AC / checklist row | Status | Evidence |
+| --- | --- | --- |
+| <Done-when / checklist item> | met \| partial \| missing \| n/a | <hunk / symbol / "absent"> |
 
-| Tag | Use when |
-| --- | --- |
-| **critical** | Broken path, wrong caller can corrupt/leak/skip auth, dead end on a shipped flow |
-| **important** | Real risk under plausible misuse or incomplete wiring; should fix before merge |
-| **nit** | Clarity / naming / minor dead code that does not break a path |
+## Scope / wrong impl
+- <scope creep or wrong implementation> @ <file/symbol>
+```
 
-**Routes Task output shape** (worker must use this):
+If no spec: report `## Spec — no spec available` and stop (do not invent AC).
+
+### Routes output shape
+
+Path walks **plus** blast radius (required):
 
 ```markdown
 ## Path: <entry → outcome name>
@@ -121,29 +129,141 @@ Hunt **call-graph / wiring** problems in the diff's changed surface — not tast
 <2–4 sentences: what this path does and where it is fragile>
 ### Findings
 - **critical|important|nit**: <issue> @ <file/symbol>
+
+## Blast radius
+- Touched shared symbol: `<symbol>` @ `<file>`
+  - Outside-diff callers at risk: <list or "none found">
+  - Half-move / duplicate wiring: <yes/no + detail>
+  - Wrong-layer callers: <yes/no + detail>
+### Blast findings
+- **critical|important|nit**: <issue> @ <file/symbol>
 ```
 
-One Task may cover multiple paths. Prefer fewer high-conviction path summaries over listing every private helper.
+One Task may cover multiple paths. Cover every relevant shipped path and every touched shared symbol with real callers — do not skim to stay short.
 
-## Parallel Task subagents
+### BigPicture output shape
 
-Launch **Standards + Spec + Routes** Tasks in one message (`generalPurpose` or `explore`). Skip Spec only if no spec. Optionally `bugbot` / `security-review` only if the user asked.
+```markdown
+## System read
+<3–6 sentences: what this change is trying to be in the product/domain>
+
+## Coherence findings
+- **critical|important|nit**: <issue> @ <file/symbol or seam>
+
+## Missing big-picture links
+- <sibling seam / cross-cutting concern that should connect and does not>
+```
+
+BigPicture owns holistic fit — not line-by-line hunk nits (defer those to Standards/Routes).
+
+### Risk output shape
+
+```markdown
+## Risk findings
+- **security|bug|scale** · **critical|important|nit**: <issue> @ <file/symbol> — <why it fails under load/abuse>
+```
+
+Risk owns security, correctness bugs, Big-O / unbounded collects / N+1 / hot-path scans, obvious race/authz holes. Not style/naming unless it causes a real risk.
+
+## Routes axis (codepath walk + blast radius)
+
+Hunt **call-graph / wiring** problems in the diff's changed surface — not taste, not ticket wording.
+
+**Start at the top**, walk **down** every relevant runtime path the change touches. Narrate **out loud** so a human can follow the trail (same spirit as `/validate` path walk, but review-focused).
+
+**Hunt for (paths):**
+
+- Loose / public surfaces that can be called with the wrong args, wrong auth, wrong order, or from the wrong layer
+- Dead ends — export never imported, handler never registered, branch that returns nothing useful, unreachable after a guard
+- Missing links — UI → action, action → mutation, schema write ↔ read, env required but unread
+- Ambiguous entry points — two ways in with different invariants; optional params that skip critical checks
+- Wrong composition — helper safe alone but dangerous when this caller wires it
+- **Half-moves** — old path still live alongside the new service/API (both wired or callers split incorrectly)
+
+**Hunt for (blast radius — required):**
+
+- Touched shared modules/symbols → who else calls them **outside the diff**
+- Shared-module impact — a “local” change that breaks sibling features
+- Half-moves left live; wrong-layer callers; dead/duplicate wiring across the blast surface
+
+**Severity (required on every Routes finding):**
+
+| Tag | Use when |
+| --- | --- |
+| **critical** | Broken path, wrong caller can corrupt/leak/skip auth, dead end on a shipped flow, blast breaks a live sibling |
+| **important** | Real risk under plausible misuse or incomplete wiring; should fix before merge |
+| **nit** | Clarity / naming / minor dead code that does not break a path |
+
+## BigPicture axis
+
+Zoom out beyond hunks. Ask: does this change make sense as a whole in the product/domain? Are cross-cutting concerns consistent? Are sibling seams missing?
+
+When UI is in the diff, check coherence against `/design` at the product-surface level (not pixel nits — those stay Standards).
+
+**Severity:** same critical / important / nit tags as Routes.
+
+## Risk axis
+
+Hunt defects that hurt users or the system under abuse/load — not taste.
+
+**Hunt for:**
+
+- Security — authz holes, injection, secret leakage, SSRF, unsafe deserialization, missing auth on public surfaces
+- Bugs — incorrect invariants, off-by-one, race conditions, null/undefined traps on shipped paths
+- Scale — Big-O blowups, unbounded `.collect()`, N+1 queries, compute-on-read on hot paths, scans that will not survive growth
+
+**Severity:** same critical / important / nit tags. Tag every finding `security` | `bug` | `scale`.
+
+Risk **replaces** default reliance on Cursor `bugbot` / `security-review` subagent types. Launch those tools **only** if the user explicitly asks.
+
+## Wave 1 — five parallel Tasks
+
+Launch **Standards + Spec + Routes + BigPicture + Risk** in **one** message (`generalPurpose` or `explore`). Skip Spec only if no spec.
 
 **Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
 
-**Standards prompt** — diff + commits; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under ~400–500 words.
+**Standards prompt** — diff + commits; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; `/design` when UI; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; require Standards artifact shape; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; **no findings cap / no word cap**.
 
-**Spec prompt** — diff + commits + spec path/contents; missing/partial requirements, scope creep, wrong implementations; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under 400 words. Skip Spec if no spec.
+**Spec prompt** — diff + commits + spec path/contents; require AC matrix artifact; missing/partial requirements, scope creep, wrong implementations; **exam posture**; **no findings cap / no word cap**. Skip Spec if no spec.
 
-**Routes prompt** — diff + commits; entry points touched by the change; instruct: start top-down, narrate walk out loud, summarize each path, tag every finding critical/important/nit; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; under ~400–500 words. Do not re-litigate taste or ticket AC here.
+**Routes prompt** — diff + commits; entry points touched by the change; start top-down, narrate walk out loud, summarize each path, **required Blast radius section**, tag every finding critical/important/nit; require Routes artifact shape; **exam posture**; **no findings cap / no word cap**. Do not re-litigate taste or ticket AC here.
 
-## Aggregate
+**BigPicture prompt** — diff + commits; product/domain context from spec if any; require BigPicture artifact shape; holistic coherence + missing sibling seams; **exam posture**; **no findings cap / no word cap**. Do not line-nit hunks.
 
-Present `## Standards`, `## Spec`, and `## Routes` separately. One-line summary per axis. Do not pick a cross-axis winner. Under Routes, keep the path walk summaries readable — do not collapse them into a flat severity list only.
+**Risk prompt** — diff + commits; require Risk artifact shape; hunt security, bugs, scale (Big-O / unbounded / N+1 / hot-path); tag `security|bug|scale` + severity; **exam posture**; **no findings cap / no word cap**. Do not re-litigate taste or ticket AC.
+
+Parent: if any worker returns narrative without its artifact shape → **reject and relaunch** that axis.
+
+## Aggregate (after Wave 1)
+
+Present `## Standards`, `## Spec`, `## Routes`, `## BigPicture`, and `## Risk` separately. One-line summary per axis. Do not pick a cross-axis winner. Under Routes, keep path walks **and** blast radius readable — do not collapse them into a flat severity list only.
+
+Keep Wave 1 axis summaries ready to feed Wave 2 (compact, factual).
+
+## Wave 2 — adversarial (always)
+
+**Always** run after Wave 1 aggregate — even when Wave 1 found many issues.
+
+Launch **fresh** Task(s) in one message (`generalPurpose` or `explore`). **Omit Task `model`** unless the user asked.
+
+**Input:** fixed-point diff + commits + **Wave 1 axis summaries** (not full chat fluff).
+
+**Job:** prove Wave 1 missed real defects; hunt contradictions between axes; do **not** restate Wave 1 findings unless disagreeing with them.
+
+**Output shape:**
+
+```markdown
+## Adversarial findings
+- **standards|spec|routes|bigpicture|risk|cross-axis** · **critical|important|nit**: <new issue> @ <file/symbol> — <why Wave 1 missed it>
+```
+
+Parent merges unique hits into the five axis sections (or show a short `## Adversarial addenda` then fold into Fix backlog / PR drafts). Drop duplicates of Wave 1.
+
+Same exam posture. Real defects only — invent nothing.
 
 ## Behavior-lock recommendations (tell the user — do not run)
 
-After the axes, if the diff touches a **complex architectural part** whose deep behavior is easy to break from the outside (complex hooks, domain/business logic, facades, stateful classes) and there is **no durable behavior lock**, add a short section:
+After Wave 1 + Wave 2 (and Needs `/create-test` if any), if the diff touches a **complex architectural part** whose deep behavior is easy to break from the outside (complex hooks, domain/business logic, facades, stateful classes) and there is **no durable behavior lock**, add a short section:
 
 ```markdown
 ## Needs /create-test
@@ -160,13 +280,13 @@ Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI ow
 
 ## Offer to fix (batch ask → grill → `/goal`)
 
-After the axes (and Needs `/create-test` if any), if there is **anything actionable** to fix — any **critical** / **important** Routes finding, Standards/Spec failure, or thermonuclear blocker (not pure nits-only):
+After Wave 1 + Wave 2 (and Needs `/create-test` if any), if there is **anything actionable** to fix — any **critical** / **important** Routes, BigPicture, or Risk finding, Standards/Spec failure, or thermonuclear blocker (not pure nits-only):
 
 1. Present a short **Fix backlog** (do not re-dump the whole review):
 
 ```markdown
 ## Fix backlog
-1. **critical|important|standards|spec** — <one-line issue> @ <file/symbol>
+1. **critical|important|standards|spec|bigpicture|risk** — <one-line issue> @ <file/symbol>
 2. **important** — move Stripe calls from `features/checkout` into `billing.makeUserPay` (behavior-preserving)
 3. …
 ```
@@ -207,7 +327,10 @@ If the backlog is a **single tiny defect** and the user already said how to fix 
 ## Anti-patterns
 
 - Casual pass / rubber stamp while defects remain that `/pr-review` would Blocking
-- Ending the review without the Fix backlog + Questions batch when critical/important/Standards/Spec failures exist
+- Skipping Wave 2 or solo-reviewing when five Wave 1 Tasks can run
+- Accepting a worker report that skips its artifact shape
+- Capping findings or word-limiting workers so defects stay hidden
+- Ending the review without the Fix backlog + Questions batch when critical/important/Standards/Spec/BigPicture/Risk failures exist
 - Coding fixes immediately on "yes" without `/goal` + grill
 - Dripping one review follow-up question per message when several are known
 - Treating nits as mandatory backlog items unless the user asked
@@ -216,4 +339,5 @@ If the backlog is a **single tiny defect** and the user already said how to fix 
 - Writing to Linear/GitHub from this skill
 - Auto-running `/create-test` instead of recommending it
 - Writing or editing test files from this skill (only `/create-test` writes tests)
+- Auto-launching `bugbot` / `security-review` when the user did not ask (Risk axis covers that)
 - Narrating exam roleplay in chat ("I'm the stressed student…") instead of factual findings

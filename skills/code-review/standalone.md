@@ -8,7 +8,8 @@
 
 1. **Pin fixed point** — `git diff <fixed-point>...HEAD` (doctrine)
 2. **Resolve spec source** — user paste, PR/issue, commits, or ask
-3. **Launch parallel Tasks** — Standards + Spec + Routes (doctrine prompts)
-4. **Aggregate** — separate `## Standards`, `## Spec`, `## Routes`
-5. **Needs /create-test** — recommend to user; do not run; do not write tests (doctrine §10)
-6. **Offer to fix** — Fix backlog + Questions batch via [../asking.md](../asking.md); on yes → `/goal` (doctrine §11)
+3. **Wave 1** — launch Standards + Spec + Routes + BigPicture + Risk in parallel (doctrine prompts; skip Spec only if no spec; fill-or-fail artifacts)
+4. **Aggregate Wave 1** — separate `## Standards`, `## Spec`, `## Routes`, `## BigPicture`, `## Risk`
+5. **Wave 2** — always launch adversarial Task(s); merge unique hits (doctrine)
+6. **Needs /create-test** — recommend to user; do not run; do not write tests (doctrine)
+7. **Offer to fix** — Fix backlog + Questions batch via [../asking.md](../asking.md); on yes → `/goal` (doctrine)

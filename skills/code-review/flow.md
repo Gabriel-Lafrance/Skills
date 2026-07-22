@@ -1,10 +1,10 @@
 # Code Review Flow
 
-Standards + Spec + Routes review **of what this `/goal` is shipping**. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
+Five-axis review (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2** of what this `/goal` is shipping. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
 
 **Stance:** A+ exam — catch every defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
 
-**Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, Routes walk, aggregate, Needs `/create-test`, and Offer to fix.
+**Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, Routes (+ blast), BigPicture, Risk, artifact contracts, Wave 1 → Wave 2, aggregate, Needs `/create-test`, and Offer to fix.
 
 ## Preconditions
 
@@ -17,19 +17,21 @@ Standards + Spec + Routes review **of what this `/goal` is shipping**. Read [./d
 
 1. **Pin fixed point** — goal's implement wave commit, else `main` / user override
 2. **Spec source (goal first)** — `GOAL.md` + `GRILL.md` + `plans/INDEX.md` + completed plans; then ticket via `/trackers`. Task prompts: this goal-id only; file lane + AC; behavior-preserving moves in lane are in scope
-3. **Parallel axes** — Standards + Spec + Routes (doctrine prompts; omit Task `model`)
-4. **Aggregate + offer to fix** — doctrine §11 with in-goal adaptation:
+3. **Wave 1** — Standards + Spec + Routes + BigPicture + Risk (doctrine prompts; omit Task `model`; fill-or-fail artifacts)
+4. **Wave 2** — always adversarial rescan (doctrine); merge unique hits
+5. **Aggregate + offer to fix** — doctrine Offer to fix with in-goal adaptation:
 
 | User says | Do |
 | --- | --- |
 | **no** | Document waived findings in `STATUS.md`. **Critical/important blockers** block ACHIEVED until fixed or explicitly waived by name |
 | **yes** | Stay on **this** `goal-id` — no nested `/goal`. Findings-focused `/grill-me` → plans if needed → `/implement` → `/validate` → re-run this flow |
 
-5. **Needs /create-test** — doctrine §10; tell user to run `/create-test`; append to goal `FOLLOWUPS.md` + `STATUS.md`; never invoke or write tests from this flow
+6. **Needs /create-test** — doctrine; tell user to run `/create-test`; append to goal `FOLLOWUPS.md` + `STATUS.md`; never invoke or write tests from this flow
 
 ## Anti-patterns
 
 - Solo-reviewing a large goal diff when workers can
+- Skipping Wave 2 or accepting artifact-shape failures
 - Writing/closing tickets
 - Approving "it works" when thermonuclear bar fails
 - Auto-running `/create-test` instead of recommending it
