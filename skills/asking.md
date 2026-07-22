@@ -35,6 +35,10 @@ When drafting options, prefer these as **recommended** unless the user already l
 | Confirm gates / recap | **Announce** non-goals + plan split + shared-understanding summary in Locked. Ask only real open product/UX/architecture/taste choices |
 | Ticket type (`/write-ticket`) | Feature when capability/enhancement; Bug when broken/wrong behavior; Refactor when move/cleanup/debt without new product behavior |
 | Ticket metadata (`/write-ticket`) | Status: backlog/todo for create; Priority: Medium unless urgency clear; Assignee: Unassigned unless an owner is obvious |
+| Publish (`/publish`) | Branch + push unless user said local-only; then ask PR draft+publish (recommend yes); type matches the work; ticket id when known |
+| Publish branch name | `{type}/{ticket}-{slug}` (e.g. `bug/IN-1234-fix-checkout-total`) — no colons |
+| Just-do-it (`/just-do-it`) | Auto-take all `← recommended`; early typed branch; dual code-review; fix via scoped `/goal` only; no `/pr-review`; nested workspace under `.agents/temp/just-do-it/<id>/` |
+| Just-do-it fix goals | Same ticket lane; named critical/important only; no drive-by full refactor |
 
 ## Batch template
 

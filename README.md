@@ -27,6 +27,8 @@ npx skills@latest update -g -y
 | [`/goal`](./skills/goal/SKILL.md) | Build a feature end-to-end (grill → plans → implement → validate → review). Pass a ticket: `/goal IN-1234` or `/goal #42`. |
 | [`/analyze`](./skills/analyze/SKILL.md) | Research a task or idea. Writes findings to disk. Optionally promote to `/goal` or `/write-ticket`. |
 | [`/write-ticket`](./skills/write-ticket/SKILL.md) | Refine or create a Linear/GitHub Feature, Bug, or Refactor ticket (open grill → `/analyze` → draft → write after you approve). |
+| [`/publish`](./skills/publish/SKILL.md) | Put work on a typed branch (`feature|bug|refactor/<ticket>-<slug>`), push, then draft/publish a PR (What changed, How to QA, ticket link). |
+| [`/just-do-it`](./skills/just-do-it/SKILL.md) | Linear ticket → early branch → analyze → goal → dual code-review (fix via scoped `/goal`) → landed PR. Human reviews after. |
 | [`/grill-me`](./skills/grill-me/SKILL.md) | Sharpen fuzzy intent until you share the same understanding. |
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
@@ -43,6 +45,8 @@ Internals (`/validate`, `/implement`, `/taste`, `/orchestrate`, …) are looked 
 - **Just thinking** → `/analyze` → done, or promote to `/goal`, or `/write-ticket`
 - **Ticket then build** → `/write-ticket` → `/goal IN-1234`
 - **Build now** → `/goal` (or `/goal` + a short brief)
+- **Ship a branch/PR** → `/publish`
+- **Ticket → PR (autonomous)** → `/just-do-it IN-1234` (human reviews the PR after)
 - **Stuck on intent** → `/grill-me`
 - **Review a PR** → `/pr-review`
 - **Bug** → `/repair` (or `/goal` if it's huge)

@@ -21,6 +21,8 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | Fuzzy idea / research | `/analyze` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
 | Build until X is true | `/goal` (ticket: `/goal IN-1234` or `/goal #42`) |
+| Ship branch + optional PR | `/publish` |
+| Linear ticket → landed PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
 | Structure / folders / data shape | `/architecture` |
 | Fix or polish UI | `/design` |
