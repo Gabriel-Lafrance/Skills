@@ -1,6 +1,6 @@
 # Just Do It Doctrine
 
-Standalone mega-orchestrator: **Linear ticket → early branch → analyze → goal → dual code-review (fix via scoped `/goal`) → landed PR**. Human reviews the PR. Never under `/goal`. Never invent a `just-do-it-flow`.
+Standalone mega-orchestrator: **Linear ticket → early branch → analyze → goal → CR1 build-goal Fix mode → CR2 bounded `fix-cr2` goal when needed → landed PR**. Human reviews the PR. Never under `/goal`. Never invent a `just-do-it-flow`.
 
 **Ask style:** [../asking.md](../asking.md). Schemas/templates: [reference.md](reference.md).
 
@@ -75,6 +75,7 @@ Before implement:
 - Pass `analyses_container`, `analysis_root`, `goals_container`, and `parent_wave`; write under nested `analyses/`.
 - Skip hand-off Questions; always **promote + start** (`e`).
 - Link analysis path in `LINKS.md`.
+- For a code-review remediation analysis, do not skip the proposal: persist the selected findings and proposed fixes first, then autonomy accepts the recommended promotion only after that evidence exists.
 
 ### Build `/goal`
 
@@ -83,11 +84,11 @@ Before implement:
 - Skip ACHIEVED **Ship Questions** (parent owns commit/PR).
 - Dual skills → **flow** via [../variants.md](../variants.md).
 
-### Code-review #1 (inside / after build)
+### Code-review #1 (inside the active build goal)
 
 - `/code-review` **flow**; Spec = build GOAL + ticket.
 - Snapshot each pass → `reviews/cr1/PASS-NN.md`.
-- Named **Fix now** invariant/spec/correctness/security/regression blockers → Fix-goal contract (below) → targeted re-review.
+- Named **Fix now** invariant/spec/correctness/security/regression blockers → goal-scoped `/analyze` review remediation mode → record proposed fixes → autonomy promotes recommended selected rows into the active build goal's Fix mode → targeted re-review.
 - Follow-up architecture/readability/move items and nits → nested `<goal-root>/FOLLOWUPS.md` when applicable, plus `<jdi-root>/FINDINGS.md` `## Follow-up`; do not loop automatically.
 
 ### Code-review #2 (post-build)
@@ -95,7 +96,7 @@ Before implement:
 - `/code-review` **standalone**; base = `main` (or default); Spec = ticket + archived build GOAL from `LINKS.md` / the resolved archived `goal_root`.
 - Fresh scan — do not rubber-stamp #1.
 - Snapshot → `reviews/cr2/PASS-NN.md`.
-- Same Fix-now-only fix goal → targeted re-review loop until named blockers clear.
+- Same `/analyze` → promote selected rows into the **post-build Fix-goal contract** below (`fix-cr2-*`) → targeted re-review loop until named blockers clear.
 
 ### Ship
 
@@ -107,20 +108,20 @@ Before implement:
 6. Push with `git push -u origin HEAD`, then run `gh pr create` with the recorded title and body. Never force-push or push the default branch.
 7. Record the PR URL, set `phase: done`, and remind the user that a human owns review. **Never** run `/pr-review`.
 
-## Fix-goal contract (anti-divergence)
+## Post-build Fix-goal contract (anti-divergence)
 
-Every findings-driven `/goal` must stay on the original ticket:
+Every post-build CR2 findings-driven `/goal` must stay on the original ticket. CR1 runs inside the active build goal's Fix mode and does not allocate a separate fix goal:
 
 | Rule | Requirement |
 | --- | --- |
-| **Parent ticket** | Same Linear id; Context → ticket + build analysis/GOAL + `FINDINGS.md` |
+| **Parent ticket** | Same Linear id; Context → ticket + build analysis/GOAL + review remediation `ANALYSIS.md` + `FINDINGS.md` |
 | **Done when** | Only fix the **named** Fix-now findings (title + path + cited `INV-*`/spec/risk each) |
 | **Lane** | Only files/symbols in the ticket lane or named by the finding |
 | **Non-goals (Locked)** | No new features; no unrelated cleanup; no “while we’re here” refactors; no architecture rewrite unless a named Fix-now finding **requires** a minimal move |
 | **Active Rules** | Preserve every build-goal `INV-*` rule relevant to the lane; add one only when the named finding reveals unrecorded locked behavior |
 | **Taste/architecture** | Smallest **behavior-preserving** authoritative guard; move only within the finding’s blast radius and only when needed to clear it |
 | **Split** | One small fix goal (or few tight plans) — never reopen product vision |
-| **Ids** | `fix-cr1-01-<slug>` / `fix-cr2-01-<slug>` under nested `goals/` |
+| **Ids** | `fix-cr2-01-<slug>` under nested `goals/` |
 | **Autonomy** | Same auto-recommended overrides |
 
 **Scope creep is an anti-pattern.** “Should rewrite the module” → minimum that clears that finding, not a greenfield redesign.
@@ -133,7 +134,7 @@ Every findings-driven `/goal` must stay on the original ticket:
 | | Only Follow-up items or nits remain |
 | | Soft judgment: named backlog empty even mid-cap |
 
-**Cap:** 3 fix-`/goal` cycles per phase (cr1 and cr2 separately). After cap with blockers still open → `phase: blocked`; do **not** ship.
+**Cap:** 3 remediation loops per phase (CR1 = build-goal Fix mode iterations; CR2 = `fix-cr2` goal cycles). After cap with blockers still open → `phase: blocked`; do **not** ship.
 
 Update `FINDINGS.md` each pass (burn-down list).
 
@@ -143,7 +144,7 @@ Update `FINDINGS.md` each pass (burn-down list).
 **Progress:** `<jdi-id>` · <phase> · cr1_loops N · cr2_loops N · next: <resume_at>
 ```
 
-Phases: `resolve` → `branch` → `analyze` → `goal` → `code-review-1-loop` → `code-review-2` → `code-review-2-loop` → `ship` → `done` | `blocked`.
+Phases: `resolve` → `branch` → `analyze` → `goal` (including CR1 remediation/Fix mode) → `code-review-2` → `code-review-2-loop` → `ship` → `done` | `blocked`.
 
 ## Tests
 

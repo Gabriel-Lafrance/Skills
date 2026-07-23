@@ -30,6 +30,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 | Conductor | `/orchestrate` for every Task wave |
 | Build | `/implement` |
 | Bug mid-build | `/repair` → `/validate` (grill + acceptance; massive → new `/goal`) |
+| Review Fix-now backlog | `/analyze` review remediation mode before any Fix mode |
 | Gate out | `/validate` then **`/code-review`** (required) |
 
 Inside this loop, call dual skills (`/grill-me`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the **flow** variant ([variants.md](../variants.md)). Do not load both variants. Internals: `/validate`, `/create-plan`, `/implement`, `/orchestrate`, `/taste`, `/split-task`, `/trackers`.
@@ -50,7 +51,7 @@ Track these in `STATUS.md` as you go. Do not announce ACHIEVED until every requi
 | `/create-plan` | Yes | At least `plans/01-*.md` + INDEX |
 | `/implement` | Yes | Frontier plans |
 | `/validate` | Yes | Must pass — includes cross-plan seams when 2+ plans |
-| `/code-review` | Yes | Must run after validate; batched fix offer → grill+fix on this goal or explicit waive |
+| `/code-review` | Yes | Must run after validate; Fix-now offer → review remediation `/analyze` → explicit promotion → Fix mode, or explicit waive |
 
 ## Ticket-driven goals
 
@@ -107,15 +108,15 @@ After all implement workers finish:
 1. **`/validate`** against GOAL Done when + Active Rules + plans AC — includes cross-plan seam check when INDEX has 2+ plans (doctrine in `/validate`)
 2. **Always** run `/code-review` next. Do not ACHIEVED without it.
 3. `/code-review` presents findings + **Fix backlog** → batched offer via [../asking.md](../asking.md)
-4. **yes** → enter **Fix mode** on this goal-id → findings grill → implement → `/validate` → targeted re-review until named blockers clear or are explicitly waived
+4. **yes** → run goal-scoped `/analyze` in review remediation mode → present proposed fixes → only on explicit promotion enter **Fix mode** on this goal-id → findings grill → implement → `/validate` → targeted re-review until named blockers clear or are explicitly waived
 5. **no** → only ACHIEVED if no Fix-now blockers remain, or the user waived each blocker by name
 6. Update `STATUS.md` checklist rows
 
 ### Fix mode (review remediation only)
 
-Fix mode is one bounded slice of the current goal, not fresh product discovery:
+Fix mode is one bounded slice of the current goal, not fresh product discovery. It starts only after a review remediation `ANALYSIS.md` has described the selected findings and the user promoted them. Under a `/just-do-it` parent, autonomy may accept the recommended promotion only after that analysis exists:
 
-1. Copy only the named `Fix now` findings into the active plan/backlog. Each row must cite the violated Active Rule, acceptance criterion, correctness/security issue, or regression.
+1. Copy only the selected analysis `FIX-*` rows into the active plan/backlog. Each row must cite the source review finding, remediation analysis path, violated Active Rule, acceptance criterion, correctness/security issue, or regression.
 2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Keep existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.
 3. Prefer the smallest authoritative correction. For example, if X is disabled while Y processes, preserve the UI state and reject the prohibited backend/state transition directly; do not add locks, queues, retries, wrappers, or a new service unless the named finding proves a guard is insufficient.
 4. Use one tight plan (or a few tightly coupled rows). No new feature scope, product exploration, optional cleanup, or architecture move unless the named finding requires it.
@@ -123,7 +124,7 @@ Fix mode is one bounded slice of the current goal, not fresh product discovery:
 
 ## Phase 2 — Achieve or clear
 
-**Achieved only when:** mandatory checklist complete, `/validate` pass (including cross-plan seams when applicable), `/code-review` run (Fix-now findings fixed after yes/grill, or explicitly waived by name).
+**Achieved only when:** mandatory checklist complete, `/validate` pass (including cross-plan seams when applicable), `/code-review` run (Fix-now findings fixed after analysis → remediation `ANALYSIS.md` → explicit promotion → focused grill/Fix mode, or explicitly waived by name).
 
 Then:
 
@@ -140,7 +141,7 @@ Then:
 ## Anti-patterns
 
 - Announcing done **without** `/code-review`
-- Fixing review findings without the fix yes/no + findings grill
+- Fixing review findings without the analysis choice, review remediation `ANALYSIS.md`, explicit promotion, and focused grill
 - Treating a review fix as a fresh architecture or product goal
 - Loading both standalone and flow variants of a dual skill in one turn
 - Writing `plans/*` before Locked closing (non-goals + split + shared understanding)

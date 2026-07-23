@@ -56,6 +56,14 @@ Concrete Fix-now vs Follow-up vs waive vs nit. List **every** real defect on an 
 
 **Nit (scale)** — One-off admin script scans all rows; not on a shipped hot path.
 
+## Evidence vs speculation
+
+**Fix now** — A public mutation accepts `orderId`; its path walk reaches `ctx.db.patch` without verifying ownership. Trigger: any authenticated caller supplies another user’s id. Evidence: the mutation reads no identity and the patch is reachable. Smallest fix: ownership check at the mutation boundary.
+
+**Not a finding** — “Add a `try/catch` around this local formatter because it could throw.” No caller, invalid input, external boundary, or unhandled failure path is shown. Omit it.
+
+**Not a finding** — “Add retries and an error queue in case the payment provider is temporarily unavailable.” The diff neither calls the provider nor establishes an asynchronous/durable delivery requirement. Omit it until a real boundary and failure contract exist.
+
 ## Adversarial Wave 2
 
 **Catch** — Initial Wave 1 Standards clean; Wave 2 finds the shared helper half-move Wave 1 Routes missed and tags it `routes` · critical.

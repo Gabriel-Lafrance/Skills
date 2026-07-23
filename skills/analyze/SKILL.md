@@ -1,11 +1,10 @@
 ---
 name: analyze
 description: >-
-  Standalone task analysis: parallel Task explore crunch, always writes
-  findings under a scoped analysis workspace, optional user-helped sharpening,
-  optional promote to a /goal workspace. No ticket write by default. Use when
-  analyzing a task or idea; /write-ticket calls this before drafting. Not for
-  /goal. Unsure → /ask-gabriel.
+  Task analysis that writes findings under a scoped workspace, supports
+  explicit promotion to a /goal, and evaluates named code-review Fix-now
+  blockers before remediation. No ticket write by default. Use for a task,
+  idea, or review backlog; /write-ticket and /code-review may call it.
 disable-model-invocation: true
 ---
 
@@ -13,7 +12,7 @@ disable-model-invocation: true
 
 **Variants:** [../variants.md](../variants.md) — **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** message.
 
-**Standalone only.** Never call from `/goal`. Does **not** write Linear/GitHub — that is `/write-ticket`.
+**Standalone by default.** The sole in-goal exception is a code-review **review remediation analysis** of named Fix-now blockers. It does **not** write Linear/GitHub — that is `/write-ticket`.
 
 **Read:** [doctrine.md](doctrine.md) · [../workspace-roots.md](../workspace-roots.md) · **Ask style:** [../asking.md](../asking.md) · **Taste / structure:** `/taste`, `/architecture` when relevant.
 
@@ -26,6 +25,7 @@ disable-model-invocation: true
 3. Write `ANALYSIS.md` (required)
 4. Optional sharpen Questions batch
 5. Hand-off batch (done / sharpen / promote / write-ticket / promote+goal)
-6. Promote only on explicit yes — see doctrine
+6. For review remediation, describe each named Fix-now issue/current behavior, root cause, smallest fix, touch surface, non-goals, and verification before an explicit promotion choice
+7. Promote only on explicit yes — see doctrine
 
 Unsure which skill next → `/ask-gabriel`.

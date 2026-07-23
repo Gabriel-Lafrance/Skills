@@ -2,7 +2,7 @@
 
 Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2**; Fix-mode re-review is targeted. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
 
-**Stance:** A+ exam — catch every defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
+**Stance:** A+ exam — catch every evidenced defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Every failure claim needs a reachable trigger and concrete evidence; operational intensity is not speculation.
 
 **Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, Routes (+ blast), BigPicture, Risk, artifact contracts, initial Wave 1 → Wave 2, targeted re-review, Needs `/create-test`, and remediation disposition.
 
@@ -25,7 +25,7 @@ Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **pl
 | User says | Do |
 | --- | --- |
 | **no** | Document waived findings in `<goal-root>/STATUS.md`. **Fix-now blockers** block ACHIEVED until fixed or explicitly waived by name |
-| **yes** | Stay on **this** `goal-id` — no nested `/goal`. Enter Goal Fix mode: named Fix-now findings only → focused `/grill-me` → one tight plan if needed → `/implement` → `/validate` → targeted re-review |
+| **yes** | Run goal-scoped `/analyze` in review remediation mode for named Fix-now rows → present proposed fixes → only on explicit promotion stay on this `goal-id` and enter Goal Fix mode: selected rows only → focused `/grill-me` → one tight plan if needed → `/implement` → `/validate` → targeted re-review |
 
 6. **Needs /create-test** — doctrine; tell user to run `/create-test`; append to `<goal-root>/FOLLOWUPS.md` + `<goal-root>/STATUS.md`; never invoke or write tests from this flow
 
@@ -37,7 +37,7 @@ Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **pl
 - Hiding a real structural issue instead of classifying it as Fix now or Follow-up
 - Auto-running `/create-test` instead of recommending it
 - Writing or editing test files from this flow
-- Fixing review findings without the yes/no offer + findings grill
+- Fixing review findings without the yes/no offer, review remediation analysis, explicit promotion, and focused grill
 - Nesting a second `/goal` from inside this flow
 - ACHIEVED while Fix-now findings are neither fixed nor explicitly waived
 - Reopening an initial full review after a bounded Fix mode change

@@ -1,6 +1,6 @@
 # Analyze Doctrine
 
-Crunch the repo against an ask and **always persist findings to disk**. Optionally sharpen with the user. Optionally **promote** into a `/goal` workspace. Default end state is the analysis file — not a goal, not a ticket. Never write Linear/GitHub (that is `/write-ticket`). Never call from `/goal`.
+Crunch the repo against an ask and **always persist findings to disk**. Optionally sharpen with the user. Optionally **promote** into a `/goal` workspace. Default end state is the analysis file — not a goal, not a ticket. Never write Linear/GitHub (that is `/write-ticket`). The only in-goal exception is a code-review **review remediation analysis** of named Fix-now blockers.
 
 **Ask style:** [../asking.md](../asking.md). **Taste / structure:** `/taste`, `/architecture` when relevant.
 
@@ -29,7 +29,7 @@ Research **blocks on Task completion** — never invent a clock.
     NOTES.md         # optional — user-helped decisions
 ```
 
-The tree above is the standalone default. Use `analyses_container` and `analysis_root` when a parent wave supplies them — never `.scratch/`.
+The tree above is the standalone default. Use `analyses_container` and `analysis_root` when a parent wave supplies them — never `.scratch/`. A goal-scoped review remediation analysis uses `<goal-root>/analyses/<analysis-id>/`; the caller supplies both roots so its evidence archives with that goal.
 
 ### Analysis id
 
@@ -54,6 +54,77 @@ Statuses: `running` | `ready` | `promoted` | `cleared`
 | Ticket ID/URL | Optional read-only load for context — do not write |
 | Existing `analyses/<id>/` or path | Resume / sharpen that analysis |
 | Brief from `/write-ticket` step 1 | Analyze that brief; write under analyses/ |
+| Code-review `Fix now` backlog | Review remediation analysis: inspect only named blockers, describe each proposed fix, then wait for explicit promotion |
+
+## Review remediation analysis (code-review exception)
+
+`/code-review` invokes this mode only after the user selects the named **Fix now** backlog. It is the required bridge between review and remediation:
+
+1. Receive the review pass, fixed-point diff, selected Fix-now rows, cited `INV-*`/acceptance criteria, parent goal context when present, and the exact permitted lane.
+2. Reject Follow-up items and optional nits as inputs. Do not reopen product discovery, perform a fresh architecture audit, or add new review findings.
+3. Inspect each selected row against the code. Explain the issue/current behavior, root cause, smallest authoritative correction, affected paths, non-goals, and targeted verification.
+4. Persist the result as `ANALYSIS.md`; this is a proposal, not an implementation plan or a goal.
+5. Present the proposed fixes and wait for the user's explicit choice to promote selected rows. Under a `/just-do-it` parent, autonomy may take the recommended promotion only after this analysis exists.
+
+Use a goal-scoped root when the review ran under a goal:
+
+```text
+<goal-root>/analyses/<analysis-id>/
+  ANALYSIS.md
+  STATUS.md
+```
+
+Use the caller-supplied standalone or parent-wave root otherwise.
+
+### Review remediation ANALYSIS.md shape
+
+```markdown
+# Review remediation analysis
+**id:** <analysis-id>
+**Review source:** <goal-root>/… | reviews/crN/PASS-NN.md
+**Status:** ready | promoted → <goal-id or current goal Fix mode>
+**Scope:** named Fix-now rows only
+
+## Selected findings
+| ID | Source rule | Finding | Proposed disposition |
+| --- | --- | --- | --- |
+| FIX-1 | INV-1 | … | promote | leave |
+
+## FIX-1 — <short finding>
+**Source:** <review pass + path/symbol>
+**Rule:** `INV-1` | Done when | AC | correctness/security/regression
+**Current behavior and evidence:** …
+**Root cause:** …
+**Proposed smallest fix:** …
+**Why not more machinery:** <why a local/direct guard is sufficient, or concrete evidence it is not>
+**Touch surface:** `path`, symbol, direct caller(s)
+**Verification:** <targeted validation of the rule and regression path>
+**Non-goals:** …
+
+## Promotion candidate
+**Outcome:** …
+**Done when:** <one binary row per selected FIX-*>
+**Lane:** …
+**Active Rules:** preserve `INV-*`; add only an unrecorded user-locked behavior
+```
+
+### Review remediation hand-off
+
+```markdown
+## Questions
+Reply like: 1a
+
+1. What should happen with this proposed remediation?
+   - a) Promote selected `FIX-*` rows into the bounded fix goal / current goal Fix mode ← recommended
+   - b) Sharpen the analysis before deciding
+   - c) Keep the analysis only; do not implement
+```
+
+| Choice | Do |
+| --- | --- |
+| **a) Promote** | Goal-scoped review → attach the selected rows and analysis path to the current goal's Fix mode. Standalone review → create one bounded `/goal` from the promotion candidate. |
+| **b) Sharpen** | Investigate only the selected finding's unclear cause, fix shape, lane, or verification; rewrite its section. |
+| **c) Keep only** | Set `STATUS.md` `ready`; leave code unchanged. |
 
 ## Process
 
@@ -148,7 +219,7 @@ User can also paste edits / say “change the recommended option to 2” — upd
 
 ### 5. Hand-off batch (required once ready)
 
-Always offer a hand-off Questions batch (skip only if user already named the next step):
+For a review remediation analysis, use the **Review remediation hand-off** above instead of this general menu. Otherwise, always offer a hand-off Questions batch (skip only if user already named the next step):
 
 ```markdown
 ## Questions
@@ -172,7 +243,9 @@ Reply like: 1a
 
 ### 6. Promote to goal (optional)
 
-Only on explicit **c** or **e** (or user said “make this a goal”).
+For a review remediation analysis, use the promotion action above: attach selected rows to the existing goal's Fix mode, or create one bounded goal for a standalone review. Do not allocate a second nested goal for an active goal review.
+
+For a standard analysis, promote only on explicit **c** or **e** (or user said “make this a goal”).
 
 1. Allocate `goal-id` per `/goal` doctrine (ticket id if any, else slug from ask).
 2. Resolve `goals_container` and `goal_root`; create `goal_root`; upsert `<goals_container>/REGISTRY.md`.
@@ -204,5 +277,5 @@ Do **not** silently promote. Do **not** `rm` the analysis on promote (“swap”
 - Solo deep-dive when parallel `explore` Tasks should dig
 - Sleeping / fixed timeouts while waiting for Task subagents
 - Dumping implementation into the interface sketch
-- Invoking under `/goal` or as a flow twin
+- Invoking under `/goal` except through the code-review review-remediation contract, or inventing a flow twin
 

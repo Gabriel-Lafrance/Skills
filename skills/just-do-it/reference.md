@@ -26,11 +26,14 @@ Load when writing workspace artifacts, STATUS, Progress, ORIGIN, SHIP, or review
         GOAL.md
         STATUS.md
         GRILL.md
+        analyses/                        # CR1 review-remediation analysis
+          <analysis-id>/
+            ANALYSIS.md
+            STATUS.md
         plans/
           INDEX.md
           01-<slug>.md
         pieces/                          # optional
-      fix-cr1-01-<slug>/
       fix-cr2-01-<slug>/
       achieved/
         <goal-id>/
@@ -75,7 +78,7 @@ Statuses: `running` | `blocked` | `done` | `cleared`
 | id | kind | status | ticket | title | workspace | updated |
 | --- | --- | --- | --- | --- | --- | --- |
 
-`kind`: `build` | `fix-cr1` | `fix-cr2`
+`kind`: `build` | `fix-cr2`
 
 On goal ACHIEVED: `mv` active goal dir → `goals/achieved/<goal-id>/`; set nested registry `workspace: achieved/<goal-id>`, `status: achieved`.
 
@@ -84,7 +87,7 @@ On goal ACHIEVED: `mv` active goal dir → `goals/achieved/<goal-id>/`; set nest
 ```markdown
 # Status
 **id:** jdi-IN-1234
-**phase:** resolve | branch | analyze | goal | code-review-1-loop | code-review-2 | code-review-2-loop | ship | done | blocked
+**phase:** resolve | branch | analyze | goal (includes cr1 Fix mode) | code-review-2 | code-review-2-loop | ship | done | blocked
 **last:** <one line>
 **ticket:** IN-1234
 **type:** feature | tweak | bug | refactor
@@ -126,8 +129,8 @@ Append-only:
 - <ISO> · resolve · workspace created
 - <ISO> · branch · `bug/IN-1234-fix-checkout`
 - <ISO> · analyze · `analyses/an-IN-1234` ready → promote
+- <ISO> · goal · cr1 pass 1 → remediation analysis → build `IN-1234` Fix mode
 - <ISO> · goal · build `IN-1234` ACHIEVED
-- <ISO> · code-review-1-loop · pass 1 → fix-cr1-01-auth-check
 - <ISO> · code-review-2 · clear
 - <ISO> · ship · PR https://github.com/…/pull/N
 ```
@@ -140,7 +143,7 @@ Append-only:
 **analysis:** `.agents/temp/just-do-it/jdi-IN-1234/analyses/an-IN-1234/`
 **build_goal:** `.agents/temp/just-do-it/jdi-IN-1234/goals/achieved/IN-1234/`
 **fix_goals:**
-- `goals/achieved/fix-cr1-01-…`
+- `goals/achieved/fix-cr2-01-…`
 **branch:** `bug/IN-1234-…`
 **pr:**
 ```
@@ -153,6 +156,7 @@ Current named Fix-now burn-down:
 # Findings backlog
 **phase:** code-review-2
 **pass:** 1
+**remediation_analysis:** `analyses/an-fix-cr2-01-…/ANALYSIS.md` | pending | none
 
 ## Fix now
 - [ ] `INV-1` · `path` — title — invariant/correctness/security/regression — from PASS-01
@@ -176,6 +180,7 @@ Current named Fix-now burn-down:
 **variant:** flow | standalone
 **base:** main
 **updated:** <ISO>
+**remediation_analysis:** pending | CR1: `goals/<build-goal-id>/analyses/<analysis-id>/ANALYSIS.md` | CR2: `analyses/an-fix-cr2-01-…/ANALYSIS.md`
 
 ## Critical
 - …
@@ -193,10 +198,10 @@ Current named Fix-now burn-down:
 - …
 
 ## Disposition
-- fix via goal: `fix-cr1-01-slug` | follow-ups only | clear | blocked-at-cap
+- cr1: active build goal Fix mode | cr2: `fix-cr2-01-slug` | follow-ups only | clear | blocked-at-cap
 ```
 
-## Fix-goal seed (GOAL.md outline)
+## Post-build Fix-goal seed (GOAL.md outline)
 
 ```markdown
 # Goal
@@ -223,6 +228,7 @@ Only paths/symbols named in FINDINGS.md / this Done when list.
 - Parent: `.agents/temp/just-do-it/jdi-IN-1234/`
 - Build goal: …
 - Review pass: `reviews/crN/PASS-NN.md`
+- Remediation analysis: `analyses/an-fix-crN-01-…/ANALYSIS.md`
 - Ticket: …
 ```
 

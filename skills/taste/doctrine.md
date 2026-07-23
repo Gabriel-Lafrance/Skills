@@ -35,7 +35,7 @@ Non-negotiables below are **consequences** of this definition (never-nest, DRY, 
 
 1. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
 2. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
-3. **Throw + try/catch** at boundaries — never `{ success: false }` / Result bags for expected failure control flow
+3. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw
 4. **One component (or main export) per file**
 5. **No dynamic `import()`** — static imports only
 6. **Comments only** to summarize big/complex functions — no narrating obvious code

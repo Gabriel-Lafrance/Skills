@@ -24,6 +24,10 @@ Load when writing workspace artifacts, STATUS, Progress lines, or the ACHIEVED s
     GOAL.md
     STATUS.md
     GRILL.md                 # goal-scoped: outcome, gates, taste/arch/design — not shared glossary
+    analyses/
+      <analysis-id>/         # review-remediation analysis when Fix now is selected
+        ANALYSIS.md
+        STATUS.md
     plans/
       INDEX.md
       01-<slug>.md
@@ -85,7 +89,7 @@ On **`/goal clear [id]`**: set the scoped registry `status: cleared`; delete the
 
 ### Isolation
 
-- All artifacts for a goal stay under `goal_root` (active) or `<goals_container>/achieved/<goal-id>/` (archived); shared language/choices/rules stay under `.agents/temp/grills/`.
+- All artifacts for a goal stay under `goal_root` (active) or `<goals_container>/achieved/<goal-id>/` (archived), including review-remediation analyses under `analyses/`; shared language/choices/rules stay under `.agents/temp/grills/`.
 - Task prompts get the resolved `goal_root`, relevant `GOAL.md` Active Rules, and the assigned `plans/*.md` only.
 - Overlapping file lanes with another `running` goal in the same `goals_container` → serialize or ask.
 - Bare `/goal` → this chat's scoped registry and goal `STATUS.md`.

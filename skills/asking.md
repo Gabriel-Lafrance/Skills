@@ -40,6 +40,8 @@ When drafting options, prefer these as **recommended** unless the user already l
 | Package / vendor / storage | Lock a one-phrase pick into the active skill’s choice log (e.g. under `.agents/temp/…/choice.md`) |
 | Actor / business policy | Lock a one-phrase rule into the active skill’s rules log (e.g. under `.agents/temp/…/rules.md`) |
 | Behavioral answer in a goal grill | Record it as a `GOAL.md` Active Rule (`INV-*`) by default; user may say it is only a preference, example, or non-binding idea |
+| Code-review Fix now backlog | Run `/analyze` in review remediation mode first; show issue/current behavior, root cause, smallest proposed fix, touch surface, non-goals, and verification, then require explicit promotion before implementation |
+| Review failure claim | Require a reachable trigger, concrete evidence, material impact, and smallest authoritative fix; omit remote hypothetical hardening |
 | Repair | **Smallest patch** that fixes the defect |
 | Design polish | Smallest depth/color/hierarchy fix over structural rewrite |
 | Confirm gates / recap | **Announce** non-goals + plan split + shared-understanding summary in Locked. Ask only real open product/UX/architecture/taste choices |

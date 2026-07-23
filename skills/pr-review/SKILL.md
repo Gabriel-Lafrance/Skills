@@ -1,19 +1,18 @@
 ---
 name: pr-review
 description: >-
-  Standalone only — hardcore teacher: dock points / fail imperfect work on an
-  open GitHub PR with strict taste/architecture/design. Pass B: five-axis Wave 1
-  (Standards + Spec + Routes + BigPicture + Risk) then always-on adversarial
-  Wave 2. On Nth pass, triage ALL prior finding comments (not just last pass),
-  then rescan. One finding per PR comment; never summary/announcement comments;
-  never repo helper scripts (use gh only). Show drafts in chat before publish.
-  No em dashes. Never under /goal. For local fix loops use /code-review.
+  Standalone only — evidence-based strict review of an open GitHub PR with
+  taste/architecture/design gates. Pass B: five-axis Wave 1 (Standards + Spec +
+  Routes + BigPicture + Risk) then adversarial Wave 2. Every failure claim needs
+  a reachable trigger and concrete evidence. One finding per PR comment; never
+  summary/announcement comments or repo helper scripts. Show drafts before
+  publish. Never under /goal. For local fix loops use /code-review.
 disable-model-invocation: true
 ---
 
 # PR Review
 
-**Stance:** hardcore teacher — hunt Blocking defects; mercy low, fairness stays (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
+**Stance:** evidence-based strict reviewer — hunt Blocking defects with reachable triggers and concrete proof; fairness stays (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
 
 **Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 

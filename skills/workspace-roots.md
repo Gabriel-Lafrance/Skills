@@ -29,6 +29,15 @@ An analysis may also receive:
 
 `/just-do-it` changes both containers. Shared grill themes remain under `.agents/temp/grills/`.
 
+A code-review remediation analysis inside an active goal is also caller-scoped:
+
+```markdown
+**analyses_container:** <goal-root>/analyses
+**analysis_root:** <goal-root>/analyses/<analysis-id>
+```
+
+It remains attached to the goal that produced the finding; never reconstruct this path from an analysis id alone.
+
 ## Resolve once
 
 1. Use `goal_root`, `goals_container`, `analysis_root`, or `analyses_container` supplied by the caller.
@@ -45,6 +54,7 @@ Never infer a path from `goal-id` or `analysis-id` alone when a caller supplied 
 - `/orchestrate` includes the resolved roots and exact artifact paths in every Task prompt.
 - Goal archives stay inside `goals_container`: `<goals_container>/achieved/<goal-id>/`.
 - Analysis promotion creates its goal under the supplied `goals_container` and writes the goal root fields before handing off.
+- Code-review passes goal-scoped remediation analysis roots to `/analyze`; the resulting `ANALYSIS.md` is linked from the current goal Fix mode.
 
 ## Anti-patterns
 

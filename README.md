@@ -32,7 +32,7 @@ npx skills@latest update -g -y
 | [`/grill-me`](./skills/grill-me/SKILL.md) | Sharpen fuzzy intent until you share the same understanding. |
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
-| [`/code-review`](./skills/code-review/SKILL.md) | Initial deep review of a branch vs `main`; post-fix re-review stays targeted to named blockers. |
+| [`/code-review`](./skills/code-review/SKILL.md) | Initial deep review of a branch vs `main`; named blockers are analyzed with proposed fixes before optional promotion, then re-review stays targeted. |
 | [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate a PR: triage priors, rescan; one finding per comment; post via gh only. |
 | [`/repair`](./skills/repair/SKILL.md) | Fix a bug with the smallest safe change. Escalate huge bugs to `/goal`. |
 | [`/create-test`](./skills/create-test/SKILL.md) | Lock complex behavior with durable tests. Only after `/code-review` or `/pr-review` recommends — you must run it. |

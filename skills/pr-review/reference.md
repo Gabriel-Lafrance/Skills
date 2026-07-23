@@ -2,7 +2,7 @@
 
 Load when drafting or posting. Gates stay in [doctrine.md](doctrine.md).
 
-**Stance reminder:** teacher grades hard — pack / thermonuclear / Routes / BigPicture / Risk must-edits stay **Blocking** by default; do not soften into Nit. Real defects only; no findings cap.
+**Stance reminder:** grade hard with evidence — pack / thermonuclear / Routes / BigPicture / Risk must-edits are **Blocking** only when their contract or failure trigger is concrete. Real, evidenced defects only; no findings cap.
 
 ## Comment body rules (hard)
 
@@ -13,12 +13,17 @@ Blocking: | Nit:
 
 **Where:** `path` (symbol / line context)
 **Issue:** <one clear sentence about ONE problem>
+**Trigger:** <reachable caller, state, input, response, or load path — runtime-risk only>
+**Evidence:** <hunk, path walk, violated rule, signal, or exploit proof>
 **Why:** <risk / user impact / maintainability / which doctrine>
 **Fix:** <concrete direction for THAT problem>
+**Why not lighter:** <why a direct authoritative guard is insufficient — only when Fix proposes a queue, lock, retry, catch wrapper, or error system>
 ```
 
 - **No em dashes** (`—`) in drafted or posted PR comments.
 - Cite doctrine briefly when relevant.
+- Runtime-risk comments include **Trigger:** with a reachable caller, state, input, response, or load path.
+- If a runtime-risk **Fix** proposes a queue, lock, retry, catch wrapper, or error system, it also includes **Why not lighter:** with evidence that a direct authoritative guard is insufficient.
 - No vague "consider refactoring" without a target shape.
 - Prefer **inline** when a precise line exists.
 - Body must be the finding itself, not a pointer to "see comments below."
@@ -41,16 +46,22 @@ Blocking:
 
 **Where:** …
 **Issue:** …
+**Trigger:** … (runtime-risk only)
+**Evidence:** …
 **Why:** …
 **Fix:** …
+**Why not lighter:** … (coordination-heavy fix only)
 
 ### Draft 2 — Nit · inline `page.tsx` L55
 Nit:
 
 **Where:** …
 **Issue:** …
+**Trigger:** … (runtime-risk only)
+**Evidence:** …
 **Why:** …
 **Fix:** …
+**Why not lighter:** … (coordination-heavy fix only)
 ```
 
 If zero new drafts: say so in chat. No Pass B Questions (unless you only need a review event with no new comments; usually stop or Approve only when clean and priors clear).

@@ -20,7 +20,7 @@ Orchestrator only. Use `/orchestrate` for Task workers and omit Task `model` unl
 1. Resolve the scoped goal root and create or resume the workspace.
 2. Grill intent, record behavioral answers as Active Rules, and announce Locked closure before writing plans.
 3. Explore, split, create plans, and implement frontier work.
-4. Run `/validate`, then `/code-review`; fix named blockers in bounded Fix mode or explicitly waive them.
+4. Run `/validate`, then `/code-review`; analyze named blockers and explicitly promote selected fixes into bounded Fix mode or waive them.
 5. Archive the goal and offer ship questions only after ACHIEVED.
 
 Status, pause, clear, progress, lookup, and anti-pattern rules live in the doctrine and reference.
