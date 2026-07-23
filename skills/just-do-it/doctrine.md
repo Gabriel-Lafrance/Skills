@@ -2,7 +2,7 @@
 
 Standalone mega-orchestrator: **Linear ticket → early branch → analyze → goal → CR1 build-goal Fix mode → CR2 bounded `fix-cr2` goal when needed → landed PR**. Human reviews the PR. Never under `/goal`. Never invent a `just-do-it-flow`.
 
-**Ask style:** [../asking.md](../asking.md). Schemas/templates: [reference.md](reference.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Schemas/templates: [reference.md](reference.md).
 
 **Subagent model:** omit Task `model` unless the user asked for one.
 
@@ -36,7 +36,7 @@ All run state lives under:
 
 Full tree: [reference.md](reference.md).
 
-`/just-do-it` is a parent wave. It must write `analyses_container`, `goals_container`, and `parent_wave` to its `STATUS.md`, then pass those roots to every `/analyze`, `/goal`, and child flow per [../workspace-roots.md](../workspace-roots.md). It never relies on a child to reconstruct its nested path.
+`/just-do-it` is a parent wave. It must write `analyses_container`, `goals_container`, and `parent_wave` to its `STATUS.md`, then pass those roots to every `/analyze`, `/goal`, and child flow per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md). It never relies on a child to reconstruct its nested path.
 
 **Path overrides** when parent is `/just-do-it`:
 
@@ -82,7 +82,7 @@ Before implement:
 - Pass `goals_container`, `goal_root`, and `parent_wave`; workspace stays under nested `goals/<build-goal-id>/`.
 - Soft Questions → recommended.
 - Skip ACHIEVED **Ship Questions** (parent owns commit/PR).
-- Dual skills → **flow** via [../variants.md](../variants.md).
+- Dual skills → **flow** via [../pack-shared/variants.md](../pack-shared/variants.md).
 
 ### Code-review #1 (inside the active build goal)
 

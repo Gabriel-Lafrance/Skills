@@ -35,7 +35,7 @@ Load when writing workspace artifacts, STATUS, Progress lines, or the ACHIEVED s
     pieces/
 ```
 
-The tree above is the standalone default. Resolve `goal_root` and `goals_container` from [../workspace-roots.md](../workspace-roots.md) before using it; a parent wave may provide a different container. Shared grill themes remain under **`.agents/temp/grills/`** — never `.scratch/`.
+The tree above is the standalone default. Resolve `goal_root` and `goals_container` from [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before using it; a parent wave may provide a different container. Shared grill themes remain under **`.agents/temp/grills/`** — never `.scratch/`.
 
 ### Goal id
 
@@ -182,7 +182,7 @@ If there are no manual steps, still say so under **Manual next steps** (`_None �
 
 ### Ship Questions (after ACHIEVED summary)
 
-One Questions batch via [asking.md](../asking.md) — do not invent a `/ship` skill:
+One Questions batch via [asking.md](../pack-shared/asking.md) — do not invent a `/ship` skill:
 
 ```markdown
 ## Questions

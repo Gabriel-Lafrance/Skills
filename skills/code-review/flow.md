@@ -1,6 +1,6 @@
 # Code Review Flow
 
-Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2**; Fix-mode re-review is targeted. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
+Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2**; Fix-mode re-review is targeted. Read [./doctrine.md](./doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
 
 **Stance:** A+ exam — catch every evidenced defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Every failure claim needs a reachable trigger and concrete evidence; operational intensity is not speculation.
 
@@ -9,7 +9,7 @@ Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **pl
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md)
+2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md)
 3. Prefer after `/validate` pass
 4. Workers via `/orchestrate` — this goal-root only
 5. Ticket/PR context via **read-only** `/trackers` when the goal has a Ticket

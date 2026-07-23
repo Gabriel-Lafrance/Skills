@@ -5,7 +5,7 @@ Structure craft **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md); workspace: `<goal-root>/`
+2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); workspace: `<goal-root>/`
 3. Prefer explore via **`/orchestrate`**
 
 ## Process

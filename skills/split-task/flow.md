@@ -2,7 +2,7 @@
 
 Take one task or goal and split it into **multiple smaller tasks or goals**.
 
-Inside an active goal, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) and write the resulting INDEX and plan artifacts there.
+Inside an active goal, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) and write the resulting INDEX and plan artifacts there.
 
 **Priority:** keep agents in their smart zone. The smaller the task, the better agents are. Prefer over-splitting over under-splitting.
 
@@ -38,7 +38,7 @@ Normalize what was given into one parent statement.
 1. <binary check>
 ```
 
-If the parent is still vague, include clarifying items in a **Questions batch** ([../asking.md](../asking.md)), then continue. Do not invent scope.
+If the parent is still vague, include clarifying items in a **Questions batch** ([../pack-shared/asking.md](../pack-shared/asking.md)), then continue. Do not invent scope.
 
 ### 2. Split ruthlessly
 
@@ -68,7 +68,7 @@ List pieces so blockers come first. Mark the **frontier** (Blocked by: none).
 
 ### 4. Show the split (announce)
 
-Show the numbered split list in **Locked (correct if wrong)** per [../asking.md](../asking.md). Do **not** ask yes/no for the split — the agent owns keeping plans in the AI smart zone; the user corrects only if needed. Put any *other* real opens (product/UX/architecture/taste) in the same message’s Questions batch — not shared-understanding yes/no.
+Show the numbered split list in **Locked (correct if wrong)** per [../pack-shared/asking.md](../pack-shared/asking.md). Do **not** ask yes/no for the split — the agent owns keeping plans in the AI smart zone; the user corrects only if needed. Put any *other* real opens (product/UX/architecture/taste) in the same message’s Questions batch — not shared-understanding yes/no.
 
 If the user corrects the split: revise Locked and continue. Do not start `/implement` unless `/goal` asks.
 

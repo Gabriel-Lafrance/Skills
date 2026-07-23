@@ -19,7 +19,7 @@ npx skills@latest update -g -y
 
 ## Skills to call
 
-**[`/ask-gabriel`](./skills/ask-gabriel/SKILL.md)** is the front door — sole auto-invokable skill. Agents should use it often when unsure what to run. Dual skills (`/grill-me`, `/repair`, …) pick standalone vs flow themselves ([variants.md](./skills/variants.md)).
+**[`/ask-gabriel`](./skills/ask-gabriel/SKILL.md)** is the front door — sole auto-invokable skill. Agents should use it often when unsure what to run. Dual skills (`/grill-me`, `/repair`, …) pick standalone vs flow themselves ([variants.md](./skills/pack-shared/variants.md)).
 
 | Skill | When to use |
 | --- | --- |

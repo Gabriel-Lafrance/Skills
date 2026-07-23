@@ -1,10 +1,10 @@
 # Grill Me Flow
 
-Interview **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md) and follow [../asking.md](../asking.md) for batch style.
+Interview **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md) and follow [../pack-shared/asking.md](../pack-shared/asking.md) for batch style.
 
 This is not product-only Q&A. **During the grill**, load and apply the pack flows below so the user answers taste / structure / UI **before** any `plans/*` exist.
 
-Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) before reading or writing goal artifacts.
+Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before reading or writing goal artifacts.
 
 **Themes vs goal GRILL:** shared language / choices / standing app rules → `.agents/temp/grills/{language,choice,rules}.md`. Goal-scoped outcome / gates / taste / arch / design → `<goal-root>/GRILL.md`; behavioral decisions this goal must enforce → `<goal-root>/GOAL.md` **Active Rules**.
 

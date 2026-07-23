@@ -2,7 +2,7 @@
 
 Interview until you and the user share understanding. **Standalone** — for goal workspaces use **`/grill-me`**.
 
-**Pack-wide ask style:** follow [../asking.md](../asking.md) — batch, not drip.
+**Pack-wide ask style:** follow [../pack-shared/asking.md](../pack-shared/asking.md) — batch, not drip.
 
 ## Shared themes (ubiquitous language + choices + app rules)
 
@@ -73,7 +73,7 @@ Ask for behavior, not implementation ceremony. Inspect repo facts yourself. When
 
 1. Walk each branch of the decision tree. Resolve dependencies — if Q2 depends on Q1's answer, either give options that cover both paths in one batch, or ask Q1's batch first then a follow-up batch.
 2. For every optioned question, give your **recommended** answer (marked). When architecture debt is visible and a **behavior-preserving move** is clear (`/architecture` §4), **recommend the move** to **reduce entropy** (`/taste` complexity & entropy) — not "keep where it is."
-3. **Batch** per [../asking.md](../asking.md) — do not ask one at a time when several are known.
+3. **Batch** per [../pack-shared/asking.md](../pack-shared/asking.md) — do not ask one at a time when several are known.
 4. Cover at least (skip only if already settled) — put all unsettled items in the **same** first batch when possible:
    - Exact outcome and non-goals
    - Who it is for / critical edge cases
@@ -90,7 +90,7 @@ Ask for behavior, not implementation ceremony. Inspect repo facts yourself. When
 
 ## Closing
 
-When closing, use [../asking.md](../asking.md) **announce vs ask** — all three closing items are **announce-only**:
+When closing, use [../pack-shared/asking.md](../pack-shared/asking.md) **announce vs ask** — all three closing items are **announce-only**:
 
 1. **Non-goals** — bullet list in **Locked (correct if wrong)**. Do **not** ask yes/no.
 2. **Split / plan count** — intended plan titles (or “one plan — …”) in the same Locked block. Prefer more small plans that keep each slice in the AI smart zone. Do **not** ask yes/no.

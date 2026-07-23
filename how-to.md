@@ -6,8 +6,11 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
 
 ```text
 skills/
-  asking.md              # pack-wide: how to ask the user (batch Questions)
-  variants.md            # pack-wide: standalone vs flow selection
+  pack-shared/           # installable shared contracts (NOT user-invoked)
+    SKILL.md             # required so npx skills installs this folder
+    asking.md            # how to ask the user (batch Questions)
+    variants.md          # standalone vs flow selection
+    workspace-roots.md   # goal/analysis root resolution
   <skill-name>/
     SKILL.md             # required — frontmatter + thin entry
     standalone.md        # optional — one-off use
@@ -22,6 +25,8 @@ how-to.md                # this file
 
 Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
+**Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — dual skills will fail looking for `../variants.md`.
+
 ## Skill kinds
 
 | Kind | Files | When |
@@ -30,7 +35,7 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 | **Flow-only** | `SKILL.md` + `flow.md` (no `standalone.md`) | Looked up by an orchestrator (`/goal`, `/repair`, …) |
 | **Standalone-only** | `SKILL.md` (+ doctrine/reference); no `flow.md` | User-invoked entry (`/goal`, `/analyze`, `/ask-gabriel`, …) |
 
-`SKILL.md` stays thin. Point at doctrine / examples / the chosen variant. Do not paste pack-wide ask or variant rules — link [`asking.md`](./skills/asking.md) and [`variants.md`](./skills/variants.md).
+`SKILL.md` stays thin. Point at doctrine / examples / the chosen variant. Do not paste pack-wide ask or variant rules — link [`asking.md`](./skills/pack-shared/asking.md) and [`variants.md`](./skills/pack-shared/variants.md).
 
 ## Frontmatter
 
@@ -48,9 +53,10 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 ## Shared contracts
 
-- **Asking:** every skill that needs decisions links `asking.md` — batch Questions, mark `← recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
-- **Variants:** dual / flow-only / standalone-only skills link `variants.md`. Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
-- **Workspace roots:** every goal or analysis flow resolves caller-provided workspace roots before falling back to pack-global defaults. See [`workspace-roots.md`](./skills/workspace-roots.md); never rebuild a nested parent path from an id alone.
+- **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `← recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
+- **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
+- **Workspace roots:** every goal or analysis flow resolves caller-provided workspace roots before falling back to pack-global defaults. See [`workspace-roots.md`](./skills/pack-shared/workspace-roots.md); never rebuild a nested parent path from an id alone.
+- **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/repair`, `/validate`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
@@ -91,7 +97,8 @@ npx skills@latest add . --list
 - Teach principles in prose — no video links in skill bodies.
 - No secrets in skills.
 - Do not invent a missing `standalone.md` / `flow.md` process.
-- New long-running orchestrators should reuse `asking.md` + `variants.md` without editing those files for skill-specific names.
+- New long-running orchestrators should reuse `pack-shared/asking.md` + `pack-shared/variants.md` without editing those files for skill-specific names.
+- Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 
 ## Publish / install
 

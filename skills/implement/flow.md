@@ -4,7 +4,7 @@ Build from **one plan file** inside a goal workspace. Follow **`/orchestrate`**.
 
 ## Preconditions
 
-1. Resolve **`goal-id`**, `goal_root` per [../workspace-roots.md](../workspace-roots.md), and the plan file (`<goal-root>/plans/NN-*.md` or frontier from `<goal-root>/plans/INDEX.md`)
+1. Resolve **`goal-id`**, `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md), and the plan file (`<goal-root>/plans/NN-*.md` or frontier from `<goal-root>/plans/INDEX.md`)
 2. Read `<goal-root>/GOAL.md` Active Rules, `<goal-root>/GRILL.md` (if any), that plan file, `<goal-root>/plans/INDEX.md`, and `.agents/temp/grills/{language,choice,rules}.md` when present
 3. `/taste` (+ `/design` if UI); ticket brief via `/trackers` if needed
 4. Scoped REGISTRY: serialize if another running goal in `goals_container` shares File lane

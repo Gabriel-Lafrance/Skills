@@ -1,6 +1,6 @@
 # Orchestrate Flow
 
-Resolve `goal_root` and `goals_container` per [../workspace-roots.md](../workspace-roots.md) before spawning workers. Scope workers to **`goal_root`** — never `.scratch/` or a pack-global fallback when a parent supplied a root.
+Resolve `goal_root` and `goals_container` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before spawning workers. Scope workers to **`goal_root`** — never `.scratch/` or a pack-global fallback when a parent supplied a root.
 
 ## Subagent model (hard rule)
 

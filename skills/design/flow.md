@@ -5,7 +5,7 @@ UI craft **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md). Ex
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md); workspace exists at `<goal-root>/`
+2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); workspace exists at `<goal-root>/`
 3. Read `<goal-root>/GOAL.md`, `<goal-root>/GRILL.md`, and the target `<goal-root>/plans/NN-*.md`
 
 If there is no goal workspace, stop and use **`/design`** (standalone) or start `/goal`.

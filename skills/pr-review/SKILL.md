@@ -14,11 +14,11 @@ disable-model-invocation: true
 
 **Stance:** evidence-based strict reviewer — hunt Blocking defects with reachable triggers and concrete proof; fairness stays (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
 
-**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 
 **Standalone only.** Never call from `/goal`, never ship a `pr-review-flow`. Posts on the **Pull Request**. Linked Linear is **read-only** Spec.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../asking.md](../asking.md) · **Axes:** [../code-review/doctrine.md](../code-review/doctrine.md) (posting owned here)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Axes:** [../code-review/doctrine.md](../code-review/doctrine.md) (posting owned here)
 
 **Hard:**
 

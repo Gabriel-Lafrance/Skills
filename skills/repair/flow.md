@@ -1,10 +1,10 @@
 # Repair Flow
 
-Bug hunt **inside a `/goal` / `/implement` lane**. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
+Bug hunt **inside a `/goal` / `/implement` lane**. Read [./doctrine.md](./doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
 
 ## Preconditions
 
-1. Resolve **`goal-id`**, `goal_root` per [../workspace-roots.md](../workspace-roots.md), and the active `plans/NN-*.md` / file lane
+1. Resolve **`goal-id`**, `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md), and the active `plans/NN-*.md` / file lane
 2. Read `<goal-root>/GOAL.md`, `<goal-root>/GRILL.md`, and that plan
 3. Ticket via **`/trackers`** if present
 4. Stay in this goal's lane

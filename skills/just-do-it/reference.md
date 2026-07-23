@@ -51,7 +51,7 @@ Load when writing workspace artifacts, STATUS, Progress, ORIGIN, SHIP, or review
 
 Base path **`.agents/temp/just-do-it/`** — never `.scratch/`. Shared grill themes remain under `.agents/temp/grills/`.
 
-Child roots are explicit: `analyses_container` is `<jdi-root>/analyses/`, `goals_container` is `<jdi-root>/goals/`, and every child goal receives its own `goal_root`. See [../workspace-roots.md](../workspace-roots.md).
+Child roots are explicit: `analyses_container` is `<jdi-root>/analyses/`, `goals_container` is `<jdi-root>/goals/`, and every child goal receives its own `goal_root`. See [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md).
 
 ### jdi-id
 

@@ -15,7 +15,7 @@ Do **not** assume the code is correct. Do **not** say "if there is a bug." Prefe
 ## Core doctrine
 
 1. **Dumbest & smallest first** — banal failures before architecture theories
-2. **Grill before you cut** — when you find a defect, **`/grill-me`** on *what* to fix and *how* (batched Questions via [../asking.md](../asking.md); smallest footprint options). Do not silently rewrite
+2. **Grill before you cut** — when you find a defect, **`/grill-me`** on *what* to fix and *how* (batched Questions via [../pack-shared/asking.md](../pack-shared/asking.md); smallest footprint options). Do not silently rewrite
 3. **Acceptance before patch** — write binary Done when for this repair; `/validate` uses them
 4. **Smallest footprint** — prefer a tight `if` / early return over a feature rewrite
 5. **One bug, one cut** — no drive-by product refactors unrelated to the defect
@@ -83,7 +83,7 @@ Create `.agents/temp/repairs/<repair-id>/`, draft `BUG.md` + `STATUS.md` (`last:
 
 ### 3. Grill what/how to fix (blocking for Local/Narrow)
 
-Run **`/grill-me`** — follow [../asking.md](../asking.md); one Questions batch with `Reply like: 1a 2b`. Cover at least (all in the same batch when known):
+Run **`/grill-me`** — follow [../pack-shared/asking.md](../pack-shared/asking.md); one Questions batch with `Reply like: 1a 2b`. Cover at least (all in the same batch when known):
 
 - Confirm the bug (symptom vs root cause)
 - **What** to change (which file/branch/behavior) — and what is **out of scope**

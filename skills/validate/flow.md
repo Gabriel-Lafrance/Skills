@@ -2,7 +2,7 @@
 
 **Gate out.** Read [doctrine.md](doctrine.md).
 
-For goal-scoped validation, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) before reading acceptance artifacts.
+For goal-scoped validation, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before reading acceptance artifacts.
 
 ## Process
 

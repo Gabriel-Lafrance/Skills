@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 # Create Test
 
-**Variants:** [../variants.md](../variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
 
 **Standalone only.** Never call from `/goal`, never auto-invoke. **Only** `/code-review` and `/pr-review` may **recommend** a lock — and only the **user** starts `/create-test`. No other skill writes tests or invokes this skill.
 
@@ -60,7 +60,7 @@ State in one sentence: **what behavior is being locked** and **what outside edit
 
 ### 2. Grill Why / What / How (blocking — must approve)
 
-Every lock needs three answers. Draft them from the code first, then grill per [../asking.md](../asking.md) (batch, recommended marked) until solid.
+Every lock needs three answers. Draft them from the code first, then grill per [../pack-shared/asking.md](../pack-shared/asking.md) (batch, recommended marked) until solid.
 
 | Bullet | Must answer |
 | --- | --- |

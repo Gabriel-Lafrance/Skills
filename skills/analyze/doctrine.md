@@ -2,11 +2,11 @@
 
 Crunch the repo against an ask and **always persist findings to disk**. Optionally sharpen with the user. Optionally **promote** into a `/goal` workspace. Default end state is the analysis file — not a goal, not a ticket. Never write Linear/GitHub (that is `/write-ticket`). The only in-goal exception is a code-review **review remediation analysis** of named Fix-now blockers.
 
-**Ask style:** [../asking.md](../asking.md). **Taste / structure:** `/taste`, `/architecture` when relevant.
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). **Taste / structure:** `/taste`, `/architecture` when relevant.
 
 **Subagent model:** omit Task `model` — inherit parent. Never hard-code a model unless the user asked.
 
-**Workspace:** Resolve `analysis_root`, `analyses_container`, and any caller-supplied `goals_container` per [../workspace-roots.md](../workspace-roots.md). Parent context wins over pack-global defaults.
+**Workspace:** Resolve `analysis_root`, `analyses_container`, and any caller-supplied `goals_container` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md). Parent context wins over pack-global defaults.
 
 ### Waiting on subagents (hard rule)
 
@@ -210,7 +210,7 @@ Announce the path: `<analysis-root>/ANALYSIS.md`.
 
 When the user wants to help, or unknowns remain:
 
-1. One Questions batch per [asking.md](../asking.md) — product decisions, option picks, corrections to entrypoints/interface
+1. One Questions batch per [asking.md](../pack-shared/asking.md) — product decisions, option picks, corrections to entrypoints/interface
 2. Apply answers into `ANALYSIS.md` + optional `NOTES.md`
 3. Re-ask follow-up batches as new findings appear
 4. Do **not** treat this as `/grill-me` goal gates unless promoting next

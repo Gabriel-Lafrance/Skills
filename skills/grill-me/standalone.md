@@ -2,7 +2,7 @@
 
 Interview until you and the user share understanding (standalone variant).
 
-**Read:** [doctrine.md](doctrine.md) · **Ask style:** [../asking.md](../asking.md)
+**Read:** [doctrine.md](doctrine.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Follow doctrine Rules + Closing. Batch every known question in one message per asking.md. Do not write `plans/*` or implement until closing gates pass when aiming at a goal.
 

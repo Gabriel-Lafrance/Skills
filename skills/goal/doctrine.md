@@ -6,11 +6,11 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 **Subagent model:** when launching Task workers, **omit `model`** so workers inherit this chat's parent model (see `/orchestrate`). Never hard-code a model unless the user asked for one.
 
-**Workspace:** Resolve `goal_root` and `goals_container` per [../workspace-roots.md](../workspace-roots.md) before Phase 0. A caller-provided root wins; persist the resolved values in `STATUS.md` before invoking a child flow.
+**Workspace:** Resolve `goal_root` and `goals_container` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before Phase 0. A caller-provided root wins; persist the resolved values in `STATUS.md` before invoking a child flow.
 
 **Active Rules:** `GOAL.md` owns every behavioral rule locked during the grill. Each rule gets an `INV-*` row in **Active Rules (Invariants)** with its plan, authoritative enforcement point, and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Do not write plan files until `/grill-me` **announces** Locked closing (non-goals + plan split + shared-understanding summary — correct if wrong) per [../asking.md](../asking.md) (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan. The agent owns the split and the understanding recap; the user corrects only if needed.
+**Grill before plans.** Do not write plan files until `/grill-me` **announces** Locked closing (non-goals + plan split + shared-understanding summary — correct if wrong) per [../pack-shared/asking.md](../pack-shared/asking.md) (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan. The agent owns the split and the understanding recap; the user corrects only if needed.
 
 **Quality bar:** every `/goal` must run the pack's quality skills — not skip straight from implement to "done". **`/validate` and `/code-review` are mandatory** before ACHIEVED. Skipping `/code-review` is an anti-pattern.
 
@@ -33,7 +33,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 | Review Fix-now backlog | `/analyze` review remediation mode before any Fix mode |
 | Gate out | `/validate` then **`/code-review`** (required) |
 
-Inside this loop, call dual skills (`/grill-me`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the **flow** variant ([variants.md](../variants.md)). Do not load both variants. Internals: `/validate`, `/create-plan`, `/implement`, `/orchestrate`, `/taste`, `/split-task`, `/trackers`.
+Inside this loop, call dual skills (`/grill-me`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the **flow** variant ([variants.md](../pack-shared/variants.md)). Do not load both variants. Internals: `/validate`, `/create-plan`, `/implement`, `/orchestrate`, `/taste`, `/split-task`, `/trackers`.
 
 ## Mandatory skill checklist
 
@@ -74,7 +74,7 @@ Fetch via `/trackers` first (**read only**). Still **grill** on open product dec
 5. **Unless the skip-grill rule applies, run `/grill-me` fully** — it must pull **`/taste`**, **`/architecture`**, and **`/design`** (if UI) into the interview; upsert `grills/{language,choice,rules}.md` when terms/choices/rules lock.
 6. Persist **goal-scoped** locked answers in `GRILL.md` (pointer to Themes paths); do not dump shared glossary into goal `GRILL.md`. On a valid skip, write the concise ticket/user contract and Locked gates instead of re-interviewing.
 7. Update `GOAL.md` Done when / Constraints **and Active Rules** from the grill, or on a valid skip from the ticket/user contract and analysis draft. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
-8. **Closing** — announce non-goals + split + shared-understanding summary in Locked; ask only remaining real opens via [../asking.md](../asking.md).
+8. **Closing** — announce non-goals + split + shared-understanding summary in Locked; ask only remaining real opens via [../pack-shared/asking.md](../pack-shared/asking.md).
 9. During the Locked split, assign each Active Rule to an intended plan (or `all`), then enter Phase 1. **Never** write `plans/*` before Active Rules are complete for the behavior in scope.
 
 ### Closing (announce — correct if wrong)
@@ -107,7 +107,7 @@ After all implement workers finish:
 
 1. **`/validate`** against GOAL Done when + Active Rules + plans AC — includes cross-plan seam check when INDEX has 2+ plans (doctrine in `/validate`)
 2. **Always** run `/code-review` next. Do not ACHIEVED without it.
-3. `/code-review` presents findings + **Fix backlog** → batched offer via [../asking.md](../asking.md)
+3. `/code-review` presents findings + **Fix backlog** → batched offer via [../pack-shared/asking.md](../pack-shared/asking.md)
 4. **yes** → run goal-scoped `/analyze` in review remediation mode → present proposed fixes → only on explicit promotion enter **Fix mode** on this goal-id → findings grill → implement → `/validate` → targeted re-review until named blockers clear or are explicitly waived
 5. **no** → only ACHIEVED if no Fix-now blockers remain, or the user waived each blocker by name
 6. Update `STATUS.md` checklist rows

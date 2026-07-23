@@ -2,7 +2,7 @@
 
 Write or refine one Linear or GitHub ticket. This skill is standalone-only, never runs under `/goal`, and does not implement the ticket. `/trackers` is read-only; `/analyze` researches; this skill owns the approved write.
 
-**Ask style:** [../asking.md](../asking.md). The open ticket grill is the documented exception: numbered freeform questions with no letters or `Reply like:`. Type lock and metadata use the normal lettered contract. Templates: [reference.md](reference.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). The open ticket grill is the documented exception: numbered freeform questions with no letters or `Reply like:`. Type lock and metadata use the normal lettered contract. Templates: [reference.md](reference.md).
 
 **Subagent model:** omit Task `model` unless the user explicitly asked for one.
 

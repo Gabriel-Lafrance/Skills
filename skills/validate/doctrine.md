@@ -2,7 +2,7 @@
 
 **Gate out.** The contract (goal / repair acceptance / ticket / paste) was the gate in; this skill judges whether the change actually meets it.
 
-When validating a goal or nested repair, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) before locating artifacts.
+When validating a goal or nested repair, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before locating artifacts.
 
 ## Framing (pessimistic — required)
 
@@ -32,7 +32,7 @@ Also pull other skills when relevant — don't fake their checks:
 | Design | UI in scope | `/design` (or `/design` topics) |
 | Still broken | Failures look like defects | `/repair` or `/repair` |
 
-Under `/goal`, dual skills use the **flow** variant ([variants.md](../variants.md)). Do not mix another goal-id's criteria.
+Under `/goal`, dual skills use the **flow** variant ([variants.md](../pack-shared/variants.md)). Do not mix another goal-id's criteria.
 
 ## Live evidence (terminals, Browser, fast CLI)
 

@@ -11,7 +11,7 @@ description: >-
 
 You don't remember every skill — ask. Stay **thin**: recommend only; do **not** load other skills' bodies until the user accepts.
 
-**Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/repair`, …) self-select standalone vs flow via [variants.md](../variants.md) — never recommend `*-flow` names.
+**Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/repair`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
 
 ## On-ramps
 

@@ -9,9 +9,9 @@ disable-model-invocation: true
 
 # Just Do It
 
-**Variants:** [../variants.md](../variants.md) — standalone-only. If flow is requested, use the no-flow message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../workspace-roots.md](../workspace-roots.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../asking.md](../asking.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Standalone mega-orchestrator only. It owns a nested workspace, takes recommended soft decisions, auto-fixes only named Fix-now blockers, records optional review improvements as follow-ups, and leaves `/pr-review` to a human.
 

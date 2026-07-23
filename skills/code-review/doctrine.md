@@ -339,7 +339,7 @@ After Wave 1 + Wave 2 (and Needs `/create-test` if any), if the diff touches a *
 
 **Who may recommend:** only `/code-review` and `/pr-review`. Other pack skills must not recommend or start `/create-test`.
 
-**Persist follow-ups:** when a goal workspace is in play, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md), append each Needs `/create-test` row to `<goal-root>/FOLLOWUPS.md` (create if missing), and mirror a one-line pointer in `<goal-root>/STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
+**Persist follow-ups:** when a goal workspace is in play, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md), append each Needs `/create-test` row to `<goal-root>/FOLLOWUPS.md` (create if missing), and mirror a one-line pointer in `<goal-root>/STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
 
 Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste` Verify is **read existing terminals**.
 

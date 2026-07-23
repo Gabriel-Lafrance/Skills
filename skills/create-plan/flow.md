@@ -18,7 +18,7 @@ Write **one** plan file **inside an active `/goal`**. Stay in **Agent mode** —
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md); Grill Locked closing announced (`<goal-root>/GRILL.md` present with gates ticked) — else `/grill-me`
+2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); Grill Locked closing announced (`<goal-root>/GRILL.md` present with gates ticked) — else `/grill-me`
 3. Stay in Agent mode — no `SwitchMode`, no CreatePlan UI
 
 ## Process

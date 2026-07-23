@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Validate
 
-**Variants:** [../variants.md](../variants.md) · **Ask style:** [../asking.md](../asking.md)
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 **Browser evidence:** For UI or browser-reachable criteria, read [reference.md](reference.md).
 

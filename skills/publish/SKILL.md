@@ -9,9 +9,9 @@ disable-model-invocation: true
 
 # Publish
 
-**Variants:** [../variants.md](../variants.md) — standalone-only. If flow is requested, use the no-flow message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../asking.md](../asking.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Publish only. Never invoke from `/goal`, invent a `publish-flow`, write tracker issues, or implement product work.
 

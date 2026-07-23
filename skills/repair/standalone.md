@@ -1,6 +1,6 @@
 # Repair
 
-Pessimistic bug hunt + **smallest possible fix**. Read [doctrine.md](doctrine.md). Ask style: [../asking.md](../asking.md).
+Pessimistic bug hunt + **smallest possible fix**. Read [doctrine.md](doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
 
 
 ## Process

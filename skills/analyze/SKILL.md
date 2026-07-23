@@ -10,11 +10,11 @@ disable-model-invocation: true
 
 # Analyze
 
-**Variants:** [../variants.md](../variants.md) — **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** message.
 
 **Standalone by default.** The sole in-goal exception is a code-review **review remediation analysis** of named Fix-now blockers. It does **not** write Linear/GitHub — that is `/write-ticket`.
 
-**Read:** [doctrine.md](doctrine.md) · [../workspace-roots.md](../workspace-roots.md) · **Ask style:** [../asking.md](../asking.md) · **Taste / structure:** `/taste`, `/architecture` when relevant.
+**Read:** [doctrine.md](doctrine.md) · [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Taste / structure:** `/taste`, `/architecture` when relevant.
 
 **Subagent model:** omit Task `model`. Wait for Task results — never sleep/poll for subagents.
 

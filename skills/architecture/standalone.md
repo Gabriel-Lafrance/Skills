@@ -14,7 +14,7 @@ This skill is the structural gate: domain services with public APIs, deep surfac
 3. **Implement against the card** — folders first, moves before new feature code, build with primitives inside deep modules, write-path aggregates
 4. **Self-check** — doctrine checklist before done
 
-Open structure decisions → one `/grill-me` Questions batch (follow [../asking.md](../asking.md)).
+Open structure decisions → one `/grill-me` Questions batch (follow [../pack-shared/asking.md](../pack-shared/asking.md)).
 
 ## Hand-offs
 

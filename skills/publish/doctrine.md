@@ -2,7 +2,7 @@
 
 Publish local work only. This skill is standalone-only, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
 
-**Ask style:** [../asking.md](../asking.md). Templates and question batches: [reference.md](reference.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
 ## Core rules
 

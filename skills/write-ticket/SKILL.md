@@ -9,9 +9,9 @@ disable-model-invocation: true
 
 # Write Ticket
 
-**Variants:** [../variants.md](../variants.md) — standalone-only. If flow is requested, use the no-flow message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../asking.md](../asking.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 **Standalone only.** This skill writes a tracker ticket; `/trackers` reads and `/analyze` researches. Open ticket grills use the documented freeform exception in the doctrine.
 

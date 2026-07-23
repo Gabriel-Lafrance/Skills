@@ -12,6 +12,7 @@ Same contract for every dual skill — today and for future long-running orchest
 4. After picking an existing file, follow that file’s Read-first links only.
 5. Never silently fall back to the other variant.
 6. Goal-scoped flows resolve `goal_root` from [workspace-roots.md](workspace-roots.md); a parent wave's supplied root wins over a pack-global default.
+7. **Missing `variants.md` is not a stop.** If this file cannot be Read, still choose using the skill’s local `standalone.md` / `flow.md` and the hints above. “Missing file” in dual-skill SKILL.md means missing `standalone.md` or `flow.md`, not this contract.
 
 ## Hints
 

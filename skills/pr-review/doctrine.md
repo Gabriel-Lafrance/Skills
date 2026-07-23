@@ -2,7 +2,7 @@
 
 **Standalone only.** Evaluate an open GitHub Pull Request, triage with the user, post actionable review comments **on the PR**. Never under `/goal` (use `/code-review` there). Never ship a `pr-review-flow`.
 
-**Ask style:** [../asking.md](../asking.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md).
 
 **Axis mechanics:** reuse [../code-review/doctrine.md](../code-review/doctrine.md) for five-axis Wave 1 (Standards / Spec / Routes / BigPicture / Risk) + adversarial Wave 2, artifact shapes, prompts, and aggregation. This doctrine owns **strict pack gates**, **reviewer craft**, **comment triage**, and **PR posting**.
 

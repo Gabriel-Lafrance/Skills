@@ -9,9 +9,9 @@ disable-model-invocation: true
 
 # Goal
 
-**Variants:** [../variants.md](../variants.md) — standalone-only. If flow is requested, use the no-flow message.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../workspace-roots.md](../workspace-roots.md) · **Ask style:** [../asking.md](../asking.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Orchestrator only. Use `/orchestrate` for Task workers and omit Task `model` unless the user asks for one.
 
