@@ -2,11 +2,11 @@
 name: pr-review
 description: >-
   Standalone only — evidence-based strict review of an open GitHub PR with
-  taste/architecture/design gates. Pass B: five-axis Wave 1 (Standards + Spec +
-  Routes + BigPicture + Risk) then adversarial Wave 2. Every failure claim needs
-  a reachable trigger and concrete evidence. One finding per PR comment; never
-  summary/announcement comments or repo helper scripts. Show drafts before
-  publish. Never under /goal. For local fix loops use /code-review.
+  taste/architecture/design gates. Pass B: two-axis Wave 1 (Standards + Spec)
+  then adversarial Wave 2. Every failure claim needs a reachable trigger and
+  concrete evidence. One finding per PR comment; never summary/announcement
+  comments or repo helper scripts. Show drafts before publish. Never under
+  /goal. For local fix loops use /code-review.
 disable-model-invocation: true
 ---
 
@@ -27,7 +27,7 @@ disable-model-invocation: true
 - **No summary / announcement comments** on the PR (chat-only status)
 - **No helper scripts** in the repo (`build-review.cjs`, etc.) — **`gh` / `gh api` only**
 - **Nth pass:** Pass A covers **all** prior finding comments across every pass, not only the last one
-- **Pass B:** Wave 1 five axes + always Wave 2 adversarial; show drafts (severity already set), then **one** question: publish as shown? yes / no
+- **Pass B:** Wave 1 Standards + Spec + always Wave 2 adversarial; show drafts (severity already set), then **one** question: publish as shown? yes / no
 - **No findings cap** — every real defect is its own comment
 
 **Subagent model:** omit Task `model` unless the user asked for one.
@@ -46,7 +46,7 @@ disable-model-invocation: true
 
 ### Pass B (always: first review or after Pass A)
 
-7. **Fresh rescan Wave 1** — Standards + Spec + Routes + BigPicture + Risk (fill-or-fail artifacts; no findings cap). Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
+7. **Fresh rescan Wave 1** — Standards + Spec (fill-or-fail artifacts; no findings cap). Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
 8. **Wave 2 adversarial (always)** — launch fresh Task(s) with Wave 1 summaries; merge unique hits only (see code-review doctrine).
 9. **Needs /create-test** — if the diff touches a complex architectural part with no durable behavior lock, list subjects in chat (`## Needs /create-test`) and/or as **Nit** drafts telling the author to run `/create-test`. **Tell the user**; do **not** invoke `/create-test` or write test files. Only `/code-review` and `/pr-review` may recommend locks.
 10. **Show new drafts in chat** — **one full draft per finding** with severity already on it. Nothing on the PR yet. **No em dashes.**
@@ -65,6 +65,7 @@ disable-model-invocation: true
 - Pass A only on the latest pass
 - Skipping per-prior triage when actions exist; asking Pass B before Pass A questions are answered
 - Skipping Wave 2; capping findings; accepting missing artifact shapes
+- Launching Routes, BigPicture, or Risk Tasks (removed axes)
 - Posting before showing full drafts in chat
 - Approving while prior blockers remain open
 - Writing Linear comments; starting `/goal`; using inside `/goal`

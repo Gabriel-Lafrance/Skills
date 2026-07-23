@@ -2,7 +2,7 @@
 
 Load when drafting or posting. Gates stay in [doctrine.md](doctrine.md).
 
-**Stance reminder:** grade hard with evidence — pack / thermonuclear / Routes / BigPicture / Risk must-edits are **Blocking** only when their contract or failure trigger is concrete. Real, evidenced defects only; no findings cap.
+**Stance reminder:** grade hard with evidence — pack / thermonuclear / Spec must-edits are **Blocking** only when their contract or failure trigger is concrete. Real, evidenced defects only; no findings cap.
 
 ## Comment body rules (hard)
 

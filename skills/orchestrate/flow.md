@@ -67,7 +67,7 @@ Report the blocker and a smallest viable option to the orchestrator instead.
 | Explore sibling/lane | `explore` | Parallel OK; Progress required |
 | Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
 | Independent plans | **parallel** workers | Only when Worker Briefs prove non-overlapping lanes and compatible interfaces; otherwise serialize |
-| Standards / Spec / Routes / BigPicture / Risk + Wave 2 | parallel Tasks then adversarial | See `/code-review`; Progress required |
+| Standards / Spec + Wave 2 | parallel Tasks then adversarial | See `/code-review`; Progress required |
 | Verify / logs | **Read terminals folder** | Never Convex MCP by default |
 
 ## Worker template

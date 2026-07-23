@@ -4,15 +4,15 @@
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md).
 
-**Axis mechanics:** reuse [../code-review/doctrine.md](../code-review/doctrine.md) for five-axis Wave 1 (Standards / Spec / Routes / BigPicture / Risk) + adversarial Wave 2, artifact shapes, prompts, and aggregation. This doctrine owns **strict pack gates**, **reviewer craft**, **comment triage**, and **PR posting**.
+**Axis mechanics:** reuse [../code-review/doctrine.md](../code-review/doctrine.md) for two-axis Wave 1 (Standards / Spec) + adversarial Wave 2, artifact shapes, prompts, and aggregation. This doctrine owns **strict pack gates**, **reviewer craft**, **comment triage**, and **PR posting**.
 
 **vs `/code-review`:** that skill offers a Fix backlog → `/goal`. This skill posts comments on the PR. Do not auto-start `/goal` from here.
 
 ## Stance (hardcore teacher)
 
-**Operational stance — not chat roleplay.** Behave with grading intensity; do not narrate as a teacher in chat. Findings stay factual. Invent no fake failures — only real doctrine / Spec / Routes / BigPicture / Risk defects, graded hard.
+**Operational stance — not chat roleplay.** Behave with grading intensity; do not narrate as a teacher in chat. Findings stay factual. Invent no fake failures — only real doctrine / Spec / Standards defects, graded hard.
 
-You are grading to find material, evidenced defects. Actively inspect taste, architecture, design (when UI), thermonuclear, Routes (+ blast), BigPicture, and Risk without inventing failure modes around the diff.
+You are grading to find material, evidenced defects. Actively inspect taste, architecture, design (when UI), thermonuclear, and Spec without inventing failure modes around the diff.
 
 - **Dock points** — pack violations default to **Blocking**; do not soften must-edit into Nit.
 - **Assume finished-looking work** — the student (`/code-review` prep) tried to look clean; verify paths and touched-lane debt; do not trust "LGTM" vibes.
@@ -71,7 +71,7 @@ Before drafting **new** comments, Standards (and you) **must** read and enforce:
 | [`/taste`](../taste/doctrine.md) (never-nest, DRY, throw/catch, naming, deep entry, complexity/entropy) | **Blocking** unless truly cosmetic |
 | [`/architecture`](../architecture/doctrine.md) (services, deep public surface, prior-mistakes / entropy moves, folders, write-path scale) | **Blocking** when the PR introduces or extends the wrong shape |
 | [`/design`](../design/doctrine.md) when UI files are in the diff | **Blocking** for ship-breaking UX; nits only for tiny polish |
-| [code-review](../code-review/doctrine.md) thermonuclear + Routes critical/important + BigPicture critical/important + Risk critical/important | Same bar; should-have-moved in the touched lane → **Blocking** candidate; Risk security/bug/scale is Blocking only when the evidence threshold is met |
+| [code-review](../code-review/doctrine.md) thermonuclear + Spec gaps | Same bar; should-have-moved in the touched lane → **Blocking** candidate; correctness/security findings are Blocking only when the evidence threshold is met |
 
 Recommended triage default: **post as blocking** for taste / architecture / design failures. Do **not** waive as "pre-existing" when the PR touched that lane.
 
@@ -176,19 +176,19 @@ If there are no prior finding comments, skip Pass A.
 
 ### Wave 1
 
-Launch **Standards + Spec + Routes + BigPicture + Risk** in parallel (skip Spec only if no spec). **Omit Task `model`**. Fill-or-fail artifacts per [code-review doctrine](../code-review/doctrine.md). **No findings cap.**
+Launch **Standards + Spec** in parallel (skip Spec only if no spec). **Omit Task `model`**. Fill-or-fail artifacts per [code-review doctrine](../code-review/doctrine.md). **No findings cap.**
 
 **Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one finding per comment; skip issues already tracked by an open prior thread; **teacher posture:** hunt hard for point deductions — anything the student missed is fair game if real.
 
-**Routes / BigPicture / Risk extras:** same evidence-based posture; Routes must include **blast radius**; Risk tags `security|bug|scale` and must include trigger, evidence, impact, smallest fix, and why heavier machinery is or is not needed; skip issues already on an open prior finding thread.
+**Spec prompt extras:** same evidence-based posture; skip issues already on an open prior finding thread.
 
-Aggregate Wave 1: `## Standards`, `## Spec`, `## Routes`, `## BigPicture`, `## Risk`.
+Aggregate Wave 1: `## Standards`, `## Spec`.
+
+Do **not** launch Routes, BigPicture, Risk, `bugbot`, or `security-review` Tasks unless the user explicitly asks.
 
 ### Wave 2 (always)
 
 After Wave 1 aggregate, **always** launch adversarial Task(s) per code-review doctrine. Input = diff + commits + Wave 1 axis summaries. Merge unique hits only. Fold into axis sections or a short `## Adversarial addenda`, then into drafts.
-
-Do **not** auto-launch Cursor `bugbot` / `security-review` unless the user asked — Risk axis covers that.
 
 ## Needs /create-test
 
@@ -208,7 +208,7 @@ After Wave 1 + Wave 2, if the diff touches a **complex architectural part** whos
 - **No findings cap** — list every real defect as its own draft/comment; still **split** them (one each). High conviction required; invent nothing.
 - Every comment: **where**, **what is wrong**, **evidence**, **why it matters**, **what good looks like**. Runtime-risk comments also state the reachable trigger.
 - **Severity is only two levels:**
-  - **Blocking** — should be edited before merge (anything that must change) — includes pack, Routes critical/important, BigPicture critical/important, Risk critical/important
+  - **Blocking** — should be edited before merge (anything that must change) — includes pack/thermonuclear/Standards hard findings and Spec gaps that must change
   - **Nit** — optional / whatever; nice-to-have, not required to merge
 - There is **no** "non-blocking" middle status. If it should be edited → **Blocking**. If it is truly optional → **Nit**.
 - Do not restate the diff. Add insight.
@@ -232,7 +232,7 @@ After Wave 1 + Wave 2, if the diff touches a **complex architectural part** whos
 - Asking about new drafts before finishing per-prior triage (when Pass A has questions)
 - Asking to publish before showing full draft bodies in chat (Pass B)
 - Softening must-edit findings into nits
-- Soft-approving / "LGTM" when pack, Routes, BigPicture, or Risk defects remain
+- Soft-approving / "LGTM" when pack or Spec defects remain
 - Skipping Wave 2 or accepting Wave 1 reports without artifact shapes
 - Capping findings so a shitty PR looks clean
 - Posting a speculative “could fail” Blocking comment without trigger, evidence, and material impact
