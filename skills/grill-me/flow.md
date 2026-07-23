@@ -4,17 +4,19 @@ Interview **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md) an
 
 This is not product-only Q&A. **During the grill**, load and apply the pack flows below so the user answers taste / structure / UI **before** any `plans/*` exist.
 
-**Themes vs goal GRILL:** shared language / choices / app rules → `.agents/temp/grills/{language,choice,rules}.md`. Goal-scoped outcome / gates / taste / arch / design → `.agents/temp/goals/<goal-id>/GRILL.md` only.
+Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) before reading or writing goal artifacts.
+
+**Themes vs goal GRILL:** shared language / choices / standing app rules → `.agents/temp/grills/{language,choice,rules}.md`. Goal-scoped outcome / gates / taste / arch / design → `<goal-root>/GRILL.md`; behavioral decisions this goal must enforce → `<goal-root>/GOAL.md` **Active Rules**.
 
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Workspace: `.agents/temp/goals/<goal-id>/` with draft `GOAL.md` / `STATUS.md`
+2. Workspace: `<goal-root>/` with draft `GOAL.md` / `STATUS.md`
 3. Hard gate before any `plans/*` exist
 
 ## Process
 
-1. Gather open topics: outcome, non-goals, users, edges, plan count, file lanes, **language / choices / app rules** when fuzzy, plus quality skills below. Read existing `grills/*.md` first.
+1. Gather open topics: outcome, non-goals, users, edges, plan count, file lanes, **language / choices / app rules** when fuzzy, plus quality skills below. For every user-visible or stateful behavior, sweep actor, trigger, outcome, enabled/disabled/loading states, transitions, invalid/error/retry behavior, timing/concurrency, side effects, feedback, boundary cases, and what must remain unchanged. Read existing `grills/*.md` first.
 2. **Pull in quality skills as interview topics** (read the skill, then include in the batch — do not silently invent):
 
 | When | Load | Ask the user about |
@@ -24,13 +26,13 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 | UI in scope (or unclear) | `/design` | Job of the screen, primary action, hierarchy, surfaces/depth, states, ethical psychology — draft Design-card answers with them |
 
 3. Prefer **recommended answers** drawn from `/taste` + **good** sibling patterns + `/architecture` prior-mistakes courage + existing `grills/` themes; mark them in the batch. Do **not** recommend copying debt.
-4. Send **one message**: **Locked (correct if wrong)** for non-goals + plan split + shared-understanding summary when closing; plus a **Questions** batch only for unsettled *real* opens (product/UX/architecture/taste) per asking.md. Wait only if there are Questions. If closing is Locked-only, announce and continue. New findings later → new batch only.
-5. When language / choices / rules lock → **upsert** `.agents/temp/grills/language.md`, `choice.md`, and/or `rules.md` (+ REGISTRY). Do **not** put those sections in goal `GRILL.md`.
-6. Persist **goal-scoped** locked answers in `.agents/temp/goals/<goal-id>/GRILL.md` (Taste / Architecture / Design; under Architecture list locked **Moves / corrections** when any). Add a **Themes** pointer line when theme files exist.
-7. Update `GOAL.md` Done when / Constraints from the grill (critical choices/rules may appear as one-liners in Constraints; full lists stay in `grills/`).
-8. Set `STATUS.md` `last: grilling` until Locked closing is written (and any co-batched Questions answered).
+4. Send **one message**: **Locked (correct if wrong)** for non-goals + plan split + shared-understanding summary when closing; plus a **Questions** batch for every unsettled behaviorally material open and real product/UX/architecture/taste choice per asking.md. Wait only if there are Questions. If closing is Locked-only, announce and continue. New findings later → new batch only.
+5. When language / choices / standing rules lock → **upsert** `.agents/temp/grills/language.md`, `choice.md`, and/or `rules.md` (+ REGISTRY). Do **not** put those sections in goal `GRILL.md`.
+6. Persist **goal-scoped** locked answers in `<goal-root>/GRILL.md` (Taste / Architecture / Design; under Architecture list locked **Moves / corrections** when any). Add a **Themes** pointer line when theme files exist.
+7. Update `<goal-root>/GOAL.md` Done when / Constraints and **Active Rules** from the grill. Every behavioral answer becomes an `INV-*` row unless the user marks it as a preference, example, or non-binding idea. Assign each row to the intended plan (or `all`) and name the simplest authoritative enforcement and verification.
+8. Set `<goal-root>/STATUS.md` `last: grilling` until Locked closing is written (and any co-batched Questions answered).
 9. **Closing** — announce non-goals + split + shared-understanding summary in Locked (see doctrine). Tick all three when announced. Honor corrections to Locked if the user replies.
-10. **Never** write `plans/*` before Locked closing (non-goals + split + shared understanding) is written. Return to `/goal` Phase 1 (`/create-plan` + INDEX), carrying grill decisions into Structure/Design cards. Workers must also honor `grills/` themes.
+10. **Never** write `plans/*` before Locked closing (non-goals + split + shared understanding) and Active Rules are written. Return to `/goal` Phase 1 (`/create-plan` + INDEX), carrying grill decisions into Structure/Design cards. Workers must also honor `grills/` themes and the Active Rules assigned to their plan.
 
 ## Goal GRILL.md shape (minimum — goal-scoped only)
 
@@ -38,6 +40,7 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 # Grill
 **Updated:** <ISO>
 **Themes:** `.agents/temp/grills/language.md`, `choice.md`, `rules.md`
+**Active Rules:** `<goal-root>/GOAL.md` `## Active Rules (Invariants)`
 
 ## Outcome
 …
@@ -78,3 +81,4 @@ This is not product-only Q&A. **During the grill**, load and apply the pack flow
 - Product-only grill that never opens `/taste` / `/architecture` / `/design` when those topics apply
 - Inventing structure/Design cards without user lock-in when decisions were open
 - Dumping language / choices / rules into goal `GRILL.md` instead of `grills/`
+- Losing a behavioral answer in chat instead of recording it as an Active Rule

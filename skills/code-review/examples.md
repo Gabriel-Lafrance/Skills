@@ -1,18 +1,20 @@
 # Code review examples
 
-Concrete blocker vs waive vs nit. List **every** real defect — no findings cap. Severity separates blockers from optional nits.
+Concrete Fix-now vs Follow-up vs waive vs nit. List **every** real defect on an initial review — no findings cap. Disposition prevents optional cleanup from expanding the current goal.
 
 ## Exam stance (student catch vs rubber stamp)
 
-**Student catch (A+)** — Diff "works" but copies Stripe into checkout. `/code-review` puts the behavior-preserving move on the Fix backlog before any PR. `/pr-review` would have marked it Blocking.
+**Student catch (A+)** — Diff "works" but copies Stripe into checkout and bypasses the billing service's idempotency guard. `/code-review` puts the smallest move to the existing authority in **Fix now** before any PR.
 
-**Rubber-stamp miss (fail)** — Same diff; review says "LGTM, behavior correct" and skips the Fix backlog. Teacher (`/pr-review`) Request changes on the fork — exam failed on a defect the student should have caught.
+**Rubber-stamp miss (fail)** — Same diff; review says "LGTM, behavior correct" and skips the active idempotency rule. Teacher (`/pr-review`) Request changes on the bypass — exam failed on a defect the student should have caught.
 
 ## Thermonuclear / entropy
 
-**Blocker** — PR copies Stripe calls into a second feature instead of calling `billing.makeUserPay`; a behavior-preserving move into the service is clear.
+**Fix now** — PR copies Stripe calls into a second feature instead of calling `billing.makeUserPay`, bypassing the service's authorization/idempotency behavior. The direct move to the existing authority clears a correctness risk.
 
-**Waive (by name)** — User says “leave the Stripe fork in checkout for this PR; tracked as IN-99.” Document the waive in STATUS / chat; do not ACHIEVED while calling it “fine” without that waive.
+**Follow-up** — PR has a local one-call-site formatting `if` that could be extracted, but no Active Rule, defect, or duplication requires it. Record the cleanup; do not open a fix goal.
+
+**Waive (by name)** — User says “leave the Stripe authority bypass in checkout for this PR; tracked as IN-99.” Document the waive in STATUS / chat; do not ACHIEVED while calling it “fine” without that waive.
 
 **Nit** — Rename a local variable for clarity; no complexity/entropy regression.
 
@@ -48,12 +50,14 @@ Concrete blocker vs waive vs nit. List **every** real defect — no findings cap
 
 **Blocker (scale)** — Hot list path does unbounded `.collect()` then filters in memory; Big-O grows with table size.
 
+**Fix now (bug)** — `INV-1: X is disabled while Y processes`. The UI disables X, but the mutation still accepts it while Y is processing. Preserve the UI state and add a direct backend/state-transition rejection. Do not recommend a queue or lock unless a direct guard is shown to be insufficient.
+
 **Important (bug)** — Race: two concurrent checkouts can double-charge because there is no idempotency key.
 
 **Nit (scale)** — One-off admin script scans all rows; not on a shipped hot path.
 
 ## Adversarial Wave 2
 
-**Catch** — Wave 1 Standards clean; Wave 2 finds the shared helper half-move Wave 1 Routes missed and tags it `routes` · critical.
+**Catch** — Initial Wave 1 Standards clean; Wave 2 finds the shared helper half-move Wave 1 Routes missed and tags it `routes` · critical.
 
 **Drop** — Wave 2 restates the same Stripe fork Wave 1 already listed — parent discards as duplicate.

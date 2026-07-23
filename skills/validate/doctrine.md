@@ -2,6 +2,8 @@
 
 **Gate out.** The contract (goal / repair acceptance / ticket / paste) was the gate in; this skill judges whether the change actually meets it.
 
+When validating a goal or nested repair, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) before locating artifacts.
+
 ## Framing (pessimistic — required)
 
 Do **not** assume the change works. Start from: it may still be wrong, incomplete, unlinked, or off-criteria. Every row needs **evidence**. Silent "LGTM" is a process fail.
@@ -12,8 +14,8 @@ Say out loud (in the report) whether each critical path **will work**, **won't**
 
 Collect Done when from (merge extras; never invent):
 
-1. **Repair:** `.agents/temp/repairs/<repair-id>/ACCEPTANCE.md` or goal-nested `…/goals/<id>/repairs/<repair-id>/ACCEPTANCE.md`
-2. **Goal:** `.agents/temp/goals/<goal-id>/GOAL.md` Done when + completed `plans/NN-*.md` AC
+1. **Repair:** `.agents/temp/repairs/<repair-id>/ACCEPTANCE.md` or goal-nested `<goal-root>/repairs/<repair-id>/ACCEPTANCE.md`
+2. **Goal:** `<goal-root>/GOAL.md` Done when + **Active Rules (Invariants)** + completed `<goal-root>/plans/NN-*.md` AC
 3. **`/trackers`** ticket acceptance (read only)
 4. Explicit criteria the user pasted
 
@@ -32,7 +34,7 @@ Also pull other skills when relevant — don't fake their checks:
 
 Under `/goal`, dual skills use the **flow** variant ([variants.md](../variants.md)). Do not mix another goal-id's criteria.
 
-## Live evidence (terminals + fast CLI)
+## Live evidence (terminals, Browser, fast CLI)
 
 Point is **live state** about what you're validating — types, lint, error logs, server push, UI runtime — not a Convex-only ritual.
 
@@ -41,6 +43,12 @@ Point is **live state** about what you're validating — types, lint, error logs
 1. **Any terminal** in the project terminals folder — frontend, backend, `convex dev`, workers, test watchers, typecheck watchers, whatever is already running
 2. Cite `terminals/<id>.txt` (or equivalent) with the signal that matters
 3. Match the criterion: type errors → typecheck/tsc terminal; UI crash → frontend terminal + localhost; API fail → API/server logs; Convex push fail → Convex terminal — **not** "always read Convex"
+
+### Browser evidence for UI criteria
+
+When a criterion needs user-visible or browser-reachable proof and Cursor's native Browser tools are available, read [reference.md](reference.md). Browser evidence complements the terminal signal; it does not replace it.
+
+If Browser tools, the app, policy approval, credentials, or safe test data are unavailable, mark that UI criterion **blocked** and state what is needed. Never infer a visual pass from code or terminal output alone.
 
 ### Fast CLI when terminals aren't enough
 
@@ -60,7 +68,7 @@ Run **narrow, fast** commands only when they answer a criterion and live output 
 
 ### 1. Restate the bar
 
-List each acceptance criterion as a checkbox. No new scope.
+List each acceptance criterion and assigned Active Rule as a checkbox. For every `INV-*`, verify its named authoritative enforcement point and its user-visible or observable result. No new scope.
 
 ### 2. Code-path walk (required — out loud)
 
@@ -87,7 +95,7 @@ A missing link is **fail**, not a nit.
 
 ### 3. Cross-plan seams (required when INDEX has 2+ plans)
 
-Workers only see **one** plan file — they often leave orphans. When `.agents/temp/goals/<goal-id>/plans/INDEX.md` lists **2 or more** plans, the orchestrator must verify slices are wired together **before** marking validate pass:
+Workers only see **one** plan file — they often leave orphans. When `<goal-root>/plans/INDEX.md` lists **2 or more** plans, the orchestrator must verify slices are wired together **before** marking validate pass:
 
 1. Read `plans/INDEX.md` + every completed `plans/NN-*.md` + the files each lane touched
 2. Walk **cross-slice seams** out loud (imports, exports, route/api registration, schema↔callers, UI↔handlers, env reads). A module created in plan `01` must be reachable from whatever plan `02+` or the app entry needs.
@@ -101,7 +109,7 @@ Cross-plan seam failures are **fail**, not nits. `/goal` does not run a separate
 
 ### 4. Evidence pass
 
-Gather live evidence for each criterion (terminals first, fast CLI if needed). Mark **blocked** if you cannot see required UI/runtime and say what you need.
+Gather live evidence for each criterion (terminals first, fast CLI if needed). For browser-reachable UI criteria, use [reference.md](reference.md) when Browser capability is available. Mark **blocked** if you cannot see required UI/runtime and say what you need.
 
 ### 5. Scalability (when relevant)
 
@@ -129,6 +137,11 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 | --- | --- | --- |
 | … | works / won't / missing link / blocked | … |
 
+### Active Rules
+| ID | Rule | Enforcement verdict | Verification evidence |
+| --- | --- | --- | --- |
+| INV-1 | … | pass / fail / blocked | … |
+
 ### Cross-plan seams (if INDEX has 2+ plans)
 | Seam | Verdict | Missing link? |
 | --- | --- | --- |
@@ -139,6 +152,7 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 | --- | --- |
 | terminals/<id>.txt | … |
 | CLI: `<cmd>` | … |
+| Browser: `<URL>` · `<viewport>` | `<flow/state>` → `<observed result>` · `<snapshot or screenshot>` |
 
 ### Taste
 | Check | Status | Evidence |
@@ -183,7 +197,10 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 - Passing while imports/routes/schema/callers are unlinked
 - Skipping cross-plan seam check when INDEX has 2+ plans
 - Ritual MCP / full lint+tsc when live terminals already answer
+- Claiming visual verification without Browser evidence
+- Treating unavailable Browser capability, policy approval, or credentials as a visual pass
 - Mixing another goal-id's criteria
+- Passing without checking each Active Rule's authoritative enforcement point
 - Expanding criteria mid-flight without re-grill/re-plan
 - Skipping `/code-review` at goal ACHIEVED after a green validate
 - Skipping re-validate after a repair patch

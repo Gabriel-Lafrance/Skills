@@ -3,8 +3,9 @@ name: grill-me
 description: >-
   Relentless interview to sharpen intent until shared understanding. Batches
   questions (Reply like: 1a 2b — codes only); upserts .agents/temp/grills/
-  theme files. Dual skill: agent picks standalone vs flow via variants.md.
-  Use when sharpening fuzzy intent. User must invoke (not auto).
+  theme files; under a goal, locks behavioral answers as Active Rules. Dual
+  skill: agent picks standalone vs flow via variants.md. Use when sharpening
+  fuzzy intent. User must invoke (not auto).
 disable-model-invocation: true
 ---
 

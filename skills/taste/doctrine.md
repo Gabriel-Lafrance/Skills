@@ -18,8 +18,16 @@ For good vs bad snippets, see [examples.md](examples.md).
 1. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
 2. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
 3. **Window** — Are we copying or extending a known-wrong shape? → entropy.
-4. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it (build or review).
+4. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
 5. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
+
+## Abstraction budget
+
+Prefer the smallest clear shape that fulfills the assigned outcome and Active Rules. Keep a one-call-site guard inline when it has one local purpose; extract it only when the extraction owns independent behavior, removes real duplication, or is required to enforce a locked invariant.
+
+Before adding a new layer, file, service, wrapper, class hierarchy, shared API, queue, lock, retry system, or other coordination machinery, identify the evidence that a local implementation cannot meet the rule safely. A UI-disabled state is user feedback; if a client can bypass it, add the direct authoritative backend/state-transition guard before proposing coordination infrastructure.
+
+This budget does not prohibit a real service, deep module, or extension seam for a genuinely independent domain capability or explicitly planned growth. It prohibits speculative ceremony, identity wrappers, one-off helper files, and abstractions created only because a local `if` looks untidy.
 
 Non-negotiables below are **consequences** of this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies it to structure; `/code-review` blocks regressions.
 

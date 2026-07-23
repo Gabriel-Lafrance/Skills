@@ -6,6 +6,8 @@ Crunch the repo against an ask and **always persist findings to disk**. Optional
 
 **Subagent model:** omit Task `model` — inherit parent. Never hard-code a model unless the user asked.
 
+**Workspace:** Resolve `analysis_root`, `analyses_container`, and any caller-supplied `goals_container` per [../workspace-roots.md](../workspace-roots.md). Parent context wins over pack-global defaults.
+
 ### Waiting on subagents (hard rule)
 
 Research **blocks on Task completion** — never invent a clock.
@@ -27,7 +29,7 @@ Research **blocks on Task completion** — never invent a clock.
     NOTES.md         # optional — user-helped decisions
 ```
 
-Base path **`.agents/temp/analyses/`** — never `.scratch/`. Same temp root as goals/repairs.
+The tree above is the standalone default. Use `analyses_container` and `analysis_root` when a parent wave supplies them — never `.scratch/`.
 
 ### Analysis id
 
@@ -57,8 +59,8 @@ Statuses: `running` | `ready` | `promoted` | `cleared`
 
 ### 1. Seed + workspace
 
-1. Allocate `analysis-id`; create `.agents/temp/analyses/<analysis-id>/`
-2. Draft `STATUS.md` (`phase: researching`, `last: seeded`); upsert REGISTRY
+1. Allocate `analysis-id`; resolve `analyses_container` and `analysis_root`; create `analysis_root`.
+2. Draft `STATUS.md` (`phase: researching`, `last: seeded`, root fields); upsert `<analyses_container>/REGISTRY.md`.
 3. Normalize the ask into one problem line (top of `ANALYSIS.md`)
 
 ### 2. Research crunch (required)
@@ -120,13 +122,18 @@ After workers return, **write/update the file** (not chat-only). Shape:
 1. …
 # Constraints
 - …
+
+## Active Rules (Invariants)
+| ID | Rule | Scope | Applies to plans | Authoritative enforcement | Verification |
+| --- | --- | --- | --- | --- | --- |
+| INV-1 | <explicit user or ticket behavioral rule> | goal | pending grill | <smallest direct guard> | <observable check> |
 ```
 
 Include **Draft goal contract** when the ask is clearly buildable — still **not** a goal workspace until promote.
 
 If greenfield: say so; mark recommendations as guesses. Set `STATUS.md` `phase: ready` (or `sharpening` if asking next).
 
-Announce the path: `.agents/temp/analyses/<analysis-id>/ANALYSIS.md`.
+Announce the path: `<analysis-root>/ANALYSIS.md`.
 
 ### 4. User-helped sharpen (optional — collaborative)
 
@@ -148,7 +155,7 @@ Always offer a hand-off Questions batch (skip only if user already named the nex
 Reply like: 1a
 
 1. Next step for this analysis?
-   - a) Done — keep `.agents/temp/analyses/<id>/` only ← recommended when no build yet
+   - a) Done — keep `<analysis-root>/` only ← recommended when no build yet
    - b) Help sharpen — more Questions on the memo
    - c) Promote to a /goal workspace (seed GOAL.md from this analysis)
    - d) /write-ticket from this analysis
@@ -167,10 +174,10 @@ Reply like: 1a
 
 Only on explicit **c** or **e** (or user said “make this a goal”).
 
-1. Allocate `goal-id` per `/goal` doctrine (ticket id if any, else slug from ask)
-2. Create `.agents/temp/goals/<goal-id>/`; upsert goals `REGISTRY.md`
-3. Write `GOAL.md` from **Draft goal contract** + memo (Done when binary; Lane; Context pointing at `analyses/<analysis-id>/ANALYSIS.md`)
-4. Copy or link: set `STATUS.md` on the goal (`phase: grilling` or `planning`, `resume_at: 0-grill`); include analysis path in Context
+1. Allocate `goal-id` per `/goal` doctrine (ticket id if any, else slug from ask).
+2. Resolve `goals_container` and `goal_root`; create `goal_root`; upsert `<goals_container>/REGISTRY.md`.
+3. Write `GOAL.md` from **Draft goal contract** + memo (Done when binary; Lane; Context pointing at `<analysis-root>/ANALYSIS.md`; preserve explicit behavioral rules as Active Rules).
+4. Copy or link: set `STATUS.md` on the goal (`phase: grilling` or `planning`, `resume_at: 0-grill`, root fields); include analysis path in Context.
 5. Update analysis: `Status: promoted → goal <goal-id>`; REGISTRY `promoted`; do **not** delete the analysis tree (keep findings file)
 6. Announce both paths. If **e**, continue with `/goal` / `/grill-me` as needed
 

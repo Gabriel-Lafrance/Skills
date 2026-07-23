@@ -31,7 +31,7 @@ Load when writing workspace artifacts, STATUS, Progress lines, or the ACHIEVED s
     pieces/
 ```
 
-Goal artifacts under **`.agents/temp/goals/`**; shared grill themes under **`.agents/temp/grills/`** — never `.scratch/`. Language / choices / rules are upserted by `/grill-me` into `grills/` (see `/grill-me` doctrine).
+The tree above is the standalone default. Resolve `goal_root` and `goals_container` from [../workspace-roots.md](../workspace-roots.md) before using it; a parent wave may provide a different container. Shared grill themes remain under **`.agents/temp/grills/`** — never `.scratch/`.
 
 ### Goal id
 
@@ -41,6 +41,37 @@ Goal artifacts under **`.agents/temp/goals/`**; shared grill themes under **`.ag
 
 If dir exists and status is `running`/`blocked`, allocate a **new** id (suffix) — never overwrite another goal's workspace. Parallel goals are normal; do not ask the user whether to resume or start new.
 
+## GOAL.md schema (required)
+
+`GOAL.md` is the single source of truth for the outcome, scope, and behavioral rules. Do not create a second rules or invariant artifact.
+
+```markdown
+# Goal
+<one-line verifiable outcome>
+
+# Lane
+<areas and paths this goal may change>
+
+# Done when
+1. <binary outcome>
+2. …
+
+# Constraints
+- <scope, technology, or delivery constraint>
+
+# Context
+- Ticket: …
+- Analysis: …
+
+## Active Rules (Invariants)
+| ID | Rule | Scope | Applies to plans | Authoritative enforcement | Verification |
+| --- | --- | --- | --- | --- | --- |
+| INV-1 | X is unavailable while Y is processing | goal | 01 | UI disables X; backend transition rejects X while Y is processing | UI state + rejected backend call |
+| INV-2 | … | project \| goal | 01, 02 | … | … |
+```
+
+Every behavioral rule locked during a grill receives an `INV-*` row unless the user explicitly calls it an example, preference, or non-binding idea. Project-wide rules may also stay in `grills/rules.md`, but relevant rules are copied into this table for the active goal. `Applies to plans` names which plan implements or must preserve the rule; use `all` when it applies across the goal.
+
 ### REGISTRY.md
 
 | id | status | ticket | title | workspace | updated |
@@ -48,16 +79,16 @@ If dir exists and status is `running`/`blocked`, allocate a **new** id (suffix) 
 
 Statuses: `running` | `blocked` | `achieved` | `cleared`
 
-On **ACHIEVED**: move active tree to `.agents/temp/goals/achieved/<goal-id>/`; set registry `workspace: achieved/<goal-id>` and `status: achieved`. Do **not** delete the workspace on achieve — archive it.
+On **ACHIEVED**: move the active `goal_root` to `<goals_container>/achieved/<goal-id>/`; set the scoped registry `workspace: achieved/<goal-id>` and `status: achieved`. Do **not** delete the workspace on achieve — archive it.
 
-On **`/goal clear [id]`**: set registry `status: cleared`; delete the active tree **or** the archived tree under `achieved/<id>/` if that goal was already achieved.
+On **`/goal clear [id]`**: set the scoped registry `status: cleared`; delete the active `goal_root` **or** `<goals_container>/achieved/<id>/` if that goal was already achieved.
 
 ### Isolation
 
-- All artifacts for a goal stay under `.agents/temp/goals/<goal-id>/` (active) or `.agents/temp/goals/achieved/<goal-id>/` (archived); shared language/choices/rules stay under `.agents/temp/grills/`
-- Task prompts get **that** id's `GOAL.md` + relevant `plans/*.md` only
-- Overlapping file lanes with another `running` goal → serialize or ask
-- Bare `/goal` → this chat's id status + other `running` rows
+- All artifacts for a goal stay under `goal_root` (active) or `<goals_container>/achieved/<goal-id>/` (archived); shared language/choices/rules stay under `.agents/temp/grills/`.
+- Task prompts get the resolved `goal_root`, relevant `GOAL.md` Active Rules, and the assigned `plans/*.md` only.
+- Overlapping file lanes with another `running` goal in the same `goals_container` → serialize or ask.
+- Bare `/goal` → this chat's scoped registry and goal `STATUS.md`.
 
 ## STATUS.md schema (required fields)
 
@@ -65,12 +96,15 @@ Every active goal must maintain `STATUS.md` with at least:
 
 | Field | Values / meaning |
 | --- | --- |
-| `phase` | `grilling` \| `planning` \| `implementing` \| `validating` \| `reviewing` \| `achieved` \| `cleared` |
+| `phase` | `grilling` \| `planning` \| `implementing` \| `validating` \| `reviewing` \| `paused` \| `achieved` \| `cleared` |
 | `last` | Last major step completed (e.g. `grilling`, `plan-01-done`, `validate-pass`) |
 | `plans_done` | Count of completed plans |
 | `plans_total` | Total plans in INDEX |
 | `blocked_on` | `user` \| `none` |
 | `resume_at` | Step id to resume (`0-grill`, `1a-explore`, `1b-plans`, `1c-implement`, `1d-validate`, `1d-review`) |
+| `goals_container` | Parent directory for active and archived goals |
+| `goal_root` | Resolved path for this goal's active or archived workspace |
+| `parent_wave` | `none` or the owning wave, such as `just-do-it:<jdi-id>` |
 
 Also track the mandatory skill checklist rows as they complete.
 
@@ -78,10 +112,10 @@ Also track the mandatory skill checklist rows as they complete.
 
 | User action | Do |
 | --- | --- |
-| Bare `/goal` or “status” | Read REGISTRY + this goal’s `STATUS.md`; print **Progress** line + `resume_at`; do **not** re-grill settled GRILL gates |
+| Bare `/goal` or “status” | Read the scoped REGISTRY + this goal’s `STATUS.md`; print **Progress** line + `resume_at`; do **not** re-grill settled GRILL gates |
 | “continue” / “resume” | Jump to `resume_at`; re-read GOAL/GRILL/INDEX/current plan only |
 | “pause” / “stop here” | Set `blocked_on: user`, `phase: paused`; acknowledge; **no** new Tasks until continue |
-| `/goal clear [id]` | REGISTRY `cleared`; **delete** active `<goal-id>/` **or** archived `achieved/<goal-id>/` |
+| `/goal clear [id]` | Scoped REGISTRY `cleared`; **delete** active `goal_root` **or** archived `<goals_container>/achieved/<goal-id>/` |
 | New `/goal …` while others are `paused`/`running` | Start a **new** id immediately; leave other goals untouched. Do **not** ask resume vs new — invocation means run now |
 
 Persist gate checkboxes in `GRILL.md` so resume never re-asks cleared gates.
@@ -103,7 +137,7 @@ After archive, the main agent's **final** user-facing message must be a polished
 ```markdown
 # ✅ Goal achieved: <short title>
 
-**goal-id:** `<id>` · **Ticket:** <none | IN-1234 / #42> · **Archive:** `.agents/temp/goals/achieved/<id>/`
+**goal-id:** `<id>` · **Ticket:** <none | IN-1234 / #42> · **Archive:** `<goals_container>/achieved/<id>/`
 
 ## What we did
 - <2–5 bullets of outcome in user language>
@@ -129,6 +163,7 @@ After archive, the main agent's **final** user-facing message must be a polished
 ## Decisions locked (grill)
 - Goal: … (from `GRILL.md`)
 - Themes: … (from `grills/language.md`, `choice.md`, `rules.md` — or _none new_)
+- Active Rules: `INV-1` … verified by … (or _none locked_)
 
 ## Manual next steps (you)
 - [ ] Close / merge ticket or PR if any (trackers are read-only)

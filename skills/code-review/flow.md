@@ -1,41 +1,43 @@
 # Code Review Flow
 
-Five-axis review (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2** of what this `/goal` is shipping. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
+Initial review is five-axis (Standards + Spec + Routes + BigPicture + Risk) **plus adversarial Wave 2**; Fix-mode re-review is targeted. Read [./doctrine.md](./doctrine.md). Ask style: [../asking.md](../asking.md).
 
 **Stance:** A+ exam — catch every defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
 
-**Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, Routes (+ blast), BigPicture, Risk, artifact contracts, Wave 1 → Wave 2, aggregate, Needs `/create-test`, and Offer to fix.
+**Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, Routes (+ blast), BigPicture, Risk, artifact contracts, initial Wave 1 → Wave 2, targeted re-review, Needs `/create-test`, and remediation disposition.
 
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Prefer after `/validate` pass
-3. Workers via `/orchestrate` — this goal-id only
-4. Ticket/PR context via **read-only** `/trackers` when the goal has a Ticket
+2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md)
+3. Prefer after `/validate` pass
+4. Workers via `/orchestrate` — this goal-root only
+5. Ticket/PR context via **read-only** `/trackers` when the goal has a Ticket
 
 ## Process
 
-1. **Pin fixed point** — goal's implement wave commit, else `main` / user override
-2. **Spec source (goal first)** — `GOAL.md` + `GRILL.md` + `plans/INDEX.md` + completed plans; then ticket via `/trackers`. Task prompts: this goal-id only; file lane + AC; behavior-preserving moves in lane are in scope
-3. **Wave 1** — Standards + Spec + Routes + BigPicture + Risk (doctrine prompts; omit Task `model`; fill-or-fail artifacts)
-4. **Wave 2** — always adversarial rescan (doctrine); merge unique hits
-5. **Aggregate + offer to fix** — doctrine Offer to fix with in-goal adaptation:
+1. **Select review mode** — first review of this goal = initial full review; after Fix mode = targeted re-review against the named Fix-now backlog, fix diff, touched paths, and relevant `INV-*` rows
+2. **Pin fixed point** — goal's implement wave commit, else `main` / user override
+3. **Spec source (goal first)** — `<goal-root>/GOAL.md` (including Active Rules) + `<goal-root>/GRILL.md` + `<goal-root>/plans/INDEX.md` + completed plans; then ticket via `/trackers`. Task prompts: this goal-root only; file lane + AC + relevant `INV-*` rows
+4. **Review** — initial mode: Standards + Spec + Routes + BigPicture + Risk, then adversarial Wave 2. Targeted mode: verify named findings, touched paths, direct regressions, correctness, and security only (doctrine); do not reopen broad structural hunting
+5. **Aggregate + remediation disposition** — doctrine Remediation disposition with in-goal adaptation:
 
 | User says | Do |
 | --- | --- |
-| **no** | Document waived findings in `STATUS.md`. **Critical/important blockers** block ACHIEVED until fixed or explicitly waived by name |
-| **yes** | Stay on **this** `goal-id` — no nested `/goal`. Findings-focused `/grill-me` → plans if needed → `/implement` → `/validate` → re-run this flow |
+| **no** | Document waived findings in `<goal-root>/STATUS.md`. **Fix-now blockers** block ACHIEVED until fixed or explicitly waived by name |
+| **yes** | Stay on **this** `goal-id` — no nested `/goal`. Enter Goal Fix mode: named Fix-now findings only → focused `/grill-me` → one tight plan if needed → `/implement` → `/validate` → targeted re-review |
 
-6. **Needs /create-test** — doctrine; tell user to run `/create-test`; append to goal `FOLLOWUPS.md` + `STATUS.md`; never invoke or write tests from this flow
+6. **Needs /create-test** — doctrine; tell user to run `/create-test`; append to `<goal-root>/FOLLOWUPS.md` + `<goal-root>/STATUS.md`; never invoke or write tests from this flow
 
 ## Anti-patterns
 
 - Solo-reviewing a large goal diff when workers can
-- Skipping Wave 2 or accepting artifact-shape failures
+- Skipping Wave 2 on the initial review or accepting artifact-shape failures
 - Writing/closing tickets
-- Approving "it works" when thermonuclear bar fails
+- Hiding a real structural issue instead of classifying it as Fix now or Follow-up
 - Auto-running `/create-test` instead of recommending it
 - Writing or editing test files from this flow
 - Fixing review findings without the yes/no offer + findings grill
 - Nesting a second `/goal` from inside this flow
-- ACHIEVED while critical/important findings are neither fixed nor explicitly waived
+- ACHIEVED while Fix-now findings are neither fixed nor explicitly waived
+- Reopening an initial full review after a bounded Fix mode change

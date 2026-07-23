@@ -4,8 +4,8 @@ Bug hunt **inside a `/goal` / `/implement` lane**. Read [./doctrine.md](./doctri
 
 ## Preconditions
 
-1. Resolve **`goal-id`** + active `plans/NN-*.md` / file lane
-2. Read `GOAL.md`, `GRILL.md`, that plan
+1. Resolve **`goal-id`**, `goal_root` per [../workspace-roots.md](../workspace-roots.md), and the active `plans/NN-*.md` / file lane
+2. Read `<goal-root>/GOAL.md`, `<goal-root>/GRILL.md`, and that plan
 3. Ticket via **`/trackers`** if present
 4. Stay in this goal's lane
 
@@ -14,7 +14,7 @@ Bug hunt **inside a `/goal` / `/implement` lane**. Read [./doctrine.md](./doctri
 Prefer a short repair note under the goal workspace so `/validate` can find criteria:
 
 ```text
-.agents/temp/goals/<goal-id>/
+<goal-root>/
   repairs/
     <repair-id>/
       BUG.md
@@ -37,7 +37,7 @@ Also fine to use top-level `.agents/temp/repairs/<repair-id>/` and link it from 
 
 ## Worker note
 
-Task workers: **`/orchestrate`** — omit `model`; include goal-id, plan, lane, acceptance path, "smallest footprint only."
+Task workers: **`/orchestrate`** — omit `model`; include goal-id, resolved goal-root, plan, lane, acceptance path, "smallest footprint only."
 
 ## Anti-patterns
 

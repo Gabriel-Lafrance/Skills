@@ -11,6 +11,7 @@ Same contract for every dual skill — today and for future long-running orchest
 3. Otherwise pick using the hints; match **how the work is being run**, not a keyword hunt for a workspace id alone.
 4. After picking an existing file, follow that file’s Read-first links only.
 5. Never silently fall back to the other variant.
+6. Goal-scoped flows resolve `goal_root` from [workspace-roots.md](workspace-roots.md); a parent wave's supplied root wins over a pack-global default.
 
 ## Hints
 

@@ -2,6 +2,8 @@
 
 Take one task or goal and split it into **multiple smaller tasks or goals**.
 
+Inside an active goal, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md) and write the resulting INDEX and plan artifacts there.
+
 **Priority:** keep agents in their smart zone. The smaller the task, the better agents are. Prefer over-splitting over under-splitting.
 
 ## Smart zone
@@ -74,7 +76,7 @@ If the user corrects the split: revise Locked and continue. Do not start `/imple
 
 After the split is announced (and any Questions in that message are answered):
 
-- Prefer updating `plans/INDEX.md` + `/create-plan` under the active `/goal`
+- Prefer updating `<goal-root>/plans/INDEX.md` + `/create-plan` under the active `/goal`
 - Still fuzzy → `/grill-me` then continue `/goal`
 
 ## Output template

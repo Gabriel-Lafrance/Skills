@@ -48,6 +48,8 @@ Load when writing workspace artifacts, STATUS, Progress, ORIGIN, SHIP, or review
 
 Base path **`.agents/temp/just-do-it/`** — never `.scratch/`. Shared grill themes remain under `.agents/temp/grills/`.
 
+Child roots are explicit: `analyses_container` is `<jdi-root>/analyses/`, `goals_container` is `<jdi-root>/goals/`, and every child goal receives its own `goal_root`. See [../workspace-roots.md](../workspace-roots.md).
+
 ### jdi-id
 
 1. Ticket → `jdi-IN-1234` or `jdi-ENG-99`
@@ -85,9 +87,12 @@ On goal ACHIEVED: `mv` active goal dir → `goals/achieved/<goal-id>/`; set nest
 **phase:** resolve | branch | analyze | goal | code-review-1-loop | code-review-2 | code-review-2-loop | ship | done | blocked
 **last:** <one line>
 **ticket:** IN-1234
-**type:** feature | bug | refactor
+**type:** feature | tweak | bug | refactor
 **branch:** bug/IN-1234-fix-checkout
 **base:** main
+**analyses_container:** .agents/temp/just-do-it/jdi-IN-1234/analyses
+**goals_container:** .agents/temp/just-do-it/jdi-IN-1234/goals
+**parent_wave:** just-do-it:jdi-IN-1234
 **pr_url:**
 **cr1_loops:** 0
 **cr2_loops:** 0
@@ -142,18 +147,19 @@ Append-only:
 
 ## FINDINGS.md
 
-Current critical/important burn-down:
+Current named Fix-now burn-down:
 
 ```markdown
 # Findings backlog
 **phase:** code-review-2
 **pass:** 1
 
-## Critical
-- [ ] `path` — title — from PASS-01
-
-## Important
+## Fix now
+- [ ] `INV-1` · `path` — title — invariant/correctness/security/regression — from PASS-01
 - [x] `path` — title — fixed via `fix-cr2-01-…`
+
+## Follow-up (do not auto-loop)
+- [ ] `path` — optional structure/readability/move — why it is not required now
 
 ## Nits (do not block loop)
 - …
@@ -180,15 +186,21 @@ Current critical/important burn-down:
 ## Nits
 - …
 
+## Fix now
+- …
+
+## Follow-up
+- …
+
 ## Disposition
-- fix via goal: `fix-cr1-01-slug` | clear | blocked-at-cap
+- fix via goal: `fix-cr1-01-slug` | follow-ups only | clear | blocked-at-cap
 ```
 
 ## Fix-goal seed (GOAL.md outline)
 
 ```markdown
 # Goal
-Fix critical/important review findings for IN-1234 (no scope expansion).
+Fix named Fix-now review findings for IN-1234 (no scope expansion).
 
 # Lane
 Only paths/symbols named in FINDINGS.md / this Done when list.
@@ -201,6 +213,11 @@ Only paths/symbols named in FINDINGS.md / this Done when list.
 - Same ticket IN-1234
 - Smallest behavior-preserving fix
 - No new features; no unrelated cleanup; no full refactor
+
+## Active Rules (Invariants)
+| ID | Rule | Scope | Applies to plans | Authoritative enforcement | Verification |
+| --- | --- | --- | --- | --- | --- |
+| INV-1 | <preserved or newly exposed behavior> | goal | 01 | <smallest direct guard> | <targeted validation> |
 
 # Context
 - Parent: `.agents/temp/just-do-it/jdi-IN-1234/`
@@ -218,10 +235,15 @@ Only paths/symbols named in FINDINGS.md / this Done when list.
 **type:** bug
 **branch:** bug/IN-1234-…
 **base:** main
+**preflight:** clean tree · branch verified · commits ahead · gh authenticated
 **commits:**
 - abc1234 — …
-**pr_url:** https://github.com/…/pull/N
 **pr_title:** [IN-1234] …
+
+## PR body
+<full approved-by-autonomy body from publish template>
+
+**pr_url:** pending | https://github.com/…/pull/N
 **human_next:** Run `/pr-review` or review on GitHub — agent does not own PR review.
 ```
 

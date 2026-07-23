@@ -31,7 +31,7 @@ User wants the **existing** screen improved, or is creating UI **outside** `/goa
 
 5. Apply the **smallest depth/color/hierarchy/psychology fixes** that move average → good. Prefer CSS/token changes over structural rewrites when polishing.
 6. Show a short before→after intent list; then edit.
-7. Re-check running localhost — no ritual lint.
+7. For user-visible outcomes, follow the [Browser validation reference](../validate/reference.md) when Cursor's native Browser is available. If visual validation cannot run, say it is blocked — no ritual lint.
 
 Stop at "good" (depth + hierarchy + clear next action). Do not gold-plate to S-tier polish unless asked.
 

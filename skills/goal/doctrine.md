@@ -6,6 +6,10 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 **Subagent model:** when launching Task workers, **omit `model`** so workers inherit this chat's parent model (see `/orchestrate`). Never hard-code a model unless the user asked for one.
 
+**Workspace:** Resolve `goal_root` and `goals_container` per [../workspace-roots.md](../workspace-roots.md) before Phase 0. A caller-provided root wins; persist the resolved values in `STATUS.md` before invoking a child flow.
+
+**Active Rules:** `GOAL.md` owns every behavioral rule locked during the grill. Each rule gets an `INV-*` row in **Active Rules (Invariants)** with its plan, authoritative enforcement point, and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
+
 **Grill before plans.** Do not write plan files until `/grill-me` **announces** Locked closing (non-goals + plan split + shared-understanding summary — correct if wrong) per [../asking.md](../asking.md) (unless the skip rule below applies). After grilling, produce **as many plans as the work needs** under `plans/` — not one vague mega-plan. The agent owns the split and the understanding recap; the user corrects only if needed.
 
 **Quality bar:** every `/goal` must run the pack's quality skills — not skip straight from implement to "done". **`/validate` and `/code-review` are mandatory** before ACHIEVED. Skipping `/code-review` is an anti-pattern.
@@ -58,19 +62,19 @@ Fetch via `/trackers` first (**read only**). Still **grill** on open product dec
 
 **Multiple unrelated outcomes:** start **separate** `/goal`s (separate ids).
 
-**Skip grill only if all are true:** ticket/user already has binary AC, no open product/UX/architecture/design decisions, and user said `no grill` / `skip grill` or the change is a single obvious file fix. **From `/analyze` promote:** also see analyze doctrine skip-grill checklist (binary Done when + no open Risks + confirmation batch). Otherwise grill is **mandatory**.
+**Skip grill only if all are true:** ticket/user already has binary AC, no open product/UX/architecture/design decisions, no unrecorded behavioral rules, and user said `no grill` / `skip grill` or the change is a single obvious file fix. Seed any explicit ticket/user behavioral rule into Active Rules even when skipping. **From `/analyze` promote:** use the full four-condition [skip-grill / resume checklist](../analyze/doctrine.md). Otherwise grill is **mandatory**.
 
 ## Phase 0 — Workspace + grill (blocking)
 
-1. Allocate `goal-id`; create `.agents/temp/goals/<goal-id>/`
-2. Write draft `GOAL.md` + `STATUS.md` (`phase: grilling`, `last: grilling`); upsert `REGISTRY.md`
-3. Seeded from `/analyze` promote? → pull Done when / Lane / Context from `.agents/temp/analyses/<id>/ANALYSIS.md` (link that path in GOAL Context); do not re-research from scratch; apply analyze skip-grill checklist before choosing `resume_at`
-4. Ticket? → `/trackers` brief (link in GOAL)
-5. **Run `/grill-me` fully** — it must pull **`/taste`**, **`/architecture`**, and **`/design`** (if UI) into the interview; upsert `grills/{language,choice,rules}.md` when terms/choices/rules lock
-6. Persist **goal-scoped** locked answers in `GRILL.md` (pointer to Themes paths); do not dump shared glossary into goal `GRILL.md`
-7. Update `GOAL.md` Done when / Constraints from the grill
-8. **Closing** — announce non-goals + split + shared-understanding summary in Locked; ask only remaining real opens via [../asking.md](../asking.md)
-9. Only after Locked closing is written (and any co-batched Questions answered) enter Phase 1. **Never** write `plans/*` before that.
+1. Allocate `goal-id`; resolve `goal_root` and `goals_container`.
+2. Create `goal_root`; write draft `GOAL.md` + `STATUS.md` (`phase: grilling`, `last: grilling`, root fields); upsert `<goals_container>/REGISTRY.md`.
+3. Seeded from `/analyze` promote? → pull Done when / Lane / Context from the supplied `analysis_root/ANALYSIS.md` (link that path in GOAL Context); do not re-research from scratch; apply analyze skip-grill checklist before choosing `resume_at`.
+4. Ticket? → `/trackers` brief (link in GOAL).
+5. **Unless the skip-grill rule applies, run `/grill-me` fully** — it must pull **`/taste`**, **`/architecture`**, and **`/design`** (if UI) into the interview; upsert `grills/{language,choice,rules}.md` when terms/choices/rules lock.
+6. Persist **goal-scoped** locked answers in `GRILL.md` (pointer to Themes paths); do not dump shared glossary into goal `GRILL.md`. On a valid skip, write the concise ticket/user contract and Locked gates instead of re-interviewing.
+7. Update `GOAL.md` Done when / Constraints **and Active Rules** from the grill, or on a valid skip from the ticket/user contract and analysis draft. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
+8. **Closing** — announce non-goals + split + shared-understanding summary in Locked; ask only remaining real opens via [../asking.md](../asking.md).
+9. During the Locked split, assign each Active Rule to an intended plan (or `all`), then enter Phase 1. **Never** write `plans/*` before Active Rules are complete for the behavior in scope.
 
 ### Closing (announce — correct if wrong)
 
@@ -100,23 +104,32 @@ Frontier plans: parallel `/implement` workers; each reads `GOAL.md` + **that** `
 
 After all implement workers finish:
 
-1. **`/validate`** against GOAL Done when + plans AC — includes cross-plan seam check when INDEX has 2+ plans (doctrine in `/validate`)
+1. **`/validate`** against GOAL Done when + Active Rules + plans AC — includes cross-plan seam check when INDEX has 2+ plans (doctrine in `/validate`)
 2. **Always** run `/code-review` next. Do not ACHIEVED without it.
 3. `/code-review` presents findings + **Fix backlog** → batched offer via [../asking.md](../asking.md)
-4. **yes** → findings grill on this goal-id → implement → `/validate` → `/code-review` again until clear or explicitly waived
-5. **no** → only ACHIEVED if no critical/important blockers remain, or the user waived each blocker by name
+4. **yes** → enter **Fix mode** on this goal-id → findings grill → implement → `/validate` → targeted re-review until named blockers clear or are explicitly waived
+5. **no** → only ACHIEVED if no Fix-now blockers remain, or the user waived each blocker by name
 6. Update `STATUS.md` checklist rows
+
+### Fix mode (review remediation only)
+
+Fix mode is one bounded slice of the current goal, not fresh product discovery:
+
+1. Copy only the named `Fix now` findings into the active plan/backlog. Each row must cite the violated Active Rule, acceptance criterion, correctness/security issue, or regression.
+2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Keep existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.
+3. Prefer the smallest authoritative correction. For example, if X is disabled while Y processes, preserve the UI state and reject the prohibited backend/state transition directly; do not add locks, queues, retries, wrappers, or a new service unless the named finding proves a guard is insufficient.
+4. Use one tight plan (or a few tightly coupled rows). No new feature scope, product exploration, optional cleanup, or architecture move unless the named finding requires it.
+5. Validate the named findings and their Active Rules, then run `/code-review` in **targeted re-review** mode: named backlog, touched paths, direct regressions, correctness, and security only.
 
 ## Phase 2 — Achieve or clear
 
-**Achieved only when:** mandatory checklist complete, `/validate` pass (including cross-plan seams when applicable), `/code-review` run (findings fixed after yes/grill, or critical/important explicitly waived by name).
+**Achieved only when:** mandatory checklist complete, `/validate` pass (including cross-plan seams when applicable), `/code-review` run (Fix-now findings fixed after yes/grill, or explicitly waived by name).
 
 Then:
 
-1. REGISTRY `status: achieved`, `workspace: achieved/<goal-id>`
-2. **`mv .agents/temp/goals/<goal-id> .agents/temp/goals/achieved/<goal-id>`**
-3. **Print the ACHIEVED summary** (required last message — see [reference.md](reference.md))
-4. **Ship Questions** batch (commit? open PR?) — see reference; defaults no unless already asked
+1. Move `goal_root` to `<goals_container>/achieved/<goal-id>/`; update `STATUS.md` `goal_root` and the scoped REGISTRY `status: achieved`, `workspace: achieved/<goal-id>`.
+2. **Print the ACHIEVED summary** (required last message — see [reference.md](reference.md))
+3. **Ship Questions** batch (commit? open PR?) — see reference; defaults no unless already asked
 
 **Cleared:** REGISTRY/STATUS `cleared`; delete active or archived tree per clear rule above.
 
@@ -128,8 +141,10 @@ Then:
 
 - Announcing done **without** `/code-review`
 - Fixing review findings without the fix yes/no + findings grill
+- Treating a review fix as a fresh architecture or product goal
 - Loading both standalone and flow variants of a dual skill in one turn
 - Writing `plans/*` before Locked closing (non-goals + split + shared understanding)
+- Leaving a grill-locked behavioral rule out of `GOAL.md` Active Rules
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Dripping grill questions one message at a time when multiple opens are known
 - Running a separate cross-plan link-check in `/goal` instead of letting `/validate` own it

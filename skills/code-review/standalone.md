@@ -12,4 +12,4 @@
 4. **Aggregate Wave 1** — separate `## Standards`, `## Spec`, `## Routes`, `## BigPicture`, `## Risk`
 5. **Wave 2** — always launch adversarial Task(s); merge unique hits (doctrine)
 6. **Needs /create-test** — recommend to user; do not run; do not write tests (doctrine)
-7. **Offer to fix** — Fix backlog + Questions batch via [../asking.md](../asking.md); on yes → `/goal` (doctrine)
+7. **Remediation disposition** — Fix-now / Follow-up / optional-nit backlog + Questions batch via [../asking.md](../asking.md); on yes → bounded `/goal` (doctrine)

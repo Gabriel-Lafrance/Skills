@@ -5,14 +5,14 @@ Structure craft **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.
 ## Preconditions
 
 1. Resolve **`goal-id`**
-2. Workspace: `.agents/temp/goals/<goal-id>/`
+2. Resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md); workspace: `<goal-root>/`
 3. Prefer explore via **`/orchestrate`**
 
 ## Process
 
 1. Explore siblings, **existing services**, **existing primitives**, and target folders (subagents OK). Reuse/extend a service before inventing a parallel one; reuse a primitive when it already answers that one job. Flag wrong existing shape in the lane.
 2. Draft the **Structure** card from doctrine (Services + **Moves / corrections** + Feature entry + **Primitives** + Folder map + Scalability). A required move may block new feature code until listed on the card.
-3. Fold into the relevant `plans/NN-*.md` via `/create-plan` (or patch if already written).
+3. Fold into the relevant `<goal-root>/plans/NN-*.md` via `/create-plan` (or patch if already written).
 4. Mid-implement sprawl, duplicated domain logic, forked primitive job, or newly spotted prior mistake → update this plan's Structure (Moves / corrections / Primitives), then continue `/implement` with the move.
 
 ## Hand-offs

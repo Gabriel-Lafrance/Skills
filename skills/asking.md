@@ -17,6 +17,15 @@ When a new long-running skill appears later, it still uses this file as-is. Pref
 9. **Only ask when an action is needed.** Do not put items in Questions if there is nothing to decide (e.g. already correctly done). Still may list them briefly as info outside the Questions block.
 10. **Announce vs ask.** When the agent should own the call (user almost always accepts the recommendation), **do not** put a yes/no in Questions — **state it** in a short **Locked (correct if wrong)** block above Questions. The user corrects only if needed; silence = accept. Pack defaults for this pattern: **non-goals**, **plan split**, and **shared understanding** (a short summary of what the agent believes — not a yes/no). Real product/UX/architecture/taste *choices that are still open* stay in Questions.
 
+## Skill exception
+
+`/write-ticket` uses a two-stage ask:
+
+1. Its vision, bug, or refactor **open grill** is numbered freeform questions only. Do not add lettered options, recommendations, or `Reply like:`.
+2. Its type lock and write metadata use this normal lettered contract.
+
+See [`write-ticket/doctrine.md`](write-ticket/doctrine.md).
+
 ## Recommended defaults (bias)
 
 When drafting options, prefer these as **recommended** unless the user already locked otherwise:
@@ -25,20 +34,21 @@ When drafting options, prefer these as **recommended** unless the user already l
 | --- | --- |
 | Taste / entry shape | Match `/taste` doctrine + a **good** sibling |
 | Unsure which skill | Recommend `/ask-gabriel` |
-| Architecture | Services over feature-forked domain logic; folders before files; compose **primitives** inside deep modules over ad-hoc reimplementation |
-| Prior mistakes / debt | **Behavior-preserving move** into the right service/folder — not “leave it where it is” |
-| Complexity / entropy | **Deep module** + **primitives** (reuse, do not fork) + behavior-preserving cleanup over “leave debt / add another shallow helper” |
+| Architecture | Reuse a real service boundary; create one only for an independent capability, real duplication, a locked rule, or explicit growth — not speculative ceremony |
+| Prior mistakes / debt | Behavior-preserving move when the current goal or named finding requires it; otherwise record a follow-up |
+| Complexity / entropy | Keep a local guard inline unless extraction owns independent behavior, removes real duplication, or enforces an Active Rule; reuse an existing primitive rather than fork |
 | Package / vendor / storage | Lock a one-phrase pick into the active skill’s choice log (e.g. under `.agents/temp/…/choice.md`) |
 | Actor / business policy | Lock a one-phrase rule into the active skill’s rules log (e.g. under `.agents/temp/…/rules.md`) |
+| Behavioral answer in a goal grill | Record it as a `GOAL.md` Active Rule (`INV-*`) by default; user may say it is only a preference, example, or non-binding idea |
 | Repair | **Smallest patch** that fixes the defect |
 | Design polish | Smallest depth/color/hierarchy fix over structural rewrite |
 | Confirm gates / recap | **Announce** non-goals + plan split + shared-understanding summary in Locked. Ask only real open product/UX/architecture/taste choices |
-| Ticket type (`/write-ticket`) | Feature when capability/enhancement; Bug when broken/wrong behavior; Refactor when move/cleanup/debt without new product behavior |
+| Ticket type (`/write-ticket`) | Feature when capability/enhancement; Tweak when a small intentional adjustment is neither a defect nor a standalone capability; Bug when broken/wrong behavior; Refactor when move/cleanup/debt without new product behavior |
 | Ticket metadata (`/write-ticket`) | Status: backlog/todo for create; Priority: Medium unless urgency clear; Assignee: Unassigned unless an owner is obvious |
-| Publish (`/publish`) | Branch + push unless user said local-only; then ask PR draft+publish (recommend yes); type matches the work; ticket id when known |
+| Publish (`/publish`) | Branch + push unless user said local-only; then ask PR draft+publish (recommend yes); use Feature, Tweak, Bug, or Refactor to match the work; ticket id when known |
 | Publish branch name | `{type}/{ticket}-{slug}` (e.g. `bug/IN-1234-fix-checkout-total`) — no colons |
-| Just-do-it (`/just-do-it`) | Auto-take all `← recommended`; early typed branch; dual code-review; fix via scoped `/goal` only; no `/pr-review`; nested workspace under `.agents/temp/just-do-it/<id>/` |
-| Just-do-it fix goals | Same ticket lane; named critical/important only; no drive-by full refactor |
+| Just-do-it (`/just-do-it`) | Auto-take recommended child choices except optional review Follow-ups; early typed branch; dual code-review; fix via scoped `/goal` only; no `/pr-review`; nested workspace under `.agents/temp/just-do-it/<id>/` |
+| Just-do-it fix goals | Same ticket lane; named Fix-now invariant/spec/correctness/security/regression blockers only; no drive-by full refactor |
 
 ## Batch template
 
@@ -49,6 +59,7 @@ When drafting options, prefer these as **recommended** unless the user already l
 **Shared understanding:** …
 - …
 - … (include Moves / corrections + new language / choices / rules when relevant)
+**Active Rules:** `INV-1` … · `INV-2` … (or _none_)
 
 ## Questions
 Reply like: 1a 2c 3a

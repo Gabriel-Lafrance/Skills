@@ -64,7 +64,7 @@ Before drafting **new** comments, Standards (and you) **must** read and enforce:
 
 Recommended triage default: **post as blocking** for taste / architecture / design failures. Do **not** waive as "pre-existing" when the PR touched that lane.
 
-When UI is unclear, check the diff for components/pages/styles. If any UI is present, load design doctrine.
+When UI is unclear, check the diff for components/pages/styles. If any UI is present, load design doctrine. When a safe local or approved preview and Browser capability are available, use the [Browser validation reference](../validate/reference.md) for targeted visual and interaction evidence. If that evidence cannot be gathered, report the limitation in chat and do not call the UI visually verified.
 
 ## Resolve PR + context
 

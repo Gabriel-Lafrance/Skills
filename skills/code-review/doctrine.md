@@ -17,13 +17,22 @@ Review along **five axes** (do not merge findings into one ranked list):
 You are the examinee. `/pr-review` is the hardcore grader. Assume anything you miss becomes a failure on the PR.
 
 - **Stress-driven thoroughness** — re-walk paths, re-check taste/architecture, treat "it works" as not enough. Keep a 100% A+ average by catching defects before the teacher does.
-- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, Routes critical/important, BigPicture coherence failures, and Risk security/bug/scale findings (the same defects `/pr-review` will mark Blocking).
-- **Prefer over-finding** on the Fix backlog over a clean rubber stamp. Nits stay optional on the default backlog — but **list every real defect**; there is **no findings cap**. A shitty PR should surface everything shitty about it.
-- **Anti-patterns:** casual pass; waiving structural debt without naming it; solo shallow skim when Tasks can run; skipping Wave 2.
+- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, Routes critical/important, BigPicture coherence failures, and Risk security/bug/scale findings. Then classify each real finding as Fix now, Follow-up, or optional nit rather than treating all structure as a blocker.
+- **Prefer over-finding** over a clean rubber stamp on an initial review. List every real defect; there is **no findings cap**. A shitty PR should surface everything shitty about it, even when some cleanup belongs in Follow-up.
+- **Anti-patterns:** casual pass; hiding structural debt; solo shallow skim when Tasks can run; skipping Wave 2 on an initial review.
 
-Run **Wave 1** (five parallel Tasks) then **Wave 2** (adversarial). Do not solo-review a large diff when workers can.
+For an **initial review**, run **Wave 1** (five parallel Tasks) then **Wave 2** (adversarial). Do not solo-review a large diff when workers can.
 
 If you need issue/PR/comment context, load **`/trackers`** (read only). Never write to trackers.
+
+## Review modes
+
+| Mode | Scope | Required depth |
+| --- | --- | --- |
+| **Initial review** | Full shipped diff and goal/ticket contract | Full five axes plus adversarial Wave 2 |
+| **Targeted re-review** | Named `Fix now` backlog, fix diff, touched paths, direct callers, and relevant Active Rules | Verify the named blocker is cleared; hunt only regressions, correctness, and security in the touched surface |
+
+Targeted re-review is deliberately not another thermonuclear architecture hunt. Do not create a new optional structural finding during a re-review unless it is required to clear a named blocker, is a regression from the fix, or is a correctness/security failure in a touched path. Put valuable but non-blocking cleanup in **Follow-up**.
 
 ## Pin the fixed point
 
@@ -47,6 +56,12 @@ In order (standalone — **not** a goal workspace unless the user points at one)
 4. Path the user passed (`docs/`, `specs/`, …)
 5. Ask; if none, Spec axis reports "no spec available"
 
+## Active Rules as binding spec
+
+For a goal-scoped review, read `GOAL.md` **Active Rules (Invariants)** before dispatching workers. They are binding behavioral specification, not background context. A finding that violates one must cite its `INV-*` ID and say whether the authoritative enforcement point is missing, bypassable, or unverified.
+
+For findings that do not violate an Active Rule, cite the relevant Done-when, acceptance criterion, correctness/security condition, or state `rule: none`. Do not invent an invariant after the fact to make an optional cleanup sound blocking.
+
 ## Standards sources (force order)
 
 1. **`/taste`** + [examples.md](../taste/examples.md) — hard; paste non-negotiables + naming into the Standards prompt
@@ -55,7 +70,7 @@ In order (standalone — **not** a goal workspace unless the user points at one)
 4. Optional extras only if present — **do not** require `CODING_STANDARDS.md`
 5. Smell baseline + **thermonuclear maintainability** below
 
-When UI files are in the diff, also load **`/design`** into Standards (and BigPicture) — same gate as `/pr-review`.
+When UI files are in the diff, also load **`/design`** into Standards (and BigPicture) — same gate as `/pr-review`. When a reachable local or approved preview and Browser capability are available, use the [Browser validation reference](../validate/reference.md) for targeted visual and interaction review. If they are unavailable, report that visual confirmation was not performed; static review is not visual proof.
 
 ## Smell baseline (judgement calls)
 
@@ -67,27 +82,27 @@ Flat file dump; missing simple entry point / **shallow modules**; leaking intern
 
 ## Thermonuclear maintainability (Standards — not Routes)
 
-Be **ambitious** about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it. **Builders** apply the same courage via `/architecture` prior-mistakes — not only at review time.
+In an **initial review**, be ambitious about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it. In a **targeted re-review**, inspect structural changes only when they are needed to clear a named blocker, prevent a regression, or correct a touched correctness/security failure.
 
 Lens (from `/taste`): **complexity** (hard to understand/change) and **entropy** (disorder that spreads when copied or left in a touched dirty lane).
 
-**Non-negotiable additional standards:**
+**Additional standards to evaluate on an initial review:**
 
-0. Ambitious structural simplification — whole branches/helpers/layers disappear when possible
-1. **1000-line file rule** — do not push a file from under 1k to over 1k without a strong reason (presumptive blocker)
+0. Ambitious structural simplification — whole branches/helpers/layers disappear when needed to clear a current blocker
+1. **1000-line file rule** — do not push a file from under 1k to over 1k without a strong reason (presumptive finding; disposition per the bar below)
 2. No spaghetti growth — ad-hoc conditionals bolted onto unrelated flows
 3. Clean design > "it works"
 4. Direct over magic / thin wrappers / identity abstractions — **strong primitives** (`/architecture` §3) are deep one-job blocks inside services/modules; identity wrappers still fail
 5. Type and boundary cleanliness — `any` / casts / muddy optionality
 6. Canonical layer + reuse existing helpers **and primitives**
 7. Avoid needless sequential orchestration / half-applied state when atomic structure is obvious
-8. **Should-have-moved** — prior debt in the touched lane left in place (or copied) when a clear behavior-preserving relocation exists
+8. **Should-have-moved** — prior debt in the touched lane left in place (or copied) when a clear behavior-preserving relocation is required to clear a current blocker
 9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry; **forking a primitive's job**
 10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live; **bypassing an existing primitive**
 
-**Prioritize:** structural regressions → complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Still list **every** real defect (no findings cap); severity tags separate blockers from nits.
+**Prioritize:** correctness/security and Active Rule failures → clear complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Still list every real defect on an initial review; severity and disposition separate blockers from follow-ups.
 
-**Approval bar:** behavior-correct is **not** enough. Presumptive blockers: visible judo path ignored; **should-have-moved debt ignored**; **clear complexity or entropy regression**; file crosses 1k lines; ad-hoc branching; feature checks in shared code; unnecessary wrapper/cast churn; wrong layer / duplicate helper.
+**Disposition bar:** behavior-correct is not always enough, but a valuable structural improvement is not automatically a current-goal blocker. Put an item in **Fix now** only when it violates a spec or `INV-*` rule, causes a correctness/security failure, is a regression, or a named finding proves the structural change is necessary. Otherwise keep it visible in **Follow-up**. A file crossing 1k lines, needless wrapper, clear complexity regression, or duplicate helper is a Fix-now item only when it meets that threshold.
 
 ## Artifact contracts (fill-or-fail)
 
@@ -97,7 +112,7 @@ Parent **rejects and relaunches** a worker that returns free-form narrative with
 
 ```markdown
 ## Standards findings
-- **hard|judgement**: <issue> @ <file/symbol> — cite <taste|architecture|thermonuclear|smell|design>
+- **hard|judgement**: <issue> @ <file/symbol> — rule: <INV-1 | Done-when | AC | none>; cite <taste|architecture|thermonuclear|smell|design>
 ```
 
 ### Spec output shape
@@ -128,7 +143,7 @@ Path walks **plus** blast radius (required):
 ### Summary
 <2–4 sentences: what this path does and where it is fragile>
 ### Findings
-- **critical|important|nit**: <issue> @ <file/symbol>
+- **critical|important|nit**: <issue> @ <file/symbol> — rule: <INV-1 | Done-when | AC | none>
 
 ## Blast radius
 - Touched shared symbol: `<symbol>` @ `<file>`
@@ -136,7 +151,7 @@ Path walks **plus** blast radius (required):
   - Half-move / duplicate wiring: <yes/no + detail>
   - Wrong-layer callers: <yes/no + detail>
 ### Blast findings
-- **critical|important|nit**: <issue> @ <file/symbol>
+- **critical|important|nit**: <issue> @ <file/symbol> — rule: <INV-1 | Done-when | AC | none>
 ```
 
 One Task may cover multiple paths. Cover every relevant shipped path and every touched shared symbol with real callers — do not skim to stay short.
@@ -148,7 +163,7 @@ One Task may cover multiple paths. Cover every relevant shipped path and every t
 <3–6 sentences: what this change is trying to be in the product/domain>
 
 ## Coherence findings
-- **critical|important|nit**: <issue> @ <file/symbol or seam>
+- **critical|important|nit**: <issue> @ <file/symbol or seam> — rule: <INV-1 | Done-when | AC | none>
 
 ## Missing big-picture links
 - <sibling seam / cross-cutting concern that should connect and does not>
@@ -160,7 +175,7 @@ BigPicture owns holistic fit — not line-by-line hunk nits (defer those to Stan
 
 ```markdown
 ## Risk findings
-- **security|bug|scale** · **critical|important|nit**: <issue> @ <file/symbol> — <why it fails under load/abuse>
+- **security|bug|scale** · **critical|important|nit**: <issue> @ <file/symbol> — rule: <INV-1 | Done-when | AC | none>; <why it fails under load/abuse>
 ```
 
 Risk owns security, correctness bugs, Big-O / unbounded collects / N+1 / hot-path scans, obvious race/authz holes. Not style/naming unless it causes a real risk.
@@ -216,13 +231,25 @@ Hunt defects that hurt users or the system under abuse/load — not taste.
 
 Risk **replaces** default reliance on Cursor `bugbot` / `security-review` subagent types. Launch those tools **only** if the user explicitly asks.
 
-## Wave 1 — five parallel Tasks
+## Remedies: simplest authority first
 
-Launch **Standards + Spec + Routes + BigPicture + Risk** in **one** message (`generalPurpose` or `explore`). Skip Spec only if no spec.
+For a correctness or race-risk finding, recommend the least invasive enforcement at the authority that owns the state. Explain why a stronger system is necessary before recommending it.
+
+Example: `INV-1 — X is unavailable while Y processes`.
+
+1. UI disables X while Y is processing for immediate feedback.
+2. The backend mutation or state transition checks Y's current status and rejects X directly when it is processing.
+3. A queue, lock, retry loop, wrapper, or new service is justified only if the review shows that this direct authoritative guard cannot make the transition safe.
+
+Do not turn a simple guard into architecture theater. The review must name the rule, guard, and evidence; extra machinery needs concrete failure evidence.
+
+## Wave 1 — initial full scan
+
+For an **initial review**, launch **Standards + Spec + Routes + BigPicture + Risk** in **one** message (`generalPurpose` or `explore`). Skip Spec only if no spec. Include the goal's relevant Active Rules in every worker brief.
 
 **Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
 
-**Standards prompt** — diff + commits; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; `/design` when UI; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane and propose the relocation/judo (not "nit: consider later"); hard vs judgement; require Standards artifact shape; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; **no findings cap / no word cap**.
+**Standards prompt** — diff + commits; relevant Active Rules; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; `/design` when UI; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane; classify a relocation/judo as Fix now only when it is required to clear a blocker, otherwise Follow-up; hard vs judgement; require Standards artifact shape; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; **no findings cap / no word cap**.
 
 **Spec prompt** — diff + commits + spec path/contents; require AC matrix artifact; missing/partial requirements, scope creep, wrong implementations; **exam posture**; **no findings cap / no word cap**. Skip Spec if no spec.
 
@@ -240,9 +267,9 @@ Present `## Standards`, `## Spec`, `## Routes`, `## BigPicture`, and `## Risk` s
 
 Keep Wave 1 axis summaries ready to feed Wave 2 (compact, factual).
 
-## Wave 2 — adversarial (always)
+## Wave 2 — adversarial (initial review only)
 
-**Always** run after Wave 1 aggregate — even when Wave 1 found many issues.
+**Always** run after an initial Wave 1 aggregate — even when Wave 1 found many issues. Do not use this broad adversarial scan for a targeted re-review.
 
 Launch **fresh** Task(s) in one message (`generalPurpose` or `explore`). **Omit Task `model`** unless the user asked.
 
@@ -257,9 +284,20 @@ Launch **fresh** Task(s) in one message (`generalPurpose` or `explore`). **Omit 
 - **standards|spec|routes|bigpicture|risk|cross-axis** · **critical|important|nit**: <new issue> @ <file/symbol> — <why Wave 1 missed it>
 ```
 
-Parent merges unique hits into the five axis sections (or show a short `## Adversarial addenda` then fold into Fix backlog / PR drafts). Drop duplicates of Wave 1.
+Parent merges unique hits into the five axis sections (or show a short `## Adversarial addenda` then fold into remediation disposition / PR drafts). Drop duplicates of Wave 1.
 
 Same exam posture. Real defects only — invent nothing.
+
+## Targeted re-review
+
+Use this after a Fix mode change. Start with the named `Fix now` rows, their cited `INV-*` rules or acceptance criteria, the fix diff, touched paths, and direct callers.
+
+1. Verify each named finding is actually cleared at its authoritative enforcement point.
+2. Re-walk only paths touched by the fix and the direct callers that could regress.
+3. Run Risk for correctness/security on that surface; run Standards only for the changed shape when needed.
+4. Do not run a fresh BigPicture hunt or broad Wave 2. New optional structural cleanup goes to Follow-up.
+
+Report `cleared | still open | regression | new correctness/security issue` per named row.
 
 ## Behavior-lock recommendations (tell the user — do not run)
 
@@ -274,68 +312,78 @@ After Wave 1 + Wave 2 (and Needs `/create-test` if any), if the diff touches a *
 
 **Who may recommend:** only `/code-review` and `/pr-review`. Other pack skills must not recommend or start `/create-test`.
 
-**Persist follow-ups:** when a goal workspace is in play, append each Needs `/create-test` row to `.agents/temp/goals/<goal-id>/FOLLOWUPS.md` (create if missing) as unchecked items, and mirror a one-line pointer in `STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
+**Persist follow-ups:** when a goal workspace is in play, resolve `goal_root` per [../workspace-roots.md](../workspace-roots.md), append each Needs `/create-test` row to `<goal-root>/FOLLOWUPS.md` (create if missing), and mirror a one-line pointer in `<goal-root>/STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
 
 Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste` Verify is **read existing terminals**.
 
-## Offer to fix (batch ask → grill → `/goal`)
+## Remediation disposition (batch ask → grill → bounded fix)
 
-After Wave 1 + Wave 2 (and Needs `/create-test` if any), if there is **anything actionable** to fix — any **critical** / **important** Routes, BigPicture, or Risk finding, Standards/Spec failure, or thermonuclear blocker (not pure nits-only):
+After an initial review (and Needs `/create-test` if any), classify every actionable finding before offering work:
 
-1. Present a short **Fix backlog** (do not re-dump the whole review):
+- **Fix now:** a spec or `INV-*` violation, correctness/security defect, regression, or structural change demonstrably required to clear one of those blockers.
+- **Follow-up:** useful architecture, readability, move, or cleanup work that is not required by the current goal. Persist it in `FOLLOWUPS.md` for a goal, or list it clearly for standalone review.
+- **Optional nits:** non-blocking small improvements; never enter the default fix offer.
+
+Present a short backlog without re-dumping the review:
 
 ```markdown
 ## Fix backlog
-1. **critical|important|standards|spec|bigpicture|risk** — <one-line issue> @ <file/symbol>
-2. **important** — move Stripe calls from `features/checkout` into `billing.makeUserPay` (behavior-preserving)
-3. …
+
+### Fix now
+1. **important · risk** — `INV-1`: backend permits X while Y is processing @ `orders.ts` — add the direct transition guard
+
+### Follow-up
+- Extract the adjacent formatting helper after this goal; no current rule or defect requires it
+
+### Optional nits
+- …
 ```
 
-Relocation / should-have-moved items are **normal backlog** — not "out of scope refactor." Nits may be listed under `_Optional nits (skip unless you say otherwise)_` — they are **not** in the default backlog.
-
-2. Ask with **`/grill-me`** — follow [../asking.md](../asking.md); one Questions batch. Include every decision you need now (fix offer, optional nits, `/create-test` subjects if listed). Example:
+Ask only about **Fix now**:
 
 ```markdown
 ## Questions
 Reply like: 1a 2b
 
-1. Fix the Fix backlog?
-   - a) yes — start /goal to clear it ← recommended
+1. Fix the named Fix-now backlog?
+   - a) yes — start the bounded fix slice ← recommended
    - b) no — leave findings as-is
 2. (If Needs /create-test) Run /create-test on the listed subjects after fixes?
    - a) yes — remind me
    - b) no / later
 ```
 
-3. **On fix = no:** stop. Review is done. Do not start coding or `/goal`.
+On **fix = no:** stop. Review is done. Do not start coding or `/goal`.
 
-4. **On fix = yes:** start **`/goal`** whose outcome is clearing that backlog — treat it like a goal to fix the review, not a silent drive-by patch:
+On **fix = yes:** use the current goal's Fix mode when a goal workspace is active; otherwise start a bounded `/goal`. Its contract is:
 
 | Step | Do |
 | --- | --- |
-| Goal contract | Goal = fix the Fix backlog; Done when = binary check per backlog item (or tight groups); Context = this review + fixed-point diff; Constraints = no unrelated product scope — **behavior-preserving moves listed in the backlog are in scope** |
-| Grill | Run **`/grill-me`** (via `/goal` Phase 0) focused on the findings — Questions only for real what/how/footprint opens; **announce** non-goals + split + shared-understanding summary in Locked; **recommend moves** when debt is in the backlog (see `/grill-me` + `/architecture` §4) |
-| Gates | Announce non-goals + split + shared understanding (correct if wrong) |
-| Build | Continue `/goal` Phase 1 (plans → implement → link checkup → validate → `/code-review`) |
+| Goal contract | Goal = clear the named Fix-now rows only; Done when = binary check per row; Context = review + fixed-point diff; Constraints = no new product scope, unrelated cleanup, or architecture work |
+| Active Rules | Cite the violated `INV-*` rows; add a row only when the finding reveals a user-locked behavior that was absent from the ledger |
+| Grill | Focus only on enforcement, footprint, and observable behavior needed for the named findings; announce non-goals + split + shared understanding |
+| Build | Use the smallest authoritative correction; a move is in scope only if the named finding requires it |
+| Re-review | `/validate`, then targeted re-review of the named rows, touched paths, direct regressions, correctness, and security |
 
 Do **not** start coding between "yes" and grill shared-understanding. Do **not** silently pick approaches — grill first (batched).
 
-If the backlog is a **single tiny defect** and the user already said how to fix it in the batch notes, you may still open `/goal` with skip-grill only when `/goal`'s skip-grill rule fully applies — default is grill.
+If the backlog is a **single tiny defect** and the user already said how to fix it in the batch notes, you may still use `/goal` skip-grill only when `/goal`'s skip-grill rule fully applies.
 
-**Empty backlog** (nits only, or clean review): skip this section; optionally note `_Nothing actionable to fix._`
+When Fix now is empty, do not start a loop. Report `_Nothing required for the current goal._` plus any Follow-up items.
 
 ## Anti-patterns
 
 - Casual pass / rubber stamp while defects remain that `/pr-review` would Blocking
-- Skipping Wave 2 or solo-reviewing when five Wave 1 Tasks can run
+- Skipping Wave 2 on an initial review or solo-reviewing a large initial diff when five Wave 1 Tasks can run
 - Accepting a worker report that skips its artifact shape
 - Capping findings or word-limiting workers so defects stay hidden
-- Ending the review without the Fix backlog + Questions batch when critical/important/Standards/Spec/BigPicture/Risk failures exist
+- Ending the review without a Fix-now backlog + Questions batch when current-goal blockers exist
 - Coding fixes immediately on "yes" without `/goal` + grill
 - Dripping one review follow-up question per message when several are known
 - Treating nits as mandatory backlog items unless the user asked
-- Waiving structural debt as "pre-existing, leave it"; approving "it works" while the shape violates `/architecture` services / prior-mistakes doctrine or `/taste` complexity/entropy
-- Treating relocation backlog items as out-of-scope refactors
+- Hiding structural debt instead of classifying it as Fix now or Follow-up
+- Treating every relocation or cleanup as a mandatory current-goal refactor without evidence that it clears a named blocker
+- Running a new thermonuclear architecture hunt during targeted re-review
 - Writing to Linear/GitHub from this skill
 - Auto-running `/create-test` instead of recommending it
 - Writing or editing test files from this skill (only `/create-test` writes tests)

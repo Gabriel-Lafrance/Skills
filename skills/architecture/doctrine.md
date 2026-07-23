@@ -1,8 +1,16 @@
 # Architecture Doctrine
 
-Quality code here means: **domain capabilities live in services; features call those services; prior structural mistakes get moved (behavior preserved), not copied; callers see a deep public surface; depth is built from strong primitives inside those modules; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
+Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
 Read **`/taste`** first — especially **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
+
+## Abstraction budget
+
+Architecture must make the current goal clearer and safer, not use it as a reason to create speculative layers. Keep a local guard inline unless extraction owns independent behavior, removes real duplication, or enforces a locked Active Rule.
+
+Require evidence before adding a new file, service, deep module, public API, concurrency system, queue, lock, retry path, or class hierarchy: an existing reusable boundary, actual duplicate behavior, a locked invariant that cannot be safely enforced locally, or explicitly planned domain growth. If none exists, retain the smallest direct shape.
+
+Existing debt is a candidate for a move, not automatic scope. Include a behavior-preserving move only when the current goal or a named review finding requires it to satisfy an Active Rule, correctness, security, or an acceptance criterion. Otherwise record it as a follow-up.
 
 ## Doctrine
 
@@ -31,7 +39,7 @@ features/upgrade/          # same — calls billing.makeUserPay
 Rules:
 
 - **Explore for an existing service first.** Extend its public API before inventing a parallel one.
-- If the concern is new, **create the service** (folder + public entry) and have the feature call it — even when only one feature needs it today. The next feature must reuse, not fork.
+- If the concern is a genuinely independent domain capability or the goal explicitly plans growth, create the service (folder + public entry) and have the feature call it. For bounded local behavior, keep the smallest direct shape until it has independent ownership, real duplication, or a locked rule that needs a boundary.
 - Features import **only** the service's public surface. Stripe/SDK/DB helpers stay behind that surface.
 - Name public functions as **verbs the product understands** (`makeUserPay`, not `runStripeCheckoutSessionHelper`).
 - Prefer **throw + try/catch** at service boundaries (see `/taste`) — not `{ success: false }` bags.
@@ -102,11 +110,11 @@ Anti-patterns:
 
 Flawed existing layout is **debt**, not a template. Do not freeze wrong placements because "it was already there." Leaving or copying wrong placement is **entropy growth** (`/taste`).
 
-When explore shows wrong folder, duplicated domain logic, a feature-forked service (billing/auth inside a feature), or a sibling that violates this skill / `/taste`:
+When explore shows wrong folder, duplicated domain logic, a feature-forked service (billing/auth inside a feature), or a sibling that violates this skill / `/taste`, first decide whether the active goal or a named review finding requires a move:
 
 - **Do not copy it.** Cite a *good* sibling or service — or create the correct shape.
-- Prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**.
-- Name the old observable behavior and how you will prove it still holds (**existing** tests if any, path walk + `/validate` / terminals). Do **not** write new tests here — locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you **cannot** be sure the move preserves behavior → include the move in the next `/grill-me` Questions batch. If you **can** be sure → do the move; do not default to "leave it."
+- If required, prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**. If not required, capture it as a follow-up rather than expanding the goal.
+- Name the old observable behavior and how you will prove it still holds (**existing** tests if any, path walk + `/validate` / terminals). Do **not** write new tests here — locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you **cannot** be sure the move preserves behavior → include the move in the next `/grill-me` Questions batch. If the move is required and you can preserve behavior → do it; otherwise keep it as a follow-up.
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement → patch the plan Structure, then move.
 - Same spirit as `/code-review` code judo — apply it while **building**, not only at review time.
 
@@ -202,7 +210,7 @@ Read nearby folders. Note:
 
 - **Existing services** for the same concern (billing, auth, …) — reuse/extend first
 - **Existing primitives** inside those services / deep modules — reuse when they already answer that specific job; do not fork
-- **Wrong existing shape in the lane** — feature-forked domain logic, bad sibling, misplaced files (plan a behavior-preserving move; do not copy)
+- **Wrong existing shape in the lane** — feature-forked domain logic, bad sibling, misplaced files (do not copy; plan a behavior-preserving move only when current scope requires it)
 - How similar features call those services (public API only?)
 - Existing entry-point patterns (services vs hooks vs classes vs modules)
 - Naming and import style
@@ -219,7 +227,7 @@ Present this before writing code (and include it in `/create-plan` when planning
 - **Owns / extends:** `path` — public API: `makeUserPay(…)`, … (or _n/a — pure UI_)
 - **Calls (existing):** `billing.makeUserPay`, `auth.requireUser`, … — never reimplements these
 - **Must not duplicate:** <Stripe / JWT / email provider / …>
-**Moves / corrections:** <relocate X → services/billing; delete old path> | _none_
+**Moves / corrections:** <required by INV-1 / AC / named finding: relocate X → services/billing; delete old path> | _none_
 **Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI); **deep** surface
 **Primitives:**
 - **Reuse (existing):** cite path + one-line job | _none_
@@ -243,11 +251,11 @@ Present this before writing code (and include it in `/create-plan` when planning
 **Taste:** follows `/taste` naming + entry shape + ≤2 class/interface depth
 ```
 
-If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (`Reply like: 1a 2b` per [asking.md](../asking.md)) — recommend the behavior-preserving move when you can prove old behavior holds. Do not drip them one message at a time. New findings later → new batch.
+If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (`Reply like: 1a 2b` per [asking.md](../asking.md)). Recommend a behavior-preserving move when it is required by the goal or finding and you can prove old behavior holds; otherwise name it as a follow-up. Do not drip them one message at a time. New findings later → new batch.
 
 ### 3. Implement against the card
 
-- Create service / feature folders first, then files
+- When a service or feature boundary is justified, create its folder before its files
 - Perform **Moves / corrections** before bolting new feature code onto the old shape
 - Put domain logic in the **service**; features call public functions only
 - Build depth with **primitives** inside the service / deep module — reuse existing ones; do not fork their jobs
@@ -260,7 +268,7 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - [ ] Domain concerns live in a **service** with a clear public API (or an existing one was extended)
 - [ ] Features **call** that API — no forked billing/auth/notifications/… inside the feature
 - [ ] **Primitives:** one job each; reused not forked; sit inside the owning service / deep module; strong yet flexible (not identity wrapper, not god helper)
-- [ ] Prior mistakes in the lane were **moved/corrected** (or explicitly `_none_`) — not copied
+- [ ] Prior mistakes in the lane were not copied; required moves were completed and optional ones are follow-ups
 - [ ] No feature imports service internals
 - [ ] A new reader can use the feature from its entry point alone
 - [ ] Related new files share one folder (or an existing convention)
@@ -277,7 +285,7 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - New feature with more than one new file
 - Any domain capability (payments, auth, email, …) a second feature might need
 - Temptation to copy Stripe/auth/email logic into a feature **or leave it misplaced**
-- Clear prior mistake in the lane (wrong folder / duplicated service) that a behavior-preserving move would fix
+- Clear prior mistake in the lane (wrong folder / duplicated service) when the current goal or named finding requires a behavior-preserving move
 - Extracting logic from a large file
 - Adding React state/effects that would otherwise bloat a component
 - Any change that would add files without a parent folder

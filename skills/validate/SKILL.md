@@ -11,6 +11,8 @@ disable-model-invocation: true
 
 **Variants:** [../variants.md](../variants.md) · **Ask style:** [../asking.md](../asking.md)
 
+**Browser evidence:** For UI or browser-reachable criteria, read [reference.md](reference.md).
+
 Flow-only skill (no `standalone.md`).
 
 ## Variant

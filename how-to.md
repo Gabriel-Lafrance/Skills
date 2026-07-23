@@ -50,7 +50,21 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 - **Asking:** every skill that needs decisions links `asking.md` — batch Questions, mark `← recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
 - **Variants:** dual / flow-only / standalone-only skills link `variants.md`. Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
+- **Workspace roots:** every goal or analysis flow resolves caller-provided workspace roots before falling back to pack-global defaults. See [`workspace-roots.md`](./skills/workspace-roots.md); never rebuild a nested parent path from an id alone.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/repair`, `/validate`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+
+## Browser-assisted validation
+
+Cursor's native Browser is a runtime capability, not a `SKILL.md` frontmatter option. It needs no custom `mcp.json` or external package, but a skill cannot enable it or bypass approval, Browser Protection, policy, or origin allowlists.
+
+For post-build UI validation:
+
+1. Use an Agent-mode session where Browser tools are exposed.
+2. Reuse a running local app or approved preview with safe test data.
+3. Use [`skills/validate/reference.md`](./skills/validate/reference.md) as the single browser evidence protocol; link to it instead of copying its steps into other skills.
+4. Write capability-based guidance: use Browser when it is available; otherwise report visual validation as `blocked`, never passed.
+
+Browser state can persist per workspace. Reset safe test state when needed, or report the state used as evidence.
 
 ## Add a skill
 
