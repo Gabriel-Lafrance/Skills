@@ -16,7 +16,7 @@ You are grading to find material, evidenced defects. Actively inspect taste, arc
 
 - **Dock points** — pack violations default to **Blocking**; do not soften must-edit into Nit.
 - **Assume finished-looking work** — the student (`/code-review` prep) tried to look clean; verify paths and touched-lane debt; do not trust "LGTM" vibes.
-- **Craft still holds** — one finding per comment, high-conviction only, no invented issues, no summary spam.
+- **Craft still holds** — one topic per comment, high-conviction only, no invented issues, no summary spam. Fold recurring instances of the same topic into one draft.
 - **Tandem** — student prep is `/code-review`; after posting, fix loop remains `/code-review` then `/goal` (do not auto-start).
 
 ## Evidence threshold for PR comments
@@ -32,17 +32,22 @@ Do not post a Blocking comment because code “could fail” in a remote theoret
 
 ## Hard rules (posting)
 
-### One finding, one comment
+### One topic, one comment
 
-**Never** bundle multiple issues into a single PR comment.
+**One topic = one PR comment.** Distinct root causes stay separate. Recurring instances of the **same** topic fold into **one** draft.
 
 | Do | Do not |
 | --- | --- |
-| One inline / thread reply per distinct edit | One comment that stacks "also fix X, also fix Y" |
-| Separate drafts for separate root causes | A pass dump that rolls up findings into one body |
+| One comment per distinct topic / root cause | Stack unrelated issues ("also fix X, also fix Y") |
+| Fold the same doctrine violation / same ask across sites into one draft; list every occurrence under **Where** | Spam N near-identical comments for the same recurring topic |
+| Separate drafts when root causes differ | A pass dump that rolls unrelated findings into one body |
 | Reply on the **existing** thread for that prior issue | A new top-level comment that re-lists every old finding |
 
-If you find three problems, draft and post **three** comments.
+**Same topic (fold):** same doctrine rule, same failure mode, same fix shape — e.g. never-nest in four handlers → one Blocking draft listing all four sites.
+
+**Different topics (split):** never-nest + missing ownership check + unmet Spec AC → three drafts.
+
+If you find three unrelated problems, draft and post **three** comments. If you find one problem in five places, draft and post **one** comment.
 
 ### No summary / announcement comments on the PR
 
@@ -178,7 +183,7 @@ If there are no prior finding comments, skip Pass A.
 
 Launch **Standards + Spec** in parallel (skip Spec only if no spec). **Omit Task `model`**. Fill-or-fail artifacts per [code-review doctrine](../code-review/doctrine.md). **No findings cap.**
 
-**Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one finding per comment; skip issues already tracked by an open prior thread; **teacher posture:** hunt hard for point deductions — anything the student missed is fair game if real.
+**Standards prompt extras:** taste + architecture (+ design if UI) are **hard**; pack violations presumptive **blocking**; one topic per comment (fold recurring sites); skip issues already tracked by an open prior thread; **teacher posture:** hunt hard for point deductions — anything the student missed is fair game if real.
 
 **Spec prompt extras:** same evidence-based posture; skip issues already on an open prior finding thread.
 
@@ -205,8 +210,8 @@ After Wave 1 + Wave 2, if the diff touches a **complex architectural part** whos
 
 - **Hunting intensity is high; fairness stays** — real, evidenced defects only; never invent issues to dock points.
 - Review the **diff and runtime paths**, not the author.
-- **No findings cap** — list every real defect as its own draft/comment; still **split** them (one each). High conviction required; invent nothing.
-- Every comment: **where**, **what is wrong**, **evidence**, **why it matters**, **what good looks like**. Runtime-risk comments also state the reachable trigger.
+- **No findings cap** — every real defect is covered; **fold** recurring instances of the same topic into one draft and **split** unrelated topics. High conviction required; invent nothing.
+- Every comment: **where** (all sites for a folded topic), **what is wrong**, **evidence**, **why it matters**, **what good looks like**. Runtime-risk comments also state the reachable trigger.
 - **Severity is only two levels:**
   - **Blocking** — should be edited before merge (anything that must change) — includes pack/thermonuclear/Standards hard findings and Spec gaps that must change
   - **Nit** — optional / whatever; nice-to-have, not required to merge
@@ -226,7 +231,8 @@ After Wave 1 + Wave 2, if the diff touches a **complex architectural part** whos
 - `Reply like:` that does not match the recommended codes for the batch (wrong letters, descriptions, or one answer per line)
 - Posting a summary / announcement / "new comments" index on the PR
 - Creating `build-review.cjs` (or any repo file) to submit the review
-- Bundling multiple findings into one PR comment or into the review body
+- Bundling **unrelated** topics into one PR comment or into the review body
+- Spamming near-identical comments for the same recurring topic instead of folding sites into one draft
 - Pass A only on the latest review / latest pass (must include **all** historical finding comments)
 - Skipping Pass A when prior threads exist
 - Asking about new drafts before finishing per-prior triage (when Pass A has questions)

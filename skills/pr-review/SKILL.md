@@ -3,10 +3,11 @@ name: pr-review
 description: >-
   Standalone only — evidence-based strict review of an open GitHub PR with
   taste/architecture/design gates. Pass B: two-axis Wave 1 (Standards + Spec)
-  then adversarial Wave 2. Every failure claim needs a reachable trigger and
-  concrete evidence. One finding per PR comment; never summary/announcement
-  comments or repo helper scripts. Show drafts before publish. Never under
-  /goal. For local fix loops use /code-review.
+  then adversarial Wave 2. Fold recurring draft topics into one comment; keep
+  unrelated topics separate. Every failure claim needs a reachable trigger and
+  concrete evidence. Never summary/announcement comments or repo helper
+  scripts. Show drafts before publish. Never under /goal. For local fix loops
+  use /code-review.
 disable-model-invocation: true
 ---
 
@@ -22,13 +23,13 @@ disable-model-invocation: true
 
 **Hard:**
 
-- **One finding = one PR comment** (never bundle)
+- **One topic = one PR comment** — fold recurring sites of the same topic; never stack unrelated topics
 - **Severity: Blocking or Nit only** (no non-blocking)
 - **No summary / announcement comments** on the PR (chat-only status)
 - **No helper scripts** in the repo (`build-review.cjs`, etc.) — **`gh` / `gh api` only**
 - **Nth pass:** Pass A covers **all** prior finding comments across every pass, not only the last one
 - **Pass B:** Wave 1 Standards + Spec + always Wave 2 adversarial; show drafts (severity already set), then **one** question: publish as shown? yes / no
-- **No findings cap** — every real defect is its own comment
+- **No findings cap** — every real defect is covered; recurring topics are folded, not spam-commented
 
 **Subagent model:** omit Task `model` unless the user asked for one.
 
@@ -49,16 +50,17 @@ disable-model-invocation: true
 7. **Fresh rescan Wave 1** — Standards + Spec (fill-or-fail artifacts; no findings cap). Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
 8. **Wave 2 adversarial (always)** — launch fresh Task(s) with Wave 1 summaries; merge unique hits only (see code-review doctrine).
 9. **Needs /create-test** — if the diff touches a complex architectural part with no durable behavior lock, list subjects in chat (`## Needs /create-test`) and/or as **Nit** drafts telling the author to run `/create-test`. **Tell the user**; do **not** invoke `/create-test` or write test files. Only `/code-review` and `/pr-review` may recommend locks.
-10. **Show new drafts in chat** — **one full draft per finding** with severity already on it. Nothing on the PR yet. **No em dashes.**
+10. **Fold + show drafts in chat** — one full draft per **topic** (fold recurring sites under **Where**); severity already set. Nothing on the PR yet. **No em dashes.**
 11. **One question only** — Publish all drafts as shown? `a) yes` ← recommended / `b) no — say what to change`. Do **not** ask per draft or re-ask severity. Wait for `1a` (or override).
-12. On yes: **Post via `gh` only** — each draft as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
+12. On yes: **Post via `gh` only** — each draft/topic as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
 13. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
 
 ## Anti-patterns
 
 - Summary / "posted N comments" / index comment on the PR
 - `build-review.cjs` or other repo files to submit reviews
-- One comment or review body containing multiple findings
+- One comment containing **unrelated** topics
+- Near-identical spam comments for the same recurring topic (fold instead)
 - **Non-blocking** severity; per-draft Pass B questions; re-asking blocking vs nit after drafts are shown
 - Asking about correctly closed priors with nothing to do
 - `Reply like:` not matching recommended codes (descriptions, or one answer per line)
