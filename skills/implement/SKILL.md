@@ -1,20 +1,11 @@
 ---
 name: implement
 description: >-
-  Implement frontier workers from plans/INDEX under a goal workspace.
-  Flow-only — looked up by /goal. No standalone variant.
+  Implement one bounded worker slice from the parent’s inline execution
+  context.
 disable-model-invocation: true
 ---
 
 # Implement
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
-
-Flow-only skill (no `standalone.md`).
-
-## Variant
-
-- Flow fits → Read [flow.md](flow.md) only
-- Standalone wanted → use the **no standalone** message in variants.md; do not invent a standalone process
-
-
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — flow-only: [flow.md](flow.md).

@@ -6,7 +6,8 @@ Also respect `/taste` (mobile-first, anti–AI-default looks, one component per 
 
 For good vs bad pairs, see [examples.md](examples.md).
 
-Inside a `/goal` workspace, use **`/design`** instead of this skill.
+Inside a parent execution context, use this skill's **flow** variant. Use the
+standalone variant for a user-driven UI request outside that flow.
 
 ## Mode A — Standalone: fix or create UI
 

@@ -1,23 +1,17 @@
 ---
 name: grill-me
 description: >-
-  Relentless interview to sharpen intent until shared understanding. Batches
-  questions (Reply like: 1a 2b — codes only); upserts .agents/temp/grills/
-  theme files; under a goal, locks behavioral answers as Active Rules. Dual
-  skill: agent picks standalone vs flow via variants.md. Use when sharpening
-  fuzzy intent. User must invoke (not auto).
+  Relentless stateless interview that sharpens intent through batched questions
+  and a Locked closure in chat. Keeps decisions and Active Rules in shared
+  execution context. User must invoke (not auto).
 disable-model-invocation: true
 ---
 
 # Grill Me
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md)
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual: [standalone.md](standalone.md) and [flow.md](flow.md).
 
-## Variant
-
-Choose **exactly one** per [variants.md](../pack-shared/variants.md) — never both:
-
-- Standalone fits → Read [standalone.md](standalone.md) only
-- Flow fits → Read [flow.md](flow.md) only
-- Missing `standalone.md` or `flow.md` → matching missing-variant message; do not invent process
-- If `variants.md` itself cannot be Read → still pick from the bullets above; do not stop
+`/grill-me` discovers product, behavioral, taste, architecture, and design
+decisions without automatic logs or hidden artifacts. Keep locked decisions and
+applicable Active Rules visible in the execution context. Save a durable
+record only when the user requests it and approves its destination.

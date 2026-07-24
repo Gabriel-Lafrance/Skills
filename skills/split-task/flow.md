@@ -1,83 +1,66 @@
 # Split Task Flow
 
-Take one task or goal and split it into **multiple smaller tasks or goals**.
+Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 
-Inside an active goal, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) and write the resulting INDEX and plan artifacts there.
-
-**Priority:** keep agents in their smart zone. The smaller the task, the better agents are. Prefer over-splitting over under-splitting.
+If the user explicitly asks to save the split, get or honor an approved destination and write only that requested artifact.
 
 ## Smart zone
 
-A piece is in the smart zone when:
+A slice fits the smart zone when it has:
 
-- One clear outcome a fresh agent can finish without rediscovering the whole plan
-- Fits **one** focused session / context window
-- Verifiable alone (command, artifact, or binary Done when)
-- Touches a **narrow** lane (few files / one seam) — not a tour of the codebase
-- Needs little prior chat history beyond its own brief + blockers
+- one clear outcome a fresh agent can finish without rediscovering the goal;
+- one focused session or context window of work;
+- 1–3 binary checks that verify it alone;
+- a narrow lane with few files or one seam;
+- little needed history beyond its contract and blockers.
 
-If a piece still needs "and then also…" — split again.
+If it still needs “and then also…”, split it again. Parallel-ready slices with no blockers are useful; do not merge them merely for efficiency.
 
 ## Process
 
-### 1. Capture the parent
+### 1. Capture the parent in chat
 
-Normalize what was given into one parent statement.
+Normalize the request using the active execution context:
 
 ```markdown
 # Parent
-<one-line outcome>
-
-# Ticket
-<none | IN-1234 | #42>
-
-# Lane
-<area / packages / apps>
-
-# Done when (parent)
+**Outcome:** <one-line verifiable outcome>
+**Ticket / PR:** <reference | none>
+**Lane:** <areas, paths, or symbols>
+**Non-goals:** <explicit exclusions>
+**Done when:**
 1. <binary check>
+**Active Rules:** <relevant INV IDs>
 ```
 
-If the parent is still vague, include clarifying items in a **Questions batch** ([../pack-shared/asking.md](../pack-shared/asking.md)), then continue. Do not invent scope.
+If the parent is vague, batch only the real clarifying questions using [asking.md](../pack-shared/asking.md). Do not invent scope.
 
 ### 2. Split ruthlessly
 
-Break the parent into the **smallest** ordered pieces that still deliver value.
-
-Each child:
+Break the parent into the smallest ordered slices that still deliver value. Each inline slice contract includes:
 
 | Field | Rule |
 | --- | --- |
-| **Title** | Imperative, specific ("Add auth middleware to API routes" not "Auth") |
-| **Outcome** | One sentence — what is true when this piece alone is done |
+| **Title** | Imperative and specific |
+| **Outcome** | One sentence: what becomes true when this slice is done |
 | **Lane** | Narrower than the parent when possible |
-| **Entry / folder** | Expected entry point + folder (from `/architecture` + `/taste`) when the piece adds files |
-| **Done when** | 1–3 binary checks for *this* piece only |
-| **Blocked by** | Earlier piece IDs, or none |
-| **Why this size** | One line — why it fits the smart zone (or why it cannot shrink further) |
+| **Entry / folder** | Expected entry point and folder when files are added |
+| **Active Rules** | Rules implemented or preserved by this slice |
+| **Done when** | 1–3 binary checks for this slice only |
+| **Blocked by** | Earlier slice IDs, or none |
+| **Why this size** | Why it fits the smart zone or cannot shrink further |
 
-**Split further when** a piece touches more than one major concern, needs more than ~one explore pass, has multiple independent Done when rows, or would force a long plan in working memory.
+Split further when a slice touches more than one major concern, needs more than one explore pass, has independent Done-when rows, or would force a long plan into working memory. For wide refactors, expand, migrate in small batches, then contract.
 
-**Do not merge** for "efficiency." Parallel-ready pieces with no blockers are a feature.
+### 3. Order and announce
 
-**Wide refactors:** expand → migrate in small batches → contract. Each batch is its own piece.
+List blockers first and mark the frontier. Announce the numbered split in **Locked (correct if wrong)** per [asking.md](../pack-shared/asking.md). The agent owns the split, so do not ask yes/no; co-batch only other real product, UX, architecture, or taste questions.
 
-### 3. Order by blockers
+If the user corrects the split, revise the in-chat contracts and continue. Do not implement until `/goal` asks.
 
-List pieces so blockers come first. Mark the **frontier** (Blocked by: none).
+### 4. Hand off
 
-### 4. Show the split (announce)
-
-Show the numbered split list in **Locked (correct if wrong)** per [../pack-shared/asking.md](../pack-shared/asking.md). Do **not** ask yes/no for the split — the agent owns keeping plans in the AI smart zone; the user corrects only if needed. Put any *other* real opens (product/UX/architecture/taste) in the same message’s Questions batch — not shared-understanding yes/no.
-
-If the user corrects the split: revise Locked and continue. Do not start `/implement` unless `/goal` asks.
-
-### 5. Hand off
-
-After the split is announced (and any Questions in that message are answered):
-
-- Prefer updating `<goal-root>/plans/INDEX.md` + `/create-plan` under the active `/goal`
-- Still fuzzy → `/grill-me` then continue `/goal`
+Copy the frontier and dependencies into **Current slices** of the execution context. Use `/create-plan` to expand implementation-ready slices inline, then `/implement` only for frontier work. Do not create an INDEX or rely on an automatic artifact.
 
 ## Output template
 
@@ -87,13 +70,13 @@ After the split is announced (and any Questions in that message are answered):
 ## Parent Done when
 1. …
 
-## Pieces
+## Slices
 
 ### 1 — <title>
-- **Ticket:** <same parent ID or none>
 - **Outcome:** …
 - **Lane:** …
 - **Entry / folder:** …
+- **Active Rules:** `INV-1`, …
 - **Done when:** …
 - **Blocked by:** none
 - **Why this size:** …
@@ -101,6 +84,7 @@ After the split is announced (and any Questions in that message are answered):
 ### 2 — <title>
 - **Outcome:** …
 - **Lane:** …
+- **Active Rules:** `INV-2`, …
 - **Done when:** …
 - **Blocked by:** 1
 - **Why this size:** …
@@ -112,8 +96,9 @@ After the split is announced (and any Questions in that message are answered):
 ## Anti-patterns
 
 - Horizontal layers when vertical thin slices fit
-- Mega-pieces that push agents out of the smart zone
-- Vague titles without Done when
-- Publishing to a tracker unless the user asks
-- Implementing before the split is announced (and any co-batched Questions answered)
+- Mega-slices that push workers out of the smart zone
+- Vague titles without binary Done when
+- Writing an automatic INDEX, plan file, status file, or resume state
+- Implementing before the split is announced and co-batched questions are answered
 - Asking yes/no to confirm the split
+- Publishing to a tracker unless the user asks

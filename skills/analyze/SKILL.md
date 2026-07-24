@@ -1,31 +1,33 @@
 ---
 name: analyze
 description: >-
-  Task analysis that writes findings under a scoped workspace, supports
-  explicit promotion to a /goal, and evaluates named code-review Fix-now
-  blockers before remediation. No ticket write by default. Use for a task,
-  idea, or review backlog; /write-ticket and /code-review may call it.
+  Stateless task analysis returned in chat. Supports explicit inline promotion
+  to /goal and scoped remediation analysis for named code-review Fix-now
+  blockers. Does not write tickets or automatic artifacts.
 disable-model-invocation: true
 ---
 
 # Analyze
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** message.
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only; use the no-flow message if flow is requested.
 
-**Standalone by default.** The sole in-goal exception is a code-review **review remediation analysis** of named Fix-now blockers. It does **not** write Linear/GitHub — that is `/write-ticket`.
+`/analyze` investigates a task, idea, ticket, PR, or review-fix backlog and returns an evidence-backed memo in chat. Its only in-goal use is review remediation of named Fix-now blockers. It never writes to Linear or GitHub.
 
-**Read:** [doctrine.md](doctrine.md) · [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Taste / structure:** `/taste`, `/architecture` when relevant.
+## Contract
 
-**Subagent model:** omit Task `model`. Wait for Task results — never sleep/poll for subagents.
+- Rediscover repository, ticket, PR, and diff facts from their live sources.
+- Keep user decisions, rules, lanes, and promotion state visible in the execution context; never infer them from code.
+- Return the analysis memo in chat. Do not create automatic runtime artifacts or hidden paths.
+- Save a memo only when the user explicitly requests it and approves the destination.
 
-## Process (outline)
+## Process
 
-1. Resolve `analysis_root` / `analyses_container` (always write)
-2. Parallel `explore` Tasks → synthesize
-3. Write `ANALYSIS.md` (required)
-4. Optional sharpen Questions batch
-5. Hand-off batch (done / sharpen / promote / write-ticket / promote+goal)
-6. For review remediation, describe each named Fix-now issue/current behavior, root cause, smallest fix, touch surface, non-goals, and verification before an explicit promotion choice
-7. Promote only on explicit yes — see doctrine
+1. Establish or refresh the relevant execution context and normalize the ask.
+2. Investigate independent surfaces in parallel when useful, then synthesize the evidence.
+3. Post the memo, including an inline `/goal` seed when the work is buildable.
+4. For standard analysis, ask one batch for real unknowns, then offer the
+   explicit hand-off choices in [doctrine.md](doctrine.md).
+5. For review remediation, present every selected stable-finding analysis
+   before the remediation-specific promotion choice.
 
-Unsure which skill next → `/ask-gabriel`.
+**Read:** [doctrine.md](doctrine.md). Apply `/taste` and `/architecture` discipline when relevant.

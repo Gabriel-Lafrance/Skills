@@ -1,271 +1,79 @@
-# Just Do It reference (schemas & templates)
+# Just Do It reference
 
-Load when writing workspace artifacts, STATUS, Progress, ORIGIN, SHIP, or review snapshots. Rules stay in [doctrine.md](doctrine.md).
+Load this with [doctrine.md](doctrine.md) when opening or updating the parent
+[execution context](../pack-shared/execution-context.md). It is a chat
+template, not a filesystem schema.
 
-## Workspace layout
-
-```text
-.agents/temp/just-do-it/
-  REGISTRY.md
-  <jdi-id>/                              # e.g. jdi-IN-1234
-    STATUS.md
-    ORIGIN.md
-    PROGRESS.md
-    LINKS.md
-
-    analyses/
-      REGISTRY.md
-      <analysis-id>/
-        ANALYSIS.md
-        STATUS.md
-        NOTES.md                         # optional
-
-    goals/
-      REGISTRY.md
-      <build-goal-id>/
-        GOAL.md
-        STATUS.md
-        GRILL.md
-        analyses/                        # CR1 review-remediation analysis
-          <analysis-id>/
-            ANALYSIS.md
-            STATUS.md
-        plans/
-          INDEX.md
-          01-<slug>.md
-        pieces/                          # optional
-      fix-cr2-01-<slug>/
-      achieved/
-        <goal-id>/
-
-    reviews/
-      cr1/
-        PASS-01.md
-        PASS-02.md
-      cr2/
-        PASS-01.md
-
-    FINDINGS.md
-    SHIP.md
-```
-
-Base path **`.agents/temp/just-do-it/`** — never `.scratch/`. Shared grill themes remain under `.agents/temp/grills/`.
-
-Child roots are explicit: `analyses_container` is `<jdi-root>/analyses/`, `goals_container` is `<jdi-root>/goals/`, and every child goal receives its own `goal_root`. See [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md).
-
-### jdi-id
-
-1. Ticket → `jdi-IN-1234` or `jdi-ENG-99`
-2. Override → `/just-do-it id:my-id IN-1234`
-3. If dir exists and status is `running`/`blocked`, allocate a **new** id (suffix) — never overwrite another run
-
-### Pack REGISTRY.md
-
-`.agents/temp/just-do-it/REGISTRY.md`:
-
-| id | status | ticket | type | branch | pr | title | workspace | updated |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-
-Statuses: `running` | `blocked` | `done` | `cleared`
-
-### Nested analyses REGISTRY.md
-
-| id | status | ticket | title | workspace | updated |
-| --- | --- | --- | --- | --- | --- |
-
-### Nested goals REGISTRY.md
-
-| id | kind | status | ticket | title | workspace | updated |
-| --- | --- | --- | --- | --- | --- | --- |
-
-`kind`: `build` | `fix-cr2`
-
-On goal ACHIEVED: `mv` active goal dir → `goals/achieved/<goal-id>/`; set nested registry `workspace: achieved/<goal-id>`, `status: achieved`.
-
-## STATUS.md
+## Parent context template
 
 ```markdown
-# Status
-**id:** jdi-IN-1234
-**phase:** resolve | branch | analyze | goal (includes cr1 Fix mode) | code-review-2 | code-review-2-loop | ship | done | blocked
-**last:** <one line>
-**ticket:** IN-1234
-**type:** feature | tweak | bug | refactor
-**branch:** bug/IN-1234-fix-checkout
-**base:** main
-**analyses_container:** .agents/temp/just-do-it/jdi-IN-1234/analyses
-**goals_container:** .agents/temp/just-do-it/jdi-IN-1234/goals
-**parent_wave:** just-do-it:jdi-IN-1234
-**pr_url:**
-**cr1_loops:** 0
-**cr2_loops:** 0
-**blocked_on:** none | user | auth | git | review-cap | …
-**resume_at:** <phase or step>
-**updated:** <ISO>
+## Execution context — just-do-it
+**Outcome:** <ticket outcome>
+**Done when:** <binary delivery checks>
+**Non-goals:** <explicit exclusions>
+**Ticket:** IN-1234 · <URL>
+**Type:** feature | tweak | bug | refactor
+**Branch / base:** `bug/IN-1234-fix-checkout` / `main`
+**Fixed point:** `main...HEAD`
+**Lane:** <paths and symbols>
+**Phase:** resolve | branch | analyze | build | cr1 | cr2 | ship | done | blocked
+**Next:** <one action>
+**CR1 loops:** 0/3
+**CR2 loops:** 0/3
+
+### Locked decisions
+- <type, promotion, waiver, or user-owned decision>
+
+### Active Rules
+| ID | Rule | Enforcement | Verification |
+| --- | --- | --- | --- |
+| INV-1 | … | … | … |
+
+### Fix backlog
+- `CR1-1` — fix now — <path, finding, risk/spec> — pending
+- `CR2-1` — follow-up — <why it does not block>
+
+### Handoffs and evidence
+- <child completion, review result, validation, blocker, or manual step>
+
+### PR draft
+**Preflight:** <clean tree · branch · remote/base · commits ahead · gh auth>
+**Title:** [IN-1234] …
+**Body:**
+<complete PR body>
+**URL:** pending | https://github.com/…/pull/N
+**Human next:** review on GitHub or `/pr-review`
 ```
 
-## ORIGIN.md
+Use only fields relevant to the current phase. Keep the complete PR title and
+body visible in chat before `gh pr create`; autonomy removes an approval wait,
+not draft visibility.
 
-```markdown
-# Origin
-**jdi-id:** jdi-IN-1234
-**started_at:** <ISO>
-**ticket:** IN-1234
-**ticket_url:** https://linear.app/…
-**type:** bug
-**title:** <ticket title>
-**repo:** <origin remote>
-**base:** main
-**initial_ask:** <one line from ticket / user>
-```
+## Review disposition
 
-## PROGRESS.md
+For every CR1 or CR2 pass, add a concise context entry with the review scope,
+base, evidence, and one disposition:
 
-Append-only:
+- **fix now** — named invariant/spec/correctness/security/regression blocker;
+- **follow-up** — useful but not required now; never auto-loop;
+- **waived** — explicit user decision with reason;
+- **clear** — no named blockers remain;
+- **blocked at cap** — an open blocker remains after the third loop.
 
-```markdown
-# Progress
+Each bounded review fix preserves the original ticket, lane, and Active Rules.
+Name the finding, cited risk/spec, smallest behavior-preserving change, and
+binary Done when in the current slice.
 
-- <ISO> · resolve · workspace created
-- <ISO> · branch · `bug/IN-1234-fix-checkout`
-- <ISO> · analyze · `analyses/an-IN-1234` ready → promote
-- <ISO> · goal · cr1 pass 1 → remediation analysis → build `IN-1234` Fix mode
-- <ISO> · goal · build `IN-1234` ACHIEVED
-- <ISO> · code-review-2 · clear
-- <ISO> · ship · PR https://github.com/…/pull/N
-```
+## New-chat recovery
 
-## LINKS.md
+Use the authority order in the shared execution context to rediscover the
+ticket, branch, diff, commits, PR, and repository rules. Then post a rebuilt
+parent context and distinguish facts from unresolved user decisions. Re-ask
+only a missing waiver, promotion, acceptance, or disposition; do not assume
+one from code or Git history.
 
-```markdown
-# Links
-**ticket:** …
-**analysis:** `.agents/temp/just-do-it/jdi-IN-1234/analyses/an-IN-1234/`
-**build_goal:** `.agents/temp/just-do-it/jdi-IN-1234/goals/achieved/IN-1234/`
-**fix_goals:**
-- `goals/achieved/fix-cr2-01-…`
-**branch:** `bug/IN-1234-…`
-**pr:**
-```
+## Optional persistence
 
-## FINDINGS.md
-
-Current named Fix-now burn-down:
-
-```markdown
-# Findings backlog
-**phase:** code-review-2
-**pass:** 1
-**remediation_analysis:** `analyses/an-fix-cr2-01-…/ANALYSIS.md` | pending | none
-
-## Fix now
-- [ ] `INV-1` · `path` — title — invariant/correctness/security/regression — from PASS-01
-- [x] `path` — title — fixed via `fix-cr2-01-…`
-
-## Follow-up (do not auto-loop)
-- [ ] `path` — optional structure/readability/move — why it is not required now
-
-## Nits (do not block loop)
-- …
-```
-
-## Review PASS template
-
-`reviews/cr1/PASS-01.md` or `reviews/cr2/PASS-01.md`:
-
-```markdown
-# Review pass
-**axis:** cr1 | cr2
-**pass:** 01
-**variant:** flow | standalone
-**base:** main
-**updated:** <ISO>
-**remediation_analysis:** pending | CR1: `goals/<build-goal-id>/analyses/<analysis-id>/ANALYSIS.md` | CR2: `analyses/an-fix-cr2-01-…/ANALYSIS.md`
-
-## Critical
-- …
-
-## Important
-- …
-
-## Nits
-- …
-
-## Fix now
-- …
-
-## Follow-up
-- …
-
-## Disposition
-- cr1: active build goal Fix mode | cr2: `fix-cr2-01-slug` | follow-ups only | clear | blocked-at-cap
-```
-
-## Post-build Fix-goal seed (GOAL.md outline)
-
-```markdown
-# Goal
-Fix named Fix-now review findings for IN-1234 (no scope expansion).
-
-# Lane
-Only paths/symbols named in FINDINGS.md / this Done when list.
-
-# Done when
-1. Finding: `<title>` at `path` — fixed
-2. …
-
-# Constraints
-- Same ticket IN-1234
-- Smallest behavior-preserving fix
-- No new features; no unrelated cleanup; no full refactor
-
-## Active Rules (Invariants)
-| ID | Rule | Scope | Applies to plans | Authoritative enforcement | Verification |
-| --- | --- | --- | --- | --- | --- |
-| INV-1 | <preserved or newly exposed behavior> | goal | 01 | <smallest direct guard> | <targeted validation> |
-
-# Context
-- Parent: `.agents/temp/just-do-it/jdi-IN-1234/`
-- Build goal: …
-- Review pass: `reviews/crN/PASS-NN.md`
-- Remediation analysis: `analyses/an-fix-crN-01-…/ANALYSIS.md`
-- Ticket: …
-```
-
-## SHIP.md
-
-```markdown
-# Ship
-**jdi-id:** jdi-IN-1234
-**ticket:** IN-1234
-**type:** bug
-**branch:** bug/IN-1234-…
-**base:** main
-**preflight:** clean tree · branch verified · commits ahead · gh authenticated
-**commits:**
-- abc1234 — …
-**pr_title:** [IN-1234] …
-
-## PR body
-<full approved-by-autonomy body from publish template>
-
-**pr_url:** pending | https://github.com/…/pull/N
-**human_next:** Run `/pr-review` or review on GitHub — agent does not own PR review.
-```
-
-## Progress (chat)
-
-```markdown
-**Progress:** `jdi-IN-1234` · code-review-2-loop · cr1_loops 1 · cr2_loops 1 · next: ship
-```
-
-## ACHIEVED hand-off from build goal
-
-After build `/goal` ACHIEVED summary: **do not** ask Ship Questions. Set just-do-it `resume_at: code-review-2` and continue.
-
-## Clear
-
-`/just-do-it clear [id]`:
-
-1. Pack REGISTRY → `cleared`
-2. Delete `.agents/temp/just-do-it/<id>/` (active run only)
+If the user asks to save a review audit, plan, or run summary, honor the
+user-approved destination and write only that requested artifact. It is not
+required for continuation and must not become hidden runtime state.

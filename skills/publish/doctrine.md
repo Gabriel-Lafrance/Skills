@@ -12,6 +12,11 @@ Publish local work only. This skill is standalone-only, never runs under `/goal`
 - Show the complete PR title and body before `gh pr create`; wait for explicit approval.
 - A linked ticket is required when known or detectable. Do not invent one.
 
+When `/just-do-it` reads this doctrine for its preflight and templates, its
+explicit autonomous parent instruction replaces the approval wait only after it
+has printed the complete draft in chat. This exception does not apply to
+standalone `/publish`.
+
 ## Inputs
 
 | Input | Handling |

@@ -1,84 +1,47 @@
-# Grill Me Flow
+# Grill Me flow
 
-Interview **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md) and follow [../pack-shared/asking.md](../pack-shared/asking.md) for batch style.
-
-This is not product-only Q&A. **During the grill**, load and apply the pack flows below so the user answers taste / structure / UI **before** any `plans/*` exist.
-
-Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before reading or writing goal artifacts.
-
-**Themes vs goal GRILL:** shared language / choices / standing app rules → `.agents/temp/grills/{language,choice,rules}.md`. Goal-scoped outcome / gates / taste / arch / design → `<goal-root>/GRILL.md`; behavioral decisions this goal must enforce → `<goal-root>/GOAL.md` **Active Rules**.
+Use this variant inside an active `/goal` or parent wave. Read
+[doctrine.md](doctrine.md), the shared
+[execution context](../pack-shared/execution-context.md), and the
+[asking contract](../pack-shared/asking.md). The parent carries all context in
+chat; this flow creates no automatic artifacts.
 
 ## Preconditions
 
-1. Resolve **`goal-id`**
-2. Workspace: `<goal-root>/` with draft `GOAL.md` / `STATUS.md`
-3. Hard gate before any `plans/*` exist
+- The parent has supplied an outcome, current slice, non-goals, lane, and any
+  ticket/PR or fixed-point evidence.
+- The parent is ready to settle intent before issuing plans or implementation
+  work.
 
 ## Process
 
-1. Gather open topics: outcome, non-goals, users, edges, plan count, file lanes, **language / choices / app rules** when fuzzy, plus quality skills below. For every user-visible or stateful behavior, sweep actor, trigger, outcome, enabled/disabled/loading states, transitions, invalid/error/retry behavior, timing/concurrency, side effects, feedback, boundary cases, and what must remain unchanged. Read existing `grills/*.md` first.
-2. **Pull in quality skills as interview topics** (read the skill, then include in the batch — do not silently invent):
+1. Refresh the in-chat context from live repository, ticket, PR, and diff
+   evidence. Re-announce only facts or user decisions that changed or were
+   missing.
+2. Gather every unsettled topic from the doctrine's behavior sweep. Include
+   plan count and file lane alongside product questions so the first batch is
+   complete.
+3. Apply the relevant quality discipline before recommending answers:
 
-| When | Load | Ask the user about |
-| --- | --- | --- |
-| Always | `/taste` | Error style, naming, entry shape bias (hook/class/facade), verify-via-terminals expectation, anything that would violate taste |
-| Multi-file, data, or scale | `/architecture` | Which **service** owns the domain (billing/auth/…), public API to call or add, feature vs service boundary, **primitives** (reuse existing one-job blocks inside the service / deep module vs new vs fork), folder map, write-path aggregates vs compute-on-read, indexes, what must not sprawl; when debt is visible — **relocate into the right service / correct prior placement** to **reduce entropy** (recommend the behavior-preserving move, not "leave it") |
-| UI in scope (or unclear) | `/design` | Job of the screen, primary action, hierarchy, surfaces/depth, states, ethical psychology — draft Design-card answers with them |
+   | When | Include in the batch |
+   | --- | --- |
+   | Always | `/taste`: error style, naming, entry-shape bias, and verification expectations |
+   | Multi-file, data, or scale | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections |
+   | UI or unclear UI scope | `/design`: screen job, primary action, hierarchy, surfaces, states, and ethical psychology |
 
-3. Prefer **recommended answers** drawn from `/taste` + **good** sibling patterns + `/architecture` prior-mistakes courage + existing `grills/` themes; mark them in the batch. Do **not** recommend copying debt.
-4. Send **one message**: **Locked (correct if wrong)** for non-goals + plan split + shared-understanding summary when closing; plus a **Questions** batch for every unsettled behaviorally material open and real product/UX/architecture/taste choice per asking.md. Wait only if there are Questions. If closing is Locked-only, announce and continue. New findings later → new batch only.
-5. When language / choices / standing rules lock → **upsert** `.agents/temp/grills/language.md`, `choice.md`, and/or `rules.md` (+ REGISTRY). Do **not** put those sections in goal `GRILL.md`.
-6. Persist **goal-scoped** locked answers in `<goal-root>/GRILL.md` (Taste / Architecture / Design; under Architecture list locked **Moves / corrections** when any). Add a **Themes** pointer line when theme files exist.
-7. Update `<goal-root>/GOAL.md` Done when / Constraints and **Active Rules** from the grill. Every behavioral answer becomes an `INV-*` row unless the user marks it as a preference, example, or non-binding idea. Assign each row to the intended plan (or `all`) and name the simplest authoritative enforcement and verification.
-8. Set `<goal-root>/STATUS.md` `last: grilling` until Locked closing is written (and any co-batched Questions answered).
-9. **Closing** — announce non-goals + split + shared-understanding summary in Locked (see doctrine). Tick all three when announced. Honor corrections to Locked if the user replies.
-10. **Never** write `plans/*` before Locked closing (non-goals + split + shared understanding) and Active Rules are written. Return to `/goal` Phase 1 (`/create-plan` + INDEX), carrying grill decisions into Structure/Design cards. Workers must also honor `grills/` themes and the Active Rules assigned to their plan.
-
-## Goal GRILL.md shape (minimum — goal-scoped only)
-
-```markdown
-# Grill
-**Updated:** <ISO>
-**Themes:** `.agents/temp/grills/language.md`, `choice.md`, `rules.md`
-**Active Rules:** `<goal-root>/GOAL.md` `## Active Rules (Invariants)`
-
-## Outcome
-…
-
-## Non-goals
-…
-
-## Taste
-…
-
-## Architecture
-… (or n/a — single-file)
-### Moves / corrections
-- … | _none_
-
-## Design
-… (or n/a — no UI)
-
-## Plans intended
-1. …
-2. …
-
-## File lanes
-…
-
-## Gates
-- [ ] Non-goals announced
-- [ ] Split announced
-- [ ] Shared understanding announced
-```
+4. Send one response containing **Locked (correct if wrong)** for settled
+   non-goals, split, and shared understanding, plus a **Questions** batch for
+   every real open decision. Wait only when Questions remain.
+5. Put answers, Active Rules, corrections, and revised lanes directly in the
+   execution context. If a correction exposes a new material unknown, send a
+   new batch.
+6. Do not issue plans until Locked closure stands and every relevant Active
+   Rule has an enforcement and verification owner. Hand the inline context back
+   to `/goal` for planning.
 
 ## Anti-patterns
 
-- Writing plans before Locked closing (non-goals + split + shared understanding)
-- Asking yes/no for non-goals, plan split, or shared understanding
-- Dripping one question per message when multiple opens are already known
-- Recommending "match the existing (wrong) layout" when a move preserves behavior
-- Product-only grill that never opens `/taste` / `/architecture` / `/design` when those topics apply
-- Inventing structure/Design cards without user lock-in when decisions were open
-- Dumping language / choices / rules into goal `GRILL.md` instead of `grills/`
-- Losing a behavioral answer in chat instead of recording it as an Active Rule
+- Giving workers a hidden path instead of the parent context
+- Writing plans before Locked closure
+- Treating a user decision as recoverable from code alone
+- Creating automatic artifacts to hold language, choices, rules, or progress

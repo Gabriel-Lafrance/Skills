@@ -4,13 +4,10 @@ Quality code here means: **independent domain capabilities live in services; fea
 
 Read **`/taste`** first — especially **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
-## Abstraction budget
-
-Architecture must make the current goal clearer and safer, not use it as a reason to create speculative layers. Keep a local guard inline unless extraction owns independent behavior, removes real duplication, or enforces a locked Active Rule.
-
-Require evidence before adding a new file, service, deep module, public API, concurrency system, queue, lock, retry path, or class hierarchy: an existing reusable boundary, actual duplicate behavior, a locked invariant that cannot be safely enforced locally, or explicitly planned domain growth. If none exists, retain the smallest direct shape.
-
-Existing debt is a candidate for a move, not automatic scope. Include a behavior-preserving move only when the current goal or a named review finding requires it to satisfy an Active Rule, correctness, security, or an acceptance criterion. Otherwise record it as a follow-up.
+Apply `/taste`'s [abstraction budget](../taste/doctrine.md#abstraction-budget).
+Architecture adds one scope rule: a behavior-preserving move is required only
+when an Active Rule, acceptance criterion, correctness issue, or named finding
+requires it; otherwise keep it as a follow-up.
 
 ## Doctrine
 

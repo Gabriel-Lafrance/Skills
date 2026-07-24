@@ -1,93 +1,59 @@
-# Asking the user (pack-wide)
+# Asking the user
 
-Every pack skill that needs decisions follows this contract — including one-offs **and** any long-running / multi-wave skill. Do **not** restate these rules inline — link here: [`asking.md`](asking.md).
-
-When a new long-running skill appears later, it still uses this file as-is. Prefer wording that stays true without naming a specific orchestrator.
+Every pack skill that needs a decision follows this contract. Link here instead
+of restating it inline.
 
 ## Rules
 
-1. **Batch every question you already know** into **one** message — never drip one-at-a-time when multiple opens are known.
-2. Number them `1`, `2`, `3`… Each item: short prompt + lettered options when discrete.
-3. **Every optioned item must mark a recommended option** (`← recommended`).
-4. **`Reply like:` is codes only, one row** — e.g. `Reply like: 1a 2b 3c 4a 5b`. Space-separated; no commas; **no option text / descriptions**. Soft-wrap OK if long. Those letters **are** the recommendations (match each `← recommended` below). User overrides any letter; optional short note only when they need freeform.
-5. **Wait** for that batch reply before acting on those decisions.
-6. After explore/implement/review and **new** unknowns appear, send a **new** batch — that is fine. Do not re-ask settled items.
-7. Look up facts in the repo/tools — do not put those in the batch.
-8. Decisions are the user’s — honor overrides of recommended options.
-9. **Only ask when an action is needed.** Do not put items in Questions if there is nothing to decide (e.g. already correctly done). Still may list them briefly as info outside the Questions block.
-10. **Announce vs ask.** When the agent should own the call (user almost always accepts the recommendation), **do not** put a yes/no in Questions — **state it** in a short **Locked (correct if wrong)** block above Questions. The user corrects only if needed; silence = accept. Pack defaults for this pattern: **non-goals**, **plan split**, and **shared understanding** (a short summary of what the agent believes — not a yes/no). Real product/UX/architecture/taste *choices that are still open* stay in Questions.
+1. Batch every known decision into one message.
+2. Number items and provide lettered options when the choice is discrete.
+3. Mark one recommended option with `← recommended`.
+4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
+5. Wait for decisions before acting. Do not re-ask settled decisions.
+6. Look up repository and tool facts instead of asking the user for them.
+7. Ask only when an action or choice is needed; list settled facts outside Questions.
+8. Announce agent-owned conclusions in **Locked (correct if wrong)**. Ask only
+   open product, UX, architecture, taste, or policy choices.
+
+## Locked decisions
+
+Keep non-goals, plan split, shared understanding, relevant Active Rules, and
+user overrides visible in the current [execution context](execution-context.md).
+Do not write them to an agent-owned runtime file. Save them only when the user
+requests a durable artifact and approves its destination.
 
 ## Skill exception
 
-`/write-ticket` uses a two-stage ask:
-
-1. Its vision, bug, or refactor **open grill** is numbered freeform questions only. Do not add lettered options, recommendations, or `Reply like:`.
-2. Its type lock and write metadata use this normal lettered contract.
-
-See [`write-ticket/doctrine.md`](write-ticket/doctrine.md).
-
-## Recommended defaults (bias)
-
-When drafting options, prefer these as **recommended** unless the user already locked otherwise:
-
-| Topic | Prefer (recommended) |
-| --- | --- |
-| Taste / entry shape | Match `/taste` doctrine + a **good** sibling |
-| Unsure which skill | Recommend `/ask-gabriel` |
-| Architecture | Reuse a real service boundary; create one only for an independent capability, real duplication, a locked rule, or explicit growth — not speculative ceremony |
-| Prior mistakes / debt | Behavior-preserving move when the current goal or named finding requires it; otherwise record a follow-up |
-| Complexity / entropy | Keep a local guard inline unless extraction owns independent behavior, removes real duplication, or enforces an Active Rule; reuse an existing primitive rather than fork |
-| Package / vendor / storage | Lock a one-phrase pick into the active skill’s choice log (e.g. under `.agents/temp/…/choice.md`) |
-| Actor / business policy | Lock a one-phrase rule into the active skill’s rules log (e.g. under `.agents/temp/…/rules.md`) |
-| Behavioral answer in a goal grill | Record it as a `GOAL.md` Active Rule (`INV-*`) by default; user may say it is only a preference, example, or non-binding idea |
-| Code-review Fix now backlog | Run `/analyze` in review remediation mode first; show issue/current behavior, root cause, smallest proposed fix, touch surface, non-goals, and verification, then require explicit promotion before implementation |
-| Review failure claim | Require a reachable trigger, concrete evidence, material impact, and smallest authoritative fix; omit remote hypothetical hardening |
-| Repair | **Smallest patch** that fixes the defect |
-| Design polish | Smallest depth/color/hierarchy fix over structural rewrite |
-| Confirm gates / recap | **Announce** non-goals + plan split + shared-understanding summary in Locked. Ask only real open product/UX/architecture/taste choices |
-| Ticket type (`/write-ticket`) | Feature when capability/enhancement; Tweak when a small intentional adjustment is neither a defect nor a standalone capability; Bug when broken/wrong behavior; Refactor when move/cleanup/debt without new product behavior |
-| Ticket metadata (`/write-ticket`) | Status: backlog/todo for create; Priority: Medium unless urgency clear; Assignee: Unassigned unless an owner is obvious |
-| Publish (`/publish`) | Branch + push unless user said local-only; then ask PR draft+publish (recommend yes); use Feature, Tweak, Bug, or Refactor to match the work; ticket id when known |
-| Publish branch name | `{type}/{ticket}-{slug}` (e.g. `bug/IN-1234-fix-checkout-total`) — no colons |
-| Just-do-it (`/just-do-it`) | Auto-take recommended child choices except optional review Follow-ups; early typed branch; dual code-review; fix via scoped `/goal` only; no `/pr-review`; nested workspace under `.agents/temp/just-do-it/<id>/` |
-| Just-do-it fix goals | Same ticket lane; named Fix-now invariant/spec/correctness/security/regression blockers only; no drive-by full refactor |
+`/write-ticket` uses numbered freeform questions for its open grill. Its type
+and metadata choices use the normal lettered contract.
 
 ## Batch template
 
 ```markdown
 ## Locked (correct if wrong)
 **Non-goals:** …
-**Plans:** 1. … · 2. …  (or: one plan — …)
+**Plans:** 1. … · 2. …
 **Shared understanding:** …
-- …
-- … (include Moves / corrections + new language / choices / rules when relevant)
 **Active Rules:** `INV-1` … · `INV-2` … (or _none_)
 
 ## Questions
-Reply like: 1a 2c 3a
+Reply like: 1a 2c
 
-1. <open product/UX/architecture/taste choice>?
+1. <open choice>?
    - a) <recommended> ← recommended
    - b) <alternative>
    - c) Other — say what you want
 ```
 
-Omit the **Locked** block when there is nothing to announce. Omit **Questions** when every open item is announce-only — state Locked and **continue** (user can interrupt with a correction). Do **not** turn non-goals, plan split, or shared understanding into yes/no Questions.
-
-The `Reply like:` line **must** use the recommended letter for each numbered item (here `1a 2c 3a`) — codes only, one row, spaces not commas. Do **not** append option text. Long batches stay the same shape (`1a 2b 3c 4a 5b 6d 7b 8a`).
-
-Yes/no Questions use the same shape (`a) yes` / `b) no`). Freeform-only items still get a number; omit letters and ask for a short reply under that number.
-
-Works the same whether the caller is a short skill turn or a long-running wave that will ask again later when new opens appear.
+Omit Locked when nothing is announced. Omit Questions when every remaining item
+is announce-only. Yes/no choices use the same shape; freeform items keep a
+number but omit letters.
 
 ## Anti-patterns
 
-- One question per message when you already have a list of opens
-- Optioned questions with no recommended mark
-- `Reply like:` using fake letters that are not the recommended set for this batch
-- Putting descriptions / option text in `Reply like:` (codes only)
-- Stacking `Reply like:` as one answer per line
-- Asking about items with no decision/action (noise Questions)
-- Asking yes/no to confirm **non-goals**, **plan split**, or **shared understanding** — announce those; user corrects if needed
-- Recommending “keep the wrong layout” when a clear move preserves behavior
-- Hard-coding this file to one orchestrator skill (keep examples and defaults skill-agnostic)
+- Dripping known questions one at a time
+- Optioned choices without a recommendation
+- `Reply like:` with descriptions, invalid letters, commas, or multiple rows
+- Asking about a fact the repository or tools can answer
+- Asking yes/no for non-goals, plan split, or shared understanding
+- Persisting agent process notes without an explicit user request

@@ -1,78 +1,64 @@
 # Validate Flow Doctrine
 
-**Gate out.** The contract (goal / repair acceptance / ticket / paste) was the gate in; this skill judges whether the change actually meets it.
+**Gate out.** Use the shared [execution context](../pack-shared/execution-context.md):
+the parent carries the contract in chat; validation judges whether the change
+meets it.
 
-When validating a goal or nested repair, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before locating artifacts.
+## Required handoff
+
+Before validation, the parent must provide in chat:
+
+- Done when
+- Active Rules, including enforcement and verification
+- Every current slice: scope, acceptance criteria, lane, dependencies, and
+  changed interface or handoff
+- Relevant Ticket / PR and fixed Git point, if any
+
+Use the named ticket / PR, Git diff/history, and repository code and rules as
+evidence. They do not create user decisions or acceptance criteria. If Done
+when, Active Rules, or applicable slice criteria are missing, stop and ask.
 
 ## Framing (pessimistic — required)
 
-Do **not** assume the change works. Start from: it may still be wrong, incomplete, unlinked, or off-criteria. Every row needs **evidence**. Silent "LGTM" is a process fail.
+Do **not** assume the change works. It may be wrong, incomplete, unlinked, or
+off-criteria. Every row needs evidence; silent “LGTM” is a process failure.
 
-Say out loud (in the report) whether each critical path **will work**, **won't**, or is **missing a link** (import, route, schema, env, caller, export).
+State whether every critical runtime path **works**, **won't work**, has a
+**missing link**, or is **blocked**.
 
-## Criteria sources
+## Live evidence: terminals first
 
-Collect Done when from (merge extras; never invent):
+Match evidence to the criterion:
 
-1. **Repair:** `.agents/temp/repairs/<repair-id>/ACCEPTANCE.md` or goal-nested `<goal-root>/repairs/<repair-id>/ACCEPTANCE.md`
-2. **Goal:** `<goal-root>/GOAL.md` Done when + **Active Rules (Invariants)** + completed `<goal-root>/plans/NN-*.md` AC
-3. **`/trackers`** ticket acceptance (read only)
-4. Explicit criteria the user pasted
+1. Read any relevant existing terminal first: frontend, backend, worker, test
+   watcher, typecheck watcher, or `convex dev`.
+2. Cite the useful signal from `terminals/<id>.txt` (or equivalent).
+3. Use a narrow, fast command only for a remaining evidence gap: targeted
+   typecheck or lint, one test, one smoke request, or an established repo
+   health script.
 
-If none exist, **stop and ask**.
+Do not use ritual full suites, lint-everything, a second long-lived dev server,
+or Convex MCP loops by default. Convex MCP is appropriate only when terminal
+evidence cannot answer the question, shows an error needing diagnosis, or the
+user asks for it.
 
-Also pull other skills when relevant — don't fake their checks:
-
-| Check | When | Skill |
-| --- | --- | --- |
-| Taste self-check | Code diffs | `/taste` |
-| Scalability | Lists, metrics, queries, dashboards | `/architecture` / `/architecture` write-path rules |
-| Services | Domain capability (billing, auth, …) | `/architecture` — features call a service public API; no per-feature fork |
-| Primitives | Structure card names them, or lane has one-job blocks inside a service / deep module | `/architecture` §3 — reuse not fork; Structure **Primitives** honored when present |
-| Design | UI in scope | `/design` (or `/design` topics) |
-| Still broken | Failures look like defects | `/repair` or `/repair` |
-
-Under `/goal`, dual skills use the **flow** variant ([variants.md](../pack-shared/variants.md)). Do not mix another goal-id's criteria.
-
-## Live evidence (terminals, Browser, fast CLI)
-
-Point is **live state** about what you're validating — types, lint, error logs, server push, UI runtime — not a Convex-only ritual.
-
-### Prefer read first
-
-1. **Any terminal** in the project terminals folder — frontend, backend, `convex dev`, workers, test watchers, typecheck watchers, whatever is already running
-2. Cite `terminals/<id>.txt` (or equivalent) with the signal that matters
-3. Match the criterion: type errors → typecheck/tsc terminal; UI crash → frontend terminal + localhost; API fail → API/server logs; Convex push fail → Convex terminal — **not** "always read Convex"
-
-### Browser evidence for UI criteria
-
-When a criterion needs user-visible or browser-reachable proof and Cursor's native Browser tools are available, read [reference.md](reference.md). Browser evidence complements the terminal signal; it does not replace it.
-
-If Browser tools, the app, policy approval, credentials, or safe test data are unavailable, mark that UI criterion **blocked** and state what is needed. Never infer a visual pass from code or terminal output alone.
-
-### Fast CLI when terminals aren't enough
-
-Run **narrow, fast** commands only when they answer a criterion and live output isn't already there:
-
-- Targeted `tsc --noEmit` / project typecheck script
-- Targeted lint on touched files
-- A single failing test / one smoke curl
-- Repo scripts the user already uses for "is this healthy?"
-
-**Do:** one purposeful command per gap in evidence.  
-**Don't:** ritual full-suite / lint-everything / second long-lived `convex dev` / Convex MCP verify loops as the default path.
-
-**Forbidden as default:** Convex MCP (`logs`, `data`, `status`, `run`, …) when a terminal already shows push/ok or the error. Allowed only if terminals show an error you must diagnose, user asked for MCP, or no relevant terminal exists and you said so first.
+For browser-reachable UI criteria, use [reference.md](reference.md) when
+Browser capability is available. Browser evidence complements terminal signals;
+it never follows from code alone. If tools, credentials, policy approval, safe
+data, or the app are unavailable, mark the criterion **blocked** and say what
+is needed.
 
 ## Process
 
 ### 1. Restate the bar
 
-List each acceptance criterion and assigned Active Rule as a checkbox. For every `INV-*`, verify its named authoritative enforcement point and its user-visible or observable result. No new scope.
+List every Done when, slice acceptance criterion, and Active Rule. For each
+`INV-*`, check its named authoritative enforcement point and observable result.
+Do not add scope.
 
-### 2. Code-path walk (required — out loud)
+### 2. Walk each runtime path
 
-For each Done when (or each feature slice under validate), narrate the **runtime path**:
+For each criterion or current slice, narrate the **runtime path**:
 
 ```markdown
 ### Path: <criterion or feature>
@@ -83,54 +69,48 @@ For each Done when (or each feature slice under validate), narrate the **runtime
 **Verdict:** works | won't work | missing link (<what>) | blocked (<why>)
 ```
 
-Hunt specifically for **missing linking**:
+Hunt for unimported exports, unregistered routes/plugins/crons, schema fields
+written but never read (or reverse), unread environment variables, and UI
+actions without handlers (or handlers without UI). A missing link is a fail.
 
-- Export never imported / never registered (router, Convex `api`, plugin, cron)
-- Schema field written but never read (or reverse)
-- Env var required but unset / unread
-- Button/handler with no action; action with no UI
-- Plan file lane files never wired into the app entry
+### 3. Walk cross-slice seams
 
-A missing link is **fail**, not a nit.
+When the inline context names two or more current slices, this is required
+before a pass:
 
-### 3. Cross-plan seams (required when INDEX has 2+ plans)
+1. Read the Git diff and repo files each slice changed or hands off.
+2. Walk imports, exports, route/API registration, schema↔callers,
+   UI↔handlers, and environment reads across every stated dependency.
+3. Find unused exports, orphaned registrations, one-sided schema changes,
+   disconnected UI, and entry points that never import new code.
+4. Record each seam below. A missing link is a fail; the parent creates a
+   bounded fix slice and validation rechecks it.
 
-Workers only see **one** plan file — they often leave orphans. When `<goal-root>/plans/INDEX.md` lists **2 or more** plans, the orchestrator must verify slices are wired together **before** marking validate pass:
+With one slice, still perform its entry-point import check as part of the path
+walk. No separate link-check replaces this step.
 
-1. Read `plans/INDEX.md` + every completed `plans/NN-*.md` + the files each lane touched
-2. Walk **cross-slice seams** out loud (imports, exports, route/api registration, schema↔callers, UI↔handlers, env reads). A module created in plan `01` must be reachable from whatever plan `02+` or the app entry needs.
-3. Hunt specifically for: unused exports, never-registered routes/plugins/crons, schema fields never read/written across slices, buttons with no action, entry points that never import the new code
-4. Missing link → fix now (small orchestrator edit or `/repair`) → re-check until clear
-5. Record in the validation report under **Cross-plan seams**
+### 4. Check quality where relevant
 
-When INDEX has **only one** plan, still do a quick entry-point import check as part of the code-path walk — do not skip the walk.
+| Check | When | Standard |
+| --- | --- | --- |
+| Taste | Code diff | `/taste`; failures fail validation |
+| Scalability | Lists, metrics, aggregates, hot queries | `/architecture` write-path rules; state N/A only with a reason |
+| Services | Domain capability | Features call an existing or extended service public API; do not fork it |
+| Primitives | Inline Structure calls them out or the lane has one-job blocks | Reuse, do not fork; honor the stated primitive contract |
+| Design | UI is in scope | `/design` doctrine and browser evidence |
 
-Cross-plan seam failures are **fail**, not nits. `/goal` does not run a separate deep link-check step — this skill owns it.
+Validation does not write tests to manufacture proof.
 
-### 4. Evidence pass
-
-Gather live evidence for each criterion (terminals first, fast CLI if needed). For browser-reachable UI criteria, use [reference.md](reference.md) when Browser capability is available. Mark **blocked** if you cannot see required UI/runtime and say what you need.
-
-### 5. Scalability (when relevant)
-
-If the diff touches lists/metrics/aggregates/hot queries: **Does this code scale?** Fail = fail validate. If N/A, say why.
-
-### 6. Taste / design / primitives
-
-`/taste` implement self-check on the diff — failures are **fail**.  
-UI in scope → `/design` checks.  
-When the Structure card names **Primitives** (or explore shows one-job blocks in the lane): reuse not fork — fail if the card's primitives were bypassed or reimplemented locally.
-
-### 7. Report
+### 5. Report
 
 ```markdown
 ## Validation
 
-**Context:** goal `<id>` | repair `<id>` | ad-hoc
+**Context:** Ticket / PR <ref | none> · fixed point <ref | none>
 
 | Criterion | Status | Evidence |
 | --- | --- | --- |
-| … | pass / fail / blocked | terminal `…` / CLI `…` / path walk |
+| … | pass / fail / blocked | terminal / CLI / path walk |
 
 ### Code paths
 | Path | Verdict | Missing link? |
@@ -142,7 +122,7 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 | --- | --- | --- | --- |
 | INV-1 | … | pass / fail / blocked | … |
 
-### Cross-plan seams (if INDEX has 2+ plans)
+### Cross-slice seams (two or more current slices)
 | Seam | Verdict | Missing link? |
 | --- | --- | --- |
 | … | wired / missing link / blocked | … |
@@ -152,27 +132,12 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 | --- | --- |
 | terminals/<id>.txt | … |
 | CLI: `<cmd>` | … |
-| Browser: `<URL>` · `<viewport>` | `<flow/state>` → `<observed result>` · `<snapshot or screenshot>` |
+| Browser: `<URL>` · `<viewport>` | `<flow/state>` → `<observed result>` |
 
-### Taste
+### Quality checks
 | Check | Status | Evidence |
 | --- | --- | --- |
-| … | pass / fail | … |
-
-### Primitives (when Structure / lane has them)
-| Check | Status | Evidence |
-| --- | --- | --- |
-| Reuse not fork; card honored | pass / fail / N/A | … |
-
-### Scalability
-| Question | Status | Evidence |
-| --- | --- | --- |
-| Does this code scale? | pass / fail / N/A | … |
-
-### Design (if UI)
-| Check | Status | Evidence |
-| --- | --- | --- |
-| … | pass / fail | … |
+| Taste / primitives / scalability / design | pass / fail / N/A | … |
 
 ### Failures
 - …
@@ -181,27 +146,23 @@ When the Structure card names **Primitives** (or explore shows one-job blocks in
 - …
 ```
 
-### 8. Next step
+### 6. Next step
 
-| Result | Next |
+| Result | Parent action |
 | --- | --- |
-| **All pass** | Closing a goal wave → `/code-review`. After mid-goal `/repair` → return to implement. After standalone `/repair` → done (or `/code-review` if asked) |
-| **Fail** | Prefer **`/repair`** / **`/repair`** (smallest) using the failure list → re-run `/validate`. Massive → `/goal` / expand plans |
-| **Blocked** | Ask how to verify |
+| All pass | Run `/code-review` when the parent flow requires it |
+| Fail | Open the smallest in-chat fix slice, then revalidate |
+| Blocked | Ask for the missing verification path or access |
 
 ## Anti-patterns
 
-- Optimistic "it should be fine" / silent LGTM
-- Only looking at Convex terminals when the criterion is types, lint, or frontend logs
-- Skipping the code-path walk
-- Passing while imports/routes/schema/callers are unlinked
-- Skipping cross-plan seam check when INDEX has 2+ plans
-- Ritual MCP / full lint+tsc when live terminals already answer
-- Claiming visual verification without Browser evidence
-- Treating unavailable Browser capability, policy approval, or credentials as a visual pass
-- Mixing another goal-id's criteria
-- Passing without checking each Active Rule's authoritative enforcement point
-- Expanding criteria mid-flight without re-grill/re-plan
-- Skipping `/code-review` at goal ACHIEVED after a green validate
-- Skipping re-validate after a repair patch
-- Writing or editing test files to “prove” validation — only `/create-test` writes tests (after review recommends)
+- Optimistic “it should be fine” or silent LGTM
+- Reconstructing criteria from hidden files or a plan path
+- Passing unlinked imports, routes, schemas, callers, or UI actions
+- Skipping cross-slice seams when multiple inline slices exist
+- Using generic Convex evidence for a types, lint, frontend, or API criterion
+- Ritual MCP or broad commands when live terminal output already answers
+- Claiming visual proof without Browser evidence
+- Passing an unavailable visual/runtime environment
+- Ignoring an Active Rule's named enforcement point
+- Writing tests to “prove” validation

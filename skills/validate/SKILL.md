@@ -1,23 +1,13 @@
 ---
 name: validate
 description: >-
-  Gate-out: prove acceptance with live evidence and code-path walk. Owns
-  cross-plan seams when INDEX has 2+ plans. Flow-only — looked up by /goal and
-  /repair. No standalone variant.
+  Gate out: prove acceptance with live evidence and a code-path walk. Owns
+  cross-slice seams when two or more inline slices are active.
 disable-model-invocation: true
 ---
 
 # Validate
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — flow-only: [flow.md](flow.md).
 
 **Browser evidence:** For UI or browser-reachable criteria, read [reference.md](reference.md).
-
-Flow-only skill (no `standalone.md`).
-
-## Variant
-
-- Flow fits → Read [flow.md](flow.md) only
-- Standalone wanted → use the **no standalone** message in variants.md; do not invent a standalone process
-
-

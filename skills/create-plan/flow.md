@@ -1,108 +1,51 @@
 # Create Plan Flow
 
-Write **one** plan file **inside an active `/goal`**. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
+Produce **one inline plan contract** for an active `/goal`. Stay in **Agent mode** — no `SwitchMode`, no CreatePlan UI.
 
-**Internal only** — looked up by `/goal`. There is no standalone `/create-plan`; start `/goal` to plan and build.
-
-## Location
-
-```text
-<goal-root>/plans/<NN>-<slug>.md
-<goal-root>/plans/INDEX.md    # update when adding a plan
-```
-
-- `<NN>`: `01`, `02`, … dependency order (blockers first)
-- If only one plan: still use `plans/01-<slug>.md` (not a root `PLAN.md`)
-- **Never** use `.scratch/` or a global ACTIVE plan file
+**Internal only** — `/goal` uses this flow to turn a Locked split into an implementation-ready slice. The output stays in chat; do not create a plan file, INDEX, status file, or workspace state.
 
 ## Preconditions
 
-1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); Grill Locked closing announced (`<goal-root>/GRILL.md` present with gates ticked) — else `/grill-me`
-3. Stay in Agent mode — no `SwitchMode`, no CreatePlan UI
+1. The shared [execution context](../pack-shared/execution-context.md) has an outcome, Done when, non-goals, lane, and relevant Active Rules.
+2. `/grill-me` has announced Locked closing: non-goals, intended split, and shared understanding. Otherwise return to `/grill-me`.
+3. The slice has a narrow lane, a clear owner, and known dependencies.
+
+If the user explicitly asks to save the contract, get or honor an approved destination and write only that requested artifact.
 
 ## Process
 
-### 1. Context
+### 1. Gather the applicable context
 
-Read `<goal-root>/GOAL.md` + `<goal-root>/GRILL.md`. Extract the relevant `## Active Rules (Invariants)` rows before choosing structure or acceptance criteria. Also read `.agents/temp/grills/language.md`, `choice.md`, `rules.md` when present — use those terms in Overview/Approach/AC; honor choices and rules.
+Read the in-chat execution context. Extract the Active Rules that this slice implements or preserves before choosing structure or acceptance criteria.
 
-1. `/orchestrate`, `/taste`, ticket → `/trackers`
-2. Explore if needed; `/architecture` (+ `/design` if UI) into Structure/Design
+Use `/orchestrate`, `/taste`, and `/trackers` when ticket context applies. Explore as needed; carry `/architecture` and `/design` decisions into the contract when structure or UI is in scope.
 
-### 2. Write the plan file
+### 2. Issue the contract
 
-```markdown
-# <title>
+Produce the [inline plan contract](../goal/reference.md#inline-plan-contract) for one ordered slice. It must include:
 
-**Status:** pending
-**Updated:** <ISO>
-**Goal id:** <goal-id>
-**Goal root:** <goal-root>
-**Plan file:** `<goal-root>/plans/<NN>-<slug>.md`
-**Blocked by:** <none | 01-…>
+- one verifiable outcome and 1–3 binary acceptance criteria;
+- allowed paths or symbols, explicit exclusions, and Active Rules;
+- concrete approach, structure or design decisions, and seam verification;
+- owner, dependencies, handoffs, and paths or seams siblings must not touch;
+- blockers first, with a clear frontier status.
 
-## Overview
-…
+No unresolved option menu belongs in an implementation contract. If an important decision remains open, return to the grill instead of inventing scope.
 
-## Problem
-…
+### 3. Update chat state
 
-## Approach
-<concrete; /taste; no Option A/B>
+Add or replace the matching entry under **Current slices** in the execution context. Keep the frontier, dependencies, and current phase visible in chat. Re-announce the Locked split if the contract changes it materially.
 
-## Structure
-…
+Continue with `/implement` only for frontier slices. Do not write an automatic plan path or rely on a hidden artifact for a worker handoff.
 
-## Design
-<n/a or Design card>
+### 4. Dispatch workers
 
-## Invariants
-| ID | Role | Required enforcement | Verification |
-| --- | --- | --- | --- |
-| INV-1 | implement \| preserve | … | … |
-
-## Key files
-- …
-
-## File lane
-Paths this plan may write
-
-## Coordination
-- **Worker ownership:** <one worker or main agent owns this lane>
-- **Dependencies:** <blocked-by plan / ready now>
-- **Handoffs / interfaces:** <exports, calls, data shape, or _none_>
-- **Must not touch:** <paths and shared seams owned by siblings>
-
-## Seams / verification
-…
-
-## Acceptance criteria
-- [ ] `INV-1`: … (or _no behavioral rule assigned_)
-- [ ] … (when structure is in play: callers stay thin; complexity behind service X; no entropy growth in touched lane)
-
-## Out of scope
-…
-
-## Todos
-- [ ] …
-```
-
-Update `<goal-root>/plans/INDEX.md` row for this NN. Bump `<goal-root>/STATUS.md` (`last: plan NN written`).
-
-### 3. Continue
-
-Once per INDEX row until complete — then `/implement` for frontier plans.
-
-### 4. Subagents
-
-Task prompts: main-agent-authored Worker Brief with `goal-id`, resolved `goal-root`, the assigned `GOAL.md` Active Rules, **this** `<goal-root>/plans/NN-*.md`, and its Coordination contract.
+Each Task prompt carries the applicable outcome, Done when, non-goals, Active Rules, lane, current slice contract, dependencies, and prior decisions. The parent keeps integration, `/validate`, and `/code-review`.
 
 ## Anti-patterns
 
-- Planning before Locked grill closing (non-goals + split + shared understanding + Active Rules)
-- Never `.scratch/` or root `PLAN.md`
-- Single root `PLAN.md` when INDEX has multiple slices
-- `SwitchMode` / CreatePlan UI
-- Coding the feature here
-- Invoking this outside `/goal` as a user-facing skill
+- Planning before Locked grill closing
+- Writing automatic plan files, INDEXes, status files, or resume state
+- Sending a worker a file path instead of its in-chat contract
+- One vague mega-plan when independent slices fit
+- Coding the feature in this flow

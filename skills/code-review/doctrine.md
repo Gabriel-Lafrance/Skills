@@ -1,307 +1,108 @@
 # Code Review Doctrine
 
-Review along **two axes** (do not merge findings into one ranked list):
+**Authoritative shared contracts:** [review contract](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md). They define modes, evidence, finding shape, severity, worker output, and stateless operation. This adapter defines the `/code-review` axes and remediation boundary.
 
-- **Standards** — `/taste` + `/architecture` examples + thermonuclear maintainability
-- **Spec** — does the change match the ticket / PR / PRD / what the user said?
+## Review posture
 
-`/pr-review` reuses these axes for posting on GitHub; this doctrine owns axis mechanics. `/pr-review` owns PR comment craft.
+Review along two independent axes; present them separately:
 
-## Stance (A+ exam)
+- **Standards** — maintainability, architecture, repository conventions, and design quality.
+- **Spec** — whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-**Operational stance — not chat roleplay.** Behave with exam intensity; do not narrate as a student in chat. Findings stay factual.
+Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Keep findings factual, not roleplay. Thoroughness means stronger path walks and better evidence, never hypothetical failures.
 
-You are the examinee. `/pr-review` is the hardcore grader. Assume anything you miss becomes a failure on the PR.
+## Standards sources and judgment
 
-- **Stress-driven thoroughness** — re-check taste/architecture and catch defects before the teacher does. Thoroughness means better evidence, not inventing hypothetical failures.
-- **Same bar as the teacher** — self-grade against thermonuclear, should-have-moved, complexity/entropy, and Spec gaps. Then classify each real finding as Fix now, Follow-up, or optional nit rather than treating all structure as a blocker.
-- **Complete real coverage** over a clean rubber stamp on an initial review. List every evidenced defect; there is **no findings cap**. Do not turn a remote theoretical possibility into a finding.
-- **Anti-patterns:** casual pass; hiding structural debt; solo shallow skim when Tasks can run; skipping Wave 2 on an initial review.
+Resolve Standards in this order:
 
-For an **initial review**, run **Wave 1** (Standards + Spec Tasks in parallel) then **Wave 2** (adversarial). Do not solo-review a large diff when workers can.
+1. `/taste` and its [examples](../taste/examples.md)
+2. `/architecture` and its [examples](../architecture/examples.md)
+3. Repository rules and committed project documentation — these win on conflict
+4. Optional project standards when present; do not require a particular standards file
+5. Smell baseline plus thermonuclear maintainability
 
-If you need issue/PR/comment context, load **`/trackers`** (read only). Never write to trackers.
+Treat the first two sources as hard unless repository rules conflict.
 
-## Evidence-based failure policy
+Inspect placement and public entry points, reuse of existing domain authorities, complexity and entropy, nesting and needless wrappers, boundary types and error handling, data access, and UI behavior when applicable. For UI changes, apply the design standard; use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable.
 
-A reviewer may flag a failure, race, missing guard, error path, retry, queue, or other hardening need only when the finding has all of the following:
+On an initial review or full rescan, actively look for behavior-preserving simplification and missed moves. A useful cleanup remains a **Follow-up** unless it violates the spec or an Active Rule, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding.
 
-1. **Reachable trigger** — a concrete caller, state transition, input, external response, or load path can reach the failure.
-2. **Evidence** — a code-path walk, hunk, violated `INV-*` rule, existing production/test signal, or directly provable exploit demonstrates the trigger.
-3. **Material impact** — the reachable outcome can break correctness, security, data integrity, availability, or a named acceptance rule.
-4. **Proportional remedy** — the finding proposes the smallest direct control at the authoritative boundary first.
+## Evidence and safe remedies
 
-Do not assign fictional numerical probabilities. A rare but directly exploitable security path or invariant violation is still actionable; an unproven “this might fail someday” scenario is not. Do not add it to Fix now, Follow-up, a PR comment, or a risk report unless the user explicitly asks for speculative threat modeling.
+Apply the shared [evidence bar](../pack-shared/review-contract.md#evidence-bar) to every runtime-risk or hardening finding. A reachable trigger, concrete evidence, material impact, and the smallest authoritative fix are all required.
 
-### Defensive-code budget
+- Prefer a direct guard at the state-owning boundary over extra coordination.
+- Request an `if` only for a reachable invalid state or a missing authoritative invariant.
+- Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up.
+- Request retries only for an evidenced transient external failure with an idempotent, bounded operation.
+- Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior.
 
-- Add an `if` only for a reachable invalid state, input, or locked invariant. Do not duplicate a guard already enforced at the authoritative boundary.
-- Add `try/catch` only at a boundary that can recover, translate, add actionable context, or clean up. Do not request catch-and-rethrow wrappers around local code.
-- Add retries only for an evidenced transient external failure and an idempotent operation with a defined limit.
-- Add queues, locks, error queues, or new coordination systems only when evidence shows an authoritative guard cannot preserve the required ordering, durability, concurrency, or backpressure behavior.
+Do not turn “might fail someday” into a finding or invent defensive machinery.
 
-If those facts are absent, omit the finding. Review the implementation that exists, not an imagined distributed system around it.
+## Modes and quality gates
 
-## Review modes
+Use the shared mode names exactly:
 
-| Mode | Scope | Required depth |
-| --- | --- | --- |
-| **Initial review** | Full shipped diff and goal/ticket contract | Standards + Spec plus adversarial Wave 2 |
-| **Targeted re-review** | Named `Fix now` backlog, fix diff, touched paths, direct callers, and relevant Active Rules | Verify the named blocker is cleared; hunt only regressions and correctness in the touched surface |
-
-Targeted re-review is deliberately not another thermonuclear architecture hunt. Do not create a new optional structural finding during a re-review unless it is required to clear a named blocker, is a regression from the fix, or is a correctness/security failure in a touched path. Put valuable but non-blocking cleanup in **Follow-up**.
-
-## Pin the fixed point
-
-Prefer what the user named. If missing, default to **`main`** (or `master` if that is the default branch). Confirm:
-
-```bash
-git rev-parse <fixed-point>
-git diff <fixed-point>...HEAD
-git log <fixed-point>..HEAD --oneline
-```
-
-Fail early on bad ref or empty diff.
-
-## Spec source
-
-In order (standalone — **not** a goal workspace unless the user points at one):
-
-1. What the user pasted or asked to verify against
-2. Linked PR / issue via `/trackers` (read: body, comments, QA checklists)
-3. Issue refs in commits (`#123`, `IN-1234`) — fetch via `/trackers`
-4. Path the user passed (`docs/`, `specs/`, …)
-5. Ask; if none, Spec axis reports "no spec available"
-
-## Active Rules as binding spec
-
-For a goal-scoped review, read `GOAL.md` **Active Rules (Invariants)** before dispatching workers. They are binding behavioral specification, not background context. A finding that violates one must cite its `INV-*` ID and say whether the authoritative enforcement point is missing, bypassable, or unverified.
-
-For findings that do not violate an Active Rule, cite the relevant Done-when, acceptance criterion, correctness/security condition, or state `rule: none`. Do not invent an invariant after the fact to make an optional cleanup sound blocking.
-
-## Standards sources (force order)
-
-1. **`/taste`** + [examples.md](../taste/examples.md) — hard; paste non-negotiables + naming into the Standards prompt
-2. **`/architecture`** + [examples.md](../architecture/examples.md) — hard; entry points, folders, write-path aggregates
-3. Repo `AGENTS.md` / `.cursor/rules/` when present — **repo wins** on conflict
-4. Optional extras only if present — **do not** require `CODING_STANDARDS.md`
-5. Smell baseline + **thermonuclear maintainability** below
-
-When UI files are in the diff, also load **`/design`** into Standards — same gate as `/pr-review`. When a reachable local or approved preview and Browser capability are available, use the [Browser validation reference](../validate/reference.md) for targeted visual and interaction review. If they are unavailable, report that visual confirmation was not performed; static review is not visual proof.
-
-## Smell baseline (judgement calls)
-
-Mysterious Name, Duplicated Code, Feature Envy, Data Clumps, Primitive Obsession, Repeated Switches, Shotgun Surgery, Divergent Change, Speculative Generality, Message Chains, Middle Man, Refused Bequest — skip what tooling already enforces.
-
-## Architecture + taste checks (hard unless repo docs contradict)
-
-Flat file dump; missing simple entry point / **shallow modules**; leaking internals; anonymous `utils` bags; god files; nesting pyramids / `{ success: false }` / dynamic `import()`; wrong Convex/app naming; speculative ceremony; missing foundation seam on big services; **feature reimplements a domain service** (billing/auth/… forked instead of calling the public API); **forking or bypassing an existing primitive's one job** (`/architecture` §3 — complexity + entropy); **bolting onto wrong placement / copying a bad sibling instead of a behavior-preserving move** (`/architecture` §4 — entropy); **complexity regression** or **entropy growth** (`/taste`); mixed responsibility; class/interface depth > 2; compute-on-read metrics; unbounded collects / missing indexes.
-
-## Thermonuclear maintainability (Standards)
-
-In an **initial review**, be ambitious about structure. Search for **code judo**: preserve behavior while making the implementation dramatically simpler. Prefer deleting complexity over rearranging it. In a **targeted re-review**, inspect structural changes only when they are needed to clear a named blocker, prevent a regression, or correct a touched correctness/security failure.
-
-Lens (from `/taste`): **complexity** (hard to understand/change) and **entropy** (disorder that spreads when copied or left in a touched dirty lane).
-
-**Additional standards to evaluate on an initial review:**
-
-0. Ambitious structural simplification — whole branches/helpers/layers disappear when needed to clear a current blocker
-1. **1000-line file rule** — do not push a file from under 1k to over 1k without a strong reason (presumptive finding; disposition per the bar below)
-2. No spaghetti growth — ad-hoc conditionals bolted onto unrelated flows
-3. Clean design > "it works"
-4. Direct over magic / thin wrappers / identity abstractions — **strong primitives** (`/architecture` §3) are deep one-job blocks inside services/modules; identity wrappers still fail
-5. Type and boundary cleanliness — `any` / casts / muddy optionality
-6. Canonical layer + reuse existing helpers **and primitives**
-7. Avoid needless sequential orchestration / half-applied state when atomic structure is obvious
-8. **Should-have-moved** — prior debt in the touched lane left in place (or copied) when a clear behavior-preserving relocation is required to clear a current blocker
-9. **Complexity regression** — shallower interfaces, more call-site branching, unknown unknowns added without pulling complexity down behind a deep entry; **forking a primitive's job**
-10. **Entropy growth** — bolting onto a known-bad shape; copying debt; half-moves left live; **bypassing an existing primitive**
-
-**Prioritize:** correctness/security and Active Rule failures → clear complexity/entropy regressions → missed judo / missed moves → spaghetti → boundaries/types → file size → modularity → legibility. Still list every real defect on an initial review; severity and disposition separate blockers from follow-ups.
-
-**Disposition bar:** behavior-correct is not always enough, but a valuable structural improvement is not automatically a current-goal blocker. Put an item in **Fix now** only when it violates a spec or `INV-*` rule, causes a correctness/security failure, is a regression, or a named finding proves the structural change is necessary. Otherwise keep it visible in **Follow-up**. A file crossing 1k lines, needless wrapper, clear complexity regression, or duplicate helper is a Fix-now item only when it meets that threshold.
-
-## Artifact contracts (fill-or-fail)
-
-Parent **rejects and relaunches** a worker that returns free-form narrative without the required shape. **No findings cap** — list every real defect. Keep “real defects only / no invented issues.”
-
-### Standards output shape
-
-```markdown
-## Standards findings
-- **hard|judgement**: <issue> @ <file/symbol> — rule: <INV-1 | Done-when | AC | none>; cite <taste|architecture|thermonuclear|smell|design>
-```
-
-### Spec output shape
-
-```markdown
-## AC matrix
-| AC / checklist row | Status | Evidence |
-| --- | --- | --- |
-| <Done-when / checklist item> | met \| partial \| missing \| n/a | <hunk / symbol / "absent"> |
-
-## Scope / wrong impl
-- <scope creep or wrong implementation> @ <file/symbol>
-```
-
-If no spec: report `## Spec — no spec available` and stop (do not invent AC).
-
-## Remedies: simplest authority first
-
-For a correctness or race-risk finding, recommend the least invasive enforcement at the authority that owns the state. Explain why a stronger system is necessary before recommending it.
-
-Example: `INV-1 — X is unavailable while Y processes`.
-
-1. UI disables X while Y is processing for immediate feedback.
-2. The backend mutation or state transition checks Y's current status and rejects X directly when it is processing.
-3. A queue, lock, retry loop, wrapper, or new service is justified only if the review shows that this direct authoritative guard cannot make the transition safe.
-
-Do not turn a simple guard into architecture theater. The review must name the trigger, rule, direct guard, and evidence; extra machinery needs concrete failure evidence. If it cannot, omit the finding.
-
-## Wave 1 — initial full scan
-
-For an **initial review**, launch **Standards + Spec** in **one** message (`generalPurpose` or `explore`). Skip Spec only if no spec. Include the goal's relevant Active Rules in every worker brief.
-
-**Model:** omit Task `model` — inherit the parent chat model. Do not pick a slug unless the user asked.
-
-**Standards prompt** — diff + commits; relevant Active Rules; `/taste` non-negotiables + **complexity/entropy definition**; taste/architecture examples; thermonuclear rules; `/design` when UI; hunt **should-have-moved**, **complexity regressions**, and **entropy growth** in the touched lane; classify a relocation/judo as Fix now only when it is required to clear a blocker, otherwise Follow-up; hard vs judgement; require Standards artifact shape; **exam posture:** hunt as if a hardcore teacher will fail this PR for anything you miss; **no findings cap / no word cap**.
-
-**Spec prompt** — diff + commits + spec path/contents; require AC matrix artifact; missing/partial requirements, scope creep, wrong implementations; **exam posture**; **no findings cap / no word cap**. Skip Spec if no spec.
-
-Parent: if any worker returns narrative without its artifact shape → **reject and relaunch** that axis.
-
-Do **not** launch Routes, BigPicture, Risk, `bugbot`, or `security-review` Tasks unless the user explicitly asks for those tools.
-
-## Aggregate (after Wave 1)
-
-Present `## Standards` and `## Spec` separately. One-line summary per axis. Do not pick a cross-axis winner.
-
-Keep Wave 1 axis summaries ready to feed Wave 2 (compact, factual).
-
-## Wave 2 — adversarial (initial review only)
-
-**Always** run after an initial Wave 1 aggregate — even when Wave 1 found many issues. Do not use this broad adversarial scan for a targeted re-review.
-
-Launch **fresh** Task(s) in one message (`generalPurpose` or `explore`). **Omit Task `model`** unless the user asked.
-
-**Input:** fixed-point diff + commits + **Wave 1 axis summaries** (not full chat fluff).
-
-**Job:** prove Wave 1 missed real defects; hunt contradictions between axes; do **not** restate Wave 1 findings unless disagreeing with them.
-
-**Output shape:**
-
-```markdown
-## Adversarial findings
-- **standards|spec|cross-axis** · **critical|important|nit**: <new issue> @ <file/symbol> — <why Wave 1 missed it>
-```
-
-Parent merges unique hits into the two axis sections (or show a short `## Adversarial addenda` then fold into remediation disposition / PR drafts). Drop duplicates of Wave 1.
-
-Same exam posture. Real defects only — invent nothing.
-
-## Targeted re-review
-
-Use this after a Fix mode change. Start with the named `Fix now` rows, their cited `INV-*` rules or acceptance criteria, the fix diff, touched paths, and direct callers.
-
-1. Verify each named finding is actually cleared at its authoritative enforcement point.
-2. Re-check only paths touched by the fix and the direct callers that could regress.
-3. Run Spec (if applicable) and Standards only for the changed shape when needed.
-4. Do not run a broad Wave 2. New optional structural cleanup goes to Follow-up.
-
-Report `cleared | still open | regression | new correctness/security issue` per named row.
-
-## Behavior-lock recommendations (tell the user — do not run)
-
-After Wave 1 + Wave 2 (and Needs `/create-test` if any), if the diff touches a **complex architectural part** whose deep behavior is easy to break from the outside (complex hooks, domain/business logic, facades, stateful classes) and there is **no durable behavior lock**, add a short section:
-
-```markdown
-## Needs /create-test
-- `path/to/symbol` — <one-line why a lock matters>
-```
-
-**Tell the user** to run `/create-test` on those subjects. Do **not** invoke `/create-test` yourself. Do **not** write test files from this skill. Do not recommend locks for trivial wrappers, UI chrome, or coverage theater.
-
-**Who may recommend:** only `/code-review` and `/pr-review`. Other pack skills must not recommend or start `/create-test`.
-
-**Persist follow-ups:** when a goal workspace is in play, resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md), append each Needs `/create-test` row to `<goal-root>/FOLLOWUPS.md` (create if missing), and mirror a one-line pointer in `<goal-root>/STATUS.md`. ACHIEVED **Manual next steps** must list open FOLLOWUPS until the user runs `/create-test` or waives each by name.
-
-Do **not** flag missing eslint/tsc or Convex MCP as Standards failures — CI owns lint/type; `/taste` Verify is **read existing terminals**.
-
-## Remediation disposition (batch ask → analyze → bounded fix)
-
-After an initial review (and Needs `/create-test` if any), classify every actionable finding before offering work:
-
-- **Fix now:** a spec or `INV-*` violation, correctness/security defect, regression, or structural change demonstrably required to clear one of those blockers.
-- **Follow-up:** useful architecture, readability, move, or cleanup work that is not required by the current goal. Persist it in `FOLLOWUPS.md` for a goal, or list it clearly for standalone review.
-- **Optional nits:** non-blocking small improvements; never enter the default fix offer.
-
-Present a short backlog without re-dumping the review:
-
-```markdown
-## Fix backlog
-
-### Fix now
-1. **important · standards** — `INV-1`: backend permits X while Y is processing @ `orders.ts` — add the direct transition guard
-
-### Follow-up
-- Extract the adjacent formatting helper after this goal; no current rule or defect requires it
-
-### Optional nits
-- …
-```
-
-Ask only about **Fix now**:
-
-```markdown
-## Questions
-Reply like: 1a 2b
-
-1. Analyze the named Fix-now backlog before deciding how to fix it?
-   - a) yes — inspect each issue and propose the smallest fix ← recommended
-   - b) no — leave findings as-is
-2. (If Needs /create-test) Run /create-test on the listed subjects after fixes?
-   - a) yes — remind me
-   - b) no / later
-```
-
-On **analysis = no:** stop. Review is done. Do not start coding or `/goal`.
-
-On **analysis = yes:** invoke `/analyze` in **review remediation analysis** mode with the selected Fix-now rows, cited `INV-*`/criteria, review pass, fixed-point diff, and permitted lane. For a goal review, pass `analyses_container: <goal-root>/analyses` and a resolved `analysis_root`; otherwise use the normal analysis root contract. It must write an `ANALYSIS.md` that describes the issue/current behavior, root cause, smallest proposed fix, touch surface, non-goals, and verification for every selected row.
-
-`/analyze` then presents its explicit promotion choice. Only on promotion use the current goal's Fix mode when a goal workspace is active; otherwise create a bounded `/goal`. Its contract is:
-
-| Step | Do |
+| Mode | `/code-review` work |
 | --- | --- |
-| Goal contract | Goal = clear the selected analysis `FIX-*` rows only; Done when = binary check per row; Context = review + remediation `ANALYSIS.md` + fixed-point diff; Constraints = no new product scope, unrelated cleanup, or architecture work |
-| Active Rules | Cite the violated `INV-*` rows; add a row only when the finding reveals a user-locked behavior that was absent from the ledger |
-| Grill | Focus only on enforcement, footprint, and observable behavior needed for the named findings; announce non-goals + split + shared understanding |
-| Build | Use the smallest authoritative correction; a move is in scope only if the named finding requires it |
-| Re-review | `/validate`, then targeted re-review of the named rows, touched paths, direct regressions, correctness, and security |
+| `initial` | Full shipped diff and available specification; run both axes, then adversarial Wave 2. |
+| `remediation` | Only named finding IDs, fix diff, touched direct paths, and direct callers; verify clearance and regressions in that surface. |
+| `full-rescan` | Repeat initial depth only when the parent or user explicitly opens a full rescan for a meaningful change. |
 
-Do **not** start coding after the review answer. Analyze first, then wait for explicit promotion before a focused grill and implementation. Do not silently pick approaches.
+Remediation is never a broad architecture hunt and never gets a broad Wave 2. Do not silently upgrade a remediation pass to a full rescan.
 
-Do not skip review remediation analysis for a tiny defect unless the user explicitly says to skip analysis and `/goal`'s skip-grill rule fully applies.
+For an `initial` review or `full-rescan`, the parent:
 
-When Fix now is empty, do not start a loop. Report `_Nothing required for the current goal._` plus any Follow-up items.
+1. Pins the fixed point, inspects the diff, resolves the available spec, and supplies relevant Active Rules.
+2. Runs **Wave 1** Standards and Spec work in parallel. Skip Spec only when no specification is available; report that absence rather than inventing acceptance criteria.
+3. Keeps worker output in the shared contract shape; rejects and relaunches a narrative-only result once.
+4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects.
+5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
+
+The parent controls worker dispatch plus validation and review gates. Implementation workers receive the supplied lane and context; they do not run validation or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable validation evidence as a gap, not a Standards finding.
+
+## Findings and disposition
+
+Use the shared [finding record](../pack-shared/review-contract.md#finding-record) in chat. IDs remain stable across follow-up discussion and are based on axis, violated rule or root cause, and strongest location. Fold recurring sites with the same root cause and fix shape into one ID; do not persist local review records.
+
+Map shared severity directly:
+
+| Canonical severity | `/code-review` disposition |
+| --- | --- |
+| `blocker` | **Fix now** |
+| `follow-up` | **Follow-up** |
+| `nit` | **Optional nit** |
+
+Show the Fix now, Follow-up, and Optional nit sections after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
+
+## Behavior locks
+
+After an initial review or full rescan, recommend `/create-test` only for a complex architectural boundary with externally observable behavior and no durable behavior lock. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
+
+## Remediation analysis and promotion
+
+Before any fix work, send selected **Fix now** findings to `/analyze` in
+review-remediation mode. Its
+[remediation analysis](../analyze/doctrine.md#review-remediation-analysis)
+returns one section keyed to each stable finding ID, with current behavior,
+root cause, smallest fix, touch surface, non-goals, and verification.
+
+Then require explicit promotion of the selected finding IDs before
+implementation begins. A `/just-do-it` parent may take the recommended
+promotion only after the complete analysis is shown. Promotion bounds work to
+those findings, the stated touch surface, and stated non-goals; it does not
+authorize unrelated cleanup. The parent subsequently owns validation and the
+`remediation` review gate.
+
+If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates from this skill.
 
 ## Anti-patterns
 
-- Casual pass / rubber stamp while defects remain that `/pr-review` would Blocking
-- Skipping Wave 2 on an initial review or solo-reviewing a large initial diff when Standards + Spec Tasks can run
-- Accepting a worker report that skips its artifact shape
-- Capping findings or word-limiting workers so defects stay hidden
-- Calling a theoretical failure a defect without a reachable trigger, evidence, and material impact
-- Recommending defensive `if` blocks, catch wrappers, retries, queues, locks, or error systems without evidence that the smallest authoritative control is insufficient
-- Ending the review without a Fix-now backlog + Questions batch when current-goal blockers exist
-- Coding fixes after a review answer without review remediation analysis and explicit promotion
-- Dripping one review follow-up question per message when several are known
-- Treating nits as mandatory backlog items unless the user asked
-- Hiding structural debt instead of classifying it as Fix now or Follow-up
-- Treating every relocation or cleanup as a mandatory current-goal refactor without evidence that it clears a named blocker
-- Running a new thermonuclear architecture hunt during targeted re-review
-- Writing to Linear/GitHub from this skill
-- Auto-running `/create-test` instead of recommending it
-- Writing or editing test files from this skill (only `/create-test` writes tests)
-- Launching Routes, BigPicture, or Risk Tasks (removed axes)
-- Auto-launching `bugbot` / `security-review` when the user did not ask
-- Narrating exam roleplay in chat ("I'm the stressed student…") instead of factual findings
+- Merging Standards and Spec into one undifferentiated ranking
+- Skipping Wave 2 for an initial review or full rescan
+- Capping findings, accepting unstructured worker output, or reporting speculation
+- Running a broad rescan during remediation
+- Fixing before remediation analysis and explicit promotion
+- Treating Follow-ups or Optional nits as default fix scope
+- Persisting hidden review state instead of keeping decisions and findings in chat
+- Auto-running `/create-test` or writing test files

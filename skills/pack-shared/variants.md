@@ -11,16 +11,16 @@ Same contract for every dual skill — today and for future long-running orchest
 3. Otherwise pick using the hints; match **how the work is being run**, not a keyword hunt for a workspace id alone.
 4. After picking an existing file, follow that file’s Read-first links only.
 5. Never silently fall back to the other variant.
-6. Goal-scoped flows resolve `goal_root` from [workspace-roots.md](workspace-roots.md); a parent wave's supplied root wins over a pack-global default.
+6. A parent flow supplies the relevant [execution context](execution-context.md); child skills use that context and do not create hidden runtime state.
 7. **Missing `variants.md` is not a stop.** If this file cannot be Read, still choose using the skill’s local `standalone.md` / `flow.md` and the hints above. “Missing file” in dual-skill SKILL.md means missing `standalone.md` or `flow.md`, not this contract.
 
 ## Hints
 
 | Prefer **flow** when | Prefer **standalone** when |
 | --- | --- |
-| Continuing a long-running pack wave (orchestrator skill, implement step, nested repair under that workspace) | User asked for a one-off outside any wave |
+| Continuing a long-running pack wave with parent-supplied execution context | User asked for a one-off outside any wave |
 | Another pack skill told you to run this as a step in that wave | No active wave/workspace is in play and the ask is self-contained |
-| Writing under that wave’s temp workspace (e.g. `.agents/temp/<wave>/<id>/`) as part of the loop | Sharpening / reviewing / fixing in isolation |
+| The parent owns integration and has provided a bounded worker brief | Sharpening / reviewing / fixing in isolation |
 
 ## Missing-variant messages
 

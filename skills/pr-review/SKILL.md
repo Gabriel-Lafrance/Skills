@@ -1,75 +1,69 @@
 ---
 name: pr-review
 description: >-
-  Standalone only — evidence-based strict review of an open GitHub PR with
-  taste/architecture/design gates. Pass B: two-axis Wave 1 (Standards + Spec)
-  then adversarial Wave 2. Fold recurring draft topics into one comment; keep
-  unrelated topics separate. Every failure claim needs a reachable trigger and
-  concrete evidence. Never summary/announcement comments or repo helper
-  scripts. Show drafts before publish. Never under /goal. For local fix loops
-  use /code-review.
+  Standalone, stateless review of an open GitHub PR. Triage historical finding
+  threads before selecting a deterministic review mode, draft one-topic comments,
+  and post only after one publish decision.
 disable-model-invocation: true
 ---
 
 # PR Review
 
-**Stance:** evidence-based strict reviewer — hunt Blocking defects with reachable triggers and concrete proof; fairness stays (see [doctrine.md](doctrine.md) Stance). Operational intensity, not chat roleplay.
+**Standalone only.** Review an open GitHub Pull Request; never run under
+`/goal` and never create a flow variant. If a flow is requested, use the
+no-flow missing-variant response.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — this skill is **standalone-only** (no `flow.md`). If flow is requested, use the **no flow** missing-variant message.
+Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
+[review contract](../pack-shared/review-contract.md) owns review depth,
+evidence, worker artifacts, finding records, severity mapping, and
+behavior-lock guidance. The shared
+[execution context](../pack-shared/execution-context.md) owns stateless
+authority and handoff rules.
 
-**Standalone only.** Never call from `/goal`, never ship a `pr-review-flow`. Posts on the **Pull Request**. Linked Linear is **read-only** Spec.
+## Boundaries
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Axes:** [../code-review/doctrine.md](../code-review/doctrine.md) (posting owned here)
+- Resolve the PR with `gh pr view`; use **only** `gh` or `gh api` for GitHub
+  reads and writes.
+- A linked GitHub issue or Linear ticket is **read-only** context. Post only on
+  the PR, never on the ticket or Linear.
+- Durable specification sources are the PR title/body, linked ticket, and
+  user-approved committed repository documentation. Do not depend on local
+  `/goal`, workspace, cache, temp, registry, or review-snapshot artifacts.
+- Do not create helper scripts or repository files to prepare or publish a
+  review.
+- One root-cause topic gets one comment. Fold recurring sites with the same
+  fix shape; split unrelated topics.
+- Public comment severities are **Blocking** and **Nit** only. Never post a
+  summary, announcement, index, or pass-status comment.
 
-**Hard:**
+## Deterministic review run
 
-- **One topic = one PR comment** — fold recurring sites of the same topic; never stack unrelated topics
-- **Severity: Blocking or Nit only** (no non-blocking)
-- **No summary / announcement comments** on the PR (chat-only status)
-- **No helper scripts** in the repo (`build-review.cjs`, etc.) — **`gh` / `gh api` only**
-- **Nth pass:** Pass A covers **all** prior finding comments across every pass, not only the last one
-- **Pass B:** Wave 1 Standards + Spec + always Wave 2 adversarial; show drafts (severity already set), then **one** question: publish as shown? yes / no
-- **No findings cap** — every real defect is covered; recurring topics are folded, not spam-commented
+1. Pin the PR fixed point and load its body, commits, diff, all inline review
+   comments, and all review threads, including resolved threads and every prior
+   review page.
+2. With no prior finding thread, run the shared contract's `initial` review.
+3. On every follow-up, complete **Pass A** first across the full historical
+   finding history, not only the latest review. Match findings by stable
+   internal ID; the GitHub finding thread is the durable public identity.
+4. After Pass A, use `remediation` by default: inspect addressed findings,
+   their changed/touched surface and direct callers, plus current changes.
+   New commits alone do not promote this to a broad review.
+5. Use `full-rescan` only when the user explicitly requests it or materially
+   expands the review scope. Never silently restart an initial-depth review on
+   a follow-up.
 
-**Subagent model:** omit Task `model` unless the user asked for one.
+## Pass A and publication
 
-## Process
-
-1. **Resolve PR** — URL, number, or `gh pr view`. Fail if none / `gh` missing.
-2. **Load context** — body, commits, **all** inline review comments + threads (every review, every page, resolved included). Linear/GitHub issue → Spec only.
-3. **Pin base** — `gh pr diff` or `git diff <base>...HEAD`.
-
-### Pass A (if any prior finding comments exist)
-
-4. Check **all** prior findings. List **No action needed** (e.g. already correctly resolved) without Questions.
-5. **Questions only for actionable priors** (open needing resolve/reply, or closed wrongly). `Reply like:` = one row of recommended codes (`1a 2b`). Wait if any questions.
-6. Apply approved actions only (**one reply or resolve per thread**). **Do not** post a Pass A summary on the PR. If nothing actionable, skip Questions and go to Pass B.
-
-### Pass B (always: first review or after Pass A)
-
-7. **Fresh rescan Wave 1** — Standards + Spec (fill-or-fail artifacts; no findings cap). Skip issues already on an open prior finding thread. Label each new finding **Blocking** or **Nit** only.
-8. **Wave 2 adversarial (always)** — launch fresh Task(s) with Wave 1 summaries; merge unique hits only (see code-review doctrine).
-9. **Needs /create-test** — if the diff touches a complex architectural part with no durable behavior lock, list subjects in chat (`## Needs /create-test`) and/or as **Nit** drafts telling the author to run `/create-test`. **Tell the user**; do **not** invoke `/create-test` or write test files. Only `/code-review` and `/pr-review` may recommend locks.
-10. **Fold + show drafts in chat** — one full draft per **topic** (fold recurring sites under **Where**); severity already set. Nothing on the PR yet. **No em dashes.**
-11. **One question only** — Publish all drafts as shown? `a) yes` ← recommended / `b) no — say what to change`. Do **not** ask per draft or re-ask severity. Wait for `1a` (or override).
-12. On yes: **Post via `gh` only** — each draft/topic as its **own** comment; Request changes if any Blocking, else Comment. **Never** a summary PR comment. **Never** write review helpers into the repo.
-13. **Stop** — tell the user what posted **in chat**. Fix loop → `/code-review` then `/goal` (do not auto-start).
-
-## Anti-patterns
-
-- Summary / "posted N comments" / index comment on the PR
-- `build-review.cjs` or other repo files to submit reviews
-- One comment containing **unrelated** topics
-- Near-identical spam comments for the same recurring topic (fold instead)
-- **Non-blocking** severity; per-draft Pass B questions; re-asking blocking vs nit after drafts are shown
-- Asking about correctly closed priors with nothing to do
-- `Reply like:` not matching recommended codes (descriptions, or one answer per line)
-- Pass A only on the latest pass
-- Skipping per-prior triage when actions exist; asking Pass B before Pass A questions are answered
-- Skipping Wave 2; capping findings; accepting missing artifact shapes
-- Launching Routes, BigPicture, or Risk Tasks (removed axes)
-- Posting before showing full drafts in chat
-- Approving while prior blockers remain open
-- Writing Linear comments; starting `/goal`; using inside `/goal`
-- Auto-running `/create-test` or writing test files (recommend only; `/create-test` is user-invoked)
-- Auto-launching `bugbot` / `security-review` when the user did not ask
+- Assess every historical finding before looking for new ones. Show correctly
+  resolved or moot threads as no-action in chat. Ask only for thread actions
+  that require the user's decision, then apply only approved replies, resolves,
+  or reopens.
+- Map shared severities exactly: a `blocker` becomes **Blocking**; a
+  `follow-up` or `nit` becomes **Nit** only when a public comment is useful.
+  Otherwise keep it in chat.
+- Show every full new draft in chat before posting. Ask exactly one publish
+  question for that batch; when there are no drafts and no open blocker, ask
+  once whether to approve. Do not ask per-draft severity or publish questions.
+- After explicit approval, post each draft as its own PR comment using `gh` or
+  `gh api`. Request changes when any published draft is Blocking; otherwise
+  submit a comment review. Report what posted in chat only.

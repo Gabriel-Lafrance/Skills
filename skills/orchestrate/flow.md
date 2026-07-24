@@ -1,104 +1,89 @@
 # Orchestrate Flow
 
-Resolve `goal_root` and `goals_container` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before spawning workers. Scope workers to **`goal_root`** — never `.scratch/` or a pack-global fallback when a parent supplied a root.
+Use the shared [execution context](../pack-shared/execution-context.md). The
+parent carries context in chat; no worker reads or updates agent-owned runtime
+files.
 
-## Subagent model (hard rule)
+## Subagent model
 
-- **Omit** Task `model` — inherit parent chat model
-- Pass `model` **only** when the user explicitly asked for that model
+- Omit Task `model` so workers inherit the parent chat model.
+- Pass a model only when the user explicitly requested one.
 
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| **Main** | Compile full goal context into an exact Worker Brief, assign Tasks, merge, post **Progress**, `/validate` | Make workers infer intent from a plan alone; separate deep link-check (validate owns seams) |
-| **Subagent** | Deliver one bounded Job in the assigned file lane; end with **Progress** and invariant status | Chat with user; other goal-ids; broaden scope or redesign shared structure |
+| Main | Compiles context, assigns bounded work, integrates, updates chat context, runs `/validate` and `/code-review` | Make workers infer intent, or delegate final gates |
+| Subagent | Delivers one bounded job in its file lane and returns Completion | Chat with the user, broaden scope, run lifecycle gates, or invent shared structure |
 
-## Worker Brief (required for every dispatch)
+## Worker Brief
 
-The main agent is the context compiler. Before dispatch, read the full goal, grill, relevant Active Rules, INDEX, assigned plan, dependency status, and sibling lanes. Write the brief yourself; do not hand a worker only a plan file and ask it to infer product or architecture intent.
+The main agent is the context compiler. Write the brief before every dispatch;
+do not hand a worker an opaque plan path or hidden state to reconstruct.
 
-```text
+```markdown
 ## Parent outcome
-- Goal: <one-line outcome>
-- Done when: <relevant binary rows>
-- Non-goals: <bounded exclusions>
+**Outcome:** <one line>
+**Done when:** <relevant binary rows>
+**Non-goals:** <bounded exclusions>
+**Ticket / PR:** <reference | none>
+**Fixed point:** <ref | none>
 
-## Job
-- Plan/task: <NN and exact deliverable>
-- Expected handoff: <changed export, API, data shape, report, or none>
+## Locked decisions
+- <relevant user decisions, waivers, and promotions>
 
 ## Active Rules
-| ID | Role | Required enforcement | Verification |
+| ID | Rule | Enforcement | Verification |
 | --- | --- | --- | --- |
-| INV-1 | implement | … | … |
-| INV-2 | preserve | … | … |
+| INV-1 | … | … | … |
 
-## Ownership and coordination
-- Write allowlist: <exact paths>
-- Must not touch: <sibling-owned paths/shared seams>
-- Siblings: <worker → lane or none>
-- Dependencies: <ready / blocked by plan N>
-- Interfaces: <existing contract or required handoff>
+## Job
+**Slice:** <one bounded deliverable>
+**Acceptance criteria:** <relevant rows>
+**Write allowlist:** <exact paths>
+**Must not touch:** <siblings or shared seams>
+**Dependencies / interfaces:** <ready, blocked, or contract>
 
 ## Read first
-- goal-id: <goal-id>
-- goal-root: <resolved goal_root>
-- <goal-root>/GOAL.md
-- <goal-root>/GRILL.md
-- <goal-root>/plans/INDEX.md
-- <goal-root>/plans/<NN>-<slug>.md
-- .agents/temp/grills/language.md (if present)
-- .agents/temp/grills/choice.md (if present)
-- .agents/temp/grills/rules.md (if present)
-
-## Completion evidence
-- <targeted evidence and report fields>
+- <repo paths, ticket, PR, or committed docs only>
 
 ## Escalation boundary
-Do not improvise a new abstraction, shared API, service, file lane, or scope expansion.
-Report the blocker and a smallest viable option to the orchestrator instead.
+Do not improvise a new abstraction, shared API, service, file lane, or scope
+expansion. Report the blocker and smallest viable option to the parent.
+
+## Completion
+**Status:** done | blocked
+**Scope:** …
+**Evidence:** …
+**Findings:** none | <finding IDs and summaries>
+**Handoff:** <changed interface, decision, or blocker>
 ```
 
 ## When to spawn
 
 | Work | Subagent | Notes |
 | --- | --- | --- |
-| Explore sibling/lane | `explore` | Parallel OK; Progress required |
-| Implement one plan file | `generalPurpose` | One `plans/NN` per worker |
-| Independent plans | **parallel** workers | Only when Worker Briefs prove non-overlapping lanes and compatible interfaces; otherwise serialize |
-| Standards / Spec + Wave 2 | parallel Tasks then adversarial | See `/code-review`; Progress required |
-| Verify / logs | **Read terminals folder** | Never Convex MCP by default |
-
-## Worker template
-
-```markdown
-<Use the complete Worker Brief above, then require this report.>
-
-## Completion report
-- **Invariant status:** `INV-1` implemented/preserved + evidence; …
-- **Files changed:** …
-- **Interface / handoff:** delivered / none / blocked — …
-- **Blockers / escalations:** none | …
-
-## Progress
-plan: <NN|explore|standards|spec|routes> · status: done|blocked · files: <N> · invariants: pass|blocked|n/a · next: <one line>
-```
+| Explore an independent lane | `explore` | Parallel when lanes do not overlap |
+| Implement one bounded slice | `generalPurpose` | One brief per independently reviewable slice |
+| Standards and Spec review | parallel Tasks, then adversarial follow-up | See `/code-review` |
+| Verify logs | Main reads existing terminal output | Do not dispatch verification-only workers |
 
 ## After a wave
 
-1. Collect each worker’s **Progress** block
-2. Check each Completion report against the full `GOAL.md` Active Rules, plan Invariants, lane, and handoff before integration. A worker's self-report is not sufficient evidence.
-3. Post user-facing **Progress** line (see `/goal` doctrine) and update `<goal-root>/STATUS.md`
-4. After **all** implement workers for the frontier return → **`/validate`** (owns cross-plan seams when 2+ plans) — do not run a separate link-check step
+1. Collect every Completion report.
+2. Check it against the parent outcome, Active Rules, lane, and handoff.
+3. Post an updated compact execution context in chat when phase, ownership, or
+   decisions changed.
+4. If ready slices remain, update their status in **Current slices** and
+   dispatch the next frontier. After every slice is integrated, blocked, or
+   explicitly waived, the main agent runs `/validate`; it then runs
+   `/code-review` when the parent flow requires it.
 
 ## Anti-patterns
 
-- Task without goal-id + specific plan file (for implement)
-- Task without the resolved `goal-root`
-- Task without a main-authored Worker Brief, Active Rules, lane ownership, and escalation boundary
-- Worker report without `## Progress`
-- Parallel workers with overlapping lanes or undefined handoffs
-- Silent merges with no user Progress line
-- Separate cross-plan link-check in the orchestrator (`/validate` owns it)
-- Passing Task `model` when the user did not ask
+- Task without outcome, lane, Active Rules, and escalation boundary
+- Worker asked to infer user decisions from an id, temp directory, or plan path
+- Parallel work with overlapping lanes or undefined handoffs
+- Worker running `/validate` or `/code-review`
+- Passing Task `model` without a user request
+- Writing a progress, registry, or status file for agent-only bookkeeping

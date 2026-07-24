@@ -1,22 +1,39 @@
 # Architecture Flow
 
-Structure craft **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md) and [./examples.md](./examples.md). Read **`/taste`** first.
+Structure a bounded parent slice. Read [doctrine.md](doctrine.md),
+[examples.md](examples.md), and `/taste` first. Use the shared
+[execution context](../pack-shared/execution-context.md), not a workspace or
+plan file.
 
-## Preconditions
+## Read first
 
-1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); workspace: `<goal-root>/`
-3. Prefer explore via **`/orchestrate`**
+1. The inline outcome, Done when, non-goals, locked decisions, Active Rules,
+   current slice, lane, dependencies, and Ticket / PR reference.
+2. Relevant Git diff/history, repository rules, siblings, target folders,
+   existing services, and existing primitives.
+3. Prefer exploration through `/orchestrate` when an independent lane needs
+   it.
 
 ## Process
 
-1. Explore siblings, **existing services**, **existing primitives**, and target folders (subagents OK). Reuse/extend a service before inventing a parallel one; reuse a primitive when it already answers that one job. Flag wrong existing shape in the lane.
-2. Draft the **Structure** card from doctrine (Services + **Moves / corrections** + Feature entry + **Primitives** + Folder map + Scalability). A required move may block new feature code until listed on the card.
-3. Fold into the relevant `<goal-root>/plans/NN-*.md` via `/create-plan` (or patch if already written).
-4. Mid-implement sprawl, duplicated domain logic, forked primitive job, or newly spotted prior mistake → update this plan's Structure (Moves / corrections / Primitives), then continue `/implement` with the move.
+1. Reuse or extend a service before inventing a parallel one; reuse a
+   primitive when it already does the one job. Flag wrong shape in the lane
+   rather than copying it.
+2. Draft the doctrine's **Structure** card in chat: Services, **Moves /
+   corrections**, Feature entry, **Primitives**, Folder map, and Scalability.
+   A required behavior-preserving move is listed before feature code begins.
+3. The parent carries the applicable card and decision in its inline context
+   and Worker Brief. Do not create or update a plan, workspace, register, or
+   other agent-owned artifact.
+4. For mid-implementation sprawl, duplicated domain logic, a forked
+   primitive, or a prior mistake: return the needed correction to the parent.
+   Make a move only when the current acceptance criteria, Active Rules, or a
+   named finding require it; otherwise retain the smallest direct shape and
+   record a follow-up in chat.
 
 ## Hand-offs
 
 - UI → `/design`
-- Plan write → `/create-plan`
-- Scale, duplicated-service, forked-primitive, or "should have moved" failures later → `/validate` / `/code-review`
+- Structure decision → parent inline context → `/implement`
+- Scale, duplicated-service, forked-primitive, or missed-move concerns →
+  `/validate` / `/code-review`

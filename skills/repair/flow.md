@@ -1,46 +1,25 @@
-# Repair Flow
+# Repair flow
 
-Bug hunt **inside a `/goal` / `/implement` lane**. Read [./doctrine.md](./doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
+Use for a repair inside an active parent wave. Read [doctrine.md](doctrine.md)
+and the shared [execution context](../pack-shared/execution-context.md).
 
-## Preconditions
+## Parent handoff
 
-1. Resolve **`goal-id`**, `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md), and the active `plans/NN-*.md` / file lane
-2. Read `<goal-root>/GOAL.md`, `<goal-root>/GRILL.md`, and that plan
-3. Ticket via **`/trackers`** if present
-4. Stay in this goal's lane
-
-## State (goal-nested)
-
-Prefer a short repair note under the goal workspace so `/validate` can find criteria:
-
-```text
-<goal-root>/
-  repairs/
-    <repair-id>/
-      BUG.md
-      GRILL.md
-      ACCEPTANCE.md
-      STATUS.md
-      FIX.md
-```
-
-Also fine to use top-level `.agents/temp/repairs/<repair-id>/` and link it from `STATUS.md` — but keep the **file lane** of the parent plan.
+The parent provides the outcome, ticket if any, current lane, non-goals, Active
+Rules, relevant acceptance, dependencies, and the exact slice to investigate.
+The repair inherits those constraints and returns its evidence, decision, and
+next step in chat. It does not resolve or create hidden filesystem state.
 
 ## Process
 
-1. Hunt pessimistically (doctrine framing) inside the lane.
-2. Classify Local / Narrow / Massive.
-3. **Massive:** escalate (new `/goal` or `/split-task` + plans) — do not sprawl.
-4. **Local/Narrow:** grill → `ACCEPTANCE.md` → smallest fix → **`/validate`** (+ relevant plan/GOAL criteria)
-5. Fail validate → repair again or escalate if scope exploded.
-6. Pass → return to `/implement` / `/goal` wave.
+1. Re-state the parent lane and hunt pessimistically inside it.
+2. Classify Local, Narrow, or Massive.
+3. For Local/Narrow: grill → binary acceptance in the current context →
+   smallest fix → `/validate` against both repair and parent criteria.
+4. If validation fails, repair again; if scope becomes Massive, escalate to the
+   parent for a new bounded goal or split. Do not sprawl.
+5. On pass, return a compact completion handoff to the parent wave.
 
-## Worker note
-
-Task workers: **`/orchestrate`** — omit `model`; include goal-id, resolved goal-root, plan, lane, acceptance path, "smallest footprint only."
-
-## Anti-patterns
-
-- Patching without grill + acceptance
-- Skipping validate after the fix
-- Closing trackers
+Workers receive the full bounded context and “smallest footprint only”; omit
+their `model` unless the user requested one. Do not ask workers to reconstruct
+intent from a path or hidden state.

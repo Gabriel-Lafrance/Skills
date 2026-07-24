@@ -1,21 +1,24 @@
 # Repair
 
-Pessimistic bug hunt + **smallest possible fix**. Read [doctrine.md](doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
-
+Pessimistic bug hunt with the smallest possible fix. Read
+[doctrine.md](doctrine.md), the shared
+[execution context](../pack-shared/execution-context.md), and the
+[asking contract](../pack-shared/asking.md).
 
 ## Process
 
-1. **Workspace** — `.agents/temp/repairs/<repair-id>/` + REGISTRY
-2. **Hunt** — pessimistic; classify Local / Narrow / Massive
-3. **Grill** — what/how via `/grill-me` + asking.md (blocking for Local/Narrow)
-4. **Acceptance** — `ACCEPTANCE.md`
-5. **Smallest fix** — grilled approach only
-6. **Validate** — `/validate` (required)
+1. Open a compact repair execution context: symptom, evidence, suspected cause,
+   lane, and non-goals.
+2. Hunt pessimistically and classify Local, Narrow, or Massive.
+3. For Local/Narrow, grill what/how and binary acceptance before editing.
+4. Apply only the smallest grilled fix.
+5. Run `/validate` against the acceptance held in chat.
 
-Massive → escalate to `/goal`. Do not patch-sprawl.
+Massive → escalate to `/goal`; do not patch-sprawl. On pass, summarize the
+evidence and any manual follow-up. Do not create persistent process artifacts;
+save only an artifact the user requested at a location they approved.
 
-## Hand-offs
+## New-chat recovery
 
-- Pass validate → stop (or `/code-review` if user wants)
-- Inside goal → `/repair`
-- Massive → `/goal`
+Rediscover the code and ticket facts, then re-announce the repair context.
+Ask only for any missing user-owned grill decision or acceptance criterion.

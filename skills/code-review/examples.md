@@ -1,41 +1,50 @@
-# Code review examples
+# Code Review Examples
 
-Concrete Fix-now vs Follow-up vs waive vs nit. List **every** real defect on an initial review — no findings cap. Disposition prevents optional cleanup from expanding the current goal.
+Findings stay in chat and retain stable IDs across review and remediation. List every evidenced defect on an initial review or full rescan; disposition prevents optional cleanup from becoming default fix scope.
 
-## Exam stance (student catch vs rubber stamp)
+## Evidence-backed finding
 
-**Student catch (A+)** — Diff "works" but copies Stripe into checkout and bypasses the billing service's idempotency guard. `/code-review` puts the smallest move to the existing authority in **Fix now** before any PR.
+```markdown
+- **standards-billing-authority-checkout** · **standards** · **blocker**
+  - **Where:** `checkout.ts` (`chargeOrder`)
+  - **Rule:** `INV-4`
+  - **Trigger:** An authenticated caller submits an order that reaches the copied provider call.
+  - **Evidence:** The new path bypasses `billing.makeUserPay`, where authorization and idempotency are enforced.
+  - **Impact:** A charge can skip the authoritative safety checks.
+  - **Fix:** Route this call through the existing billing authority.
+```
 
-**Rubber-stamp miss (fail)** — Same diff; review says "LGTM, behavior correct" and skips the active idempotency rule. Teacher (`/pr-review`) Request changes on the bypass — exam failed on a defect the student should have caught.
+This maps to **Fix now**. A one-call-site formatting extraction with no violated rule or defect is a **Follow-up**; a local variable rename is an **Optional nit**.
 
-## Thermonuclear / entropy
+## Evidence versus speculation
 
-**Fix now** — PR copies Stripe calls into a second feature instead of calling `billing.makeUserPay`, bypassing the service's authorization/idempotency behavior. The direct move to the existing authority clears a correctness risk.
+**Finding:** A public mutation accepts `orderId` and reaches a write without checking ownership. The trigger, path walk, and impact support a smallest fix: enforce ownership at the mutation boundary.
 
-**Follow-up** — PR has a local one-call-site formatting `if` that could be extracted, but no Active Rule, defect, or duplication requires it. Record the cleanup; do not open a fix goal.
+**Not a finding:** “Wrap this local formatter in `try/catch`; it might throw.” No reachable invalid input, boundary, or unhandled failure is shown.
 
-**Waive (by name)** — User says “leave the Stripe authority bypass in checkout for this PR; tracked as IN-99.” Document the waive in STATUS / chat; do not ACHIEVED while calling it “fine” without that waive.
+**Not a finding:** “Add retries and a queue for a provider outage.” The diff establishes neither a provider boundary nor a delivery requirement. Omit it until evidence shows that a direct guard is insufficient.
 
-**Nit** — Rename a local variable for clarity; no complexity/entropy regression.
+## Waves and review modes
 
-## Spec
+Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-billing-authority-checkout`.
 
-**Blocker** — Ticket Done when requires refund within 30 days; AC matrix row `missing`; diff implements no refund path.
+After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
 
-**Waive** — User explicitly drops that AC for this goal and updates GOAL.md.
+## Remediation memo and promotion
 
-**Nit** — Commit message wording vs ticket title mismatch with behavior correct.
+`/analyze` owns the canonical
+[review-remediation analysis](../analyze/doctrine.md#review-remediation-analysis).
+It keeps `standards-billing-authority-checkout` as the section and promotion
+ID, then explains the current behavior, root cause, smallest fix, touch
+surface, non-goals, and verification. Only explicit user promotion of that ID
+authorizes bounded fix work; a waiver is likewise a chat decision tied to the
+same ID.
 
-## Evidence vs speculation
+## Behavior lock
 
-**Fix now** — A public mutation accepts `orderId`; its path walk reaches `ctx.db.patch` without verifying ownership. Trigger: any authenticated caller supplies another user’s id. Evidence: the mutation reads no identity and the patch is reachable. Smallest fix: ownership check at the mutation boundary.
+```markdown
+## Needs /create-test
+- `billing.makeUserPay` — its externally observable authorization and idempotency behavior lacks a durable lock.
+```
 
-**Not a finding** — “Add a `try/catch` around this local formatter because it could throw.” No caller, invalid input, external boundary, or unhandled failure path is shown. Omit it.
-
-**Not a finding** — “Add retries and an error queue in case the payment provider is temporarily unavailable.” The diff neither calls the provider nor establishes an asynchronous/durable delivery requirement. Omit it until a real boundary and failure contract exist.
-
-## Adversarial Wave 2
-
-**Catch** — Initial Wave 1 Standards clean; Wave 2 finds a should-have-moved half-helper Wave 1 missed and tags it `standards` · critical.
-
-**Drop** — Wave 2 restates the same Stripe fork Wave 1 already listed — parent discards as duplicate.
+Recommend the lock to the user; do not invoke `/create-test` or write test files.

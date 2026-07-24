@@ -1,26 +1,35 @@
 # Design Flow
 
-UI craft **inside a `/goal` workspace**. Read [./doctrine.md](./doctrine.md). Examples: [./examples.md](./examples.md).
+Craft UI for a bounded parent slice. Read [doctrine.md](doctrine.md) and
+[examples.md](examples.md). Use the shared
+[execution context](../pack-shared/execution-context.md), not a workspace or
+plan file.
 
-## Preconditions
+## Read first
 
-1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md); workspace exists at `<goal-root>/`
-3. Read `<goal-root>/GOAL.md`, `<goal-root>/GRILL.md`, and the target `<goal-root>/plans/NN-*.md`
-
-If there is no goal workspace, stop and use **`/design`** (standalone) or start `/goal`.
+1. The inline outcome, Done when, non-goals, locked decisions, Active Rules,
+   current slice, acceptance criteria, and write lane.
+2. The named Ticket / PR, relevant Git diff/history, repository UI code,
+   existing tokens, and project rules.
 
 ## Process
 
-When the work **creates or substantially changes** UI:
+When work creates or substantially changes UI:
 
-1. Before coding pixels: write a tiny **Design card** (fold into the plan via `/create-plan`) — see doctrine Mode A template
-2. Implement against that card; mobile first (`/taste` + design doctrine)
-3. For browser-reachable UI criteria, follow the [Browser validation reference](../validate/reference.md) when Browser capability is available; otherwise report visual validation as blocked. Taste self-check still applies.
-4. Stay within `<goal-root>/GOAL.md` / this plan's file lane
+1. Before coding pixels, put the doctrine's small **Design** card in chat (or
+   a user-approved destination). The parent includes its relevant decisions in
+   the inline context and Worker Brief.
+2. Implement against that card: mobile first, with `/taste` and the design
+   doctrine's hierarchy, state, depth, color, and ethical-flow rules.
+3. For browser-reachable UI criteria, follow the
+   [Browser validation reference](../validate/reference.md) when Browser
+   capability is available; otherwise report visual validation as blocked.
+4. Stay within the current slice's lane. Return structural gaps, scope
+   changes, or shared-component decisions to the parent; do not create a
+   plan, workspace, status, or other agent-owned artifact.
 
 ## Hand-offs
 
 - Structure → `/architecture`
 - Style → `/taste`
-- After build → `/validate`
+- After build → parent-owned `/validate`

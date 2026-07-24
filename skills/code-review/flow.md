@@ -1,43 +1,23 @@
-# Code Review Flow
+# Flow Code Review
 
-Initial review is two-axis (Standards + Spec) **plus adversarial Wave 2**; Fix-mode re-review is targeted. Read [./doctrine.md](./doctrine.md). Ask style: [../pack-shared/asking.md](../pack-shared/asking.md).
+**Read:** [doctrine](doctrine.md) · [review contract](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md)
 
-**Stance:** A+ exam — catch every evidenced defect before `/pr-review` (see [doctrine.md](doctrine.md) Stance). Every failure claim needs a reachable trigger and concrete evidence; operational intensity is not speculation.
+## Parent-supplied context
 
-**Spec and scope are goal-bound** below — doctrine covers axes, thermonuclear bar, artifact contracts, initial Wave 1 → Wave 2, targeted re-review, Needs `/create-test`, and remediation disposition.
+The parent supplies the relevant inline execution context before dispatching review work. It includes the outcome, done-when criteria, non-goals, ticket or PR, fixed point, lane, phase, applicable **Active Rules**, current slices, and fix backlog when they matter.
 
-## Preconditions
+Treat that chat context as the binding handoff. Do not reconstruct intent from hidden files or require persisted review state. Cite an Active Rule only when it is actually violated; otherwise cite the relevant acceptance criterion or state that no rule applies.
 
-1. Resolve **`goal-id`**
-2. Resolve `goal_root` per [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md)
-3. Prefer after `/validate` pass
-4. Workers via `/orchestrate` — this goal-root only
-5. Ticket/PR context via **read-only** `/trackers` when the goal has a Ticket
+## Flow
 
-## Process
+1. The parent opens the review gate and selects `initial`, `remediation`, or an explicit `full-rescan` under the shared review contract.
+2. For `initial` and `full-rescan`, it provides the fixed-point diff, relevant spec, Active Rules, and current slice to separate Standards and Spec work, then requires adversarial Wave 2.
+3. For `remediation`, it provides only named finding IDs, the fix diff, touched direct paths, direct callers, and relevant rules. Verify those findings and regressions in that surface; do not reopen a broad review.
+4. The parent aggregates stable chat finding IDs, maps them to Fix now / Follow-up / Optional nit, and applies the doctrine's behavior-lock and remediation-analysis rules.
+5. Before any fix work, send selected Fix now findings to `/analyze` in
+   review-remediation mode. Its memo stays keyed to the stable finding IDs,
+   then requires explicit promotion (or the documented `/just-do-it`
+   exception). The promoted lane remains bounded to those findings and the
+   supplied current slices.
 
-1. **Select review mode** — first review of this goal = initial full review; after Fix mode = targeted re-review against the named Fix-now backlog, fix diff, touched paths, and relevant `INV-*` rows
-2. **Pin fixed point** — goal's implement wave commit, else `main` / user override
-3. **Spec source (goal first)** — `<goal-root>/GOAL.md` (including Active Rules) + `<goal-root>/GRILL.md` + `<goal-root>/plans/INDEX.md` + completed plans; then ticket via `/trackers`. Task prompts: this goal-root only; file lane + AC + relevant `INV-*` rows
-4. **Review** — initial mode: Standards + Spec, then adversarial Wave 2. Targeted mode: verify named findings, touched paths, direct regressions, and correctness only (doctrine); do not reopen broad structural hunting
-5. **Aggregate + remediation disposition** — doctrine Remediation disposition with in-goal adaptation:
-
-| User says | Do |
-| --- | --- |
-| **no** | Document waived findings in `<goal-root>/STATUS.md`. **Fix-now blockers** block ACHIEVED until fixed or explicitly waived by name |
-| **yes** | Run goal-scoped `/analyze` in review remediation mode for named Fix-now rows → present proposed fixes → only on explicit promotion stay on this `goal-id` and enter Goal Fix mode: selected rows only → focused `/grill-me` → one tight plan if needed → `/implement` → `/validate` → targeted re-review |
-
-6. **Needs /create-test** — doctrine; tell user to run `/create-test`; append to `<goal-root>/FOLLOWUPS.md` + `<goal-root>/STATUS.md`; never invoke or write tests from this flow
-
-## Anti-patterns
-
-- Solo-reviewing a large goal diff when workers can
-- Skipping Wave 2 on the initial review or accepting artifact-shape failures
-- Writing/closing tickets
-- Hiding a real structural issue instead of classifying it as Fix now or Follow-up
-- Auto-running `/create-test` instead of recommending it
-- Writing or editing test files from this flow
-- Fixing review findings without the yes/no offer, review remediation analysis, explicit promotion, and focused grill
-- Nesting a second `/goal` from inside this flow
-- ACHIEVED while Fix-now findings are neither fixed nor explicitly waived
-- Reopening an initial full review after a bounded Fix mode change
+The parent controls worker dispatch, validation, and review gates. Implementation workers do not run those gates or promote, rescan, or widen review scope.

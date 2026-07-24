@@ -10,7 +10,8 @@ skills/
     SKILL.md             # required so npx skills installs this folder
     asking.md            # how to ask the user (batch Questions)
     variants.md          # standalone vs flow selection
-    workspace-roots.md   # goal/analysis root resolution
+    execution-context.md # in-chat parent / worker context
+    review-contract.md   # shared review evidence and finding rules
   <skill-name>/
     SKILL.md             # required — frontmatter + thin entry
     standalone.md        # optional — one-off use
@@ -55,7 +56,8 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `← recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
 - **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
-- **Workspace roots:** every goal or analysis flow resolves caller-provided workspace roots before falling back to pack-global defaults. See [`workspace-roots.md`](./skills/pack-shared/workspace-roots.md); never rebuild a nested parent path from an id alone.
+- **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
+- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, and severity mapping.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/repair`, `/validate`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
@@ -97,7 +99,8 @@ npx skills@latest add . --list
 - Teach principles in prose — no video links in skill bodies.
 - No secrets in skills.
 - Do not invent a missing `standalone.md` / `flow.md` process.
-- New long-running orchestrators should reuse `pack-shared/asking.md` + `pack-shared/variants.md` without editing those files for skill-specific names.
+- New long-running orchestrators should reuse `pack-shared/asking.md`, `pack-shared/variants.md`, and `pack-shared/execution-context.md` without editing those files for skill-specific names.
+- Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 
 ## Publish / install

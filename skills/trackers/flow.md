@@ -1,7 +1,9 @@
 # Trackers Flow — read only
 
 
-This pack talks to trackers via **MCP** and **`gh`**. Cursor Cloud Agent linking is separate.
+This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
+brief in the parent's inline [execution context](../pack-shared/execution-context.md);
+do not persist it in agent-owned state. Cursor Cloud Agent linking is separate.
 
 ## Hard rule: read only
 
@@ -27,7 +29,8 @@ Ticket close is the **user’s** job (manual or PR merge). This skill only **rea
 | `github.com/.../pull/N` or PR ref | **GitHub** (PR) |
 | Ambiguous number only | Ask once: Linear or GitHub? |
 
-One ticket ID per goal unless the caller explicitly names several related ones.
+One ticket ID per bounded execution context unless the caller explicitly names
+several related ones.
 
 ## Discover tools first
 
@@ -91,16 +94,18 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 - **Summary:** …
 - **Review notes worth keeping:** …
 
-# Raw
-<link or path only — do not paste the full body into every later prompt>
+# Source
+<ticket or PR URL only — do not paste the full body into every later prompt>
 ```
 
 Missing acceptance criteria → ask **one** question or derive binary Done when from the Ask (and show it for approval). Do not write that back to the tracker.
 
 ## How callers use the brief
 
-- Spec source for `/create-plan`, `/validate`, `/code-review`
-- Store a **link** in `GOAL.md` under `/goal` — not the full body in every prompt
+- Spec source for the parent brief, `/validate`, and `/code-review`
+- Keep the Ticket / PR reference and relevant acceptance criteria in chat; the
+  parent combines them with Git and repository evidence
+- Do not create a workspace, status, plan, register, or tracker update
 
 ## Failures
 
@@ -115,5 +120,5 @@ Missing acceptance criteria → ask **one** question or derive binary Done when 
 - Invoking this skill alone as “update my ticket”
 - Inventing title/AC from the ID alone
 - Any write/close/comment to Linear or GitHub
-- Dumping the full ticket body into every skill turn (keep the brief; link the raw)
+- Dumping the full ticket body into every skill turn (keep the brief; link the source)
 - Using Cloud Agent Linear assignment as a substitute for fetch in this chat

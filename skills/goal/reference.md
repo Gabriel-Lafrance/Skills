@@ -1,188 +1,140 @@
-# Goal reference (schemas & templates)
+# Goal reference (in-chat templates)
 
-Load when writing workspace artifacts, STATUS, Progress lines, or the ACHIEVED summary. Rules stay in [doctrine.md](doctrine.md).
+Load when establishing or recovering a goal, issuing a plan or slice contract, posting progress, or summarizing completion. Rules stay in [doctrine.md](doctrine.md).
 
-## Workspace layout
+## Stateless default
 
-```text
-.agents/temp/grills/              # shared themes (survive across goals)
-  REGISTRY.md
-  language.md                     # ubiquitous language
-  choice.md                       # locked A-over-B / package picks
-  rules.md                        # app rules (actors + policies)
+The shared [execution context](../pack-shared/execution-context.md) is the only
+automatic state. Persist only a user-requested artifact at an approved
+destination.
 
-.agents/temp/goals/
-  REGISTRY.md
-  achieved/
-    <goal-id>/              # archived on ACHIEVED
-      GOAL.md
-      STATUS.md
-      GRILL.md              # goal-scoped only
-      plans/
-      pieces/
-  <goal-id>/                  # active running/blocked goals
-    GOAL.md
-    STATUS.md
-    GRILL.md                 # goal-scoped: outcome, gates, taste/arch/design — not shared glossary
-    analyses/
-      <analysis-id>/         # review-remediation analysis when Fix now is selected
-        ANALYSIS.md
-        STATUS.md
-    plans/
-      INDEX.md
-      01-<slug>.md
-      02-<slug>.md
-    pieces/
-```
+Plans, slices, grill outcomes, progress, and review findings stay in chat. If the user asks to save an analysis, plan, or summary and supplies or approves a destination, write only that artifact. It does not become hidden state or a requirement for recovery.
 
-The tree above is the standalone default. Resolve `goal_root` and `goals_container` from [../pack-shared/workspace-roots.md](../pack-shared/workspace-roots.md) before using it; a parent wave may provide a different container. Shared grill themes remain under **`.agents/temp/grills/`** — never `.scratch/`.
+## Required execution context
 
-### Goal id
-
-1. Ticket → `IN-1234` or `gh-42`
-2. Else kebab slug + 4-hex suffix → `add-billing-a3f2`
-3. Override → `/goal id:my-id …`
-
-If dir exists and status is `running`/`blocked`, allocate a **new** id (suffix) — never overwrite another goal's workspace. Parallel goals are normal; do not ask the user whether to resume or start new.
-
-## GOAL.md schema (required)
-
-`GOAL.md` is the single source of truth for the outcome, scope, and behavioral rules. Do not create a second rules or invariant artifact.
+Use the shared template, keeping only fields that matter to current work:
 
 ```markdown
-# Goal
-<one-line verifiable outcome>
+## Execution context
+**Outcome:** …
+**Done when:** …
+**Non-goals:** …
+**Ticket / PR:** <reference | none>
+**Fixed point:** <base...HEAD | none>
+**Lane:** <allowed paths and symbols>
+**Phase:** grill | plan | implement | validate | review | fix | done
+**Next:** …
 
-# Lane
-<areas and paths this goal may change>
+### Locked decisions
+- <user decision, waiver, or promotion>
 
-# Done when
-1. <binary outcome>
-2. …
+### Active Rules
+| ID | Rule | Enforcement | Verification |
+| --- | --- | --- | --- |
+| INV-1 | … | … | … |
 
-# Constraints
-- <scope, technology, or delivery constraint>
+### Current slices
+- <scope, acceptance criteria, ownership, dependencies, and status>
 
-# Context
-- Ticket: …
-- Analysis: …
-
-## Active Rules (Invariants)
-| ID | Rule | Scope | Applies to plans | Authoritative enforcement | Verification |
-| --- | --- | --- | --- | --- | --- |
-| INV-1 | X is unavailable while Y is processing | goal | 01 | UI disables X; backend transition rejects X while Y is processing | UI state + rejected backend call |
-| INV-2 | … | project \| goal | 01, 02 | … | … |
+### Fix backlog
+- `finding-id` — fix now | follow-up | waived
 ```
 
-Every behavioral rule locked during a grill receives an `INV-*` row unless the user explicitly calls it an example, preference, or non-binding idea. Project-wide rules may also stay in `grills/rules.md`, but relevant rules are copied into this table for the active goal. `Applies to plans` names which plan implements or must preserve the rule; use `all` when it applies across the goal.
+Do not infer a user decision, waiver, invariant, or promotion from repository facts. Re-announce settled decisions when they matter to a later phase.
 
-### REGISTRY.md
+## Inline plan contract
 
-| id | status | ticket | title | workspace | updated |
-| --- | --- | --- | --- | --- | --- |
-
-Statuses: `running` | `blocked` | `achieved` | `cleared`
-
-On **ACHIEVED**: move the active `goal_root` to `<goals_container>/achieved/<goal-id>/`; set the scoped registry `workspace: achieved/<goal-id>` and `status: achieved`. Do **not** delete the workspace on achieve — archive it.
-
-On **`/goal clear [id]`**: set the scoped registry `status: cleared`; delete the active `goal_root` **or** `<goals_container>/achieved/<id>/` if that goal was already achieved.
-
-### Isolation
-
-- All artifacts for a goal stay under `goal_root` (active) or `<goals_container>/achieved/<goal-id>/` (archived), including review-remediation analyses under `analyses/`; shared language/choices/rules stay under `.agents/temp/grills/`.
-- Task prompts get the resolved `goal_root`, relevant `GOAL.md` Active Rules, and the assigned `plans/*.md` only.
-- Overlapping file lanes with another `running` goal in the same `goals_container` → serialize or ask.
-- Bare `/goal` → this chat's scoped registry and goal `STATUS.md`.
-
-## STATUS.md schema (required fields)
-
-Every active goal must maintain `STATUS.md` with at least:
-
-| Field | Values / meaning |
-| --- | --- |
-| `phase` | `grilling` \| `planning` \| `implementing` \| `validating` \| `reviewing` \| `paused` \| `achieved` \| `cleared` |
-| `last` | Last major step completed (e.g. `grilling`, `plan-01-done`, `validate-pass`) |
-| `plans_done` | Count of completed plans |
-| `plans_total` | Total plans in INDEX |
-| `blocked_on` | `user` \| `none` |
-| `resume_at` | Step id to resume (`0-grill`, `1a-explore`, `1b-plans`, `1c-implement`, `1d-validate`, `1d-review`) |
-| `goals_container` | Parent directory for active and archived goals |
-| `goal_root` | Resolved path for this goal's active or archived workspace |
-| `parent_wave` | `none` or the owning wave, such as `just-do-it:<jdi-id>` |
-
-Also track the mandatory skill checklist rows as they complete.
-
-## Resume / interrupt
-
-| User action | Do |
-| --- | --- |
-| Bare `/goal` or “status” | Read the scoped REGISTRY + this goal’s `STATUS.md`; print **Progress** line + `resume_at`; do **not** re-grill settled GRILL gates |
-| “continue” / “resume” | Jump to `resume_at`; re-read GOAL/GRILL/INDEX/current plan only |
-| “pause” / “stop here” | Set `blocked_on: user`, `phase: paused`; acknowledge; **no** new Tasks until continue |
-| `/goal clear [id]` | Scoped REGISTRY `cleared`; **delete** active `goal_root` **or** archived `<goals_container>/achieved/<goal-id>/` |
-| New `/goal …` while others are `paused`/`running` | Start a **new** id immediately; leave other goals untouched. Do **not** ask resume vs new — invocation means run now |
-
-Persist gate checkboxes in `GRILL.md` so resume never re-asks cleared gates.
-
-## Progress chat line format
-
-After **every** phase change (and after each Task wave), post **one** short chat line **and** update `STATUS.md`:
+`/create-plan` produces this in chat for one slice. It is not a file path or an instruction to write one.
 
 ```markdown
-**Progress:** `<goal-id>` · grilling ✓ · plans 2/3 · implementing `01` · next: validate
-```
+# Plan: <title>
+**Slice:** <ordered ID>
+**Status:** proposed | ready | implementing | done
+**Blocked by:** <none | slice IDs>
 
-Compact form also OK: `[goal:<id>] phase=<phase> plans=<done>/<total> last=<last> blocked=<blocked_on> resume=<resume_at>`
+## Outcome
+<one verifiable slice result>
 
-## ACHIEVED summary (required last message)
+## Scope and lane
+<allowed paths/symbols; explicit exclusions>
 
-After archive, the main agent's **final** user-facing message must be a polished recap — not a one-liner. Use light emojis, keep it scannable:
+## Approach
+<concrete implementation shape; no unresolved Option A/B>
 
-```markdown
-# ✅ Goal achieved: <short title>
+## Invariants
+| ID | Role | Required enforcement | Verification |
+| --- | --- | --- | --- |
+| INV-1 | implement | … | … |
 
-**goal-id:** `<id>` · **Ticket:** <none | IN-1234 / #42> · **Archive:** `<goals_container>/achieved/<id>/`
+## Coordination
+- **Owner:** …
+- **Dependencies:** …
+- **Handoffs / seams:** …
+- **Must not touch:** …
 
-## What we did
-- <2–5 bullets of outcome in user language>
-
-## Skills run
-| Skill | Role |
-| --- | --- |
-| `/grill-me` | … |
-| `/taste` | … |
-| `/architecture` | … or _n/a_ |
-| `/design` | … or _n/a_ |
-| `/split-task` | … or _n/a_ |
-| `/create-plan` | plans: … |
-| `/orchestrate` + `/implement` | … |
-| `/validate` | pass (incl. cross-plan seams if 2+ plans) |
-| `/code-review` | Standards / Spec + Wave 2 highlights |
-
-## What changed
-- **Files / areas:** …
-- **Behavior:** …
-- **Evidence:** terminals / localhost cite (no MCP ritual)
-
-## Decisions locked (grill)
-- Goal: … (from `GRILL.md`)
-- Themes: … (from `grills/language.md`, `choice.md`, `rules.md` — or _none new_)
-- Active Rules: `INV-1` … verified by … (or _none locked_)
-
-## Manual next steps (you)
-- [ ] Close / merge ticket or PR if any (trackers are read-only)
-- [ ] Open `/create-test` follow-ups from `FOLLOWUPS.md` (from `/code-review` recommendations — or _none_)
+## Acceptance criteria
 - [ ] …
 
-## Open follow-ups (optional)
+## Out of scope
 - …
 ```
 
-If there are no manual steps, still say so under **Manual next steps** (`_None — you're done._`).
+Assign relevant Active Rules to each contract. Keep the frontier and dependencies under **Current slices** in the execution context.
 
-### Ship Questions (after ACHIEVED summary)
+## New-chat recovery
 
-One Questions batch via [asking.md](../pack-shared/asking.md) — do not invent a `/ship` skill:
+Do not search for a goal directory, status file, archive, or resume tree. Follow the [authority order](../pack-shared/execution-context.md#authority):
+
+1. Read the current request and decisions settled in this chat.
+2. Re-derive named ticket/PR facts and comments.
+3. Re-derive Git branch, diff, commits, and repository facts.
+4. Read repository rules and committed project documentation.
+5. Use a user-requested artifact only when its path was supplied.
+
+State the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions; do not re-grill a decision carried by the request, ticket/PR, approved artifact, or repository rules merely because the chat is new.
+
+## Progress and pause
+
+After a phase change or Task wave, post one concise chat line:
+
+```markdown
+**Progress:** grill ✓ · slices 1/3 · implementing `02` · next: validate
+```
+
+For a pause, state the current phase, completed slices, blocker, and next action in chat. A later chat re-derives repository facts and asks only for decisions it cannot recover.
+
+## Completion summary
+
+After `/validate` passes and `/code-review` has run, report the outcome without archiving anything:
+
+```markdown
+# ✅ Goal complete: <short title>
+
+## What changed
+- …
+
+## Evidence
+- `/validate`: …
+- `/code-review`: …
+
+## Decisions and rules
+- `INV-1`: … verified by …
+
+## Fix backlog
+- <none | waived finding and user decision>
+
+## Manual next steps
+- <none | user action>
+```
+
+If review selected a Fix-now item, completion waits for remediation analysis,
+explicit promotion, bounded Fix mode, validation, and `remediation` review—or a
+named user waiver.
+
+## Ship questions
+
+After the completion summary, ask one batch only when `/goal` owns shipping.
+Defaults remain no unless already requested:
 
 ```markdown
 ## Questions
@@ -190,10 +142,12 @@ Reply like: 1b 2b
 
 1. Commit these changes now?
    - a) yes — create a commit
-   - b) no — leave uncommitted ← recommended unless the user already asked to commit
+   - b) no — leave uncommitted ← recommended
 2. Open a PR?
-   - a) yes — push and `gh pr create`
+   - a) yes — push and create a PR
    - b) no ← recommended
 ```
 
-Wait for the batch before committing or opening a PR.
+Wait for the answer before committing or opening a PR. Under `/just-do-it`,
+return the completion evidence to the parent instead; it owns the branch,
+preflight, draft visibility, and PR creation.

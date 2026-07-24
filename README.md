@@ -25,7 +25,7 @@ npx skills@latest update -g -y
 | --- | --- |
 | [`/ask-gabriel`](./skills/ask-gabriel/SKILL.md) | Unsure which skill; what next; before non-trivial work |
 | [`/goal`](./skills/goal/SKILL.md) | Build a feature end-to-end with user-locked Active Rules (grill → plans → implement → validate → review). Pass a ticket: `/goal IN-1234` or `/goal #42`. |
-| [`/analyze`](./skills/analyze/SKILL.md) | Research a task or idea. Writes findings to disk. Optionally promote to `/goal` or `/write-ticket`. |
+| [`/analyze`](./skills/analyze/SKILL.md) | Research a task or idea in chat. Optionally save a user-requested memo, promote to `/goal`, or hand off to `/write-ticket`. |
 | [`/write-ticket`](./skills/write-ticket/SKILL.md) | Refine or create a Linear/GitHub Feature, Tweak, Bug, or Refactor ticket (open grill → `/analyze` → draft → write after you approve). |
 | [`/publish`](./skills/publish/SKILL.md) | Put work on a typed branch (`feature|tweak|bug|refactor/<ticket>-<slug>`), push, then draft/publish a PR (What changed, How to QA, ticket link). |
 | [`/just-do-it`](./skills/just-do-it/SKILL.md) | Linear ticket → early branch → analyze → goal → dual code-review (Fix-now blockers only) → landed PR. Human reviews after. |
@@ -33,7 +33,7 @@ npx skills@latest update -g -y
 | [`/architecture`](./skills/architecture/SKILL.md) | Decide structure, entry points, and data shape. |
 | [`/design`](./skills/design/SKILL.md) | Craft or polish UI. |
 | [`/code-review`](./skills/code-review/SKILL.md) | Initial deep review of a branch vs `main`; named blockers are analyzed with proposed fixes before optional promotion, then re-review stays targeted. |
-| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate a PR: triage priors, rescan; one finding per comment; post via gh only. |
+| [`/pr-review`](./skills/pr-review/SKILL.md) | Evaluate a PR: triage all prior threads, then review the changed surface; one finding per comment; post via gh only. |
 | [`/repair`](./skills/repair/SKILL.md) | Fix a bug with the smallest safe change. Escalate huge bugs to `/goal`. |
 | [`/create-test`](./skills/create-test/SKILL.md) | Lock complex behavior with durable tests. Only after `/code-review` or `/pr-review` recommends — you must run it. |
 
