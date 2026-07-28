@@ -14,10 +14,10 @@ Treat that chat context as the binding handoff. Do not reconstruct intent from h
 2. For `initial` and `full-rescan`, it provides the fixed-point diff, relevant spec, Active Rules, and current slice to separate Standards and Spec work, then requires adversarial Wave 2. Standards must run the Named principles checklist and return the **Principles sweep** table.
 3. For `remediation`, it provides only named finding IDs, the fix diff, touched direct paths, direct callers, and relevant rules. Verify those findings and regressions in that surface; do not reopen a broad review.
 4. The parent aggregates stable chat finding IDs, maps them to Fix now / Follow-up / Optional nit, and applies the doctrine's behavior-lock and remediation-analysis rules.
-5. Before any fix work, send selected Fix now findings to `/analyze` in
+5. Before any fix work, send selected Fix now findings to **flow** `/analyze` in
    review-remediation mode. Its memo stays keyed to the stable finding IDs,
    then requires explicit promotion (or the documented `/just-do-it`
    exception). The promoted lane remains bounded to those findings and the
    supplied current slices.
 
-The parent controls worker dispatch, validation, and review gates. Implementation workers do not run those gates or promote, rescan, or widen review scope.
+The parent controls worker dispatch, acceptance evidence, and review gates. Implementation workers do not run those gates or promote, rescan, or widen review scope.

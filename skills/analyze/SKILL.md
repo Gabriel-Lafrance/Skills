@@ -1,17 +1,19 @@
 ---
 name: analyze
 description: >-
-  Stateless task analysis returned in chat. Supports explicit inline promotion
-  to /goal and scoped remediation analysis for named code-review Fix-now
-  blockers. Does not write tickets or automatic artifacts.
+  Stateless task analysis returned in chat. Dual: standalone research with
+  promote-to-goal handoffs, or flow under a parent (write-ticket, just-do-it,
+  review remediation). Does not write tickets or automatic artifacts.
 disable-model-invocation: true
 ---
 
 # Analyze
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only; use the no-flow message if flow is requested.
+**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
 
-`/analyze` investigates a task, idea, ticket, PR, or review-fix backlog and returns an evidence-backed memo in chat. Its only in-goal use is review remediation of named Fix-now blockers. It never writes to Linear or GitHub.
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+
+`/analyze` investigates a task, idea, ticket, PR, or review-fix backlog and returns an evidence-backed memo in chat. It never writes to Linear or GitHub.
 
 ## Contract
 

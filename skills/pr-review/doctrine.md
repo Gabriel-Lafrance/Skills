@@ -61,10 +61,34 @@ On any follow-up, Pass A precedes new review work:
    reply, resolve, or reopen action.
 
 Pass A covers the entire history even when the user asks about a recent push.
-After it completes, follow-up review defaults to the shared contract's
-`remediation` mode over the addressed findings, their changed surface and
-direct callers, and current changes. It becomes `full-rescan` only when the
-user explicitly requests one or materially expands the review scope.
+
+## Pass B: remediation + new surface
+
+After Pass A completes on a follow-up:
+
+1. Pin `previousReviewedHead` (last reviewed head for this PR) and
+   `currentHead` (live PR head). Partition
+   `previousReviewedHead..currentHead`.
+2. Run shared-contract `remediation` over addressed findings, their
+   changed/touched surface, and direct callers.
+3. Separately run `initial`-depth review (Standards + Spec, then adversarial
+   Wave 2) over **newly introduced** files and hunks in that partition that
+   are outside the remediation set. New unrelated commits must not escape
+   review.
+4. Promote the whole follow-up to `full-rescan` only when the user explicitly
+   requests it or materially expands the review scope.
+
+Do not treat “new commits alone” as a reason to skip either the remediation
+pass or the new-surface pass.
+
+## Stale-head guard
+
+Immediately before posting comments or submitting approve/request-changes:
+
+1. Re-fetch the PR head SHA with `gh`.
+2. If it differs from the pinned `currentHead` / `headSha`, abort publish.
+3. Re-pin, re-partition as needed, redraft, and re-ask the single publish
+   question.
 
 ## Finding triage and PR behavior
 
@@ -82,8 +106,9 @@ user explicitly requests one or materially expands the review scope.
 - Use `gh` or `gh api` for all GitHub interaction. Do not write ticket/Linear
   comments, helper scripts, review payload files, or summary/announcement
   comments on the PR.
-- After publication, report the result in chat. Do not automatically start a
-  local fix or `/goal` lifecycle.
+- After publication, report the result in chat and record the published head
+  as `previousReviewedHead` for the next follow-up. Do not automatically start
+  a local fix or `/goal` lifecycle.
 
 ## Anti-patterns
 

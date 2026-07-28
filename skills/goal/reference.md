@@ -22,7 +22,7 @@ Use the shared template, keeping only fields that matter to current work:
 **Ticket / PR:** <reference | none>
 **Fixed point:** <base...HEAD | none>
 **Lane:** <allowed paths and symbols>
-**Phase:** grill | plan | implement | validate | review | fix | done
+**Phase:** grill | plan | implement | acceptance | review | fix | done
 **Next:** …
 
 ### Locked decisions
@@ -98,14 +98,14 @@ State the recovered outcome, lane, fixed point, known rules, and phase in chat. 
 After a phase change or Task wave, post one concise chat line:
 
 ```markdown
-**Progress:** grill ✓ · slices 1/3 · implementing `02` · next: validate
+**Progress:** grill ✓ · slices 1/3 · implementing `02` · next: acceptance
 ```
 
 For a pause, state the current phase, completed slices, blocker, and next action in chat. A later chat re-derives repository facts and asks only for decisions it cannot recover.
 
 ## Completion summary
 
-After `/validate` passes and `/code-review` has run, report the outcome without archiving anything:
+After acceptance evidence is recorded and `/code-review` has run, report the outcome without archiving anything:
 
 ```markdown
 # ✅ Goal complete: <short title>
@@ -114,7 +114,7 @@ After `/validate` passes and `/code-review` has run, report the outcome without 
 - …
 
 ## Evidence
-- `/validate`: …
+- Acceptance: <Done when / Active Rules / seams — path walk, terminal, browser>
 - `/code-review`: …
 
 ## Decisions and rules
@@ -128,13 +128,13 @@ After `/validate` passes and `/code-review` has run, report the outcome without 
 ```
 
 If review selected a Fix-now item, completion waits for remediation analysis,
-explicit promotion, bounded Fix mode, validation, and `remediation` review—or a
-named user waiver.
+explicit promotion, bounded Fix mode, re-checked acceptance evidence, and
+`remediation` review—or a named user waiver.
 
 ## Ship questions
 
-After the completion summary, ask one batch only when `/goal` owns shipping.
-Defaults remain no unless already requested:
+After the completion summary, ask one batch only when standalone `/goal` owns
+shipping. Defaults remain no unless already requested:
 
 ```markdown
 ## Questions
@@ -148,6 +148,6 @@ Reply like: 1b 2b
    - b) no ← recommended
 ```
 
-Wait for the answer before committing or opening a PR. Under `/just-do-it`,
-return the completion evidence to the parent instead; it owns the branch,
-preflight, draft visibility, and PR creation.
+Wait for the answer before committing or opening a PR. Under flow `/goal`
+(parent `/just-do-it` or similar), return the completion evidence to the parent
+instead; it owns the branch, preflight, draft visibility, and PR creation.

@@ -36,4 +36,4 @@ plan file.
 - UI → `/design`
 - Structure decision → parent inline context → `/implement`
 - Scale, duplicated-service, forked-primitive, or missed-move concerns →
-  `/validate` / `/code-review`
+  acceptance evidence / `/code-review`

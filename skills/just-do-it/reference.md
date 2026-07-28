@@ -14,9 +14,9 @@ template, not a filesystem schema.
 **Ticket:** IN-1234 · <URL>
 **Type:** feature | tweak | bug | refactor
 **Branch / base:** `bug/IN-1234-fix-checkout` / `main`
-**Fixed point:** `main...HEAD`
+**Fixed point:** `main...HEAD` · baseSha=`abc1234` · headSha=`def5678`
 **Lane:** <paths and symbols>
-**Phase:** resolve | branch | analyze | build | cr1 | cr2 | ship | done | blocked
+**Phase:** resolve | branch | analyze | build | checkpoint | cr1 | cr2 | ship | done | blocked
 **Next:** <one action>
 **CR1 loops:** 0/3
 **CR2 loops:** 0/3
@@ -34,7 +34,7 @@ template, not a filesystem schema.
 - `CR2-1` — follow-up — <why it does not block>
 
 ### Handoffs and evidence
-- <child completion, review result, validation, blocker, or manual step>
+- <child completion, review result, acceptance evidence, blocker, or manual step>
 
 ### PR draft
 **Preflight:** <clean tree · branch · remote/base · commits ahead · gh auth>
@@ -45,6 +45,10 @@ template, not a filesystem schema.
 **Human next:** review on GitHub or `/pr-review`
 ```
 
+**Fixed point rule:** always record `baseSha` and `headSha` after each
+checkpoint. Review briefs use those SHAs. Do not claim `main...HEAD` while the
+working tree is dirty or uncommitted relative to `headSha`.
+
 Use only fields relevant to the current phase. Keep the complete PR title and
 body visible in chat before `gh pr create`; autonomy removes an approval wait,
 not draft visibility.
@@ -52,7 +56,7 @@ not draft visibility.
 ## Review disposition
 
 For every CR1 or CR2 pass, add a concise context entry with the review scope,
-base, evidence, and one disposition:
+`baseSha`/`headSha`, evidence, and one disposition:
 
 - **fix now** — named invariant/spec/correctness/security/regression blocker;
 - **follow-up** — useful but not required now; never auto-loop;

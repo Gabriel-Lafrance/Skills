@@ -1,9 +1,9 @@
 # Analyze doctrine
 
 Turn an ask into an evidence-backed analysis memo in chat. `/analyze` is
-standalone-only, except for the bounded review-remediation bridge described
-below. It does not implement, create tickets, or create automatic runtime
-artifacts.
+**dual** — load exactly one of `standalone.md` or `flow.md` via
+[variants.md](../pack-shared/variants.md). It does not implement, create
+tickets, or create automatic runtime artifacts.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -14,8 +14,9 @@ artifacts.
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` brief | Analyze the brief, then return the memo to that flow |
-| Named review Fix-now rows | Use review-remediation mode only for those rows |
+| `/write-ticket` brief | Flow: analyze the brief, then return the memo to that parent |
+| `/just-do-it` parent brief | Flow: research then return (parent may instruct promote + start) |
+| Named review Fix-now rows | Flow: review-remediation mode only for those rows |
 
 Facts come from live repository, ticket, PR, and diff evidence. User decisions,
 waivers, invariants, and promotions come only from the visible execution
@@ -37,7 +38,7 @@ context or a new user answer.
    load it by default unless the ask is clearly single-file with no placement
    decision.
 5. Post the memo below. Ask one batch only for material unknowns that research
-   cannot answer.
+   cannot answer (standalone), or return unknowns to the parent (flow).
 
 ## Analysis memo
 
@@ -81,9 +82,9 @@ agent-owned file.
 Include the draft `/goal` seed when the work is buildable. It is context for a
 possible next phase, not a promotion or implementation authorization.
 
-## Hand-off
+## Hand-off (standalone only)
 
-For a standard analysis, if the user did not already name the next step, offer
+For standalone analysis, if the user did not already name the next step, offer
 one batch:
 
 ```markdown
@@ -106,9 +107,9 @@ Reply like: 1a
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
 | e) Promote + start | Carry the inline seed into `/goal`, then continue through its grill or pre-cleared path. |
 
-`/just-do-it` may explicitly instruct this hand-off to take `e)` under its
-autonomy policy. That parent instruction is the promotion choice; do not fall
-back to the general `a)` recommendation.
+Flow parents (`/write-ticket`, `/just-do-it`) own the next step — see
+[flow.md](flow.md). `/just-do-it` may explicitly instruct the `promote + start`
+handoff under its autonomy policy after the memo is shown.
 
 Never promote from an implication, a code change, or a previous artifact.
 Optional persistence follows the shared
@@ -118,8 +119,8 @@ Optional persistence follows the shared
 
 Use this mode only after the user selected named **Fix now** rows from a review,
 or a `/just-do-it` parent explicitly forwarded named rows under its autonomy
-policy. Do not add findings, reopen product discovery, or analyze Follow-up
-items and nits.
+policy. Always load **flow** for this mode. Do not add findings, reopen product
+discovery, or analyze Follow-up items and nits.
 
 1. Refresh the review pass, fixed-point diff, selected rows, cited rules, lane,
    and current goal context in chat.
@@ -177,3 +178,4 @@ On the other choices, leave code unchanged.
 - Asking the user for repository or tracker facts that can be rediscovered
 - Promoting a remediation without first showing its complete stable-finding analysis
 - Replacing evidence with an implementation-level design
+- Loading both standalone and flow variants in one turn

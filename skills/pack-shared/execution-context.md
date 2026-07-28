@@ -30,7 +30,7 @@ relevant context visible in chat:
 **Ticket / PR:** <reference | none>
 **Fixed point:** <base...HEAD | none>
 **Lane:** <allowed paths and symbols>
-**Phase:** grill | plan | implement | validate | review | fix | done
+**Phase:** grill | plan | implement | acceptance | review | fix | done
 **Next:** …
 
 ### Locked decisions
@@ -62,8 +62,8 @@ and prior decisions. Do not make a worker reconstruct intent from hidden files
 or a plan path.
 
 Omit Task `model` unless the user explicitly requested one. The parent owns
-integration, `/validate`, and `/code-review`; implementation workers do not run
-those gates.
+integration, acceptance evidence, and `/code-review`; implementation workers do
+not run those gates.
 
 Every worker ends with:
 

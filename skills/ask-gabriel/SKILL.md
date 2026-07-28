@@ -11,7 +11,7 @@ description: >-
 
 You don't remember every skill — ask. Stay **thin**: recommend only; do **not** load other skills' bodies until the user accepts.
 
-**Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/taste`, `/architecture`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
+**Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/taste`, `/architecture`, `/analyze`, `/goal`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
 
 ## On-ramps
 
@@ -19,22 +19,22 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | --- | --- |
 | Unsure which skill | Stay here — answer below |
 | Fuzzy idea / research | `/analyze` (it loads `/taste` + `/architecture`) |
+| Bug / something broken | `/analyze` → `/goal` when buildable |
 | Build until X is true | `/goal` (always loads `/taste`; `/architecture` unless trivial) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
 | Ship branch + optional PR | `/publish` |
-| Linear ticket → landed PR (autonomous) | `/just-do-it IN-1234` |
+| Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
 | Fix or polish UI | `/design` |
-| Bug / something broken | `/repair` |
 | Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and (when structure matters) `/architecture` — usually via `/analyze` → `/goal`, or recommend those skills directly when the ask is style or structure.
 
-Internals (`/validate`, `/implement`, `/orchestrate`, …) are flow steps looked up by `/goal` or `/repair` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded.
+Internals (`/implement`, `/orchestrate`, …) are flow steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded.
 
 ## How to answer
 

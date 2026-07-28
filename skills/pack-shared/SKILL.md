@@ -2,8 +2,9 @@
 name: pack-shared
 description: >-
   Internal pack contracts for Gabriel Lafrance Skills: asking, variants,
-  stateless execution context, and review behavior. Not user-invoked. Other
-  skills link here so shared docs install with npx skills (skill folders only).
+  stateless execution context, review behavior, and browser evidence. Not
+  user-invoked. Other skills link here so shared docs install with npx skills
+  (skill folders only).
 disable-model-invocation: true
 ---
 
@@ -17,5 +18,6 @@ Other skills Read these files by relative path:
 - [variants.md](variants.md) — standalone vs flow selection
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
+- [browser-evidence.md](browser-evidence.md) — browser proof for UI acceptance
 
 This folder exists so `npx skills` installs the contracts next to every other skill (`../pack-shared/...`). Root-level `skills/*.md` files are **not** installed.

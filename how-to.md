@@ -12,6 +12,7 @@ skills/
     variants.md          # standalone vs flow selection
     execution-context.md # in-chat parent / worker context
     review-contract.md   # shared review evidence and finding rules
+    browser-evidence.md  # browser proof for UI acceptance
   <skill-name>/
     SKILL.md             # required — frontmatter + thin entry
     standalone.md        # optional — one-off use
@@ -33,8 +34,8 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 | Kind | Files | When |
 | --- | --- | --- |
 | **Dual** | `SKILL.md` + `standalone.md` + `flow.md` | Same skill as a one-off *or* inside a wave |
-| **Flow-only** | `SKILL.md` + `flow.md` (no `standalone.md`) | Looked up by an orchestrator (`/goal`, `/repair`, …) |
-| **Standalone-only** | `SKILL.md` (+ doctrine/reference); no `flow.md` | User-invoked entry (`/goal`, `/analyze`, `/ask-gabriel`, …) |
+| **Flow-only** | `SKILL.md` + `flow.md` (no `standalone.md`) | Looked up by an orchestrator (`/goal`, `/just-do-it`, …) |
+| **Standalone-only** | `SKILL.md` (+ doctrine/reference); no `flow.md` | User-invoked entry (`/ask-gabriel`, `/just-do-it`, `/write-ticket`, …) |
 
 `SKILL.md` stays thin. Point at doctrine / examples / the chosen variant. Do not paste pack-wide ask or variant rules — link [`asking.md`](./skills/pack-shared/asking.md) and [`variants.md`](./skills/pack-shared/variants.md).
 
@@ -58,8 +59,9 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
 - **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, and severity mapping.
+- **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md).
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/repair`, `/validate`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
 
@@ -69,7 +71,7 @@ For post-build UI validation:
 
 1. Use an Agent-mode session where Browser tools are exposed.
 2. Reuse a running local app or approved preview with safe test data.
-3. Use [`skills/validate/reference.md`](./skills/validate/reference.md) as the single browser evidence protocol; link to it instead of copying its steps into other skills.
+3. Use [`skills/pack-shared/browser-evidence.md`](./skills/pack-shared/browser-evidence.md) as the single browser evidence protocol; link to it instead of copying its steps into other skills.
 4. Write capability-based guidance: use Browser when it is available; otherwise report visual validation as `blocked`, never passed.
 
 Browser state can persist per workspace. Reset safe test state when needed, or report the state used as evidence.
@@ -95,7 +97,7 @@ npx skills@latest add . --list
 ## Conventions
 
 - One skill = one job. Prefer new skill over bloating an existing one.
-- Cursor-native: Plan mode, CreatePlan, Task subagents, validate gates.
+- Cursor-native: Plan mode, CreatePlan, Task subagents, acceptance evidence gates.
 - Teach principles in prose — no video links in skill bodies.
 - No secrets in skills.
 - Do not invent a missing `standalone.md` / `flow.md` process.

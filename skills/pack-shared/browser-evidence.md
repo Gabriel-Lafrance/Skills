@@ -1,6 +1,8 @@
-# Browser Validation Reference
+# Browser evidence protocol
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
+
+Parent skills (`/goal`, `/design`, `/code-review`) link here — there is no `/validate` skill.
 
 ## Capability and preconditions
 
@@ -23,7 +25,7 @@ Exercise only states that are relevant to the criterion: responsive layout, empt
 
 ## Evidence
 
-Record browser evidence in the validation report:
+Record browser evidence in the acceptance report:
 
 ```markdown
 | Source | What it showed |

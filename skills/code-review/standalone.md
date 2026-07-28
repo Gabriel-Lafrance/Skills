@@ -24,4 +24,4 @@ Apply the doctrine's separate axes, **Named principles checklist**, evidence bar
 
 ## Handoff
 
-The parent owns fixed-point setup, worker dispatch, validation, and review gates. Implementation workers do not run those gates or broaden a remediation review. Report stable finding IDs and the Fix now / Follow-up / Optional nit disposition in chat.
+The parent owns fixed-point setup, worker dispatch, acceptance evidence, and review gates. Implementation workers do not run those gates or broaden a remediation review. Report stable finding IDs and the Fix now / Follow-up / Optional nit disposition in chat.

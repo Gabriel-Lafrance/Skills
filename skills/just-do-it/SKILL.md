@@ -22,11 +22,14 @@ follow-ups, and leaves `/pr-review` to a human.
 1. Resolve the Linear ticket through read-only `/trackers` and open the parent
    execution context.
 2. Create a typed branch after git hard stops pass.
-3. Run `/analyze`, then promote into a bounded build goal.
-4. Run flow `/code-review`, analyze CR1 Fix-now proposals, promote them into
-   the build-goal Fix mode, and run `remediation` review loops.
-5. Run standalone `/code-review` against the final branch; analyze CR2 proposals and promote selected rows into bounded fix goals.
-6. Commit, preflight, print the full PR draft in chat, then create the PR.
+3. Run **flow** `/analyze`, then **flow** `/goal` for the bounded build.
+4. Checkpoint-commit the working tree; pin `baseSha...headSha`. Run flow
+   `/code-review` (CR1); remediate Fix-now with flow `/analyze` + flow `/goal`
+   Fix mode; checkpoint before each re-review.
+5. Checkpoint if dirty; run standalone `/code-review` (CR2) against the pinned
+   fixed point; remediate the same way.
+6. Ship commit(s) if needed, preflight, print the full PR draft in chat, then
+   push and create the PR (opened, not merged).
 
 Hard stops, review caps, shipping, context handoffs, and new-chat recovery live
 in the doctrine and reference.

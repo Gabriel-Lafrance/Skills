@@ -19,4 +19,4 @@ Open structure decisions → one `/grill-me` Questions batch (follow [../pack-sh
 ## Hand-offs
 
 - Structure card approved → `/goal`
-- Scale or duplicated-service failures → `/validate` / `/code-review`
+- Scale or duplicated-service failures → acceptance evidence / `/code-review`

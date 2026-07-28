@@ -22,7 +22,7 @@ When work creates or substantially changes UI:
 2. Implement against that card: mobile first, with `/taste` and the design
    doctrine's hierarchy, state, depth, color, and ethical-flow rules.
 3. For browser-reachable UI criteria, follow the
-   [Browser validation reference](../validate/reference.md) when Browser
+   [browser evidence protocol](../pack-shared/browser-evidence.md) when Browser
    capability is available; otherwise report visual validation as blocked.
 4. Stay within the current slice's lane. Return structural gaps, scope
    changes, or shared-component decisions to the parent; do not create a
@@ -32,4 +32,4 @@ When work creates or substantially changes UI:
 
 - Structure → `/architecture`
 - Style → `/taste`
-- After build → parent-owned `/validate`
+- After build → parent-owned acceptance evidence

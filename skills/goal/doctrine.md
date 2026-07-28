@@ -16,7 +16,7 @@ destination.
 
 **Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary — correct if wrong — unless the skip rule applies. Assign each Active Rule to an intended slice or `all`.
 
-**Quality bar:** `/validate` and `/code-review` are mandatory, in that order, before declaring completion.
+**Quality bar:** Parent-owned acceptance evidence (Done when + Active Rules + cross-slice seams) and `/code-review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
 
 ## Lookup rule
 
@@ -31,12 +31,11 @@ destination.
 | Plan contract | `/create-plan` |
 | Conductor | `/orchestrate` for every Task wave |
 | Build | `/implement` |
-| Bug mid-build | `/repair` → `/validate` |
-| Review remediation | `/analyze` before Fix mode |
-| Gate out | `/validate` then **`/code-review`** |
+| Bug mid-build | Scoped Fix mode (or `/analyze` → continue this goal) |
+| Review remediation | flow `/analyze` before Fix mode |
+| Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call dual skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the flow variant ([variants.md](../pack-shared/variants.md)). Do not load both variants.
-
+Inside this loop, call dual skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/analyze`) so they load the flow variant ([variants.md](../pack-shared/variants.md)). Do not load both variants.
 ## Mandatory skill checklist
 
 Track these rows in the in-chat execution context or a concise progress message. Do not declare completion until every applicable row is done:
@@ -52,8 +51,8 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/split-task` | If multi-slice | Announce inline slices |
 | `/create-plan` | Yes | One or more inline plan contracts |
 | `/implement` | Yes | Frontier slices |
-| `/validate` | Yes | Must pass, including cross-slice seams |
-| `/code-review` | Yes | Runs after validation |
+| Acceptance evidence | Yes | Path walk, terminals, browser when UI — parent owned |
+| `/code-review` | Yes | Runs after acceptance evidence |
 
 ## Suitability and ticket rules
 
@@ -90,17 +89,17 @@ includes the applicable outcome, Done when, non-goals, Active Rules, lane,
 current slice, dependencies, and prior decisions. After integration, update
 **Current slices** in chat; if ready slices remain, dispatch the next frontier.
 Only when every slice is integrated, blocked, or explicitly waived does the
-parent enter validation. The parent owns integration and the validation/review
-gates.
+parent enter acceptance evidence. The parent owns integration and the
+acceptance/review gates.
 
-### 1d. Validate and review
+### 1d. Acceptance evidence and review
 
 After all implementation workers finish:
 
-1. Run **`/validate`** against Done when, Active Rules, and slice acceptance criteria, including cross-slice seams.
+1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks, terminal output, and — for UI criteria — the [browser evidence protocol](../pack-shared/browser-evidence.md). Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/code-review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
-4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
+4. For selected `fix now` findings, run flow `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
 5. If the user declines a fix, completion remains blocked until every Fix-now finding is fixed or waived by name.
 
 ## Fix mode — review remediation only
@@ -111,11 +110,11 @@ Fix mode is one bounded slice of the current goal, not fresh product discovery:
 2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.
 3. Prefer the smallest authoritative correction. Do not add queues, retries, wrappers, or new services unless the named finding proves a guard is insufficient.
 4. No new feature scope, optional cleanup, or architecture move unless the named finding requires it.
-5. Validate the named findings and Active Rules, then run `/code-review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
+5. Re-check the named findings and Active Rules with acceptance evidence, then run `/code-review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
 
 ## Completion, pause, and recovery
 
-**Complete only when:** the applicable checklist is done, `/validate` passes, `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat. When `/just-do-it` is the parent, return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat. When flow `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -123,12 +122,12 @@ In a new chat, recover by following the [execution context authority order](../p
 
 ## Anti-patterns
 
-- Declaring completion without `/validate` then `/code-review`
+- Declaring completion without acceptance evidence then `/code-review`
 - Creating automatic runtime state instead of using the shared execution context
 - Planning before Locked grill closing or omitting a locked behavioral rule from Active Rules
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product goal
 - Asking yes/no for non-goals, plan split, or shared understanding
-- Writing to a tracker, committing, or opening a PR without a separate user request
+- Writing to a tracker, committing, or opening a PR without a separate user request (standalone) or parent ownership (flow)
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

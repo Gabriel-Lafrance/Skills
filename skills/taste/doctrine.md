@@ -197,7 +197,7 @@ Plans must not propose shapes that violate this file (including SOLID-maximalist
 - [ ] Big feature: foundation seam + first impl shipped together (no "wait for second impl"); entry signature stays stable
 - [ ] Did not ritual-run lint/typecheck **or Convex MCP**; checked existing terminal output instead (unless terminals errored / user asked)
 
-Fail any box → fix before `/validate`.
+Fail any box → fix before acceptance evidence and `/code-review`.
 
 ## Review
 

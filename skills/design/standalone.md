@@ -15,4 +15,4 @@ Visual + interaction craft for this pack. Read [doctrine.md](doctrine.md) · [ex
 ## Hand-offs
 
 - Structure → `/architecture` + `/taste`
-- Gate needed → `/validate`
+- Gate needed → acceptance evidence (path walk / browser) then `/code-review`

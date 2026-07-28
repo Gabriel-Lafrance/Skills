@@ -43,5 +43,5 @@ formatters, UI chrome, generated code, types-only files, and coverage targets.
 - Do not modify production code just to make a test convenient unless the user
   explicitly asks.
 - Do not start `/goal`, expand into refactoring, or write tests before approval.
-- `/goal`, `/implement`, `/repair`, and `/validate` never invoke this skill or
+- `/goal`, `/implement`, and other build skills never invoke this skill or
   write test files.

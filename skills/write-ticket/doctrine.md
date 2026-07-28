@@ -2,7 +2,7 @@
 
 Write or refine one Linear or GitHub ticket. This skill is standalone-only,
 never implements the ticket, and owns a tracker write only after explicit user
-approval. `/trackers` is read-only; `/analyze` supplies evidence.
+approval. `/trackers` is read-only; flow `/analyze` supplies evidence.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Templates:** [reference.md](reference.md)
 
@@ -62,8 +62,8 @@ method bodies, algorithms, signatures, or implementation steps.
 3. **Open grill.** Use the type-specific freeform suite, skip settled items,
    batch known gaps, and do not ask step-by-step implementation questions.
 4. **Analyze.** Before drafting, obtain an evidence-backed analysis memo in
-   chat. Reuse a supplied or current memo; otherwise run `/analyze` on the
-   grilled brief. If the memo is stale, refresh the needed evidence. Skip
+   chat. Reuse a supplied or current memo; otherwise run **flow** `/analyze` on
+   the grilled brief. If the memo is stale, refresh the needed evidence. Skip
    analysis promotion because ticket writing is the next step.
 5. **Propose.** For Feature and Refactor, announce the principle-level Locked
    summary. For Tweak, announce the bounded adjustment, outcome, entrypoint,

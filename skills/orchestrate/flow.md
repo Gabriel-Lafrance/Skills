@@ -13,7 +13,7 @@ files.
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| Main | Compiles context, assigns bounded work, integrates, updates chat context, runs `/validate` and `/code-review` | Make workers infer intent, or delegate final gates |
+| Main | Compiles context, assigns bounded work, integrates, updates chat context, records acceptance evidence, runs `/code-review` | Make workers infer intent, or delegate final gates |
 | Subagent | Delivers one bounded job in its file lane and returns Completion | Chat with the user, broaden scope, run lifecycle gates, or invent shared structure |
 
 ## Worker Brief
@@ -76,7 +76,8 @@ expansion. Report the blocker and smallest viable option to the parent.
    decisions changed.
 4. If ready slices remain, update their status in **Current slices** and
    dispatch the next frontier. After every slice is integrated, blocked, or
-   explicitly waived, the main agent runs `/validate`; it then runs
+   explicitly waived, the main agent records acceptance evidence (Done when,
+   Active Rules, seams — path walk / terminals / browser when UI); it then runs
    `/code-review` when the parent flow requires it.
 
 ## Anti-patterns
@@ -84,6 +85,6 @@ expansion. Report the blocker and smallest viable option to the parent.
 - Task without outcome, lane, Active Rules, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
-- Worker running `/validate` or `/code-review`
+- Worker running acceptance gates or `/code-review`
 - Passing Task `model` without a user request
 - Writing a progress, registry, or status file for agent-only bookkeeping

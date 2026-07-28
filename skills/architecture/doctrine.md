@@ -123,7 +123,7 @@ When explore shows wrong folder, duplicated domain logic, a feature-forked servi
 
 - **Do not copy it.** Cite a *good* sibling or service — or create the correct shape.
 - If required, prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path — this **reduces entropy**. If not required, capture it as a follow-up rather than expanding the goal.
-- Name the old observable behavior and how you will prove it still holds (**existing** tests if any, path walk + `/validate` / terminals). Do **not** write new tests here — locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you **cannot** be sure the move preserves behavior → include the move in the next `/grill-me` Questions batch. If the move is required and you can preserve behavior → do it; otherwise keep it as a follow-up.
+- Name the old observable behavior and how you will prove it still holds (**existing** tests if any, path walk + acceptance evidence / terminals). Do **not** write new tests here — locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you **cannot** be sure the move preserves behavior → include the move in the next `/grill-me` Questions batch. If the move is required and you can preserve behavior → do it; otherwise keep it as a follow-up.
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement → patch the plan Structure, then move.
 - Same spirit as `/code-review` code judo — apply it while **building**, not only at review time.
 
@@ -303,4 +303,4 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - Any feature with lists, dashboards, counts, totals, leaderboards, or "stats"
 - Any query that would scan children to answer a parent-level question
 
-Hand off: structure card → `/goal` (plans via `/create-plan`). `/validate` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → `/create-plan`.
+Hand off: structure card → `/goal` (plans via `/create-plan`). Acceptance evidence and `/code-review` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → `/create-plan`.

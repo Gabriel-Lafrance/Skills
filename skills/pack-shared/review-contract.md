@@ -18,8 +18,19 @@ execution context supplied by a parent. Do not depend on hidden review files.
 | `remediation` | Named findings, fix diff, touched paths, and direct callers | Verify named findings, regressions, and correctness in the changed surface |
 | `full-rescan` | Full diff after meaningful change or user request | Run `initial` depth again and adjudicate prior PR threads when present |
 
-Do not run a broad architecture hunt during remediation. Do not silently turn a
-follow-up review into a full rescan.
+### Follow-up partition (PR)
+
+On a `/pr-review` follow-up, after historical Pass A:
+
+1. Partition `previousReviewedHead..currentHead`.
+2. Apply `remediation` to the addressed-findings surface inside that range.
+3. Apply `initial` depth to **newly introduced** files/hunks in that range that
+   are outside the remediation set.
+4. Use `full-rescan` only on explicit user request or material scope expansion.
+
+Do not run a broad architecture hunt during remediation of named findings. Do
+not silently turn a follow-up into a full rescan of the entire PR. Do not let
+new commits outside the remediation set skip review.
 
 ## Evidence bar
 

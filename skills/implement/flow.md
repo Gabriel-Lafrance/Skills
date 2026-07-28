@@ -25,9 +25,9 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
    viable option as a finding when the slice needs one.
 4. Gather only slice-local evidence needed for Completion: existing terminal
    output first, then a narrow relevant command if needed.
-5. Do not run `/validate` or `/code-review`; the parent integrates Completion
-   reports and owns those gates. Do not update tickets, registries, status, or
-   other agent bookkeeping.
+5. Do not run acceptance evidence or `/code-review`; the parent integrates
+   Completion reports and owns those gates. Do not update tickets, registries,
+   status, or other agent bookkeeping.
 6. Do not write or edit tests. `/create-test` follows a parent review
    recommendation when needed.
 

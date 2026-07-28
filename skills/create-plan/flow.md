@@ -40,7 +40,7 @@ Continue with `/implement` only for frontier slices. Do not write an automatic p
 
 ### 4. Dispatch workers
 
-Each Task prompt carries the applicable outcome, Done when, non-goals, Active Rules, lane, current slice contract, dependencies, and prior decisions. The parent keeps integration, `/validate`, and `/code-review`.
+Each Task prompt carries the applicable outcome, Done when, non-goals, Active Rules, lane, current slice contract, dependencies, and prior decisions. The parent keeps integration, acceptance evidence, and `/code-review`.
 
 ## Anti-patterns
 

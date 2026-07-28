@@ -13,14 +13,14 @@ disable-model-invocation: true
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-**Standalone only.** This skill writes a tracker ticket; `/trackers` reads and `/analyze` researches. Open ticket grills use the documented freeform exception in the doctrine.
+**Standalone only.** This skill writes a tracker ticket; `/trackers` reads and flow `/analyze` researches. Open ticket grills use the documented freeform exception in the doctrine.
 
 ## Process
 
 1. Load an existing ticket or seed a new one.
 2. Lock Feature, Tweak, Bug, or Refactor.
 3. Run the type-specific open grill.
-4. Run `/analyze` on the grilled brief.
+4. Run **flow** `/analyze` on the grilled brief.
 5. Announce the principle-level solution when applicable.
 6. Show the complete draft, lock metadata, and write only after approval.
 

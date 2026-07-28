@@ -90,7 +90,7 @@ For an `initial` review or `full-rescan`, the parent:
 4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table.
 5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
 
-The parent controls worker dispatch plus validation and review gates. Implementation workers receive the supplied lane and context; they do not run validation or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable validation evidence as a gap, not a Standards finding.
+The parent controls worker dispatch plus acceptance evidence and review gates. Implementation workers receive the supplied lane and context; they do not run acceptance or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable browser evidence as a gap, not a Standards finding.
 
 ## Findings and disposition
 
@@ -112,7 +112,7 @@ After an initial review or full rescan, recommend `/create-test` only for a comp
 
 ## Remediation analysis and promotion
 
-Before any fix work, send selected **Fix now** findings to `/analyze` in
+Before any fix work, send selected **Fix now** findings to **flow** `/analyze` in
 review-remediation mode. Its
 [remediation analysis](../analyze/doctrine.md#review-remediation-analysis)
 returns one section keyed to each stable finding ID, with current behavior,
@@ -122,8 +122,8 @@ Then require explicit promotion of the selected finding IDs before
 implementation begins. A `/just-do-it` parent may take the recommended
 promotion only after the complete analysis is shown. Promotion bounds work to
 those findings, the stated touch surface, and stated non-goals; it does not
-authorize unrelated cleanup. The parent subsequently owns validation and the
-`remediation` review gate.
+authorize unrelated cleanup. The parent subsequently owns acceptance evidence
+and the `remediation` review gate.
 
 If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates from this skill.
 

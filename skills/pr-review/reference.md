@@ -70,6 +70,8 @@ single publish question again.
 
 After explicit approval, use `gh` or `gh api` only:
 
+0. **Stale-head check:** re-fetch the PR head SHA. If it differs from the pinned
+   review `headSha`, abort, re-pin, redraft, and re-ask publish — do not post.
 1. Publish one comment object per draft/topic. Prefer inline placement; if it
    cannot be posted inline, use one PR conversation comment for that finding
    and report the fallback in chat.
@@ -78,4 +80,5 @@ After explicit approval, use `gh` or `gh api` only:
    no finding comments. Keep the review body empty or minimal, never a list or
    summary of findings.
 3. Do not add a summary, announcement, or pass-status PR comment. Report what
-   posted in chat only.
+   posted in chat only. Remember the published head as `previousReviewedHead`
+   for the next follow-up.

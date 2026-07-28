@@ -102,7 +102,7 @@ Missing acceptance criteria → ask **one** question or derive binary Done when 
 
 ## How callers use the brief
 
-- Spec source for the parent brief, `/validate`, and `/code-review`
+- Spec source for the parent brief, acceptance evidence, and `/code-review`
 - Keep the Ticket / PR reference and relevant acceptance criteria in chat; the
   parent combines them with Git and repository evidence
 - Do not create a workspace, status, plan, register, or tracker update
