@@ -23,9 +23,9 @@ Resolve Standards in this order:
 
 Treat the first two sources as hard unless repository rules conflict.
 
-Inspect placement and public entry points, reuse of existing domain authorities, complexity and entropy, nesting and needless wrappers, boundary types and error handling, data access, and UI behavior when applicable. For UI changes, apply the design standard; use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable.
+Inspect placement and public entry points, reuse of existing domain authorities, **KISS** (Keep It Stupid Simple), complexity and entropy, nesting and needless wrappers, boundary types and error handling, data access, and UI behavior when applicable. For UI changes, apply the design standard; use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable.
 
-On an initial review or full rescan, actively look for behavior-preserving simplification and missed moves. A useful cleanup remains a **Follow-up** unless it violates the spec or an Active Rule, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding.
+On an initial review or full rescan, actively look for behavior-preserving simplification (KISS) and missed moves. A useful cleanup remains a **Follow-up** unless it violates the spec or an Active Rule, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding.
 
 ## Evidence and safe remedies
 

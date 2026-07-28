@@ -2,6 +2,49 @@
 
 Concrete good vs bad. Prefer matching **good**.
 
+## KISS — Keep It Stupid Simple
+
+**Bad — ceremony for one local rule** — helper file + pattern for a single call site:
+
+```typescript
+// order-guards.ts
+export function assertCanCheckout(user: User) {
+  if (!user.canOrder) throw new Error("Cannot order");
+}
+
+// place-order.ts
+import { assertCanCheckout } from "./order-guards";
+assertCanCheckout(user);
+```
+
+**Good — stupid simple** — guard stays with the one caller until it earns a home:
+
+```typescript
+async function placeOrder(input: Input) {
+  const user = await requireUser(input.userId);
+  if (!user.canOrder) throw new Error("Cannot order");
+  return await charge(user, input);
+}
+```
+
+**Bad — speculative futureproofing on tiny glue:**
+
+```typescript
+interface NotifierStrategy { send(msg: string): Promise<void> }
+abstract class BaseNotifier implements NotifierStrategy { /* empty */ }
+class ConsoleNotifier extends BaseNotifier {
+  async send(msg: string) { console.log(msg); }
+}
+```
+
+**Good — KISS until growth is real** (big features still get one named seam + one impl — see doctrine Futureproofing):
+
+```typescript
+async function notifyUser(msg: string) {
+  console.log(msg);
+}
+```
+
 ## Deep vs shallow module (entry point vs leaked helpers)
 
 **Bad — shallow module** — call site orchestrates internals (high complexity at every caller):

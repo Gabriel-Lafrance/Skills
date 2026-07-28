@@ -1,8 +1,9 @@
 ---
 name: taste
 description: >-
-  Pack coding taste: complexity/entropy, never-nest, DRY, throw+try/catch,
-  and deep modules. Loaded by parent flows before planning or writing code.
+  Pack coding taste: KISS (Keep It Stupid Simple), complexity/entropy,
+  never-nest, DRY, throw+try/catch, and deep modules. Loaded by parent flows
+  before planning or writing code.
 disable-model-invocation: true
 ---
 

@@ -4,9 +4,22 @@ Shared style contract for this pack. **Other pack skills must read this before p
 
 For good vs bad snippets, see [examples.md](examples.md).
 
+## KISS — Keep It Stupid Simple
+
+**Default to the stupid-simple solution that still meets the outcome and Active Rules.** Cleverness, ceremony, and speculative architecture are costs — pay them only when evidence demands it.
+
+| Do | Do not |
+| --- | --- |
+| Straight-line happy path; obvious names; one clear owner | Indirection “for cleanliness,” premature seams, config for imaginary products |
+| Inline a one-call-site guard | Extract a helper/file/class that only wraps that guard |
+| A plain function or single class for tiny glue | Pattern theater (factory-of-factories, empty bases, one-line “impl” files) |
+| Deep entry when richness already exists | Shallow APIs that force every caller to orchestrate steps |
+
+KISS does **not** mean shallow modules, duplicated domain logic, or skipping a real service when the domain is independent. It means: **simple surface, no extra moving parts.** When KISS and futureproofing conflict on a **big** feature, name the required seam — then keep everything else stupid simple (seam + one real impl, not a hierarchy of unused extension points).
+
 ## Bad code = complexity and entropy
 
-**Bad code** is whatever **increases complexity** or **entropy**. **Good code** is deep where it matters (simple surface, rich inside), built from **strong primitives** inside services / deep modules (`/architecture` §3), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
+**Bad code** is whatever **increases complexity** or **entropy**. **Good code** is **KISS first**, deep where it matters (simple surface, rich inside), built from **strong primitives** inside services / deep modules (`/architecture` §3), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
 
 | Term | Meaning |
 | --- | --- |
@@ -15,34 +28,36 @@ For good vs bad snippets, see [examples.md](examples.md).
 
 **Operational tests** (apply before shipping a slice):
 
-1. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
-2. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
-3. **Window** — Are we copying or extending a known-wrong shape? → entropy.
-4. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
-5. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
+1. **KISS** — Is there a stupider-simple shape that still meets Done when and Active Rules? Prefer it.
+2. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
+3. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
+4. **Window** — Are we copying or extending a known-wrong shape? → entropy.
+5. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
+6. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
 
 ## Abstraction budget
 
-Prefer the smallest clear shape that fulfills the assigned outcome and Active Rules. Keep a one-call-site guard inline when it has one local purpose; extract it only when the extraction owns independent behavior, removes real duplication, or is required to enforce a locked invariant.
+Prefer the smallest clear shape that fulfills the assigned outcome and Active Rules (**KISS**). Keep a one-call-site guard inline when it has one local purpose; extract it only when the extraction owns independent behavior, removes real duplication, or is required to enforce a locked invariant.
 
 Before adding a new layer, file, service, wrapper, class hierarchy, shared API, queue, lock, retry system, or other coordination machinery, identify the evidence that a local implementation cannot meet the rule safely. A UI-disabled state is user feedback; if a client can bypass it, add the direct authoritative backend/state-transition guard before proposing coordination infrastructure.
 
 This budget does not prohibit a real service, deep module, or extension seam for a genuinely independent domain capability or explicitly planned growth. It prohibits speculative ceremony, identity wrappers, one-off helper files, and abstractions created only because a local `if` looks untidy.
 
-Non-negotiables below are **consequences** of this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies it to structure; `/code-review` blocks regressions.
+Non-negotiables below are **consequences** of KISS + this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies it to structure; `/code-review` blocks regressions.
 
 ## Non-negotiables
 
-1. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
-2. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
-3. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw
-4. **One component (or main export) per file**
-5. **No dynamic `import()`** — static imports only
-6. **Comments only** to summarize big/complex functions — no narrating obvious code
-7. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building)
-8. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB)
-9. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns
-10. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
+1. **KISS** — Keep It Stupid Simple; no cleverness or machinery without evidence it is required
+2. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
+3. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
+4. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw
+5. **One component (or main export) per file**
+6. **No dynamic `import()`** — static imports only
+7. **Comments only** to summarize big/complex functions — no narrating obvious code
+8. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building)
+9. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB)
+10. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns
+11. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
 
 ## Verify (terminals first — not MCP)
 
@@ -73,13 +88,13 @@ Evidence citations should look like: `terminals/3.txt — convex push ok` — no
 
 ## Futureproofing (open to extend, closed to break)
 
-When building a **non-trivial / big feature**, build a **bulletproof foundation from day one** so growth is additive — not a rewrite every time something is added:
+When building a **non-trivial / big feature**, build a **bulletproof foundation from day one** so growth is additive — not a rewrite every time something is added. Still apply **KISS** to everything that is not the named seam:
 
 - **Open to extension** — new behavior lands via new collaborators, strategies, or narrow hooks — not by rewriting call sites
 - **Closed to breaking edits** — stable entry-point signatures; avoid forcing callers to change when internals grow
 - **Put the seam in first** — interfaces / strategy slots / composition points belong in the initial design when the domain will grow (payments, notifiers, providers, channels, etc.). Do **not** wait for a "second implementation" before shaping the foundation — that causes perma re-editing
 - Ship **one real implementation** behind that seam on day one; the seam is the foundation, not unused dead code
-- Do **not** future-proof tiny one-off glue with empty hierarchies or config for imaginary products
+- Do **not** future-proof tiny one-off glue with empty hierarchies or config for imaginary products (**KISS**)
 
 Plans and structure cards **must** name the extension seam for big features.
 
@@ -105,7 +120,7 @@ Keep inheritance / interface stacks **shallow**:
 
 - **Refactoring Guru–style patterns** are welcome when they suit a useful case (Strategy, Facade, Adapter, Observer, etc.)
 - **Big features:** lay the foundation early — seam + first implementation — so adding the next variant does not reopen the core
-- **Tiny glue / local helpers:** skip ceremony; a plain function or single class is enough
+- **Tiny glue / local helpers:** skip ceremony; a plain function or single class is enough (**KISS**)
 - **SOLID is guidance, not scripture** — use it to keep foundations extendable and readable; stop when it becomes interface theater (factory-of-factories, empty base classes, one-line "impl" files with no behavior)
 - Never require a second production implementation *before* introducing the seam on a big feature — that is the opposite of this taste
 
@@ -147,6 +162,7 @@ Plans must not propose shapes that violate this file (including SOLID-maximalist
 
 ## Implement self-check (required each slice)
 
+- [ ] **KISS** — no extra layer, file, wrapper, pattern, or config beyond what Done when / Active Rules require
 - [ ] Sibling pattern cited is a **good** one (or explicitly "greenfield" / correcting debt)
 - [ ] Entry point + folder match `/architecture` card (including **Moves / corrections** and **Primitives**)
 - [ ] Did not copy a bad sibling — moved/corrected when the lane had prior mistakes

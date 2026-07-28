@@ -2,12 +2,14 @@
 
 Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
-Read **`/taste`** first — especially **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
+Read **`/taste`** first — especially **KISS — Keep It Stupid Simple** and **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, KISS, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
-Apply `/taste`'s [abstraction budget](../taste/doctrine.md#abstraction-budget).
-Architecture adds one scope rule: a behavior-preserving move is required only
-when an Active Rule, acceptance criterion, correctness issue, or named finding
-requires it; otherwise keep it as a follow-up.
+Apply `/taste`'s [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple) and [abstraction budget](../taste/doctrine.md#abstraction-budget).
+Keep the smallest direct structure that meets the goal; add services, seams, and
+denormalized reads only when ownership, duplication, or locked growth requires
+them. Architecture adds one scope rule: a behavior-preserving move is required
+only when an Active Rule, acceptance criterion, correctness issue, or named
+finding requires it; otherwise keep it as a follow-up.
 
 ## Doctrine
 
