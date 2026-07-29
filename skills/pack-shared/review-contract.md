@@ -60,9 +60,27 @@ GitHub finding thread and that visible id are the durable record.
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
 format below. It rejects and relaunches a narrative-only response once.
 
+Standards workers **must** run the `/taste` Named principles checklist (KISS,
+SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit,
+PoLA) and cite principle names in finding **Rule** fields when violated.
+
 ```markdown
 ## Standards findings
 - <finding record>
+
+## Principles sweep
+| Principle | Status | Note |
+| --- | --- | --- |
+| KISS | clear \| finding | … |
+| SoC | clear \| finding | … |
+| SLAP | clear \| finding | … |
+| CQS | clear \| finding | … |
+| Fail fast | clear \| finding | … |
+| Boy Scout | clear \| finding | … |
+| Cohesion / coupling | clear \| finding | … |
+| Idempotency | clear \| finding \| n/a | … |
+| Explicit | clear \| finding | … |
+| PoLA | clear \| finding | … |
 
 ## Spec matrix
 | Requirement | Status | Evidence |
@@ -73,8 +91,10 @@ format below. It rejects and relaunches a narrative-only response once.
 - <new finding record and why Wave 1 missed it>
 ```
 
-Workers report no finding explicitly when their axis is clean. The parent
-controls the dispatch and follows the [execution context](execution-context.md)
+Workers report no finding explicitly when their axis is clean. Mark each
+principles-sweep row `clear`, `finding` (with finding id), or `n/a` (only for
+idempotency when no write/webhook/retry surface exists). The parent controls
+the dispatch and follows the [execution context](execution-context.md)
 contract for models and completion reporting.
 
 ## Severity mapping

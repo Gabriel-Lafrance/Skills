@@ -1,9 +1,9 @@
 ---
 name: pr-review
 description: >-
-  Standalone, stateless review of an open GitHub PR. Triage historical finding
-  threads before selecting a deterministic review mode, draft one-topic comments,
-  and post only after one publish decision.
+  Standalone, stateless review of an open GitHub PR. Standards hard-require
+  /taste KISS + named principles and /architecture. Triage historical finding
+  threads, draft one-topic comments, post only after one publish decision.
 disable-model-invocation: true
 ---
 
@@ -15,10 +15,15 @@ no-flow missing-variant response.
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,
-evidence, worker artifacts, finding records, severity mapping, and
-behavior-lock guidance. The shared
+evidence, worker artifacts (including the **Principles sweep**), finding
+records, severity mapping, and behavior-lock guidance. The shared
 [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
+
+**Standards:** always apply the
+[Named principles checklist](../code-review/doctrine.md#named-principles-checklist-required-on-standards)
+from `/code-review` / `/taste` / `/architecture` on initial and full-rescan
+(and on newly introduced follow-up surface).
 
 ## Boundaries
 
