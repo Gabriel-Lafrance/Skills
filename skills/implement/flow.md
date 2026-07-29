@@ -10,7 +10,8 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
    decisions, Active Rules, current slice, write lane, and dependencies.
 2. Only the named ticket / PR, relevant Git diff/history, repository code and
    rules, and repo paths listed in the brief.
-3. `/taste`; for UI, the inline Design card and `/design` doctrine.
+3. `/taste` (KISS + named principles); for UI, the inline Design card and
+   `/design` doctrine.
 
 ## Deliver one bounded slice
 

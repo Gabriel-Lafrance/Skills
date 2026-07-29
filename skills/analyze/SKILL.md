@@ -30,4 +30,7 @@ disable-model-invocation: true
 5. For review remediation, present every selected stable-finding analysis
    before the remediation-specific promotion choice.
 
-**Read:** [doctrine.md](doctrine.md). Apply `/taste` and `/architecture` discipline when relevant.
+**Read:** [doctrine.md](doctrine.md). **Always** apply `/taste` (KISS + named
+principles). Apply `/architecture` when the ask touches structure, services,
+folders, data shape, or duplicated domain logic — default to loading it unless
+the ask is clearly a single-file pure-logic question with no placement decision.

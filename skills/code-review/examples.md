@@ -16,6 +16,34 @@ Findings stay in chat and retain stable IDs across review and remediation. List 
 
 This maps to **Fix now**. A one-call-site formatting extraction with no violated rule or defect is a **Follow-up**; a local variable rename is an **Optional nit**.
 
+## Named principle finding + principles sweep
+
+```markdown
+- **standards-soc-checkout-stripe** · **standards** · **blocker**
+  - **Where:** `features/checkout/use-checkout.ts` (`placeOrder`)
+  - **Rule:** `taste:SoC` · `architecture:high-cohesion-low-coupling`
+  - **Trigger:** Checkout feature calls Stripe directly on submit.
+  - **Evidence:** Diff adds `stripe.checkout.sessions.create` inside the feature; `billing.makeUserPay` already owns Stripe.
+  - **Impact:** Domain I/O forked; auth/idempotency on the billing path is skipped.
+  - **Fix:** Call `billing.makeUserPay`; delete the feature-local Stripe path.
+
+## Principles sweep
+| Principle | Status | Note |
+| --- | --- | --- |
+| KISS | clear | |
+| SoC | finding | `standards-soc-checkout-stripe` |
+| SLAP | clear | |
+| CQS | clear | |
+| Fail fast | clear | |
+| Boy Scout | finding | same as SoC — copied wrong sibling |
+| Cohesion / coupling | finding | reaches Stripe instead of billing API |
+| Idempotency | finding | bypasses billing idempotency |
+| Explicit | clear | |
+| PoLA | clear | |
+```
+
+Reject a Standards worker result that omits the **Principles sweep** table or marks every row `clear` without having inspected the diff.
+
 ## Evidence versus speculation
 
 **Finding:** A public mutation accepts `orderId` and reaches a write without checking ownership. The trigger, path walk, and impact support a smallest fix: enforce ownership at the mutation boundary.

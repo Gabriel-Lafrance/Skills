@@ -20,7 +20,7 @@ Select the shared review mode deliberately:
 - `remediation` receives named finding IDs, the fix diff, touched direct paths, and direct callers only.
 - `full-rescan` requires an explicit request to re-open full-review depth after a meaningful change.
 
-Apply the doctrine's separate axes, evidence bar, severity mapping, behavior-lock recommendation, and remediation analysis before any fix work.
+Apply the doctrine's separate axes, **Named principles checklist**, evidence bar, severity mapping, behavior-lock recommendation, and remediation analysis before any fix work. Standards workers must return the review-contract **Principles sweep** table.
 
 ## Handoff
 

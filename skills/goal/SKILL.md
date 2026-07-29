@@ -13,7 +13,9 @@ disable-model-invocation: true
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-Orchestrator only. Use `/orchestrate` for Task workers.
+Orchestrator only. Use `/orchestrate` for Task workers. Always load flow
+`/taste` during grill and before implement. Load flow `/architecture` unless
+the work is trivial single-file with structure already settled.
 
 ## Lifecycle
 

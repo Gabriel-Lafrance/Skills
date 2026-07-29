@@ -18,14 +18,31 @@ the PR and repository instead of carrying local review state.
 
 ## Standards bar
 
-Use the [code-review Standards sources and judgment](../code-review/doctrine.md#standards-sources-and-judgment)
-for every initial or full-rescan review: `/taste`, `/architecture`, repository
-rules, and `/design` when UI is in scope. Repository rules win on conflict.
+**Hard requirement:** every `initial` or `full-rescan` Standards pass must
+apply the full
+[code-review Named principles checklist](../code-review/doctrine.md#named-principles-checklist-required-on-standards)
+and the same Standards source order (`/taste` → `/architecture` → repo rules →
+optional project standards → smell baseline). Repository rules win on conflict.
 
-Treat a concrete hard-standard violation introduced or extended in the touched
-lane as a `blocker` candidate. A valuable cleanup that is not required for the
-PR contract remains a `follow-up`, not a performative Blocking comment. Apply
-the shared evidence bar before posting runtime-risk findings.
+Before adjudicating Standards:
+
+1. Read `/taste` doctrine — KISS + Named principles (SoC, SLAP, CQS, fail fast,
+   Boy Scout, cohesion/coupling, idempotency, explicit, PoLA).
+2. Read `/architecture` doctrine when the diff touches services, folders, data
+   shape, writes, webhooks, or domain I/O — default to reading it.
+3. Run the principles checklist against the PR fixed-point diff. Cite
+   `taste:<principle>` or `architecture:<principle>` in each finding **Rule**.
+
+Treat a concrete hard-standard or named-principle violation introduced or
+extended in the touched lane as a `blocker` candidate (especially fail fast,
+idempotency, SoC with security/auth/payments, and coupling through internals).
+A valuable cleanup that is not required for the PR contract remains a
+`follow-up`, not a performative Blocking comment. Apply the shared evidence bar
+before posting runtime-risk findings.
+
+On follow-up **new-surface** review (when applicable), run the same principles
+checklist on newly introduced files/hunks — do not skip principles because the
+mode is remediation-plus-new-surface.
 
 ## Pass A: historical finding adjudication
 
@@ -67,3 +84,11 @@ user explicitly requests one or materially expands the review scope.
   comments on the PR.
 - After publication, report the result in chat. Do not automatically start a
   local fix or `/goal` lifecycle.
+
+## Anti-patterns
+
+- Approving or commenting without running the Named principles checklist
+- Soft-pedaling `taste:SoC`, fail-fast, or idempotency violations as Nit when
+  they introduce or extend a correctness/security risk in the PR surface
+- Skipping `/taste` / `/architecture` reads because “the PR looks small”
+- Posting a summary comment instead of one-topic findings

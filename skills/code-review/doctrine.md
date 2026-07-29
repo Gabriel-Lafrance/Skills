@@ -15,17 +15,48 @@ Use an A+ exam bar: report every evidenced defect on an initial review or full r
 
 Resolve Standards in this order:
 
-1. `/taste` and its [examples](../taste/examples.md)
-2. `/architecture` and its [examples](../architecture/examples.md)
+1. `/taste` — [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple), [Named principles](../taste/doctrine.md#named-principles), complexity/entropy, non-negotiables, and [examples](../taste/examples.md)
+2. `/architecture` — services, deep surfaces, SoC / cohesion / coupling / idempotent writes, and [examples](../architecture/examples.md)
 3. Repository rules and committed project documentation — these win on conflict
 4. Optional project standards when present; do not require a particular standards file
 5. Smell baseline plus thermonuclear maintainability
 
-Treat the first two sources as hard unless repository rules conflict.
+Treat the first two sources as **hard** unless repository rules conflict. On every
+`initial` or `full-rescan`, **Read** `/taste` doctrine (at least KISS + Named
+principles) and `/architecture` doctrine before adjudating Standards. Do not
+treat principles as optional flavor text.
 
-Inspect placement and public entry points, reuse of existing domain authorities, complexity and entropy, nesting and needless wrappers, boundary types and error handling, data access, and UI behavior when applicable. For UI changes, apply the design standard; use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable.
+### Named principles checklist (required on Standards)
 
-On an initial review or full rescan, actively look for behavior-preserving simplification and missed moves. A useful cleanup remains a **Follow-up** unless it violates the spec or an Active Rule, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding.
+For the shipped diff, actively check each principle. Cite the principle name in
+the finding **Rule** field when violated (e.g. `taste:KISS`, `taste:SoC`,
+`taste:fail-fast`, `architecture:idempotency`).
+
+| Principle | Blocker when | Follow-up when |
+| --- | --- | --- |
+| **KISS** | New ceremony/machinery without evidence it is required for Done when / Active Rules | Slightly overbuilt but still correct |
+| **SoC** | UI/feature owns domain I/O (Stripe, JWT, email, …) or mixed reasons-to-change in one unit | Mild mixing with a clear later split |
+| **SLAP** | One function both orchestrates and does low-level detail in a way that hides bugs | Long but still readable |
+| **CQS** | Query mutates state, or command hides surprising writes behind a “get” | Naming drift without wrong effects |
+| **Fail fast** | Invalid input accepted past the boundary into partial side effects | Late check that still prevents bad writes |
+| **Boy Scout** | Diff copies or extends known-wrong shape in the touched lane | Cleanup opportunity not required for this PR |
+| **High cohesion / low coupling** | Callers reach service internals; unrelated jobs jammed into one module | Coupling that works but should tighten |
+| **Idempotency** | Replay/double-submit can duplicate charges, rows, or side effects on write/webhook/retry paths | Missing key where risk is low/non-replayable |
+| **Explicit over implicit** | Hidden globals, ambient side effects, or control flow a reader cannot see | Minor magic with local clarity |
+| **PoLA** | Surprising API/UI behavior vs name or docs (wrong return, silent catch-all) | Slightly awkward but documented behavior |
+
+Also inspect placement and public entry points, reuse of existing domain
+authorities, complexity and entropy, nesting and needless wrappers, boundary
+types and error handling, data access, and UI behavior when applicable. For UI
+changes, apply the design standard; use available browser validation for
+targeted visual or interaction evidence, and state when visual confirmation was
+unavailable.
+
+On an initial review or full rescan, actively look for behavior-preserving
+simplification (**KISS**, **Boy Scout**) and missed moves. A useful cleanup
+remains a **Follow-up** unless it violates the spec or an Active Rule, causes a
+correctness or security defect, regresses behavior, or is necessary to clear a
+named finding.
 
 ## Evidence and safe remedies
 
@@ -56,7 +87,7 @@ For an `initial` review or `full-rescan`, the parent:
 1. Pins the fixed point, inspects the diff, resolves the available spec, and supplies relevant Active Rules.
 2. Runs **Wave 1** Standards and Spec work in parallel. Skip Spec only when no specification is available; report that absence rather than inventing acceptance criteria.
 3. Keeps worker output in the shared contract shape; rejects and relaunches a narrative-only result once.
-4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects.
+4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table.
 5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
 
 The parent controls worker dispatch plus validation and review gates. Implementation workers receive the supplied lane and context; they do not run validation or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable validation evidence as a gap, not a Standards finding.
@@ -100,6 +131,7 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 
 - Merging Standards and Spec into one undifferentiated ranking
 - Skipping Wave 2 for an initial review or full rescan
+- Skipping the Named principles checklist or accepting Standards output without a **Principles sweep**
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation
 - Fixing before remediation analysis and explicit promotion
