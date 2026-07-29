@@ -87,7 +87,7 @@ For an `initial` review or `full-rescan`, the parent:
 1. Pins the fixed point, inspects the diff, resolves the available spec, and supplies relevant Active Rules.
 2. Runs **Wave 1** Standards and Spec work in parallel. Skip Spec only when no specification is available; report that absence rather than inventing acceptance criteria.
 3. Keeps worker output in the shared contract shape; rejects and relaunches a narrative-only result once.
-4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects.
+4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table.
 5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
 
 The parent controls worker dispatch plus validation and review gates. Implementation workers receive the supplied lane and context; they do not run validation or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable validation evidence as a gap, not a Standards finding.
@@ -131,6 +131,7 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 
 - Merging Standards and Spec into one undifferentiated ranking
 - Skipping Wave 2 for an initial review or full rescan
+- Skipping the Named principles checklist or accepting Standards output without a **Principles sweep**
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation
 - Fixing before remediation analysis and explicit promotion

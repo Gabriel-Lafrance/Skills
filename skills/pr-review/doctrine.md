@@ -84,3 +84,11 @@ user explicitly requests one or materially expands the review scope.
   comments on the PR.
 - After publication, report the result in chat. Do not automatically start a
   local fix or `/goal` lifecycle.
+
+## Anti-patterns
+
+- Approving or commenting without running the Named principles checklist
+- Soft-pedaling `taste:SoC`, fail-fast, or idempotency violations as Nit when
+  they introduce or extend a correctness/security risk in the PR surface
+- Skipping `/taste` / `/architecture` reads because “the PR looks small”
+- Posting a summary comment instead of one-topic findings
