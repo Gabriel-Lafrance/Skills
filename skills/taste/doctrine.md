@@ -17,6 +17,24 @@ For good vs bad snippets, see [examples.md](examples.md).
 
 KISS does **not** mean shallow modules, duplicated domain logic, or skipping a real service when the domain is independent. It means: **simple surface, no extra moving parts.** When KISS and futureproofing conflict on a **big** feature, name the required seam — then keep everything else stupid simple (seam + one real impl, not a hierarchy of unused extension points).
 
+## Named principles
+
+Apply these with KISS. Short names, operational tests — not essays. Structural placement (services, folders) also lives in `/architecture`.
+
+| Principle | Meaning | Operational test |
+| --- | --- | --- |
+| **SoC** — Separation of Concerns | Distinct reasons-to-change stay in different modules (UI vs domain vs I/O). | Would a UI copy change force a billing rewrite? If yes, concerns are mixed. |
+| **SLAP** — Single Level of Abstraction | A function stays at one altitude: orchestrate *or* do detail work, not both. | Does this function both call services *and* parse bytes / format strings? Split it. |
+| **CQS** — Command–Query Separation | A method either changes state or returns data — not both. | Does a getter mutate? Does a command return a mined “result object” instead of throwing or returning the created id deliberately? Fix the shape. |
+| **Fail fast** | Reject invalid state at the boundary immediately; do not limp along. | Is bad input detected at the entry, or deep inside after partial side effects? |
+| **Boy Scout Rule** | Leave the touched lane a little cleaner than you found it (behavior-preserving). | Did this edit copy debt, or slightly reduce entropy in paths you already touched? |
+| **High cohesion, low coupling** | Things that change together live together; dependencies stay narrow and through public surfaces. | Do unrelated jobs share a file? Do callers reach through `a.b.c` internals? |
+| **Idempotency** | Repeating the same request has the same effect (payments, webhooks, retries, writes). | Can a double-submit or replay create a duplicate charge, row, or side effect? |
+| **Explicit over implicit** | Prefer clear data and control flow over magic (hidden globals, surprise side effects, clever indirection). | Can a new reader see *what happens* without chasing ambient context? |
+| **PoLA** — Principle of Least Astonishment | APIs and UI behave as a careful reader expects. | Would a teammate be surprised by a side effect, return value, or name? |
+
+**How they relate:** SoC + cohesion/coupling shape *where* code lives (`/architecture` services). SLAP, CQS, explicit, PoLA shape *how* a unit reads. Fail fast + idempotency shape *boundaries*. Boy Scout shapes *edits in dirty lanes* (same spirit as entropy / judo).
+
 ## Bad code = complexity and entropy
 
 **Bad code** is whatever **increases complexity** or **entropy**. **Good code** is **KISS first**, deep where it matters (simple surface, rich inside), built from **strong primitives** inside services / deep modules (`/architecture` §3), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
@@ -29,11 +47,12 @@ KISS does **not** mean shallow modules, duplicated domain logic, or skipping a r
 **Operational tests** (apply before shipping a slice):
 
 1. **KISS** — Is there a stupider-simple shape that still meets Done when and Active Rules? Prefer it.
-2. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
-3. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
-4. **Window** — Are we copying or extending a known-wrong shape? → entropy.
-5. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
-6. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
+2. **Principles** — SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA — any clear violation in the touched lane?
+3. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
+4. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
+5. **Window** — Are we copying or extending a known-wrong shape? → entropy.
+6. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
+7. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
 
 ## Abstraction budget
 
@@ -43,21 +62,22 @@ Before adding a new layer, file, service, wrapper, class hierarchy, shared API, 
 
 This budget does not prohibit a real service, deep module, or extension seam for a genuinely independent domain capability or explicitly planned growth. It prohibits speculative ceremony, identity wrappers, one-off helper files, and abstractions created only because a local `if` looks untidy.
 
-Non-negotiables below are **consequences** of KISS + this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies it to structure; `/code-review` blocks regressions.
+Non-negotiables below are **consequences** of KISS + named principles + this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies SoC / cohesion / coupling / idempotent writes to structure; `/code-review` blocks regressions.
 
 ## Non-negotiables
 
 1. **KISS** — Keep It Stupid Simple; no cleverness or machinery without evidence it is required
-2. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
-3. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
-4. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw
-5. **One component (or main export) per file**
-6. **No dynamic `import()`** — static imports only
-7. **Comments only** to summarize big/complex functions — no narrating obvious code
-8. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building)
-9. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB)
-10. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns
-11. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
+2. **Named principles** — SoC, SLAP, CQS, fail fast, Boy Scout, high cohesion / low coupling, idempotency, explicit over implicit, PoLA (see table above)
+3. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
+4. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
+5. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw (**fail fast** at the boundary)
+6. **One component (or main export) per file**
+7. **No dynamic `import()`** — static imports only
+8. **Comments only** to summarize big/complex functions — no narrating obvious code
+9. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building) (**Boy Scout** when you can preserve behavior)
+10. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB) (**SoC** / cohesion)
+11. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns (**explicit**, **PoLA**)
+12. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
 
 ## Verify (terminals first — not MCP)
 
@@ -163,6 +183,7 @@ Plans must not propose shapes that violate this file (including SOLID-maximalist
 ## Implement self-check (required each slice)
 
 - [ ] **KISS** — no extra layer, file, wrapper, pattern, or config beyond what Done when / Active Rules require
+- [ ] **Principles** — no clear SoC / SLAP / CQS / fail-fast / Boy Scout / cohesion-coupling / idempotency / explicit / PoLA violation in the touched lane
 - [ ] Sibling pattern cited is a **good** one (or explicitly "greenfield" / correcting debt)
 - [ ] Entry point + folder match `/architecture` card (including **Moves / corrections** and **Primitives**)
 - [ ] Did not copy a bad sibling — moved/corrected when the lane had prior mistakes

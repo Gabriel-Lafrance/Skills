@@ -31,9 +31,11 @@ context or a new user answer.
 3. Use parallel `explore` Tasks for independent research lanes when useful.
    Give each the applicable execution context and wait for all results; never
    sleep or poll for them.
-4. Apply `/taste` and `/architecture` discipline where relevant. Prefer good
-   siblings, deep surfaces, and a behavior-preserving move when it clearly
-   reduces entropy.
+4. Apply **`/taste` always** (KISS, named principles, complexity/entropy). Prefer
+   good siblings and behavior-preserving moves. Apply **`/architecture`** when
+   structure, services, folders, data shape, or domain duplication is in play —
+   load it by default unless the ask is clearly single-file with no placement
+   decision.
 5. Post the memo below. Ask one batch only for material unknowns that research
    cannot answer.
 
@@ -54,11 +56,12 @@ agent-owned file.
 - `path` — why
 
 ### Recommended direction
-<smallest coherent approach and why>
+<smallest coherent approach and why — cite `/taste` principles when they drive the shape>
 
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>
 **Owner:** <existing or proposed deep boundary>
+**Architecture notes:** <SoC / cohesion / coupling / idempotency if relevant | n/a>
 **Not prescribed:** implementation details
 
 ### Touch surface and constraints

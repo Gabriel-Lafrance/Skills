@@ -24,8 +24,8 @@ destination.
 | --- | --- |
 | Ticket context | `/trackers` (read only) when ticket/PR |
 | Grill | `/grill-me` |
-| Style contract | `/taste` during grill and before implementation |
-| Structure | `/architecture` |
+| Style contract | **`/taste` always** — grill + before every implement wave |
+| Structure | **`/architecture`** — required unless trivial single-file and grill settled structure |
 | UI | `/design` when UI is in scope |
 | Split | `/split-task` when multiple slices help |
 | Plan contract | `/create-plan` |
@@ -35,7 +35,7 @@ destination.
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | `/validate` then **`/code-review`** |
 
-Inside this loop, call dual skills (`/grill-me`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the flow variant ([variants.md](../pack-shared/variants.md)). Do not load both variants.
+Inside this loop, call dual skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/repair`) so they load the flow variant ([variants.md](../pack-shared/variants.md)). Do not load both variants.
 
 ## Mandatory skill checklist
 
@@ -46,8 +46,8 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/orchestrate` | Yes | All Task workers |
 | `/trackers` | If ticket | Read only |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
-| `/taste` | Yes | During grill and before/during implementation |
-| `/architecture` | Yes* | *Unless trivial single-file work and grill settles structure |
+| `/taste` | **Yes** | Flow variant during grill and before/during every implement wave |
+| `/architecture` | Yes* | *Unless trivial single-file work and grill settles structure — prefer loading it |
 | `/design` | If UI | Carry the Design card into the slice contract |
 | `/split-task` | If multi-slice | Announce inline slices |
 | `/create-plan` | Yes | One or more inline plan contracts |

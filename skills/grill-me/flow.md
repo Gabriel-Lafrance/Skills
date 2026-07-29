@@ -25,7 +25,7 @@ chat; this flow creates no automatic artifacts.
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste`: **KISS**, error style, naming, entry-shape bias, and verification expectations |
+   | Always | `/taste`: **KISS**, named principles (SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA), error style, naming, entry-shape bias, verification |
    | Multi-file, data, or scale | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections |
    | UI or unclear UI scope | `/design`: screen job, primary action, hierarchy, surfaces, states, and ethical psychology |
 

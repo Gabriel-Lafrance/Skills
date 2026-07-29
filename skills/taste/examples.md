@@ -45,6 +45,32 @@ async function notifyUser(msg: string) {
 }
 ```
 
+## Named principles (spot checks)
+
+**SoC / cohesion — bad:** React component talks to Stripe and formats receipts.  
+**SoC / cohesion — good:** component calls `billing.makeUserPay`; billing owns Stripe.
+
+**SLAP — bad:** `placeOrder` validates input, parses a CSV attachment, and charges.  
+**SLAP — good:** `placeOrder` orchestrates `parseOrderAttachment` → `charge`.
+
+**CQS — bad:** `getCart()` also writes a “last seen” row.  
+**CQS — good:** `getCart()` reads; `touchCartSeen()` writes.
+
+**Fail fast — bad:** invalid `userId` discovered after creating a payment intent.  
+**Fail fast — good:** `requireUser` throws at the entry before side effects.
+
+**Boy Scout — bad:** copy a known-wrong sibling “to match.”  
+**Boy Scout — good:** while touching the lane, move the Stripe call into `billing` (behavior-preserving).
+
+**Low coupling — bad:** `feature` imports `billing-stripe-internal`.  
+**Low coupling — good:** `feature` imports only `billing.makeUserPay`.
+
+**Idempotency — bad:** webhook handler inserts an order on every delivery.  
+**Idempotency — good:** key by event id; second delivery is a no-op.
+
+**Explicit / PoLA — bad:** `save()` sometimes returns null, sometimes throws, sometimes writes a global.  
+**Explicit / PoLA — good:** `save()` throws on failure; success returns the saved id; no ambient writes.
+
 ## Deep vs shallow module (entry point vs leaked helpers)
 
 **Bad — shallow module** — call site orchestrates internals (high complexity at every caller):

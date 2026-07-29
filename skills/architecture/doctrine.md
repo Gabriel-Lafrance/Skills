@@ -2,14 +2,24 @@
 
 Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
-Read **`/taste`** first — especially **KISS — Keep It Stupid Simple** and **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, KISS, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
+Read **`/taste`** first — especially **KISS**, **Named principles** (SoC, cohesion/coupling, idempotency, …), and **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, KISS, named principles, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
 
-Apply `/taste`'s [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple) and [abstraction budget](../taste/doctrine.md#abstraction-budget).
+Apply `/taste`'s [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple), [named principles](../taste/doctrine.md#named-principles), and [abstraction budget](../taste/doctrine.md#abstraction-budget).
 Keep the smallest direct structure that meets the goal; add services, seams, and
 denormalized reads only when ownership, duplication, or locked growth requires
-them. Architecture adds one scope rule: a behavior-preserving move is required
-only when an Active Rule, acceptance criterion, correctness issue, or named
-finding requires it; otherwise keep it as a follow-up.
+them.
+
+**Architecture-owned principle applications:**
+
+| Principle | How it shows up here |
+| --- | --- |
+| **SoC** | Domain capability → service; feature orchestrates; UI does not own Stripe/JWT/email |
+| **High cohesion, low coupling** | One concern per service; callers depend only on the public API |
+| **Idempotency** | Write paths, webhooks, payments, and retries must be safe to repeat (name the key / guard on the structure card when relevant) |
+
+Architecture adds one scope rule: a behavior-preserving move is required only
+when an Active Rule, acceptance criterion, correctness issue, or named finding
+requires it; otherwise keep it as a follow-up.
 
 ## Doctrine
 
@@ -233,7 +243,7 @@ Present this before writing code (and include it in `/create-plan` when planning
 - **New / extend:** path — one specific job; how it stays reusable without breaking
 - **Inside:** which service / deep module owns it
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
-**Complexity / entropy:** public API deep? primitives reused not forked? change reduces or holds entropy in touched lane? (see `/taste`)
+**Complexity / entropy / principles:** public API deep? SoC held? coupling only through public API? idempotent writes named when needed? change reduces or holds entropy in touched lane? (see `/taste`)
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
@@ -273,8 +283,10 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - [ ] Related new files share one folder (or an existing convention)
 - [ ] No flat file dump / no anonymous `utils` bag standing in for a service
 - [ ] Public API is **deep** (simple surface); complexity is inside collaborators / primitives, not at every call site
+- [ ] **SoC / cohesion / coupling:** one concern per service; callers use only the public API
+- [ ] **Idempotency:** replay-safe writes/webhooks/payments named when the card requires them
 - [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
-- [ ] `/taste` naming and error style respected
+- [ ] `/taste` naming, KISS, and named principles respected
 - [ ] No hot-path "compute metrics on render/read" — aggregates stored and updated on write
 - [ ] Indexes cover the queries; no unbounded collect on growing data
 - [ ] Observable old behavior still holds (tests / path walk / terminals) after any move
