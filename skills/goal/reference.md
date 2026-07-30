@@ -131,23 +131,27 @@ If review selected a Fix-now item, completion waits for remediation analysis,
 explicit promotion, bounded Fix mode, re-checked acceptance evidence, and
 `remediation` review—or a named user waiver.
 
-## Ship questions
+## Ship hand-off (standalone only)
 
-After the completion summary, ask one batch only when standalone `/goal` owns
-shipping. Defaults remain no unless already requested:
+After the completion summary, ask one batch only when standalone `/goal`
+finished with a clean build. Do **not** commit, push, rename onto a typed
+branch, or open a PR from `/goal` — those steps belong to `/publish`.
 
 ```markdown
 ## Questions
-Reply like: 1b 2b
+Reply like: 1b
 
-1. Commit these changes now?
-   - a) yes — create a commit
-   - b) no — leave uncommitted ← recommended
-2. Open a PR?
-   - a) yes — push and create a PR
-   - b) no ← recommended
+1. Next step after this goal?
+   - a) Done — leave the tree and chat as-is ← recommended when not shipping yet
+   - b) Hand off to `/publish` — typed branch, push, draft/optional PR
 ```
 
-Wait for the answer before committing or opening a PR. Under flow `/goal`
-(parent `/just-do-it` or similar), return the completion evidence to the parent
-instead; it owns the branch, preflight, draft visibility, and PR creation.
+| Choice | Do |
+| --- | --- |
+| a) Done | Leave the completion summary visible; stop. |
+| b) Hand off | End standalone `/goal`, then run standalone `/publish` with the completion evidence (outcome, Done when, touched paths, review disposition). `/publish` owns type/ticket lock, branch naming, preflight, full draft visibility, and second approval. |
+
+Under flow `/goal` (parent `/just-do-it` or similar), return the completion
+evidence to the parent instead; it owns the branch, preflight, draft
+visibility, and PR creation. Never load this hand-off batch when a parent owns
+shipping.

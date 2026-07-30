@@ -114,7 +114,7 @@ Fix mode is one bounded slice of the current goal, not fresh product discovery:
 
 ## Completion, pause, and recovery
 
-**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat. When flow `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat. When flow `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip the ship hand-off; otherwise offer the `/publish` hand-off batch. Do not commit, push, open a PR, archive anything, or write a summary artifact from `/goal`.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -129,5 +129,5 @@ In a new chat, recover by following the [execution context authority order](../p
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product goal
 - Asking yes/no for non-goals, plan split, or shared understanding
-- Writing to a tracker, committing, or opening a PR without a separate user request (standalone) or parent ownership (flow)
+- Writing to a tracker, committing, pushing, or opening a PR from `/goal` (standalone hands off to `/publish`; flow returns evidence to the parent)
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

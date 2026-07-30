@@ -24,7 +24,7 @@ the work is trivial single-file with structure already settled.
 2. Grill intent, record behavioral answers as Active Rules, and announce Locked closure before issuing plan or slice contracts.
 3. Explore, split, create inline plan contracts, and implement frontier work.
 4. Confirm Done when and Active Rules with path-walk / terminal / browser evidence, then run `/code-review`; analyze named blockers and explicitly promote selected fixes into bounded Fix mode or waive them.
-5. Announce the completed outcome. Standalone may offer ship questions; flow returns completion evidence to the parent.
+5. Announce the completed outcome. Standalone may offer a `/publish` hand-off; flow returns completion evidence to the parent.
 
 `/goal` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are

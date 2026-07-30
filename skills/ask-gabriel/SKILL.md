@@ -24,7 +24,7 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
-| Ship branch + optional PR | `/publish` |
+| Ship branch + optional PR (including after `/goal`) | `/publish` |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
 | Fix or polish UI | `/design` |

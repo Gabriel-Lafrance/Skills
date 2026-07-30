@@ -84,7 +84,8 @@ the user explicitly asked; default is additional commit(s), then push + PR.
    instruction to choose its `promote + start` handoff, then run **flow**
    `/goal` for the bounded build. Give child skills the ticket, lane, Done
    when, non-goals, rules, and current slice. The parent owns integration and
-   shipping; flow `/goal` returns completion evidence and skips ship Questions.
+   shipping; flow `/goal` returns completion evidence and skips the `/publish`
+   hand-off.
 4. **Checkpoint → CR1.** Checkpoint if dirty; pin `baseSha`/`headSha`. Run
    flow `/code-review` against that fixed point and the active build context.
    Add each result to the parent Fix backlog. For named Fix-now blockers, run

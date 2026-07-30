@@ -3,7 +3,8 @@ name: publish
 description: >-
   Publish completed work on a typed branch and optionally open a GitHub PR.
   Uses an approved draft with concrete QA steps. Use after work is complete when
-  the user wants to ship a branch or PR. Never use inside /goal.
+  the user wants to ship a branch or PR. After standalone /goal completes, accept
+  its hand-off. Never nest as a flow step inside /goal.
 disable-model-invocation: true
 ---
 
@@ -13,7 +14,9 @@ disable-model-invocation: true
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-Publish only. Never invoke from `/goal`, invent a `publish-flow`, write tracker issues, or implement product work.
+Publish only. Never nest as a flow step under `/goal`, invent a `publish-flow`,
+write tracker issues, or implement product work. Accept a post-completion
+hand-off from standalone `/goal`.
 
 ## Process
 

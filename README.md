@@ -47,7 +47,7 @@ Internals (`/implement`, `/orchestrate`, …) are looked up by `/goal` or `/just
 - **Structure first** → `/architecture` → `/goal`
 - **Ticket then build** → `/write-ticket` → `/goal IN-1234`
 - **Build now** → `/goal` (or `/goal` + a short brief)
-- **Ship a branch/PR** → `/publish`
+- **Ship a branch/PR** → `/publish` (standalone `/goal` hands off here after completion)
 - **Ticket → PR (autonomous)** → `/just-do-it IN-1234` (human reviews the PR after)
 - **Stuck on intent** → `/grill-me`
 - **Review a PR** → `/pr-review`

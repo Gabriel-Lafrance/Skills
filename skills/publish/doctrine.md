@@ -1,6 +1,9 @@
 # Publish Doctrine
 
-Publish local work only. This skill is standalone-only, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
+Publish local work only. This skill is standalone-only: never nest it as a
+flow step under `/goal`. Standalone `/goal` may **hand off** here after
+completion; `/publish` then owns branch, push, draft, and PR approval. Never
+write tracker issues — use `/write-ticket` to create or refine an issue.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
@@ -82,7 +85,7 @@ On approval only, use the heredoc command in [reference.md](reference.md). Retur
 
 ## Anti-patterns
 
-- Invoking under `/goal` or inventing a flow twin.
+- Nesting under `/goal` as a flow step (post-completion hand-off from standalone `/goal` is allowed).
 - Creating a PR before draft and approval.
 - Empty QA instructions.
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak.

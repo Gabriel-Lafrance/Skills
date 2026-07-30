@@ -24,10 +24,11 @@ Read [doctrine.md](doctrine.md) and [reference.md](reference.md). Use the shared
 1. Accept the parent brief: ticket, lane, Done when, non-goals, Active Rules,
    fixed point, and slice constraints.
 2. Run the doctrine lifecycle inside those bounds.
-3. Do **not** ask ship Questions. Return completion evidence to the parent.
+3. Do **not** ask the standalone `/publish` hand-off. Return completion
+   evidence to the parent.
 
 ## Anti-patterns
 
 - Pushing, committing for ship, or opening a PR from this flow
 - Re-deriving ticket/branch ownership the parent already holds
-- Loading the standalone ship Questions batch
+- Loading the standalone `/publish` hand-off batch

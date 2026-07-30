@@ -8,7 +8,9 @@ User-owned end-to-end build. Read [doctrine.md](doctrine.md) and
 1. Establish in-chat execution context.
 2. Run the doctrine lifecycle: grill → plan → implement → acceptance evidence →
    `/code-review` → Fix mode as needed.
-3. Announce completion. Offer ship Questions only after all gates pass (see
-   reference). Do not commit or open a PR unless the user answers yes.
+3. Announce completion. After all gates pass, offer the `/publish` hand-off
+   batch in [reference.md](reference.md). Do not commit, push, or open a PR
+   from `/goal`.
 
-This variant owns shipping decisions. Do not invent a parent.
+This variant owns the build. Shipping decisions go through `/publish` after an
+explicit hand-off. Do not invent a parent.
