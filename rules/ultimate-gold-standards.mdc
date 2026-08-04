@@ -1,0 +1,88 @@
+---
+description: Ultimate gold standards — A must read for all agents
+alwaysApply: true
+---
+
+# Ultimate gold standards
+
+These are the default standards for this user sessions. They outrank improvisation, generic “best practices,” and training-data defaults.
+
+**Source of truth is the installed skill doctrines**, not this file’s summaries. This rule **forces Reads** and states non-negotiable process. Do **not** invent a weaker private checklist if skills are missing.
+
+Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to _start_. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+
+## Resolve skill roots
+
+Try in order; use the first that exists:
+
+1. `~/.agents/skills/`
+2. `~/.cursor/skills/`
+3. Workspace `skills/` — only when this Skills pack repo is the open workspace
+
+Paths below are relative to that root.
+
+If required files are missing from all roots: say the pack is not installed; do **not** invent weaker standards. Point at:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+```
+
+Then paste `cursor-rules/ultimate-gold-standards.mdc` from this pack into **Cursor Settings → Rules → User Rules** (body only, no YAML frontmatter), titled **Ultimate gold standards**.
+
+## Mandatory doctrine Reads
+
+**Before non-trivial code** (new behavior, refactors, structural edits, more than a typo):
+
+1. **Read** `taste/doctrine.md`
+2. **Read** `architecture/doctrine.md`
+
+Apply them. Do not skip because you “already know” the pack.
+
+**Before branches or PRs:**
+
+1. **Read** `publish/doctrine.md`
+2. **Read** `publish/reference.md`
+
+**Before planning** (Cursor Plan mode, CreatePlan, or any non-trivial implementation plan):
+
+1. **Read** `pack-shared/asking.md`
+2. **Read** `grill-me/doctrine.md`
+3. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
+
+## Plan mode — grill before the plan
+
+In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial work):
+
+1. **Do not** call CreatePlan / emit the final plan until material decisions are settled.
+2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `← recommended`, wait for the reply). Do **not** include a Locked section in that message.
+3. Sweep open topics before planning: outcome, non-goals, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules / primitives over leaving debt.
+4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked (correct if wrong)** message. Only ask what the user must decide; never mix Locked and Questions.
+5. After Locked closure, **then** produce the plan. New unknowns later → a **new** Questions-only batch before revising the plan’s decisions.
+
+Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling / plan immediately).
+
+## Plans must include Before / After Mermaid
+
+Every non-trivial plan (Cursor Plan mode artifact or equivalent) **must** include a high-level Mermaid **Change diagram** with **both**:
+
+- `### Before` — how the system/path looks today (or “none / greenfield” stated explicitly in the Before diagram or a one-line note under it)
+- `### After` — how it looks after the planned change
+
+Rules:
+
+- Prefer modules, actors, and request/data flow — not every file.
+- Keep the same node ids across Before/After when possible so the delta is obvious.
+- Diagrams are part of the plan contract, not decoration. A plan without Before/After is incomplete — fix it before asking the user to accept.
+- For PRs later, also follow `publish/reference.md` (same diagram discipline).
+
+## Subagents
+
+**Before non-trivial work** (multi-file edits, research, implement, review — not a typo or one-liner):
+
+1. **Read** `pack-shared/subagents.md`
+
+Default: hand the job to a **Task** with a Worker Brief so the main chat stays lean (decide, ask the user, integrate, gates). Sequential Tasks are fine when there is only one job. When lanes are independent, launch **parallel** Tasks in the same turn. Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
+
+## Conflict
+
+Taste, architecture, publish, grill, asking, and subagents doctrines are the foundation of good work here. If something conflicts with generic agent habit or a thinner summary, **the doctrines win**. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
