@@ -52,4 +52,10 @@ Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](.
 
 MIT — see [LICENSE](./LICENSE).
 
+## Community
+
+- [Contributing](.github/CONTRIBUTING.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [Security policy](.github/SECURITY.md)
+
 Inspired by [Matt Pocock](https://github.com/mattpocock/skills).

@@ -1,0 +1,43 @@
+name: Feature or skill request
+description: Propose a new skill, doctrine change, or pack improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the problem first. Large changes should stay aligned with [CONTRIBUTING.md](../CONTRIBUTING.md) and [how-to.md](../../how-to.md).
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is hard or missing today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change? Which skill(s)?
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Guide (/ask-gabriel, /taste, /architecture)
+        - Clarify (/grill-me, /analyze)
+        - Specify (/write-ticket)
+        - Build (/goal, /just-do-it)
+        - Review and ship (/code-review, /publish, /pr-review, /create-test)
+        - Pack shared / docs / rules
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
