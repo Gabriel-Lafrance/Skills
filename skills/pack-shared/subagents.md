@@ -41,10 +41,10 @@ do not hand a worker an opaque plan path or hidden state to reconstruct.
 ## Locked decisions
 - <relevant user decisions, waivers, and promotions>
 
-## Active Rules
-| ID | Rule | Enforcement | Verification |
+## Rules that must stay true
+| ID | Rule | How we enforce it | How we check it |
 | --- | --- | --- | --- |
-| INV-1 | … | … | … |
+| Rule 1 | … | … | … |
 
 ## Job
 **Slice:** <one bounded deliverable>

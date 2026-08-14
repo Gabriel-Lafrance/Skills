@@ -9,11 +9,11 @@ These are the default standards for this user session. They outrank improvisatio
 
 **This file is opt-in.** It lives in `rules/` so `npx skills` does not install it and a repo does not auto-apply it. Paste the body (no YAML frontmatter) into **Cursor Settings → Rules → User Rules** if you want Plan mode and freeform chats to load taste and architecture without invoking a skill.
 
-**Skills do not depend on this file.** When a pack skill runs, [`pack-shared/standards.md`](../skills/pack-shared/standards.md) hard-applies `/taste` and `/architecture`. Do not skip those Reads because this User Rule is missing.
+**Skills do not depend on this file.** When a pack skill runs, it must follow `/taste` and `/architecture` via [`pack-shared/standards.md`](../skills/pack-shared/standards.md). Do not skip those Reads because this User Rule is missing.
 
 **Source of truth is the installed skill doctrines**, not this file’s summaries. This rule **forces Reads** and states non-negotiable process. Do **not** invent a weaker private checklist if skills are missing.
 
-Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to _start_. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully — including its hard-apply of taste and architecture.
+Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to _start_. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully — including taste and architecture.
 
 ## Resolve skill roots
 
@@ -50,17 +50,18 @@ Apply them as **hard** standards, not flavor. Do not skip because you “already
 **Before planning** (Cursor Plan mode, CreatePlan, or any non-trivial implementation plan):
 
 1. **Read** `pack-shared/asking.md`
-2. **Read** `grill-me/doctrine.md`
-3. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
+2. **Read** `pack-shared/plain-language.md`
+3. **Read** `grill-me/doctrine.md`
+4. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
 
 ## Plan mode — grill before the plan
 
 In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial work):
 
 1. **Do not** call CreatePlan / emit the final plan until material decisions are settled.
-2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `← recommended`, wait for the reply). Do **not** include a Locked section in that message.
-3. Sweep open topics before planning: outcome, non-goals, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules / primitives over leaving debt. Taste and architecture are in that sweep **every time**, not only when structure “looks” in play.
-4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked (correct if wrong)** message. Only ask what the user must decide; never mix Locked and Questions.
+2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
+3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt. Taste and architecture are in that sweep **every time**, not only when structure “looks” in play. Talk in ordinary words ([plain-language.md](../skills/pack-shared/plain-language.md)).
+4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message. Only ask what the user must decide; never mix Locked and Questions.
 5. After Locked closure, **then** produce the plan. New unknowns later → a **new** Questions-only batch before revising the plan’s decisions.
 
 Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling / plan immediately).
@@ -89,4 +90,4 @@ Default: hand the job to a **Task** with a Worker Brief so the main chat stays l
 
 ## Conflict
 
-Taste, architecture, publish, grill, asking, and subagents doctrines are the foundation of good work here. If something conflicts with generic agent habit or a thinner summary, **the doctrines win**. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, publish, grill, asking, plain language, and subagents doctrines are the foundation of good work here. If something conflicts with generic agent habit or a thinner summary, **the doctrines win**. Talk to the user in ordinary words. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

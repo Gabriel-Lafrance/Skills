@@ -36,10 +36,10 @@ relevant context visible in chat:
 ### Locked decisions
 - <user decision, waiver, or promotion>
 
-### Active Rules
-| ID | Rule | Enforcement | Verification |
+### Rules that must stay true
+| ID | Rule | How we enforce it | How we check it |
 | --- | --- | --- | --- |
-| INV-1 | … | … | … |
+| Rule 1 | … | … | … |
 
 ### Current slices
 | Slice | Status | Scope / acceptance | Dependencies |

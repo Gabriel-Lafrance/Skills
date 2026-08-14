@@ -28,15 +28,15 @@ chat; this flow creates no automatic artifacts.
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste`: **KISS**, named principles (SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA, honest names), error style, naming, entry-shape bias, verification |
-   | Always | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections. For a typo or pure rename, recommend “keep the existing structure.” |
+   | Always | `/taste`: keep it simple; keep jobs apart; one altitude; read or write not both; fail fast; leave it cleaner; related together; safe to retry; say what happens; no surprises; honest names |
+   | Always | `/architecture`: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.
 5. Put answers, Active Rules, corrections, and revised lanes directly in the
    execution context. If a correction exposes a new material unknown, send a
    new Questions-only batch.
-6. When material Questions are settled, announce **Locked (correct if wrong)**
+6. When material Questions are settled, announce **Locked in (tell me if this is wrong)**
    for non-goals, split, and shared understanding in a **separate**
    announce-only message. Do not issue plans until that Locked closure stands
    and every relevant Active Rule has an enforcement and verification owner.

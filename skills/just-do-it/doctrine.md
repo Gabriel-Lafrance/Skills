@@ -30,7 +30,7 @@ reconstruct.
 
 ## Autonomy and hard stops
 
-Take `← recommended` on child soft Questions without waiting. Announce Locked
+Take `recommended` on child soft Questions without waiting. Announce Locked-in
 conclusions only in announce-only messages (never above a Questions batch).
 Auto-remediate only a named **Fix now** item
 that cites an invariant/spec, correctness, security, or regression defect.
@@ -84,7 +84,7 @@ the user explicitly asked; default is additional commit(s), then push + PR.
 2. **Branch.** Apply the branch contract above; record `baseSha`.
 3. **Analyze and build.** Run **flow** `/analyze` with an explicit parent
    instruction to choose its `promote + start` handoff, then run **flow**
-   `/goal` for the bounded build. Child skills hard-apply `/taste` and
+   `/goal` for the bounded build. Child skills must follow `/taste` and
    `/architecture` ([standards.md](../pack-shared/standards.md)). Analyze
    research waves and goal explore/implement waves **must** use Task workers
    per [subagents.md](../pack-shared/subagents.md); the parent does not solo

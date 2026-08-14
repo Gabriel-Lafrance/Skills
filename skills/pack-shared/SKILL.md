@@ -14,7 +14,8 @@ Not a user skill. Do not recommend `/pack-shared`.
 
 Other skills Read these files by relative path:
 
-- [standards.md](standards.md) — hard-apply `/taste` and `/architecture` on every skill run
+- [standards.md](standards.md) — must follow `/taste` and `/architecture` on every skill run
+- [plain-language.md](plain-language.md) — talk to humans in ordinary words
 - [asking.md](asking.md) — how to ask the user
 - [variants.md](variants.md) — standalone vs flow selection
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff

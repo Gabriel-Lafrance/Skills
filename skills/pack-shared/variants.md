@@ -10,9 +10,8 @@ Same contract for every dual skill — today and for future long-running orchest
 2. If the user (or calling prompt) says `standalone` / `flow`, honor that **only if that file exists**; if missing, use the matching message below (do not invent the other process).
 3. Otherwise pick using the hints; match **how the work is being run**, not a keyword hunt for a workspace id alone.
 4. After picking an existing file, follow that file’s Read-first links only.
-   The parent `SKILL.md` **Hard apply** of [standards.md](standards.md) still
-   applies — Read `/taste` and `/architecture` doctrines this turn unless this
-   skill is `/ask-gabriel`.
+   The parent `SKILL.md` still requires a **Must read** of [standards.md](standards.md)
+   this turn — Read `/taste` and `/architecture` unless this skill is `/ask-gabriel`.
 5. Never silently fall back to the other variant.
 6. A parent flow supplies the relevant [execution context](execution-context.md); child skills use that context and do not create hidden runtime state.
 7. **Missing `variants.md` is not a stop.** If this file cannot be Read, still choose using the skill’s local `standalone.md` / `flow.md` and the hints above. “Missing file” in dual-skill SKILL.md means missing `standalone.md` or `flow.md`, not this contract.

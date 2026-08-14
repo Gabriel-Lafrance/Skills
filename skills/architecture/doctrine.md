@@ -2,7 +2,7 @@
 
 Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
 
-Read **`/taste`** first — especially **KISS**, **Named principles** (SoC, cohesion/coupling, idempotency, …), and **Bad code = complexity and entropy** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, KISS, named principles, and the complexity/entropy definition — this skill owns the structure card **and scalability**.
+Read **`/taste`** first — especially **keep it simple**, **named principles** (keep jobs apart, related together, safe to retry, …), and **Bad code = complexity and mess that spreads** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, keep-it-simple, named principles, and the complexity definition — this skill owns the structure card **and scalability**.
 
 Apply `/taste`'s [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple), [named principles](../taste/doctrine.md#named-principles), and [abstraction budget](../taste/doctrine.md#abstraction-budget).
 Keep the smallest direct structure that meets the goal; add services, seams, and
@@ -13,9 +13,9 @@ them.
 
 | Principle | How it shows up here |
 | --- | --- |
-| **SoC** | Domain capability → service; feature orchestrates; UI does not own Stripe/JWT/email |
-| **High cohesion, low coupling** | One concern per service; callers depend only on the public API |
-| **Idempotency** | Write paths, webhooks, payments, and retries must be safe to repeat (name the key / guard on the structure card when relevant) |
+| **Keep jobs apart** | Domain job → service; feature coordinates; UI does not own Stripe/JWT/email |
+| **Related together** | One concern per service; callers depend only on the public API |
+| **Safe to retry** | Write paths, webhooks, payments, and retries must be safe to repeat (name the key / guard on the structure card when relevant) |
 
 Architecture adds one scope rule: a behavior-preserving move is required only
 when an Active Rule, acceptance criterion, correctness issue, or named finding
@@ -236,14 +236,14 @@ Present this before writing code (and include it in the inline plan contract whe
 - **Owns / extends:** `path` — public API: `makeUserPay(…)`, … (or _n/a — pure UI_)
 - **Calls (existing):** `billing.makeUserPay`, `auth.requireUser`, … — never reimplements these
 - **Must not duplicate:** <Stripe / JWT / email provider / …>
-**Moves / corrections:** <required by INV-1 / AC / named finding: relocate X → services/billing; delete old path> | _none_
+**Moves / corrections:** <required by Rule 1 / what-done-means / named finding: move X → services/billing; delete old path> | _none_
 **Feature entry:** `path` — `useX` | `ClassX` | `fn` — one-line contract (orchestrates services + UI); **deep** surface
 **Primitives:**
 - **Reuse (existing):** cite path + one-line job | _none_
 - **New / extend:** path — one specific job; how it stays reusable without breaking
 - **Inside:** which service / deep module owns it
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
-**Complexity / entropy / principles:** public API deep? SoC held? coupling only through public API? idempotent writes named when needed? change reduces or holds entropy in touched lane? (see `/taste`)
+**Complexity / principles:** public API simple? jobs kept apart? callers use only the public API? safe-to-retry writes named when needed? did we avoid copying a known-wrong shape? (see `/taste`)
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
@@ -283,7 +283,7 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - [ ] Related new files share one folder (or an existing convention)
 - [ ] No flat file dump / no anonymous `utils` bag standing in for a service
 - [ ] Public API is **deep** (simple surface); complexity is inside collaborators / primitives, not at every call site
-- [ ] **SoC / cohesion / coupling:** one concern per service; callers use only the public API
+- [ ] **Keep jobs apart / related together:** one concern per service; callers use only the public API
 - [ ] **Idempotency:** replay-safe writes/webhooks/payments named when the card requires them
 - [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
 - [ ] `/taste` naming, KISS, and named principles respected

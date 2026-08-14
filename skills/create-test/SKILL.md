@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Create Test
 
-**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so locks sit on the public surface, not internals. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so locks sit on the public surface, not internals. Do not skip.
 
 **Standalone only.** Never invoke from a flow or automatically. Only
 `/code-review` and `/pr-review` may recommend a lock; only the user starts this

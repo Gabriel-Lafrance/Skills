@@ -11,7 +11,7 @@ description: >-
 
 You don't remember every skill — ask. Stay **thin**: recommend only; do **not**
 load other skills' bodies — including `/taste` and `/architecture` doctrines —
-until the user accepts. The next skill hard-applies those doctrines via
+until the user accepts. The next skill must follow those doctrines via
 [standards.md](../pack-shared/standards.md).
 
 **Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/taste`, `/architecture`, `/analyze`, `/goal`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
@@ -23,7 +23,7 @@ until the user accepts. The next skill hard-applies those doctrines via
 | Unsure which skill | Stay here — answer below |
 | Fuzzy idea / research | `/analyze` (it loads `/taste` + `/architecture`) |
 | Bug / something broken | `/analyze` → `/goal` when buildable |
-| Build until X is true | `/goal` (hard-applies `/taste` and `/architecture`) |
+| Build until X is true | `/goal` (must follow `/taste` and `/architecture`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
@@ -36,7 +36,7 @@ until the user accepts. The next skill hard-applies those doctrines via
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
 `/architecture` — usually via `/analyze` → `/goal`, or recommend those skills
-directly when the ask is style or structure. Invoked skills hard-apply both
+directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
 Internals (`/implement`, …) are flow steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
@@ -47,5 +47,6 @@ Internals (`/implement`, …) are flow steps looked up by `/goal` or `/just-do-i
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. When recommending `/goal` or `/analyze`, mention that they hard-apply `/taste`
-   and `/architecture`.
+5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations.
+6. When recommending `/goal` or `/analyze`, say they will follow the coding and
+   structure standards (`/taste` and `/architecture`).

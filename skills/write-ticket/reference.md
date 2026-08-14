@@ -107,7 +107,7 @@ These are numbered freeform questions. Do not add letters or `Reply like:`.
 ### Feature
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Vision:** …
 **Definition of Done (outline):** …
 **Entrypoints:** `path` — `symbol` · …
@@ -118,7 +118,7 @@ These are numbered freeform questions. Do not add letters or `Reply like:`.
 ### Refactor
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Why:** …
 **What must not change:** …
 **Pros:** …
@@ -136,7 +136,7 @@ These are numbered freeform questions. Do not add letters or `Reply like:`.
 ### Tweak
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Adjustment:** …
 **Expected outcome:** …
 **Entrypoints:** `path` — `symbol` | _unknown_
@@ -146,7 +146,7 @@ These are numbered freeform questions. Do not add letters or `Reply like:`.
 ### Chore
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Maintenance:** …
 **Expected outcome:** …
 **Entrypoints:** `path` — `symbol` | _unknown_
@@ -156,7 +156,7 @@ These are numbered freeform questions. Do not add letters or `Reply like:`.
 ### Hotfix
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Who / What / When:** …
 **Urgency / blast radius:** …
 **Expected behavior:** …

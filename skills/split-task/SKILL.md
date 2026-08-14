@@ -8,6 +8,6 @@ disable-model-invocation: true
 
 # Split Task
 
-**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before splitting lanes or folders. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before splitting lanes or folders. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — flow-only: [flow.md](flow.md).

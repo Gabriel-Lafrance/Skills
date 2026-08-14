@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Analyze
 
-**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before researching or posting the memo. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before researching or posting the memo. Do not skip.
 
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
 

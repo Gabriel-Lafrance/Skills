@@ -21,36 +21,36 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ```markdown
 - **standards-soc-checkout-stripe** · **standards** · **blocker**
   - **Where:** `features/checkout/use-checkout.ts` (`placeOrder`)
-  - **Rule:** `taste:SoC` · `architecture:high-cohesion-low-coupling`
+  - **Rule:** `taste:keep-jobs-apart` · `architecture:related-together`
   - **Trigger:** Checkout feature calls Stripe directly on submit.
   - **Evidence:** Diff adds `stripe.checkout.sessions.create` inside the feature; `billing.makeUserPay` already owns Stripe.
-  - **Impact:** Domain I/O forked; auth/idempotency on the billing path is skipped.
+  - **Impact:** Checkout now talks to Stripe instead of billing; the billing safety checks are skipped.
   - **Fix:** Call `billing.makeUserPay`; delete the feature-local Stripe path.
 
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| KISS | clear | |
-| SoC | finding | `standards-soc-checkout-stripe` |
-| SLAP | clear | |
-| CQS | clear | |
+| Keep it simple | clear | |
+| Keep jobs apart | finding | `standards-soc-checkout-stripe` |
+| One altitude | clear | |
+| Read or write, not both | clear | |
 | Fail fast | clear | |
-| Boy Scout | finding | same as SoC — copied wrong sibling |
-| Cohesion / coupling | finding | reaches Stripe instead of billing API |
-| Idempotency | finding | bypasses billing idempotency |
-| Explicit | clear | |
-| PoLA | clear | |
+| Leave it cleaner | finding | same as keep-jobs-apart — copied wrong sibling |
+| Related together | finding | reaches Stripe instead of billing API |
+| Safe to retry | finding | bypasses billing retry safety |
+| Say what happens | clear | |
+| No surprises | clear | |
 | Honest names | clear | |
 
 ## Architecture sweep
 | Check | Status | Note |
 | --- | --- | --- |
 | Services / public API | finding | feature forks Stripe instead of `billing.makeUserPay` |
-| Deep surface | finding | callers now orchestrate checkout-session steps |
-| Primitives (reuse, not fork) | finding | billing primitive bypassed |
+| Simple public surface | finding | callers now orchestrate checkout-session steps |
+| One-job helpers (reuse, not copy) | finding | billing helper bypassed |
 | Folders / placement | clear | |
-| Write-path scale | n/a | no aggregate read |
-| Idempotent writes | finding | same as SoC — billing idempotency skipped |
+| Cheap reads (store on write) | none | no aggregate read |
+| Safe to retry writes | finding | same as keep-jobs-apart — billing retry safety skipped |
 ```
 
 Reject a Standards worker result that omits the **Principles sweep** or **Architecture sweep** table, or that marks every row `clear` without having inspected the diff.

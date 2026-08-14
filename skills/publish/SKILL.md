@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 # Publish
 
-**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip.
 
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
