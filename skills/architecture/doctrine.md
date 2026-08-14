@@ -303,4 +303,4 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - Any feature with lists, dashboards, counts, totals, leaderboards, or "stats"
 - Any query that would scan children to answer a parent-level question
 
-Hand off: structure card → `/goal` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → plan contracts → `/implement`.
+Hand off: structure card → `/goal` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → plan contracts → `/implement`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md), not only when a parent decides structure is “in play.”

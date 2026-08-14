@@ -54,6 +54,7 @@ do not hand a worker an opaque plan path or hidden state to reconstruct.
 **Dependencies / interfaces:** <ready, blocked, or contract>
 
 ## Read first
+- `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
 - <repo paths, ticket, PR, or committed docs only>
 
 ## Escalation boundary
@@ -96,7 +97,7 @@ expansion. Report the blocker and smallest viable option to the parent.
 
 - Soloing non-trivial multi-file or multi-lane work on the main agent when a
   Task would protect context
-- Task without outcome, lane, Active Rules, and escalation boundary
+- Task without outcome, lane, Active Rules, taste/architecture Reads, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
 - Worker running acceptance gates or `/code-review`

@@ -6,11 +6,13 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
 
 ## Read first
 
-1. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
+1. [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste`
+   and `/architecture` doctrines (KISS + named principles + structure). For UI,
+   follow taste React & UI guidance.
+2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
    decisions, Active Rules, current slice, write lane, and dependencies.
-2. Only the named ticket / PR, relevant Git diff/history, repository code and
+3. Only the named ticket / PR, relevant Git diff/history, repository code and
    rules, and repo paths listed in the brief.
-3. `/taste` (KISS + named principles). For UI, follow taste React & UI guidance.
 
 ## Deliver one bounded slice
 
@@ -18,7 +20,8 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
    brief proves non-overlapping lanes and compatible interfaces.
 2. Honor the inline Structure decisions and Active Rules. If a
    required behavior-preserving move is in the brief, do it before feature
-   code and show that the old observable behavior still holds.
+   code and show that the old observable behavior still holds. Apply `/taste`
+   implement self-check and `/architecture` self-check before Completion.
 3. Reuse existing services and primitives. Do not copy a known-wrong shape or
    invent a shared API, service, abstraction, or lane. Return the smallest
    viable option as a finding when the slice needs one.

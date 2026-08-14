@@ -23,8 +23,9 @@ Resolve Standards in this order:
 
 Treat the first two sources as **hard** unless repository rules conflict. On every
 `initial` or `full-rescan`, **Read** `/taste` doctrine (at least KISS + Named
-principles) and `/architecture` doctrine before adjudating Standards. Do not
-treat principles as optional flavor text.
+principles) **and** `/architecture` doctrine before adjudicating Standards
+([standards.md](../pack-shared/standards.md)). Do not treat principles as
+optional flavor text. Reject Standards output that skipped either Read.
 
 ### Named principles checklist (required on Standards)
 
@@ -102,7 +103,7 @@ For an `initial` review or `full-rescan`, the parent:
 1. Pins the fixed point, inspects the diff, resolves the available spec, and supplies relevant Active Rules.
 2. Runs **Wave 1** Standards and Spec as **parallel Task workers** (not sequential solo on the main agent). Skip Spec only when no specification is available; report that absence rather than inventing acceptance criteria. Follow [subagents.md](../pack-shared/subagents.md).
 3. Keeps worker output in the shared contract shape; rejects and relaunches a narrative-only result once.
-4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** (may be a follow-up Task) to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table.
+4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** (may be a follow-up Task) to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table or the **Architecture sweep** table.
 5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
 
 The parent controls worker dispatch plus acceptance evidence and review gates. Implementation workers receive the supplied lane and context; they do not run acceptance or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable browser evidence as a gap, not a Standards finding.
@@ -148,6 +149,7 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 - Soloing Wave 1 Standards/Spec on the main agent instead of parallel Task workers
 - Skipping Wave 2 for an initial review or full rescan
 - Skipping the Named principles checklist or accepting Standards output without a **Principles sweep**
+- Skipping the **Architecture sweep** or accepting Standards output that did not Read `/architecture` this turn
 - Skipping the **Naming alignment pass** or treating stale file/symbol names after a rename as Optional nits
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation

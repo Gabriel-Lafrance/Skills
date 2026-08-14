@@ -5,11 +5,15 @@ alwaysApply: true
 
 # Ultimate gold standards
 
-These are the default standards for this user sessions. They outrank improvisation, generic “best practices,” and training-data defaults.
+These are the default standards for this user session. They outrank improvisation, generic “best practices,” and training-data defaults.
+
+**This file is opt-in.** It lives in `rules/` so `npx skills` does not install it and a repo does not auto-apply it. Paste the body (no YAML frontmatter) into **Cursor Settings → Rules → User Rules** if you want Plan mode and freeform chats to load taste and architecture without invoking a skill.
+
+**Skills do not depend on this file.** When a pack skill runs, [`pack-shared/standards.md`](../skills/pack-shared/standards.md) hard-applies `/taste` and `/architecture`. Do not skip those Reads because this User Rule is missing.
 
 **Source of truth is the installed skill doctrines**, not this file’s summaries. This rule **forces Reads** and states non-negotiable process. Do **not** invent a weaker private checklist if skills are missing.
 
-Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to _start_. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to _start_. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully — including its hard-apply of taste and architecture.
 
 ## Resolve skill roots
 
@@ -27,16 +31,16 @@ If required files are missing from all roots: say the pack is not installed; do 
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 ```
 
-Then paste `cursor-rules/ultimate-gold-standards.mdc` from this pack into **Cursor Settings → Rules → User Rules** (body only, no YAML frontmatter), titled **Ultimate gold standards**.
+Then, only if you want this opt-in User Rule, paste `rules/ultimate-gold-standards.mdc` from this pack into **Cursor Settings → Rules → User Rules** (body only, no YAML frontmatter), titled **Ultimate gold standards**.
 
 ## Mandatory doctrine Reads
 
-**Before non-trivial code** (new behavior, refactors, structural edits, more than a typo):
+**Before non-trivial code** (new behavior, refactors, structural edits, more than a typo) — and **every time a pack skill other than `/ask-gabriel` runs**:
 
 1. **Read** `taste/doctrine.md`
 2. **Read** `architecture/doctrine.md`
 
-Apply them. Do not skip because you “already know” the pack.
+Apply them as **hard** standards, not flavor. Do not skip because you “already know” the pack. Do not skip architecture because the change looks like a single file; keep the existing structure when that is the smallest correct answer.
 
 **Before branches or PRs:**
 
@@ -55,7 +59,7 @@ In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial w
 
 1. **Do not** call CreatePlan / emit the final plan until material decisions are settled.
 2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `← recommended`, wait for the reply). Do **not** include a Locked section in that message.
-3. Sweep open topics before planning: outcome, non-goals, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules / primitives over leaving debt.
+3. Sweep open topics before planning: outcome, non-goals, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules / primitives over leaving debt. Taste and architecture are in that sweep **every time**, not only when structure “looks” in play.
 4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked (correct if wrong)** message. Only ask what the user must decide; never mix Locked and Questions.
 5. After Locked closure, **then** produce the plan. New unknowns later → a **new** Questions-only batch before revising the plan’s decisions.
 
@@ -81,7 +85,7 @@ Rules:
 
 1. **Read** `pack-shared/subagents.md`
 
-Default: hand the job to a **Task** with a Worker Brief so the main chat stays lean (decide, ask the user, integrate, gates). Sequential Tasks are fine when there is only one job. When lanes are independent, launch **parallel** Tasks in the same turn. Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
+Default: hand the job to a **Task** with a Worker Brief so the main chat stays lean (decide, ask the user, integrate, gates). Sequential Tasks are fine when there is only one job. When lanes are independent, launch **parallel** Tasks in the same turn. Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks. Worker Brief **Read first** must include `taste/doctrine.md` and `architecture/doctrine.md`.
 
 ## Conflict
 

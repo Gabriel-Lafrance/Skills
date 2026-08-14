@@ -9,7 +9,10 @@ description: >-
 
 # Ask Gabriel
 
-You don't remember every skill — ask. Stay **thin**: recommend only; do **not** load other skills' bodies until the user accepts.
+You don't remember every skill — ask. Stay **thin**: recommend only; do **not**
+load other skills' bodies — including `/taste` and `/architecture` doctrines —
+until the user accepts. The next skill hard-applies those doctrines via
+[standards.md](../pack-shared/standards.md).
 
 **Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/taste`, `/architecture`, `/analyze`, `/goal`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
 
@@ -20,7 +23,7 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | Unsure which skill | Stay here — answer below |
 | Fuzzy idea / research | `/analyze` (it loads `/taste` + `/architecture`) |
 | Bug / something broken | `/analyze` → `/goal` when buildable |
-| Build until X is true | `/goal` (always loads `/taste`; `/architecture` unless trivial) |
+| Build until X is true | `/goal` (hard-applies `/taste` and `/architecture`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
@@ -31,7 +34,10 @@ You don't remember every skill — ask. Stay **thin**: recommend only; do **not*
 | Review open GitHub PR | `/pr-review` |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
 
-**Bias:** Before non-trivial coding, prefer paths that run `/taste` and (when structure matters) `/architecture` — usually via `/analyze` → `/goal`, or recommend those skills directly when the ask is style or structure.
+**Bias:** Before non-trivial coding, prefer paths that run `/taste` and
+`/architecture` — usually via `/analyze` → `/goal`, or recommend those skills
+directly when the ask is style or structure. Invoked skills hard-apply both
+doctrines; do not load those bodies in this router.
 
 Internals (`/implement`, …) are flow steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
 
@@ -41,4 +47,5 @@ Internals (`/implement`, …) are flow steps looked up by `/goal` or `/just-do-i
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. When recommending `/goal` or `/analyze`, mention that they pull in `/taste` (and `/architecture` when structure is in play).
+5. When recommending `/goal` or `/analyze`, mention that they hard-apply `/taste`
+   and `/architecture`.

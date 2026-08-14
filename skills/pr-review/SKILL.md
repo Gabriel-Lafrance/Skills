@@ -10,20 +10,24 @@ disable-model-invocation: true
 
 # PR Review
 
+**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
+
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow missing-variant response.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,
-evidence, worker artifacts (including the **Principles sweep**), finding
+evidence, worker artifacts (including the **Principles sweep** and
+**Architecture sweep**), finding
 records, severity mapping, and behavior-lock guidance. The shared
 [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
 
-**Standards:** always apply the
+**Standards:** always Read `/taste` and `/architecture` this turn
+([standards.md](../pack-shared/standards.md)). Apply the
 [Named principles checklist](../code-review/doctrine.md#named-principles-checklist-required-on-standards)
-from `/code-review` / `/taste` / `/architecture` on initial and full-rescan
+and the Architecture sweep on initial and full-rescan
 (and on newly introduced follow-up surface).
 
 ## Boundaries

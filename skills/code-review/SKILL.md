@@ -13,10 +13,12 @@ disable-model-invocation: true
 
 # Code Review
 
+**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
+
 **Shared contracts:** [review](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md) · [variants](../pack-shared/variants.md)
 
 **Adapters:** [standalone](standalone.md) · [flow](flow.md) · [doctrine](doctrine.md) · [examples](examples.md)
 
 Standards always load `/taste` (KISS + Named principles, including **Honest
-names**) and `/architecture` when structure or writes are in play. Worker
-output includes the **Principles sweep** table from the review contract.
+names**) **and** `/architecture`. Worker output includes the **Principles
+sweep** and **Architecture sweep** tables from the review contract.

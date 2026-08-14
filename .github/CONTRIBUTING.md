@@ -9,8 +9,11 @@ By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Markdown skills under [`skills/`](../skills/). Pack layout and authoring rules
 live in [`how-to.md`](../how-to.md). Standards for how agents should work live
-in skill doctrines (especially `/taste` and `/architecture`) and
-[`rules/ultimate-gold-standards.mdc`](../rules/ultimate-gold-standards.mdc).
+in skill doctrines (especially `/taste` and `/architecture`), the hard-apply
+contract [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md),
+and the **opt-in** User Rule
+[`rules/ultimate-gold-standards.mdc`](../rules/ultimate-gold-standards.mdc)
+(keep it in `rules/`; do not move it into `.cursor/rules`).
 
 ## Before you start
 
@@ -36,6 +39,8 @@ npx skills@latest add . --list
 Optional: paste the body of
 [`rules/ultimate-gold-standards.mdc`](../rules/ultimate-gold-standards.mdc)
 (without YAML frontmatter) into **Cursor Settings → Rules → User Rules**.
+That file stays in `rules/` because it is opt-in. Installed skills hard-apply
+taste and architecture without it.
 
 ## How to change skills
 

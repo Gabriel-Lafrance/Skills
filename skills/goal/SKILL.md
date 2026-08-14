@@ -10,14 +10,15 @@ disable-model-invocation: true
 
 # Goal
 
+**Hard apply:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before grilling, planning, or implementing. Do not skip.
+
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md)
 
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md). Always load flow
-`/taste` during grill and before implement. Load flow `/architecture` unless
-the work is trivial single-file with structure already settled.
+`/taste` and flow `/architecture` during grill and before every implement wave.
 
 ## Lifecycle
 

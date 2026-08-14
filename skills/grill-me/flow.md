@@ -1,6 +1,7 @@
 # Grill Me flow
 
 Use this variant inside an active `/goal` or parent wave. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
 [doctrine.md](doctrine.md), the shared
 [execution context](../pack-shared/execution-context.md), and the
 [asking contract](../pack-shared/asking.md). The parent carries all context in
@@ -21,12 +22,14 @@ chat; this flow creates no automatic artifacts.
 2. Gather every unsettled topic from the doctrine's behavior sweep. Include
    plan count and file lane alongside product questions so the first batch is
    complete.
-3. Apply the relevant quality discipline before recommending answers:
+3. Apply the relevant quality discipline before recommending answers. **Always**
+   Read and apply both `/taste` and `/architecture` (see
+   [standards.md](../pack-shared/standards.md)):
 
    | When | Include in the batch |
    | --- | --- |
    | Always | `/taste`: **KISS**, named principles (SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA, honest names), error style, naming, entry-shape bias, verification |
-   | Multi-file, data, or scale | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections |
+   | Always | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.

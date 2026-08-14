@@ -178,7 +178,7 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/goal` writes acceptance criteria (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; primitives reused not forked; no entropy growth in the touched lane).
+When `/goal` writes acceptance criteria (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; primitives reused not forked; no entropy growth in the touched lane). Parents must already have loaded `/architecture` this turn ([standards.md](../pack-shared/standards.md)); do not skip that Read for a “small” slice.
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 

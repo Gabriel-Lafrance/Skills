@@ -26,7 +26,7 @@ destination.
 | Ticket context | `/trackers` (read only) when ticket/PR |
 | Grill | `/grill-me` |
 | Style contract | **`/taste` always** — grill + before every implement wave |
-| Structure | **`/architecture`** — required unless trivial single-file and grill settled structure |
+| Structure | **`/architecture` always** — grill + before every implement wave. For a typo or pure rename, load it and keep the existing structure |
 | Split | `/split-task` when multiple slices help |
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave |
@@ -46,7 +46,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/trackers` | If ticket | Read only |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | Flow variant during grill and before/during every implement wave |
-| `/architecture` | Yes* | *Unless trivial single-file work and grill settles structure — prefer loading it |
+| `/architecture` | **Yes** | Flow variant during grill and before/during every implement wave — prefer loading even for a one-file fix |
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | Yes | Frontier slices |
@@ -65,7 +65,8 @@ For ticket-driven goals, fetch `/trackers` first (read only), then grill open de
 
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
-3. Unless the skip rule applies, run `/grill-me` fully. It pulls in `/taste` and `/architecture` when structure is in scope.
+3. Unless the skip rule applies, run `/grill-me` fully. It pulls in `/taste`
+   and `/architecture` on every run ([standards.md](../pack-shared/standards.md)).
 4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
 
@@ -75,7 +76,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### 1a. Explore and shape
 
-Dispatch exploration through Task workers per [subagents.md](../pack-shared/subagents.md): non-trivial research **must** use a Task; ≥2 independent lanes **must** run in parallel. Confirm `/taste` and `/architecture` decisions against the grill, then carry the relevant facts into the in-chat plan contracts.
+Dispatch exploration through Task workers per [subagents.md](../pack-shared/subagents.md): non-trivial research **must** use a Task; ≥2 independent lanes **must** run in parallel. Confirm `/taste` and `/architecture` decisions against the grill (both doctrines must already be loaded this turn), then carry the relevant facts into the in-chat plan contracts.
 
 ### 1b. Split and plan
 

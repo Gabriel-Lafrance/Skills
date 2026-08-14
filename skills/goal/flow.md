@@ -1,7 +1,8 @@
 # Goal (flow)
 
 Bounded build nested under a parent orchestrator (typically `/just-do-it`).
-Read [doctrine.md](doctrine.md) and [reference.md](reference.md). Use the shared
+Read [../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md) and [reference.md](reference.md). Use the shared
 [execution context](../pack-shared/execution-context.md).
 
 ## Parent owns

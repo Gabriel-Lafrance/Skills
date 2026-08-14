@@ -84,10 +84,11 @@ the user explicitly asked; default is additional commit(s), then push + PR.
 2. **Branch.** Apply the branch contract above; record `baseSha`.
 3. **Analyze and build.** Run **flow** `/analyze` with an explicit parent
    instruction to choose its `promote + start` handoff, then run **flow**
-   `/goal` for the bounded build. Analyze research waves and goal
-   explore/implement waves **must** use Task workers per
-   [subagents.md](../pack-shared/subagents.md); the parent does not solo CR1
-   research or implement. Give child skills the ticket, lane, Done when,
+   `/goal` for the bounded build. Child skills hard-apply `/taste` and
+   `/architecture` ([standards.md](../pack-shared/standards.md)). Analyze
+   research waves and goal explore/implement waves **must** use Task workers
+   per [subagents.md](../pack-shared/subagents.md); the parent does not solo
+   CR1 research or implement. Give child skills the ticket, lane, Done when,
    non-goals, rules, and current slice. The parent owns integration and
    shipping; flow `/goal` returns completion evidence and skips ship Questions.
 4. **Checkpoint → CR1.** Checkpoint if dirty; pin `baseSha`/`headSha`. Run

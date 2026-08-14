@@ -54,8 +54,10 @@ mandatory; label weak evidence and use `unknown` or `N/A` instead of invented
 precision. Prefer Hotfix over Bug only when production breakage is urgent.
 
 Feature and Refactor architecture may name placement, reuse versus a new
-boundary, moves, deletion of old paths, and one-line reasoning. Do not prescribe
-method bodies, algorithms, signatures, or implementation steps.
+boundary, moves, deletion of old paths, and one-line reasoning. Cite `/taste`
+(KISS, SoC, honest names) and `/architecture` (service owner, primitives,
+folders, write-path scale) in that sketch. Do not prescribe method bodies,
+algorithms, signatures, or implementation steps.
 
 ## Process
 

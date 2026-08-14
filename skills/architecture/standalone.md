@@ -2,7 +2,8 @@
 
 This skill is the structural gate: domain services with public APIs, deep surfaces built from strong primitives inside those modules, simple entry points, folder maps, behavior-preserving moves for prior mistakes, and write-path scalability. Run it before `/goal` planning when structure or data shape matters, or mid-implement when the diff is about to sprawl.
 
-**Read first:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · **`/taste`**
+**Read first:** [../pack-shared/standards.md](../pack-shared/standards.md) ·
+[doctrine.md](doctrine.md) · [examples.md](examples.md) · **`/taste`**
 
 
 **Explore via Task subagents** per [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial sibling/service/folder research **must** use a Task; ≥2 independent lanes **must** run in parallel. You write the structure card from their reports. Skip Tasks only for greenfield-trivial structure with no repo to explore.

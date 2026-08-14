@@ -13,7 +13,9 @@ npx skills@latest update -g -y
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -y
 ```
 
-Optional: paste [`cursor-rules/ultimate-gold-standards.mdc`](./cursor-rules/ultimate-gold-standards.mdc) (body only, no YAML frontmatter) into **Cursor Settings → Rules → User Rules** so Plan mode and freeform chats load taste, architecture, and publish doctrines without invoking a skill.
+Installed skills **hard-apply** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). `/ask-gabriel` stays a thin router and does not load those bodies.
+
+Optional, for Plan mode and freeform chats that never invoke a skill: paste [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) (body only, no YAML frontmatter) into **Cursor Settings → Rules → User Rules**. Keep that file in `rules/` — it is opt-in, not installed by `npx skills`.
 
 ## What this pack is
 

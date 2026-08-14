@@ -61,6 +61,16 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 ## Approach
 <concrete implementation shape; no unresolved Option A/B>
 
+## Taste
+- **KISS / principles:** held | name the violation to fix in this slice
+- **Sibling cited:** <good path | greenfield | correcting debt>
+
+## Architecture
+- **Service / public API:** <owns or calls>
+- **Primitives:** <reuse | new inside which module | none>
+- **Folder map:** <paths this slice may add>
+- **Scalability:** <stored-on-write | n/a for this slice>
+
 ## Invariants
 | ID | Role | Required enforcement | Verification |
 | --- | --- | --- | --- |

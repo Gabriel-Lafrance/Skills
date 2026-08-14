@@ -61,8 +61,9 @@ For when to spawn Tasks, Worker Brief shape, and after-wave integration, Read
 
 The parent is the context compiler. Every Task prompt includes the applicable
 outcome, Done when, non-goals, Active Rules, lane, current slice, dependencies,
-and prior decisions. Do not make a worker reconstruct intent from hidden files
-or a plan path.
+prior decisions, and **Read first** paths for `/taste` and `/architecture`
+doctrines ([standards.md](standards.md)). Do not make a worker reconstruct
+intent from hidden files or a plan path.
 
 Omit Task `model` unless the user explicitly requested one. The parent owns
 integration, acceptance evidence, and `/code-review`; implementation workers do

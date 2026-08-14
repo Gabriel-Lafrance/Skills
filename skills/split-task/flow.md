@@ -2,6 +2,8 @@
 
 Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 
+**Read first:** [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines. Slices must name entry/folder per architecture; do not split in a way that forks a service or primitive.
+
 If the user explicitly asks to save the split, get or honor an approved destination and write only that requested artifact.
 
 ## Smart zone

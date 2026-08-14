@@ -1,6 +1,8 @@
 # Standalone Code Review
 
-**Read:** [doctrine](doctrine.md) · [review contract](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md)
+**Read:** [../pack-shared/standards.md](../pack-shared/standards.md) ·
+[doctrine](doctrine.md) · [review contract](../pack-shared/review-contract.md) ·
+[execution context](../pack-shared/execution-context.md)
 
 ## Inputs
 
@@ -21,9 +23,10 @@ Select the shared review mode deliberately:
 - `full-rescan` requires an explicit request to re-open full-review depth after a meaningful change.
 
 Apply the doctrine's separate axes, **Named principles checklist**, **Naming
-alignment pass**, evidence bar, severity mapping, behavior-lock recommendation,
-and remediation analysis before any fix work. Standards workers must return the
-review-contract **Principles sweep** table (including Honest names).
+alignment pass**, **Architecture sweep**, evidence bar, severity mapping,
+behavior-lock recommendation, and remediation analysis before any fix work.
+Standards workers must return the review-contract **Principles sweep** and
+**Architecture sweep** tables (including Honest names).
 
 ## Handoff
 

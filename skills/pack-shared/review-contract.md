@@ -71,11 +71,15 @@ GitHub finding thread and that visible id are the durable record.
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
 format below. It rejects and relaunches a narrative-only response once.
 
-Standards workers **must** run the `/taste` Named principles checklist (KISS,
-SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit,
-PoLA, honest names) and cite principle names in finding **Rule** fields when
-violated. On `initial` / `full-rescan`, also run the code-review
-[Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards).
+Standards workers **must** Read `/taste` and `/architecture` doctrines this
+turn ([standards.md](standards.md)). They **must** run the `/taste` Named
+principles checklist (KISS, SoC, SLAP, CQS, fail fast, Boy Scout,
+cohesion/coupling, idempotency, explicit, PoLA, honest names) and cite
+principle names in finding **Rule** fields when violated. On `initial` /
+`full-rescan`, also run the code-review
+[Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards)
+and the **Architecture sweep** below. The parent rejects Standards output that
+lacks either sweep table or that skipped a doctrine Read.
 
 ```markdown
 ## Standards findings
@@ -96,6 +100,16 @@ violated. On `initial` / `full-rescan`, also run the code-review
 | PoLA | clear \| finding | … |
 | Honest names | clear \| finding | … |
 
+## Architecture sweep
+| Check | Status | Note |
+| --- | --- | --- |
+| Services / public API | clear \| finding \| n/a | … |
+| Deep surface | clear \| finding \| n/a | … |
+| Primitives (reuse, not fork) | clear \| finding \| n/a | … |
+| Folders / placement | clear \| finding \| n/a | … |
+| Write-path scale | clear \| finding \| n/a | … |
+| Idempotent writes | clear \| finding \| n/a | … |
+
 ## Spec matrix
 | Requirement | Status | Evidence |
 | --- | --- | --- |
@@ -106,8 +120,9 @@ violated. On `initial` / `full-rescan`, also run the code-review
 ```
 
 Workers report no finding explicitly when their axis is clean. Mark each
-principles-sweep row `clear`, `finding` (with finding id), or `n/a` (only for
-idempotency when no write/webhook/retry surface exists). The parent controls
+principles-sweep and architecture-sweep row `clear`, `finding` (with finding
+id), or `n/a` when that check has no surface in the diff (for example
+write-path scale on a copy-only change). The parent controls
 the dispatch and follows the [execution context](execution-context.md)
 contract for models and completion reporting.
 

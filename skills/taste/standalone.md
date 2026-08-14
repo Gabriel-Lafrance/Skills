@@ -1,7 +1,10 @@
 # Taste (standalone)
 
-Apply or audit pack coding taste outside a build wave. Read [doctrine.md](doctrine.md)
-and [examples.md](examples.md).
+Apply or audit pack coding taste outside a build wave. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md) and [examples.md](examples.md). Also Read
+`/architecture` doctrine this turn — placement and SoC defects are taste
+failures too.
 
 ## When to use
 

@@ -41,9 +41,19 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Explicit | clear | |
 | PoLA | clear | |
 | Honest names | clear | |
+
+## Architecture sweep
+| Check | Status | Note |
+| --- | --- | --- |
+| Services / public API | finding | feature forks Stripe instead of `billing.makeUserPay` |
+| Deep surface | finding | callers now orchestrate checkout-session steps |
+| Primitives (reuse, not fork) | finding | billing primitive bypassed |
+| Folders / placement | clear | |
+| Write-path scale | n/a | no aggregate read |
+| Idempotent writes | finding | same as SoC — billing idempotency skipped |
 ```
 
-Reject a Standards worker result that omits the **Principles sweep** table or marks every row `clear` without having inspected the diff.
+Reject a Standards worker result that omits the **Principles sweep** or **Architecture sweep** table, or that marks every row `clear` without having inspected the diff.
 
 ## Honest names / stale path after rename
 
