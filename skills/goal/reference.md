@@ -28,10 +28,10 @@ Use the shared template, keeping only fields that matter to current work:
 ### Locked decisions
 - <user decision, waiver, or promotion>
 
-### Active Rules
-| ID | Rule | Enforcement | Verification |
+### Rules that must stay true
+| ID | Rule | How we enforce it | How we check it |
 | --- | --- | --- | --- |
-| INV-1 | … | … | … |
+| Rule 1 | … | … | … |
 
 ### Current slices
 - <scope, acceptance criteria, ownership, dependencies, and status>
@@ -61,10 +61,20 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 ## Approach
 <concrete implementation shape; no unresolved Option A/B>
 
-## Invariants
-| ID | Role | Required enforcement | Verification |
+## Taste
+- **KISS / principles:** held | name the violation to fix in this slice
+- **Sibling cited:** <good path | greenfield | correcting debt>
+
+## Architecture
+- **Service / public API:** <owns or calls>
+- **Primitives:** <reuse | new inside which module | none>
+- **Folder map:** <paths this slice may add>
+- **Scalability:** <stored-on-write | none for this slice>
+
+## Rules that must stay true
+| ID | Role | How we enforce it | How we check it |
 | --- | --- | --- | --- |
-| INV-1 | implement | … | … |
+| Rule 1 | implement | … | … |
 
 ## Coordination
 - **Owner:** …
@@ -79,7 +89,7 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 - …
 ```
 
-Assign relevant Active Rules to each contract. Keep the frontier and dependencies under **Current slices** in the execution context.
+Assign relevant rules that must stay true to each contract. Keep the frontier and dependencies under **Current slices** in the execution context.
 
 ## New-chat recovery
 
@@ -114,11 +124,11 @@ After acceptance evidence is recorded and `/code-review` has run, report the out
 - …
 
 ## Evidence
-- Acceptance: <Done when / Active Rules / seams — path walk, terminal, browser>
+- Acceptance: <Done when / rules that must stay true / seams — path walk, terminal, browser>
 - `/code-review`: …
 
 ## Decisions and rules
-- `INV-1`: … verified by …
+- Rule 1: … verified by …
 
 ## Fix backlog
 - <none | waived finding and user decision>

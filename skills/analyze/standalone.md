@@ -1,6 +1,8 @@
 # Analyze (standalone)
 
-One-off research outside a parent wave. Read [doctrine.md](doctrine.md).
+One-off research outside a parent wave. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md).
 
 ## Process
 

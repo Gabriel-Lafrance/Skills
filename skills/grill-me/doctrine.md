@@ -20,7 +20,9 @@ that remains open. Sweep these topics unless they are already settled:
   and unchanged behavior;
 - domain language, named events, packages, vendors, storage, roles, and
   standing policies;
-- taste and architecture choices when those concerns apply.
+- **Always** taste and architecture: KISS, named principles, owner, public
+  boundary, folders, write path, and whether a behavior-preserving move is
+  required. For a typo or pure rename, lock “keep the existing structure.”
 
 Distinguish facts from user-owned decisions. Rediscover facts from the
 repository, ticket, PR, and diff; place decisions, waivers, non-goals, and
@@ -56,13 +58,13 @@ simple evidence shows they are necessary.
 ## Closing
 
 Once material questions are resolved, announce—not ask—the following in a
-**separate** announce-only **Locked (correct if wrong)** message (never in the
+**separate** announce-only **Locked in (tell me if this is wrong)** message (never in the
 same turn as a Questions batch):
 
 1. **Non-goals** — bounded exclusions.
 2. **Split / plan count** — intended small plan titles, or one bounded plan.
 3. **Shared understanding** — outcome, key behavior, new language or standing
-   decisions, recommended moves, and Active Rules.
+   decisions, recommended moves, and rules that must stay true.
 
 Do not ask yes/no confirmation for those three announcements. Treat them as
 locked when announced; if the user corrects one, update only the affected
@@ -70,11 +72,11 @@ execution context and re-announce the revised lock. Ask a new Questions-only
 batch only for genuine remaining unknowns.
 
 ```markdown
-## Locked (correct if wrong)
-**Non-goals:** …
+## Locked in (tell me if this is wrong)
+**Out of scope:** …
 **Plans:** 1. … · 2. …
-**Shared understanding:** …
-**Active Rules:** `INV-1` … · `INV-2` … (or _none_)
+**What we agreed:** …
+**Rules that must stay true:** Rule 1 — … · Rule 2 — … (or none)
 ```
 
 After Locked closure:

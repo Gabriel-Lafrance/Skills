@@ -1,7 +1,7 @@
 # Goal (standalone)
 
-User-owned end-to-end build. Read [doctrine.md](doctrine.md) and
-[reference.md](reference.md).
+User-owned end-to-end build. Read [../pack-shared/standards.md](../pack-shared/standards.md),
+then [doctrine.md](doctrine.md) and [reference.md](reference.md).
 
 ## Process
 

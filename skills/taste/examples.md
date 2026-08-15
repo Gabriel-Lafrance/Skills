@@ -47,29 +47,29 @@ async function notifyUser(msg: string) {
 
 ## Named principles (spot checks)
 
-**SoC / cohesion — bad:** React component talks to Stripe and formats receipts.  
-**SoC / cohesion — good:** component calls `billing.makeUserPay`; billing owns Stripe.
+**Keep jobs apart — bad:** React component talks to Stripe and formats receipts.  
+**Keep jobs apart — good:** component calls `billing.makeUserPay`; billing owns Stripe.
 
-**SLAP — bad:** `placeOrder` validates input, parses a CSV attachment, and charges.  
-**SLAP — good:** `placeOrder` orchestrates `parseOrderAttachment` → `charge`.
+**One altitude — bad:** `placeOrder` validates input, parses a CSV attachment, and charges.  
+**One altitude — good:** `placeOrder` coordinates `parseOrderAttachment` → `charge`.
 
-**CQS — bad:** `getCart()` also writes a “last seen” row.  
-**CQS — good:** `getCart()` reads; `touchCartSeen()` writes.
+**Read or write, not both — bad:** `getCart()` also writes a “last seen” row.  
+**Read or write, not both — good:** `getCart()` reads; `touchCartSeen()` writes.
 
 **Fail fast — bad:** invalid `userId` discovered after creating a payment intent.  
 **Fail fast — good:** `requireUser` throws at the entry before side effects.
 
-**Boy Scout — bad:** copy a known-wrong sibling “to match.”  
-**Boy Scout — good:** while touching the lane, move the Stripe call into `billing` (behavior-preserving).
+**Leave it cleaner — bad:** copy a known-wrong sibling “to match.”  
+**Leave it cleaner — good:** while touching the lane, move the Stripe call into `billing` (same behavior).
 
-**Low coupling — bad:** `feature` imports `billing-stripe-internal`.  
-**Low coupling — good:** `feature` imports only `billing.makeUserPay`.
+**Related together — bad:** `feature` imports `billing-stripe-internal`.  
+**Related together — good:** `feature` imports only `billing.makeUserPay`.
 
-**Idempotency — bad:** webhook handler inserts an order on every delivery.  
-**Idempotency — good:** key by event id; second delivery is a no-op.
+**Safe to retry — bad:** webhook handler inserts an order on every delivery.  
+**Safe to retry — good:** key by event id; second delivery is a no-op.
 
-**Explicit / PoLA — bad:** `save()` sometimes returns null, sometimes throws, sometimes writes a global.  
-**Explicit / PoLA — good:** `save()` throws on failure; success returns the saved id; no ambient writes.
+**Say what happens / no surprises — bad:** `save()` sometimes returns null, sometimes throws, sometimes writes a global.  
+**Say what happens / no surprises — good:** `save()` throws on failure; success returns the saved id; no hidden writes.
 
 **Honest names — bad:** scope becomes “payment intent,” but keep writing `createCheckoutTotal` in `checkout-total.ts`.  
 **Honest names — good:** rename to `create-payment-intent.ts` / `createPaymentIntent` (and update callers) in the same change.

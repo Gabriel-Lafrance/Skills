@@ -20,8 +20,9 @@ formatters, UI chrome, generated code, types-only files, and coverage targets.
    framework.
 7. Run only the focused test file or filter unless that is inconclusive or the
    user asks otherwise.
-8. Match `/taste`: helpers throw on setup failure; comments summarize the
-   approved lock and do not narrate the test.
+8. Match `/taste` and `/architecture`: helpers throw on setup failure; comments
+   summarize the approved lock and do not narrate the test; exercise the
+   service or deep-module public API, not internals.
 
 ## Process
 

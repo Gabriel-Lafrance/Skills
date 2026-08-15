@@ -71,11 +71,18 @@ GitHub finding thread and that visible id are the durable record.
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
 format below. It rejects and relaunches a narrative-only response once.
 
-Standards workers **must** run the `/taste` Named principles checklist (KISS,
-SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit,
-PoLA, honest names) and cite principle names in finding **Rule** fields when
-violated. On `initial` / `full-rescan`, also run the code-review
-[Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards).
+Standards workers **must** Read `/taste` and `/architecture` doctrines this
+turn ([standards.md](standards.md)). They **must** run the `/taste` named
+principles checklist using the **plain names** (keep it simple, keep jobs
+apart, one altitude, read or write not both, fail fast, leave it cleaner,
+related together, safe to retry, say what happens, no surprises, honest
+names) and cite those names in finding **Rule** fields when violated. User-
+facing notes must be ordinary sentences
+([plain-language.md](plain-language.md)). On `initial` /
+`full-rescan`, also run the code-review
+[Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards)
+and the **Architecture sweep** below. The parent rejects Standards output that
+lacks either sweep table or that skipped a doctrine Read.
 
 ```markdown
 ## Standards findings
@@ -84,17 +91,27 @@ violated. On `initial` / `full-rescan`, also run the code-review
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| KISS | clear \| finding | … |
-| SoC | clear \| finding | … |
-| SLAP | clear \| finding | … |
-| CQS | clear \| finding | … |
+| Keep it simple | clear \| finding | … |
+| Keep jobs apart | clear \| finding | … |
+| One altitude | clear \| finding | … |
+| Read or write, not both | clear \| finding | … |
 | Fail fast | clear \| finding | … |
-| Boy Scout | clear \| finding | … |
-| Cohesion / coupling | clear \| finding | … |
-| Idempotency | clear \| finding \| n/a | … |
-| Explicit | clear \| finding | … |
-| PoLA | clear \| finding | … |
+| Leave it cleaner | clear \| finding | … |
+| Related together | clear \| finding | … |
+| Safe to retry | clear \| finding \| none | … |
+| Say what happens | clear \| finding | … |
+| No surprises | clear \| finding | … |
 | Honest names | clear \| finding | … |
+
+## Architecture sweep
+| Check | Status | Note |
+| --- | --- | --- |
+| Services / public API | clear \| finding \| none | … |
+| Simple public surface | clear \| finding \| none | … |
+| One-job helpers (reuse, not copy) | clear \| finding \| none | … |
+| Folders / placement | clear \| finding \| none | … |
+| Cheap reads (store on write) | clear \| finding \| none | … |
+| Safe to retry writes | clear \| finding \| none | … |
 
 ## Spec matrix
 | Requirement | Status | Evidence |
@@ -106,8 +123,9 @@ violated. On `initial` / `full-rescan`, also run the code-review
 ```
 
 Workers report no finding explicitly when their axis is clean. Mark each
-principles-sweep row `clear`, `finding` (with finding id), or `n/a` (only for
-idempotency when no write/webhook/retry surface exists). The parent controls
+principles-sweep and architecture-sweep row `clear`, `finding` (with finding
+id), or `none` when that check has no surface in the diff (for example
+cheap-reads on a copy-only change). The parent controls
 the dispatch and follows the [execution context](execution-context.md)
 contract for models and completion reporting.
 

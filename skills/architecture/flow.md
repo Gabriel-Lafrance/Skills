@@ -1,9 +1,10 @@
 # Architecture Flow
 
-Structure a bounded parent slice. Read [doctrine.md](doctrine.md),
-[examples.md](examples.md), and `/taste` first. Use the shared
-[execution context](../pack-shared/execution-context.md), not a workspace or
-plan file.
+Structure a bounded parent slice. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md), [examples.md](examples.md), and `/taste` first. Use
+the shared [execution context](../pack-shared/execution-context.md), not a
+workspace or plan file.
 
 ## Read first
 

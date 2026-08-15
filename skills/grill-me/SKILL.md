@@ -9,7 +9,9 @@ disable-model-invocation: true
 
 # Grill Me
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual: [standalone.md](standalone.md) and [flow.md](flow.md).
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before recommending answers. Do not skip.
+
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual: [standalone.md](standalone.md) and [flow.md](flow.md).
 
 `/grill-me` discovers product, behavioral, taste, and architecture
 decisions without automatic logs or hidden artifacts. Keep locked decisions and

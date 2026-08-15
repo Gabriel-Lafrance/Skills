@@ -19,22 +19,22 @@ KISS does **not** mean shallow modules, duplicated domain logic, or skipping a r
 
 ## Named principles
 
-Apply these with KISS. Short names, operational tests — not essays. Structural placement (services, folders) also lives in `/architecture`.
+Apply these with keep-it-simple. Plain names, operational tests — not essays. In chat with the user, use these plain names only ([plain-language.md](../pack-shared/plain-language.md)). Structural placement (services, folders) also lives in `/architecture`.
 
-| Principle | Meaning | Operational test |
+| Principle | Meaning | Test |
 | --- | --- | --- |
-| **SoC** — Separation of Concerns | Distinct reasons-to-change stay in different modules (UI vs domain vs I/O). | Would a UI copy change force a billing rewrite? If yes, concerns are mixed. |
-| **SLAP** — Single Level of Abstraction | A function stays at one altitude: orchestrate *or* do detail work, not both. | Does this function both call services *and* parse bytes / format strings? Split it. |
-| **CQS** — Command–Query Separation | A method either changes state or returns data — not both. | Does a getter mutate? Does a command return a mined “result object” instead of throwing or returning the created id deliberately? Fix the shape. |
-| **Fail fast** | Reject invalid state at the boundary immediately; do not limp along. | Is bad input detected at the entry, or deep inside after partial side effects? |
-| **Boy Scout Rule** | Leave the touched lane a little cleaner than you found it (behavior-preserving). | Did this edit copy debt, or slightly reduce entropy in paths you already touched? |
-| **High cohesion, low coupling** | Things that change together live together; dependencies stay narrow and through public surfaces. | Do unrelated jobs share a file? Do callers reach through `a.b.c` internals? |
-| **Idempotency** | Repeating the same request has the same effect (payments, webhooks, retries, writes). | Can a double-submit or replay create a duplicate charge, row, or side effect? |
-| **Explicit over implicit** | Prefer clear data and control flow over magic (hidden globals, surprise side effects, clever indirection). | Can a new reader see *what happens* without chasing ambient context? |
-| **PoLA** — Principle of Least Astonishment | APIs and UI behave as a careful reader expects. | Would a teammate be surprised by a side effect, return value, or name? |
-| **Honest names** | File paths, exports, functions, types, and variables match the *current* responsibility — rename when scope changes. | After a rename/repurpose, does the path or symbol still describe the old job? Would a reader open the wrong file? |
+| **Keep jobs apart** | UI, domain, and I/O change for different reasons — keep them in different modules. | Would a UI copy change force a billing rewrite? If yes, jobs are mixed. |
+| **One altitude** | A function either coordinates *or* does detail work, not both. | Does this function both call services *and* parse bytes / format strings? Split it. |
+| **Read or write, not both** | A method either changes state or returns data — not both. | Does a getter also write? Does a command hide a write behind a “get”? Fix the shape. |
+| **Fail fast** | Reject bad input at the door; do not limp along. | Is bad input caught at the entry, or deep inside after partial side effects? |
+| **Leave it cleaner** | Leave the files you touched a little cleaner (without changing behavior). | Did this edit copy a known mess, or slightly clean paths you already touched? |
+| **Related together** | Things that change together live together; callers use a small public surface. | Do unrelated jobs share a file? Do callers reach through `a.b.c` internals? |
+| **Safe to retry** | Repeating the same request has the same effect (payments, webhooks, retries, writes). | Can a double-submit create a duplicate charge, row, or side effect? |
+| **Say what happens** | Prefer clear data and control flow over magic. | Can a new reader see *what happens* without chasing hidden context? |
+| **No surprises** | APIs and UI behave as a careful reader expects. | Would a teammate be surprised by a side effect, return value, or name? |
+| **Honest names** | File paths, exports, functions, types, and variables match the *current* job — rename when the job changes. | After a rename, does the path still describe the old job? Would a reader open the wrong file? |
 
-**How they relate:** SoC + cohesion/coupling shape *where* code lives (`/architecture` services). SLAP, CQS, explicit, PoLA, honest names shape *how* a unit reads. Fail fast + idempotency shape *boundaries*. Boy Scout shapes *edits in dirty lanes* (same spirit as entropy / judo).
+**How they relate:** Keep-jobs-apart + related-together shape *where* code lives (`/architecture` services). One-altitude, read-or-write, say-what-happens, no-surprises, and honest names shape *how* a unit reads. Fail fast + safe-to-retry shape *boundaries*. Leave-it-cleaner shapes *edits in messy files*.
 
 ## Bad code = complexity and entropy
 
@@ -48,7 +48,7 @@ Apply these with KISS. Short names, operational tests — not essays. Structural
 **Operational tests** (apply before shipping a slice):
 
 1. **KISS** — Is there a stupider-simple shape that still meets Done when and Active Rules? Prefer it.
-2. **Principles** — SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA, honest names — any clear violation in the touched lane?
+2. **Principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names — any clear violation in the touched lane?
 3. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
 4. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
 5. **Window** — Are we copying or extending a known-wrong shape? → entropy.
@@ -63,23 +63,24 @@ Before adding a new layer, file, service, wrapper, class hierarchy, shared API, 
 
 This budget does not prohibit a real service, deep module, or extension seam for a genuinely independent domain capability or explicitly planned growth. It prohibits speculative ceremony, identity wrappers, one-off helper files, and abstractions created only because a local `if` looks untidy.
 
-Non-negotiables below are **consequences** of KISS + named principles + this definition (never-nest, DRY, cite good sibling / move debt, smart responsibility, easy happy path). Architecture applies SoC / cohesion / coupling / idempotent writes to structure; `/code-review` blocks regressions.
+Non-negotiables below are **consequences** of keep-it-simple + named principles + this definition (never-nest, don’t repeat yourself, cite a good sibling / move debt, one job per unit, easy happy path). Architecture applies keep-jobs-apart / related-together / safe-to-retry writes to structure; `/code-review` blocks regressions.
 
 ## Non-negotiables
 
-1. **KISS** — Keep It Stupid Simple; no cleverness or machinery without evidence it is required
-2. **Named principles** — SoC, SLAP, CQS, fail fast, Boy Scout, high cohesion / low coupling, idempotency, explicit over implicit, PoLA, honest names (see table above)
-3. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids (reduces cognitive load)
-4. **DRY** — one concept, one place; no copy-paste twins (stops entropy + change amplification)
+1. **Keep it simple** — no cleverness or extra machinery without evidence it is required
+2. **Named principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names (see table above)
+3. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids
+4. **Don’t repeat yourself** — one concept, one place; no copy-paste twins
 5. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw (**fail fast** at the boundary)
 6. **One component (or main export) per file**
 7. **No dynamic `import()`** — static imports only
 8. **Comments only** to summarize big/complex functions — no narrating obvious code
-9. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt / entropy signal**, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes; same spirit as `/code-review` judo while building) (**Boy Scout** when you can preserve behavior)
-10. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB) (**SoC** / cohesion)
-11. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns (**explicit**, **PoLA**)
+9. **Cite a sibling** — before inventing shape, mirror a **good** nearby feature **or existing service** that matches this taste + `/architecture`. Bad nearby code is a **debt** signal, not a template — when you touch that lane, prefer a **behavior-preserving move** (see `/architecture` §4 Prior mistakes) (**leave it cleaner** when you can preserve behavior)
+10. **Smart responsibility** — a unit does one job well (a logger only logs; it does not format emails or hit the DB) (**keep jobs apart**)
+11. **Easy to follow** — a reader can walk the happy path without branching into unrelated concerns (**say what happens**, **no surprises**)
 12. **Honest names** — when responsibility or scope changes, rename the file and the symbols in the same change; do not keep writing into a stale path or under an old identifier
 13. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
+14. **Plain language** — humans must understand without decoding jargon or abbreviations ([plain-language.md](../pack-shared/plain-language.md))
 
 ## Verify (terminals first — not MCP)
 
@@ -178,19 +179,20 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/goal` writes acceptance criteria (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, AC may include: **callers stay thin; complexity behind service X** (deep surface; primitives reused not forked; no entropy growth in the touched lane).
+When `/goal` writes what “done” means (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, those checks may include: **callers stay thin; complexity behind service X** (simple public surface; one-job helpers reused not copied). Parents must already have loaded `/architecture` this turn ([standards.md](../pack-shared/standards.md)); do not skip that Read for a “small” slice.
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
 ## Implement self-check (required each slice)
 
-- [ ] **KISS** — no extra layer, file, wrapper, pattern, or config beyond what Done when / Active Rules require
-- [ ] **Principles** — no clear SoC / SLAP / CQS / fail-fast / Boy Scout / cohesion-coupling / idempotency / explicit / PoLA / honest-names violation in the touched lane
+- [ ] **Keep it simple** — no extra layer, file, wrapper, pattern, or config beyond what Done when / rules that must stay true require
+- [ ] **Principles** — no clear keep-jobs-apart / one-altitude / read-or-write / fail-fast / leave-it-cleaner / related-together / safe-to-retry / say-what-happens / no-surprises / honest-names violation in the touched lane
+- [ ] **Plain language** — user-facing chat has no unexplained jargon or abbreviations
 - [ ] Sibling pattern cited is a **good** one (or explicitly "greenfield" / correcting debt)
 - [ ] Entry point + folder match `/architecture` card (including **Moves / corrections** and **Primitives**)
 - [ ] Did not copy a bad sibling — moved/corrected when the lane had prior mistakes
 - [ ] Change **reduces or holds complexity** at call sites (deep entry, not shallower)
-- [ ] Touched lane: **no entropy growth** (did not copy/extend known-wrong shape without a move; did not fork a primitive's job)
+- [ ] Touched lane: **did not copy a known-wrong shape** (did not extend a mess without a move; did not copy a one-job helper’s job)
 - [ ] Naming rules above (especially Convex) — file path + symbols match current responsibility after any rename/scope change
 - [ ] No nesting pyramids / no dynamic import / no `success: false`
 - [ ] One main export per new file

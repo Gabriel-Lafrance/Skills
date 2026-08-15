@@ -9,6 +9,8 @@ disable-model-invocation: true
 
 # Analyze
 
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before researching or posting the memo. Do not skip.
+
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
@@ -35,7 +37,6 @@ disable-model-invocation: true
 5. For review remediation, present every selected stable-finding analysis
    before the remediation-specific promotion choice.
 
-**Read:** [doctrine.md](doctrine.md). **Always** apply `/taste` (KISS + named
-principles). Apply `/architecture` when the ask touches structure, services,
-folders, data shape, or duplicated domain logic — default to loading it unless
-the ask is clearly a single-file pure-logic question with no placement decision.
+**Read:** [doctrine.md](doctrine.md). **Always** Read and apply `/taste` and
+`/architecture` (see [standards.md](../pack-shared/standards.md)). Do not skip
+architecture because the ask looks like a single file.

@@ -1,6 +1,8 @@
 # Analyze (flow)
 
-Parent-supplied analysis inside a long-running wave. Read [doctrine.md](doctrine.md).
+Parent-supplied analysis inside a long-running wave. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md).
 Use the shared [execution context](../pack-shared/execution-context.md).
 
 ## Parent brief required

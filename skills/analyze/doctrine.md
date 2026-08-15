@@ -35,11 +35,11 @@ context or a new user answer.
    before synthesizing the memo. Give each the applicable execution context
    and wait for all results; never sleep or poll for them. Trivial single-path
    lookups may stay on the main agent.
-4. Apply **`/taste` always** (KISS, named principles, complexity/entropy). Prefer
-   good siblings and behavior-preserving moves. Apply **`/architecture`** when
-   structure, services, folders, data shape, or domain duplication is in play —
-   load it by default unless the ask is clearly single-file with no placement
-   decision.
+4. Apply **`/taste` and `/architecture` always** (see
+   [standards.md](../pack-shared/standards.md)). Prefer good siblings and
+   behavior-preserving moves. Do not skip the architecture Read because the
+   ask looks like a single file — apply “keep the existing structure” when
+   that is the smallest correct answer.
 5. Post the memo below. Ask one batch only for material unknowns that research
    cannot answer (standalone), or return unknowns to the parent (flow).
 
@@ -60,7 +60,7 @@ agent-owned file.
 - `path` — why
 
 ### Recommended direction
-<smallest coherent approach and why — cite `/taste` principles when they drive the shape>
+<smallest coherent approach and why — cite `/taste` principles **and** `/architecture` ownership when they drive the shape>
 
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>

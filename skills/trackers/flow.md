@@ -5,6 +5,10 @@ This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
 brief in the parent's inline [execution context](../pack-shared/execution-context.md);
 do not persist it in agent-owned state. Cursor Cloud Agent linking is separate.
 
+**Read first:** [../pack-shared/standards.md](../pack-shared/standards.md) so
+taste/architecture acceptance criteria and constraints in the ticket are kept
+in the brief, not dropped.
+
 ## Hard rule: read only
 
 **Allowed:** get/list/view issue, PR, comments, statuses (for understanding), checklists in description, linked QA notes.

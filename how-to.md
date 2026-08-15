@@ -10,6 +10,8 @@ skills/
     SKILL.md             # required so npx skills installs this folder
     asking.md            # how to ask the user (batch Questions)
     variants.md          # standalone vs flow selection
+    standards.md         # must follow taste + architecture on every skill run
+    plain-language.md    # talk to humans in ordinary words
     execution-context.md # in-chat parent / worker context
     subagents.md         # Task bias, Worker Brief, spawn rules
     review-contract.md   # shared review evidence and finding rules
@@ -56,7 +58,9 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 ## Shared contracts
 
-- **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `← recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
+- **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
+- **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
+- **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions).
 - **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
 - **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
@@ -86,7 +90,7 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
    - Flow-only → add `flow.md`; note “no standalone” and link `variants.md`.
    - Standalone-only → no `flow.md`; if flow is requested, use the missing-variant message from `variants.md`.
 3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short).
-4. Link `asking.md` if the skill asks the user anything.
+4. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
 5. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
    - Internal flow step → only the orchestrator doctrine/flow that should call it (do not put it on the README as a typical entry).
@@ -100,10 +104,10 @@ npx skills@latest add . --list
 
 - One skill = one job. Prefer new skill over bloating an existing one.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
-- Teach principles in prose — no video links in skill bodies.
+- Teach in ordinary words — no video links in skill bodies. Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
 - Do not invent a missing `standalone.md` / `flow.md` process.
-- New long-running orchestrators should reuse `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, and `pack-shared/subagents.md` without editing those files for skill-specific names.
+- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, and `pack-shared/subagents.md` without editing those files for skill-specific names.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 
@@ -118,12 +122,12 @@ npx skills@latest update -g -y
 
 After you push, they refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
 
-### Personal Cursor User Rules (not via `npx skills`)
+### Personal Cursor User Rules (opt-in, not via `npx skills`)
 
-Always-on teaching for Plan mode / freeform lives in [`cursor-rules/`](./cursor-rules/). The skills CLI only copies `SKILL.md` folders.
+Always-on teaching for Plan mode / freeform lives in [`rules/`](./rules/). It is **opt-in**. The skills CLI only copies `SKILL.md` folders. Installed skills must follow `/taste` and `/architecture` themselves via [`pack-shared/standards.md`](./skills/pack-shared/standards.md); they do **not** depend on this User Rule.
 
-**Important:** Cursor **User Rules** (Settings → Rules → User Rules) are account/settings-backed. Copying `.mdc` into `~/.cursor/rules` does **not** show up there and is not a reliable global apply path.
+**Important:** Cursor **User Rules** (Settings → Rules → User Rules) are account/settings-backed. Copying `.mdc` into `~/.cursor/rules` does **not** show up there and is not a reliable global apply path. Do not move this file into `.cursor/rules` or a `cursor-rules/` folder unless you intentionally want it always-on for a repo.
 
-- Source: [`cursor-rules/ultimate-gold-standards.mdc`](./cursor-rules/ultimate-gold-standards.mdc) — pointer that forces doctrine Reads (`taste`, `architecture`, `publish`), Plan-mode grill-before-plan, and Before/After Mermaid on every non-trivial plan.
+- Source: [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) — pointer that forces doctrine Reads (`taste`, `architecture`, `publish`) in Plan mode and freeform chats that never invoke a skill, plus grill-before-plan and Before/After Mermaid.
 - Install: copy the body **without** YAML frontmatter, then paste into **Settings → Rules → User Rules** under the title **Ultimate gold standards**. Or ask an Agent to install that file into User Rules.
 - After changing the `.mdc`, re-paste (or re-ask the Agent). Skill doctrine edits do not require that if skills were refreshed with `npx skills update`.

@@ -44,7 +44,7 @@ Reply like: 1a 2a
 ## Branch announcement
 
 ```markdown
-## Locked (correct if wrong)
+## Locked in (tell me if this is wrong)
 **Type:** Bug
 **Ticket:** IN-1234
 **Branch:** `bug/IN-1234-fix-checkout-total`

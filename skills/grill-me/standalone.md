@@ -1,6 +1,7 @@
 # Grill Me standalone
 
 Interview a one-off ask until shared understanding is clear. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
 [doctrine.md](doctrine.md), the shared
 [execution context](../pack-shared/execution-context.md), and the
 [asking contract](../pack-shared/asking.md).

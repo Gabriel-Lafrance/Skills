@@ -1,6 +1,7 @@
 # Grill Me flow
 
 Use this variant inside an active `/goal` or parent wave. Read
+[../pack-shared/standards.md](../pack-shared/standards.md), then
 [doctrine.md](doctrine.md), the shared
 [execution context](../pack-shared/execution-context.md), and the
 [asking contract](../pack-shared/asking.md). The parent carries all context in
@@ -21,19 +22,21 @@ chat; this flow creates no automatic artifacts.
 2. Gather every unsettled topic from the doctrine's behavior sweep. Include
    plan count and file lane alongside product questions so the first batch is
    complete.
-3. Apply the relevant quality discipline before recommending answers:
+3. Apply the relevant quality discipline before recommending answers. **Always**
+   Read and apply both `/taste` and `/architecture` (see
+   [standards.md](../pack-shared/standards.md)):
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste`: **KISS**, named principles (SoC, SLAP, CQS, fail fast, Boy Scout, cohesion/coupling, idempotency, explicit, PoLA, honest names), error style, naming, entry-shape bias, verification |
-   | Multi-file, data, or scale | `/architecture`: domain owner, public boundary, reuse versus a new primitive, folders, write path, and behavior-preserving corrections |
+   | Always | `/taste`: keep it simple; keep jobs apart; one altitude; read or write not both; fail fast; leave it cleaner; related together; safe to retry; say what happens; no surprises; honest names |
+   | Always | `/architecture`: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.
 5. Put answers, Active Rules, corrections, and revised lanes directly in the
    execution context. If a correction exposes a new material unknown, send a
    new Questions-only batch.
-6. When material Questions are settled, announce **Locked (correct if wrong)**
+6. When material Questions are settled, announce **Locked in (tell me if this is wrong)**
    for non-goals, split, and shared understanding in a **separate**
    announce-only message. Do not issue plans until that Locked closure stands
    and every relevant Active Rule has an enforcement and verification owner.
