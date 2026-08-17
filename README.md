@@ -21,13 +21,13 @@ Optional, for Plan mode and freeform chats that never invoke a skill: paste [`ru
 
 Five kinds of skills. **Guide** informs; everything else moves work forward.
 
-| Job               | Skills                                                   | Purpose               |
-| ----------------- | -------------------------------------------------------- | --------------------- |
-| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
-| **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
-| **Specify**       | `/write-ticket`                                          | Tracker tickets       |
-| **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
-| **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
+| Job               | Skills                                                                 | Purpose               |
+| ----------------- | ---------------------------------------------------------------------- | --------------------- |
+| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                              | Route and standards   |
+| **Clarify**       | `/grill-me`, `/analyze`                                                | Intent and research   |
+| **Specify**       | `/write-ticket`                                                        | Tracker tickets       |
+| **Build**         | `/goal`, `/just-do-it`                                                 | Implement end-to-end  |
+| **Review & ship** | `/code-review`, `/ux-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
 
 ```mermaid
 flowchart LR
@@ -47,6 +47,7 @@ flowchart LR
 - Build now → `/goal` or `/just-do-it`
 - Ship a PR → `/publish`
 - Review a PR → `/pr-review`
+- Review a screen / UI diff → `/ux-review`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

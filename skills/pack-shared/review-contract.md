@@ -1,8 +1,8 @@
 # Review contract
 
-This contract is shared by `/code-review` and `/pr-review`. It defines review
-evidence and worker output; each skill owns its own remediation or posting
-behavior.
+This contract is shared by `/code-review`, `/pr-review`, and `/ux-review`. It
+defines review evidence and worker output; each skill owns its own remediation
+or posting behavior.
 
 ## Inputs
 

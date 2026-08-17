@@ -2,7 +2,7 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/goal`, `/code-review`) link here — there is no `/validate` skill.
+Parent skills (`/goal`, `/code-review`, `/ux-review`) link here — there is no `/validate` skill.
 
 ## Capability and preconditions
 

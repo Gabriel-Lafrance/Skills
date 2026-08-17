@@ -32,6 +32,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
+| Review UX/UI of a screen or UI diff | `/ux-review` |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
