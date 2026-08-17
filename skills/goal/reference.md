@@ -155,13 +155,16 @@ Reply like: 1b 2b
    - b) no — leave uncommitted ← recommended
 2. Open a PR?
    - a) yes — push and create a PR using `/publish` body rules (typed title,
-     What changed, Mermaid Change diagram, How to QA)
+     What changed, Mermaid Change diagram, How to QA) and
+     [pr-ship.md](../pack-shared/pr-ship.md) (Demo media, review canvas,
+     Cursor pull-request tool when available)
    - b) no ← recommended
 ```
 
 Wait for the answer before committing or opening a PR. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
-**Change diagram**: one for new work, Before/After for rework), show it in chat,
-then create. Under flow `/goal`
+**Change diagram**: one for new work, Before/After for rework), follow
+[pr-ship.md](../pack-shared/pr-ship.md) for Demo, canvas, and create tool,
+show the draft in chat, then create. Under flow `/goal`
 (parent `/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.

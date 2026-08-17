@@ -4,21 +4,23 @@ Publish local work only. This skill is standalone-only, never runs under `/goal`
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
-**Must read:** Read [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure.
+**Must read:** Read [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR (demo media, Cursor review canvas, create tool). That contract applies to **every** agent that opens a PR, not only this skill.
 
 ## Core rules
 
 - Lock exactly one type: `feature`, `tweak`, `bug`, `refactor`, `chore`, or `hotfix`.
 - Use the branch naming contract in [reference.md](reference.md).
 - Do not auto-commit, force-push, or push to the default branch.
-- Show the complete PR title and body before `gh pr create`; wait for explicit approval.
+- Show the complete PR title and body before creating the PR; wait for explicit approval.
 - Every PR body includes a high-level Mermaid **Change diagram** (one for new work; Before/After for rework) per [reference.md](reference.md).
+- Follow [pr-ship.md](../pack-shared/pr-ship.md): demo screenshots/video in the body when the change is visual, a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
 When `/just-do-it` reads this doctrine for its preflight and templates, its
 explicit autonomous parent instruction replaces the approval wait only after it
-has printed the complete draft in chat. This exception does not apply to
-standalone `/publish`.
+has printed the complete draft in chat. It still follows
+[pr-ship.md](../pack-shared/pr-ship.md) (canvas, demo media, create tool). This
+approval exception does not apply to standalone `/publish`.
 
 ## Inputs
 
@@ -38,7 +40,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 
 | State | Action |
 | --- | --- |
-| No `gh` or not authenticated | Stop before PR; branch and push may still proceed if remotes work |
+| No `gh` or not authenticated | Stop before PR unless Cursor’s pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
 | Dirty tree | Ask commit first, stash, or abort; never auto-commit |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create a real branch before continuing |
@@ -65,13 +67,13 @@ After a successful push, use the draft/publish Question batch in [reference.md](
 
 ### 5. Draft the PR
 
-Build the title and body from the commits, diff, ticket, and locked type. Use the type template in [reference.md](reference.md). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes.
+Build the title and body from the commits, diff, ticket, and locked type. Use the type template in [reference.md](reference.md). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** media and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md).
 
 Show the complete title and body, then use the publish-approval Question batch. Never create a PR silently.
 
 ### 6. Publish
 
-On approval only, use the heredoc command in [reference.md](reference.md). Return the PR URL. Do not write Linear comments or change ticket status.
+On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in [reference.md](reference.md)). Return the PR URL and the canvas link. Do not write Linear comments or change ticket status.
 
 ## Failures
 
@@ -79,7 +81,7 @@ On approval only, use the heredoc command in [reference.md](reference.md). Retur
 | --- | --- |
 | Dirty tree | Ask commit, stash, or abort; never auto-commit |
 | Push rejected | Show the remote error; do not force-push |
-| `gh` missing or unauthenticated | Stop before PR with install/auth guidance |
+| `gh` missing or unauthenticated | Stop before PR with install/auth guidance unless Cursor’s pull-request tool can create it |
 | PR already open | Return its URL; ask whether to update the body or stop |
 | Unknown type | Lock it before branching |
 
@@ -89,6 +91,7 @@ On approval only, use the heredoc command in [reference.md](reference.md). Retur
 - Creating a PR before draft and approval.
 - Empty QA instructions.
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception).
+- Shipping a visual change without Demo media, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available.
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak.
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix.
 - Labeling product tweaks, refactors, or defects as Chore.

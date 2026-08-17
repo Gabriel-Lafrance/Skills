@@ -27,7 +27,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` |
-| Ship branch + optional PR | `/publish` |
+| Ship branch + optional PR | `/publish` (same canvas + demo bar as `/just-do-it` or a cloud agent) |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main | `/code-review` |

@@ -30,6 +30,10 @@ flowchart LR
 - [ ]
 - [ ]
 
+## Demo
+
+<!-- Visual changes: screenshots / video and a Cursor review canvas. Omit for non-visual work. See skills/pack-shared/pr-ship.md. -->
+
 ## Notes
 
 <!-- Typo-only / diagram-hostile? Say why the diagram section is minimal. -->

@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 Standalone parent orchestrator only. It takes recommended soft decisions,
 auto-fixes only named Fix-now blockers, keeps optional improvements as
@@ -31,7 +31,10 @@ follow-ups, and leaves `/pr-review` to a human.
 5. Checkpoint if dirty; run standalone `/code-review` (CR2) against the pinned
    fixed point; remediate the same way.
 6. Ship commit(s) if needed, preflight, print the full PR draft in chat, then
-   push and create the PR (opened, not merged).
+   push and create the PR (opened, not merged) using
+   [pr-ship.md](../pack-shared/pr-ship.md) — demo media, review canvas, and
+   Cursor’s pull-request tool when available. Do not skip that contract because
+   this skill is not `/publish`.
 
 Hard stops, review caps, shipping, context handoffs, and new-chat recovery live
 in the doctrine and reference.

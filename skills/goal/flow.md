@@ -8,7 +8,8 @@ Read [../pack-shared/standards.md](../pack-shared/standards.md), then
 ## Parent owns
 
 - Ticket resolution and typed branch
-- Shipping: checkpoint commits, push, PR draft/create
+- Shipping: checkpoint commits, push, PR draft/create per
+  [pr-ship.md](../pack-shared/pr-ship.md)
 - Soft autonomy and hard stops for the outer wave
 
 ## This flow owns

@@ -2,9 +2,10 @@
 name: pack-shared
 description: >-
   Internal pack contracts for Gabriel Lafrance Skills: asking, variants,
-  stateless execution context, subagent dispatch, review behavior, and browser
-  evidence. Not user-invoked. Other skills link here so shared docs install with
-  npx skills (skill folders only).
+  stateless execution context, subagent dispatch, review behavior, browser
+  evidence, and how every agent opens a PR (canvas, demo media). Not
+  user-invoked. Other skills link here so shared docs install with npx skills
+  (skill folders only).
 disable-model-invocation: true
 ---
 
@@ -22,5 +23,7 @@ Other skills Read these files by relative path:
 - [subagents.md](subagents.md) — Task subagent bias, Worker Brief, and spawn rules
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
 - [browser-evidence.md](browser-evidence.md) — browser proof for UI acceptance
+- [pr-ship.md](pr-ship.md) — every agent that opens a PR: demo media, Cursor
+  review canvas, create-tool choice (not only `/publish`)
 
 This folder exists so `npx skills` installs the contracts next to every other skill (`../pack-shared/...`). Root-level `skills/*.md` files are **not** installed.

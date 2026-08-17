@@ -9,6 +9,8 @@ then [doctrine.md](doctrine.md) and [reference.md](reference.md).
 2. Run the doctrine lifecycle: grill → plan → implement → acceptance evidence →
    `/code-review` → Fix mode as needed.
 3. Announce completion. Offer ship Questions only after all gates pass (see
-   reference). Do not commit or open a PR unless the user answers yes.
+   reference). Do not commit or open a PR unless the user answers yes. If they
+   ask to open a PR, follow [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md)
+   — not a private recipe, and not “only `/publish` does canvas and demo.”
 
 This variant owns shipping decisions. Do not invent a parent.

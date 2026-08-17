@@ -2,7 +2,9 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/goal`, `/code-review`) link here — there is no `/validate` skill.
+Parent skills (`/goal`, `/code-review`) and PR ship ([pr-ship.md](pr-ship.md))
+link here — there is no `/validate` skill. Screenshots captured here are the
+same files that belong in the PR Demo section when an agent opens a PR.
 
 ## Capability and preconditions
 
