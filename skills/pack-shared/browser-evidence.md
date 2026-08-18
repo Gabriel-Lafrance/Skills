@@ -2,7 +2,12 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/goal`, `/code-review`) link here — there is no `/validate` skill.
+Parent skills (`/goal`, `/code-review`) link here — there is no `/validate`
+skill. This protocol is **acceptance proof**, not PR decoration.
+
+PR screenshots are a different job: open the page, take a picture, embed it
+([pr-ship.md](pr-ship.md)). Do not run this protocol just to fill a Demo
+section.
 
 ## Capability and preconditions
 
@@ -47,3 +52,4 @@ Record browser evidence in the acceptance report:
 - Calling an unperformed browser check a pass.
 - Brute-forcing login, captcha, approval, or repeated failed interactions.
 - Using browser actions that mutate shared or production-like data without explicit authorization.
+- Running this protocol just to attach a screenshot to a PR ([pr-ship.md](pr-ship.md) owns that).

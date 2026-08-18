@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md)
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when standalone opens a PR
 
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md). Always load flow

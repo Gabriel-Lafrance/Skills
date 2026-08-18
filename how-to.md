@@ -16,6 +16,7 @@ skills/
     subagents.md         # Task bias, Worker Brief, spawn rules
     review-contract.md   # shared review evidence and finding rules
     browser-evidence.md  # browser proof for UI acceptance
+    pr-ship.md           # every agent that opens a PR (canvas + screenshots)
   <skill-name>/
     SKILL.md             # required — frontmatter + thin entry
     standalone.md        # optional — one-off use
@@ -65,7 +66,11 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, and severity mapping.
-- **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md).
+- **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
+- **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
+  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review
+  canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
+  tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/goal`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
@@ -73,12 +78,17 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 Cursor's native Browser is a runtime capability, not a `SKILL.md` frontmatter option. It needs no custom `mcp.json` or external package, but a skill cannot enable it or bypass approval, Browser Protection, policy, or origin allowlists.
 
-For post-build UI validation:
+For post-build UI **acceptance** (`/goal`, `/code-review`):
 
 1. Use an Agent-mode session where Browser tools are exposed.
 2. Reuse a running local app or approved preview with safe test data.
 3. Use [`skills/pack-shared/browser-evidence.md`](./skills/pack-shared/browser-evidence.md) as the single browser evidence protocol; link to it instead of copying its steps into other skills.
 4. Write capability-based guidance: use Browser when it is available; otherwise report visual validation as `blocked`, never passed.
+
+For PR **Demo screenshots** (any agent that opens a PR): follow
+[`pr-ship.md`](./skills/pack-shared/pr-ship.md). Open the changed screen, take
+one or a few pictures, embed them. Do not run the acceptance protocol to fill
+Demo. If Browser is unavailable, omit Demo — do not block the PR.
 
 Browser state can persist per workspace. Reset safe test state when needed, or report the state used as evidence.
 
@@ -104,10 +114,11 @@ npx skills@latest add . --list
 
 - One skill = one job. Prefer new skill over bloating an existing one.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
-- Teach in ordinary words — no video links in skill bodies. Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
+- Teach in ordinary words — no explainer-video links in skill bodies. PR Demo
+  screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
 - Do not invent a missing `standalone.md` / `flow.md` process.
-- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, and `pack-shared/subagents.md` without editing those files for skill-specific names.
+- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 
@@ -128,6 +139,6 @@ Always-on teaching for Plan mode / freeform lives in [`rules/`](./rules/). It is
 
 **Important:** Cursor **User Rules** (Settings → Rules → User Rules) are account/settings-backed. Copying `.mdc` into `~/.cursor/rules` does **not** show up there and is not a reliable global apply path. Do not move this file into `.cursor/rules` or a `cursor-rules/` folder unless you intentionally want it always-on for a repo.
 
-- Source: [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) — pointer that forces doctrine Reads (`taste`, `architecture`, `publish`) in Plan mode and freeform chats that never invoke a skill, plus grill-before-plan and Before/After Mermaid.
+- Source: [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) — pointer that forces doctrine Reads (`taste`, `architecture`, `publish`, `pack-shared/pr-ship`) in Plan mode and freeform chats that never invoke a skill, plus grill-before-plan and Before/After Mermaid. Agents that open a PR must follow `pr-ship.md`, not only `/publish`.
 - Install: copy the body **without** YAML frontmatter, then paste into **Settings → Rules → User Rules** under the title **Ultimate gold standards**. Or ask an Agent to install that file into User Rules.
 - After changing the `.mdc`, re-paste (or re-ask the Agent). Skill doctrine edits do not require that if skills were refreshed with `npx skills update`.

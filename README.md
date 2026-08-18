@@ -46,7 +46,10 @@ flowchart LR
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
 - Ticket → build → `/write-ticket` then `/goal`
 - Build now → `/goal` or `/just-do-it`
-- Ship a PR → `/publish`
+- Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
+  opens a GitHub PR follows the same ship contract: typed body, Change
+  diagram, Browser screenshots when visual (not a UI test pass), and a Cursor
+  review canvas.
 - Review a PR → `/pr-review`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
