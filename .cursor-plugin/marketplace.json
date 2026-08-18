@@ -1,0 +1,22 @@
+{
+  "name": "gabriel-skills",
+  "owner": {
+    "name": "Gabriel Lafrance"
+  },
+  "metadata": {
+    "description": "Gabriel Lafrance Skills — Cursor agent skills for real engineering work.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "gabriel-skills",
+      "source": ".",
+      "description": "Cursor agent skills for real engineering work: taste, architecture, analyze, write-ticket, just-do-it, review, and ship.",
+      "version": "1.0.0",
+      "homepage": "https://github.com/Gabriel-Lafrance/Skills",
+      "repository": "https://github.com/Gabriel-Lafrance/Skills",
+      "license": "MIT",
+      "keywords": ["skills", "cursor", "architecture", "taste", "tickets", "review"]
+    }
+  ]
+}
