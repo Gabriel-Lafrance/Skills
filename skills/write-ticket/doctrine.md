@@ -134,6 +134,7 @@ messages that have no Questions.
 - Asking the type-specific open grill, or invoking full `/grill-me`
 - Asking vision / who / DoD / entrypoints when analysis can fill them
 - Asking “write this?” or status when a default exists
+- Defaulting a new ticket to Backlog instead of Todo
 - A second Questions batch after the too-short grill
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
