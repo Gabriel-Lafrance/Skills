@@ -52,3 +52,4 @@ Record browser evidence in the acceptance report:
 - Calling an unperformed browser check a pass.
 - Brute-forcing login, captcha, approval, or repeated failed interactions.
 - Using browser actions that mutate shared or production-like data without explicit authorization.
+- Running this protocol just to attach a screenshot to a PR ([pr-ship.md](pr-ship.md) owns that).
