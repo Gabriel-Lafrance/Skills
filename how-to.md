@@ -5,6 +5,9 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
 ## Layout
 
 ```text
+.cursor-plugin/
+  plugin.json            # Cursor plugin manifest
+  marketplace.json       # Team marketplace import
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
@@ -132,6 +135,10 @@ npx skills@latest update -g -y
 ```
 
 After you push, they refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
+
+### Cursor team marketplace
+
+This repo is one Cursor plugin (`gabriel-skills`). Team admins import `https://github.com/Gabriel-Lafrance/Skills` from **Dashboard → Plugins → Add Marketplace → Import from Repo**. Manifests live in [`.cursor-plugin/`](./.cursor-plugin/) (`plugin.json` + `marketplace.json`). Do not split one plugin per skill — they share `pack-shared`. After you push, refresh the marketplace (or turn on Auto Refresh). `npx skills` is unchanged.
 
 ### Personal Cursor User Rules (opt-in, not via `npx skills`)
 

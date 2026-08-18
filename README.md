@@ -17,6 +17,10 @@ Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/arch
 
 Optional, for Plan mode and freeform chats that never invoke a skill: paste [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) (body only, no YAML frontmatter) into **Cursor Settings → Rules → User Rules**. Keep that file in `rules/` — it is opt-in, not installed by `npx skills`.
 
+### Cursor team marketplace
+
+Team admins can import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`. Teammates then find the plugin in **Customize**. This is the team marketplace path, not a public Marketplace listing. The `npx skills` install above still works.
+
 ## What this pack is
 
 Five kinds of skills. **Guide** informs; everything else moves work forward.
