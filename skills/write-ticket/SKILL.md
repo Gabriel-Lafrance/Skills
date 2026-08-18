@@ -27,9 +27,10 @@ open grill. Do not invoke full `/grill-me`.
 2. If the idea is too short to analyze, send **one** asking-contract batch
    (include missing metadata in that same batch). Wait. Otherwise skip grill.
 3. Run **flow** `/analyze` fully on the seed (Task workers, complete memo).
-4. Fill the type template from the memo. Announce the draft. If metadata is
-   still missing, one metadata batch — then write. If metadata was already
-   known, write after the draft is visible. No “write this?” question.
-   Status is Todo unless the prompt (or existing ticket) already names one.
+4. Fill the type template from the memo, including the analysis Mermaid
+   diagram after Type. Announce the draft. If metadata is still missing, one
+   metadata batch — then write. If metadata was already known, write after
+   the draft is visible. No “write this?” question. Status is Todo unless
+   the prompt (or existing ticket) already names one.
 
 Question templates, bodies, and tracker fields live in the reference and doctrine.

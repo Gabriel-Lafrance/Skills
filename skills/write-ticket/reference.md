@@ -150,6 +150,9 @@ Every field gets an estimate and short note.
 ## Type
 Feature
 
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
+
 ## Ask / Vision
 <plain-language goal>
 
@@ -177,6 +180,9 @@ Feature
 ## Type
 Tweak
 
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
+
 ## Ask / Adjustment
 <small intentional change>
 
@@ -200,6 +206,9 @@ Tweak
 ```markdown
 ## Type
 Bug
+
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
 
 ## Who
 …
@@ -232,6 +241,9 @@ Bug
 ```markdown
 ## Type
 Refactor
+
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
 
 ## Ask / Why
 <plain-language why the shape must change>
@@ -287,6 +299,9 @@ Refactor
 ## Type
 Chore
 
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
+
 ## Ask / Maintenance
 <non-product maintenance work>
 
@@ -310,6 +325,9 @@ Chore
 ```markdown
 ## Type
 Hotfix
+
+## Diagram
+<copy from analysis memo — one mermaid, or Before/After>
 
 ## Who
 …

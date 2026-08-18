@@ -46,12 +46,33 @@ context or a new user answer.
 ## Analysis memo
 
 Post this in chat; keep it current in the execution context rather than in an
-agent-owned file.
+agent-owned file. Lead with a high-level Mermaid diagram so a reader can see
+the path before the prose.
 
-```markdown
+Diagram rules:
+
+- Prefer modules, actors, and request/data flow — not every file or function.
+- **New or additive work:** one diagram of the recommended path.
+- **Rework** (bug, hotfix, refactor, or a flow that changes): Before and After
+  under Diagram, keeping the same node ids where possible.
+- Use `flowchart`, `sequenceDiagram`, or `graph` — pick the clearest form.
+- Name real modules/services/routes from the evidence. Do not invent a shape
+  the repo does not support.
+- Omit only when the ask is truly diagram-hostile (typo, copy, one-line chore)
+  and say why under Diagram.
+
+````markdown
 ## Analysis memo
 **Ask:** <one line>
 **Evidence:** <ticket/PR/repository facts and cited paths>
+
+### Diagram
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
 
 ### Current behavior
 …
@@ -80,7 +101,28 @@ agent-owned file.
 **Non-goals:** …
 **Lane:** …
 **Active Rules:** <relevant `INV-*` rows or none>
+````
+
+For rework, replace the single mermaid with:
+
+````markdown
+### Diagram
+
+#### Before
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Stripe[Stripe]
 ```
+
+#### After
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+````
 
 Include the draft `/goal` seed when the work is buildable. It is context for a
 possible next phase, not a promotion or implementation authorization.
@@ -135,6 +177,9 @@ discovery, or analyze Follow-up items and nits.
 ## Review remediation analysis
 **Scope:** named Fix-now rows only
 
+### Diagram
+<one mermaid of the failing path → smallest fix, or Before/After; omit if a single-line change and say why>
+
 ### <finding-id> — <short finding>
 **Source:** <review pass + path/symbol>
 **Rule:** <`INV-*`, acceptance criterion, or review rule>
@@ -178,6 +223,8 @@ On the other choices, leave code unchanged.
 
 - Treating a memo as implementation or ticket-write approval
 - Stubbing flow analysis because a `/write-ticket` seed is short
+- Posting a memo with no diagram when the path can be drawn
+- Drawing every file instead of modules, actors, and flow
 - Creating hidden state to resume analysis
 - Asking the user for repository or tracker facts that can be rediscovered
 - Promoting a remediation without first showing its complete stable-finding analysis

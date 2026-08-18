@@ -78,10 +78,12 @@ the too-short batch when it is still unknowable.
 | Hotfix | Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, urgency/blast radius, Notes |
 
 Bug and Hotfix tickets never include Feature or Refactor architecture fields.
-Keep Tweak and Chore tickets lean: no Proposed architecture, Pros/Cons, or
-Impact unless the user needs that context. Refactor Cons and Impact are
-mandatory; label weak evidence and use `unknown` or `N/A` instead of invented
-precision. Prefer Hotfix over Bug only when production breakage is urgent.
+Every type copies the analysis **Diagram** after Type (omit only when the memo
+said the ask was diagram-hostile). Keep Tweak and Chore tickets lean: no
+Proposed architecture, Pros/Cons, or Impact unless the user needs that context.
+Refactor Cons and Impact are mandatory; label weak evidence and use `unknown`
+or `N/A` instead of invented precision. Prefer Hotfix over Bug only when
+production breakage is urgent.
 
 Feature and Refactor architecture may name placement, reuse versus a new
 boundary, moves, deletion of old paths, and one-line reasoning. Cite `/taste`
@@ -101,7 +103,8 @@ algorithms, signatures, or implementation steps.
    per [subagents.md](../pack-shared/subagents.md), no stub, no standalone
    hand-off Questions. Skip `/goal` promotion; ticket writing is the next
    step. Refresh a stale or shallow memo instead of reusing it.
-4. **Draft.** Fill the type template from the memo. Entrypoints, DoD, non-goals,
+4. **Draft.** Fill the type template from the memo. Copy the memo’s **Diagram**
+   to the top of the ticket body (after Type). Entrypoints, DoD, non-goals,
    repro, and architecture sketches come from analysis, not from extra user
    questions. For a capture from a short note, say so in Notes and still write
    the full template.
@@ -142,3 +145,4 @@ messages that have no Questions.
 - Writing code-level implementation instructions
 - Inventing tracker IDs or fake precision on Cons / Impact
 - Writing a one-line stub instead of a detailed ticket
+- Dropping the analysis Mermaid diagram from the ticket when the memo had one
