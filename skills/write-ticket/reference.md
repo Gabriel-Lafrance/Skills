@@ -142,16 +142,104 @@ Drop any item that is already known. Discover real options before asking: Linear
 
 Every field gets an estimate and short note.
 
+## Ticket diagrams
+
+The **Diagram** section explains the ticket. A teammate should get the feature,
+bug, or race from the picture without reading the analysis memo. Start from
+that memo’s mermaid, then pick the form below. Embed a real `mermaid` fence
+(GitHub and Linear render it). Do not leave a copy-placeholder.
+
+| Situation | Form |
+| --- | --- |
+| Feature, Tweak, or an additive Chore | One `flowchart` of the intended path |
+| Bug, Hotfix, or Refactor that changes a flow | Before (broken/current) and After (expected/target), same node ids |
+| Race, ordering, double-submit, or concurrency | `sequenceDiagram` of the failing interleave, then the expected order |
+| Typo, copy, or one-line chore | Omit and say why under Diagram |
+
+Prefer modules, actors, and request/data flow — not every file. Name real
+owners from the repo.
+
+### Feature / intended path
+
+````markdown
+## Diagram
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+````
+
+### Bug / flow change (Before and After)
+
+````markdown
+## Diagram
+
+#### Before
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Stripe[Stripe]
+```
+
+#### After
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+````
+
+### Race / ordering
+
+````markdown
+## Diagram
+
+#### Failing interleave
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant UI
+  participant Billing
+  User->>UI: Pay
+  User->>UI: Pay again
+  UI->>Billing: makeUserPay
+  UI->>Billing: makeUserPay
+  Note over Billing: two charges
+```
+
+#### Expected order
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant UI
+  participant Billing
+  User->>UI: Pay
+  UI->>Billing: makeUserPay
+  User->>UI: Pay again
+  UI-->>User: already in flight
+```
+````
+
 ## Ticket bodies
 
 ### Feature
 
-```markdown
+````markdown
 ## Type
 Feature
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
 
 ## Ask / Vision
 <plain-language goal>
@@ -172,16 +260,20 @@ Feature
 
 ## Notes
 - …
-```
+````
 
 ### Tweak
 
-```markdown
+````markdown
 ## Type
 Tweak
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+```mermaid
+flowchart LR
+  Screen[Affected screen] --> Owner[Owning module]
+```
 
 ## Ask / Adjustment
 <small intentional change>
@@ -199,16 +291,30 @@ Tweak
 
 ## Notes
 - …
-```
+````
 
 ### Bug
 
-```markdown
+````markdown
 ## Type
 Bug
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+#### Before
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Stripe[Stripe]
+```
+
+#### After
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
 
 ## Who
 …
@@ -234,16 +340,30 @@ Bug
 
 ## Notes
 - …
-```
+````
 
 ### Refactor
 
-```markdown
+````markdown
 ## Type
 Refactor
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+#### Before
+
+```mermaid
+flowchart LR
+  Feature[Feature] --> Stripe[Stripe]
+```
+
+#### After
+
+```mermaid
+flowchart LR
+  Feature[Feature] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
 
 ## Ask / Why
 <plain-language why the shape must change>
@@ -291,16 +411,20 @@ Refactor
 
 ## Notes
 - …
-```
+````
 
 ### Chore
 
-```markdown
+````markdown
 ## Type
 Chore
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+```mermaid
+flowchart LR
+  Change[Maintenance change] --> Surface[CI / deps / docs]
+```
 
 ## Ask / Maintenance
 <non-product maintenance work>
@@ -318,16 +442,30 @@ Chore
 
 ## Notes
 - …
-```
+````
 
 ### Hotfix
 
-```markdown
+````markdown
 ## Type
 Hotfix
 
 ## Diagram
-<copy from analysis memo — one mermaid, or Before/After>
+
+#### Before
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Stripe[Stripe]
+```
+
+#### After
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
 
 ## Who
 …
@@ -356,4 +494,4 @@ Hotfix
 
 ## Notes
 - …
-```
+````

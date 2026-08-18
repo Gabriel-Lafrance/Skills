@@ -50,8 +50,8 @@ one batch, then analyze.
 | Ambiguous number | Prefer the tracker this repo already uses; ask only inside the allowed metadata / too-short batch |
 
 An in-chat analysis memo is not a substitute for a full flow `/analyze` unless
-it already has the complete memo shape (evidence, entrypoints, direction,
-ownership, touch surface, risks, `/goal` seed when buildable). Rediscover
+it already has the complete memo shape (diagram, evidence, entrypoints,
+direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover
 ticket, repository, PR, and tracker facts from live sources.
 
 ## Type and required content
@@ -70,16 +70,19 @@ the too-short batch when it is still unknowable.
 
 | Type | Required on the ticket (fill from prompt + analysis; `unknown` / `_none` when weak) |
 | --- | --- |
-| Feature | Ask/Vision, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
-| Tweak | Ask/Adjustment, Definition of Done, known Entrypoints, named Non-goals, Notes |
-| Bug | Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, Notes |
-| Refactor | Ask/Why, preserved behavior, Pros, honest Cons, Impact, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
-| Chore | Ask/Maintenance, Definition of Done, known Entrypoints, named Non-goals, Notes |
-| Hotfix | Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, urgency/blast radius, Notes |
+| Feature | Diagram, Ask/Vision, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
+| Tweak | Diagram, Ask/Adjustment, Definition of Done, known Entrypoints, named Non-goals, Notes |
+| Bug | Diagram, Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, Notes |
+| Refactor | Diagram, Ask/Why, preserved behavior, Pros, honest Cons, Impact, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
+| Chore | Diagram, Ask/Maintenance, Definition of Done, known Entrypoints, named Non-goals, Notes |
+| Hotfix | Diagram, Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, urgency/blast radius, Notes |
 
 Bug and Hotfix tickets never include Feature or Refactor architecture fields.
-Every type copies the analysis **Diagram** after Type (omit only when the memo
-said the ask was diagram-hostile). Keep Tweak and Chore tickets lean: no
+Every type includes **Diagram** after Type — a Mermaid that explains the
+ticket to a teammate who will not read the analysis memo. Start from that
+memo’s chart, then pick the form in [reference.md](reference.md) (path,
+Before/After, or sequence for races). Omit only when the ask is
+diagram-hostile and say why. Keep Tweak and Chore tickets lean: no
 Proposed architecture, Pros/Cons, or Impact unless the user needs that context.
 Refactor Cons and Impact are mandatory; label weak evidence and use `unknown`
 or `N/A` instead of invented precision. Prefer Hotfix over Bug only when
@@ -103,11 +106,13 @@ algorithms, signatures, or implementation steps.
    per [subagents.md](../pack-shared/subagents.md), no stub, no standalone
    hand-off Questions. Skip `/goal` promotion; ticket writing is the next
    step. Refresh a stale or shallow memo instead of reusing it.
-4. **Draft.** Fill the type template from the memo. Copy the memo’s **Diagram**
-   to the top of the ticket body (after Type). Entrypoints, DoD, non-goals,
-   repro, and architecture sketches come from analysis, not from extra user
-   questions. For a capture from a short note, say so in Notes and still write
-   the full template.
+4. **Draft.** Fill the type template from the memo. Put a **Diagram** after
+   Type that explains the ticket (intended path, Before/After, or a sequence
+   for races). Use the analysis mermaid as the source; reshape it if a
+   teammate would not get the bug, race, or feature from the memo chart.
+   Entrypoints, DoD, non-goals, repro, and architecture sketches come from
+   analysis, not from extra user questions. For a capture from a short note,
+   say so in Notes and still write the full template.
 5. **Metadata.** If priority, assignee, or tracker is still unknown, one
    metadata batch and wait. Status is **Todo** unless the prompt already names
    another; when refining, keep the current status unless the prompt overrides
@@ -145,4 +150,5 @@ messages that have no Questions.
 - Writing code-level implementation instructions
 - Inventing tracker IDs or fake precision on Cons / Impact
 - Writing a one-line stub instead of a detailed ticket
-- Dropping the analysis Mermaid diagram from the ticket when the memo had one
+- Dropping the Mermaid diagram, leaving a copy-placeholder, or using a path
+  chart when a race needs a sequence

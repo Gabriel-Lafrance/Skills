@@ -55,6 +55,8 @@ Diagram rules:
 - **New or additive work:** one diagram of the recommended path.
 - **Rework** (bug, hotfix, refactor, or a flow that changes): Before and After
   under Diagram, keeping the same node ids where possible.
+- **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the
+  failing interleave, plus the expected order when it is known.
 - Use `flowchart`, `sequenceDiagram`, or `graph` — pick the clearest form.
 - Name real modules/services/routes from the evidence. Do not invent a shape
   the repo does not support.
