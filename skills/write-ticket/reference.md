@@ -44,7 +44,7 @@ Drop questions 2–5 when already known. If there is no honest guess for questio
 
 ## Metadata batch
 
-Use after analysis when the seed was enough but priority, assignee, or tracker is still unknown. Do not ask status (default backlog / todo). Do not ask “write this?”.
+Use after analysis when the seed was enough but priority, assignee, or tracker is still unknown. Do not ask status (default **Todo** unless the prompt already names one). Do not ask “write this?”.
 
 ```markdown
 ## Questions
@@ -69,7 +69,7 @@ Reply like: 1c 2a
    - c) Other — paste a team, repo, or URL
 ```
 
-Drop any item that is already known. Discover real options before asking: Linear priorities and members come from its capability; GitHub uses actual labels and collaborators. Status stays backlog / todo on create, or the current state when refining.
+Drop any item that is already known. Discover real options before asking: Linear priorities and members come from its capability; GitHub uses actual labels and collaborators. Status is **Todo** on create (map to the tracker’s Todo / To Do state; GitHub stays open) unless the prompt names another. When refining, keep the current status unless the prompt overrides it.
 
 ## Locked solution summaries
 

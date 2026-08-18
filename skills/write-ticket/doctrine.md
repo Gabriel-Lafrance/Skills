@@ -17,7 +17,7 @@ Exactly two situations may produce a Questions batch. Nothing else.
 | When | What to ask | Shape |
 | --- | --- | --- |
 | The seed is **too short** to analyze | One asking-contract batch: what to capture, plus type only if it is still unknowable, plus any missing metadata | Lettered; mark `recommended`; one `Reply like:` row. Include metadata in **this** batch when it is also missing so there is only one wait. |
-| The seed is enough, but **priority, assignee, or tracker** was not in the prompt and cannot be inferred | One metadata batch | Same asking contract. Do not ask status (default backlog / todo). Do not ask “write this?”. |
+| The seed is enough, but **priority, assignee, or tracker** was not in the prompt and cannot be inferred | One metadata batch | Same asking contract. Do not ask status (default **Todo** unless the prompt already names one). Do not ask “write this?”. |
 
 Do **not** ask vision, who, DoD, entrypoints, non-goals, repro, architecture,
 or type when those can be inferred from the prompt, an existing ticket, or
@@ -106,8 +106,9 @@ algorithms, signatures, or implementation steps.
    questions. For a capture from a short note, say so in Notes and still write
    the full template.
 5. **Metadata.** If priority, assignee, or tracker is still unknown, one
-   metadata batch and wait. Default status to backlog / todo; do not ask it.
-   Do not ask permission to write.
+   metadata batch and wait. Status is **Todo** unless the prompt already names
+   another; when refining, keep the current status unless the prompt overrides
+   it. Do not ask status. Do not ask permission to write.
 6. **Write.** Show the complete draft in chat, then create or update through
    the tracker capability or `gh`. Return the URL and applied metadata.
 
