@@ -25,7 +25,7 @@ Five kinds of skills. **Guide** informs; everything else moves work forward.
 | ----------------- | -------------------------------------------------------- | --------------------- |
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
-| **Specify**       | `/write-ticket`                                          | Tracker tickets       |
+| **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
 
@@ -43,6 +43,7 @@ flowchart LR
 
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
+- Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
 - Ticket → build → `/write-ticket` then `/goal`
 - Build now → `/goal` or `/just-do-it`
 - Ship a PR → `/publish`

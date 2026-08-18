@@ -1,14 +1,43 @@
 # Write Ticket doctrine
 
-Write or refine one Linear or GitHub ticket. This skill is standalone-only,
-never implements the ticket, and owns a tracker write only after explicit user
-approval. `/trackers` is read-only; flow `/analyze` supplies evidence.
+Write or refine one Linear or GitHub ticket from as little as one prompt.
+This skill is standalone-only, never implements the ticket, and always runs
+**flow** `/analyze` to full memo depth before drafting.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Templates:** [reference.md](reference.md)
 
-The open ticket grill is the asking-contract exception: use numbered freeform
-questions without letters or `Reply like:`. Type and metadata choices use the
-normal lettered format.
+Infer first. Ask only what this file allows. A short “don’t forget this”
+note is a valid seed: analyze the repo, write a detailed ticket, and leave
+refinement for later.
+
+## Allowed questions
+
+Exactly two situations may produce a Questions batch. Nothing else.
+
+| When | What to ask | Shape |
+| --- | --- | --- |
+| The seed is **too short** to analyze | One asking-contract batch: what to capture, plus type only if it is still unknowable, plus any missing metadata | Lettered; mark `recommended`; one `Reply like:` row. Include metadata in **this** batch when it is also missing so there is only one wait. |
+| The seed is enough, but **priority, assignee, or tracker** was not in the prompt and cannot be inferred | One metadata batch | Same asking contract. Do not ask status (default backlog / todo). Do not ask “write this?”. |
+
+Do **not** ask vision, who, DoD, entrypoints, non-goals, repro, architecture,
+or type when those can be inferred from the prompt, an existing ticket, or
+`/analyze`. Do not run the old type-specific open grill. Do not invoke full
+`/grill-me` (that interview is too wide).
+
+## Too short
+
+The seed is too short when, after the prompt plus a quick repo look, you still
+cannot name **an observable outcome, defect, or maintenance ask**.
+
+| Enough | Too short |
+| --- | --- |
+| “Checkout total ignores tax on the success screen” | “checkout” / “fix auth” / “don’t forget the billing thing” |
+| “Bump eslint and fix the CI workflow” | “chores” |
+| An existing ticket with a usable body | An empty ticket and a one-word prompt |
+
+A “don’t forget this” **sentence that names an outcome, defect, or maintenance
+ask** is enough: skip grill, analyze, write a full ticket. A bare noun is not:
+one batch, then analyze.
 
 ## Inputs
 
@@ -16,18 +45,19 @@ normal lettered format.
 | --- | --- |
 | Linear ID or URL | Read and refine that Linear ticket |
 | GitHub issue ID or URL | Read and refine that GitHub issue |
-| Rough idea or notes | Create; ask Linear versus GitHub once if unclear |
-| In-chat analysis memo | Reuse it as analysis evidence; refresh only stale or missing facts |
-| Ambiguous number | Ask once whether it is Linear or GitHub |
+| Rough idea or “don’t forget this” note | Create; infer Linear versus GitHub from the repo and prompt |
+| In-chat analysis memo | Reuse it; still run flow `/analyze` if it is shallow or stale |
+| Ambiguous number | Prefer the tracker this repo already uses; ask only inside the allowed metadata / too-short batch |
 
-An in-chat analysis memo is sufficient. Do not require or create an
-agent-owned analysis artifact. Rediscover ticket, repository, PR, and tracker
-facts from their live sources; keep user decisions and approvals in the
-execution context.
+An in-chat analysis memo is not a substitute for a full flow `/analyze` unless
+it already has the complete memo shape (evidence, entrypoints, direction,
+ownership, touch surface, risks, `/goal` seed when buildable). Rediscover
+ticket, repository, PR, and tracker facts from live sources.
 
 ## Type and required content
 
-Lock exactly one type before the open grill:
+Infer exactly one type from the seed. Announce it Locked. Ask type only inside
+the too-short batch when it is still unknowable.
 
 | Type | Use when | Tracker mapping |
 | --- | --- | --- |
@@ -38,7 +68,7 @@ Lock exactly one type before the open grill:
 | Chore | Non-product maintenance: deps, CI, tooling, docs-only, repo hygiene | Linear Chore/Improvement or equivalent; GitHub chore/maintenance label when available |
 | Hotfix | Urgent production defect that needs expedited shipping | Linear Bug with urgent priority or Hotfix label when available; GitHub bug + urgent/hotfix labels |
 
-| Type | Required before write |
+| Type | Required on the ticket (fill from prompt + analysis; `unknown` / `_none` when weak) |
 | --- | --- |
 | Feature | Ask/Vision, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
 | Tweak | Ask/Adjustment, Definition of Done, known Entrypoints, named Non-goals, Notes |
@@ -55,58 +85,58 @@ precision. Prefer Hotfix over Bug only when production breakage is urgent.
 
 Feature and Refactor architecture may name placement, reuse versus a new
 boundary, moves, deletion of old paths, and one-line reasoning. Cite `/taste`
-(KISS, SoC, honest names) and `/architecture` (service owner, primitives,
-folders, write-path scale) in that sketch. Do not prescribe method bodies,
+and `/architecture` in that sketch. Do not prescribe method bodies,
 algorithms, signatures, or implementation steps.
 
 ## Process
 
-1. **Load or seed.** Read an existing ticket before changing it; normalize its
-   current body, type, status, priority, and assignee. For a new ticket, start
-   from the user's idea. Preserve useful content and exact required headings.
-2. **Lock type.** Use the type question in [reference.md](reference.md) unless
-   the existing ticket makes it unambiguous. Wait for the answer.
-3. **Open grill.** Use the type-specific freeform suite, skip settled items,
-   batch known gaps, and do not ask step-by-step implementation questions.
-4. **Analyze.** Before drafting, obtain an evidence-backed analysis memo in
-   chat. Reuse a supplied or current memo; otherwise run **flow** `/analyze` on
-   the grilled brief (Task workers per
-   [subagents.md](../pack-shared/subagents.md)). If the memo is stale, refresh
-   the needed evidence. Skip analysis promotion because ticket writing is the
-   next step.
-5. **Propose.** For Feature and Refactor, announce the principle-level Locked
-   summary. For Tweak, announce the bounded adjustment, outcome, entrypoint,
-   and non-goals. For Chore, announce the maintenance ask, outcome, entrypoint,
-   and non-goals. For Bug or Hotfix, keep investigation notes short and omit
-   unrelated ticket sections; Hotfix must include urgency/blast radius.
-6. **Draft and lock metadata.** Show the complete template body. Discover live
-   workflow states, priorities, and assignees before asking the metadata batch.
-   Wait for explicit approval.
-7. **Write.** On approval only, create or update the body, type/labels, state,
-   priority, and assignee through the tracker capability or `gh`. Return the
-   URL and applied metadata.
+1. **Load or seed.** Read an existing ticket before changing it. For a new
+   ticket, start from the user's prompt. Infer type, tracker, priority, and
+   assignee when the prompt or roster makes them obvious. Preserve useful
+   existing headings.
+2. **Thinness gate.** If too short, send the one allowed grill batch and wait.
+   If enough, do not grill.
+3. **Analyze — always, fully.** Run **flow** `/analyze` on the seed (plus any
+   grill answers). Parent brief: complete standard-research memo, Task workers
+   per [subagents.md](../pack-shared/subagents.md), no stub, no standalone
+   hand-off Questions. Skip `/goal` promotion; ticket writing is the next
+   step. Refresh a stale or shallow memo instead of reusing it.
+4. **Draft.** Fill the type template from the memo. Entrypoints, DoD, non-goals,
+   repro, and architecture sketches come from analysis, not from extra user
+   questions. For a capture from a short note, say so in Notes and still write
+   the full template.
+5. **Metadata.** If priority, assignee, or tracker is still unknown, one
+   metadata batch and wait. Default status to backlog / todo; do not ask it.
+   Do not ask permission to write.
+6. **Write.** Show the complete draft in chat, then create or update through
+   the tracker capability or `gh`. Return the URL and applied metadata.
+
+Announce inferred type and the draft as Locked (correct if wrong) only in
+messages that have no Questions.
 
 ## Failures
 
 | Problem | Action |
 | --- | --- |
 | No Linear capability | Explain the limitation; do not fake a ticket |
-| GitHub tooling unavailable | Ask for install/auth, or allow one pasted body for refine only |
+| GitHub tooling unavailable | Ask for install/auth inside the allowed metadata batch, or allow one pasted body for refine only |
 | Ticket not found | Stop and confirm ID, team, or repository |
-| User declines | Leave the draft in chat; do not write |
-| Required section missing | Continue the open grill; never write incomplete |
-| Analysis absent or stale | Obtain or refresh the in-chat analysis memo before drafting |
-| Tracker options unavailable | Ask freeform for that field; do not invent IDs |
+| User declines after write | Leave the URL; do not silently delete |
+| Required section empty after analysis | Use `unknown` / `_none` and say so in Notes; do not start a second grill |
+| Analysis absent or stubby | Run or refresh full flow `/analyze` before drafting |
+| Tracker options unavailable | Ask freeform for that field inside the metadata batch; do not invent IDs |
 
 ## Anti-patterns
 
 - Running inside `/goal` or inventing a flow variant
-- Requiring a hidden analysis path instead of accepting the in-chat memo
-- Skipping the open grill or evidence-backed analysis
-- Lettering the freeform grill
+- Skipping flow `/analyze` or accepting a stub memo
+- Asking the type-specific open grill, or invoking full `/grill-me`
+- Asking vision / who / DoD / entrypoints when analysis can fill them
+- Asking “write this?” or status when a default exists
+- A second Questions batch after the too-short grill
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
 - Labeling product tweaks, refactors, or defects as Chore
 - Writing code-level implementation instructions
-- Inventing Non-goals, tracker values, Pros, Cons, or Impact precision
-- Writing before full draft and metadata approval
+- Inventing tracker IDs or fake precision on Cons / Impact
+- Writing a one-line stub instead of a detailed ticket

@@ -26,7 +26,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Build until X is true | `/goal` (must follow `/taste` and `/architecture`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
-| Need a Linear/GitHub ticket | `/write-ticket` |
+| Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
 | Ship branch + optional PR | `/publish` |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |

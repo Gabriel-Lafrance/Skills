@@ -14,7 +14,7 @@ tickets, or create automatic runtime artifacts.
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` brief | Flow: analyze the brief, then return the memo to that parent |
+| `/write-ticket` seed | Flow: full standard memo even if the seed is ungrilled or a “don’t forget this” note; return to that parent. Do not stub. |
 | `/just-do-it` parent brief | Flow: research then return (parent may instruct promote + start) |
 | Named review Fix-now rows | Flow: review-remediation mode only for those rows |
 
@@ -177,6 +177,7 @@ On the other choices, leave code unchanged.
 ## Anti-patterns
 
 - Treating a memo as implementation or ticket-write approval
+- Stubbing flow analysis because a `/write-ticket` seed is short
 - Creating hidden state to resume analysis
 - Asking the user for repository or tracker facts that can be rediscovered
 - Promoting a remediation without first showing its complete stable-finding analysis

@@ -32,11 +32,6 @@ true, and user overrides visible in the current
 Do not write them to an agent-owned runtime file. Save them only when the user
 requests a durable artifact and approves its destination.
 
-## Skill exception
-
-`/write-ticket` uses numbered freeform questions for its open grill. Its type
-and metadata choices use the normal lettered contract.
-
 ## Batch template (Questions)
 
 When asking the user, use this shape only — no Locked-in heading:

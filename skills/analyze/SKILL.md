@@ -32,8 +32,9 @@ disable-model-invocation: true
    research **must** use a Task; parallelize independent surfaces, then
    synthesize the evidence.
 3. Post the memo, including an inline `/goal` seed when the work is buildable.
-4. For standard analysis, ask one batch for real unknowns, then offer the
-   explicit hand-off choices in [doctrine.md](doctrine.md).
+4. For standalone standard analysis, ask one batch for real unknowns, then
+   offer the explicit hand-off choices in [doctrine.md](doctrine.md). Flow
+   parents skip those Questions (see [flow.md](flow.md)).
 5. For review remediation, present every selected stable-finding analysis
    before the remediation-specific promotion choice.
 
