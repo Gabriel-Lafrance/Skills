@@ -40,8 +40,9 @@ template, not a filesystem schema.
 **Preflight:** <clean tree · branch · remote/base · commits ahead · gh auth>
 **Title:** [IN-1234] …
 **Body:**
-<complete PR body — includes Mermaid Change diagram>
+<complete PR body — includes Mermaid Change diagram, Demo when visual, canvas link>
 **URL:** pending | https://github.com/…/pull/N
+**Canvas:** pending | <share URL or local canvas link>
 **Human next:** review on GitHub or `/pr-review`
 ```
 
@@ -50,8 +51,10 @@ checkpoint. Review briefs use those SHAs. Do not claim `main...HEAD` while the
 working tree is dirty or uncommitted relative to `headSha`.
 
 Use only fields relevant to the current phase. Keep the complete PR title and
-body visible in chat before `gh pr create`; autonomy removes an approval wait,
-not draft visibility.
+body visible in chat before creating the PR; autonomy removes an approval wait,
+not draft visibility. Create with the tool choice in
+[pr-ship.md](../pack-shared/pr-ship.md), not `gh pr create` when Cursor’s
+pull-request tool is available.
 
 ## Review disposition
 

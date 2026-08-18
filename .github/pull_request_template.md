@@ -30,6 +30,10 @@ flowchart LR
 - [ ]
 - [ ]
 
+## Demo
+
+<!-- Visual changes: Browser screenshots of the changed screen. Not a test pass. Omit for non-visual work or if Browser is unavailable. See skills/pack-shared/pr-ship.md. -->
+
 ## Notes
 
 <!-- Typo-only / diagram-hostile? Say why the diagram section is minimal. -->

@@ -108,11 +108,13 @@ the user explicitly asked; default is additional commit(s), then push + PR.
 7. **Ship.** Ensure a clean tree after any final ship commit(s) (never
    `--no-verify` unless explicitly requested), then run publish preflight:
    clean tree, real branch, remote/default base, commits ahead, and
-   authenticated `gh`. Build the full title and body from
-   [publish reference](../publish/reference.md) (including the Mermaid
-   **Change diagram**: one for new work, Before/After for rework), print both
-   in chat, then push with `git push -u origin HEAD` and create the PR
-   (**opened**, not merged). Record the URL in the parent context and hand
+   authenticated `gh` or Cursor’s pull-request tool. Build the full title and
+   body from [publish reference](../publish/reference.md) (including the Mermaid
+   **Change diagram**: one for new work, Before/After for rework). Follow
+   [pr-ship.md](../pack-shared/pr-ship.md) for Demo screenshots, the Cursor review
+   canvas, and which tool writes the PR. Print title and body in chat, then
+   push with `git push -u origin HEAD` and create the PR (**opened**, not
+   merged). Record the URL and canvas link in the parent context and hand
    review to a human.
 
 ## Fix boundaries
@@ -137,5 +139,6 @@ the missing user-owned decision.
 - Never write/edit tests or invoke `/create-test`; it may be recommended after
   review.
 - Never create a PR without showing the complete draft in chat (including the
-  Mermaid Change diagram required by publish).
+  Mermaid Change diagram required by publish) or without following
+  [pr-ship.md](../pack-shared/pr-ship.md).
 - Never start CR1/CR2 on an uncommitted or dirty fixed point.
