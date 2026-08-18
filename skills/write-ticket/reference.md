@@ -71,93 +71,115 @@ Reply like: 1c 2a
 
 Drop any item that is already known. Discover real options before asking: Linear priorities and members come from its capability; GitHub uses actual labels and collaborators. Status is **Todo** on create (map to the tracker’s Todo / To Do state; GitHub stays open) unless the prompt names another. When refining, keep the current status unless the prompt overrides it.
 
-## Locked solution summaries
+## Locked solution summary
+
+Same shape for every type:
+
+```markdown
+## Locked in (tell me if this is wrong)
+**Type:** Feature
+**Ask:** …
+**Done when:** …
+**Out of scope:** … | _none_
+**Start here:** `path` — `symbol` | _unknown_
+```
+
+## Body (every type)
+
+Do not add or rename headings. Fill from the type preset below. Use `unknown` or `_none` when weak.
+
+````markdown
+## Type
+Feature
+
+## Diagram
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+
+## Ask
+<plain sentences — see preset>
+
+## Done when
+- [ ] …
+
+## Out of scope
+- … | _none_
+
+## Start here
+- `path/to/file` — `symbol` | _unknown_
+````
+
+## Presets
+
+What to write inside the shared sections. The picture still follows [Ticket diagrams](#ticket-diagrams).
 
 ### Feature
 
-```markdown
-## Locked in (tell me if this is wrong)
-**Vision:** …
-**Definition of Done (outline):** …
-**Entrypoints:** `path` — `symbol` · …
-**Proposed architecture:** … (placement / reuse versus new service)
-**Non-goals:** … | _none_
-```
-
-### Refactor
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Why:** …
-**What must not change:** …
-**Pros:** …
-**Cons:** … (real costs)
-**Impact:**
-- **LoC** — affected: … · deleted: … · improved: …
-- **Performance** — roundtrips: … · time: … · compute: …
-- **Architecture** — structural: … · complexity: … · overhead: …
-**Definition of Done (outline):** …
-**Entrypoints:** `path` — `symbol` · …
-**Proposed architecture:** … (target shape / move / delete old path)
-**Non-goals:** … | _none_
-```
+- **Diagram:** one path of what we’re adding
+- **Ask:** what we’re adding, in plain words. One line on where it lives only if the picture needs it
+- **Done when:** checks for the new behavior
+- **Out of scope:** what we are not doing
+- **Start here:** where to open the code
 
 ### Tweak
 
-```markdown
-## Locked in (tell me if this is wrong)
-**Adjustment:** …
-**Expected outcome:** …
-**Entrypoints:** `path` — `symbol` | _unknown_
-**Non-goals:** … | _none_
-```
+- **Diagram:** one path of the small change
+- **Ask:** the small change
+- **Done when:** what should be true after
+- **Out of scope:** what must stay the same
+- **Start here:** the screen, path, or file if known
+
+### Bug
+
+- **Diagram:** Before (broken) and After (good), or a race sequence
+- **Ask:** what’s broken, who hits it, and when. Paste a stack trace here if you have one
+- **Done when:** how to see it (repro steps as checks) and what good looks like
+- **Out of scope:** what we are not fixing
+- **Start here:** where the break likely starts
+
+### Refactor
+
+- **Diagram:** Before (current shape) and After (target shape)
+- **Ask:** why the shape must change, what must keep working, and the honest cost in a few words
+- **Done when:** structure is in place and behavior still holds
+- **Out of scope:** what we are not moving
+- **Start here:** the module or path to move
 
 ### Chore
 
-```markdown
-## Locked in (tell me if this is wrong)
-**Maintenance:** …
-**Expected outcome:** …
-**Entrypoints:** `path` — `symbol` | _unknown_
-**Non-goals:** … | _none_
-```
+- **Diagram:** path of the maintenance, or say why there is no picture
+- **Ask:** what to land (deps, CI, docs, repo hygiene)
+- **Done when:** what should be true after
+- **Out of scope:** product behavior we are not changing
+- **Start here:** the workflow, config, or file if known
 
 ### Hotfix
 
-```markdown
-## Locked in (tell me if this is wrong)
-**Who / What / When:** …
-**Urgency / blast radius:** …
-**Expected behavior:** …
-**Repro:** … | _unknown_
-```
-
-## Refactor impact fields
-
-| Pillar | Required sub-fields |
-| --- | --- |
-| Lines of code | Affected, Deleted, Improved |
-| Performance | Roundtrips, Time, Compute |
-| Architecture | Structural change, Complexity, Overhead |
-
-Every field gets an estimate and short note.
+- **Diagram:** same as Bug (Before/After or race sequence)
+- **Ask:** same as Bug, plus how bad it is in production and who is hit
+- **Done when:** same as Bug
+- **Out of scope:** what we are not fixing in this ship
+- **Start here:** same as Bug
 
 ## Ticket diagrams
 
-The **Diagram** section explains the ticket. A teammate should get the feature,
-bug, or race from the picture without reading the analysis memo. Start from
-that memo’s mermaid, then pick the form below. Embed a real `mermaid` fence
-(GitHub and Linear render it). Do not leave a copy-placeholder.
+The **Diagram** section is the explanation. A teammate should get the feature,
+bug, or race from the picture. Start from the analysis mermaid, then pick the
+form below. Embed a real `mermaid` fence (GitHub and Linear render it).
 
-| Situation | Form |
+| Situation | Picture |
 | --- | --- |
-| Feature, Tweak, or an additive Chore | One `flowchart` of the intended path |
-| Bug, Hotfix, or Refactor that changes a flow | Before (broken/current) and After (expected/target), same node ids |
-| Race, ordering, double-submit, or concurrency | `sequenceDiagram` of the failing interleave, then the expected order |
-| Typo, copy, or one-line chore | Omit and say why under Diagram |
+| Feature, Tweak, or a chore with a path | One flowchart of the intended path |
+| Bug, Hotfix, or Refactor that changes a flow | Before (broken/current) and After (good/target), same node ids |
+| Race, ordering, double-submit, or concurrency | Sequence of the failing interleave, then the expected order |
+| Typo, copy, or one-line chore | Skip the picture and say why under Diagram |
 
-Prefer modules, actors, and request/data flow — not every file. Name real
-owners from the repo.
+Keep it to modules, people, and request flow — not every file. Use real names
+from the repo.
 
 ### Feature / intended path
 
@@ -171,7 +193,7 @@ flowchart LR
 ```
 ````
 
-### Bug / flow change (Before and After)
+### Bug / flow change
 
 ````markdown
 ## Diagram
@@ -223,275 +245,4 @@ sequenceDiagram
   User->>UI: Pay again
   UI-->>User: already in flight
 ```
-````
-
-## Ticket bodies
-
-### Feature
-
-````markdown
-## Type
-Feature
-
-## Diagram
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-
-## Ask / Vision
-<plain-language goal>
-
-## Definition of Done
-- Expected: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this is the start
-
-## Proposed architecture
-- … (placement, reuse, or new service/module)
-- Why: …
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-````
-
-### Tweak
-
-````markdown
-## Type
-Tweak
-
-## Diagram
-
-```mermaid
-flowchart LR
-  Screen[Affected screen] --> Owner[Owning module]
-```
-
-## Ask / Adjustment
-<small intentional change>
-
-## Definition of Done
-- Expected: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this surface changes
-(omit heading if unknown)
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-````
-
-### Bug
-
-````markdown
-## Type
-Bug
-
-## Diagram
-
-#### Before
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Stripe[Stripe]
-```
-
-#### After
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-
-## Who
-…
-
-## What
-…
-
-## When
-…
-
-## Why
-… (omit heading if unknown)
-
-## How
-1. …
-2. …
-
-## Stack trace
-… (omit heading if none)
-
-## What should happen if it worked
-…
-
-## Notes
-- …
-````
-
-### Refactor
-
-````markdown
-## Type
-Refactor
-
-## Diagram
-
-#### Before
-
-```mermaid
-flowchart LR
-  Feature[Feature] --> Stripe[Stripe]
-```
-
-#### After
-
-```mermaid
-flowchart LR
-  Feature[Feature] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-
-## Ask / Why
-<plain-language why the shape must change>
-
-## What must not change
-- …
-
-## Pros
-- …
-
-## Cons
-- … (real costs or risks)
-
-## Impact
-
-### Lines of code
-- **Affected:** … — note: …
-- **Deleted:** … — note: …
-- **Improved:** … — note: …
-
-### Performance
-- **Roundtrips:** … — note: …
-- **Time:** … — note: …
-- **Compute:** … — note: …
-
-### Architecture
-- **Structural change:** … — note: …
-- **Complexity:** … — note: …
-- **Overhead:** … — note: …
-
-## Definition of Done
-- Structural: …
-- Behavior still holds: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this is in the lane
-
-## Proposed architecture
-- … (target shape / service / modules / old path removal)
-- Why: …
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-````
-
-### Chore
-
-````markdown
-## Type
-Chore
-
-## Diagram
-
-```mermaid
-flowchart LR
-  Change[Maintenance change] --> Surface[CI / deps / docs]
-```
-
-## Ask / Maintenance
-<non-product maintenance work>
-
-## Definition of Done
-- Expected: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this surface changes
-(omit heading if unknown)
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-````
-
-### Hotfix
-
-````markdown
-## Type
-Hotfix
-
-## Diagram
-
-#### Before
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Stripe[Stripe]
-```
-
-#### After
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-
-## Who
-…
-
-## What
-…
-
-## When
-…
-
-## Why
-… (omit heading if unknown)
-
-## Urgency / blast radius
-…
-
-## How
-1. …
-2. …
-
-## Stack trace
-… (omit heading if none)
-
-## What should happen if it worked
-…
-
-## Notes
-- …
 ````

@@ -19,10 +19,10 @@ Exactly two situations may produce a Questions batch. Nothing else.
 | The seed is **too short** to analyze | One asking-contract batch: what to capture, plus type only if it is still unknowable, plus any missing metadata | Lettered; mark `recommended`; one `Reply like:` row. Include metadata in **this** batch when it is also missing so there is only one wait. |
 | The seed is enough, but **priority, assignee, or tracker** was not in the prompt and cannot be inferred | One metadata batch | Same asking contract. Do not ask status (default **Todo** unless the prompt already names one). Do not ask “write this?”. |
 
-Do **not** ask vision, who, DoD, entrypoints, non-goals, repro, architecture,
-or type when those can be inferred from the prompt, an existing ticket, or
-`/analyze`. Do not run the old type-specific open grill. Do not invoke full
-`/grill-me` (that interview is too wide).
+Do **not** ask vision, who, done-when, start-here, out of scope, repro,
+architecture, or type when those can be inferred from the prompt, an existing
+ticket, or `/analyze`. Do not run the old type-specific open grill. Do not
+invoke full `/grill-me` (that interview is too wide).
 
 ## Too short
 
@@ -68,51 +68,46 @@ the too-short batch when it is still unknowable.
 | Chore | Non-product maintenance: deps, CI, tooling, docs-only, repo hygiene | Linear Chore/Improvement or equivalent; GitHub chore/maintenance label when available |
 | Hotfix | Urgent production defect that needs expedited shipping | Linear Bug with urgent priority or Hotfix label when available; GitHub bug + urgent/hotfix labels |
 
-| Type | Required on the ticket (fill from prompt + analysis; `unknown` / `_none` when weak) |
+Every ticket uses the **same sections**, in this order. Type only changes
+what you write inside them (presets in [reference.md](reference.md)).
+
+| Section | What it is |
 | --- | --- |
-| Feature | Diagram, Ask/Vision, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
-| Tweak | Diagram, Ask/Adjustment, Definition of Done, known Entrypoints, named Non-goals, Notes |
-| Bug | Diagram, Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, Notes |
-| Refactor | Diagram, Ask/Why, preserved behavior, Pros, honest Cons, Impact, Definition of Done, Entrypoints, principle-level Proposed architecture, named Non-goals, Notes |
-| Chore | Diagram, Ask/Maintenance, Definition of Done, known Entrypoints, named Non-goals, Notes |
-| Hotfix | Diagram, Who, What, When, Why when known, How/repro, stack trace when available, expected behavior, urgency/blast radius, Notes |
+| Type | Feature, Tweak, Bug, Refactor, Chore, or Hotfix |
+| Diagram | Mermaid that explains the ticket: path, Before/After, or a race sequence |
+| Ask | A few plain sentences: what we want, what’s broken, or what to land |
+| Done when | Short checks. Bugs include how to see it. |
+| Out of scope | What we are not doing. `_none` if there is nothing. |
+| Start here | One or two `path` — `symbol` lines, or `_unknown` |
 
-Bug and Hotfix tickets never include Feature or Refactor architecture fields.
-Every type includes **Diagram** after Type — a Mermaid that explains the
-ticket to a teammate who will not read the analysis memo. Start from that
-memo’s chart, then pick the form in [reference.md](reference.md) (path,
-Before/After, or sequence for races). Omit only when the ask is
-diagram-hostile and say why. Keep Tweak and Chore tickets lean: no
-Proposed architecture, Pros/Cons, or Impact unless the user needs that context.
-Refactor Cons and Impact are mandatory; label weak evidence and use `unknown`
-or `N/A` instead of invented precision. Prefer Hotfix over Bug only when
-production breakage is urgent.
+Do not add extra headings (no Who/What/When, stack trace, expected behavior,
+proposed architecture, pros/cons, or impact boxes). Fold those facts into
+Ask, Done when, and Diagram. Prefer Hotfix over Bug only when production
+breakage is urgent. Architecture belongs in the picture; add one sentence in
+Ask only if the picture is not enough. Do not write method bodies or
+implementation steps.
 
-Feature and Refactor architecture may name placement, reuse versus a new
-boundary, moves, deletion of old paths, and one-line reasoning. Cite `/taste`
-and `/architecture` in that sketch. Do not prescribe method bodies,
-algorithms, signatures, or implementation steps.
+When refining an old ticket, map leftover headings into this body. Do not
+keep the old heading set.
 
 ## Process
 
 1. **Load or seed.** Read an existing ticket before changing it. For a new
    ticket, start from the user's prompt. Infer type, tracker, priority, and
-   assignee when the prompt or roster makes them obvious. Preserve useful
-   existing headings.
-2. **Thinness gate.** If too short, send the one allowed grill batch and wait.
+   assignee when the prompt or roster makes them obvious. Map useful existing
+   text into the shared sections.
+2. **If too short.** Send the one allowed grill batch and wait.
    If enough, do not grill.
 3. **Analyze — always, fully.** Run **flow** `/analyze` on the seed (plus any
    grill answers). Parent brief: complete standard-research memo, Task workers
    per [subagents.md](../pack-shared/subagents.md), no stub, no standalone
    hand-off Questions. Skip `/goal` promotion; ticket writing is the next
    step. Refresh a stale or shallow memo instead of reusing it.
-4. **Draft.** Fill the type template from the memo. Put a **Diagram** after
-   Type that explains the ticket (intended path, Before/After, or a sequence
-   for races). Use the analysis mermaid as the source; reshape it if a
-   teammate would not get the bug, race, or feature from the memo chart.
-   Entrypoints, DoD, non-goals, repro, and architecture sketches come from
-   analysis, not from extra user questions. For a capture from a short note,
-   say so in Notes and still write the full template.
+4. **Draft.** Fill the **same six sections** every time. Use the type’s preset
+   in [reference.md](reference.md) for what goes inside Diagram, Ask, Done when,
+   Out of scope, and Start here. Facts come from analysis, not extra questions.
+   For a short capture, say so in Ask and still fill every section (`unknown`
+   / `_none` when weak).
 5. **Metadata.** If priority, assignee, or tracker is still unknown, one
    metadata batch and wait. Status is **Todo** unless the prompt already names
    another; when refining, keep the current status unless the prompt overrides
@@ -131,7 +126,7 @@ messages that have no Questions.
 | GitHub tooling unavailable | Ask for install/auth inside the allowed metadata batch, or allow one pasted body for refine only |
 | Ticket not found | Stop and confirm ID, team, or repository |
 | User declines after write | Leave the URL; do not silently delete |
-| Required section empty after analysis | Use `unknown` / `_none` and say so in Notes; do not start a second grill |
+| Required section empty after analysis | Use `unknown` / `_none` in that section; do not start a second grill |
 | Analysis absent or stubby | Run or refresh full flow `/analyze` before drafting |
 | Tracker options unavailable | Ask freeform for that field inside the metadata batch; do not invent IDs |
 
@@ -140,7 +135,7 @@ messages that have no Questions.
 - Running inside `/goal` or inventing a flow variant
 - Skipping flow `/analyze` or accepting a stub memo
 - Asking the type-specific open grill, or invoking full `/grill-me`
-- Asking vision / who / DoD / entrypoints when analysis can fill them
+- Asking vision / who / done-when / start-here when analysis can fill them
 - Asking “write this?” or status when a default exists
 - Defaulting a new ticket to Backlog instead of Todo
 - A second Questions batch after the too-short grill
@@ -148,7 +143,7 @@ messages that have no Questions.
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
 - Labeling product tweaks, refactors, or defects as Chore
 - Writing code-level implementation instructions
-- Inventing tracker IDs or fake precision on Cons / Impact
+- Adding extra headings, or inventing tracker IDs or fake impact numbers
 - Writing a one-line stub instead of a detailed ticket
 - Dropping the Mermaid diagram, leaving a copy-placeholder, or using a path
   chart when a race needs a sequence
