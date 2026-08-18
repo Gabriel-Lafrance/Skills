@@ -1,403 +1,248 @@
 # Write Ticket Reference
 
-Load when asking ticket questions, announcing a solution, drafting a body, or writing metadata.
+Load when asking the allowed batches, announcing a solution, drafting a body, or writing metadata.
 
-## Type lock
+Ask only the batches in doctrine: too-short (once, if needed) and metadata (once, if still unknown). Omit any item the prompt, repo, or roster already answers. Never run a type-specific open grill.
+
+## Too-short batch
+
+Send this **only** when the seed cannot name an observable outcome, defect, or maintenance ask. One asking-contract batch. Include type only if it is still unknowable. Include priority, assignee, and tracker here when those are also missing so there is only one wait.
 
 ```markdown
 ## Questions
-Reply like: 1a
+Reply like: 1a 2c 3a
 
-1. Ticket type?
+1. What should this ticket capture?
+   - a) <best one-sentence guess from the prompt + a quick repo look> ← recommended when you have a guess
+   - b) <next-best guess>
+   - c) Other — say the observable outcome, defect, or maintenance ask in one sentence
+2. Ticket type?
    - a) Feature ← recommended when this is a new or enhanced capability
    - b) Tweak ← recommended when this is a small intentional adjustment, not a defect or standalone capability
    - c) Bug ← recommended when this is broken or wrong behavior at normal priority
    - d) Refactor ← recommended when this moves or cleans up debt without new behavior
    - e) Chore ← recommended when this is non-product maintenance (deps, CI, tooling, docs)
    - f) Hotfix ← recommended when this is an urgent production defect
-```
-
-## Open grill suites
-
-These are numbered freeform questions. Do not add letters or `Reply like:`.
-
-### Feature
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. What is the vision or goal in one or two sentences?
-2. Who is this for?
-3. What should happen in the key moments?
-4. What must we not do? Say “none” if there is nothing.
-5. What else would materially change this ticket if wrong?
-```
-
-### Tweak
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. What small adjustment should change?
-2. Who uses it, or which screen, path, or setting does it affect?
-3. What should be true after the adjustment?
-4. What must stay unchanged or remain out of scope?
-5. Which file, route, or surface is involved, if known?
-6. Anything else that would make this no longer a small tweak?
-```
-
-### Bug
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. Who hit this?
-2. What broke or what did they see?
-3. When does it happen?
-4. Why does it matter? Say “unknown” if needed.
-5. How do you reproduce it?
-6. Do you have a stack trace or error text?
-7. What should happen if it worked?
-8. Anything else useful?
-```
-
-### Refactor
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. Why refactor? What is wrong with the current shape?
-2. What must keep working the same?
-3. Which files or symbols are involved, if known?
-4. Which tradeoffs worry you?
-5. What must we not do? Say “none” if there is nothing.
-6. Anything else?
-```
-
-### Chore
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. What maintenance should land?
-2. Which tooling, CI, deps, docs, or repo surface does it affect?
-3. What should be true after the chore?
-4. What must stay unchanged or remain out of scope?
-5. Which file, config, or workflow is involved, if known?
-6. Anything else that would make this a product change instead of a chore?
-```
-
-### Hotfix
-
-```markdown
-## Questions (open — reply with short answers per number)
-
-1. Who is hit in production?
-2. What broke or what are they seeing?
-3. When did it start, and how urgent is it?
-4. Why does it matter / what is the blast radius? Say “unknown” if needed.
-5. How do you reproduce it?
-6. Do you have a stack trace or error text?
-7. What should happen if it worked?
-8. Anything else useful?
-```
-
-## Locked solution summaries
-
-### Feature
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Vision:** …
-**Definition of Done (outline):** …
-**Entrypoints:** `path` — `symbol` · …
-**Proposed architecture:** … (placement / reuse versus new service)
-**Non-goals:** … | _none_
-```
-
-### Refactor
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Why:** …
-**What must not change:** …
-**Pros:** …
-**Cons:** … (real costs)
-**Impact:**
-- **LoC** — affected: … · deleted: … · improved: …
-- **Performance** — roundtrips: … · time: … · compute: …
-- **Architecture** — structural: … · complexity: … · overhead: …
-**Definition of Done (outline):** …
-**Entrypoints:** `path` — `symbol` · …
-**Proposed architecture:** … (target shape / move / delete old path)
-**Non-goals:** … | _none_
-```
-
-### Tweak
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Adjustment:** …
-**Expected outcome:** …
-**Entrypoints:** `path` — `symbol` | _unknown_
-**Non-goals:** … | _none_
-```
-
-### Chore
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Maintenance:** …
-**Expected outcome:** …
-**Entrypoints:** `path` — `symbol` | _unknown_
-**Non-goals:** … | _none_
-```
-
-### Hotfix
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Who / What / When:** …
-**Urgency / blast radius:** …
-**Expected behavior:** …
-**Repro:** … | _unknown_
-```
-
-## Metadata approval
-
-```markdown
-## Questions
-Reply like: 1a 2a 3c 4a
-
-1. Draft ready for `<ID or NEW>`. Write this to Linear or GitHub?
-   - a) yes ← recommended
-   - b) no — say what to edit
-2. Status?
-   - a) <tracker backlog / todo / triage state> ← recommended for create
-   - b) <in progress / started>
-   - c) Keep current ← recommended when refining and status is fine
-   - d) Other — say which state
 3. Priority?
    - a) No priority or unset
    - b) Low
    - c) Medium ← recommended unless urgency is clear
    - d) High
    - e) Urgent
-   - f) Keep current ← when refining
 4. Assignee?
+   - a) Unassigned ← recommended unless someone owns it
+   - b) <current user if known>
+   - c) <teammate from tracker roster>
+   - d) Other — say who
+5. Tracker?
+   - a) <Linear or GitHub already used in this repo> ← recommended
+   - b) The other tracker
+   - c) Other — paste a team, repo, or URL
+```
+
+Drop questions 2–5 when already known. If there is no honest guess for question 1, keep one inferred option from the repo look plus `Other`. Do not invoke `/grill-me`. After answers, run full flow `/analyze` — do not send a second grill.
+
+## Metadata batch
+
+Use after analysis when the seed was enough but priority, assignee, or tracker is still unknown. Do not ask status (default **Todo** unless the prompt already names one). Do not ask “write this?”.
+
+```markdown
+## Questions
+Reply like: 1c 2a
+
+1. Priority?
+   - a) No priority or unset
+   - b) Low
+   - c) Medium ← recommended unless urgency is clear
+   - d) High
+   - e) Urgent
+   - f) Keep current ← when refining
+2. Assignee?
    - a) Unassigned ← recommended unless someone owns it
    - b) <current user if known>
    - c) <teammate from tracker roster>
    - d) Keep current ← when refining
    - e) Other — say who
+3. Tracker?
+   - a) <Linear or GitHub already used in this repo> ← recommended
+   - b) The other tracker
+   - c) Other — paste a team, repo, or URL
 ```
 
-Discover real options before asking: Linear states, priorities, and members come from its capability; GitHub uses open state and actual labels/collaborators.
+Drop any item that is already known. Discover real options before asking: Linear priorities and members come from its capability; GitHub uses actual labels and collaborators. Status is **Todo** on create (map to the tracker’s Todo / To Do state; GitHub stays open) unless the prompt names another. When refining, keep the current status unless the prompt overrides it.
 
-## Refactor impact fields
+## Locked solution summary
 
-| Pillar | Required sub-fields |
-| --- | --- |
-| Lines of code | Affected, Deleted, Improved |
-| Performance | Roundtrips, Time, Compute |
-| Architecture | Structural change, Complexity, Overhead |
-
-Every field gets an estimate and short note.
-
-## Ticket bodies
-
-### Feature
+Same shape for every type:
 
 ```markdown
+## Locked in (tell me if this is wrong)
+**Type:** Feature
+**Ask:** …
+**Done when:** …
+**Out of scope:** … | _none_
+**Start here:** `path` — `symbol` | _unknown_
+```
+
+## Body (every type)
+
+Do not add or rename headings. Fill from the type preset below. Use `unknown` or `_none` when weak.
+
+````markdown
 ## Type
 Feature
 
-## Ask / Vision
-<plain-language goal>
+## Diagram
 
-## Definition of Done
-- Expected: …
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+
+## Ask
+<plain sentences — see preset>
+
+## Done when
 - [ ] …
 
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this is the start
+## Out of scope
+- … | _none_
 
-## Proposed architecture
-- … (placement, reuse, or new service/module)
-- Why: …
+## Start here
+- `path/to/file` — `symbol` | _unknown_
+````
 
-## Non-goals
-- … (omit heading if none)
+## Presets
 
-## Notes
-- …
-```
+What to write inside the shared sections. The picture still follows [Ticket diagrams](#ticket-diagrams).
+
+### Feature
+
+- **Diagram:** one path of what we’re adding
+- **Ask:** what we’re adding, in plain words. One line on where it lives only if the picture needs it
+- **Done when:** checks for the new behavior
+- **Out of scope:** what we are not doing
+- **Start here:** where to open the code
 
 ### Tweak
 
-```markdown
-## Type
-Tweak
-
-## Ask / Adjustment
-<small intentional change>
-
-## Definition of Done
-- Expected: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this surface changes
-(omit heading if unknown)
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-```
+- **Diagram:** one path of the small change
+- **Ask:** the small change
+- **Done when:** what should be true after
+- **Out of scope:** what must stay the same
+- **Start here:** the screen, path, or file if known
 
 ### Bug
 
-```markdown
-## Type
-Bug
-
-## Who
-…
-
-## What
-…
-
-## When
-…
-
-## Why
-… (omit heading if unknown)
-
-## How
-1. …
-2. …
-
-## Stack trace
-… (omit heading if none)
-
-## What should happen if it worked
-…
-
-## Notes
-- …
-```
+- **Diagram:** Before (broken) and After (good), or a race sequence
+- **Ask:** what’s broken, who hits it, and when. Paste a stack trace here if you have one
+- **Done when:** how to see it (repro steps as checks) and what good looks like
+- **Out of scope:** what we are not fixing
+- **Start here:** where the break likely starts
 
 ### Refactor
 
-```markdown
-## Type
-Refactor
-
-## Ask / Why
-<plain-language why the shape must change>
-
-## What must not change
-- …
-
-## Pros
-- …
-
-## Cons
-- … (real costs or risks)
-
-## Impact
-
-### Lines of code
-- **Affected:** … — note: …
-- **Deleted:** … — note: …
-- **Improved:** … — note: …
-
-### Performance
-- **Roundtrips:** … — note: …
-- **Time:** … — note: …
-- **Compute:** … — note: …
-
-### Architecture
-- **Structural change:** … — note: …
-- **Complexity:** … — note: …
-- **Overhead:** … — note: …
-
-## Definition of Done
-- Structural: …
-- Behavior still holds: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this is in the lane
-
-## Proposed architecture
-- … (target shape / service / modules / old path removal)
-- Why: …
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-```
+- **Diagram:** Before (current shape) and After (target shape)
+- **Ask:** why the shape must change, what must keep working, and the honest cost in a few words
+- **Done when:** structure is in place and behavior still holds
+- **Out of scope:** what we are not moving
+- **Start here:** the module or path to move
 
 ### Chore
 
-```markdown
-## Type
-Chore
-
-## Ask / Maintenance
-<non-product maintenance work>
-
-## Definition of Done
-- Expected: …
-- [ ] …
-
-## Entrypoints
-- `path/to/file` — `functionOrSymbol` — why this surface changes
-(omit heading if unknown)
-
-## Non-goals
-- … (omit heading if none)
-
-## Notes
-- …
-```
+- **Diagram:** path of the maintenance, or say why there is no picture
+- **Ask:** what to land (deps, CI, docs, repo hygiene)
+- **Done when:** what should be true after
+- **Out of scope:** product behavior we are not changing
+- **Start here:** the workflow, config, or file if known
 
 ### Hotfix
 
-```markdown
-## Type
-Hotfix
+- **Diagram:** same as Bug (Before/After or race sequence)
+- **Ask:** same as Bug, plus how bad it is in production and who is hit
+- **Done when:** same as Bug
+- **Out of scope:** what we are not fixing in this ship
+- **Start here:** same as Bug
 
-## Who
-…
+## Ticket diagrams
 
-## What
-…
+The **Diagram** section is the explanation. A teammate should get the feature,
+bug, or race from the picture. Start from the analysis mermaid, then pick the
+form below. Embed a real `mermaid` fence (GitHub and Linear render it).
 
-## When
-…
+| Situation | Picture |
+| --- | --- |
+| Feature, Tweak, or a chore with a path | One flowchart of the intended path |
+| Bug, Hotfix, or Refactor that changes a flow | Before (broken/current) and After (good/target), same node ids |
+| Race, ordering, double-submit, or concurrency | Sequence of the failing interleave, then the expected order |
+| Typo, copy, or one-line chore | Skip the picture and say why under Diagram |
 
-## Why
-… (omit heading if unknown)
+Keep it to modules, people, and request flow — not every file. Use real names
+from the repo.
 
-## Urgency / blast radius
-…
+### Feature / intended path
 
-## How
-1. …
-2. …
+````markdown
+## Diagram
 
-## Stack trace
-… (omit heading if none)
-
-## What should happen if it worked
-…
-
-## Notes
-- …
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
 ```
+````
+
+### Bug / flow change
+
+````markdown
+## Diagram
+
+#### Before
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Stripe[Stripe]
+```
+
+#### After
+
+```mermaid
+flowchart LR
+  UI[Checkout UI] --> Billing[billing.makeUserPay]
+  Billing --> Stripe[Stripe]
+```
+````
+
+### Race / ordering
+
+````markdown
+## Diagram
+
+#### Failing interleave
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant UI
+  participant Billing
+  User->>UI: Pay
+  User->>UI: Pay again
+  UI->>Billing: makeUserPay
+  UI->>Billing: makeUserPay
+  Note over Billing: two charges
+```
+
+#### Expected order
+
+```mermaid
+sequenceDiagram
+  participant User
+  participant UI
+  participant Billing
+  User->>UI: Pay
+  UI->>Billing: makeUserPay
+  User->>UI: Pay again
+  UI-->>User: already in flight
+```
+````

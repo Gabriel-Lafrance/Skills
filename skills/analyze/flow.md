@@ -12,8 +12,15 @@ ticket/PR, fixed point, Locked decisions, and which mode to run:
 
 | Mode | When |
 | --- | --- |
-| Standard research | `/write-ticket` grilled brief, `/just-do-it` pre-build analyze |
+| Standard research | `/write-ticket` seed (may be ungrilled), `/just-do-it` pre-build analyze |
 | Review remediation | Named Fix-now rows from `/code-review` or `/just-do-it` |
+
+A `/write-ticket` seed is often a short capture, not a grilled brief. Run the
+**complete** standard memo (Task workers, leading Mermaid diagram, evidence,
+entrypoints, direction, ownership, touch surface, risks, `/goal` seed when
+buildable). Do not stub.
+Skip standalone hand-off Questions. Skip `/goal` promotion; the parent writes
+the ticket.
 
 ## Process
 
@@ -35,5 +42,7 @@ ticket/PR, fixed point, Locked decisions, and which mode to run:
 ## Anti-patterns
 
 - Loading standalone hand-off Questions when a parent owns the next step
+- Stubbing the memo because a `/write-ticket` seed is short or ungrilled
+- Returning a memo with no diagram when the path can be drawn
 - Broadening into product discovery during review remediation
 - Creating tickets, implementing code, or writing tests
