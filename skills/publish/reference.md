@@ -2,7 +2,7 @@
 
 Load this when locking type/ticket, naming a branch, drafting a PR, or publishing.
 Before create or update, also Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md)
-(demo media, Cursor review canvas, which tool writes the PR). That file applies
+(screenshots, Cursor review canvas, which tool writes the PR). That file applies
 to every agent that opens a PR, not only `/publish`.
 
 ## Change types and branch names
@@ -79,8 +79,8 @@ Reply like: 1a
 ## Create command
 
 Pick the write path in [pr-ship.md](../pack-shared/pr-ship.md). When Cursor’s
-pull-request tool is available, use it and put demo `<img>` / `<video>` tags
-with absolute artifact paths in the body. Only when that tool is **not**
+pull-request tool is available, use it and put screenshot `<img>` tags with
+absolute artifact paths in the body. Only when that tool is **not**
 available:
 
 ```bash
@@ -109,7 +109,7 @@ Rules:
 - Name real modules/services/routes from the diff when helpful; avoid inventing architecture that is not in the change.
 - For Before/After, keep the same node ids where possible so the delta is obvious.
 - Put the diagram **after What changed** and **before How to QA**.
-- After How to QA, include **Demo** (screenshots/video) when the change is visual, per [pr-ship.md](../pack-shared/pr-ship.md). Link the review canvas from Demo or Notes.
+- After How to QA, include **Demo** (Browser screenshots of the changed screen) when the change is visual, per [pr-ship.md](../pack-shared/pr-ship.md). This is not a test pass. Link the review canvas from Demo or Notes.
 
 ### New-work example
 
@@ -174,9 +174,8 @@ flowchart LR
 - [ ] Expected: …
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes
@@ -208,9 +207,8 @@ flowchart LR
 - [ ] Adjacent behavior remains unchanged
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes
@@ -253,9 +251,8 @@ flowchart LR
 - [ ] No obvious regression in adjacent flow
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes
@@ -298,9 +295,8 @@ flowchart LR
 - [ ] No new product behavior landed with this PR
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes
@@ -333,9 +329,8 @@ flowchart LR
 - [ ] No unintended product behavior change
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes
@@ -378,9 +373,8 @@ flowchart LR
 - [ ] No obvious regression in adjacent flow
 
 ## Demo
-<!-- Visual changes: embed screenshots/video per pack-shared/pr-ship.md. Omit this section for non-visual work. -->
+<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
 <img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-<video src="/opt/cursor/artifacts/….mp4"></video>
 Review canvas: <share URL or local canvas link>
 
 ## Notes

@@ -132,5 +132,5 @@ In a new chat, recover by following the [execution context authority order](../p
 - Treating a review fix as a fresh architecture or product goal
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (standalone) or parent ownership (flow)
-- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, demo media, create tool) because this skill is not `/publish`
+- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool) because this skill is not `/publish`
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

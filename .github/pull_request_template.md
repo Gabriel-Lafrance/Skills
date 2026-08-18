@@ -32,7 +32,7 @@ flowchart LR
 
 ## Demo
 
-<!-- Visual changes: screenshots / video and a Cursor review canvas. Omit for non-visual work. See skills/pack-shared/pr-ship.md. -->
+<!-- Visual changes: Browser screenshots of the changed screen. Not a test pass. Omit for non-visual work or if Browser is unavailable. See skills/pack-shared/pr-ship.md. -->
 
 ## Notes
 

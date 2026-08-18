@@ -156,7 +156,7 @@ Reply like: 1b 2b
 2. Open a PR?
    - a) yes — push and create a PR using `/publish` body rules (typed title,
      What changed, Mermaid Change diagram, How to QA) and
-     [pr-ship.md](../pack-shared/pr-ship.md) (Demo media, review canvas,
+     [pr-ship.md](../pack-shared/pr-ship.md) (Demo screenshots, review canvas,
      Cursor pull-request tool when available)
    - b) no ← recommended
 ```

@@ -3,16 +3,16 @@ name: publish
 description: >-
   Publish completed work on a typed branch and optionally open a GitHub PR.
   Uses an approved draft with concrete QA steps, a high-level Mermaid Change
-  diagram (Before/After for rework), demo screenshots/video, and a Cursor
-  review canvas. Any agent that opens a PR follows the same ship contract,
-  not only this skill. Use after work is complete when the user wants to
-  ship a branch or PR. Never use inside /goal.
+  diagram (Before/After for rework), Browser screenshots in Demo when visual,
+  and a Cursor review canvas. Any agent that opens a PR follows the same ship
+  contract, not only this skill. Use after work is complete when the user
+  wants to ship a branch or PR. Never use inside /goal.
 disable-model-invocation: true
 ---
 
 # Publish
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip. Every PR this pack opens also follows [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) (demo media, review canvas, create tool) — including `/just-do-it` and cloud agents, not only this skill.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip. Every PR this pack opens also follows [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) (screenshots, review canvas, create tool) — including `/just-do-it` and cloud agents, not only this skill.
 
 **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
 

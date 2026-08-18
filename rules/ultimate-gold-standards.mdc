@@ -46,9 +46,9 @@ Apply them as **hard** standards, not flavor. Do not skip because you “already
 
 1. **Read** `publish/doctrine.md`
 2. **Read** `publish/reference.md`
-3. **Read** `pack-shared/pr-ship.md` — demo screenshots/video, Cursor review
-   canvas, and which tool writes the PR. **Every** agent that opens a GitHub PR
-   follows this, not only `/publish`.
+3. **Read** `pack-shared/pr-ship.md` — Browser screenshots for Demo (not a
+   test pass), Cursor review canvas, and which tool writes the PR. **Every**
+   agent that opens a GitHub PR follows this, not only `/publish`.
 
 **Before planning** (Cursor Plan mode, CreatePlan, or any non-trivial implementation plan):
 
@@ -82,7 +82,7 @@ Rules:
 - Keep the same node ids across Before/After when possible so the delta is obvious.
 - Diagrams are part of the plan contract, not decoration. A plan without Before/After is incomplete — fix it before asking the user to accept.
 - For PRs later, also follow `publish/reference.md` (same diagram discipline)
-  and `pack-shared/pr-ship.md` (canvas, demo media, create tool).
+  and `pack-shared/pr-ship.md` (canvas, screenshots, create tool).
 
 ## Subagents
 

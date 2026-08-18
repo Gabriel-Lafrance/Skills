@@ -2,9 +2,12 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/goal`, `/code-review`) and PR ship ([pr-ship.md](pr-ship.md))
-link here — there is no `/validate` skill. Screenshots captured here are the
-same files that belong in the PR Demo section when an agent opens a PR.
+Parent skills (`/goal`, `/code-review`) link here — there is no `/validate`
+skill. This protocol is **acceptance proof**, not PR decoration.
+
+PR screenshots are a different job: open the page, take a picture, embed it
+([pr-ship.md](pr-ship.md)). Do not run this protocol just to fill a Demo
+section.
 
 ## Capability and preconditions
 

@@ -4,7 +4,7 @@ Publish local work only. This skill is standalone-only, never runs under `/goal`
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
-**Must read:** Read [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR (demo media, Cursor review canvas, create tool). That contract applies to **every** agent that opens a PR, not only this skill.
+**Must read:** Read [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR (screenshots, Cursor review canvas, create tool). That contract applies to **every** agent that opens a PR, not only this skill.
 
 ## Core rules
 
@@ -13,13 +13,13 @@ Publish local work only. This skill is standalone-only, never runs under `/goal`
 - Do not auto-commit, force-push, or push to the default branch.
 - Show the complete PR title and body before creating the PR; wait for explicit approval.
 - Every PR body includes a high-level Mermaid **Change diagram** (one for new work; Before/After for rework) per [reference.md](reference.md).
-- Follow [pr-ship.md](../pack-shared/pr-ship.md): demo screenshots/video in the body when the change is visual, a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
+- Follow [pr-ship.md](../pack-shared/pr-ship.md): Browser screenshots in the body when the change is visual (not a UI test pass), a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
 When `/just-do-it` reads this doctrine for its preflight and templates, its
 explicit autonomous parent instruction replaces the approval wait only after it
 has printed the complete draft in chat. It still follows
-[pr-ship.md](../pack-shared/pr-ship.md) (canvas, demo media, create tool). This
+[pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool). This
 approval exception does not apply to standalone `/publish`.
 
 ## Inputs
@@ -67,7 +67,7 @@ After a successful push, use the draft/publish Question batch in [reference.md](
 
 ### 5. Draft the PR
 
-Build the title and body from the commits, diff, ticket, and locked type. Use the type template in [reference.md](reference.md). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** media and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md).
+Build the title and body from the commits, diff, ticket, and locked type. Use the type template in [reference.md](reference.md). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** screenshots and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md) — pictures for reviewers, not a browser test loop.
 
 Show the complete title and body, then use the publish-approval Question batch. Never create a PR silently.
 
@@ -91,7 +91,8 @@ On approval only, create or update the PR with the tool choice in [pr-ship.md](.
 - Creating a PR before draft and approval.
 - Empty QA instructions.
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception).
-- Shipping a visual change without Demo media, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available.
+- Shipping a visual change without a screenshot when Browser was available, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available.
+- Running a full UI test loop just to fill Demo.
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak.
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix.
 - Labeling product tweaks, refactors, or defects as Chore.

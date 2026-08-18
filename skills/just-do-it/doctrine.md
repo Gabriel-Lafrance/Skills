@@ -111,7 +111,7 @@ the user explicitly asked; default is additional commit(s), then push + PR.
    authenticated `gh` or Cursor’s pull-request tool. Build the full title and
    body from [publish reference](../publish/reference.md) (including the Mermaid
    **Change diagram**: one for new work, Before/After for rework). Follow
-   [pr-ship.md](../pack-shared/pr-ship.md) for Demo media, the Cursor review
+   [pr-ship.md](../pack-shared/pr-ship.md) for Demo screenshots, the Cursor review
    canvas, and which tool writes the PR. Print title and body in chat, then
    push with `git push -u origin HEAD` and create the PR (**opened**, not
    merged). Record the URL and canvas link in the parent context and hand
