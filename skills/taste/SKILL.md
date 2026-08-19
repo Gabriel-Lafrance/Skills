@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-**Read:** [doctrine.md](doctrine.md) (Job through Bars) · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md) · [../unslop/doctrine.md](../unslop/doctrine.md)
+**Read:** [doctrine.md](doctrine.md) (Job through Bars) · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
 Cite keys live in doctrine. Placement and `taste:keep-jobs-apart` defects are
 taste failures too. Parents (`/goal`, `/analyze`, `/grill-me`, `/implement`,

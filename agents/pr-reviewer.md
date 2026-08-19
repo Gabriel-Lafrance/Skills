@@ -21,7 +21,6 @@ Maps to `/pr-review`. Follow `pr-review/doctrine.md`, `pr-review/reference.md`, 
 4. `pr-review/doctrine.md`
 5. `pack-shared/review-contract.md`
 6. `pack-shared/plain-language.md`
-7. `unslop/doctrine.md`
 
 ## Job
 

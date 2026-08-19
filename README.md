@@ -14,7 +14,7 @@ npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
 
-Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies stay unslopped ([`/unslop`](./skills/unslop/SKILL.md)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`. Gold-standards still loads unslop before each reply.
+Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the unslop plugin rule ([`unslop.mdc`](./rules/unslop.mdc)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
 
 If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
 
@@ -25,7 +25,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | Piece | Where | What it does |
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/goal`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc` always applies; the others attach when relevant |
+| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
@@ -36,13 +36,14 @@ ESLint and Prettier are **not** Cursor plugin primitives. They only run if the a
 
 | Rule | When it applies |
 | --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, unslop each chat reply, grill before a plan, Before/After diagrams |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams |
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
+| [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
 | [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
 | [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
 
-Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Doctrines stay in skills; rules stay short pointers so they do not rot.
+Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. `no-emdash.mdc` and `unslop.mdc` are self-contained writing bars.
 
 To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without the plugin), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
 
@@ -64,7 +65,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
-| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`, `/unslop`     | Route and standards   |
+| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
@@ -84,7 +85,6 @@ flowchart LR
 
 ## Common paths
 
-- Last chat reply sounded generated → `/unslop`
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)

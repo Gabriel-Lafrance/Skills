@@ -45,20 +45,12 @@ Apply them as **hard** standards. Do not skip because you “already know” the
 
 1. **Read** `pack-shared/asking.md`
 2. **Read** `pack-shared/plain-language.md`
-3. **Read** `unslop/doctrine.md`
-4. **Read** `grill-me/doctrine.md`
-5. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
+3. **Read** `grill-me/doctrine.md`
+4. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
 
 **Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
 
-Talk in ordinary words (`pack-shared/plain-language.md`). Cut AI tells from the reply in this discussion (`unslop/doctrine.md`). Write that reply clean as you draft it. Do not generate slop and strip it afterward.
-
-**Before each assistant reply in this discussion:**
-
-1. **Read** `pack-shared/plain-language.md`
-2. **Read** `unslop/doctrine.md` (Job through Bars). Read `unslop/examples.md` when judging a rewrite.
-
-Do this even when `/ask-gabriel` is the only skill in play. Do not skip because the message is short. Do not run `/unslop` as a skill unless the user asked to rewrite a prior chat reply. Do not treat README, ticket, or PR-body files as this bar.
+Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `unslop.mdc` (always on with this plugin).
 
 ## Plan mode — grill before the plan
 
@@ -76,4 +68,4 @@ Every non-trivial plan **must** include a high-level Mermaid **Change diagram** 
 
 ## Conflict
 
-Taste, architecture, publish, grill, asking, plain language, unslop, subagents, and PR ship doctrines win over generic agent habit. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

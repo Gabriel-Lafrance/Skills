@@ -15,7 +15,7 @@ doctrines (especially `/taste` and `/architecture`), the must-follow contract
 [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md), and the
 plugin rules (especially
 [`rules/gold-standards.mdc`](../rules/gold-standards.mdc)). Chat replies follow
-[`/unslop`](../skills/unslop/SKILL.md). Do not paste those
+[`unslop.mdc`](../rules/unslop.mdc). Do not paste those
 rules into User Rules when the plugin is installed.
 
 ## Before you start

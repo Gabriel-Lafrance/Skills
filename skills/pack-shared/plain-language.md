@@ -33,15 +33,12 @@ KISS is allowed only as **keep it simple**. If you say KISS, expand it in the sa
 ## AI tells
 
 Ordinary words are not enough if the sentence still sounds generated.
-Cut AI tells from the **reply in this discussion** using
-[`../unslop/doctrine.md`](../unslop/doctrine.md)
-(`unslop:tells`, `unslop:human-voice`, `unslop:draft`). This file owns
-jargon and nicknames. Unslop owns puffery, chatbot closings, fake
-cadence, and drafting that chat message clean.
-
-`/ask-gabriel` stays thin and does not run `/unslop`. It still skips
-puffery and chatbot closings; gold-standards loads the unslop doctrine
-before each reply.
+Chat replies follow the unslop plugin rule
+([`../../rules/unslop.mdc`](../../rules/unslop.mdc)) when the plugin or
+pinned rules are installed. This file owns jargon and nicknames. That
+rule owns puffery, chatbot closings, fake cadence, and drafting the
+reply clean. `npx skills` does not install plugin rules; pin them with
+`/setup-toolkit` if you need them without the plugin.
 
 ## Questions and announcements
 
