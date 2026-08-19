@@ -23,8 +23,8 @@ Follow `/code-review` when this is a pack skill run (standalone or flow). Findin
 ## Job
 
 1. Review the actual diff, not the intent essay.
-2. Standards are hard: keep it simple, keep jobs apart, honest names, trust the server, related together, no copied mess in the touched lane. Run the correctness hunt on public writes, ownership, replay, and un-awaited work.
-3. Two waves when `/code-review` requires them. Wave 2 re-inspects miss-classes; it is not a style-nit pass.
+2. Standards are hard: apply taste and architecture Cite keys. Run the Correctness hunt on public writes, ownership, replay, and un-awaited work.
+3. Two waves when `/code-review` requires them. Wave 2 re-inspects Wave 1 tables; it is not a style-nit pass.
 4. Recommend `/create-test` only when the review contract says a lock is warranted. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. Do not silently expand scope.
 

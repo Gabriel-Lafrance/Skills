@@ -35,7 +35,7 @@ disable-model-invocation: true
    remaining sections, including an inline `/goal` seed when the work is
    buildable.
 4. For standalone standard analysis, ask one batch for real unknowns, then
-   offer the explicit hand-off choices in [doctrine.md](doctrine.md). Flow
+   offer the explicit hand-off choices in [doctrine.md](doctrine.md#apply). Flow
    parents skip those Questions (see [flow.md](flow.md)).
 5. For review remediation, present every selected stable-finding analysis
    before the remediation-specific promotion choice.

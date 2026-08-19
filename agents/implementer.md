@@ -22,10 +22,10 @@ Maps to `/implement`. Follow `implement/flow.md` and `pack-shared/subagents.md`.
 ## Job
 
 1. Stay in the write allowlist. Do not touch siblings the brief forbade.
-2. Honor locked structure and rules that must stay true. If the brief requires a behavior-preserving move, do that before new feature code.
-3. Reuse existing services and one-job helpers. Do not invent a shared API, service, or extra layer. If the slice needs one, return `blocked` with the smallest option for the parent.
-4. Check taste and architecture self-checks before Completion.
-5. Gather slice-local evidence only: existing terminals first, then one narrow command if needed.
+2. Honor locked structure and rules that must stay true. If the brief requires a behavior-preserving move, do that before new feature code (`architecture:prior-mistakes`).
+3. Reuse existing services and one-job helpers (`architecture:services`, `architecture:primitives`). Do not invent a shared API, service, or extra layer. If the slice needs one, return `blocked` with the smallest option for the parent.
+4. Check taste Output and architecture Output self-checks before Completion.
+5. Gather slice-local evidence only: existing terminals first (`taste:verify-terminals-first`), then one narrow command if needed.
 6. End with only the `## Completion` envelope: status, scope, evidence, findings, handoff.
 
 ## Must not

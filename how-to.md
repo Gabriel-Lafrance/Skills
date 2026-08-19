@@ -25,17 +25,18 @@ skills/
     execution-context.md # in-chat parent / worker context
     subagents.md         # Task bias, Worker Brief, spawn rules
     review-contract.md   # shared review evidence and finding rules
+    doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
     browser-evidence.md  # browser proof for UI acceptance
     pr-ship.md           # every agent that opens a PR (canvas + screenshots)
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
-    SKILL.md             # required — frontmatter + thin entry
-    standalone.md        # optional — one-off use
-    flow.md              # optional — step inside a long-running wave
-    doctrine.md          # optional — durable rules
-    examples.md          # optional — good vs bad
-    reference.md         # optional — deep detail (progressive disclosure)
+    SKILL.md             # required: frontmatter + thin entry
+    standalone.md        # optional: one-off use
+    flow.md              # optional: step inside a long-running wave
+    doctrine.md          # optional: durable rules (fixed H2 schema)
+    examples.md          # optional: good vs bad
+    reference.md         # optional: deep detail (progressive disclosure)
 LICENSE
 README.md                # install + user-facing catalog
 how-to.md                # this file
@@ -83,7 +84,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
 - **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
-- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, correctness hunt, Wave 2 miss-classes, and severity mapping.
+- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, Wave 1 / Wave 2 fences, correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
   follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review
@@ -117,7 +118,7 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
    - Dual → add `standalone.md` and `flow.md`; in `SKILL.md` say choose exactly one via `variants.md`.
    - Flow-only → add `flow.md`; note “no standalone” and link `variants.md`.
    - Standalone-only → no `flow.md`; if flow is requested, use the missing-variant message from `variants.md`.
-3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short).
+3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `flow.md` / `standalone.md`, not doctrine.
 4. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
 5. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
@@ -138,6 +139,7 @@ npx skills@latest add . --list
 ## Conventions
 
 - One skill = one job. Prefer new skill over bloating an existing one.
+- Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)). Cite another skill’s keys instead of restating its Bars.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
 - Teach in ordinary words — no explainer-video links in skill bodies. PR Demo
   screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).

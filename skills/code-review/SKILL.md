@@ -13,16 +13,13 @@ disable-model-invocation: true
 
 # Code Review
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
 
 **Shared contracts:** [review](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md) · [variants](../pack-shared/variants.md)
 
 **Adapters:** [standalone](standalone.md) · [flow](flow.md) · [doctrine](doctrine.md) · [examples](examples.md)
 
-Standards always load `/taste` (keep it simple + named principles, including
-**Honest names**, **Trust the server**, and **Types tell the truth**) **and**
-`/architecture`. Worker output includes the
-**Principles sweep**, **Architecture sweep**, and **Correctness hunt** tables
-from the review contract. Wave 2 includes the **Miss-class sweep**. User-facing
-findings use ordinary words
-([plain-language.md](../pack-shared/plain-language.md)).
+Standards always load `/taste` and `/architecture`. Worker output uses the
+review-contract **Wave 1** and **Wave 2** fences (Principles, Architecture,
+Correctness hunt; Wave 2 hunt re-inspect). User-facing findings use ordinary
+words ([plain-language.md](../pack-shared/plain-language.md)).

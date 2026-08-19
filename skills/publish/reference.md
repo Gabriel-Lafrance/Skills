@@ -381,3 +381,48 @@ Review canvas: <share URL or local canvas link>
 - Urgency / blast radius: …
 - … (omit extra bullets if none)
 ````
+
+## Process
+
+Numbered how-to. Bars stay in [doctrine.md](doctrine.md).
+
+### 1. Inspect git
+
+In parallel, inspect `git status`, current branch, remotes/default base, commits ahead of base, and diff summary.
+
+| State | Action |
+| --- | --- |
+| No `gh` or not authenticated | Stop before PR unless Cursor’s pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
+| Dirty tree | Ask commit first, stash, or abort; never auto-commit |
+| No commits ahead of base | Stop; there is nothing to publish |
+| Detached HEAD | Create a real branch before continuing |
+
+### 2. Lock type and ticket
+
+Use the Question batch in this file unless both are already clear. If no ticket exists, ask once whether to use a descriptive `no-ticket` branch or stop and create a ticket first. Recommend `/write-ticket` when the work belongs on a tracker.
+
+### 3. Branch and push
+
+1. Build `{type}/{ticket}-{slug}` from the locked values.
+2. Announce the branch in a Locked block from this file.
+3. Create, rename, or reuse the branch. Only rename a disposable local branch that already holds the intended commits.
+4. Unless the user asked for local-only work, push with `git push -u origin HEAD`.
+5. Never force-push or push to `main`/`master`.
+
+### 4. Ask whether to draft and publish
+
+After a successful push, use the draft/publish Question batch in this file. Wait:
+
+- Declined: return the branch and remote URL.
+- Draft only: show it in chat and stop.
+- Approved: continue to the full draft.
+
+### 5. Draft the PR
+
+Build the title and body from the commits, diff, ticket, and locked type. Use the type template in this file. Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** screenshots and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md): pictures for reviewers, not a browser test loop.
+
+Show the complete title and body, then use the publish-approval Question batch. Never create a PR silently.
+
+### 6. Publish
+
+On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in this file). Return the PR URL and the canvas link. Do not write Linear comments or change ticket status.

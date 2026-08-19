@@ -1,8 +1,18 @@
 # Review contract
 
-This contract is shared by `/code-review` and `/pr-review`. It defines review
-evidence and worker output; each skill owns its own remediation or posting
-behavior.
+## Job
+
+Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior.
+
+## Owns
+
+Fixed-point inputs, modes, evidence bar, finding record, Wave 1 and Wave 2 Output fences, one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+
+## Does not own
+
+- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Blocker vs follow-up judgment table and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
+- PR extras, Pass A/B, posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 
 ## Inputs
 
@@ -62,8 +72,7 @@ without evidence that a direct guard is insufficient.
 
 ## Finding record
 
-Use a stable finding id based on its axis, violated rule or root cause, and
-strongest location, for example `standards-never-nest-checkout-place-order`.
+Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout-place-order`).
 
 ```markdown
 - **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
@@ -80,31 +89,34 @@ Different root causes get different records. Drop duplicates by finding id. On a
 PR, include the id in the final comment as `**Finding:** \`<id>\``. The
 GitHub finding thread and that visible id are the durable record.
 
-## Worker artifacts
-
-The parent provides the fixed-point diff, relevant spec, Active Rules, and
-format below. It rejects and relaunches a narrative-only response once.
+## Output
 
 Standards workers **must** Read `/taste` and `/architecture` doctrines this
-turn ([standards.md](standards.md)). They **must** run the `/taste` named
-principles checklist using the **plain names** (keep it simple, keep jobs
-apart, one altitude, read or write not both, fail fast, leave it cleaner,
-related together, safe to retry, say what happens, no surprises, honest
-names, trust the server, types tell the truth) and cite those names in finding
-**Rule** fields when violated. User-facing notes must be ordinary sentences
+turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
+principles) using the **plain names** and cite those keys in finding **Rule**
+fields when violated. User-facing notes must be ordinary sentences
 ([plain-language.md](plain-language.md)). On `initial` / `full-rescan`, also
-run the code-review
-[Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards),
-the **Architecture sweep**, the **Correctness hunt**, and the **Baseline
-defects** scan below. The parent rejects Standards output that lacks the
-Principles, Architecture, or Correctness tables, or that skipped a doctrine
-Read.
+run the code-review naming alignment pass, the Architecture sweep, the
+Correctness hunt, and the Baseline defects scan. The parent rejects Standards
+output that lacks the Principles, Architecture, or Correctness tables, or that
+skipped a doctrine Read.
 
 Spec workers fill the **Spec matrix** with every Done-when row, every rule that
 must stay true, each user-visible state the diff touches (enabled, disabled,
 loading, empty, error), and named unchanged behavior. Do not invent rows when
 no specification exists; say so, and still let Standards run the Correctness
 hunt (bugs are not "the ticket forgot to mention them").
+
+The parent provides the fixed-point diff, relevant spec, Active Rules, and
+format below. It rejects and relaunches a narrative-only response once.
+
+Workers report no finding explicitly when their axis is clean. Mark each sweep
+row `clear`, `finding` (with finding id), or `none` when that check has no
+surface in the diff (for example cheap-reads on a copy-only change). The parent
+controls the dispatch and follows the [execution context](execution-context.md)
+contract for models and completion reporting.
+
+### Wave 1
 
 ```markdown
 ## Standards findings
@@ -160,46 +172,41 @@ hunt (bugs are not "the ticket forgot to mention them").
 | Requirement | Status | Evidence |
 | --- | --- | --- |
 | <Done when / rule / state / unchanged> | met \| gap \| none | … |
+```
 
+Wave 1 returns Standards findings, Principles, Architecture, Correctness hunt,
+and (from the Spec worker) the Spec matrix.
+
+### Wave 2
+
+```markdown
 ## Adversarial findings
 - <new finding record and why Wave 1 missed it>
 
-## Miss-class sweep
-| Class | Status | Note |
+## Hunt re-inspect
+Re-walk Wave 1 tables (Principles, Architecture, Correctness hunt, Spec matrix).
+Do not paste a cloned miss-class table. Do not mark a class `clear` unless this
+wave looked again. Restating Wave 1 with no new look is a reject.
+
+## PR extras (`/pr-review` only)
+| Extra | Status | Note |
 | --- | --- | --- |
-| Half-move / honest names | clear \| finding \| none | … |
-| Client-only guard | clear \| finding \| none | … |
-| Identity / ownership | clear \| finding \| none | … |
-| Replay / double-submit | clear \| finding \| none | … |
-| Race / lost update | clear \| finding \| none | … |
-| Un-awaited write | clear \| finding \| none | … |
-| Deterministic query | clear \| finding \| none | … |
-| Unbounded read / missing index | clear \| finding \| none | … |
-| Swallowed error | clear \| finding \| none | … |
-| Spec states (loading / empty / error / disabled) | clear \| finding \| none | … |
-| Done when not met / extra scope | clear \| finding \| none | … |
-| Cross-file stale caller | clear \| finding \| none | … |
-| Secrets in the diff | clear \| finding \| none | … |
+| Body vs diff | clear \| finding \| none | … |
+| Historical thread | clear \| finding \| none | … |
+| Migration / backfill | clear \| finding \| none | … |
+| Breaking public API | clear \| finding \| none | … |
 ```
 
-**Wave 1** returns Standards findings, Principles, Architecture, Correctness,
-and (from the Spec worker) the Spec matrix. **Wave 2** returns Adversarial
-findings plus the Miss-class sweep. Wave 2 may not mark a class `clear` unless
-it re-inspected the diff for that class; restating Wave 1 with no new look is
-a reject.
-
-Workers report no finding explicitly when their axis is clean. Mark each sweep
-row `clear`, `finding` (with finding id), or `none` when that check has no
-surface in the diff (for example cheap-reads on a copy-only change). The parent
-controls the dispatch and follows the [execution context](execution-context.md)
-contract for models and completion reporting.
+Wave 2 returns Adversarial findings plus the hunt re-inspect. `/pr-review`
+also returns the four PR extras rows. Secrets stay in the Correctness hunt,
+not here.
 
 ### Baseline defects (Standards, after the tables)
 
 If the shipped diff introduces any of these, it is a finding. Cite the matching
-non-negotiable (`taste:never-nest`, `taste:dont-repeat-yourself`,
+key (`taste:never-nest`, `taste:dont-repeat-yourself`,
 `taste:throw-at-boundaries`, `taste:one-export-per-file`,
-`taste:static-imports`, `taste:oop-depth-cap`) or `taste:baseline`:
+`taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`:
 
 - Nested control-flow pyramids
 - Copy-paste twins of a concept already in-repo
@@ -218,7 +225,7 @@ non-negotiable (`taste:never-nest`, `taste:dont-repeat-yourself`,
 | `nit` | Optional nit | `Nit` only when useful |
 
 There is no unmapped `important` middle severity. `/pr-review` posts only
-`Blocking` or `Nit`.
+`Blocking` or `Nit`. Adapters do not re-explain this map.
 
 ## Behavior-lock recommendation
 

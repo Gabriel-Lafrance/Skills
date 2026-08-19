@@ -112,14 +112,14 @@ This meets the evidence bar: a public write with no identity check is a reachabl
 
 ## Waves and review modes
 
-Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-keep-jobs-apart-checkout-stripe`. Wave 2 still returns a **Miss-class sweep** that re-inspected those classes.
+Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-keep-jobs-apart-checkout-stripe`. Wave 2 still returns a **hunt re-inspect** of the Wave 1 tables.
 
 After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
 
 ## Remediation memo and promotion
 
 `/analyze` owns the canonical
-[review-remediation analysis](../analyze/doctrine.md#review-remediation-analysis).
+[review-remediation analysis](../analyze/doctrine.md#output).
 It keeps `standards-billing-authority-checkout` as the section and promotion
 ID, then explains the current behavior, root cause, smallest fix, touch
 surface, non-goals, and verification. Only explicit user promotion of that ID

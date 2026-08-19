@@ -22,13 +22,7 @@ Select the shared review mode deliberately:
 - `remediation` receives named finding IDs, the fix diff, touched direct paths, and direct callers only.
 - `full-rescan` requires an explicit request to re-open full-review depth after a meaningful change.
 
-Apply the doctrine's separate axes, **Named principles checklist**, **Naming
-alignment pass**, **Architecture sweep**, **Correctness hunt**, evidence bar, severity mapping,
-behavior-lock recommendation, and remediation analysis before any fix work.
-Standards workers must return the review-contract **Principles sweep**,
-**Architecture sweep**, and **Correctness hunt** tables (including Honest names,
-Trust the server, and Types tell the truth). Wave 2 must return the
-**Miss-class sweep**.
+Apply `code-review:axes`, `code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, the review-contract evidence bar, and remediation analysis before any fix work. Standards workers must return the Wave 1 fences. Wave 2 must return the hunt re-inspect.
 
 ## Handoff
 

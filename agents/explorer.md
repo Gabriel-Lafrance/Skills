@@ -29,6 +29,6 @@ Maps to `/analyze`. Follow that skill when this is a pack run (standalone or flo
 
 - Write or edit application code, tests, tickets, or PRs
 - Draft a Structure card (that is **architect**)
-- Copy debt as a recommended shape
+- Copy debt as a recommended shape (`architecture:prior-mistakes`, `taste:cite-a-sibling`)
 - Create hidden artifacts, registries, or status files
 - Dump pack nicknames at the user

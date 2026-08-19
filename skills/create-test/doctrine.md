@@ -1,50 +1,48 @@
-# Behavior-lock doctrine
+# Create Test doctrine
 
-## Apply only when
+## Job
 
-Use this skill for a complex hook, domain rule, facade, stateful class, or a
-real regression whose public behavior could silently drift. Prefer it when
-review named authorization, ownership, or safe-to-retry writes with no durable
-lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only
-files, and coverage targets.
+Write durable behavior-lock tests for a complex public surface after review recommends a lock.
 
-## Rules
+## Owns
 
-1. Lock observable behavior, invariants, and public contracts—not internals.
-2. Exercise the public entry point. Mock only true external boundaries such as
-   network, clock, storage, or authentication.
-3. Name the invariant in every test title.
-4. Before writing, the user approves concise **Why**, **What**, and **How**
-   statements for each main claim.
-5. Prefer a few high-conviction scenarios over combinatorial or snapshot
-   theater.
-6. Reuse the repository's runner, layout, fixtures, and helpers. Do not add a
-   framework.
-7. Run only the focused test file or filter unless that is inconclusive or the
-   user asks otherwise.
-8. Match `/taste` and `/architecture`: helpers throw on setup failure; comments
-   summarize the approved lock and do not narrate the test; exercise the
-   service or deep-module public API, not internals.
+What to lock, how to name the invariant, the Why/What/How approval gate, and the focused run.
 
-## Process
+## Does not own
 
-1. Read the public export, its callers, and existing nearby tests. State what
-   behavior is being locked and what outside change it should catch.
-2. Draft every needed Why / What / How brief, batch them for approval, and wait.
-3. Pick the smallest scenario set: core outcome, critical guard, meaningful
-   edge, and a known regression when applicable.
-4. Write tests through the public API. Keep fixture helpers local and DRY.
-5. Add the approved three-line comment above each main test, using the
-   repository's comment style.
-6. Run the focused test. Confirm a behavior-breaking edit would fail and a
-   harmless extraction would remain green.
-7. Report the approved claim, files changed, command result, and one sentence
-   about what would turn the test red.
+- Production code changes (unless the user explicitly asks)
+- `/goal` / implement / review
+- Numbered how-to: [`reference.md`](reference.md#process)
 
-## Boundaries
+## Cite keys
 
-- Do not modify production code just to make a test convenient unless the user
-  explicitly asks.
-- Do not start `/goal`, expand into refactoring, or write tests before approval.
-- `/goal`, `/implement`, and other build skills never invoke this skill or
-  write test files.
+none (uses `taste:*` and `architecture:*`)
+
+## Bars
+
+| Rule | Meaning |
+| --- | --- |
+| Lock observable behavior | Invariants and public contracts, not internals |
+| Public entry | Exercise the public entry point. Mock only true external boundaries (network, clock, storage, authentication) |
+| Name the invariant | Every test title states it |
+| Approve first | Before writing, the user approves concise **Why**, **What**, and **How** statements for each main claim |
+| High-conviction set | A few scenarios over combinatorial or snapshot theater |
+| Reuse the repo | Runner, layout, fixtures, helpers. Do not add a framework |
+| Focused run | Only the focused test file or filter unless that is inconclusive or the user asks otherwise |
+| Taste and architecture | Helpers throw on setup failure (`taste:throw-at-boundaries`); comments summarize the approved lock (`taste:comments`); exercise the service or deep-module public API, not internals (`architecture:deep-public-surface`) |
+
+## Output
+
+Approval brief, required test comment, and handoff live in [`reference.md`](reference.md).
+
+## Apply
+
+Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, and coverage targets.
+
+Standalone only. Never invoke from a flow or automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill.
+
+## Anti-patterns
+
+- Modifying production code just to make a test convenient unless the user explicitly asks
+- Starting `/goal`, expanding into refactoring, or writing tests before approval
+- `/goal`, `/implement`, and other build skills invoking this skill or writing test files

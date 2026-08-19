@@ -37,7 +37,7 @@ class ConsoleNotifier extends BaseNotifier {
 }
 ```
 
-**Good — KISS until growth is real** (big features still get one named seam + one impl — see doctrine Futureproofing):
+**Good — KISS until growth is real** (big features still get one named seam + one impl; see [reference.md](reference.md#futureproofing)):
 
 ```typescript
 async function notifyUser(msg: string) {
@@ -111,7 +111,7 @@ const cart = useCart(userId);
 await stripe.checkout.sessions.create({ … });
 ```
 
-**Good** — behavior-preserving move into the right service; cite the good shape (`/architecture` §4):
+**Good** — behavior-preserving move into the right service; cite the good shape (`architecture:prior-mistakes`):
 
 ```typescript
 // services/billing/billing.ts — makeUserPay owns Stripe

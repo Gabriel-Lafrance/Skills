@@ -25,7 +25,7 @@ Read [../pack-shared/standards.md](../pack-shared/standards.md), then
 
 1. Accept the parent brief: ticket, lane, Done when, non-goals, Active Rules,
    fixed point, and slice constraints.
-2. Run the doctrine lifecycle inside those bounds. Task waves follow
+2. Run the [lifecycle](reference.md#lifecycle) inside those bounds. Task waves follow
    [subagents.md](../pack-shared/subagents.md).
 3. Do **not** ask ship Questions. Return completion evidence to the parent.
 

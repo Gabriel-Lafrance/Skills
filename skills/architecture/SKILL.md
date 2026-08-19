@@ -12,10 +12,10 @@ disable-model-invocation: true
 
 # Architecture
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — this skill *is* architecture; still Read `/taste` doctrine this turn before drafting a structure card. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). This skill *is* architecture; still Read `/taste` doctrine this turn before drafting a structure card. Do not skip.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual: [standalone.md](standalone.md) and [flow.md](flow.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md). Dual: [standalone.md](standalone.md) and [flow.md](flow.md).
 
 Always load **flow** `/taste` (or Read its doctrine) before drafting a structure
-card — KISS and named principles apply to structure too. Other skills load both
+card. Cite keys live in [doctrine.md](doctrine.md). Other skills load both
 doctrines on every run via the standards contract.

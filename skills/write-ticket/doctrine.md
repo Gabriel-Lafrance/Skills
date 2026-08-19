@@ -1,16 +1,31 @@
 # Write Ticket doctrine
 
-Write or refine one Linear or GitHub ticket from as little as one prompt.
-This skill is standalone-only, never implements the ticket, and always runs
-**flow** `/analyze` to full memo depth before drafting.
+## Job
+
+Write or refine one Linear or GitHub ticket from as little as one prompt. This skill is standalone-only, never implements the ticket, and always runs **flow** `/analyze` to full memo depth before drafting.
+
+## Owns
+
+Allowed questions, too-short vs enough, inputs, type mapping, required six sections, and failure handling.
+
+## Does not own
+
+- Implementation
+- Full `/grill-me`
+- Numbered how-to: [`SKILL.md`](SKILL.md)
+- Section presets: [`reference.md`](reference.md)
+
+## Cite keys
+
+none (uses `taste:*` and `architecture:*`)
+
+## Bars
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Templates:** [reference.md](reference.md)
 
-Infer first. Ask only what this file allows. A short “don’t forget this”
-note is a valid seed: analyze the repo, write a detailed ticket, and leave
-refinement for later.
+Infer first. Ask only what this file allows. A short “don’t forget this” note is a valid seed: analyze the repo, write a detailed ticket, and leave refinement for later.
 
-## Allowed questions
+### Allowed questions
 
 Exactly two situations may produce a Questions batch. Nothing else.
 
@@ -19,15 +34,11 @@ Exactly two situations may produce a Questions batch. Nothing else.
 | The seed is **too short** to analyze | One asking-contract batch: what to capture, plus type only if it is still unknowable, plus any missing metadata | Lettered; mark `recommended`; one `Reply like:` row. Include metadata in **this** batch when it is also missing so there is only one wait. |
 | The seed is enough, but **priority, assignee, or tracker** was not in the prompt and cannot be inferred | One metadata batch | Same asking contract. Do not ask status (default **Todo** unless the prompt already names one). Do not ask “write this?”. |
 
-Do **not** ask vision, who, done-when, start-here, out of scope, repro,
-architecture, or type when those can be inferred from the prompt, an existing
-ticket, or `/analyze`. Do not run the old type-specific open grill. Do not
-invoke full `/grill-me` (that interview is too wide).
+Do **not** ask vision, who, done-when, start-here, out of scope, repro, architecture, or type when those can be inferred from the prompt, an existing ticket, or `/analyze`. Do not run the old type-specific open grill. Do not invoke full `/grill-me` (that interview is too wide).
 
-## Too short
+### Too short
 
-The seed is too short when, after the prompt plus a quick repo look, you still
-cannot name **an observable outcome, defect, or maintenance ask**.
+The seed is too short when, after the prompt plus a quick repo look, you still cannot name **an observable outcome, defect, or maintenance ask**.
 
 | Enough | Too short |
 | --- | --- |
@@ -35,11 +46,9 @@ cannot name **an observable outcome, defect, or maintenance ask**.
 | “Bump eslint and fix the CI workflow” | “chores” |
 | An existing ticket with a usable body | An empty ticket and a one-word prompt |
 
-A “don’t forget this” **sentence that names an outcome, defect, or maintenance
-ask** is enough: skip grill, analyze, write a full ticket. A bare noun is not:
-one batch, then analyze.
+A “don’t forget this” **sentence that names an outcome, defect, or maintenance ask** is enough: skip grill, analyze, write a full ticket. A bare noun is not: one batch, then analyze.
 
-## Inputs
+### Inputs
 
 | Input | Mode |
 | --- | --- |
@@ -49,15 +58,11 @@ one batch, then analyze.
 | In-chat analysis memo | Reuse it; still run flow `/analyze` if it is shallow or stale |
 | Ambiguous number | Prefer the tracker this repo already uses; ask only inside the allowed metadata / too-short batch |
 
-An in-chat analysis memo is not a substitute for a full flow `/analyze` unless
-it already has the complete memo shape (diagram, evidence, entrypoints,
-direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover
-ticket, repository, PR, and tracker facts from live sources.
+An in-chat analysis memo is not a substitute for a full flow `/analyze` unless it already has the complete memo shape (diagram, evidence, entrypoints, direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover ticket, repository, PR, and tracker facts from live sources.
 
-## Type and required content
+### Type and required content
 
-Infer exactly one type from the seed. Announce it Locked. Ask type only inside
-the too-short batch when it is still unknowable.
+Infer exactly one type from the seed. Announce it Locked. Ask type only inside the too-short batch when it is still unknowable.
 
 | Type | Use when | Tracker mapping |
 | --- | --- | --- |
@@ -68,8 +73,7 @@ the too-short batch when it is still unknowable.
 | Chore | Non-product maintenance: deps, CI, tooling, docs-only, repo hygiene | Linear Chore/Improvement or equivalent; GitHub chore/maintenance label when available |
 | Hotfix | Urgent production defect that needs expedited shipping | Linear Bug with urgent priority or Hotfix label when available; GitHub bug + urgent/hotfix labels |
 
-Every ticket uses the **same sections**, in this order. Type only changes
-what you write inside them (presets in [reference.md](reference.md)).
+Every ticket uses the **same sections**, in this order. Type only changes what you write inside them (presets in [reference.md](reference.md)).
 
 | Section | What it is |
 | --- | --- |
@@ -78,47 +82,15 @@ what you write inside them (presets in [reference.md](reference.md)).
 | Ask | A few plain sentences: what we want, what’s broken, or what to land |
 | Done when | Short checks. Bugs include how to see it. |
 | Out of scope | What we are not doing. `_none` if there is nothing. |
-| Start here | One or two `path` — `symbol` lines, or `_unknown` |
+| Start here | One or two `path` / `symbol` lines, or `_unknown` |
 
-Do not add extra headings (no Who/What/When, stack trace, expected behavior,
-proposed architecture, pros/cons, or impact boxes). Fold those facts into
-Ask, Done when, and Diagram. Prefer Hotfix over Bug only when production
-breakage is urgent. Architecture belongs in the picture; add one sentence in
-Ask only if the picture is not enough. Do not write method bodies or
-implementation steps.
+Do not add extra headings (no Who/What/When, stack trace, expected behavior, proposed architecture, pros/cons, or impact boxes). Fold those facts into Ask, Done when, and Diagram. Prefer Hotfix over Bug only when production breakage is urgent. Architecture belongs in the picture; add one sentence in Ask only if the picture is not enough. Do not write method bodies or implementation steps.
 
-When refining an old ticket, map leftover headings into this body. Do not
-keep the old heading set.
+When refining an old ticket, map leftover headings into this body. Do not keep the old heading set.
 
-## Process
+Announce inferred type and the draft as Locked (correct if wrong) only in messages that have no Questions.
 
-1. **Load or seed.** Read an existing ticket before changing it. For a new
-   ticket, start from the user's prompt. Infer type, tracker, priority, and
-   assignee when the prompt or roster makes them obvious. Map useful existing
-   text into the shared sections.
-2. **If too short.** Send the one allowed grill batch and wait.
-   If enough, do not grill.
-3. **Analyze — always, fully.** Run **flow** `/analyze` on the seed (plus any
-   grill answers). Parent brief: complete standard-research memo, Task workers
-   per [subagents.md](../pack-shared/subagents.md), no stub, no standalone
-   hand-off Questions. Skip `/goal` promotion; ticket writing is the next
-   step. Refresh a stale or shallow memo instead of reusing it.
-4. **Draft.** Fill the **same six sections** every time. Use the type’s preset
-   in [reference.md](reference.md) for what goes inside Diagram, Ask, Done when,
-   Out of scope, and Start here. Facts come from analysis, not extra questions.
-   For a short capture, say so in Ask and still fill every section (`unknown`
-   / `_none` when weak).
-5. **Metadata.** If priority, assignee, or tracker is still unknown, one
-   metadata batch and wait. Status is **Todo** unless the prompt already names
-   another; when refining, keep the current status unless the prompt overrides
-   it. Do not ask status. Do not ask permission to write.
-6. **Write.** Show the complete draft in chat, then create or update through
-   the tracker capability or `gh`. Return the URL and applied metadata.
-
-Announce inferred type and the draft as Locked (correct if wrong) only in
-messages that have no Questions.
-
-## Failures
+## Output
 
 | Problem | Action |
 | --- | --- |
@@ -129,6 +101,10 @@ messages that have no Questions.
 | Required section empty after analysis | Use `unknown` / `_none` in that section; do not start a second grill |
 | Analysis absent or stubby | Run or refresh full flow `/analyze` before drafting |
 | Tracker options unavailable | Ask freeform for that field inside the metadata batch; do not invent IDs |
+
+## Apply
+
+Always run **flow** `/analyze` to full memo depth. Show the complete draft in chat, then create or update through the tracker capability or `gh`. Return the URL and applied metadata. Status is **Todo** unless the prompt already names another; when refining, keep the current status unless the prompt overrides it.
 
 ## Anti-patterns
 
@@ -145,5 +121,4 @@ messages that have no Questions.
 - Writing code-level implementation instructions
 - Adding extra headings, or inventing tracker IDs or fake impact numbers
 - Writing a one-line stub instead of a detailed ticket
-- Dropping the Mermaid diagram, leaving a copy-placeholder, or using a path
-  chart when a race needs a sequence
+- Dropping the Mermaid diagram, leaving a copy-placeholder, or using a path chart when a race needs a sequence
