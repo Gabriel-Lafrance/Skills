@@ -1,6 +1,6 @@
 # Must follow taste and architecture
 
-Pack skills do **not** depend on Cursor User Rules. The file in [`rules/`](../../rules/ultimate-gold-standards.mdc) is **opt-in** for Plan mode and freeform chats that never invoke a skill. When a pack skill runs, **this contract is the enforcement**.
+Pack skills do **not** depend on Cursor User Rules. Plugin rules in [`rules/`](../../rules/) apply when the **gabriel-skills** Cursor plugin is installed (`gold-standards.mdc` is always on). They are pointers; they are not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement**.
 
 Do not substitute a private checklist or this file’s summary. **Source of truth is the doctrines.**
 

@@ -1,0 +1,71 @@
+---
+description: Ultimate gold standards — load pack doctrines; do not invent weaker defaults
+alwaysApply: true
+---
+
+# Gold standards
+
+These standards outrank generic “best practices” and training-data defaults.
+
+**Source of truth is the installed skill doctrines**, not this file’s summaries. This rule **forces Reads** and states process that must stay true. Do **not** invent a weaker private checklist if skills are missing.
+
+This file ships with the Cursor plugin (`rules/`). It applies when the plugin is installed. Do **not** also paste it into **User Rules** — that doubles the same guidance. `npx skills` still copies only skill folders; it does not install these plugin rules.
+
+Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to start. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+
+## Resolve skill roots
+
+Try in order; use the first that exists:
+
+1. `~/.agents/skills/`
+2. `~/.cursor/skills/`
+3. Workspace `skills/` — only when this Skills pack repo is the open workspace
+4. The installed **gabriel-skills** plugin’s `skills/` folder (Marketplace / Customize install)
+
+Paths below are relative to that root.
+
+If required files are missing from all roots: say the pack is not installed; do **not** invent weaker standards. Point at:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+```
+
+Or install the **gabriel-skills** Cursor plugin from Marketplace / Customize.
+
+## Mandatory doctrine Reads
+
+**Before non-trivial code** (new behavior, refactors, structural edits, more than a typo) — and **every time a pack skill other than `/ask-gabriel` runs**:
+
+1. **Read** `taste/doctrine.md`
+2. **Read** `architecture/doctrine.md`
+
+Apply them as **hard** standards. Do not skip because you “already know” the pack. Do not skip architecture because the change looks like a single file; keep the existing structure when that is the smallest correct answer.
+
+**Before planning** (Cursor Plan mode, CreatePlan, or any non-trivial implementation plan):
+
+1. **Read** `pack-shared/asking.md`
+2. **Read** `pack-shared/plain-language.md`
+3. **Read** `grill-me/doctrine.md`
+4. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
+
+**Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
+
+Talk in ordinary words (`pack-shared/plain-language.md`).
+
+## Plan mode — grill before the plan
+
+In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial work):
+
+1. **Do not** call CreatePlan / emit the final plan until material decisions are settled.
+2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
+3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
+4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message. Never mix Locked and Questions.
+5. After Locked closure, **then** produce the plan. New unknowns later → a **new** Questions-only batch.
+
+Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling / plan immediately).
+
+Every non-trivial plan **must** include a high-level Mermaid **Change diagram** with **both** `### Before` and `### After`. Prefer modules, actors, and request/data flow. Keep the same node ids across Before/After when possible. A plan without Before/After is incomplete.
+
+## Conflict
+
+Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

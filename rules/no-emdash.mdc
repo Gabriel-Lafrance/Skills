@@ -1,0 +1,12 @@
+---
+description: Never write em dashes, en dashes, or horizontal bars in chat or files
+alwaysApply: true
+---
+
+# No em dash
+
+Never write an em dash (Unicode U+2014), en dash (U+2013), or horizontal bar (U+2015) in chat or in files you create or edit.
+
+Use a comma, colon, period, parentheses, or a hyphen instead.
+
+This pack's ESLint template flags those characters in JS/TS. Follow that rule. Do not sweep unrelated files just to strip existing dashes.

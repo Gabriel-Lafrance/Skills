@@ -32,6 +32,7 @@ body:
         - Build (/goal, /just-do-it)
         - Review and ship (/code-review, /publish, /pr-review, /create-test)
         - Pack shared / docs / rules
+        - Toolkit (plugin rules, commands, agents, ESLint, Prettier)
         - Other
     validations:
       required: true
