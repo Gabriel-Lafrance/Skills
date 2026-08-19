@@ -1,6 +1,6 @@
 # Architecture Doctrine
 
-Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; data stays cheap to read as the product grows.**
+Quality code here means: **independent domain capabilities live in services; features call those services; prior structural mistakes are not copied and are moved when the current goal requires it; callers see a deep public surface; depth is built from strong primitives inside those modules when warranted; complexity lives behind the surface; entropy in the touched lane does not grow; files live in folders that match the domain; writes enforce who may act; data stays cheap and honest to read as the product grows.**
 
 Read **`/taste`** first — especially **keep it simple**, **named principles** (keep jobs apart, related together, safe to retry, …), and **Bad code = complexity and mess that spreads** (and [../taste/examples.md](../taste/examples.md) when unsure). For architecture good/bad pairs, see [examples.md](examples.md). Taste owns naming, errors, nesting, file rules, keep-it-simple, named principles, and the complexity definition — this skill owns the structure card **and scalability**.
 
@@ -16,6 +16,8 @@ them.
 | **Keep jobs apart** | Domain job → service; feature coordinates; UI does not own Stripe/JWT/email |
 | **Related together** | One concern per service; callers depend only on the public API |
 | **Safe to retry** | Write paths, webhooks, payments, and retries must be safe to repeat (name the key / guard on the structure card when relevant) |
+| **Trust the server** | Identity and ownership live on the service write, not in the feature UI |
+| **Types tell the truth** | Public service args/returns are validated; stored fields match what reads assume |
 
 Architecture adds one scope rule: a behavior-preserving move is required only
 when an Active Rule, acceptance criterion, correctness issue, or named finding
@@ -53,6 +55,7 @@ Rules:
 - Name public functions as **verbs the product understands** (`makeUserPay`, not `runStripeCheckoutSessionHelper`).
 - Prefer **throw + try/catch** at service boundaries (see `/taste`) — not `{ success: false }` bags.
 - One service ≠ one giant file: public entry + collaborators / primitives inside the service folder (see §3, §6).
+- **Public writes check identity and ownership** in the service (see §8). Features may disable UI; they do not own the lock.
 
 Anti-patterns:
 
@@ -211,6 +214,38 @@ Not: `listOrders(userId)` → sum in the React tree or in a query every time.
 
 If a one-off admin script needs a full scan, say so explicitly — never copy that pattern into hot product paths.
 
+#### Deterministic reads
+
+Queries (and any cached / reactive read) must return the same result for the same data. Do **not** read the wall clock, generate randomness, or call a non-deterministic network from a query.
+
+| Bad | Good |
+| --- | --- |
+| `Date.now()` / `new Date()` inside a query to expire rows | Store `status` on write or a scheduled mutation. Pass `now` only for display windows, never as an authorization check |
+| Query that "maybe" hits an external API | Query reads stored fields; an action fetches, a mutation writes |
+| Filter/sort in memory after an unbounded `collect()` | Indexed query; paginate or read a stored summary |
+
+**Validate at the door.** Public queries, mutations, and actions declare argument (and return) validators that match the real contract. Do not use `v.any()` to skip that work.
+
+### 8. Authority lives on the write (critical — AI often gets this wrong)
+
+A disabled button is **user feedback**. If a client can skip it, the write still happens. Put the lock on the **service write** (mutation, action, or server handler), not only in the feature UI.
+
+| Check | Rule |
+| --- | --- |
+| **Identity** | Public writes that touch user data call the repo's auth helper (`getUserIdentity` / `requireUser` / equivalent) and fail if missing |
+| **Ownership / tenant** | Before patch/delete/read of a row, prove the authenticated user owns it or belongs to that tenant. Never trust a client-sent `userId` / `orgId` alone |
+| **Same-write invariants** | Facts that must stay true together (row + aggregate, status + timestamp, ledger + side effect) live in **one** mutation/transaction |
+| **Money / permissions** | Charge, refund, role change, and admin paths go through the owning service; the feature does not call the provider with a client-supplied amount it did not authorize |
+
+Anti-patterns:
+
+- Mutation accepts `userId` from the client and writes that user's rows with no identity check
+- "The button is hidden for non-admins" as the only admin gate
+- Updating a child row in one handler and the parent aggregate in a later optimistic UI call
+- Feature-local `if (!session)` while the public mutation still runs
+
+Name identity, ownership, and retry keys on the structure card when the slice has writes.
+
 ## Process
 
 ### 1. Explore
@@ -224,6 +259,8 @@ Follow [subagents.md](../pack-shared/subagents.md): non-trivial sibling/service/
 - Existing entry-point patterns (services vs hooks vs classes vs modules)
 - Naming and import style
 - Whether siblings store aggregates on write or recompute on read (prefer the former)
+- How siblings check identity and ownership on public writes (reuse that helper; do not invent a parallel auth path)
+- Whether list/query paths are indexed and paginated, and whether queries stay deterministic
 
 ### 2. Draft the structure card
 
@@ -244,12 +281,16 @@ Present this before writing code (and include it in the inline plan contract whe
 - **Inside:** which service / deep module owns it
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
 **Complexity / principles:** public API simple? jobs kept apart? callers use only the public API? safe-to-retry writes named when needed? did we avoid copying a known-wrong shape? (see `/taste`)
+**Authority (if writes):** identity helper; ownership/tenant check; client cannot bypass; retry key
 **Extension seam (if big service):** foundation from day one — how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 **Scalability:**
 - Hot reads: <what the UI/query returns>
 - Stored on write: <columns / summary table / parent fields updated on insert>
 - Indexes: <index names / fields>
+- Pagination: <cursor / none because bounded>
 - Explicitly NOT recomputed on render/read: <metrics>
+- Queries are deterministic: no wall clock / randomness in the read
+- Public args validated: <validators | n/a>
 **Folder map:**
 - `services/<concern>/` (or repo equivalent)
   - `<concern>.ts`          # public API
@@ -260,7 +301,7 @@ Present this before writing code (and include it in the inline plan contract whe
 **Taste:** follows `/taste` naming + entry shape + ≤2 class/interface depth
 ```
 
-If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (`Reply like: 1a 2b` per [asking.md](../pack-shared/asking.md)). Recommend a behavior-preserving move when it is required by the goal or finding and you can prove old behavior holds; otherwise name it as a follow-up. Do not drip them one message at a time. New findings later → new batch.
+If service boundary, public API shape, **primitives** (reuse vs new vs fork), folder root, write-vs-read, **authority** (identity / ownership), or a **move vs leave** decision is open, put **all** open structure questions in **one** `/grill-me` Questions batch (`Reply like: 1a 2b` per [asking.md](../pack-shared/asking.md)). Recommend a behavior-preserving move when it is required by the goal or finding and you can prove old behavior holds; otherwise name it as a follow-up. Do not drip them one message at a time. New findings later → new batch.
 
 ### 3. Implement against the card
 
@@ -271,6 +312,8 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - Wire collaborators so the public API is the only thing most call sites import
 - Do not export service internals unless another package truly needs them
 - Implement aggregate updates on the **write path** when the card says so
+- Enforce identity and ownership on public writes in the **service**, not only in the UI
+- Keep queries deterministic; validate public args
 
 ### 4. Self-check before done
 
@@ -285,10 +328,12 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - [ ] Public API is **deep** (simple surface); complexity is inside collaborators / primitives, not at every call site
 - [ ] **Keep jobs apart / related together:** one concern per service; callers use only the public API
 - [ ] **Idempotency:** replay-safe writes/webhooks/payments named when the card requires them
+- [ ] **Authority:** public writes check identity and ownership; UI-only guards are not the lock
 - [ ] Change **reduces or holds entropy** in the touched lane (no copy/extend of known-wrong shape without a move)
 - [ ] `/taste` naming, KISS, and named principles respected
 - [ ] No hot-path "compute metrics on render/read" — aggregates stored and updated on write
 - [ ] Indexes cover the queries; no unbounded collect on growing data
+- [ ] Queries are deterministic (no `Date.now()` / randomness in the read); public args are validated
 - [ ] Observable old behavior still holds (tests / path walk / terminals) after any move
 
 ## When `/goal` or `/implement` should invoke this
@@ -302,5 +347,7 @@ If service boundary, public API shape, **primitives** (reuse vs new vs fork), fo
 - Any change that would add files without a parent folder
 - Any feature with lists, dashboards, counts, totals, leaderboards, or "stats"
 - Any query that would scan children to answer a parent-level question
+- Any public write, webhook, or admin path (identity, ownership, retry key)
+- Any query that would read the wall clock or filter a growing table without an index
 
-Hand off: structure card → `/goal` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns **and** duplicated-service anti-patterns under `/goal`. Under `/goal` → `/architecture` → plan contracts → `/implement`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md), not only when a parent decides structure is “in play.”
+Hand off: structure card → `/goal` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns, duplicated-service anti-patterns, **and** missing write-path authority under `/goal`. Under `/goal` → `/architecture` → plan contracts → `/implement`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md), not only when a parent decides structure is “in play.”

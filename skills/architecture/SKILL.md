@@ -2,10 +2,11 @@
 name: architecture
 description: >-
   Shape scalable code: one service per domain job, simple public APIs,
-  one-job helpers inside those services, clear folders, and writes that are
-  safe to retry. Use standalone to decide structure, or inside /goal before
-  planning. Triggers: folders, services, split logic, data/reads, duplicating
-  domain logic.
+  one-job helpers inside those services, writes that check who may act,
+  clear folders, cheap honest reads, and writes that are safe to retry.
+  Use standalone to decide structure, or inside /goal before planning.
+  Triggers: folders, services, split logic, data/reads, duplicating
+  domain logic, auth on writes, Date.now in queries.
 disable-model-invocation: true
 ---
 

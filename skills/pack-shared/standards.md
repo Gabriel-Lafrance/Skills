@@ -9,7 +9,7 @@ Do not substitute a private checklist or this file’s summary. **Source of trut
 Before grilling, planning, specifying, splitting, implementing, reviewing, or shipping:
 
 1. **Read** [`../taste/doctrine.md`](../taste/doctrine.md) — keep it simple, named principles, non-negotiables. Read [`../taste/examples.md`](../taste/examples.md) when judging a shape. Also Read [`plain-language.md`](plain-language.md) before any user-facing message.
-2. **Read** [`../architecture/doctrine.md`](../architecture/doctrine.md) — services, simple public surface, one-job helpers, folders, cheap reads. Read [`../architecture/examples.md`](../architecture/examples.md) when judging structure.
+2. **Read** [`../architecture/doctrine.md`](../architecture/doctrine.md) — services, simple public surface, one-job helpers, folders, write-path authority, cheap honest reads. Read [`../architecture/examples.md`](../architecture/examples.md) when judging structure.
 
 Do this **every time** the skill is used this turn, including flow steps. Do not skip because you “already know” the pack. If you have not Read both doctrines this turn, **stop and Read them** before continuing.
 
@@ -23,8 +23,8 @@ Do this **every time** the skill is used this turn, including flow steps. Do not
 
 ## How to apply (hard, not flavor)
 
-- **Taste is required.** Keep it simple, named principles, never-nest, don’t repeat yourself, throw + purposeful try/catch, honest names — violations fail the skill’s quality bar. `/code-review` treats them as required unless repository docs contradict.
-- **Architecture is required.** Always load it. Apply services, public APIs, one-job helpers, folders, keep-jobs-apart, related-together, and safe-to-retry writes whenever the work could add files, move ownership, or touch data. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
+- **Taste is required.** Keep it simple, named principles (including trust the server and types tell the truth), never-nest, don’t repeat yourself, throw + purposeful try/catch, honest names. Violations fail the skill’s quality bar. `/code-review` treats them as required unless repository docs contradict.
+- **Architecture is required.** Always load it. Apply services, public APIs, one-job helpers, folders, keep-jobs-apart, related-together, safe-to-retry writes, and write-path authority whenever the work could add files, move ownership, or touch data. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
 - **Smallest structure still wins.** Loading architecture does not authorize extra layers. Taste still requires the smallest shape that meets the outcome.
 - **Fail closed.** Do not invent a weaker standard. Do not treat “structure not in play” as permission to skip the architecture Read.
 

@@ -1,6 +1,6 @@
 # Architecture
 
-This skill is the structural gate: domain services with public APIs, deep surfaces built from strong primitives inside those modules, simple entry points, folder maps, behavior-preserving moves for prior mistakes, and write-path scalability. Run it before `/goal` planning when structure or data shape matters, or mid-implement when the diff is about to sprawl.
+This skill is the structural gate: domain services with public APIs, deep surfaces built from strong primitives inside those modules, simple entry points, folder maps, write-path authority, behavior-preserving moves for prior mistakes, and write-path scalability. Run it before `/goal` planning when structure or data shape matters, or mid-implement when the diff is about to sprawl.
 
 **Read first:** [../pack-shared/standards.md](../pack-shared/standards.md) ·
 [doctrine.md](doctrine.md) · [examples.md](examples.md) · **`/taste`**
@@ -10,9 +10,9 @@ This skill is the structural gate: domain services with public APIs, deep surfac
 
 ## Process
 
-1. **Explore** — existing services, existing primitives, wrong shapes in the lane, entry patterns, write-vs-read siblings
-2. **Draft structure card** — Services, Moves / corrections, Feature entry, Primitives, Folder map, Scalability (see doctrine)
-3. **Implement against the card** — folders first, moves before new feature code, build with primitives inside deep modules, write-path aggregates
+1. **Explore** — existing services, existing primitives, wrong shapes in the lane, entry patterns, write-vs-read siblings, identity/ownership on writes
+2. **Draft structure card** — Services, Moves / corrections, Feature entry, Primitives, Authority, Folder map, Scalability (see doctrine)
+3. **Implement against the card** — folders first, moves before new feature code, build with primitives inside deep modules, write-path aggregates and authority
 4. **Self-check** — doctrine checklist before done
 
 Open structure decisions → one `/grill-me` Questions batch (follow [../pack-shared/asking.md](../pack-shared/asking.md)).
@@ -20,4 +20,4 @@ Open structure decisions → one `/grill-me` Questions batch (follow [../pack-sh
 ## Hand-offs
 
 - Structure card approved → `/goal`
-- Scale or duplicated-service failures → acceptance evidence / `/code-review`
+- Scale or duplicated-service or missing write-path authority failures → acceptance evidence / `/code-review`

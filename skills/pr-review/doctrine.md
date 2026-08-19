@@ -22,30 +22,52 @@ the PR and repository instead of carrying local review state.
 apply the full
 [code-review Named principles checklist](../code-review/doctrine.md#named-principles-checklist-required-on-standards)
 and the same Standards source order (`/taste` → `/architecture` → repo rules →
-optional project standards → smell baseline). Repository rules win on conflict.
+optional project standards → baseline defects). Repository rules win on conflict.
 
 Before adjudicating Standards:
 
-1. Read `/taste` doctrine — KISS + Named principles (SoC, SLAP, CQS, fail fast,
-   Boy Scout, cohesion/coupling, idempotency, explicit, PoLA, honest names).
-2. Read `/architecture` doctrine when the diff touches services, folders, data
-   shape, writes, webhooks, or domain I/O — default to reading it.
-3. Run the principles checklist and the
-   [Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards)
-   against the PR fixed-point diff. Cite `taste:<principle>` or
-   `architecture:<principle>` in each finding **Rule**.
+1. Read `/taste` doctrine: keep it simple and the named principles (keep jobs
+   apart, one altitude, read or write not both, fail fast, leave it cleaner,
+   related together, safe to retry, say what happens, no surprises, honest
+   names, trust the server, types tell the truth).
+2. Read `/architecture` doctrine. Do not skip because the PR looks small.
+3. Run the principles checklist, the
+   [Naming alignment pass](../code-review/doctrine.md#naming-alignment-pass-required-on-standards),
+   the Architecture sweep, and the Correctness hunt against the PR
+   fixed-point diff. Cite `taste:<principle>` or `architecture:<principle>` in
+   each finding **Rule**.
+4. Wave 2 must return the Miss-class sweep, plus the **PR extras** below.
 
 Treat a concrete hard-standard or named-principle violation introduced or
 extended in the touched lane as a `blocker` candidate (especially fail fast,
-idempotency, SoC with security/auth/payments, coupling through internals, and
-honest names after a rename/scope change).
+safe to retry, trust the server on auth/payments, related together through
+internals, honest names after a rename/scope change, and types that lie on a
+public surface).
 A valuable cleanup that is not required for the PR contract remains a
 `follow-up`, not a performative Blocking comment. Apply the shared evidence bar
 before posting runtime-risk findings.
 
 On follow-up **new-surface** review (when applicable), run the same principles
-checklist on newly introduced files/hunks — do not skip principles because the
-mode is remediation-plus-new-surface.
+checklist, Architecture sweep, and Correctness hunt on newly introduced
+files/hunks. Do not skip those tables because the mode is
+remediation-plus-new-surface.
+
+## PR extras (this skill only)
+
+Local `/code-review` already judged the branch. This pass still re-runs the
+shared hunts on the GitHub diff, and **must** also inspect:
+
+| Extra | Blocker when | Otherwise |
+| --- | --- | --- |
+| **Body vs diff** | Done-when in the PR/ticket is unmet, or the diff ships extra product scope the body does not mention | Small leftover comment or typo |
+| **Historical thread** | A prior Blocking thread is still broken on `currentHead` | Thread is fixed or genuinely moot (Pass A) |
+| **Secrets** | Key, token, `.env`, or credential in the diff | Placeholder with no secret |
+| **Migration / backfill** | Schema or data change with no path for existing rows, or dual-write skipped when reads would break | Additive nullable field with a safe default |
+| **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
+| **How to QA** | Claimed behavior cannot be checked from the PR body and the diff is user-facing | Non-visual chore; note in chat, do not block on missing screenshots |
+
+Add these four rows to Wave 2's Miss-class sweep on a PR: body vs diff,
+historical thread still broken, migration/backfill, breaking public API.
 
 ## Pass A: historical finding adjudication
 
@@ -117,8 +139,12 @@ Immediately before posting comments or submitting approve/request-changes:
 
 ## Anti-patterns
 
-- Approving or commenting without running the Named principles checklist
-- Soft-pedaling `taste:SoC`, fail-fast, or idempotency violations as Nit when
-  they introduce or extend a correctness/security risk in the PR surface
+- Approving or commenting without running the Named principles checklist,
+  Architecture sweep, Correctness hunt, or Wave 2 Miss-class sweep
+- Soft-pedaling `taste:keep-jobs-apart`, `taste:fail-fast`,
+  `taste:safe-to-retry`, or `taste:trust-the-server` as Nit when they introduce
+  or extend a correctness or security risk in the PR surface
 - Skipping `/taste` / `/architecture` reads because “the PR looks small”
+- Skipping PR extras (body vs diff, historical threads, secrets, migration,
+  breaking API)
 - Posting a summary comment instead of one-topic findings

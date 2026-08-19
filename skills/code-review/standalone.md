@@ -23,10 +23,12 @@ Select the shared review mode deliberately:
 - `full-rescan` requires an explicit request to re-open full-review depth after a meaningful change.
 
 Apply the doctrine's separate axes, **Named principles checklist**, **Naming
-alignment pass**, **Architecture sweep**, evidence bar, severity mapping,
+alignment pass**, **Architecture sweep**, **Correctness hunt**, evidence bar, severity mapping,
 behavior-lock recommendation, and remediation analysis before any fix work.
-Standards workers must return the review-contract **Principles sweep** and
-**Architecture sweep** tables (including Honest names).
+Standards workers must return the review-contract **Principles sweep**,
+**Architecture sweep**, and **Correctness hunt** tables (including Honest names,
+Trust the server, and Types tell the truth). Wave 2 must return the
+**Miss-class sweep**.
 
 ## Handoff
 

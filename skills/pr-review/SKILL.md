@@ -2,9 +2,11 @@
 name: pr-review
 description: >-
   Standalone, stateless review of an open GitHub PR. Standards hard-require
-  /taste KISS + named principles (including honest names / naming alignment)
-  and /architecture. Triage historical finding threads, draft one-topic
-  comments, post only after one publish decision.
+  /taste KISS + named principles (including honest names, trust the server,
+  types tell the truth, and naming alignment) and /architecture, plus a
+  correctness hunt and PR extras (body vs diff, secrets, migrations). Triage
+  historical finding threads, draft one-topic comments, post only after one
+  publish decision.
 disable-model-invocation: true
 ---
 
@@ -18,8 +20,8 @@ disable-model-invocation: true
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,
-evidence, worker artifacts (including the **Principles sweep** and
-**Architecture sweep**), finding
+evidence, worker artifacts (including the **Principles sweep**,
+**Architecture sweep**, **Correctness hunt**, and Wave 2 **Miss-class sweep**), finding
 records, severity mapping, and behavior-lock guidance. The shared
 [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
@@ -27,8 +29,8 @@ authority and handoff rules.
 **Standards:** always Read `/taste` and `/architecture` this turn
 ([standards.md](../pack-shared/standards.md)). Apply the
 [Named principles checklist](../code-review/doctrine.md#named-principles-checklist-required-on-standards)
-and the Architecture sweep on initial and full-rescan
-(and on newly introduced follow-up surface).
+and the Architecture sweep, Correctness hunt, and PR extras on initial and
+full-rescan (and on newly introduced follow-up surface).
 
 ## Boundaries
 

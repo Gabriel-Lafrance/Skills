@@ -33,8 +33,10 @@ Apply these with keep-it-simple. Plain names, operational tests — not essays. 
 | **Say what happens** | Prefer clear data and control flow over magic. | Can a new reader see *what happens* without chasing hidden context? |
 | **No surprises** | APIs and UI behave as a careful reader expects. | Would a teammate be surprised by a side effect, return value, or name? |
 | **Honest names** | File paths, exports, functions, types, and variables match the *current* job — rename when the job changes. | After a rename, does the path still describe the old job? Would a reader open the wrong file? |
+| **Trust the server** | UI and client checks are feedback. Auth, ownership, money, and permissions are enforced on the write path. | Could a caller skip the UI (or toggle a client flag) and still perform the write? If yes, the lock is missing. |
+| **Types tell the truth** | Public args, returns, and stored fields match reality: no `any`, no optional that is required, validators at the boundary. | Would a lie in the type or a missing validator let bad data through? |
 
-**How they relate:** Keep-jobs-apart + related-together shape *where* code lives (`/architecture` services). One-altitude, read-or-write, say-what-happens, no-surprises, and honest names shape *how* a unit reads. Fail fast + safe-to-retry shape *boundaries*. Leave-it-cleaner shapes *edits in messy files*.
+**How they relate:** Keep-jobs-apart + related-together shape *where* code lives (`/architecture` services). One-altitude, read-or-write, say-what-happens, no-surprises, and honest names shape *how* a unit reads. Fail fast + safe-to-retry + trust-the-server shape *boundaries*. Types-tell-the-truth shapes *contracts*. Leave-it-cleaner shapes *edits in messy files*.
 
 ## Bad code = complexity and entropy
 
@@ -48,12 +50,14 @@ Apply these with keep-it-simple. Plain names, operational tests — not essays. 
 **Operational tests** (apply before shipping a slice):
 
 1. **KISS** — Is there a stupider-simple shape that still meets Done when and Active Rules? Prefer it.
-2. **Principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names — any clear violation in the touched lane?
+2. **Principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names, trust the server, types tell the truth — any clear violation in the touched lane?
 3. **Call-site** — Does the caller need internals / order / edge cases? → shallow / complex.
 4. **Change** — Would a small product change touch many files for one concept? → complexity (amplification).
 5. **Window** — Are we copying or extending a known-wrong shape? → entropy.
 6. **Judo** — Is there a behavior-preserving delete/move that removes a whole branch or layer? → do it when the active goal or a named finding requires it; otherwise record a follow-up.
 7. **Primitive** — Does an existing one-job block already answer this? Reuse it; do not fork.
+8. **Server** — Can a caller bypass the UI and still write? → missing authority (`trust the server`).
+9. **Types** — `any`, a missing boundary validator, or optional-that-is-required? → the contract is a lie.
 
 ## Abstraction budget
 
@@ -68,7 +72,7 @@ Non-negotiables below are **consequences** of keep-it-simple + named principles 
 ## Non-negotiables
 
 1. **Keep it simple** — no cleverness or extra machinery without evidence it is required
-2. **Named principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names (see table above)
+2. **Named principles** — keep jobs apart, one altitude, read or write not both, fail fast, leave it cleaner, related together, safe to retry, say what happens, no surprises, honest names, trust the server, types tell the truth (see table above)
 3. **Never-nest** — flatten control flow; extract early instead of deep `if`/`try` pyramids
 4. **Don’t repeat yourself** — one concept, one place; no copy-paste twins
 5. **Throw + purposeful try/catch** at boundaries that recover, translate, add actionable context, or clean up — never `{ success: false }` / Result bags for expected failure control flow; do not wrap local code merely because it could throw (**fail fast** at the boundary)
@@ -81,6 +85,8 @@ Non-negotiables below are **consequences** of keep-it-simple + named principles 
 12. **Honest names** — when responsibility or scope changes, rename the file and the symbols in the same change; do not keep writing into a stale path or under an old identifier
 13. **Don't spam verify** — read existing terminals first; no ritual lint/typecheck/Convex MCP (see Verify)
 14. **Plain language** — humans must understand without decoding jargon or abbreviations ([plain-language.md](../pack-shared/plain-language.md))
+15. **Trust the server** — never treat a disabled button, hidden route, or client `if` as authorization; public writes check identity and ownership
+16. **Types tell the truth** — no `any` on public surfaces; validate args and returns at the door; do not mark required data optional to silence the compiler
 
 ## Verify (terminals first — not MCP)
 
@@ -179,22 +185,24 @@ return { success: false, error: "Payment failed" };
 
 ## Planning & spec (how other skills use this)
 
-When `/goal` writes what “done” means (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed. When structure is in play, those checks may include: **callers stay thin; complexity behind service X** (simple public surface; one-job helpers reused not copied). Parents must already have loaded `/architecture` this turn ([standards.md](../pack-shared/standards.md)); do not skip that Read for a “small” slice.
+When `/goal` writes what “done” means (or a ticket-driven goal does), include **taste-relevant** checks when the change touches structure/UI — e.g. entry point exists, folder map followed, extension seam named (if big feature), no Result bags, Convex names legal, responsibilities not mixed, public writes check identity/ownership, public args are validated. When structure is in play, those checks may include: **callers stay thin; complexity behind service X** (simple public surface; one-job helpers reused not copied). Parents must already have loaded `/architecture` this turn ([standards.md](../pack-shared/standards.md)); do not skip that Read for a “small” slice.
 
 Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
 ## Implement self-check (required each slice)
 
 - [ ] **Keep it simple** — no extra layer, file, wrapper, pattern, or config beyond what Done when / rules that must stay true require
-- [ ] **Principles** — no clear keep-jobs-apart / one-altitude / read-or-write / fail-fast / leave-it-cleaner / related-together / safe-to-retry / say-what-happens / no-surprises / honest-names violation in the touched lane
+- [ ] **Principles** — no clear keep-jobs-apart / one-altitude / read-or-write / fail-fast / leave-it-cleaner / related-together / safe-to-retry / say-what-happens / no-surprises / honest-names / trust-the-server / types-tell-the-truth violation in the touched lane
 - [ ] **Plain language** — user-facing chat has no unexplained jargon or abbreviations
 - [ ] Sibling pattern cited is a **good** one (or explicitly "greenfield" / correcting debt)
-- [ ] Entry point + folder match `/architecture` card (including **Moves / corrections** and **Primitives**)
+- [ ] Entry point + folder match `/architecture` card (including **Moves / corrections**, **Primitives**, and **Authority**)
 - [ ] Did not copy a bad sibling — moved/corrected when the lane had prior mistakes
 - [ ] Change **reduces or holds complexity** at call sites (deep entry, not shallower)
 - [ ] Touched lane: **did not copy a known-wrong shape** (did not extend a mess without a move; did not copy a one-job helper’s job)
 - [ ] Naming rules above (especially Convex) — file path + symbols match current responsibility after any rename/scope change
 - [ ] No nesting pyramids / no dynamic import / no `success: false`
+- [ ] Public writes check identity and ownership; UI-only guards are not the lock
+- [ ] Public args/returns are typed and validated; no `any` on the new surface
 - [ ] One main export per new file
 - [ ] Each new type has one clear responsibility (no logger-that-also-sends-mail)
 - [ ] Class/interface chain ≤ 2 deep; composition if more is needed

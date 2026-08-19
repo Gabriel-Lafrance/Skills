@@ -23,7 +23,8 @@ workspace or plan file.
    primitive when it already does the one job. Flag wrong shape in the lane
    rather than copying it.
 2. Draft the doctrine's **Structure** card in chat: Services, **Moves /
-   corrections**, Feature entry, **Primitives**, Folder map, and Scalability.
+   corrections**, Feature entry, **Primitives**, **Authority**, Folder map, and
+   Scalability.
    A required behavior-preserving move is listed before feature code begins.
 3. The parent carries the applicable card and decision in its inline context
    and Worker Brief. Do not create or update a plan, workspace, register, or
@@ -37,5 +38,5 @@ workspace or plan file.
 ## Hand-offs
 
 - Structure decision → parent inline context → `/implement`
-- Scale, duplicated-service, forked-primitive, or missed-move concerns →
-  acceptance evidence / `/code-review`
+- Scale, duplicated-service, forked-primitive, missed-move, or missing
+  write-path authority → acceptance evidence / `/code-review`

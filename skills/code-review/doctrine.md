@@ -6,7 +6,7 @@
 
 Review along two independent axes; present them separately:
 
-- **Standards** — maintainability, architecture, repository conventions, and design quality.
+- **Standards** — maintainability, architecture, repository conventions, design quality, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec** — whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Keep findings factual, not roleplay. Thoroughness means stronger path walks and better evidence, never hypothetical failures.
@@ -16,10 +16,10 @@ Use an A+ exam bar: report every evidenced defect on an initial review or full r
 Resolve Standards in this order:
 
 1. `/taste` — [KISS](../taste/doctrine.md#kiss--keep-it-stupid-simple), [Named principles](../taste/doctrine.md#named-principles), complexity/entropy, non-negotiables, and [examples](../taste/examples.md)
-2. `/architecture` — services, simple public surfaces, keep jobs apart, related together, safe-to-retry writes, and [examples](../architecture/examples.md)
+2. `/architecture` — services, simple public surfaces, keep jobs apart, related together, safe-to-retry writes, write-path authority, cheap honest reads, and [examples](../architecture/examples.md)
 3. Repository rules and committed project documentation — these win on conflict
 4. Optional project standards when present; do not require a particular standards file
-5. Smell baseline plus thermonuclear maintainability
+5. Baseline defects in the review contract (never-nest, copy-paste twins, Result bags, and the rest of that list)
 
 Treat the first two sources as **hard** unless repository rules conflict. On every
 `initial` or `full-rescan`, **Read** `/taste` doctrine (at least KISS + Named
@@ -31,7 +31,8 @@ optional flavor text. Reject Standards output that skipped either Read.
 
 For the shipped diff, actively check each principle. Cite the principle’s **plain name** in the finding **Rule** field when
 violated (e.g. `taste:keep-it-simple`, `taste:keep-jobs-apart`,
-`taste:fail-fast`, `architecture:safe-to-retry`). The user-facing sentence
+`taste:fail-fast`, `taste:trust-the-server`, `taste:types-tell-the-truth`,
+`architecture:safe-to-retry`). The user-facing sentence
 must still explain the problem in ordinary words
 ([plain-language.md](../pack-shared/plain-language.md)).
 
@@ -48,6 +49,8 @@ must still explain the problem in ordinary words
 | **Say what happens** | Hidden globals, surprise side effects, or control flow a reader cannot see | Minor magic with local clarity |
 | **No surprises** | Surprising API/UI behavior vs name or docs | Slightly awkward but documented behavior |
 | **Honest names** | Diff changes the job but leaves a stale **file path**, **export**, **type**, or **widely used symbol** | Local helper mildly stale but still navigable |
+| **Trust the server** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
+| **Types tell the truth** | New public surface uses `any`, skips validators, or marks required data optional | Local private helper loosely typed but not on a boundary |
 
 ### Naming alignment pass (required on Standards)
 
@@ -65,7 +68,8 @@ symbols in the named surface — not only one of them.
 
 Also inspect placement and public entry points, reuse of existing domain
 authorities, complexity and entropy, nesting and needless wrappers, boundary
-types and error handling, data access, and UI behavior when applicable. For UI
+types and error handling, data access, **write-path authority**, deterministic
+queries, indexes/pagination, and UI behavior when applicable. For UI
 changes, apply `/taste` React & UI guidance; use available browser validation for
 targeted visual or interaction evidence, and state when visual confirmation was
 unavailable.
@@ -75,6 +79,9 @@ simplification (**keep it simple**, **leave it cleaner**) and missed moves. A us
 remains a **Follow-up** unless it violates the spec or an Active Rule, causes a
 correctness or security defect, regresses behavior, or is necessary to clear a
 named finding.
+
+Run the shared **Correctness hunt** on every `initial` or `full-rescan`. A
+public write without identity or ownership is a blocker candidate, not a nit.
 
 ## Evidence and safe remedies
 
@@ -105,7 +112,7 @@ For an `initial` review or `full-rescan`, the parent:
 1. Pins the fixed point, inspects the diff, resolves the available spec, and supplies relevant Active Rules.
 2. Runs **Wave 1** Standards and Spec as **parallel Task workers** (not sequential solo on the main agent). Skip Spec only when no specification is available; report that absence rather than inventing acceptance criteria. Follow [subagents.md](../pack-shared/subagents.md).
 3. Keeps worker output in the shared contract shape; rejects and relaunches a narrative-only result once.
-4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** (may be a follow-up Task) to find genuinely missed defects. Reject Standards output that lacks the **Principles sweep** table or the **Architecture sweep** table.
+4. Aggregates Standards and Spec separately, deduplicates stable finding IDs, then runs adversarial **Wave 2** (may be a follow-up Task) to find genuinely missed defects. Wave 2 **must** return the **Miss-class sweep** and re-inspect those classes; it may not rubber-stamp Wave 1. Reject Standards output that lacks the **Principles sweep**, **Architecture sweep**, or **Correctness hunt** tables.
 5. Applies the evidence bar, severity mapping, and remediation disposition before proposing any fix work.
 
 The parent controls worker dispatch plus acceptance evidence and review gates. Implementation workers receive the supplied lane and context; they do not run acceptance or review gates, select a review mode, or expand the review scope. Do not add specialist review axes unless the user asks; report unavailable browser evidence as a gap, not a Standards finding.
@@ -126,7 +133,7 @@ Show the Fix now, Follow-up, and Optional nit sections after an initial review o
 
 ## Behavior locks
 
-After an initial review or full rescan, recommend `/create-test` only for a complex architectural boundary with externally observable behavior and no durable behavior lock. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
+After an initial review or full rescan, recommend `/create-test` only for a complex architectural boundary with externally observable behavior and no durable behavior lock, especially authorization, ownership, and safe-to-retry writes. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
 ## Remediation analysis and promotion
 
@@ -152,6 +159,8 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 - Skipping Wave 2 for an initial review or full rescan
 - Skipping the Named principles checklist or accepting Standards output without a **Principles sweep**
 - Skipping the **Architecture sweep** or accepting Standards output that did not Read `/architecture` this turn
+- Skipping the **Correctness hunt** or treating a public write without identity/ownership as Optional nit
+- Skipping Wave 2's **Miss-class sweep** or rubber-stamping Wave 1 without re-inspecting those classes
 - Skipping the **Naming alignment pass** or treating stale file/symbol names after a rename as Optional nits
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation

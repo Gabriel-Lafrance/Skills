@@ -28,8 +28,8 @@ chat; this flow creates no automatic artifacts.
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste`: keep it simple; keep jobs apart; one altitude; read or write not both; fail fast; leave it cleaner; related together; safe to retry; say what happens; no surprises; honest names |
-   | Always | `/architecture`: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
+   | Always | `/taste`: keep it simple; keep jobs apart; one altitude; read or write not both; fail fast; leave it cleaner; related together; safe to retry; say what happens; no surprises; honest names; trust the server; types tell the truth |
+   | Always | `/architecture`: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.

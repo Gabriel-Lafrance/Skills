@@ -20,9 +20,10 @@ that remains open. Sweep these topics unless they are already settled:
   and unchanged behavior;
 - domain language, named events, packages, vendors, storage, roles, and
   standing policies;
-- **Always** taste and architecture: KISS, named principles, owner, public
-  boundary, folders, write path, and whether a behavior-preserving move is
-  required. For a typo or pure rename, lock “keep the existing structure.”
+- **Always** taste and architecture: keep it simple, named principles, owner, public
+  boundary, folders, write path, who may act, what a caller can skip, where the
+  write is rejected, and whether a behavior-preserving move is required. For a
+  typo or pure rename, lock “keep the existing structure.”
 
 Distinguish facts from user-owned decisions. Rediscover facts from the
 repository, ticket, PR, and diff; place decisions, waivers, non-goals, and

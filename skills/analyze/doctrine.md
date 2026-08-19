@@ -88,7 +88,7 @@ flowchart LR
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>
 **Owner:** <existing or proposed deep boundary>
-**Architecture notes:** <SoC / cohesion / coupling / idempotency if relevant | n/a>
+**Architecture notes:** <keep jobs apart / related together / safe to retry / trust the server if relevant | none>
 **Not prescribed:** implementation details
 
 ### Touch surface and constraints

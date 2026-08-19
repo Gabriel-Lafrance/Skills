@@ -3,8 +3,8 @@
 Apply or audit pack coding taste outside a build wave. Read
 [../pack-shared/standards.md](../pack-shared/standards.md), then
 [doctrine.md](doctrine.md) and [examples.md](examples.md). Also Read
-`/architecture` doctrine this turn — placement and SoC defects are taste
-failures too.
+`/architecture` doctrine this turn. Placement and keep-jobs-apart defects are
+taste failures too.
 
 ## When to use
 
@@ -17,7 +17,7 @@ failures too.
 1. Identify the lane (paths / symbols) and the ask.
 2. Read doctrine + examples; apply KISS and **Named principles**.
 3. Report concrete violations with path evidence and the smallest fix
-   (Boy Scout / KISS — no speculative rewrite).
+   (leave it cleaner / keep it simple: no speculative rewrite).
 4. If the user asks to fix, apply only behavior-preserving edits in that lane.
    Larger product scope → recommend `/analyze` or `/goal`.
 5. Do not invent a parent wave, write tests, or start `/create-test`.

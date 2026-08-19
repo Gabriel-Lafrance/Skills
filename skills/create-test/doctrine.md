@@ -3,8 +3,10 @@
 ## Apply only when
 
 Use this skill for a complex hook, domain rule, facade, stateful class, or a
-real regression whose public behavior could silently drift. Skip thin wrappers,
-formatters, UI chrome, generated code, types-only files, and coverage targets.
+real regression whose public behavior could silently drift. Prefer it when
+review named authorization, ownership, or safe-to-retry writes with no durable
+lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only
+files, and coverage targets.
 
 ## Rules
 

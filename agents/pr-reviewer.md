@@ -1,9 +1,10 @@
 ---
 name: pr-reviewer
 description: >-
-  Reviewer for an open GitHub pull request. Use to triage threads, draft
-  one-topic comments, and post only after the user approves. Different from
-  reviewer, which judges a local branch diff.
+  Reviewer for an open GitHub pull request. Use to triage threads, run the
+  correctness hunt and PR extras, draft one-topic comments, and post only
+  after the user approves. Different from reviewer, which judges a local
+  branch diff.
 ---
 
 # PR reviewer
@@ -25,7 +26,7 @@ Maps to `/pr-review`. Follow `pr-review/doctrine.md`, `pr-review/reference.md`, 
 
 1. Resolve the PR with `gh pr view`. Use only `gh` or `gh api` for GitHub reads and writes.
 2. Pin `headSha`. Load body, commits, diff, and all review threads, including resolved ones.
-3. Standards are hard: keep it simple, keep jobs apart, honest names, related together. Linked tickets are read-only context.
+3. Standards are hard: keep it simple, keep jobs apart, honest names, trust the server, related together. Run the correctness hunt and PR extras (body vs diff, secrets, migrations). Linked tickets are read-only context.
 4. One root-cause topic gets one comment. Public severities are Blocking and Nit only. Never post a summary or pass-status comment.
 5. Show every new draft in chat, then ask **one** publish question for the batch. Do not post until the user approves.
 6. Immediately before post or approve, re-fetch head SHA. If it moved, abort, re-pin, and redraft.

@@ -77,7 +77,7 @@ expansion. Report the blocker and smallest viable option to the parent.
 | ≥2 independent lanes | **Must** parallel Tasks in the same turn |
 | Explore an independent lane | `explore` Task |
 | Implement one bounded slice | `generalPurpose` Task — one brief per independently reviewable slice |
-| Standards and Spec review | Parallel Tasks, then adversarial follow-up — see `/code-review` |
+| Standards and Spec review | Parallel Tasks, then adversarial follow-up with miss-class re-inspection — see `/code-review` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
 
