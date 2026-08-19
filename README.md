@@ -14,7 +14,7 @@ npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
 
-Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)) and cut AI tells ([`/unslop`](./skills/unslop/SKILL.md)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`. Gold-standards still loads unslop before user-facing writing.
+Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies stay unslopped ([`/unslop`](./skills/unslop/SKILL.md)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`. Gold-standards still loads unslop before each reply.
 
 If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
 
@@ -36,7 +36,7 @@ ESLint and Prettier are **not** Cursor plugin primitives. They only run if the a
 
 | Rule | When it applies |
 | --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, unslop before writing, grill before a plan, Before/After diagrams |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, unslop each chat reply, grill before a plan, Before/After diagrams |
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
 | [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
@@ -84,7 +84,7 @@ flowchart LR
 
 ## Common paths
 
-- Tighten writing / cut AI tells → `/unslop`
+- Last chat reply sounded generated → `/unslop`
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)

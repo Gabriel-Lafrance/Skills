@@ -33,14 +33,15 @@ KISS is allowed only as **keep it simple**. If you say KISS, expand it in the sa
 ## AI tells
 
 Ordinary words are not enough if the sentence still sounds generated.
-Cut AI tells using [`../unslop/doctrine.md`](../unslop/doctrine.md)
-(`unslop:tells`, `unslop:human-voice`). This file owns jargon and
-nicknames. Unslop owns puffery, chatbot closings, fake cadence, and
-the rewrite bar.
+Cut AI tells from the **reply in this discussion** using
+[`../unslop/doctrine.md`](../unslop/doctrine.md)
+(`unslop:tells`, `unslop:human-voice`, `unslop:draft`). This file owns
+jargon and nicknames. Unslop owns puffery, chatbot closings, fake
+cadence, and drafting that chat message clean.
 
 `/ask-gabriel` stays thin and does not run `/unslop`. It still skips
 puffery and chatbot closings; gold-standards loads the unslop doctrine
-for user-facing writing.
+before each reply.
 
 ## Questions and announcements
 

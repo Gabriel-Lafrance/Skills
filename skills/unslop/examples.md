@@ -1,14 +1,27 @@
 # Unslop examples
 
-Concrete good vs bad. Prefer matching **good**.
+These are **chat replies**. Prefer matching **good**.
+
+## Draft the reply
+
+**Bad (generate then clean):** Write a fluffy paragraph, then "unslop"
+it in a second pass before send.
+
+**Good:** Draft the answer the user will see. Short sentences. The fact
+first.
+
+**Bad (file sweep):** Open `README.md` and restyle it because someone
+said unslop.
+
+**Good:** Rewrite the last assistant message in this discussion.
 
 ## Content tells
 
-**Puffery (bad):** This release is a pivotal moment and a testament to
-our evolving landscape.
+**Puffery (bad):** This is a pivotal moment for the pack and a testament
+to our evolving landscape.
 
-**Puffery (good):** `/unslop` is now a pack skill. Agents Read it before
-user-facing chat.
+**Puffery (good):** I treated unslop as file cleanup. It is for the
+reply in this chat. Rescoping the skill now.
 
 **Hollow -ing (bad):** The change improves reliability, ensuring teams
 can ship with confidence.
@@ -30,10 +43,11 @@ interplay of taste and architecture.
 **AI vocabulary (good):** Taste is how a unit reads. Architecture is
 where it lives.
 
-**Not just X, but Y (bad):** This is not just a linter, but a full
-writing discipline.
+**Not just X, but Y (bad):** This is not just a chat rule, but a full
+writing discipline for every artifact.
 
-**Not just X, but Y (good):** Unslop cuts AI tells. It is not a linter.
+**Not just X, but Y (good):** Unslop is the reply in this discussion.
+It is not a docs skill.
 
 **Synonym cycling (bad):** The protagonist (the main character, our
 central figure) calls the helper.
@@ -65,21 +79,21 @@ gold standards into User Rules.
 **Chatbot closing (bad):** I hope this helps! Let me know if you want
 me to apply it.
 
-**Chatbot closing (good):** `/unslop` is in the Guide catalog. Say
-`/unslop` on a file when you want a rewrite.
+**Chatbot closing (good):** Gold-standards loads unslop before each
+reply. Say `/unslop` if the last message still sounds generated.
 
 **Sycophancy (bad):** Great question! You're absolutely right to want
 this.
 
-**Sycophancy (good):** Apply it two ways: always-on via standards, and
-`/unslop` when you name a file.
+**Sycophancy (good):** Pstack unslop is the agent's chat voice. Docs
+and PR bodies are a different job there. Matching that split here.
 
 ## Filler and plain speech
 
 **Filler (bad):** It is important to note that, in order to unslop, we
 need to scan for tells.
 
-**Filler (good):** Scan for tells, then rewrite.
+**Filler (good):** Scan for tells while you write the reply.
 
 **Mood instead of mechanism (bad):** Types that follow your schema, SQL
 you can read, a database that stays close at hand.

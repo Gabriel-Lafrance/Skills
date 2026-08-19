@@ -1,17 +1,17 @@
 ---
 name: unslop
 description: >-
-  Cut AI tells from writing and keep a human voice. Always apply to
-  user-facing chat, tickets, PRs, and docs you author. Use when the user
-  says unslop, tighten prose, sounds like ChatGPT, cut slop, make this
-  sound human, or asks to clean a README, ticket, or PR body.
+  Cut AI tells from the agent's reply in this discussion. Must always
+  apply to chat. Use when the user says unslop, that sounded like
+  ChatGPT, rewrite that reply, or tighten the last message. Not for
+  README, ticket, or PR-body file cleanup.
 disable-model-invocation: true
 ---
 
 # Unslop
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md).
-This skill *is* writing discipline; still Read `/taste` and `/architecture`
+This skill *is* discussion voice; still Read `/taste` and `/architecture`
 doctrines this turn. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
@@ -20,46 +20,44 @@ doctrines this turn. Do not skip.
 [examples.md](examples.md) ·
 [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
+The prose surface is **the reply in this discussion**. Write it clean as
+you draft it. Do not generate slop and strip it afterward. That cleanup
+pass fails.
+
 Cite keys live in doctrine. Ordinary words live in
 [plain-language.md](../pack-shared/plain-language.md). Em dash characters
-live in the no-emdash plugin rule. This skill owns AI tells and cadence.
+live in the no-emdash plugin rule.
 
-Parents load this doctrine on every skill run via standards, next to
-plain language. `/ask-gabriel` stays a thin router and does not run this
-skill; gold-standards still requires the doctrine before user-facing
-writing.
+Parents load this doctrine so every chat reply is unslopped. Gold-standards
+loads it even for `/ask-gabriel`. This skill stays
+`disable-model-invocation: true` (only `/ask-gabriel` may auto-invoke).
+Always-on is that Read, not a self-start.
 
 Adapted from [pstack `/unslop`](https://github.com/backnotprop/pstack)
-(MIT). Pack overrides are in doctrine (`unslop:scope`).
+(MIT). Pstack sends docs and PR bodies to a separate technical-writing
+skill. This pack does the same split: unslop is discussion text
+(`unslop:scope`).
 
-### If this is a user one-off (clean named writing)
+### If this skill is already loaded (every reply)
 
-Use when the user asks to unslop, tighten, or humanize a message, file,
-ticket, or PR body.
+1. Read doctrine + examples.
+2. Draft the reply clean (`unslop:draft`). Scan with `unslop:tells` while
+   writing, not after.
+3. Keep asking-contract and Locked-in templates intact (`unslop:scope`).
+4. Self-audit (`unslop:self-audit`) before the user sees the message.
+5. Do not edit files. Do not rewrite a README, ticket, or PR body as
+   this skill's job.
 
-1. Identify the lane (paths, paste, or the last assistant message).
-2. Read doctrine + examples. Scan with `unslop:tells`.
-3. Rewrite in place. Preserve meaning and the intended tone. Do not
-   change code behavior, identifiers, or required templates
-   (`unslop:scope`).
-4. Add a human voice (`unslop:human-voice`): specific to this repo,
-   recommended next step, mixed sentence length. Do not invent metaphors
-   or literary flourish.
-5. Self-audit (`unslop:self-audit`): "What makes this obviously
-   generated?" Fix remaining tells. Show the rewritten text or diff.
-6. Do not sweep unrelated files. Do not invent a parent wave, write
-   tests, or start `/create-test`.
+### If the user asks to unslop a reply
+
+The last assistant message in this discussion landed sloppy.
+
+1. Take that chat message (or the paste they pointed at in chat). Not a
+   file lane.
+2. Rewrite it in the next reply. Preserve meaning. Match the intended
+   tone.
+3. Self-audit. Send the rewritten message. Do not open a diff unless
+   they also asked to change code.
 
 Hand-offs: coding style → `/taste`. Structure → `/architecture`. Build
 end-to-end → `/goal`.
-
-### If this skill is already loaded inside a build
-
-1. Load unslop doctrine before any user-facing message (chat, ticket,
-   PR title/body, README, review comment).
-2. Apply `unslop:tells` and `unslop:human-voice` to text the user will
-   read. Keep asking-contract and Locked-in templates intact.
-3. Run the doctrine Output self-check before sending that text.
-4. Do not rewrite pack doctrines to erase cite-key terms such as
-   primitive or surface. User-facing chat still uses ordinary words
-   ([plain-language.md](../pack-shared/plain-language.md)).

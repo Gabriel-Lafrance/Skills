@@ -51,14 +51,14 @@ Apply them as **hard** standards. Do not skip because you “already know” the
 
 **Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
 
-Talk in ordinary words (`pack-shared/plain-language.md`). Cut AI tells (`unslop/doctrine.md`).
+Talk in ordinary words (`pack-shared/plain-language.md`). Cut AI tells from the reply in this discussion (`unslop/doctrine.md`). Write that reply clean as you draft it. Do not generate slop and strip it afterward.
 
-**Before user-facing writing** (chat, tickets, PRs, README, review comments you author):
+**Before each assistant reply in this discussion:**
 
 1. **Read** `pack-shared/plain-language.md`
 2. **Read** `unslop/doctrine.md` (Job through Bars). Read `unslop/examples.md` when judging a rewrite.
 
-Do this even when `/ask-gabriel` is the only skill in play. Do not skip because the message is short. Do not run `/unslop` as a skill unless the user asked to clean named writing.
+Do this even when `/ask-gabriel` is the only skill in play. Do not skip because the message is short. Do not run `/unslop` as a skill unless the user asked to rewrite a prior chat reply. Do not treat README, ticket, or PR-body files as this bar.
 
 ## Plan mode — grill before the plan
 

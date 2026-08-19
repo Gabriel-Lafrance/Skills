@@ -17,8 +17,7 @@ Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`
 2. `architecture/doctrine.md`
 3. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
 4. `pack-shared/plain-language.md`
-5. `unslop/doctrine.md` (when the Completion text may be shown to the user)
-6. The parent Worker Brief in this chat (outcome, allowlist, rules that must stay true)
+5. The parent Worker Brief in this chat (outcome, allowlist, rules that must stay true)
 
 ## Job
 

@@ -2,12 +2,14 @@
 
 ## Job
 
-Cut AI tells from user-facing writing and keep a specific, human cadence.
+Cut AI tells from the agent's reply in this discussion. Write that reply
+clean as you draft it.
 
 ## Owns
 
-What counts as an AI tell, the rewrite bar, human voice (not literary
-flourish), and which texts this skill may touch.
+What counts as an AI tell in chat, the draft-clean bar, human voice
+(not literary flourish), and that the prose surface is the discussion
+reply.
 
 ## Does not own
 
@@ -15,13 +17,16 @@ flourish), and which texts this skill may touch.
 - Em dash, en dash, and horizontal bar characters: [`../../rules/no-emdash.mdc`](../../rules/no-emdash.mdc)
 - How to ask the user (Questions / Locked-in templates): [`../pack-shared/asking.md`](../pack-shared/asking.md)
 - Coding taste and structure: `taste:*`, `architecture:*`
-- Numbered cleanup steps: [`SKILL.md`](SKILL.md)
+- README, RFC, ticket, PR body, or commit-message file cleanup: not this
+  skill (pstack routes those to technical-writing)
+- Numbered reply steps: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
 | Key | Heading |
 | --- | --- |
 | `unslop:scope` | Scope |
+| `unslop:draft` | Draft clean |
 | `unslop:human-voice` | Human voice |
 | `unslop:tells` | Tells |
 | `unslop:self-audit` | Self-audit |
@@ -32,17 +37,18 @@ Snippets: [`examples.md`](examples.md).
 
 ### Scope
 
-**Always apply** to text the user will read: chat, tickets, PR titles and
-bodies, README and skill descriptions, and comments you post.
+**Always apply** to the assistant's next message in this discussion.
+That includes Questions text, Locked-in sentences, and review comments
+you are about to show in chat. The reply is the prose surface.
 
 **Do not apply** as a rewrite of:
 
 | Leave alone | Why |
 | --- | --- |
-| Asking-contract and Locked-in templates | Shape is the contract (`asking.md`) |
-| Doctrine cite-key terms in skill files (`primitive`, `surface`, …) | Internal names; user-facing chat still uses ordinary words |
-| Code identifiers, paths, commands, and test names | Honesty of names is `/taste`, not prose style |
-| Files you were not asked to touch | No drive-by unslop of the tree |
+| Asking-contract and Locked-in heading/shape | Shape is the contract (`asking.md`) |
+| Doctrine cite-key terms in skill files (`primitive`, `surface`, …) | Internal names; chat still uses ordinary words |
+| Code, identifiers, paths, commands, and test names | Honesty of names is `/taste` |
+| README, ticket, PR body, commit message, as files | Not discussion text. Do not sweep the tree |
 
 **Pack overrides of pstack `/unslop`:**
 
@@ -52,14 +58,25 @@ bodies, README and skill descriptions, and comments you post.
 2. Do not "let mess in" to look human. Required templates, doctrine
    schema, and one-row `Reply like:` stay exact.
 3. Do not invent metaphors, late-night atmosphere, or cute asides. Be
-   specific about *this* repo.
+   specific about *this* repo and *this* turn.
 4. Only `/ask-gabriel` may auto-invoke. This skill stays
    `disable-model-invocation: true`. Always-on happens because gold
    standards and [standards.md](../pack-shared/standards.md) **Read**
-   this file, not because the model self-starts `/unslop`.
+   this file before each reply.
 
-A sentence that could appear unchanged in another project's docs says
+A sentence that could appear unchanged in another project's chat says
 nothing about this one. Cut it or name a concrete fact here.
+
+### Draft clean
+
+Write the reply clean as you draft it. Do not generate a sloppy sentence
+intending to clean it in a second pass. That pass fails.
+
+- Short declarative sentences. One thought per sentence.
+- Terse is not an excuse to drop content the user needs (the answer,
+  the evidence, the next step).
+- Frame who the work is for and what they will notice before dumping
+  implementation detail, when that is what the turn is about.
 
 ### Human voice
 
@@ -75,7 +92,7 @@ Removing tells is half the job. Flat, voiceless prose is still a tell.
 
 ### Tells
 
-Scan, then rewrite. Preserve meaning.
+Scan while drafting the reply. Preserve meaning.
 
 #### Content
 
@@ -121,7 +138,8 @@ Scan, then rewrite. Preserve meaning.
     line ("**Performance:** Performance improved…") is a tell. Convert
     to prose. A bold lead-in that names the item and adds new detail
     is fine.
-16. **Title Case headings.** Use sentence case for headings you author.
+16. **Title Case headings.** Use sentence case for headings you author
+    in chat.
 17. **Decorative emojis.** Remove from headings and bullets.
 18. **Curly quotes.** Use straight quotes.
 
@@ -144,13 +162,13 @@ Scan, then rewrite. Preserve meaning.
 
 #### Jargon and plain speech
 
-25. **Abstract metaphor nouns** in user-facing text: substrate, wedge,
-    vector, locus, vantage, nexus, harness (metaphor), bedrock,
-    scaffolding (metaphor), modality, paradigm, gold-plating, ratchet
-    (metaphor), evacuate (for moving code), endgame, north star,
-    flywheel. Pick the concrete word. In **this pack's doctrines**,
-    `primitive` and `surface` stay; in chat, say "one-job helper" and
-    "public API" ([plain-language.md](../pack-shared/plain-language.md)).
+25. **Abstract metaphor nouns** in chat: substrate, wedge, vector,
+    locus, vantage, nexus, harness (metaphor), bedrock, scaffolding
+    (metaphor), modality, paradigm, gold-plating, ratchet (metaphor),
+    evacuate (for moving code), endgame, north star, flywheel. Pick the
+    concrete word. In **this pack's doctrines**, `primitive` and
+    `surface` stay; in chat, say "one-job helper" and "public API"
+    ([plain-language.md](../pack-shared/plain-language.md)).
 26. **Say what it does.** If you cannot restate the sentence as an
     instruction, fact, or number, cut it.
 27. **Shorten or split.** One idea per sentence when the reader would
@@ -164,47 +182,48 @@ Scan, then rewrite. Preserve meaning.
 
 ### Self-audit
 
-After the rewrite, ask: **What makes this obviously generated?** Fix
-those tells before the user sees the text. Passing a spellcheck is not
-the bar.
+Before the user sees the reply, ask: **What makes this obviously
+generated?** Fix those tells. Passing a spellcheck is not the bar.
 
 ## Output
 
-User one-off: the rewritten passage or a diff in the named lane.
+The next assistant message in this discussion. No extra artifact. No
+file diff.
 
-Always-on: no extra artifact. The message, ticket, or PR body *is* the
-output.
+If the user asked to unslop a prior reply: that rewritten chat message.
 
-Self-check before the user sees the text:
+Self-check before send:
 
-- [ ] `unslop:scope` (did not break templates, code names, or doctrine terms)
+- [ ] `unslop:scope` (discussion reply, not a file sweep)
+- [ ] `unslop:draft` (did not generate slop intending to clean it later)
 - [ ] `unslop:tells` (no remaining scan hits that still read as generated)
 - [ ] `unslop:human-voice` (specific, recommended, mixed rhythm; no fake soul)
 - [ ] `unslop:self-audit`
 - [ ] `taste:plain-language` for jargon ([plain-language.md](../pack-shared/plain-language.md))
 - [ ] No em dash / en dash / horizontal bar (no-emdash rule)
 
-Fail any box → rewrite before sending.
+Fail any box → rewrite the reply before sending.
 
 ## Apply
 
-Load this doctrine whenever the user will read what you write, including
-`/ask-gabriel` replies (gold-standards Read) and every other pack skill
-run ([standards.md](../pack-shared/standards.md)).
+Load this doctrine before every assistant reply, including `/ask-gabriel`
+(gold-standards Read) and every other pack skill run
+([standards.md](../pack-shared/standards.md)).
 
-Run the numbered cleanup in [`SKILL.md`](SKILL.md) when the user names
-`/unslop` or asks to tighten existing prose.
+Run the "unslop a reply" steps in [`SKILL.md`](SKILL.md) when the user
+names `/unslop` or says the last message sounded generated.
 
-For a typo-only edit, still avoid introducing tells. Do not restyle
-untouched files.
+Do not restyle files. Do not treat a README or PR body as this skill's
+lane.
 
 ## Anti-patterns
 
+- Treating `/unslop` as README, ticket, or PR-body cleanup
+- Generating slop and "cleaning" it in a second pass
 - Auto-invoking this skill (router stays `/ask-gabriel`)
 - Stripping parentheses because pstack did
 - Breaking Questions / Locked-in / doctrine schema to "sound human"
 - Rewriting `primitive` / `surface` out of doctrines
-- Sweeping the repo to unslop files nobody asked for
 - Chatbot closings, puffery, or "Great question!"
 - Invented metaphor presented as warmth
-- A sentence that would fit any other repo's README unchanged
+- A sentence that would fit any other repo's chat unchanged
