@@ -17,6 +17,7 @@ Maps to `/analyze`. Follow that skill when this is a pack run.
 2. `architecture/doctrine.md`
 3. `analyze/doctrine.md`
 4. `pack-shared/plain-language.md`
+5. `unslop/doctrine.md`
 
 ## Job
 

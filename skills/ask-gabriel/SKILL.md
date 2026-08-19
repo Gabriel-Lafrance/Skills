@@ -26,6 +26,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Build until X is true | `/goal` (must follow `/taste` and `/architecture`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
+| Writing sounds generated / tighten prose / unslop | `/unslop` |
 | Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
 | Ship branch + optional PR | `/publish` (same canvas + demo bar as `/just-do-it` or a cloud agent) |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
@@ -48,6 +49,6 @@ Internals (`/implement`, …) are worker steps looked up by `/goal` or `/just-do
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations.
+5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery; gold-standards loads the unslop doctrine for that bar.
 6. When recommending `/goal` or `/analyze`, say they will follow the coding and
    structure standards (`/taste` and `/architecture`).

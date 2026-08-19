@@ -30,6 +30,18 @@ This contract is for **what the user reads**. Internal worker notes may keep sho
 
 KISS is allowed only as **keep it simple**. If you say KISS, expand it in the same sentence the first time.
 
+## AI tells
+
+Ordinary words are not enough if the sentence still sounds generated.
+Cut AI tells using [`../unslop/doctrine.md`](../unslop/doctrine.md)
+(`unslop:tells`, `unslop:human-voice`). This file owns jargon and
+nicknames. Unslop owns puffery, chatbot closings, fake cadence, and
+the rewrite bar.
+
+`/ask-gabriel` stays thin and does not run `/unslop`. It still skips
+puffery and chatbot closings; gold-standards loads the unslop doctrine
+for user-facing writing.
+
 ## Questions and announcements
 
 Follow [asking.md](asking.md). Question text and Locked-in text must be readable without this pack’s vocabulary. Options describe the real choice, not an internal process name.

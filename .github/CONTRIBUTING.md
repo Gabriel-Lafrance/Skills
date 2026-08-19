@@ -11,7 +11,7 @@ A Cursor **plugin toolkit**: skills under [`skills/`](../skills/), plugin rules
 under [`rules/`](../rules/), agents under [`agents/`](../agents/), and commands
 under [`commands/`](../commands/). Pack layout and authoring rules live in
 [`how-to.md`](../how-to.md). Standards for how agents should work live in skill
-doctrines (especially `/taste` and `/architecture`), the must-follow contract
+doctrines (especially `/taste`, `/architecture`, and `/unslop`), the must-follow contract
 [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md), and the
 plugin rules (especially
 [`rules/gold-standards.mdc`](../rules/gold-standards.mdc)). Do not paste those

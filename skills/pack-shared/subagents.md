@@ -55,6 +55,7 @@ do not hand a worker an opaque plan path or hidden state to reconstruct.
 
 ## Read first
 - `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
+- `pack-shared/plain-language.md` and `unslop/doctrine.md` when the worker's text may be shown to the user
 - <repo paths, ticket, PR, or committed docs only>
 
 ## Escalation boundary

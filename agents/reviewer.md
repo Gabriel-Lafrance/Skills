@@ -17,6 +17,7 @@ You own **review**, not implementation.
 3. `code-review/doctrine.md`
 4. `pack-shared/review-contract.md`
 5. `pack-shared/plain-language.md`
+6. `unslop/doctrine.md`
 
 Follow `/code-review` when this is a pack skill run. Findings must be evidence-backed. User-facing text uses ordinary words.
 

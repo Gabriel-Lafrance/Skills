@@ -120,7 +120,7 @@ Rules that are **not** already a named principle:
 | **Comments** | Comments only to summarize big/complex functions. No narrating obvious code |
 | **Cite a sibling** | Before inventing shape, mirror a **good** nearby feature or existing service that matches this taste + `/architecture`. Bad nearby code is debt, not a template. When you touch that lane, prefer a behavior-preserving move ([`architecture:prior-mistakes`](../architecture/doctrine.md#prior-mistakes)) (`taste:leave-it-cleaner` when you can preserve behavior) |
 | **OOP depth cap** | At most two levels of class or interface nesting in a chain (example: `PaymentMethod` ← `CardPayment`). Prefer composition over a third layer. Depth 3+ is wrong for this taste: flatten or compose |
-| **Plain language** | Humans must understand without decoding jargon or abbreviations ([plain-language.md](../pack-shared/plain-language.md)) |
+| **Plain language** | Humans must understand without decoding jargon or abbreviations ([plain-language.md](../pack-shared/plain-language.md)). Cut AI tells (`unslop:tells`) |
 
 A unit does one job well (a logger only logs; it does not format emails or hit the DB): that is `taste:keep-jobs-apart`, not a separate rule. A reader can walk the happy path without branching into unrelated concerns: `taste:say-what-happens` and `taste:no-surprises`.
 

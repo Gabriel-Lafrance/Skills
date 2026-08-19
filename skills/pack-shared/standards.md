@@ -1,4 +1,4 @@
-# Must follow taste and architecture
+# Must follow taste, architecture, and unslop
 
 Pack skills do **not** depend on Cursor User Rules. Plugin rules in [`rules/`](../../rules/) apply when the **gabriel-skills** Cursor plugin is installed (`gold-standards.mdc` is always on). They are pointers; they are not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement**.
 
@@ -8,7 +8,7 @@ Do not substitute a private checklist or this file’s summary. **Source of trut
 
 Before grilling, planning, specifying, splitting, implementing, reviewing, or shipping:
 
-1. **Read** [`../taste/doctrine.md`](../taste/doctrine.md) (Job through Bars). Read [`../taste/examples.md`](../taste/examples.md) when judging a shape. Read [`../taste/reference.md`](../taste/reference.md) when verifying or touching UI. Also Read [`plain-language.md`](plain-language.md) before any user-facing message.
+1. **Read** [`../taste/doctrine.md`](../taste/doctrine.md) (Job through Bars). Read [`../taste/examples.md`](../taste/examples.md) when judging a shape. Read [`../taste/reference.md`](../taste/reference.md) when verifying or touching UI. Also Read [`plain-language.md`](plain-language.md) and [`../unslop/doctrine.md`](../unslop/doctrine.md) before any user-facing message.
 2. **Read** [`../architecture/doctrine.md`](../architecture/doctrine.md) (Job through Bars). Read [`../architecture/examples.md`](../architecture/examples.md) when judging structure.
 
 Do this **every time** the skill is used this turn, including worker steps. Do not skip because you “already know” the pack. If you have not Read both doctrines this turn, **stop and Read them** before continuing.
@@ -25,6 +25,7 @@ Do this **every time** the skill is used this turn, including worker steps. Do n
 
 - **Taste is required.** Apply Cite keys in taste doctrine. Violations fail the skill’s quality bar. `/code-review` treats them as required unless repository docs contradict.
 - **Architecture is required.** Always load it. Apply Cite keys in architecture doctrine whenever the work could add files, move ownership, or touch data. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
+- **Unslop is required for user-facing text.** Apply `unslop:*` Cite keys to chat, tickets, PRs, and docs the user will read. Do not treat it as optional flavor.
 - **Smallest structure still wins.** Loading architecture does not authorize extra layers. Taste still requires the smallest shape that meets the outcome (`taste:keep-it-simple`).
 - **Fail closed.** Do not invent a weaker standard. Do not treat “structure not in play” as permission to skip the architecture Read.
 
@@ -34,4 +35,4 @@ Parents put both doctrine paths in every Worker Brief **Read first** (see [subag
 
 ## Conflict
 
-Repository `AGENTS.md` / `.cursor/rules` may add constraints. They must not weaken taste or architecture unless the user explicitly overrides in chat.
+Repository `AGENTS.md` / `.cursor/rules` may add constraints. They must not weaken taste, architecture, or unslop unless the user explicitly overrides in chat.

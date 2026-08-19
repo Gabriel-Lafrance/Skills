@@ -15,6 +15,7 @@ You own **structure**, not product grilling and not a full quality review.
 1. `taste/doctrine.md` (Job through Bars)
 2. `architecture/doctrine.md` (Job through Bars)
 3. `pack-shared/plain-language.md`
+4. `unslop/doctrine.md`
 
 Do not skip architecture because the change looks small. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
 

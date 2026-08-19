@@ -72,7 +72,8 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 ## Shared contracts
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
-- **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
+- **Unslop:** every skill that talks to the user follows [`/unslop`](./skills/unslop/SKILL.md) via [standards.md](./skills/pack-shared/standards.md) (Read the doctrine before user-facing text). User-invoked cleanup of named writing is `/unslop`. Do not auto-invoke it.
+- **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run, and `/unslop` before user-facing text. `/ask-gabriel` stays thin and does not load the bodies (gold-standards still loads unslop for writing).
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
@@ -108,7 +109,7 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
 
 1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/goal` say so in `SKILL.md`.
 2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Taste’s Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md), not in the taste doctrine body.
-3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
+3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user. User-facing writing also follows `/unslop` via standards.
 4. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
    - Internal worker step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).
