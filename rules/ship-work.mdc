@@ -1,0 +1,19 @@
+---
+description: Opening a GitHub PR, choosing a branch name, pushing, or shipping local work
+alwaysApply: false
+---
+
+# Ship work
+
+Before branches or PRs, **Read**:
+
+1. `publish/doctrine.md`
+2. `publish/reference.md`
+3. `pack-shared/pr-ship.md`
+
+**Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
+
+- Typed branch names per `publish/reference.md` when you control the branch contract
+- PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Demo screenshots when visual (not a UI test pass)
+- Cursor review canvas for non-trivial PRs
+- Cursor’s pull-request tool when it exists; do not fall back to `gh pr create` in that session

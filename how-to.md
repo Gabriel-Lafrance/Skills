@@ -8,6 +8,13 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
 .cursor-plugin/
   plugin.json            # Cursor plugin manifest
   marketplace.json       # Team marketplace import
+rules/                   # Cursor plugin rules (.mdc only — no extra README)
+  gold-standards.mdc     # alwaysApply — doctrine Reads, grill, diagrams
+  ship-work.mdc          # PRs / branches
+  subagents.mdc          # Task bias
+  project-tooling.mdc    # ESLint / Prettier in the app repo
+agents/                  # Custom agent configs (architect, reviewer)
+commands/                # Slash commands (setup-toolkit)
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
@@ -20,6 +27,8 @@ skills/
     review-contract.md   # shared review evidence and finding rules
     browser-evidence.md  # browser proof for UI acceptance
     pr-ship.md           # every agent that opens a PR (canvas + screenshots)
+  setup-toolkit/
+    templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
     SKILL.md             # required — frontmatter + thin entry
     standalone.md        # optional — one-off use
@@ -35,6 +44,12 @@ how-to.md                # this file
 Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 **Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — dual skills will fail looking for `../variants.md`.
+
+**Plugin vs `npx skills`:** the Cursor plugin auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders. Put any file a skill must copy into a consumer repo (ESLint/Prettier templates) **inside that skill folder**, not only at the plugin root.
+
+**Rules folder:** only `.mdc` rule files. A `README.md` in `rules/` would be loaded as a rule. Document rules in [README.md](./README.md) and this file.
+
+Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Tab events. Do not add **MCP** unless there is a real server to ship. ESLint and Prettier are app-repo configs, not plugin components.
 
 ## Skill kinds
 
@@ -113,6 +128,13 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
 npx skills@latest add . --list
 ```
 
+## Add a plugin rule, agent, or command
+
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines. `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc` only). Never put a `README.md` in `rules/`.
+- **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
+- **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
+- **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them.
+
 ## Conventions
 
 - One skill = one job. Prefer new skill over bloating an existing one.
@@ -124,28 +146,43 @@ npx skills@latest add . --list
 - New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
+- Plugin rules stay short. Do not copy `/taste` or `/architecture` bodies into `.mdc` files.
+- Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
 
 ## Publish / install
 
-Users install from GitHub:
+Preferred: Cursor plugin via Marketplace / team marketplace import of this repo. After you push, refresh the marketplace (or Auto Refresh).
+
+Skills-only from GitHub:
 
 ```bash
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
 
-After you push, they refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
+After you push, `npx skills` users refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
 
-### Cursor team marketplace
+### Cursor plugin / marketplace
 
-This repo is one Cursor plugin (`gabriel-skills`). Team admins import `https://github.com/Gabriel-Lafrance/Skills` from **Dashboard → Plugins → Add Marketplace → Import from Repo**. Manifests live in [`.cursor-plugin/`](./.cursor-plugin/) (`plugin.json` + `marketplace.json`). Do not split one plugin per skill — they share `pack-shared`. After you push, refresh the marketplace (or turn on Auto Refresh). `npx skills` is unchanged.
+This repo is one Cursor plugin (`gabriel-skills`). Keep it **one plugin** until a second installable product is truly independent (do not split one plugin per skill — they share `pack-shared`).
 
-### Personal Cursor User Rules (opt-in, not via `npx skills`)
+Manifests live in [`.cursor-plugin/`](./.cursor-plugin/) (`plugin.json` + `marketplace.json`). After you push, refresh the marketplace (or turn on Auto Refresh). `npx skills` is unchanged and still skills-only.
 
-Always-on teaching for Plan mode / freeform lives in [`rules/`](./rules/). It is **opt-in**. The skills CLI only copies `SKILL.md` folders. Installed skills must follow `/taste` and `/architecture` themselves via [`pack-shared/standards.md`](./skills/pack-shared/standards.md); they do **not** depend on this User Rule.
+Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
-**Important:** Cursor **User Rules** (Settings → Rules → User Rules) are account/settings-backed. Copying `.mdc` into `~/.cursor/rules` does **not** show up there and is not a reliable global apply path. Do not move this file into `.cursor/rules` or a `cursor-rules/` folder unless you intentionally want it always-on for a repo.
+| Component | This pack |
+| --- | --- |
+| Skills | `skills/` |
+| Rules | `rules/*.mdc` — short pointers; doctrines stay in skills |
+| Agents | `agents/` — architect, reviewer |
+| Commands | `commands/` — do not alias every skill (avoids `/goal` collisions) |
+| Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 
-- Source: [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) — pointer that forces doctrine Reads (`taste`, `architecture`, `publish`, `pack-shared/pr-ship`) in Plan mode and freeform chats that never invoke a skill, plus grill-before-plan and Before/After Mermaid. Agents that open a PR must follow `pr-ship.md`, not only `/publish`.
-- Install: copy the body **without** YAML frontmatter, then paste into **Settings → Rules → User Rules** under the title **Ultimate gold standards**. Or ask an Agent to install that file into User Rules.
-- After changing the `.mdc`, re-paste (or re-ask the Agent). Skill doctrine edits do not require that if skills were refreshed with `npx skills update`.
+### Plugin rules (not User Rules)
+
+Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
+
+- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc).
+- Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
+- Do **not** duplicate doctrine text into `.mdc` files. Pointers only.
+- `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).

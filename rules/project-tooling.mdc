@@ -1,0 +1,14 @@
+---
+description: ESLint, Prettier, formatters, linters, or installing lint/format tooling in a JS/TS repo
+alwaysApply: false
+---
+
+# Project tooling
+
+Do **not** paste a style guide into chat. If this repo already has ESLint or Prettier, **follow those configs**.
+
+- Add or change lint/format tooling with `/setup-toolkit` — do not invent a parallel config.
+- Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user’s running terminals own that loop (`taste` Verify).
+- Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.
+- Do not reformat the whole tree as a drive-by. Format only files you already had to touch, unless the user asked for a repo-wide format.
+- Never overwrite an existing `eslint.config.*` or Prettier config without asking.

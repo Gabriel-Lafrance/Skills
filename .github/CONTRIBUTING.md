@@ -1,19 +1,21 @@
 # Contributing
 
-Thanks for helping improve **Gabriel Lafrance Skills** — Cursor agent skills for
-real engineering work.
+Thanks for helping improve **Gabriel Lafrance Skills** — an engineering toolkit
+for Cursor.
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## What this repo is
 
-Markdown skills under [`skills/`](../skills/). Pack layout and authoring rules
-live in [`how-to.md`](../how-to.md). Standards for how agents should work live
-in skill doctrines (especially `/taste` and `/architecture`), the must follow
-contract [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md),
-and the **opt-in** User Rule
-[`rules/ultimate-gold-standards.mdc`](../rules/ultimate-gold-standards.mdc)
-(keep it in `rules/`; do not move it into `.cursor/rules`).
+A Cursor **plugin toolkit**: skills under [`skills/`](../skills/), plugin rules
+under [`rules/`](../rules/), agents under [`agents/`](../agents/), and commands
+under [`commands/`](../commands/). Pack layout and authoring rules live in
+[`how-to.md`](../how-to.md). Standards for how agents should work live in skill
+doctrines (especially `/taste` and `/architecture`), the must-follow contract
+[`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md), and the
+plugin rules (especially
+[`rules/gold-standards.mdc`](../rules/gold-standards.mdc)). Do not paste those
+rules into User Rules when the plugin is installed.
 
 ## Before you start
 
@@ -36,11 +38,12 @@ There is no build step. Edit skill markdown, then smoke-check:
 npx skills@latest add . --list
 ```
 
-Optional: paste the body of
-[`rules/ultimate-gold-standards.mdc`](../rules/ultimate-gold-standards.mdc)
-(without YAML frontmatter) into **Cursor Settings → Rules → User Rules**.
-That file stays in `rules/` because it is opt-in. Installed skills must follow
-taste and architecture without it.
+The Cursor plugin loads [`rules/`](../rules/) automatically. Installed skills
+must follow taste and architecture even if a rule is toggled off. ESLint and
+Prettier templates live in
+[`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
+copied into **app** repos by `/setup-toolkit` — they are not run from this
+markdown pack.
 
 ## How to change skills
 

@@ -1,29 +1,53 @@
 # Gabriel Lafrance Skills
 
-Cursor agent skills for real engineering work.
+Engineering toolkit for Cursor: agent skills, plugin rules, custom agents, commands, and ESLint/Prettier templates.
 
 ## Install
 
+**Cursor plugin (recommended).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace). That is the full toolkit: skills, rules, agents, and commands.
+
+Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
+
 ```bash
-# Global (recommended)
+# Skills only (no plugin rules, agents, or commands)
 npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
 npx skills@latest update -g -y
-
-# Or project-only
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -y
 ```
 
-Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)) — no unexplained jargon. `/ask-gabriel` stays a thin router and does not load those bodies.
+Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). `/ask-gabriel` stays a thin router and does not load those bodies.
 
-Optional, for Plan mode and freeform chats that never invoke a skill: paste [`rules/ultimate-gold-standards.mdc`](./rules/ultimate-gold-standards.mdc) (body only, no YAML frontmatter) into **Cursor Settings → Rules → User Rules**. Keep that file in `rules/` — it is opt-in, not installed by `npx skills`.
+If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
 
-### Cursor team marketplace
+## What the plugin ships
 
-Team admins can import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`. Teammates then find the plugin in **Customize**. This is the team marketplace path, not a public Marketplace listing. The `npx skills` install above still works.
+Cursor plugins can bundle more than skills. This one uses the pieces that help engineers day to day. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
 
-## What this pack is
+| Piece | Where | What it does |
+| --- | --- | --- |
+| **Skills** | `skills/` | Workflows you invoke (`/goal`, `/grill-me`, `/setup-toolkit`, …) |
+| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc` always applies; the others attach when relevant |
+| **Agents** | `agents/` | Architect and reviewer roles for Task / custom agents |
+| **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
+| **ESLint / Prettier** | `skills/setup-toolkit/templates/` | Config files copied **into your app** by `/setup-toolkit` |
 
-Five kinds of skills. **Guide** informs; everything else moves work forward.
+ESLint and Prettier are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`.
+
+### Plugin rules (not User Rules)
+
+| Rule | When it applies |
+| --- | --- |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always — force doctrine Reads, grill before a plan, Before/After diagrams |
+| [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
+| [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
+| [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
+
+Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Doctrines stay in skills; rules stay short pointers so they do not rot.
+
+To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without the plugin), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
+
+## Skills
+
+Five kinds. **Guide** informs; everything else moves work forward.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
@@ -32,12 +56,14 @@ Five kinds of skills. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint + Prettier in the current app |
 
 ```mermaid
 flowchart LR
   clarify[Clarify] --> build[Build]
   specify[Specify] --> build
   guide[Guide] -.-> build
+  toolkit[Toolkit] -.-> build
   build --> ship[Review and ship]
 ```
 
@@ -50,6 +76,7 @@ flowchart LR
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
 - Ticket → build → `/write-ticket` then `/goal`
 - Build now → `/goal` or `/just-do-it`
+- Lint/format in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body, Change
   diagram, Browser screenshots when visual (not a UI test pass), and a Cursor
