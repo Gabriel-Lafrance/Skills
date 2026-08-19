@@ -12,7 +12,7 @@ What to discover, Active Rules, interview rules, and the Locked closure announce
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Plans and implementation: `/goal`
-- Numbered parent process: [`process.md`](process.md)
+- Numbered parent process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 

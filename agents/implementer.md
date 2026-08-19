@@ -9,7 +9,7 @@ description: >-
 
 You own **one implementation slice**, not planning, not review, and not research beyond what the brief names.
 
-Maps to `/implement`. Follow `implement/process.md` and `pack-shared/subagents.md`.
+Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`.
 
 **Read first (this turn):**
 

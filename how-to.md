@@ -30,8 +30,7 @@ skills/
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
-    SKILL.md             # required: frontmatter + thin entry
-    process.md           # optional: numbered how-to (nested vs one-off lives here)
+    SKILL.md             # required: frontmatter + how-to
     doctrine.md          # optional: durable rules (fixed H2 schema)
     examples.md          # optional: good vs bad
     reference.md         # optional: deep detail (progressive disclosure)
@@ -52,9 +51,9 @@ Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Ta
 
 ## Skill folders
 
-Each skill is `SKILL.md` plus optional `process.md`, `doctrine.md`, `examples.md`, and `reference.md`.
+Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-`SKILL.md` stays thin. Point at doctrine / examples / [`process.md`](./skills/goal/process.md). Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start. User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start. User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
 
 ## Frontmatter
 
@@ -75,7 +74,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
-- **Process:** numbered how-to lives in that skill’s [`process.md`](./skills/goal/process.md) when the steps are more than a short `SKILL.md` list. Nested vs one-off is a short fork in that file, not two files.
+- **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, Wave 1 / Wave 2 fences, correctness hunt, and severity mapping.
@@ -107,14 +106,13 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
 
 ## Add a skill
 
-1. Create `skills/<skill-name>/SKILL.md` with frontmatter above.
-2. Add [`process.md`](./skills/goal/process.md) when numbered how-to would bloat `SKILL.md`. If nested vs one-off differs (who ships, who asks the next question), put that fork in `process.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/goal` say so in `SKILL.md`.
-3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `process.md`, not doctrine. Taste’s Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md), not in the taste doctrine body.
-4. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
-5. Wire discovery:
+1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/goal` say so in `SKILL.md`.
+2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Taste’s Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md), not in the taste doctrine body.
+3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
+4. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
-   - Internal worker step → only the orchestrator doctrine/process that should call it (do not put it on the README as a typical entry).
-6. Smoke-check locally:
+   - Internal worker step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).
+5. Smoke-check locally:
 
 ```bash
 npx skills@latest add . --list

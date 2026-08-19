@@ -48,8 +48,8 @@ markdown pack.
 ## How to change skills
 
 - Prefer improving an existing skill over adding a new one.
-- Keep `SKILL.md` thin; put durable rules in `doctrine.md` and detail in
-  `reference.md` / `examples.md`. Numbered how-to lives in `process.md`.
+- Numbered how-to lives in `SKILL.md`. Put durable rules in `doctrine.md` and
+  detail in `reference.md` / `examples.md`.
 - Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
 - Teach principles in prose — avoid steering agents with a catalog of concrete

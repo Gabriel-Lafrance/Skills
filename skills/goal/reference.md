@@ -171,7 +171,7 @@ instead; it owns the branch, preflight, draft visibility, and PR creation.
 
 ## Lifecycle
 
-Numbered process for `/goal`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [process.md](process.md).
+Numbered process for `/goal`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
 
 ### Phase 0: establish context and grill
 

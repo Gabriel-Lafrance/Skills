@@ -13,7 +13,7 @@ The orchestrator loop: execution context, grill-before-plans, lookup table, mand
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Review disposition: `/code-review`
 - Test writing: `/create-test`
-- Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`process.md`](process.md)
+- Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
@@ -47,7 +47,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Each follows its [`process.md`](process.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -84,7 +84,7 @@ In a new chat, recover by following the [execution context authority order](../p
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions ([process.md](process.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
+Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
 
 ## Anti-patterns
 

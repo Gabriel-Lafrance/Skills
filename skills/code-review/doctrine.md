@@ -14,7 +14,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
-- Numbered parent dispatch: [`process.md`](process.md)
+- Numbered parent dispatch: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 

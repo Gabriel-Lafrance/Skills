@@ -2,7 +2,7 @@
 
 ## Job
 
-Turn an ask into an evidence-backed analysis memo in chat. `/analyze` does not implement, create tickets, or create automatic runtime artifacts. Nested vs one-off hand-off lives in [process.md](process.md).
+Turn an ask into an evidence-backed analysis memo in chat. `/analyze` does not implement, create tickets, or create automatic runtime artifacts. Nested vs one-off hand-off lives in [SKILL.md](SKILL.md).
 
 ## Owns
 
@@ -12,7 +12,7 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 
 - Implementation, ticket writes, or `/goal` promotion unless the user (or an explicit parent instruction) chooses it
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- Numbered process: [`process.md`](process.md)
+- Numbered process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
@@ -159,7 +159,7 @@ Reply like: 1a
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
 | e) Promote + start | Carry the inline seed into `/goal`, then continue through its grill or pre-cleared path. |
 
-Parents (`/write-ticket`, `/just-do-it`) own the next step. See [process.md](process.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
+Parents (`/write-ticket`, `/just-do-it`) own the next step. See [SKILL.md](SKILL.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
 

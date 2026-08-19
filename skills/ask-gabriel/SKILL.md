@@ -14,7 +14,7 @@ load other skills' bodies — including `/taste` and `/architecture` doctrines �
 until the user accepts. The next skill must follow those doctrines via
 [standards.md](../pack-shared/standards.md).
 
-**Sole auto-invokable skill** in this pack. Never recommend `*-flow` skill names. Each skill has one process; nested vs one-off is a fork inside that file.
+**Sole auto-invokable skill** in this pack. Never recommend `*-flow` skill names. Nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
 ## On-ramps
 
