@@ -3,6 +3,8 @@ import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 
+import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
+
 export default tseslint.config(
   {
     ignores: [
@@ -18,6 +20,7 @@ export default tseslint.config(
   tseslint.configs.recommended,
   ...convexPlugin.configs.recommended,
   prettier,
+  noEmdashConfig,
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {

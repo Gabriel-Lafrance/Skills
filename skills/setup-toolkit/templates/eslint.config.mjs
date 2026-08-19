@@ -2,6 +2,8 @@ import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 
+import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
+
 export default tseslint.config(
   {
     ignores: [
@@ -16,6 +18,7 @@ export default tseslint.config(
   js.configs.recommended,
   tseslint.configs.recommended,
   prettier,
+  noEmdashConfig,
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {

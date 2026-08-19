@@ -1,6 +1,6 @@
 # Setup toolkit reference
 
-Load with [SKILL.md](SKILL.md). Copy files from [templates/](templates/) — do not rewrite them from memory.
+Load with [SKILL.md](SKILL.md). Copy files from [templates/](templates/). Do not rewrite them from memory.
 
 ## Resolve the pack root
 
@@ -43,6 +43,13 @@ From lockfiles in the app root, first match wins:
 
 Prettier is always `prettier.config.mjs` + `prettierignore` (written as `.prettierignore`).
 
+Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. If ESLint already exists, still copy the plugin file when it is missing, then print the import to add (do not edit their config):
+
+```js
+import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
+// include noEmdashConfig in the exported config array / tseslint.config(...)
+```
+
 Treat any of these as “ESLint already present”: `eslint.config.js`, `eslint.config.mjs`, `eslint.config.cjs`, `eslint.config.ts`, `.eslintrc`, `.eslintrc.js`, `.eslintrc.cjs`, `.eslintrc.json`, or `package.json` `"eslintConfig"`.
 
 Treat any of these as “Prettier already present”: `prettier.config.*`, `.prettierrc`, `.prettierrc.*`, or `package.json` `"prettier"`.
@@ -61,6 +68,17 @@ Add only keys that are missing:
 ```
 
 Do not change an existing script with the same name.
+
+## Cursor / VS Code workspace files
+
+Copy from `templates/vscode/` into the app’s `.vscode/`:
+
+| File | If missing | If present |
+| --- | --- | --- |
+| `extensions.json` | Write the template | Merge: keep existing `recommendations`, append `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` when absent |
+| `settings.json` | Write the template | Leave it. Report that format-on-save / ESLint settings were skipped |
+
+Do not invent a `.cursor/extensions.json`. Cursor reads `.vscode/extensions.json` and `.vscode/settings.json` the same way VS Code does.
 
 ## Install
 
@@ -88,6 +106,9 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 ## Done when
 
 - Missing configs were written from templates
+- `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
+- `.vscode/extensions.json` has the ESLint and Prettier extension IDs
+- `.vscode/settings.json` was written or reported skipped
 - Existing configs were left in place and listed
 - Packages installed (or skipped because already present)
 - Scripts added or skipped with names listed

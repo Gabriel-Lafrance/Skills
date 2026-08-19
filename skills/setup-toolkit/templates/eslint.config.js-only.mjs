@@ -1,6 +1,8 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 
+import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
+
 export default [
   {
     ignores: [
@@ -13,4 +15,5 @@ export default [
   },
   js.configs.recommended,
   prettier,
+  noEmdashConfig,
 ];

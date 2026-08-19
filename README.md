@@ -28,15 +28,16 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc` always applies; the others attach when relevant |
 | **Agents** | `agents/` | Architect and reviewer roles for Task / custom agents |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
-| **ESLint / Prettier** | `skills/setup-toolkit/templates/` | Config files copied **into your app** by `/setup-toolkit` |
+| **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
 
-ESLint and Prettier are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`.
+ESLint and Prettier are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
 ### Plugin rules (not User Rules)
 
 | Rule | When it applies |
 | --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always — force doctrine Reads, grill before a plan, Before/After diagrams |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams |
+| [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
 | [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
 | [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
@@ -56,7 +57,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint + Prettier in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, and editor extensions in the current app |
 
 ```mermaid
 flowchart LR
