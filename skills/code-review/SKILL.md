@@ -64,7 +64,7 @@ not reopen a broad review.
 
 ## Handoff
 
-The parent (this chat, or `/goal` / `/just-do-it` when nested) owns
+The parent (this chat, or `/task` / `/just-do-it` when nested) owns
 fixed-point setup, worker dispatch, acceptance evidence, and review gates.
 Implementation workers do not run those gates or broaden a remediation
 review. Report stable finding IDs and the Fix now / Follow-up / Optional nit

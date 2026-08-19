@@ -1,14 +1,14 @@
 ---
-name: goal
+name: task
 description: >-
-  Stateless Cursor goal loop: grill, plan, implement, gather acceptance
+  Stateless end-to-end build loop: grill, plan, implement, gather acceptance
   evidence, and review one verifiable outcome using in-chat execution context.
   Use when the user wants a feature or outcome built end to end. Nested under
   /just-do-it when that parent owns shipping.
 disable-model-invocation: true
 ---
 
-# Goal
+# Task
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before grilling, planning, or implementing. Do not skip.
 
@@ -18,7 +18,7 @@ Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md). Always load
 `/taste` and `/architecture` during grill and before every implement wave.
 
-`/goal` follows the stateless
+`/task` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are
 inline unless the user explicitly requests a saved artifact and approves its
 destination.

@@ -53,17 +53,17 @@ under the shared
 
 ### If a parent already owns the next step
 
-Hand the inline context back to `/goal` for planning. Do not stop to wait for
+Hand the inline context back to `/task` for planning. Do not stop to wait for
 the user to pick a next skill.
 
 ### If this is a user one-off
 
 Stop after shared understanding unless the user explicitly asks for the next
-step. `/goal` receives the inline context; `/write-ticket` may receive the
+step. `/task` receives the inline context; `/write-ticket` may receive the
 relevant memo and decisions.
 
-- Structure needed → `/architecture`, then `/goal`.
-- Ready to build → `/goal`.
+- Structure needed → `/architecture`, then `/task`.
+- Ready to build → `/task`.
 
 ## Anti-patterns
 

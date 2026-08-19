@@ -16,7 +16,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a user start. Do not nest it under `/goal`.
+This skill is a user start. Do not nest it under `/task`.
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,

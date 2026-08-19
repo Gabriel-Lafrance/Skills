@@ -10,7 +10,7 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 
 ## Does not own
 
-- Implementation, ticket writes, or `/goal` promotion unless the user (or an explicit parent instruction) chooses it
+- Implementation, ticket writes, or `/task` promotion unless the user (or an explicit parent instruction) chooses it
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Numbered process: [`SKILL.md`](SKILL.md)
 
@@ -92,7 +92,7 @@ flowchart LR
 ### Risks / unknowns
 - …
 
-### Draft /goal seed
+### Draft /task seed
 **Outcome:** …
 **Done when:** <binary checks>
 **Non-goals:** …
@@ -102,7 +102,7 @@ flowchart LR
 
 For rework, replace the single mermaid with Before/After under Diagram, same node ids where possible.
 
-Include the draft `/goal` seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
+Include the draft `/task` seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
 
 ### Review remediation analysis
 
@@ -146,24 +146,24 @@ Reply like: 1a
 1. Next step for this analysis?
    - a) Done: keep the memo in chat ← recommended when no build is intended
    - b) Sharpen the memo
-   - c) Promote the inline seed to `/goal`
+   - c) Promote the inline seed to `/task`
    - d) Draft a ticket from this memo with `/write-ticket`
-   - e) Promote to `/goal` and start building
+   - e) Promote to `/task` and start building
 ```
 
 | Choice | Do |
 | --- | --- |
 | a) Done | Leave the memo and execution context visible; stop. |
 | b) Sharpen | Research only the open point, then revise the memo. |
-| c) Promote | Explicitly carry the inline seed and locked decisions into `/goal`. |
+| c) Promote | Explicitly carry the inline seed and locked decisions into `/task`. |
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
-| e) Promote + start | Carry the inline seed into `/goal`, then continue through its grill or pre-cleared path. |
+| e) Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
 
 Parents (`/write-ticket`, `/just-do-it`) own the next step. See [SKILL.md](SKILL.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
 
-On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/goal` context or a new bounded `/goal`. On the other choices, leave code unchanged.
+On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
 
 One-off hand-off Questions for remediation:
 

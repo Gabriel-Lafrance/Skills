@@ -2,7 +2,7 @@
 
 ## Job
 
-Parent orchestrator: **Linear ticket → typed branch → analyze → bounded build → checkpoint → CR1 → CR2 → opened PR**. Human review owns `/pr-review`. Never run this under `/goal`.
+Parent orchestrator: **Linear ticket → typed branch → analyze → bounded build → checkpoint → CR1 → CR2 → opened PR**. Human review owns `/pr-review`. Never run this under `/task`.
 
 ## Owns
 

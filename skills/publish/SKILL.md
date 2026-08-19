@@ -6,7 +6,7 @@ description: >-
   diagram (Before/After for rework), Browser screenshots in Demo when visual,
   and a Cursor review canvas. Any agent that opens a PR follows the same ship
   contract, not only this skill. Use after work is complete when the user
-  wants to ship a branch or PR. Never use inside /goal.
+  wants to ship a branch or PR. Never use inside /task.
 disable-model-invocation: true
 ---
 
@@ -16,7 +16,7 @@ disable-model-invocation: true
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a user start. Do not nest it under `/goal`. Publish only. Never invent a `publish-flow` name, write tracker issues, or implement product work.
+This skill is a user start. Do not nest it under `/task`. Publish only. Never invent a `publish-flow` name, write tracker issues, or implement product work.
 
 ## Process
 

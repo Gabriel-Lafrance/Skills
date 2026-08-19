@@ -4,7 +4,7 @@ description: >-
   Create or refine one Feature, Tweak, Bug, Refactor, Chore, or Hotfix ticket
   from a single prompt. Infers type and body, always runs full /analyze,
   and asks only a too-short grill or missing tracker metadata. Use for Linear
-  or GitHub tickets, including “don’t forget this” captures; never inside /goal.
+  or GitHub tickets, including “don’t forget this” captures; never inside /task.
 disable-model-invocation: true
 ---
 
@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a user start. Do not nest it under `/goal`. It writes a tracker ticket; `/trackers` reads.
+This skill is a user start. Do not nest it under `/task`. It writes a tracker ticket; `/trackers` reads.
 Always run `/analyze` to full memo depth (this parent owns the next step). Do not run a type-specific
 open grill. Do not invoke full `/grill-me`.
 

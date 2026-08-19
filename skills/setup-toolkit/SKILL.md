@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn. Do not skip.
 
-This skill is a user start. Do not nest it under `/goal`.
+This skill is a user start. Do not nest it under `/task`.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 

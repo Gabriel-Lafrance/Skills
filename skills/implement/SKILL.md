@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/goal` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
 
 Use the shared [execution context](../pack-shared/execution-context.md). The
 parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in

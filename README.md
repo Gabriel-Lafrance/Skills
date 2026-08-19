@@ -18,13 +18,15 @@ Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/arch
 
 If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
 
+The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead.
+
 ## What the plugin ships
 
 Cursor plugins can bundle more than skills. This one uses the pieces that help engineers day to day. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
 
 | Piece | Where | What it does |
 | --- | --- | --- |
-| **Skills** | `skills/` | Workflows you invoke (`/goal`, `/grill-me`, `/setup-toolkit`, …) |
+| **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
@@ -68,7 +70,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
-| **Build**         | `/goal`, `/just-do-it`                                   | Implement end-to-end  |
+| **Build**         | `/task`, `/just-do-it`                                   | Implement end-to-end  |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
 | **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, and editor extensions in the current app |
 
@@ -88,8 +90,8 @@ flowchart LR
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
-- Ticket → build → `/write-ticket` then `/goal`
-- Build now → `/goal` or `/just-do-it`
+- Ticket → build → `/write-ticket` then `/task`
+- Build now → `/task` or `/just-do-it`
 - Lint/format in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body, Change

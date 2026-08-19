@@ -22,8 +22,8 @@ until the user accepts. The next skill must follow those doctrines via
 | --- | --- |
 | Unsure which skill | Stay here — answer below |
 | Fuzzy idea / research | `/analyze` (it loads `/taste` + `/architecture`) |
-| Bug / something broken | `/analyze` → `/goal` when buildable |
-| Build until X is true | `/goal` (must follow `/taste` and `/architecture`) |
+| Bug / something broken | `/analyze` → `/task` when buildable |
+| Build until X is true | `/task` (must follow `/taste` and `/architecture`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
@@ -36,11 +36,11 @@ until the user accepts. The next skill must follow those doctrines via
 | ESLint / Prettier / lint or format this app | `/setup-toolkit` |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
-`/architecture` — usually via `/analyze` → `/goal`, or recommend those skills
+`/architecture` — usually via `/analyze` → `/task`, or recommend those skills
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, …) are worker steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
+Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
 
 ## How to answer
 
@@ -49,5 +49,5 @@ Internals (`/implement`, …) are worker steps looked up by `/goal` or `/just-do
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
 5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
-6. When recommending `/goal` or `/analyze`, say they will follow the coding and
+6. When recommending `/task` or `/analyze`, say they will follow the coding and
    structure standards (`/taste` and `/architecture`).

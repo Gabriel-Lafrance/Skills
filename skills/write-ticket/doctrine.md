@@ -58,7 +58,7 @@ A “don’t forget this” **sentence that names an outcome, defect, or mainten
 | In-chat analysis memo | Reuse it; still run `/analyze` if it is shallow or stale |
 | Ambiguous number | Prefer the tracker this repo already uses; ask only inside the allowed metadata / too-short batch |
 
-An in-chat analysis memo is not a substitute for a full `/analyze` unless it already has the complete memo shape (diagram, evidence, entrypoints, direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover ticket, repository, PR, and tracker facts from live sources.
+An in-chat analysis memo is not a substitute for a full `/analyze` unless it already has the complete memo shape (diagram, evidence, entrypoints, direction, ownership, touch surface, risks, `/task` seed when buildable). Rediscover ticket, repository, PR, and tracker facts from live sources.
 
 ### Type and required content
 
@@ -108,7 +108,7 @@ Always run `/analyze` to full memo depth. Show the complete draft in chat, then 
 
 ## Anti-patterns
 
-- Running inside `/goal`
+- Running inside `/task`
 - Skipping `/analyze` or accepting a stub memo
 - Asking the type-specific open grill, or invoking full `/grill-me`
 - Asking vision / who / done-when / start-here when analysis can fill them

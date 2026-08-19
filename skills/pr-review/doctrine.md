@@ -12,7 +12,7 @@ PR extras, historical Pass A, remediation-plus-new-surface Pass B, the stale-hea
 
 - Wave fences, hunt table, evidence bar, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Blocker vs follow-up judgment and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
-- Local Fix-now implementation loop: `/code-review` + `/goal`
+- Local Fix-now implementation loop: `/code-review` + `/task`
 - Test writing: `/create-test`
 
 ## Cite keys
@@ -44,7 +44,7 @@ Treat a concrete hard-standard or named-principle violation introduced or extend
 
 On follow-up **new-surface** review, run the same principles checklist, Architecture sweep, and Correctness hunt on newly introduced files/hunks. Do not skip those tables because the mode is remediation-plus-new-surface.
 
-This skill is a user start. Do not nest it under `/goal`. The PR title/body, linked ticket, and user-approved committed documentation are the durable specification sources. The linked ticket or Linear item is read-only. Follow the shared [execution context](../pack-shared/execution-context.md): rediscover facts from the PR and repository instead of carrying local review state. Review strictly but factually. Assess the diff and reachable behavior, not the author, and never manufacture a defect to make a review look thorough.
+This skill is a user start. Do not nest it under `/task`. The PR title/body, linked ticket, and user-approved committed documentation are the durable specification sources. The linked ticket or Linear item is read-only. Follow the shared [execution context](../pack-shared/execution-context.md): rediscover facts from the PR and repository instead of carrying local review state. Review strictly but factually. Assess the diff and reachable behavior, not the author, and never manufacture a defect to make a review look thorough.
 
 ## Output
 
@@ -84,13 +84,13 @@ Immediately before posting comments or submitting approve/request-changes:
 2. If it differs from the pinned `currentHead` / `headSha`, abort publish.
 3. Re-pin, re-partition as needed, redraft, and re-ask the single publish question.
 
-After publication, report the result in chat and record the published head as `previousReviewedHead` for the next follow-up. Do not automatically start a local fix or `/goal` lifecycle.
+After publication, report the result in chat and record the published head as `previousReviewedHead` for the next follow-up. Do not automatically start a local fix or `/task` lifecycle.
 
 ## Apply
 
 - Resolve the PR with `gh pr view`; use **only** `gh` or `gh api` for GitHub reads and writes.
 - A linked GitHub issue or Linear ticket is **read-only** context. Post only on the PR, never on the ticket or Linear.
-- Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Do not depend on local `/goal`, workspace, cache, temp, registry, or review-snapshot artifacts.
+- Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Do not depend on local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
 - Do not create helper scripts or repository files to prepare or publish a review.
 - Keep the shared finding ID internally and reuse the matching GitHub thread for an existing issue. Do not duplicate an open finding as a new comment.
 - After explicit approval, post each draft as its own PR comment using `gh` or `gh api`. Request changes when any published draft is Blocking; otherwise submit a comment review.

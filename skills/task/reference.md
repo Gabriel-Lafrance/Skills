@@ -1,6 +1,6 @@
-# Goal reference (in-chat templates)
+# Task reference (in-chat templates)
 
-Load when establishing or recovering a goal, issuing a plan or slice contract, posting progress, or summarizing completion. Rules stay in [doctrine.md](doctrine.md).
+Load when establishing or recovering a task, issuing a plan or slice contract, posting progress, or summarizing completion. Rules stay in [doctrine.md](doctrine.md).
 
 ## Stateless default
 
@@ -44,7 +44,7 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 
 ## Inline plan contract
 
-`/goal` produces this in chat for one slice (after Locked grill closing). It is not a file path or an instruction to write one.
+`/task` produces this in chat for one slice (after Locked grill closing). It is not a file path or an instruction to write one.
 
 ```markdown
 # Plan: <title>
@@ -93,7 +93,7 @@ Assign relevant rules that must stay true to each contract. Keep the frontier an
 
 ## New-chat recovery
 
-Do not search for a goal directory, status file, archive, or resume tree. Follow the [authority order](../pack-shared/execution-context.md#authority):
+Do not search for a task directory, status file, archive, or resume tree. Follow the [authority order](../pack-shared/execution-context.md#authority):
 
 1. Read the current request and decisions settled in this chat.
 2. Re-derive named ticket/PR facts and comments.
@@ -118,7 +118,7 @@ For a pause, state the current phase, completed slices, blocker, and next action
 After acceptance evidence is recorded and `/code-review` has run, report the outcome without archiving anything:
 
 ```markdown
-# ✅ Goal complete: <short title>
+# ✅ Task complete: <short title>
 
 ## What changed
 - …
@@ -165,13 +165,13 @@ Wait for the answer before committing or opening a PR. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
 [pr-ship.md](../pack-shared/pr-ship.md) for Demo, canvas, and create tool,
-show the draft in chat, then create. When `/goal` runs under a parent
+show the draft in chat, then create. When `/task` runs under a parent
 (`/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.
 
 ## Lifecycle
 
-Numbered process for `/goal`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
+Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
 
 ### Phase 0: establish context and grill
 
@@ -201,7 +201,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### Fix mode (review remediation only)
 
-Fix mode is one bounded slice of the current goal, not fresh product discovery:
+Fix mode is one bounded slice of the current task, not fresh product discovery:
 
 1. Carry only explicitly promoted findings into the current slice. Each cites its review finding, violated Active Rule, acceptance criterion, correctness/security issue, or regression.
 2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.

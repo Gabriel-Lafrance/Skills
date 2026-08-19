@@ -1,4 +1,4 @@
-# Goal doctrine
+# Task doctrine
 
 ## Job
 
@@ -21,7 +21,7 @@ none (uses `taste:*` and `architecture:*`)
 
 ## Bars
 
-Use the shared [execution context](../pack-shared/execution-context.md) as the source of truth for this goal. Keep the outcome, Done when, non-goals, Active Rules, current slices, Fix backlog, phase, and next action visible in chat.
+Use the shared [execution context](../pack-shared/execution-context.md) as the source of truth for this task. Keep the outcome, Done when, non-goals, Active Rules, current slices, Fix backlog, phase, and next action visible in chat.
 
 Follow the shared stateless default: inline plan and slice contracts are normal; save an artifact only when the user asks and supplies or approves its destination.
 
@@ -43,7 +43,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave |
 | Build | `/implement` |
-| Bug mid-build | Scoped Fix mode (or `/analyze` → continue this goal) |
+| Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
@@ -68,15 +68,15 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 ### Suitability and skip grill
 
-**Hard reject:** vague wishes or open-ended research with no binary done state. Multiple unrelated outcomes need separate `/goal` contexts.
+**Hard reject:** vague wishes or open-ended research with no binary done state. Multiple unrelated outcomes need separate `/task` contexts.
 
 **Skip grill only if all are true:** the ticket or user already has binary acceptance criteria; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as Active Rules even when skipping.
 
-For ticket-driven goals, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
+For ticket-driven tasks, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
 
 ## Output
 
-**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/task` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -94,7 +94,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
 - Soloing non-trivial explore or implement work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
-- Treating a review fix as a fresh architecture or product goal
+- Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
 - Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool) because this skill is not `/publish`

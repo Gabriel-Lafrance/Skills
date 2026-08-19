@@ -29,7 +29,7 @@ body:
         - Guide (/ask-gabriel, /taste, /architecture)
         - Clarify (/grill-me, /analyze)
         - Specify (/write-ticket)
-        - Build (/goal, /just-do-it)
+        - Build (/task, /just-do-it)
         - Review and ship (/code-review, /publish, /pr-review, /create-test)
         - Pack shared / docs / rules
         - Toolkit (plugin rules, commands, agents, ESLint, Prettier)

@@ -17,14 +17,14 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) (Job through Bars) · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
 Cite keys live in doctrine. Placement and `taste:keep-jobs-apart` defects are
-taste failures too. Parents (`/goal`, `/analyze`, `/grill-me`, `/implement`,
+taste failures too. Parents (`/task`, `/analyze`, `/grill-me`, `/implement`,
 `/architecture`) load `/taste` **and** `/architecture` before planning or
 writing code.
 
 ### If this is a user one-off (audit or fix a lane)
 
 Use when the user asks about coding style, keep-it-simple, don’t-repeat-yourself,
-principles, or “is this clean?”; when reviewing a lane without a full `/goal`;
+principles, or “is this clean?”; when reviewing a lane without a full `/task`;
 or when tightening a messy file before or after a small change.
 
 1. Identify the lane (paths / symbols) and the ask.
@@ -32,11 +32,11 @@ or when tightening a messy file before or after a small change.
 3. Report concrete violations with path evidence and the smallest fix
    (`taste:leave-it-cleaner` / `taste:keep-it-simple`: no speculative rewrite).
 4. If the user asks to fix, apply only behavior-preserving edits in that lane.
-   Larger product scope → recommend `/analyze` or `/goal`.
+   Larger product scope → recommend `/analyze` or `/task`.
 5. Do not invent a parent wave, write tests, or start `/create-test`.
 
 Hand-offs: structure / folders / services → `/architecture`. Build end-to-end
-→ `/goal`. Research first → `/analyze`.
+→ `/task`. Research first → `/analyze`.
 
 ### If this skill is already loaded inside a build
 
