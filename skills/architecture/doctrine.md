@@ -267,7 +267,9 @@ Self-check before done (cite keys, not a second essay):
 
 ## Apply
 
-Always load this doctrine. For a typo or a user-specified pure rename, still load; the application is **keep the existing structure**.
+**When this changes the shape.** Always load this doctrine. For a typo or a user-specified pure rename, still load; the application is **keep the existing structure**.
+
+Process (pointers, not a second copy of the bars): Explore → structure card → implement → self-check. Steps live in [flow.md](flow.md). Bars are the Cite keys above.
 
 Apply when the work could add files, move ownership, or touch data, including:
 

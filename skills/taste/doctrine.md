@@ -153,7 +153,7 @@ Fail any box → fix before acceptance evidence and `/code-review`. `/code-revie
 
 Other pack skills Read this file through [standards.md](../pack-shared/standards.md) before grilling, planning, or writing code. When `/goal` writes what “done” means, include taste-relevant checks when the change touches structure or UI (entry point, folder map, no Result bags, Convex names legal, jobs not mixed, public writes check identity, public args validated). Plans must not propose shapes that violate this file (including SOLID-maximalist boilerplate or class trees deeper than two).
 
-For terminals-first verify, React and landing UI, patterns/SOLID, and futureproofing seams, Read [`reference.md`](reference.md).
+Terminals first: [reference.md](reference.md#verify-terminals-first). React/UI: [reference.md](reference.md#react-and-ui).
 
 ## Anti-patterns
 

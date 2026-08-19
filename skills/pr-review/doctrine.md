@@ -36,8 +36,9 @@ Shared hunt already covers secrets. This skill **must** also inspect:
 | **Historical thread** | A prior Blocking thread is still broken on `currentHead` | Thread is fixed or genuinely moot (Pass A) |
 | **Migration / backfill** | Schema or data change with no path for existing rows, or dual-write skipped when reads would break | Additive nullable field with a safe default |
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
+| **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Do not block on missing screenshots |
 
-Add these four rows to Wave 2 on a PR (review-contract PR extras table). How to QA is a chat note, not a miss-class row: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat. Do not block on missing screenshots.
+Add the first four rows to Wave 2 on a PR (review-contract PR extras table). How to QA is that chat note, not a miss-class row.
 
 Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a `blocker` candidate (especially `taste:fail-fast`, `taste:safe-to-retry`, `taste:trust-the-server`, `taste:related-together` through internals, `taste:honest-names` after a rename, and `taste:types-tell-the-truth` on a public surface). A valuable cleanup that is not required for the PR contract remains a `follow-up`, not a performative Blocking comment. Apply the shared evidence bar before posting runtime-risk findings.
 

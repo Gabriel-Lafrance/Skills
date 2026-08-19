@@ -118,7 +118,7 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
    - Dual → add `standalone.md` and `flow.md`; in `SKILL.md` say choose exactly one via `variants.md`.
    - Flow-only → add `flow.md`; note “no standalone” and link `variants.md`.
    - Standalone-only → no `flow.md`; if flow is requested, use the missing-variant message from `variants.md`.
-3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `flow.md` / `standalone.md`, not doctrine.
+3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `flow.md` / `standalone.md`, not doctrine. Taste’s Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md), not in the taste doctrine body.
 4. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
 5. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.

@@ -21,7 +21,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ```markdown
 - **standards-keep-jobs-apart-checkout-stripe** · **standards** · **blocker**
   - **Where:** `features/checkout/use-checkout.ts` (`placeOrder`)
-  - **Rule:** `taste:keep-jobs-apart` · `architecture:related-together` · `taste:trust-the-server`
+  - **Rule:** `taste:keep-jobs-apart` · `taste:related-together` · `taste:trust-the-server`
   - **Trigger:** Checkout feature calls Stripe directly on submit.
   - **Evidence:** Diff adds `stripe.checkout.sessions.create` inside the feature; `billing.makeUserPay` already owns Stripe.
   - **Impact:** Checkout now talks to Stripe instead of billing; the billing safety checks are skipped.
@@ -72,8 +72,21 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Null / empty / off-by-one on the happy path | clear | |
 | Cross-file stale caller | none | |
 | Secrets in the diff | clear | |
+```
 
-Reject a Standards worker result that omits the **Principles sweep**, **Architecture sweep**, or **Correctness hunt** table, or that marks every row `clear` without having inspected the diff.
+This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+
+**Wave 2** fence (re-inspect; do not clone the hunt rows):
+
+```markdown
+## Adversarial findings
+- none (Wave 1 already had the Stripe fork)
+
+## Hunt re-inspect
+Re-walked Principles, Architecture, Correctness hunt. No new class. Did not rubber-stamp Wave 1.
+```
+
+`/pr-review` Wave 2 also returns the four PR extras rows (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt.
 
 ## Honest names / stale path after rename
 
