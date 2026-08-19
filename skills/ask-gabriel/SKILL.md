@@ -48,6 +48,6 @@ Internals (`/implement`, …) are worker steps looked up by `/goal` or `/just-do
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations.
+5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
 6. When recommending `/goal` or `/analyze`, say they will follow the coding and
    structure standards (`/taste` and `/architecture`).

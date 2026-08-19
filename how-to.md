@@ -10,6 +10,8 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
   marketplace.json       # Team marketplace import
 rules/                   # Cursor plugin rules (.mdc only — no extra README)
   gold-standards.mdc     # alwaysApply — doctrine Reads, grill, diagrams
+  no-emdash.mdc          # alwaysApply — dash characters
+  unslop.mdc             # alwaysApply — chat-reply voice
   ship-work.mdc          # PRs / branches
   subagents.mdc          # Task bias
   project-tooling.mdc    # ESLint / Prettier in the app repo
@@ -72,6 +74,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 ## Shared contracts
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
+- **Unslop:** chat replies follow the plugin rule [`unslop.mdc`](./rules/unslop.mdc) (`alwaysApply`). Not a skill. Do not add `/unslop`. Toggle it in Customize. `npx skills` does not install it; pin `rules/*.mdc` with `/setup-toolkit` when needed without the plugin.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
@@ -120,7 +123,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines. `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc` and `no-emdash.mdc`). Never put a `README.md` in `rules/`.
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files.
@@ -136,7 +139,7 @@ npx skills@latest add . --list
 - New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
-- Plugin rules stay short. Do not copy `/taste` or `/architecture` bodies into `.mdc` files.
+- Plugin rules stay short pointers to skill doctrines, except `no-emdash.mdc` and `unslop.mdc` (self-contained writing bars). Do not copy `/taste` or `/architecture` bodies into `.mdc` files.
 - Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
 
 ## Publish / install
@@ -163,7 +166,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | Component | This pack |
 | --- | --- |
 | Skills | `skills/` |
-| Rules | `rules/*.mdc` — short pointers; doctrines stay in skills |
+| Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars |
 | Agents | `agents/` (explorer, architect, implementer, reviewer, pr-reviewer) |
 | Commands | `commands/` — do not alias every skill (avoids `/goal` collisions) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
@@ -172,7 +175,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
 
-- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc) and [`no-emdash.mdc`](./rules/no-emdash.mdc).
+- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), and [`unslop.mdc`](./rules/unslop.mdc).
 - Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
-- Do **not** duplicate doctrine text into `.mdc` files. Pointers only.
+- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
 - `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).

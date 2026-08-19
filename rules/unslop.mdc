@@ -1,0 +1,72 @@
+---
+description: Cut AI tells from the assistant's reply in this discussion. Always apply.
+alwaysApply: true
+---
+
+# Unslop
+
+Your **reply in this discussion** is the prose surface. Write it clean as you draft it. Do not generate slop and strip it afterward. That pass fails.
+
+Do not restyle README, ticket, PR-body, or commit-message files. Dash characters are the no-emdash rule. Ordinary words and pack nicknames are `pack-shared/plain-language.md`. Asking templates stay exact.
+
+Adapted from [pstack unslop](https://github.com/backnotprop/pstack) (MIT). Pstack sends docs and PR bodies to a different skill. This rule is discussion text only.
+
+## Draft
+
+- Short declarative sentences. One thought per sentence.
+- Terse is not an excuse to drop the answer, the evidence, or the next step.
+- Have a point of view. Recommend. Do not fake balance when you already have a pick.
+- Name the mechanism, path, or number. Not a mood.
+- "I" is fine when reporting what you did. Sycophancy is not: skip "Great question!" and "You're absolutely right!"
+- Parentheses stay allowed. Do not strip them to dodge dashes.
+- Do not invent metaphors or late-night atmosphere. Be specific to this repo and this turn.
+- A sentence that could appear unchanged in another project's chat says nothing here. Cut it.
+
+Before send: **What makes this obviously generated?** Fix that.
+
+## Tells
+
+### Content
+
+1. Puffery: "pivotal moment", "testament to", "evolving landscape", "setting the stage", "indelible mark", "deeply rooted". State what happened.
+2. Name-dropping with no claim. Pick one source or delete.
+3. Hollow -ing phrases: "highlighting…", "ensuring…", "reflecting…", "showcasing…", "fostering…". Delete or replace with a fact.
+4. Promotional words: "vibrant", "breathtaking", "groundbreaking", "renowned", "stunning", "must-visit", "nestled". Neutral description.
+5. Vague attributions: "Experts believe", "Industry reports suggest". Name the source or delete.
+6. Formulaic bounce-back: "Despite challenges… continues to thrive." Specific fact.
+
+### Language
+
+7. AI vocabulary: Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore, vibrant. Plain word.
+8. Fancy "is": "serves as", "stands as", "boasts", "features". Say "is" or "has".
+9. "Not just X, but Y." State the point once.
+10. Forced groups of three. Use the natural number.
+11. Synonym cycling. One name per thing. Repeat it.
+12. False ranges: "from X to Y" when those are not on a scale. List the topics.
+
+### Style
+
+13. No em dash, en dash, or horizontal bar (no-emdash rule). Comma, colon, period, parentheses, or hyphen. Colon is fine before a list, not as a mid-sentence crutch.
+14. Bold only the few words that matter.
+15. Inline-header restatement is a tell ("**Performance:** Performance improved…"). A bold lead-in that adds new detail is fine.
+16. Sentence case headings in chat.
+17. No decorative emojis in headings or bullets.
+18. Straight quotes, not curly.
+
+### Chat and filler
+
+19. Chatbot closings: "I hope this helps!", "Let me know if…", "Of course!", "Certainly!", "Found the smoking gun!" Delete.
+20. Cutoff disclaimers: "While specific details are limited…" Find the source or remove.
+21. Answer the question. Do not flatter.
+22. "In order to" → "To". "Due to the fact that" → "Because". Delete "It is important to note that".
+23. Stacked hedges → "may".
+24. Generic endings ("The future looks bright.") → the next concrete step.
+
+### Plain speech
+
+25. Abstract metaphor nouns in chat: substrate, wedge, vector, locus, vantage, nexus, harness, bedrock, scaffolding (metaphor), modality, paradigm, gold-plating, ratchet (metaphor), evacuate (for moving code), endgame, north star, flywheel. Concrete word instead. Pack doctrines may keep `primitive` and `surface`; chat says "one-job helper" and "public API".
+26. If you cannot restate the sentence as an instruction, fact, or number, cut it.
+27. Split dense sentences. One idea each when the reader would backtrack.
+28. Active voice. Name the actor unless the actor does not matter.
+29. Cut adverbs, or use a stronger verb. "significantly improves" becomes the measured delta.
+30. Prefer the plain word: "utilize" / "leverage" → "use"; "facilitate" → "help"; "in the event that" → "if".

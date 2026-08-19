@@ -50,7 +50,7 @@ Apply them as **hard** standards. Do not skip because you “already know” the
 
 **Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
 
-Talk in ordinary words (`pack-shared/plain-language.md`).
+Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `unslop.mdc` (always on with this plugin).
 
 ## Plan mode — grill before the plan
 
@@ -68,4 +68,4 @@ Every non-trivial plan **must** include a high-level Mermaid **Change diagram** 
 
 ## Conflict
 
-Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

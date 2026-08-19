@@ -30,6 +30,16 @@ This contract is for **what the user reads**. Internal worker notes may keep sho
 
 KISS is allowed only as **keep it simple**. If you say KISS, expand it in the same sentence the first time.
 
+## AI tells
+
+Ordinary words are not enough if the sentence still sounds generated.
+Chat replies follow the unslop plugin rule
+([`../../rules/unslop.mdc`](../../rules/unslop.mdc)) when the plugin or
+pinned rules are installed. This file owns jargon and nicknames. That
+rule owns puffery, chatbot closings, fake cadence, and drafting the
+reply clean. `npx skills` does not install plugin rules; pin them with
+`/setup-toolkit` if you need them without the plugin.
+
 ## Questions and announcements
 
 Follow [asking.md](asking.md). Question text and Locked-in text must be readable without this pack’s vocabulary. Options describe the real choice, not an internal process name.
