@@ -3,8 +3,8 @@
 Every agent that **creates or updates a GitHub PR** while this pack is
 installed follows this contract — **not only `/publish`**.
 
-Parents include `/publish`, `/just-do-it` ship, standalone `/goal` when the
-user asked to open a PR, and any cloud or freeform agent that ships a branch
+Parents include `/publish`, `/just-do-it` ship, `/goal` when this chat
+owns shipping and the user asked to open a PR, and any cloud or freeform agent that ships a branch
 as a PR.
 
 Body templates, change type, branch names, and Mermaid rules stay in

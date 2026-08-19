@@ -23,7 +23,7 @@ This contract is for **what the user reads**. Internal worker notes may keep sho
 | hard-apply / Hard apply | Must follow taste and architecture |
 | INV-1 (alone) | Rule 1 — payments must not charge twice |
 | Active Rules | Rules that must stay true |
-| dual / flow variant / Worker Brief | (don’t say these; they are internal) |
+| Worker Brief | (don’t say this; it is internal) |
 | n/a | none / does not apply |
 | AC / DoD | what “done” means |
 | CR1 / CR2 | first review / second review |

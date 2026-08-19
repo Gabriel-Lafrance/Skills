@@ -2,7 +2,7 @@
 name: write-ticket
 description: >-
   Create or refine one Feature, Tweak, Bug, Refactor, Chore, or Hotfix ticket
-  from a single prompt. Infers type and body, always runs full flow /analyze,
+  from a single prompt. Infers type and body, always runs full /analyze,
   and asks only a too-short grill or missing tracker metadata. Use for Linear
   or GitHub tickets, including “don’t forget this” captures; never inside /goal.
 disable-model-invocation: true
@@ -12,12 +12,10 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before analyzing or drafting. Do not skip.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
-
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-**Standalone only.** This skill writes a tracker ticket; `/trackers` reads.
-Always run **flow** `/analyze` to full memo depth. Do not run a type-specific
+This skill is a user start. Do not nest it under `/goal`. It writes a tracker ticket; `/trackers` reads.
+Always run `/analyze` to full memo depth (this parent owns the next step). Do not run a type-specific
 open grill. Do not invoke full `/grill-me`.
 
 ## Process
@@ -26,7 +24,7 @@ open grill. Do not invoke full `/grill-me`.
    body fields. Do not ask what research can answer.
 2. If the idea is too short to analyze, send **one** asking-contract batch
    (include missing metadata in that same batch). Wait. Otherwise skip grill.
-3. Run **flow** `/analyze` fully on the seed (Task workers, complete memo).
+3. Run `/analyze` fully on the seed (Task workers, complete memo).
 4. Fill the **same six sections** every type (Type, Diagram, Ask, Done when,
    Out of scope, Start here) using that type’s preset. Announce the draft.
    If metadata is still missing, one metadata batch — then write. If

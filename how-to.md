@@ -19,23 +19,21 @@ skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
     asking.md            # how to ask the user (batch Questions)
-    variants.md          # standalone vs flow selection
     standards.md         # must follow taste + architecture on every skill run
     plain-language.md    # talk to humans in ordinary words
     execution-context.md # in-chat parent / worker context
     subagents.md         # Task bias, Worker Brief, spawn rules
     review-contract.md   # shared review evidence and finding rules
+    doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
     browser-evidence.md  # browser proof for UI acceptance
     pr-ship.md           # every agent that opens a PR (canvas + screenshots)
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
-    SKILL.md             # required — frontmatter + thin entry
-    standalone.md        # optional — one-off use
-    flow.md              # optional — step inside a long-running wave
-    doctrine.md          # optional — durable rules
-    examples.md          # optional — good vs bad
-    reference.md         # optional — deep detail (progressive disclosure)
+    SKILL.md             # required: frontmatter + how-to
+    doctrine.md          # optional: durable rules (fixed H2 schema)
+    examples.md          # optional: good vs bad
+    reference.md         # optional: deep detail (progressive disclosure)
 LICENSE
 README.md                # install + user-facing catalog
 how-to.md                # this file
@@ -43,7 +41,7 @@ how-to.md                # this file
 
 Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
-**Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — dual skills will fail looking for `../variants.md`.
+**Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — other skills will fail looking for `../pack-shared/...`.
 
 **Plugin vs `npx skills`:** the Cursor plugin auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders. Put any file a skill must copy into a consumer repo (ESLint/Prettier templates) **inside that skill folder**, not only at the plugin root.
 
@@ -51,15 +49,11 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Tab events. Do not add **MCP** unless there is a real server to ship. ESLint and Prettier are app-repo configs, not plugin components.
 
-## Skill kinds
+## Skill folders
 
-| Kind | Files | When |
-| --- | --- | --- |
-| **Dual** | `SKILL.md` + `standalone.md` + `flow.md` | Same skill as a one-off *or* inside a wave |
-| **Flow-only** | `SKILL.md` + `flow.md` (no `standalone.md`) | Looked up by an orchestrator (`/goal`, `/just-do-it`, …) |
-| **Standalone-only** | `SKILL.md` (+ doctrine/reference); no `flow.md` | User-invoked entry (`/ask-gabriel`, `/just-do-it`, `/write-ticket`, …) |
+Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-`SKILL.md` stays thin. Point at doctrine / examples / the chosen variant. Do not paste pack-wide ask or variant rules — link [`asking.md`](./skills/pack-shared/asking.md) and [`variants.md`](./skills/pack-shared/variants.md).
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start. User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
 
 ## Frontmatter
 
@@ -80,10 +74,10 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
-- **Variants:** dual / flow-only / standalone-only skills link [`pack-shared/variants.md`](./skills/pack-shared/variants.md). Agent loads **exactly one** of `standalone.md` or `flow.md` per turn. Keep those files wave-agnostic (any long-running orchestrator, not only `/goal`).
-- **Execution context:** parent flows link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
+- **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
+- **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
-- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, and severity mapping.
+- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, Wave 1 / Wave 2 fences, correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
   follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review
@@ -112,17 +106,13 @@ Browser state can persist per workspace. Reset safe test state when needed, or r
 
 ## Add a skill
 
-1. Create `skills/<skill-name>/SKILL.md` with frontmatter above.
-2. Pick a kind:
-   - Dual → add `standalone.md` and `flow.md`; in `SKILL.md` say choose exactly one via `variants.md`.
-   - Flow-only → add `flow.md`; note “no standalone” and link `variants.md`.
-   - Standalone-only → no `flow.md`; if flow is requested, use the missing-variant message from `variants.md`.
-3. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (keep `SKILL.md` short).
-4. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
-5. Wire discovery:
+1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/goal` say so in `SKILL.md`.
+2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Taste’s Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md), not in the taste doctrine body.
+3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
+4. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
-   - Internal flow step → only the orchestrator doctrine/flow that should call it (do not put it on the README as a typical entry).
-6. Smoke-check locally:
+   - Internal worker step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).
+5. Smoke-check locally:
 
 ```bash
 npx skills@latest add . --list
@@ -138,12 +128,12 @@ npx skills@latest add . --list
 ## Conventions
 
 - One skill = one job. Prefer new skill over bloating an existing one.
+- Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)). Cite another skill’s keys instead of restating its Bars.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
 - Teach in ordinary words — no explainer-video links in skill bodies. PR Demo
   screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
-- Do not invent a missing `standalone.md` / `flow.md` process.
-- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/variants.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
+- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 - Plugin rules stay short. Do not copy `/taste` or `/architecture` bodies into `.mdc` files.

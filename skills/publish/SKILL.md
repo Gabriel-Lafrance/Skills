@@ -14,11 +14,9 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip. Every PR this pack opens also follows [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) (screenshots, review canvas, create tool) — including `/just-do-it` and cloud agents, not only this skill.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — standalone-only. If flow is requested, use the no-flow message.
-
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-Publish only. Never invoke from `/goal`, invent a `publish-flow`, write tracker issues, or implement product work.
+This skill is a user start. Do not nest it under `/goal`. Publish only. Never invent a `publish-flow` name, write tracker issues, or implement product work.
 
 ## Process
 

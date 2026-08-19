@@ -37,7 +37,7 @@ class ConsoleNotifier extends BaseNotifier {
 }
 ```
 
-**Good — KISS until growth is real** (big features still get one named seam + one impl — see doctrine Futureproofing):
+**Good — KISS until growth is real** (big features still get one named seam + one impl; see [reference.md](reference.md#futureproofing)):
 
 ```typescript
 async function notifyUser(msg: string) {
@@ -74,6 +74,12 @@ async function notifyUser(msg: string) {
 **Honest names — bad:** scope becomes “payment intent,” but keep writing `createCheckoutTotal` in `checkout-total.ts`.  
 **Honest names — good:** rename to `create-payment-intent.ts` / `createPaymentIntent` (and update callers) in the same change.
 
+**Trust the server — bad:** disable the Pay button in React; the mutation still charges any `userId` the client sends.  
+**Trust the server — good:** the mutation `requireUser`s, then checks the user owns the cart; the disabled button is only feedback.
+
+**Types tell the truth — bad:** `args: { data: v.any() }` or `userId?: string` when every caller must pass a user.  
+**Types tell the truth — good:** `args: { userId: v.id("users"), cents: v.number() }`; required stays required.
+
 ## Deep vs shallow module (entry point vs leaked helpers)
 
 **Bad — shallow module** — call site orchestrates internals (high complexity at every caller):
@@ -105,7 +111,7 @@ const cart = useCart(userId);
 await stripe.checkout.sessions.create({ … });
 ```
 
-**Good** — behavior-preserving move into the right service; cite the good shape (`/architecture` §4):
+**Good** — behavior-preserving move into the right service; cite the good shape (`architecture:prior-mistakes`):
 
 ```typescript
 // services/billing/billing.ts — makeUserPay owns Stripe

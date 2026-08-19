@@ -1,12 +1,28 @@
-# Publish Doctrine
+# Publish doctrine
 
-Publish local work only. This skill is standalone-only, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
+## Job
+
+Publish local work only. This skill is a user start, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
+
+## Owns
+
+Type lock, branch naming contract, no auto-commit / no force-push, draft-before-create, Change diagram, and failure handling.
+
+## Does not own
+
+- Numbered how-to: [`reference.md`](reference.md#process) · [`SKILL.md`](SKILL.md)
+- Screenshots, canvas, create-tool choice: [pr-ship.md](../pack-shared/pr-ship.md)
+- Taste and architecture bars: cite `taste:*` and `architecture:*`
+
+## Cite keys
+
+none (uses `taste:*` and `architecture:*`)
+
+## Bars
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
-**Must read:** Read [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR (screenshots, Cursor review canvas, create tool). That contract applies to **every** agent that opens a PR, not only this skill.
-
-## Core rules
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR. That contract applies to **every** agent that opens a PR, not only this skill.
 
 - Lock exactly one type: `feature`, `tweak`, `bug`, `refactor`, `chore`, or `hotfix`.
 - Use the branch naming contract in [reference.md](reference.md).
@@ -16,13 +32,9 @@ Publish local work only. This skill is standalone-only, never runs under `/goal`
 - Follow [pr-ship.md](../pack-shared/pr-ship.md): Browser screenshots in the body when the change is visual (not a UI test pass), a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
-When `/just-do-it` reads this doctrine for its preflight and templates, its
-explicit autonomous parent instruction replaces the approval wait only after it
-has printed the complete draft in chat. It still follows
-[pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool). This
-approval exception does not apply to standalone `/publish`.
+When `/just-do-it` reads this doctrine for its preflight and templates, its explicit autonomous parent instruction replaces the approval wait only after it has printed the complete draft in chat. It still follows [pr-ship.md](../pack-shared/pr-ship.md). This approval exception does not apply to `/publish` when the user invoked it directly.
 
-## Inputs
+### Inputs
 
 | Input | Handling |
 | --- | --- |
@@ -32,50 +44,7 @@ approval exception does not apply to standalone `/publish`.
 | Correct branch already exists | Reuse it |
 | “Don't push” or “local only” | Create or rename the branch only |
 
-## Process
-
-### 1. Inspect git
-
-In parallel, inspect `git status`, current branch, remotes/default base, commits ahead of base, and diff summary.
-
-| State | Action |
-| --- | --- |
-| No `gh` or not authenticated | Stop before PR unless Cursor’s pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
-| Dirty tree | Ask commit first, stash, or abort; never auto-commit |
-| No commits ahead of base | Stop; there is nothing to publish |
-| Detached HEAD | Create a real branch before continuing |
-
-### 2. Lock type and ticket
-
-Use the Question batch in [reference.md](reference.md) unless both are already clear. If no ticket exists, ask once whether to use a descriptive `no-ticket` branch or stop and create a ticket first. Recommend `/write-ticket` when the work belongs on a tracker.
-
-### 3. Branch and push
-
-1. Build `{type}/{ticket}-{slug}` from the locked values.
-2. Announce the branch in a Locked block from [reference.md](reference.md).
-3. Create, rename, or reuse the branch. Only rename a disposable local branch that already holds the intended commits.
-4. Unless the user asked for local-only work, push with `git push -u origin HEAD`.
-5. Never force-push or push to `main`/`master`.
-
-### 4. Ask whether to draft and publish
-
-After a successful push, use the draft/publish Question batch in [reference.md](reference.md). Wait:
-
-- Declined: return the branch and remote URL.
-- Draft only: show it in chat and stop.
-- Approved: continue to the full draft.
-
-### 5. Draft the PR
-
-Build the title and body from the commits, diff, ticket, and locked type. Use the type template in [reference.md](reference.md). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** screenshots and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md) — pictures for reviewers, not a browser test loop.
-
-Show the complete title and body, then use the publish-approval Question batch. Never create a PR silently.
-
-### 6. Publish
-
-On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in [reference.md](reference.md)). Return the PR URL and the canvas link. Do not write Linear comments or change ticket status.
-
-## Failures
+## Output
 
 | Problem | Action |
 | --- | --- |
@@ -85,16 +54,20 @@ On approval only, create or update the PR with the tool choice in [pr-ship.md](.
 | PR already open | Return its URL; ask whether to update the body or stop |
 | Unknown type | Lock it before branching |
 
+## Apply
+
+Run the [process](reference.md#process). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes.
+
 ## Anti-patterns
 
-- Invoking under `/goal` or inventing a flow twin.
-- Creating a PR before draft and approval.
-- Empty QA instructions.
-- Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception).
-- Shipping a visual change without a screenshot when Browser was available, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available.
-- Running a full UI test loop just to fill Demo.
-- Labeling a defect, standalone capability, or structural cleanup as a Tweak.
-- Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix.
-- Labeling product tweaks, refactors, or defects as Chore.
-- Turning a Tweak, Refactor, Chore, or Hotfix into the wrong PR template.
-- Implementing new product work instead of shipping existing work.
+- Invoking under `/goal`
+- Creating a PR before draft and approval
+- Empty QA instructions
+- Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception)
+- Shipping a visual change without a screenshot when Browser was available, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available
+- Running a full UI test loop just to fill Demo
+- Labeling a defect, standalone capability, or structural cleanup as a Tweak
+- Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
+- Labeling product tweaks, refactors, or defects as Chore
+- Turning a Tweak, Refactor, Chore, or Hotfix into the wrong PR template
+- Implementing new product work instead of shipping existing work

@@ -1,7 +1,7 @@
 ---
 name: pack-shared
 description: >-
-  Internal pack contracts for Gabriel Lafrance Skills: asking, variants,
+  Internal pack contracts for Gabriel Lafrance Skills: asking,
   stateless execution context, subagent dispatch, review behavior, browser
   evidence, and how every agent opens a PR (canvas, screenshots). Not
   user-invoked. Other skills link here so shared docs install with npx skills
@@ -16,9 +16,9 @@ Not a user skill. Do not recommend `/pack-shared`.
 Other skills Read these files by relative path:
 
 - [standards.md](standards.md) — must follow `/taste` and `/architecture` on every skill run
+- [doctrine-schema.md](doctrine-schema.md) — H2 order every `skills/*/doctrine.md` must use
 - [plain-language.md](plain-language.md) — talk to humans in ordinary words
 - [asking.md](asking.md) — how to ask the user
-- [variants.md](variants.md) — standalone vs flow selection
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff
 - [subagents.md](subagents.md) — Task subagent bias, Worker Brief, and spawn rules
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records

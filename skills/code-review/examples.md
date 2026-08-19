@@ -19,9 +19,9 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ## Named principle finding + principles sweep
 
 ```markdown
-- **standards-soc-checkout-stripe** · **standards** · **blocker**
+- **standards-keep-jobs-apart-checkout-stripe** · **standards** · **blocker**
   - **Where:** `features/checkout/use-checkout.ts` (`placeOrder`)
-  - **Rule:** `taste:keep-jobs-apart` · `architecture:related-together`
+  - **Rule:** `taste:keep-jobs-apart` · `taste:related-together` · `taste:trust-the-server`
   - **Trigger:** Checkout feature calls Stripe directly on submit.
   - **Evidence:** Diff adds `stripe.checkout.sessions.create` inside the feature; `billing.makeUserPay` already owns Stripe.
   - **Impact:** Checkout now talks to Stripe instead of billing; the billing safety checks are skipped.
@@ -31,16 +31,18 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Principle | Status | Note |
 | --- | --- | --- |
 | Keep it simple | clear | |
-| Keep jobs apart | finding | `standards-soc-checkout-stripe` |
+| Keep jobs apart | finding | `standards-keep-jobs-apart-checkout-stripe` |
 | One altitude | clear | |
 | Read or write, not both | clear | |
 | Fail fast | clear | |
-| Leave it cleaner | finding | same as keep-jobs-apart — copied wrong sibling |
+| Leave it cleaner | finding | same as keep-jobs-apart: copied wrong sibling |
 | Related together | finding | reaches Stripe instead of billing API |
 | Safe to retry | finding | bypasses billing retry safety |
 | Say what happens | clear | |
 | No surprises | clear | |
 | Honest names | clear | |
+| Trust the server | finding | UI path skips the billing write lock |
+| Types tell the truth | none | no new public contract |
 
 ## Architecture sweep
 | Check | Status | Note |
@@ -50,10 +52,41 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | One-job helpers (reuse, not copy) | finding | billing helper bypassed |
 | Folders / placement | clear | |
 | Cheap reads (store on write) | none | no aggregate read |
-| Safe to retry writes | finding | same as keep-jobs-apart — billing retry safety skipped |
+| Indexes / no scan | none | |
+| Pagination / no unbounded collect | none | |
+| Deterministic queries | none | |
+| Authority on the write | finding | Stripe called outside billing |
+| Safe to retry writes | finding | billing retry safety skipped |
+| Prior mistakes not copied | finding | copied checkout's old Stripe path |
+
+## Correctness hunt
+| Class | Status | Note |
+| --- | --- | --- |
+| Identity on public writes | none | not a new mutation |
+| Ownership / tenant | none | |
+| Client-only guard | finding | `standards-keep-jobs-apart-checkout-stripe` |
+| Replay / double-submit | finding | bypasses billing idempotency |
+| Race / lost update | none | |
+| Un-awaited write | clear | |
+| Swallowed error | clear | |
+| Null / empty / off-by-one on the happy path | clear | |
+| Cross-file stale caller | none | |
+| Secrets in the diff | clear | |
 ```
 
-Reject a Standards worker result that omits the **Principles sweep** or **Architecture sweep** table, or that marks every row `clear` without having inspected the diff.
+This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+
+**Wave 2** fence (re-inspect; do not clone the hunt rows):
+
+```markdown
+## Adversarial findings
+- none (Wave 1 already had the Stripe fork)
+
+## Hunt re-inspect
+Re-walked Principles, Architecture, Correctness hunt. No new class. Did not rubber-stamp Wave 1.
+```
+
+`/pr-review` Wave 2 also returns the four PR extras rows (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt.
 
 ## Honest names / stale path after rename
 
@@ -68,6 +101,20 @@ Reject a Standards worker result that omits the **Principles sweep** or **Archit
 
 This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and skipped the naming alignment pass. Remediation is not clear until both path and symbols match.
 
+## Missing identity on a public write
+
+```markdown
+- **standards-trust-the-server-charge-cart** · **standards** · **blocker**
+  - **Where:** `convex/carts.ts` (`chargeCart`)
+  - **Rule:** `taste:trust-the-server` · `architecture:authority`
+  - **Trigger:** Any client can call `chargeCart` with another user's `userId`.
+  - **Evidence:** Diff adds a public mutation that inserts `payments` from `args.userId` with no `requireUser` or ownership check. The UI disables Pay for other users; the mutation does not.
+  - **Impact:** A caller can charge or write another user's cart.
+  - **Fix:** `requireUser` in the mutation; load the cart; reject if `cart.userId !== user._id`; take amount from stored cart state.
+```
+
+This meets the evidence bar: a public write with no identity check is a reachable trigger. Do not mark it Optional nit.
+
 ## Evidence versus speculation
 
 **Finding:** A public mutation accepts `orderId` and reaches a write without checking ownership. The trigger, path walk, and impact support a smallest fix: enforce ownership at the mutation boundary.
@@ -78,14 +125,14 @@ This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and
 
 ## Waves and review modes
 
-Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-billing-authority-checkout`.
+Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-keep-jobs-apart-checkout-stripe`. Wave 2 still returns a **hunt re-inspect** of the Wave 1 tables.
 
 After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
 
 ## Remediation memo and promotion
 
 `/analyze` owns the canonical
-[review-remediation analysis](../analyze/doctrine.md#review-remediation-analysis).
+[review-remediation analysis](../analyze/doctrine.md#output).
 It keeps `standards-billing-authority-checkout` as the section and promotion
 ID, then explains the current behavior, root cause, smallest fix, touch
 surface, non-goals, and verification. Only explicit user promotion of that ID

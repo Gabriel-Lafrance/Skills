@@ -278,3 +278,61 @@ const flags = await ctx.db.query("featureFlags").collect();
 ```
 
 Never copy that into a user-facing dashboard.
+
+## Authority lives on the write
+
+**Bad** — UI hides Pay; the mutation trusts the client:
+
+```typescript
+export const chargeCart = mutation({
+  args: { userId: v.id("users"), cents: v.number() },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("payments", { userId: args.userId, cents: args.cents });
+  },
+});
+```
+
+**Good** — identity + ownership + amount from stored state, in one write:
+
+```typescript
+export const chargeCart = mutation({
+  args: { cartId: v.id("carts") },
+  handler: async (ctx, args) => {
+    const user = await requireUser(ctx);
+    const cart = await ctx.db.get(args.cartId);
+    if (!cart) throw new Error("Cart not found");
+    if (cart.userId !== user._id) throw new Error("Unauthorized");
+    await makeUserPay(ctx, { userId: user._id, cents: cart.totalCents });
+  },
+});
+```
+
+## Deterministic queries (no wall clock)
+
+**Bad:**
+
+```typescript
+export const getActive = query({
+  handler: async (ctx) => {
+    const now = Date.now();
+    const rows = await ctx.db.query("tasks").collect();
+    return rows.filter((t) => t.dueAt > now);
+  },
+});
+```
+
+**Good:** store status on write (or a scheduled mutation); the query reads that field. Do not call `Date.now()` inside the query.
+
+```typescript
+export const listActive = query({
+  args: { userId: v.id("users"), paginationOpts: paginationOptsValidator },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("tasks")
+      .withIndex("by_user_and_status", (q) =>
+        q.eq("userId", args.userId).eq("status", "active")
+      )
+      .paginate(args.paginationOpts);
+  },
+});
+```

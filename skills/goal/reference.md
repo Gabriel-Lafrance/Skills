@@ -143,7 +143,7 @@ explicit promotion, bounded Fix mode, re-checked acceptance evidence, and
 
 ## Ship questions
 
-After the completion summary, ask one batch only when standalone `/goal` owns
+After the completion summary, ask one batch only when this chat owns
 shipping. Defaults remain no unless already requested:
 
 ```markdown
@@ -165,6 +165,46 @@ Wait for the answer before committing or opening a PR. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
 [pr-ship.md](../pack-shared/pr-ship.md) for Demo, canvas, and create tool,
-show the draft in chat, then create. Under flow `/goal`
-(parent `/just-do-it` or similar), return the completion evidence to the parent
+show the draft in chat, then create. When `/goal` runs under a parent
+(`/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.
+
+## Lifecycle
+
+Numbered process for `/goal`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
+
+### Phase 0: establish context and grill
+
+1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
+2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
+3. Unless the skip rule applies, run `/grill-me` fully. It pulls in `/taste` and `/architecture` on every run ([standards.md](../pack-shared/standards.md)).
+4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
+5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
+
+On a Locked correction or unanswered real question, revise or wait. Never infer a user decision, waiver, invariant, or promotion from code alone.
+
+### Phase 1: plan and build
+
+**Explore and shape.** Dispatch exploration through Task workers per [subagents.md](../pack-shared/subagents.md): non-trivial research **must** use a Task; ≥2 independent lanes **must** run in parallel. Confirm `/taste` and `/architecture` decisions against the grill (both doctrines must already be loaded this turn), then carry the relevant facts into the in-chat plan contracts.
+
+**Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; the parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/implement`. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
+
+**Implement wave.** Dispatch ready frontier slices as Task workers with a Worker Brief from [subagents.md](../pack-shared/subagents.md). Each prompt includes the applicable outcome, Done when, non-goals, Active Rules, lane, current slice, dependencies, and prior decisions. Anti-pattern: the parent solos non-trivial implement work. After integration, update **Current slices** in chat; if ready slices remain, dispatch the next frontier. Only when every slice is integrated, blocked, or explicitly waived does the parent enter acceptance evidence. The parent owns integration and the acceptance/review gates.
+
+**Acceptance evidence and review.** After all implementation workers finish:
+
+1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks, terminal output, and (for UI criteria) the [browser evidence protocol](../pack-shared/browser-evidence.md). Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
+2. Always run **`/code-review`** next.
+3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
+4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
+5. If the user declines a fix, completion remains blocked until every Fix-now finding is fixed or waived by name.
+
+### Fix mode (review remediation only)
+
+Fix mode is one bounded slice of the current goal, not fresh product discovery:
+
+1. Carry only explicitly promoted findings into the current slice. Each cites its review finding, violated Active Rule, acceptance criterion, correctness/security issue, or regression.
+2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.
+3. Prefer the smallest authoritative correction. Do not add queues, retries, wrappers, or new services unless the named finding proves a guard is insufficient.
+4. No new feature scope, optional cleanup, or architecture move unless the named finding requires it.
+5. Re-check the named findings and Active Rules with acceptance evidence, then run `/code-review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
