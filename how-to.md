@@ -13,7 +13,7 @@ rules/                   # Cursor plugin rules (.mdc only — no extra README)
   ship-work.mdc          # PRs / branches
   subagents.mdc          # Task bias
   project-tooling.mdc    # ESLint / Prettier in the app repo
-agents/                  # Custom agent configs (architect, reviewer)
+agents/                  # Custom agent configs (explorer, architect, implementer, reviewer, pr-reviewer)
 commands/                # Slash commands (setup-toolkit)
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
@@ -174,7 +174,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | --- | --- |
 | Skills | `skills/` |
 | Rules | `rules/*.mdc` — short pointers; doctrines stay in skills |
-| Agents | `agents/` — architect, reviewer |
+| Agents | `agents/` (explorer, architect, implementer, reviewer, pr-reviewer) |
 | Commands | `commands/` — do not alias every skill (avoids `/goal` collisions) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 

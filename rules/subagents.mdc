@@ -14,3 +14,5 @@ Default: hand the job to a **Task** with a Worker Brief so the main chat stays l
 Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
 
 Worker Brief **Read first** must include `taste/doctrine.md` and `architecture/doctrine.md`.
+
+When this plugin is installed, prefer these named agents for the matching job: **explorer** (research), **architect** (structure), **implementer** (write slice), **reviewer** (local diff), **pr-reviewer** (open GitHub PR). Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch.

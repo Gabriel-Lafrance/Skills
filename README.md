@@ -26,7 +26,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/goal`, `/grill-me`, `/setup-toolkit`, …) |
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc` always applies; the others attach when relevant |
-| **Agents** | `agents/` | Architect and reviewer roles for Task / custom agents |
+| **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
 
@@ -45,6 +45,18 @@ ESLint and Prettier are **not** Cursor plugin primitives. They only run if the a
 Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Doctrines stay in skills; rules stay short pointers so they do not rot.
 
 To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without the plugin), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
+
+### Plugin agents
+
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines.
+
+| Agent | Owns | Skill |
+| --- | --- | --- |
+| [`explorer`](./agents/explorer.md) | Read-only research memo | `/analyze` |
+| [`architect`](./agents/architect.md) | Structure card | `/architecture` |
+| [`implementer`](./agents/implementer.md) | One bounded code slice | `/implement` |
+| [`reviewer`](./agents/reviewer.md) | Local branch diff | `/code-review` |
+| [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
 
 ## Skills
 
