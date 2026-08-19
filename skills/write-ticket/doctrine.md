@@ -2,7 +2,7 @@
 
 ## Job
 
-Write or refine one Linear or GitHub ticket from as little as one prompt. This skill is standalone-only, never implements the ticket, and always runs **flow** `/analyze` to full memo depth before drafting.
+Write or refine one Linear or GitHub ticket from as little as one prompt. This skill is a user start, never implements the ticket, and always runs `/analyze` to full memo depth before drafting.
 
 ## Owns
 
@@ -55,10 +55,10 @@ A “don’t forget this” **sentence that names an outcome, defect, or mainten
 | Linear ID or URL | Read and refine that Linear ticket |
 | GitHub issue ID or URL | Read and refine that GitHub issue |
 | Rough idea or “don’t forget this” note | Create; infer Linear versus GitHub from the repo and prompt |
-| In-chat analysis memo | Reuse it; still run flow `/analyze` if it is shallow or stale |
+| In-chat analysis memo | Reuse it; still run `/analyze` if it is shallow or stale |
 | Ambiguous number | Prefer the tracker this repo already uses; ask only inside the allowed metadata / too-short batch |
 
-An in-chat analysis memo is not a substitute for a full flow `/analyze` unless it already has the complete memo shape (diagram, evidence, entrypoints, direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover ticket, repository, PR, and tracker facts from live sources.
+An in-chat analysis memo is not a substitute for a full `/analyze` unless it already has the complete memo shape (diagram, evidence, entrypoints, direction, ownership, touch surface, risks, `/goal` seed when buildable). Rediscover ticket, repository, PR, and tracker facts from live sources.
 
 ### Type and required content
 
@@ -99,17 +99,17 @@ Announce inferred type and the draft as Locked (correct if wrong) only in messag
 | Ticket not found | Stop and confirm ID, team, or repository |
 | User declines after write | Leave the URL; do not silently delete |
 | Required section empty after analysis | Use `unknown` / `_none` in that section; do not start a second grill |
-| Analysis absent or stubby | Run or refresh full flow `/analyze` before drafting |
+| Analysis absent or stubby | Run or refresh full `/analyze` before drafting |
 | Tracker options unavailable | Ask freeform for that field inside the metadata batch; do not invent IDs |
 
 ## Apply
 
-Always run **flow** `/analyze` to full memo depth. Show the complete draft in chat, then create or update through the tracker capability or `gh`. Return the URL and applied metadata. Status is **Todo** unless the prompt already names another; when refining, keep the current status unless the prompt overrides it.
+Always run `/analyze` to full memo depth. Show the complete draft in chat, then create or update through the tracker capability or `gh`. Return the URL and applied metadata. Status is **Todo** unless the prompt already names another; when refining, keep the current status unless the prompt overrides it.
 
 ## Anti-patterns
 
-- Running inside `/goal` or inventing a flow variant
-- Skipping flow `/analyze` or accepting a stub memo
+- Running inside `/goal`
+- Skipping `/analyze` or accepting a stub memo
 - Asking the type-specific open grill, or invoking full `/grill-me`
 - Asking vision / who / done-when / start-here when analysis can fill them
 - Asking “write this?” or status when a default exists

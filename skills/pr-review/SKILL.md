@@ -1,7 +1,7 @@
 ---
 name: pr-review
 description: >-
-  Standalone, stateless review of an open GitHub PR. Standards hard-require
+  Stateless review of an open GitHub PR. Standards hard-require
   /taste KISS + named principles (including honest names, trust the server,
   types tell the truth, and naming alignment) and /architecture, plus a
   correctness hunt and PR extras (body vs diff, migrations, breaking API).
@@ -14,9 +14,9 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md). Standalone-only. If flow is requested, use the no-flow missing-variant response.
-
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+
+This skill is a user start. Do not nest it under `/goal`.
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,

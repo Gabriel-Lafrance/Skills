@@ -2,17 +2,17 @@
 
 ## Job
 
-Turn an ask into an evidence-backed analysis memo in chat. `/analyze` is **dual**. Load exactly one of `standalone.md` or `flow.md` via [variants.md](../pack-shared/variants.md). It does not implement, create tickets, or create automatic runtime artifacts.
+Turn an ask into an evidence-backed analysis memo in chat. `/analyze` does not implement, create tickets, or create automatic runtime artifacts. Nested vs one-off hand-off lives in [process.md](process.md).
 
 ## Owns
 
-Inputs, research rules, the analysis memo, standalone hand-off Questions, and review-remediation analysis.
+Inputs, research rules, the analysis memo, one-off hand-off Questions, and review-remediation analysis.
 
 ## Does not own
 
 - Implementation, ticket writes, or `/goal` promotion unless the user (or an explicit parent instruction) chooses it
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- Numbered process: [`standalone.md`](standalone.md), [`flow.md`](flow.md), [`SKILL.md`](SKILL.md)
+- Numbered process: [`process.md`](process.md)
 
 ## Cite keys
 
@@ -31,9 +31,9 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` seed | Flow: full standard memo even if the seed is ungrilled or a “don’t forget this” note; return to that parent. Do not stub. |
-| `/just-do-it` parent brief | Flow: research then return (parent may instruct promote + start) |
-| Named review Fix-now rows | Flow: review-remediation mode only for those rows |
+| `/write-ticket` seed | Nested: full standard memo even if the seed is ungrilled or a “don’t forget this” note; return to that parent. Do not stub. |
+| `/just-do-it` parent brief | Nested: research then return (parent may instruct promote + start) |
+| Named review Fix-now rows | Nested: review-remediation mode only for those rows |
 
 ### Research rules
 
@@ -42,7 +42,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Non-trivial research **must** use Task workers per [subagents.md](../pack-shared/subagents.md). When ≥2 independent research lanes exist, **must** spawn parallel `explore` Tasks before synthesizing the memo. Give each the applicable execution context and wait for all results; never sleep or poll for them. Trivial single-path lookups may stay on the main agent.
 - Apply **`/taste` and `/architecture` always** ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip the architecture Read because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer.
 
-Review-remediation mode: use only after the user selected named **Fix now** rows from a review, or a `/just-do-it` parent explicitly forwarded named rows under its autonomy policy. Always load **flow** for this mode. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
+Review-remediation mode: use only after the user selected named **Fix now** rows from a review, or a `/just-do-it` parent explicitly forwarded named rows under its autonomy policy. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 
 ## Output
 
@@ -137,7 +137,7 @@ When an explicit `/just-do-it` parent requested this remediation, apply `a)` aft
 
 ## Apply
 
-For standalone analysis, if the user did not already name the next step, offer one batch:
+For one-off analysis, if the user did not already name the next step, offer one batch:
 
 ```markdown
 ## Questions
@@ -148,7 +148,7 @@ Reply like: 1a
    - b) Sharpen the memo
    - c) Promote the inline seed to `/goal`
    - d) Draft a ticket from this memo with `/write-ticket`
-   - e) Promote to `/goal` and begin that flow
+   - e) Promote to `/goal` and start building
 ```
 
 | Choice | Do |
@@ -159,13 +159,13 @@ Reply like: 1a
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
 | e) Promote + start | Carry the inline seed into `/goal`, then continue through its grill or pre-cleared path. |
 
-Flow parents (`/write-ticket`, `/just-do-it`) own the next step. See [flow.md](flow.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
+Parents (`/write-ticket`, `/just-do-it`) own the next step. See [process.md](process.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
 
-On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/goal` context or a new bounded `/goal` flow. On the other choices, leave code unchanged.
+On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/goal` context or a new bounded `/goal`. On the other choices, leave code unchanged.
 
-Standalone hand-off Questions for remediation:
+One-off hand-off Questions for remediation:
 
 ```markdown
 ## Questions
@@ -180,11 +180,11 @@ Reply like: 1a
 ## Anti-patterns
 
 - Treating a memo as implementation or ticket-write approval
-- Stubbing flow analysis because a `/write-ticket` seed is short
+- Stubbing nested analysis because a `/write-ticket` seed is short
 - Posting a memo with no diagram when the path can be drawn
 - Drawing every file instead of modules, actors, and flow
 - Creating hidden state to resume analysis
 - Asking the user for repository or tracker facts that can be rediscovered
 - Promoting a remediation without first showing its complete stable-finding analysis
 - Replacing evidence with an implementation-level design
-- Loading both standalone and flow variants in one turn
+- Offering one-off hand-off Questions when a parent owns the next step

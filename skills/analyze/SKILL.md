@@ -1,8 +1,8 @@
 ---
 name: analyze
 description: >-
-  Stateless task analysis returned in chat. Dual: standalone research with
-  promote-to-goal handoffs, or flow under a parent (write-ticket, just-do-it,
+  Stateless task analysis returned in chat. One-off research with
+  promote-to-goal handoffs, or nested under a parent (write-ticket, just-do-it,
   review remediation). Does not write tickets or automatic artifacts.
 disable-model-invocation: true
 ---
@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before researching or posting the memo. Do not skip.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
+**Process:** [process.md](process.md)
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -23,22 +23,6 @@ disable-model-invocation: true
 - Keep user decisions, rules, lanes, and promotion state visible in the execution context; never infer them from code.
 - Return the analysis memo in chat. Do not create automatic runtime artifacts or hidden paths.
 - Save a memo only when the user explicitly requests it and approves the destination.
-
-## Process
-
-1. Establish or refresh the relevant execution context and normalize the ask.
-2. Investigate via Task workers per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-   research **must** use a Task; parallelize independent surfaces, then
-   synthesize the evidence.
-3. Post the memo: Mermaid diagram first (one path, or Before/After), then the
-   remaining sections, including an inline `/goal` seed when the work is
-   buildable.
-4. For standalone standard analysis, ask one batch for real unknowns, then
-   offer the explicit hand-off choices in [doctrine.md](doctrine.md#apply). Flow
-   parents skip those Questions (see [flow.md](flow.md)).
-5. For review remediation, present every selected stable-finding analysis
-   before the remediation-specific promotion choice.
 
 **Read:** [doctrine.md](doctrine.md). **Always** Read and apply `/taste` and
 `/architecture` (see [standards.md](../pack-shared/standards.md)). Do not skip

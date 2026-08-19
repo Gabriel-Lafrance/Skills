@@ -2,7 +2,7 @@
 
 ## Job
 
-Publish local work only. This skill is standalone-only, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
+Publish local work only. This skill is a user start, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
 
 ## Owns
 
@@ -32,7 +32,7 @@ none (uses `taste:*` and `architecture:*`)
 - Follow [pr-ship.md](../pack-shared/pr-ship.md): Browser screenshots in the body when the change is visual (not a UI test pass), a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
-When `/just-do-it` reads this doctrine for its preflight and templates, its explicit autonomous parent instruction replaces the approval wait only after it has printed the complete draft in chat. It still follows [pr-ship.md](../pack-shared/pr-ship.md). This approval exception does not apply to standalone `/publish`.
+When `/just-do-it` reads this doctrine for its preflight and templates, its explicit autonomous parent instruction replaces the approval wait only after it has printed the complete draft in chat. It still follows [pr-ship.md](../pack-shared/pr-ship.md). This approval exception does not apply to `/publish` when the user invoked it directly.
 
 ### Inputs
 
@@ -60,7 +60,7 @@ Run the [process](reference.md#process). Keep **How to QA** concrete: paths, rol
 
 ## Anti-patterns
 
-- Invoking under `/goal` or inventing a flow twin
+- Invoking under `/goal`
 - Creating a PR before draft and approval
 - Empty QA instructions
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception)

@@ -1,30 +1,20 @@
-# Grill Me flow
+# Grill Me process
 
-Use this variant inside an active `/goal` or parent wave. Read
-[../pack-shared/standards.md](../pack-shared/standards.md), then
+Read [../pack-shared/standards.md](../pack-shared/standards.md), then
 [doctrine.md](doctrine.md), the shared
 [execution context](../pack-shared/execution-context.md), and the
-[asking contract](../pack-shared/asking.md). The parent carries all context in
-chat; this flow creates no automatic artifacts.
-
-## Preconditions
-
-- The parent has supplied an outcome, current slice, non-goals, lane, and any
-  ticket/PR or fixed-point evidence.
-- The parent is ready to settle intent before issuing plans or implementation
-  work.
+[asking contract](../pack-shared/asking.md).
 
 ## Process
 
-1. Refresh the in-chat context from live repository, ticket, PR, and diff
-   evidence. Re-announce only facts or user decisions that changed or were
+1. Establish or refresh a compact in-chat execution context from the ask and
+   rediscovered repository, ticket, PR, or diff facts. If a parent already
+   supplied an outcome, current slice, non-goals, lane, and ticket/PR, reuse
+   that brief. Re-announce only facts or user decisions that changed or were
    missing.
-2. Gather every unsettled topic from the doctrine's behavior sweep. Include
-   plan count and file lane alongside product questions so the first batch is
-   complete.
-3. Apply the relevant quality discipline before recommending answers. **Always**
-   Read and apply both `/taste` and `/architecture` (see
-   [standards.md](../pack-shared/standards.md)):
+2. Batch every unsettled topic from the doctrine's behavior sweep. Include
+   plan count and file lane so the first batch is complete.
+3. Apply `/taste` and `/architecture` before recommending answers:
 
    | When | Include in the batch |
    | --- | --- |
@@ -40,7 +30,25 @@ chat; this flow creates no automatic artifacts.
    for non-goals, split, and shared understanding in a **separate**
    announce-only message. Do not issue plans until that Locked closure stands
    and every relevant Active Rule has an enforcement and verification owner.
-   Hand the inline context back to `/goal` for planning.
+
+Do not create automatic files for language, choices, rules, or progress. If
+the user wants a durable artifact, ask for or honor an approved destination
+under the shared
+[optional-persistence rule](../pack-shared/execution-context.md#optional-persistence).
+
+### If a parent already owns the next step
+
+Hand the inline context back to `/goal` for planning. Do not stop to wait for
+the user to pick a next skill.
+
+### If this is a user one-off
+
+Stop after shared understanding unless the user explicitly asks for the next
+step. `/goal` receives the inline context; `/write-ticket` may receive the
+relevant memo and decisions.
+
+- Structure needed → `/architecture`, then `/goal`.
+- Ready to build → `/goal`.
 
 ## Anti-patterns
 

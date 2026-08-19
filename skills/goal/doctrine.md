@@ -13,7 +13,7 @@ The orchestrator loop: execution context, grill-before-plans, lookup table, mand
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Review disposition: `/code-review`
 - Test writing: `/create-test`
-- Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`flow.md`](flow.md) · [`standalone.md`](standalone.md)
+- Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`process.md`](process.md)
 
 ## Cite keys
 
@@ -44,10 +44,10 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave |
 | Build | `/implement` |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this goal) |
-| Review remediation | flow `/analyze` before Fix mode |
+| Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call dual skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`) so they load the flow variant ([variants.md](../pack-shared/variants.md)). Do not load both variants.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Each follows its [`process.md`](process.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -58,8 +58,8 @@ Track these rows in the in-chat execution context or a concise progress message.
 | Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | All non-trivial explore / implement / review waves |
 | `/trackers` | If ticket | Read only |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
-| `/taste` | **Yes** | Flow variant during grill and before/during every implement wave |
-| `/architecture` | **Yes** | Flow variant during grill and before/during every implement wave. Prefer loading even for a one-file fix |
+| `/taste` | **Yes** | During grill and before/during every implement wave |
+| `/architecture` | **Yes** | During grill and before/during every implement wave. Prefer loading even for a one-file fix |
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | Yes | Frontier slices |
@@ -76,7 +76,7 @@ For ticket-driven goals, fetch `/trackers` first (read only), then grill open de
 
 ## Output
 
-**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When flow `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/goal` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -84,7 +84,7 @@ In a new chat, recover by following the [execution context authority order](../p
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). Standalone owns shipping decisions ([standalone.md](standalone.md)). Flow returns evidence to the parent ([flow.md](flow.md)).
+Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions ([process.md](process.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
 
 ## Anti-patterns
 
@@ -96,6 +96,6 @@ Run the [lifecycle](reference.md#lifecycle). Standalone owns shipping decisions 
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product goal
 - Asking yes/no for non-goals, plan split, or shared understanding
-- Writing to a tracker, committing, or opening a PR without a separate user request (standalone) or parent ownership (flow)
+- Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
 - Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool) because this skill is not `/publish`
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

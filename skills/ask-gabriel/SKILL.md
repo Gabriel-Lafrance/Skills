@@ -14,7 +14,7 @@ load other skills' bodies — including `/taste` and `/architecture` doctrines �
 until the user accepts. The next skill must follow those doctrines via
 [standards.md](../pack-shared/standards.md).
 
-**Sole auto-invokable skill** in this pack. Dual skills (`/grill-me`, `/taste`, `/architecture`, `/analyze`, `/goal`, …) self-select standalone vs flow via [variants.md](../pack-shared/variants.md) — never recommend `*-flow` names.
+**Sole auto-invokable skill** in this pack. Never recommend `*-flow` skill names. Each skill has one process; nested vs one-off is a fork inside that file.
 
 ## On-ramps
 
@@ -40,7 +40,7 @@ until the user accepts. The next skill must follow those doctrines via
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, …) are flow steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
+Internals (`/implement`, …) are worker steps looked up by `/goal` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
 
 ## How to answer
 

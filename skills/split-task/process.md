@@ -1,4 +1,6 @@
-# Split Task Flow
+# Split Task process
+
+This skill runs inside `/goal` or `/just-do-it`, not as a typical user start.
 
 Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 

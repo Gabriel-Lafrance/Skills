@@ -143,7 +143,7 @@ explicit promotion, bounded Fix mode, re-checked acceptance evidence, and
 
 ## Ship questions
 
-After the completion summary, ask one batch only when standalone `/goal` owns
+After the completion summary, ask one batch only when this chat owns
 shipping. Defaults remain no unless already requested:
 
 ```markdown
@@ -165,13 +165,13 @@ Wait for the answer before committing or opening a PR. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
 [pr-ship.md](../pack-shared/pr-ship.md) for Demo, canvas, and create tool,
-show the draft in chat, then create. Under flow `/goal`
-(parent `/just-do-it` or similar), return the completion evidence to the parent
+show the draft in chat, then create. When `/goal` runs under a parent
+(`/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.
 
 ## Lifecycle
 
-Numbered process for both standalone and flow. Rules stay in [doctrine.md](doctrine.md).
+Numbered process for `/goal`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [process.md](process.md).
 
 ### Phase 0: establish context and grill
 
@@ -196,7 +196,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks, terminal output, and (for UI criteria) the [browser evidence protocol](../pack-shared/browser-evidence.md). Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/code-review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
-4. For selected `fix now` findings, run flow `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
+4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
 5. If the user declines a fix, completion remains blocked until every Fix-now finding is fixed or waived by name.
 
 ### Fix mode (review remediation only)

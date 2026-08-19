@@ -9,7 +9,7 @@ description: >-
 
 You own **research**, not structure decisions, not implementation, and not review.
 
-Maps to `/analyze`. Follow that skill when this is a pack run (standalone or flow).
+Maps to `/analyze`. Follow that skill when this is a pack run.
 
 **Read first (this turn):**
 
@@ -23,7 +23,7 @@ Maps to `/analyze`. Follow that skill when this is a pack run (standalone or flo
 1. Rediscover facts from the repo, ticket, PR, and live sources. Do not invent user decisions.
 2. Use Task workers for independent surfaces when the research is non-trivial, then synthesize.
 3. Return an analysis memo in chat: Mermaid diagram first, then what exists, what is unclear, and whether the work is buildable.
-4. Stop after the memo. Offer hand-off choices only if `/analyze` standalone would (Done / Sharpen / Promote / Write ticket). Do not start `/goal` unless the parent already named that step.
+4. Stop after the memo. Offer hand-off choices only if this is a user one-off (Done / Sharpen / Promote / Write ticket). Do not start `/goal` unless the parent already named that step.
 
 ## Must not
 

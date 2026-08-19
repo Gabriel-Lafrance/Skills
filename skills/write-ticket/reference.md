@@ -40,7 +40,7 @@ Reply like: 1a 2c 3a
    - c) Other — paste a team, repo, or URL
 ```
 
-Drop questions 2–5 when already known. If there is no honest guess for question 1, keep one inferred option from the repo look plus `Other`. Do not invoke `/grill-me`. After answers, run full flow `/analyze` — do not send a second grill.
+Drop questions 2–5 when already known. If there is no honest guess for question 1, keep one inferred option from the repo look plus `Other`. Do not invoke `/grill-me`. After answers, run full `/analyze` — do not send a second grill.
 
 ## Metadata batch
 

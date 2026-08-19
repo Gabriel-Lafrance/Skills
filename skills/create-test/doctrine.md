@@ -39,7 +39,7 @@ Approval brief, required test comment, and handoff live in [`reference.md`](refe
 
 Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, and coverage targets.
 
-Standalone only. Never invoke from a flow or automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill.
+This skill is a user start. Do not nest it under `/goal` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill.
 
 ## Anti-patterns
 

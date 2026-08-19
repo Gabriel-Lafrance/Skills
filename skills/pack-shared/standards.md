@@ -11,7 +11,7 @@ Before grilling, planning, specifying, splitting, implementing, reviewing, or sh
 1. **Read** [`../taste/doctrine.md`](../taste/doctrine.md) (Job through Bars). Read [`../taste/examples.md`](../taste/examples.md) when judging a shape. Read [`../taste/reference.md`](../taste/reference.md) when verifying or touching UI. Also Read [`plain-language.md`](plain-language.md) before any user-facing message.
 2. **Read** [`../architecture/doctrine.md`](../architecture/doctrine.md) (Job through Bars). Read [`../architecture/examples.md`](../architecture/examples.md) when judging structure.
 
-Do this **every time** the skill is used this turn, including flow steps. Do not skip because you “already know” the pack. If you have not Read both doctrines this turn, **stop and Read them** before continuing.
+Do this **every time** the skill is used this turn, including worker steps. Do not skip because you “already know” the pack. If you have not Read both doctrines this turn, **stop and Read them** before continuing.
 
 ## Who loads this
 

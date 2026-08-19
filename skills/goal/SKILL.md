@@ -4,7 +4,7 @@ description: >-
   Stateless Cursor goal loop: grill, plan, implement, gather acceptance
   evidence, and review one verifiable outcome using in-chat execution context.
   Use when the user wants a feature or outcome built end to end. Nested under
-  /just-do-it as flow.
+  /just-do-it when that parent owns shipping.
 disable-model-invocation: true
 ---
 
@@ -12,21 +12,13 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before grilling, planning, or implementing. Do not skip.
 
-**Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — dual. Choose exactly one of [standalone.md](standalone.md) or [flow.md](flow.md).
+**Process:** [process.md](process.md)
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when standalone opens a PR
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
 
 Orchestrator only. Dispatch Task workers per
-[../pack-shared/subagents.md](../pack-shared/subagents.md). Always load flow
-`/taste` and flow `/architecture` during grill and before every implement wave.
-
-## Lifecycle
-
-1. Establish or refresh the required in-chat execution context.
-2. Grill intent, record behavioral answers as Active Rules, and announce Locked closure before issuing plan or slice contracts.
-3. Explore, split, create inline plan contracts, and implement frontier work.
-4. Confirm Done when and Active Rules with path-walk / terminal / browser evidence, then run `/code-review`; analyze named blockers and explicitly promote selected fixes into bounded Fix mode or waive them.
-5. Announce the completed outcome. Standalone may offer ship questions; flow returns completion evidence to the parent.
+[../pack-shared/subagents.md](../pack-shared/subagents.md). Always load
+`/taste` and `/architecture` during grill and before every implement wave.
 
 `/goal` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are

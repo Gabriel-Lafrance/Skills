@@ -1,5 +1,6 @@
-# Trackers Flow — read only
+# Trackers process — read only
 
+This skill runs inside `/goal` or `/just-do-it`, not as a typical user start.
 
 This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
 brief in the parent's inline [execution context](../pack-shared/execution-context.md);

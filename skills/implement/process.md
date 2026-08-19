@@ -1,4 +1,6 @@
-# Implement Flow
+# Implement process
+
+This skill runs inside `/goal` or `/just-do-it`, not as a typical user start.
 
 Use the shared [execution context](../pack-shared/execution-context.md). The
 parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in

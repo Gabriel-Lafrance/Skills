@@ -44,7 +44,7 @@ Treat a concrete hard-standard or named-principle violation introduced or extend
 
 On follow-up **new-surface** review, run the same principles checklist, Architecture sweep, and Correctness hunt on newly introduced files/hunks. Do not skip those tables because the mode is remediation-plus-new-surface.
 
-This skill is standalone-only. The PR title/body, linked ticket, and user-approved committed documentation are the durable specification sources. The linked ticket or Linear item is read-only. Follow the shared [execution context](../pack-shared/execution-context.md): rediscover facts from the PR and repository instead of carrying local review state. Review strictly but factually. Assess the diff and reachable behavior, not the author, and never manufacture a defect to make a review look thorough.
+This skill is a user start. Do not nest it under `/goal`. The PR title/body, linked ticket, and user-approved committed documentation are the durable specification sources. The linked ticket or Linear item is read-only. Follow the shared [execution context](../pack-shared/execution-context.md): rediscover facts from the PR and repository instead of carrying local review state. Review strictly but factually. Assess the diff and reachable behavior, not the author, and never manufacture a defect to make a review look thorough.
 
 ## Output
 

@@ -49,10 +49,8 @@ markdown pack.
 
 - Prefer improving an existing skill over adding a new one.
 - Keep `SKILL.md` thin; put durable rules in `doctrine.md` and detail in
-  `reference.md` / `examples.md`.
-- Dual skills: follow [`skills/pack-shared/variants.md`](../skills/pack-shared/variants.md)
-  — do not invent a missing `standalone.md` / `flow.md` process.
-- Shared contracts (`asking`, `variants`, execution context) live under
+  `reference.md` / `examples.md`. Numbered how-to lives in `process.md`.
+- Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
 - Teach principles in prose — avoid steering agents with a catalog of concrete
   product examples when the skill should stay principle-first.

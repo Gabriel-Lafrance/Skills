@@ -1,27 +1,23 @@
-# Architecture Flow
+# Architecture process
 
-Structure a bounded parent slice. Read
-[../pack-shared/standards.md](../pack-shared/standards.md), then
-[doctrine.md](doctrine.md), [examples.md](examples.md), and `/taste` first. Use
-the shared [execution context](../pack-shared/execution-context.md), not a
-workspace or plan file.
+Read [../pack-shared/standards.md](../pack-shared/standards.md), then
+[doctrine.md](doctrine.md), [examples.md](examples.md), and `/taste` first.
+Use the shared [execution context](../pack-shared/execution-context.md).
 
-## Read first
+Explore via Task subagents per
+[../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
+sibling/service/folder research **must** use a Task; ≥2 independent lanes
+**must** run in parallel. You write the structure card from their reports.
+Skip Tasks only for greenfield-trivial structure with no repo to explore.
 
-1. The inline outcome, Done when, non-goals, locked decisions, Active Rules,
-   current slice, lane, dependencies, and Ticket / PR reference.
-2. Relevant Git diff/history, repository rules, siblings, target folders,
-   existing services, and existing primitives.
-3. Explore via Task workers per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-   sibling/service/folder research **must** use a Task; parallelize independent
-   lanes.
+If a parent already supplied outcome, Done when, non-goals, locked
+decisions, Active Rules, current slice, and lane, reuse that brief.
 
 ## Process
 
 1. **Explore.** Reuse or extend a service before inventing a parallel one;
-   reuse a primitive when it already does the one job. Flag wrong shape in the
-   lane rather than copying it. Note:
+   reuse a primitive when it already does the one job. Flag wrong shape in
+   the lane rather than copying it. Note:
    - Existing services for the same concern (billing, auth): reuse/extend first
    - Existing primitives inside those services / deep modules: reuse when they
      already answer that specific job; do not fork
@@ -40,9 +36,10 @@ workspace or plan file.
 2. **Draft** the doctrine **Structure** card in chat (Output: always / if
    writes / if lists / if big feature). A required behavior-preserving move is
    listed before feature code begins.
-3. The parent carries the applicable card and decision in its inline context
-   and Worker Brief. Do not create or update a plan, workspace, register, or
-   other agent-owned artifact.
+3. Carry the applicable card in the inline execution context. Do not create
+   or update a plan, workspace, register, or other agent-owned artifact.
+   Open structure decisions → one `/grill-me` Questions batch (follow
+   [../pack-shared/asking.md](../pack-shared/asking.md)).
 4. **Implement against the card.** When a service or feature boundary is
    justified, create its folder before its files. Perform Moves / corrections
    before bolting new feature code onto the old shape. Put domain logic in the
@@ -51,14 +48,18 @@ workspace or plan file.
    service. Keep queries deterministic; validate public args
    (`taste:types-tell-the-truth`).
 5. For mid-implementation sprawl, duplicated domain logic, a forked primitive,
-   or a prior mistake: return the needed correction to the parent. Make a move
-   only when the current acceptance criteria, Active Rules, or a named finding
-   require it; otherwise retain the smallest direct shape and record a
-   follow-up in chat.
+   or a prior mistake: make a move only when the current acceptance criteria,
+   Active Rules, or a named finding require it; otherwise retain the smallest
+   direct shape and record a follow-up in chat.
 6. Run the doctrine Output self-check before done.
 
-## Hand-offs
+### If a parent already owns the next step
 
-- Structure decision → parent inline context → `/implement`
+Hand the structure decision into the parent inline context and Worker Brief,
+then `/implement`. Return needed corrections to the parent.
+
+### If this is a user one-off
+
+- Structure card approved → `/goal`
 - Scale, duplicated-service, forked-primitive, missed-move, or missing
   write-path authority → acceptance evidence / `/code-review`

@@ -12,7 +12,7 @@ The structure card: services, deep public surface, primitives, prior-mistake mov
 
 - Naming, errors, never-nest, keep-it-simple, named principles: [`taste:keep-it-simple`](../taste/doctrine.md#keep-it-simple) through [`taste:naming-files`](../taste/doctrine.md#naming-and-files)
 - Review disposition: [`../code-review/doctrine.md`](../code-review/doctrine.md)
-- Numbered explore / implement steps: [`flow.md`](flow.md), [`standalone.md`](standalone.md)
+- Numbered explore / implement steps: [`process.md`](process.md)
 
 ## Cite keys
 
@@ -269,7 +269,7 @@ Self-check before done (cite keys, not a second essay):
 
 **When this changes the shape.** Always load this doctrine. For a typo or a user-specified pure rename, still load; the application is **keep the existing structure**.
 
-Process (pointers, not a second copy of the bars): Explore → structure card → implement → self-check. Steps live in [flow.md](flow.md). Bars are the Cite keys above.
+Process (pointers, not a second copy of the bars): Explore → structure card → implement → self-check. Steps live in [process.md](process.md). Bars are the Cite keys above.
 
 Apply when the work could add files, move ownership, or touch data, including:
 

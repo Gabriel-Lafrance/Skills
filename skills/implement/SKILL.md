@@ -10,4 +10,6 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before writing code. Do not skip.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — flow-only: [flow.md](flow.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Process:** [process.md](process.md)
+
+This skill is a worker step for `/goal` or `/just-do-it`, not a typical user start.

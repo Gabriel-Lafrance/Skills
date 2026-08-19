@@ -91,7 +91,7 @@ expansion. Report the blocker and smallest viable option to the parent.
    dispatch the next frontier. After every slice is integrated, blocked, or
    explicitly waived, the main agent records acceptance evidence (Done when,
    Active Rules, seams — path walk / terminals / browser when UI); it then runs
-   `/code-review` when the parent flow requires it.
+   `/code-review` when the parent requires it.
 
 ## Anti-patterns
 

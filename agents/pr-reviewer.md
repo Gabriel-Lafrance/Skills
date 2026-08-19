@@ -37,5 +37,5 @@ Maps to `/pr-review`. Follow `pr-review/doctrine.md`, `pr-review/reference.md`, 
 - Write on Linear or a GitHub issue; PR only
 - Implement fixes, edit the branch, or write tests
 - Create helper scripts or review snapshot files
-- Use **reviewer**'s local-diff flow as a substitute for this GitHub flow
+- Use **reviewer**'s local-diff review as a substitute for this GitHub review
 - Ritual-run lint, typecheck, or Convex MCP

@@ -14,7 +14,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
-- Numbered parent dispatch: [`flow.md`](flow.md), [`standalone.md`](standalone.md)
+- Numbered parent dispatch: [`process.md`](process.md)
 
 ## Cite keys
 
@@ -90,7 +90,7 @@ Use the shared finding record in chat. IDs remain stable across follow-up discus
 
 Remediation is never a broad architecture hunt and never gets a broad Wave 2. Do not silently upgrade a remediation pass to a full rescan.
 
-Before any fix work, send selected **Fix now** findings to **flow** `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. A `/just-do-it` parent may take the recommended promotion only after the complete analysis is shown. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
+Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. A `/just-do-it` parent may take the recommended promotion only after the complete analysis is shown. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
 
 If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates from this skill.
 

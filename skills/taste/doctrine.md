@@ -12,7 +12,7 @@ How a unit reads, names, errors, and stays simple. Keep-it-simple, named princip
 
 - Structure card, services, folders, primitives, cheap reads, deterministic queries, write-path authority: [`architecture:services`](../architecture/doctrine.md#services) through [`architecture:authority`](../architecture/doctrine.md#authority)
 - Review disposition and posting: [`../code-review/doctrine.md`](../code-review/doctrine.md), [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
-- Numbered process: [`flow.md`](flow.md), [`standalone.md`](standalone.md)
+- Numbered process: [`process.md`](process.md)
 - Terminals-first verify, React/UI, SOLID, futureproofing detail: [`reference.md`](reference.md)
 
 ## Cite keys

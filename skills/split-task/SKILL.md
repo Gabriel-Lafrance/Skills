@@ -2,7 +2,7 @@
 name: split-task
 description: >-
   Split a bounded outcome into small, ordered inline slice contracts in shared
-  execution context for a parent flow.
+  execution context for a parent orchestrator.
 disable-model-invocation: true
 ---
 
@@ -10,4 +10,6 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before splitting lanes or folders. Do not skip.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Variants:** [../pack-shared/variants.md](../pack-shared/variants.md) — flow-only: [flow.md](flow.md).
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Process:** [process.md](process.md)
+
+This skill is a worker step for `/goal` or `/just-do-it`, not a typical user start.

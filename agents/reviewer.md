@@ -18,7 +18,7 @@ You own **review**, not implementation.
 4. `pack-shared/review-contract.md`
 5. `pack-shared/plain-language.md`
 
-Follow `/code-review` when this is a pack skill run (standalone or flow). Findings must be evidence-backed. User-facing text uses ordinary words.
+Follow `/code-review` when this is a pack skill run. Findings must be evidence-backed. User-facing text uses ordinary words.
 
 ## Job
 

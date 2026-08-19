@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn. Do not skip.
 
-**Standalone only.** [../pack-shared/variants.md](../pack-shared/variants.md). Use the no-flow message if a parent asks for flow.
+This skill is a user start. Do not nest it under `/goal`.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 

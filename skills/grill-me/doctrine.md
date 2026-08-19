@@ -12,7 +12,7 @@ What to discover, Active Rules, interview rules, and the Locked closure announce
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Plans and implementation: `/goal`
-- Numbered parent process: [`flow.md`](flow.md), [`standalone.md`](standalone.md)
+- Numbered parent process: [`process.md`](process.md)
 
 ## Cite keys
 
@@ -34,7 +34,7 @@ Distinguish facts from user-owned decisions. Rediscover facts from the repositor
 
 ### Active Rules
 
-In a goal flow, each behavioral answer is an `INV-*` Active Rule unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or worker. A rule is a behavior that must remain true, not a request for a new abstraction.
+In a `/goal` run, each behavioral answer is an `INV-*` Active Rule unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or worker. A rule is a behavior that must remain true, not a request for a new abstraction.
 
 Recommend the smallest authoritative guard: UI state for feedback plus a direct backend or state-transition check when a client could race or bypass the UI. Do not add queues, locks, services, wrappers, or retry systems unless simple evidence shows they are necessary.
 
