@@ -12,6 +12,7 @@ import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
 
 test("each function stays at or under cyclomatic complexity 5", async () => {
   const eslint = new ESLint({
+    overrideConfigFile: true,
     overrideConfig: [
       {
         ignores: [

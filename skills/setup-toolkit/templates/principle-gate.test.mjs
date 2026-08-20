@@ -16,7 +16,6 @@ import {
 } from "./principle-scan.mjs";
 
 const root = process.cwd();
-const convexTest = hasConvex(root) ? test : test.skip;
 
 test("types tell the truth (make illegal states unrepresentable)", () => {
   assertClean(
@@ -34,7 +33,8 @@ test("fail fast (Fail Fast)", () => {
   );
 });
 
-convexTest("trust the server (never trust the client)", () => {
+test("trust the server (never trust the client)", (t) => {
+  if (skipWithoutConvex(t)) return;
   assertClean(
     scanUntrustedWrites(root),
     "trust the server (never trust the client)",
@@ -42,13 +42,20 @@ convexTest("trust the server (never trust the client)", () => {
   );
 });
 
-convexTest("deterministic queries (no clock in queries)", () => {
+test("deterministic queries (no clock in queries)", (t) => {
+  if (skipWithoutConvex(t)) return;
   assertClean(
     scanClockInQueries(root),
     "deterministic queries (no clock in queries)",
     "Pass time in as an argument. Do not read the clock or randomness inside a query.",
   );
 });
+
+function skipWithoutConvex(t) {
+  if (hasConvex(root)) return false;
+  t.skip("no convex/ directory");
+  return true;
+}
 
 function assertClean(hits, principle, fix) {
   assert.equal(hits.length, 0, formatHits(hits, principle, fix));
