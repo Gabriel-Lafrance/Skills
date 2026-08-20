@@ -48,7 +48,7 @@ test("each function stays at or under cyclomatic complexity 5", async () => {
     failures.length,
     0,
     [
-      `Cyclomatic complexity must stay at or under ${maxCyclomaticComplexity}.`,
+      `Cyclomatic complexity (McCabe) must stay at or under ${maxCyclomaticComplexity}.`,
       "Split extra branches into named helpers. Do not raise the cap.",
       ...failures,
     ].join("\n"),

@@ -1,5 +1,5 @@
 ---
-description: ESLint, Prettier, formatters, linters, complexity tests, or installing lint/format tooling in a JS/TS repo
+description: ESLint, Prettier, formatters, linters, complexity tests, quality gates, or installing lint/format tooling in a JS/TS repo
 alwaysApply: false
 ---
 
@@ -9,7 +9,7 @@ Do **not** paste a style guide into chat. If this repo already has ESLint or Pre
 
 - Add or change lint/format tooling with `/setup-toolkit`. Do not invent a parallel config.
 - The toolkit ESLint baseline includes `no-emdash/no-emdash` (em dash, en dash, horizontal bar). Keep that rule on. Do not disable it to “make the prose look fancy.”
-- The toolkit also installs a cyclomatic quality-gate test (`complexity.test.mjs`, cap 5). Keep it. Do not raise the cap, skip the test, or delete it to go green. Split the function instead.
+- The toolkit also installs `test:quality` (`complexity.test.mjs` cyclomatic complexity (McCabe) cap 5, plus `principle-gate.test.mjs`). Keep both. Do not raise the cap, skip a gate, or delete a gate to go green. Split the function, type the value, throw at the boundary, or check identity instead. Gate failures use plain (Classic), for example fail fast (Fail Fast).
 - Cursor/VS Code workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Cursor reads those; do not add a parallel `.cursor/extensions.json`.
 - Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user’s running terminals own that loop (`taste` Verify).
 - Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.

@@ -23,6 +23,7 @@ export default tseslint.config(
   {
     rules: {
       complexity: ["error", maxCyclomaticComplexity],
+      "no-empty": ["error", { allowEmptyCatch: false }],
     },
   },
   {

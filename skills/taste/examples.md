@@ -181,7 +181,7 @@ function priceOrder(order: Order): number {
 }
 ```
 
-Do not lock `1 + 1 = 2` or UI chrome with a test. The cyclomatic gate is a principle check, not a behavior catalog.
+Do not lock `1 + 1 = 2` or UI chrome with a test. `test:quality` is a principle check, not a behavior catalog.
 
 ## Errors
 

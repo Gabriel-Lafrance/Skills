@@ -43,7 +43,7 @@ From lockfiles in the app root, first match wins:
 
 Prettier is always `prettier.config.mjs` + `prettierignore` (written as `.prettierignore`).
 
-Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. Always copy `cyclomatic-cap.mjs` and `complexity.test.mjs` next to the app `package.json` when those files are missing (never overwrite). If ESLint already exists, still copy the plugin file and the cyclomatic files when missing, then print the import to add (do not edit their config):
+Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. Always copy these next to the app `package.json` when missing (never overwrite): `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`. If ESLint already exists, still copy the plugin file and the quality-gate files when missing, then print the import to add (do not edit their config):
 
 ```js
 import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
@@ -66,7 +66,7 @@ Add only keys that are missing:
   "lint:fix": "eslint . --fix",
   "format": "prettier --write .",
   "format:check": "prettier --check .",
-  "test:complexity": "node --test complexity.test.mjs"
+  "test:quality": "node --test complexity.test.mjs principle-gate.test.mjs"
 }
 ```
 
@@ -74,11 +74,25 @@ Do not change an existing script with the same name. If `test` is missing, also 
 
 ```json
 {
-  "test": "node --test complexity.test.mjs"
+  "test": "node --test complexity.test.mjs principle-gate.test.mjs"
 }
 ```
 
-Do not append the complexity gate onto an existing `test` script.
+Do not append the quality gates onto an existing `test` script. Do not add a new `test:complexity` script; `test:quality` is the one agent command. If `test:complexity` already exists from an older setup, leave it and still add `test:quality` when that name is free.
+
+## Quality gates
+
+`test:quality` runs both Node tests. Failure lines are `file:line` plus **plain (Classic)** plus what to do. Convex-only checks skip when there is no `convex/` directory. JavaScript-only apps (no `tsconfig.json`) skip TypeScript `any`; they still scan Convex `v.any` when that call appears.
+
+| Gate | Scanner |
+| --- | --- |
+| Cyclomatic complexity (McCabe) | `complexity.test.mjs` (cap 5) |
+| Types tell the truth (make illegal states unrepresentable) | `any`, Convex `v.any` |
+| Fail fast (Fail Fast) | empty `catch`, `{ success: true/false }` Result bags |
+| Trust the server (never trust the client) | public Convex `mutation` / `action` with no identity helper (`requireUser`, `getUserIdentity`, `getAuthUserId`, `auth.getUserId`). Skips `internalMutation`, `internalAction`, queries, `http.ts`, `httpActions.ts`, `crons.ts` |
+| Deterministic queries (no clock in queries) | `Date.now`, `new Date`, `Math.random`, `crypto.randomUUID` inside `query` / `internalQuery` |
+
+Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), leave it cleaner (Boy Scout Rule), and no surprises (PoLA) stay review. Do not invent a denylist to fake them.
 
 ## Cursor / VS Code workspace files
 
@@ -104,7 +118,7 @@ npx eslint --version
 npx prettier --version
 ```
 
-(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, or the cyclomatic test unless the user asked.
+(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, or `test:quality` unless the user asked.
 
 ## Pin plugin rules (only if asked)
 
@@ -118,11 +132,11 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
-- `cyclomatic-cap.mjs` and `complexity.test.mjs` are present next to `package.json` (or reported skipped)
+- `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, and `principle-scan.mjs` are present next to `package.json` (or reported skipped)
 - `.vscode/extensions.json` has the ESLint and Prettier extension IDs
 - `.vscode/settings.json` was written or reported skipped
 - Existing configs were left in place and listed
 - Packages installed (or skipped because already present)
-- Scripts added or skipped with names listed (`test:complexity`, and `test` only when it was missing)
+- Scripts added or skipped with names listed (`test:quality`, and `test` only when it was missing)
 - One version smoke check ran
-- The cyclomatic test was **not** run as setup smoke
+- `test:quality` was **not** run as setup smoke

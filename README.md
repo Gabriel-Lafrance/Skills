@@ -30,9 +30,9 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
-| **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, a cyclomatic complexity test (max 5), and `.vscode` extension recommendations |
+| **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle gates), and `.vscode` extension recommendations |
 
-ESLint, Prettier, and the cyclomatic quality gate are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
+ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
 ### Plugin rules (not User Rules)
 
@@ -72,7 +72,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`                                   | Implement end-to-end  |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, and a cyclomatic quality-gate test in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, and `test:quality` in the current app |
 
 ```mermaid
 flowchart LR

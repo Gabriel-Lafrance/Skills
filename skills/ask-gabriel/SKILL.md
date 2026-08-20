@@ -33,7 +33,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
-| ESLint / Prettier / lint, format, or cyclomatic complexity gate in this app | `/setup-toolkit` |
+| ESLint / Prettier / lint, format, or quality gate (`test:quality`) in this app | `/setup-toolkit` |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
 `/architecture` — usually via `/analyze` → `/task`, or recommend those skills

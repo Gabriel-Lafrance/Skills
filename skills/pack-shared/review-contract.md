@@ -93,13 +93,14 @@ GitHub finding thread and that visible id are the durable record.
 
 Standards workers **must** Read `/taste` and `/architecture` doctrines this
 turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
-principles) using the **plain names** and cite those keys in finding **Rule**
-fields when violated. User-facing notes must be ordinary sentences
-([plain-language.md](plain-language.md)). On `initial` / `full-rescan`, also
-run the code-review naming alignment pass, the Architecture sweep, the
-Correctness hunt, and the Baseline defects scan. The parent rejects Standards
-output that lacks the Principles, Architecture, or Correctness tables, or that
-skipped a doctrine Read.
+principles) using **plain (Classic)** (`keep jobs apart (SoC)`) and cite those
+keys in finding **Rule** fields when violated. Never acronym-only (`SoC
+violation`) and never the paraphrase without the classic name. User-facing
+notes must be ordinary sentences ([plain-language.md](plain-language.md)). On
+`initial` / `full-rescan`, also run the code-review naming alignment pass, the
+Architecture sweep, the Correctness hunt, and the Baseline defects scan. The
+parent rejects Standards output that lacks the Principles, Architecture, or
+Correctness tables, or that skipped a doctrine Read.
 
 Spec workers fill the **Spec matrix** with every Done-when row, every rule that
 must stay true, each user-visible state the diff touches (enabled, disabled,
@@ -125,19 +126,20 @@ contract for models and completion reporting.
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| Keep it simple | clear \| finding | … |
-| Keep jobs apart | clear \| finding | … |
-| One altitude | clear \| finding | … |
-| Read or write, not both | clear \| finding | … |
-| Fail fast | clear \| finding | … |
-| Leave it cleaner | clear \| finding | … |
-| Related together | clear \| finding | … |
-| Safe to retry | clear \| finding \| none | … |
-| Say what happens | clear \| finding | … |
-| No surprises | clear \| finding | … |
-| Honest names | clear \| finding | … |
-| Trust the server | clear \| finding \| none | … |
-| Types tell the truth | clear \| finding \| none | … |
+| Keep it simple (KISS) | clear \| finding | … |
+| Keep jobs apart (SoC) | clear \| finding | … |
+| One altitude (SLAP) | clear \| finding | … |
+| Read or write, not both (CQS) | clear \| finding | … |
+| Fail fast (Fail Fast) | clear \| finding | … |
+| Leave it cleaner (Boy Scout Rule) | clear \| finding | … |
+| Related together (Cohesion / Law of Demeter) | clear \| finding | … |
+| Safe to retry (Idempotency) | clear \| finding \| none | … |
+| Say what happens (explicit over implicit) | clear \| finding | … |
+| No surprises (PoLA) | clear \| finding | … |
+| Honest names (intention-revealing names) | clear \| finding | … |
+| Trust the server (never trust the client) | clear \| finding \| none | … |
+| Types tell the truth (make illegal states unrepresentable) | clear \| finding \| none | … |
+| Don’t repeat yourself (DRY) | clear \| finding \| none | … |
 
 ## Architecture sweep
 | Check | Status | Note |
@@ -206,17 +208,22 @@ not here.
 If the shipped diff introduces any of these, it is a finding. Cite the matching
 key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
 `taste:throw-at-boundaries`, `taste:one-export-per-file`,
-`taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`:
+`taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`.
+Findings still speak **plain (Classic)**. These are also `test:quality` hits
+when a scanner exists; do not raise, skip, or delete a gate to go green:
 
 - Nested control-flow pyramids
-- A function with more than five independent paths
+- A function with more than five independent paths (cyclomatic complexity (McCabe))
 - Copy-paste twins of a concept already in-repo
-- `{ success: false }` / Result bags for expected failure
+- `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast))
+- `any` or Convex `v.any` on a public surface (types tell the truth (make illegal states unrepresentable))
+- A public Convex write with no identity helper (trust the server (never trust the client))
+- Clock or randomness inside a query (deterministic queries)
 - Dynamic `import()`
 - New file with more than one main export
 - Class or interface chain deeper than two
 - Magic policy numbers at a call site that should be a named invariant
-- Raising, skipping, or deleting the cyclomatic quality-gate test to go green
+- Raising, skipping, or deleting `test:quality` to go green
 
 ## Severity mapping
 

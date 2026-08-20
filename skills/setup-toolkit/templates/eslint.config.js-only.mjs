@@ -20,6 +20,7 @@ export default [
   {
     rules: {
       complexity: ["error", maxCyclomaticComplexity],
+      "no-empty": ["error", { allowEmptyCatch: false }],
     },
   },
 ];

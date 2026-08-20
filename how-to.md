@@ -73,7 +73,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 ## Shared contracts
 
-- **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Do not dump acronyms (SoC, SLAP, CQS, PoLA, INV-1) at the user.
+- **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Named principles use **plain (Classic)** — `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (INV-1, Worker Brief) stays banned.
 - **Unslop:** chat replies follow the plugin rule [`unslop.mdc`](./rules/unslop.mdc) (`alwaysApply`). Not a skill. Do not add `/unslop`. Toggle it in Customize. `npx skills` does not install it; pin `rules/*.mdc` with `/setup-toolkit` when needed without the plugin.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
@@ -87,7 +87,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
   canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
   tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying the cyclomatic quality-gate template (`complexity.test.mjs`, `cyclomatic-cap.mjs`). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
 
@@ -126,7 +126,7 @@ npx skills@latest add . --list
 - **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, and `.vscode/` workspace files.
+- **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, and `.vscode/` workspace files.
 
 ## Conventions
 
@@ -134,7 +134,7 @@ npx skills@latest add . --list
 - Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)). Cite another skill’s keys instead of restating its Bars.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
 - Teach in ordinary words — no explainer-video links in skill bodies. PR Demo
-  screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
+  screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Agents cite principles as plain (Classic) (`pack-shared/plain-language.md`).
 - No secrets in skills.
 - New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
