@@ -33,6 +33,7 @@ How a unit reads, names, errors, and stays simple. Keep-it-simple, named princip
 | `taste:trust-the-server` | Named principles |
 | `taste:types-tell-the-truth` | Named principles |
 | `taste:never-nest` | Mechanical rules |
+| `taste:cyclomatic-cap` | Mechanical rules |
 | `taste:dont-repeat-yourself` | Mechanical rules |
 | `taste:throw-at-boundaries` | Mechanical rules |
 | `taste:one-export-per-file` | Mechanical rules |
@@ -113,6 +114,7 @@ Rules that are **not** already a named principle:
 | Rule | Meaning |
 | --- | --- |
 | **Never-nest** | Flatten control flow; extract early instead of deep `if` / `try` pyramids |
+| **Cyclomatic cap** | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs a quality-gate test that fails over this cap; do not raise it, skip it, or delete it to go green |
 | **Don’t repeat yourself** | One concept, one place; no copy-paste twins |
 | **Throw at boundaries** | Throw + purposeful try/catch at boundaries that recover, translate, add actionable context, or clean up. Never `{ success: false }` / Result bags for expected failure control flow. Do not wrap local code merely because it could throw (`taste:fail-fast`) |
 | **One export per file** | One component (or main export) per file |
@@ -141,7 +143,7 @@ Cite-key self-check before acceptance evidence and `/code-review`:
 
 - [ ] `taste:keep-it-simple` (no extra layer, file, wrapper, pattern, or config beyond Done when / rules that must stay true)
 - [ ] Named principles in Cite keys: no clear violation in the touched lane
-- [ ] `taste:never-nest` · `taste:dont-repeat-yourself` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
+- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
 - [ ] `taste:cite-a-sibling` (good sibling, greenfield, or correcting debt; did not copy a known-wrong shape)
 - [ ] `taste:plain-language` in user-facing chat
 - [ ] `taste:verify-terminals-first` ([`reference.md`](reference.md#verify-terminals-first))

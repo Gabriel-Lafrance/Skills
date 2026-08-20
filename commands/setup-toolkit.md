@@ -1,9 +1,10 @@
 ---
 name: setup-toolkit
 description: >-
-  Add ESLint, Prettier, and Cursor/VS Code recommended extensions to the
-  current JS/TS repo using this pack's templates. Use when the user wants
-  lint, format, eslint, prettier, extensions, or to install the engineering
+  Add ESLint, Prettier, Cursor/VS Code recommended extensions, and a
+  cyclomatic complexity quality-gate test to the current JS/TS repo using
+  this pack's templates. Use when the user wants lint, format, eslint,
+  prettier, extensions, a complexity test, or to install the engineering
   toolkit into an app.
 ---
 

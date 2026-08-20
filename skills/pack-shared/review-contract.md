@@ -204,17 +204,19 @@ not here.
 ### Baseline defects (Standards, after the tables)
 
 If the shipped diff introduces any of these, it is a finding. Cite the matching
-key (`taste:never-nest`, `taste:dont-repeat-yourself`,
+key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
 `taste:throw-at-boundaries`, `taste:one-export-per-file`,
 `taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`:
 
 - Nested control-flow pyramids
+- A function with more than five independent paths
 - Copy-paste twins of a concept already in-repo
 - `{ success: false }` / Result bags for expected failure
 - Dynamic `import()`
 - New file with more than one main export
 - Class or interface chain deeper than two
 - Magic policy numbers at a call site that should be a named invariant
+- Raising, skipping, or deleting the cyclomatic quality-gate test to go green
 
 ## Severity mapping
 

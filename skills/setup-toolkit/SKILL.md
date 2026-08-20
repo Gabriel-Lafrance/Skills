@@ -1,12 +1,12 @@
 ---
 name: setup-toolkit
 description: >-
-  Install ESLint, Prettier, and Cursor/VS Code workspace files (recommended
-  ESLint and Prettier extensions) into the current JavaScript or TypeScript
+  Install ESLint, Prettier, Cursor/VS Code workspace files, and a cyclomatic
+  complexity quality-gate test into the current JavaScript or TypeScript
   repo from this pack's templates. Use when the user wants linting,
-  formatting, ESLint, Prettier, a formatter, recommended extensions, or to
-  add the engineering toolkit to an app. Bans em dashes. Not for rewriting
-  an existing lint stack.
+  formatting, ESLint, Prettier, a formatter, recommended extensions, a
+  complexity test, or to add the engineering toolkit to an app. Bans em
+  dashes. Not for rewriting an existing lint stack.
 disable-model-invocation: true
 ---
 
@@ -18,8 +18,8 @@ This skill is a user start. Do not nest it under `/task`.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
-Add **ESLint**, **Prettier**, and Cursor/VS Code workspace files to the **current app repo**. Templates live in [templates/](templates/). Do not invent a different stack.
+Add **ESLint**, **Prettier**, Cursor/VS Code workspace files, and a **cyclomatic complexity quality-gate test** to the **current app repo**. Templates live in [templates/](templates/). Do not invent a different stack.
 
-The ESLint templates include a no-emdash rule (em dash, en dash, horizontal bar). Workspace files recommend the ESLint and Prettier extensions.
+The ESLint templates include a no-emdash rule (em dash, en dash, horizontal bar) and a cyclomatic cap of 5. Workspace files recommend the ESLint and Prettier extensions.
 
 This pack’s Cursor **plugin rules** already apply when the plugin is installed. This skill does not copy those rules into `.cursor/rules` unless the user asks to pin them in the app repo.

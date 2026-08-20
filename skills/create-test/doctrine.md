@@ -12,6 +12,7 @@ What to lock, how to name the invariant, the Why/What/How approval gate, and the
 
 - Production code changes (unless the user explicitly asks)
 - `/task` / implement / review
+- Quality-gate templates (cyclomatic cap): [`../setup-toolkit/doctrine.md`](../setup-toolkit/doctrine.md)
 - Numbered how-to: [`reference.md`](reference.md#process)
 
 ## Cite keys
@@ -37,7 +38,7 @@ Approval brief, required test comment, and handoff live in [`reference.md`](refe
 
 ## Apply
 
-Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, and coverage targets.
+Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and tautological checks (`expect(add(1, 2)).toBe(3)`). Quality gates such as the cyclomatic cap are installed by `/setup-toolkit`, not written here.
 
 This skill is a user start. Do not nest it under `/task` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill.
 
@@ -46,3 +47,5 @@ This skill is a user start. Do not nest it under `/task` or start it automatical
 - Modifying production code just to make a test convenient unless the user explicitly asks
 - Starting `/task`, expanding into refactoring, or writing tests before approval
 - `/task`, `/implement`, and other build skills invoking this skill or writing test files
+- Tautological tests (recompute the same arithmetic as the code, assert UI chrome exists) or coverage theater
+- Raising, skipping, or deleting the cyclomatic quality gate from `/setup-toolkit` instead of splitting a branchy function

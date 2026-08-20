@@ -153,6 +153,36 @@ async function placeOrder(input: Input) {
 }
 ```
 
+## Cyclomatic cap
+
+**Bad** — one function owns many paths (the quality-gate test fails):
+
+```typescript
+function priceOrder(order: Order): number {
+  if (!order.items.length) return 0;
+  let total = 0;
+  for (const item of order.items) {
+    if (item.kind === "sale") total += item.cents;
+    else if (item.kind === "bundle" && item.cents > 0) total += item.cents * 0.9;
+    else total += item.cents;
+  }
+  if (order.coupon) total = applyCoupon(total, order.coupon);
+  return total < 0 ? 0 : total;
+}
+```
+
+**Good** — each function stays at or under five paths:
+
+```typescript
+function priceOrder(order: Order): number {
+  const itemsTotal = sumItemPrices(order.items);
+  const afterCoupon = applyCoupon(itemsTotal, order.coupon);
+  return floorAtZero(afterCoupon);
+}
+```
+
+Do not lock `1 + 1 = 2` or UI chrome with a test. The cyclomatic gate is a principle check, not a behavior catalog.
+
 ## Errors
 
 **Bad:**

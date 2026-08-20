@@ -3,6 +3,7 @@ import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
 import tseslint from "typescript-eslint";
 
+import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
 import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
 
 export default tseslint.config(
@@ -21,6 +22,11 @@ export default tseslint.config(
   ...convexPlugin.configs.recommended,
   prettier,
   noEmdashConfig,
+  {
+    rules: {
+      complexity: ["error", maxCyclomaticComplexity],
+    },
+  },
   {
     files: ["**/*.ts", "**/*.tsx"],
     rules: {

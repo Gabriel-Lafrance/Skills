@@ -43,11 +43,13 @@ From lockfiles in the app root, first match wins:
 
 Prettier is always `prettier.config.mjs` + `prettierignore` (written as `.prettierignore`).
 
-Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. If ESLint already exists, still copy the plugin file when it is missing, then print the import to add (do not edit their config):
+Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. Always copy `cyclomatic-cap.mjs` and `complexity.test.mjs` next to the app `package.json` when those files are missing (never overwrite). If ESLint already exists, still copy the plugin file and the cyclomatic files when missing, then print the import to add (do not edit their config):
 
 ```js
+import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
 import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
 // include noEmdashConfig in the exported config array / tseslint.config(...)
+// rules: { complexity: ["error", maxCyclomaticComplexity] }
 ```
 
 Treat any of these as “ESLint already present”: `eslint.config.js`, `eslint.config.mjs`, `eslint.config.cjs`, `eslint.config.ts`, `.eslintrc`, `.eslintrc.js`, `.eslintrc.cjs`, `.eslintrc.json`, or `package.json` `"eslintConfig"`.
@@ -63,11 +65,20 @@ Add only keys that are missing:
   "lint": "eslint .",
   "lint:fix": "eslint . --fix",
   "format": "prettier --write .",
-  "format:check": "prettier --check ."
+  "format:check": "prettier --check .",
+  "test:complexity": "node --test complexity.test.mjs"
 }
 ```
 
-Do not change an existing script with the same name.
+Do not change an existing script with the same name. If `test` is missing, also add:
+
+```json
+{
+  "test": "node --test complexity.test.mjs"
+}
+```
+
+Do not append the complexity gate onto an existing `test` script.
 
 ## Cursor / VS Code workspace files
 
@@ -93,7 +104,7 @@ npx eslint --version
 npx prettier --version
 ```
 
-(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint or format unless the user asked.
+(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, or the cyclomatic test unless the user asked.
 
 ## Pin plugin rules (only if asked)
 
@@ -107,9 +118,11 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
+- `cyclomatic-cap.mjs` and `complexity.test.mjs` are present next to `package.json` (or reported skipped)
 - `.vscode/extensions.json` has the ESLint and Prettier extension IDs
 - `.vscode/settings.json` was written or reported skipped
 - Existing configs were left in place and listed
 - Packages installed (or skipped because already present)
-- Scripts added or skipped with names listed
+- Scripts added or skipped with names listed (`test:complexity`, and `test` only when it was missing)
 - One version smoke check ran
+- The cyclomatic test was **not** run as setup smoke
