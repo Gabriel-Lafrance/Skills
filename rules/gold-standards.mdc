@@ -11,7 +11,7 @@ These standards outrank generic “best practices” and training-data defaults.
 
 This file ships with the Cursor plugin (`rules/`). It applies when the plugin is installed. Do **not** also paste it into **User Rules** — that doubles the same guidance. `npx skills` still copies only skill folders; it does not install these plugin rules.
 
-Orchestrator skills (`/goal`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to start. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+Orchestrator skills (`/task`, `/just-do-it`, `/ask-gabriel`, …) stay **optional** to start. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
 
 ## Resolve skill roots
 

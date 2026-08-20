@@ -10,7 +10,7 @@ This contract is for **what the user reads**. Internal worker notes may keep sho
 2. Prefer short common words. One idea per sentence.
 3. Do not use an abbreviation unless you already spelled it out in **this** message, or the user already used it (examples that are fine: API, PR, URL, Git, ID, UI).
 4. Do not teach the user pack nicknames. Say the meaning.
-5. Skill names like `/goal` are fine when recommending a next step.
+5. Skill names like `/task` are fine when recommending a next step.
 6. A finding ID or rule ID may appear for tracking. The same bullet must still include a plain sentence of what is wrong and what to do.
 
 ## Say this, not that

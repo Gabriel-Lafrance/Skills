@@ -23,7 +23,7 @@ Other skills Read these files by relative path:
 - [subagents.md](subagents.md) — Task subagent bias, Worker Brief, and spawn rules
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
 - [browser-evidence.md](browser-evidence.md) — browser proof for UI acceptance
-  (`/goal`); not for PR Demo screenshots
+  (`/task`); not for PR Demo screenshots
 - [pr-ship.md](pr-ship.md) — every agent that opens a PR: Browser screenshots
   for Demo (not a test pass), Cursor review canvas, create-tool choice (not
   only `/publish`)

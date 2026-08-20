@@ -2,7 +2,7 @@
 name: analyze
 description: >-
   Stateless task analysis returned in chat. One-off research with
-  promote-to-goal handoffs, or nested under a parent (write-ticket, just-do-it,
+  promote-to-task handoffs, or nested under a parent (write-ticket, just-do-it,
   review remediation). Does not write tickets or automatic artifacts.
 disable-model-invocation: true
 ---
@@ -37,7 +37,7 @@ architecture because the ask looks like a single file.
    synthesize the evidence. A `/write-ticket` seed is often a short capture:
    still run the complete standard memo. Do not stub.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
-   Mermaid diagram. Include an inline `/goal` seed when the work is
+   Mermaid diagram. Include an inline `/task` seed when the work is
    buildable, except when a parent will write the ticket itself.
 
 ### Review remediation
@@ -49,7 +49,7 @@ and nits.
 
 ### If a parent already owns the next step
 
-Skip one-off hand-off Questions. Skip `/goal` promotion unless the parent
+Skip one-off hand-off Questions. Skip `/task` promotion unless the parent
 explicitly instructed `promote + start`. Return the memo to the parent.
 
 - `/write-ticket`: return the memo; the parent drafts and writes the ticket.

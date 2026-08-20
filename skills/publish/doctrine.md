@@ -2,7 +2,7 @@
 
 ## Job
 
-Publish local work only. This skill is a user start, never runs under `/goal`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
+Publish local work only. This skill is a user start, never runs under `/task`, and never writes tracker issues. Use `/write-ticket` to create or refine an issue.
 
 ## Owns
 
@@ -60,7 +60,7 @@ Run the [process](reference.md#process). Keep **How to QA** concrete: paths, rol
 
 ## Anti-patterns
 
-- Invoking under `/goal`
+- Invoking under `/task`
 - Creating a PR before draft and approval
 - Empty QA instructions
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception)

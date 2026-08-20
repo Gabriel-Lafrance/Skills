@@ -207,7 +207,7 @@ Name identity, ownership, and retry keys on the structure card when the slice ha
 
 ## Output
 
-Present this **Structure** card before writing code (and include it in the inline plan contract when planning under `/goal`):
+Present this **Structure** card before writing code (and include it in the inline plan contract when planning under `/task`):
 
 ```markdown
 ## Structure
@@ -285,7 +285,7 @@ Apply when the work could add files, move ownership, or touch data, including:
 - Any public write, webhook, or admin path
 - Any query that would read the wall clock or filter a growing table without an index
 
-Hand off: structure card → `/goal` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns, duplicated-service anti-patterns, and missing write-path authority under `/goal`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md).
+Hand off: structure card → `/task` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns, duplicated-service anti-patterns, and missing write-path authority under `/task`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md).
 
 ## Anti-patterns
 

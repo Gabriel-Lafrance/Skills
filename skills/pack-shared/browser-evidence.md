@@ -2,7 +2,7 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/goal`, `/code-review`) link here — there is no `/validate`
+Parent skills (`/task`, `/code-review`) link here — there is no `/validate`
 skill. This protocol is **acceptance proof**, not PR decoration.
 
 PR screenshots are a different job: open the page, take a picture, embed it

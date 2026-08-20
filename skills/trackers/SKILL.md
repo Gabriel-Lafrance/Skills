@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/goal` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
 
 This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
 brief in the parent's inline [execution context](../pack-shared/execution-context.md);

@@ -11,7 +11,7 @@ What to discover, Active Rules, interview rules, and the Locked closure announce
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- Plans and implementation: `/goal`
+- Plans and implementation: `/task`
 - Numbered parent process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -34,7 +34,7 @@ Distinguish facts from user-owned decisions. Rediscover facts from the repositor
 
 ### Active Rules
 
-In a `/goal` run, each behavioral answer is an `INV-*` Active Rule unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or worker. A rule is a behavior that must remain true, not a request for a new abstraction.
+In a `/task` run, each behavioral answer is an `INV-*` Active Rule unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or worker. A rule is a behavior that must remain true, not a request for a new abstraction.
 
 Recommend the smallest authoritative guard: UI state for feedback plus a direct backend or state-transition check when a client could race or bypass the UI. Do not add queues, locks, services, wrappers, or retry systems unless simple evidence shows they are necessary.
 
@@ -72,8 +72,8 @@ Save a durable record only when the user asks and approves its destination.
 
 After Locked closure:
 
-- Structure still needs a decision → `/architecture`, then `/goal`.
-- Ready to build → `/goal`, carrying the inline execution context.
+- Structure still needs a decision → `/architecture`, then `/task`.
+- Ready to build → `/task`, carrying the inline execution context.
 
 ## Anti-patterns
 

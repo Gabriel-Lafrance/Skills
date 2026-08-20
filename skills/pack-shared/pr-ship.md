@@ -3,7 +3,7 @@
 Every agent that **creates or updates a GitHub PR** while this pack is
 installed follows this contract — **not only `/publish`**.
 
-Parents include `/publish`, `/just-do-it` ship, `/goal` when this chat
+Parents include `/publish`, `/just-do-it` ship, `/task` when this chat
 owns shipping and the user asked to open a PR, and any cloud or freeform agent that ships a branch
 as a PR.
 
@@ -12,7 +12,7 @@ Body templates, change type, branch names, and Mermaid rules stay in
 screenshots, the Cursor review canvas, and which create/update tool to use.
 
 Do **not** load [browser-evidence.md](browser-evidence.md) to ship a PR.
-That protocol is for `/goal` acceptance proof. A screenshot on the PR is
+That protocol is for `/task` acceptance proof. A screenshot on the PR is
 not a test pass.
 
 ## Required Reads
@@ -29,13 +29,13 @@ not a test pass.
 | --- | --- |
 | `/publish` | Yes |
 | `/just-do-it` ship | Yes |
-| Standalone `/goal` after “open a PR?” = yes | Yes |
+| Standalone `/task` after “open a PR?” = yes | Yes |
 | Cloud / background agent opening a PR without naming `/publish` | Yes |
 | `/pr-review` (comments only) | No — does not create the PR |
-| Flow `/goal` | No — the parent ships |
+| Flow `/task` | No — the parent ships |
 
 Do not skip the canvas or screenshots because the work was done by
-`/just-do-it`, `/goal`, or a cloud agent. The create path does not change
+`/just-do-it`, `/task`, or a cloud agent. The create path does not change
 the bar.
 
 ## Demo screenshots

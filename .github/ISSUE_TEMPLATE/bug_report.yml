@@ -11,7 +11,7 @@ body:
     id: skill
     attributes:
       label: Skill or file
-      description: e.g. `/goal`, `skills/taste/doctrine.md`
+      description: e.g. `/task`, `skills/taste/doctrine.md`
       placeholder: /taste
     validations:
       required: true

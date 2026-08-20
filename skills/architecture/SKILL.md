@@ -4,7 +4,7 @@ description: >-
   Shape scalable code: one service per domain job, simple public APIs,
   one-job helpers inside those services, writes that check who may act,
   clear folders, cheap honest reads, and writes that are safe to retry.
-  Use to decide structure, or inside /goal before planning.
+  Use to decide structure, or inside /task before planning.
   Triggers: folders, services, split logic, data/reads, duplicating
   domain logic, auth on writes, Date.now in queries.
 disable-model-invocation: true
@@ -77,6 +77,6 @@ then `/implement`. Return needed corrections to the parent.
 
 ### If this is a user one-off
 
-- Structure card approved → `/goal`
+- Structure card approved → `/task`
 - Scale, duplicated-service, forked-primitive, missed-move, or missing
   write-path authority → acceptance evidence / `/code-review`

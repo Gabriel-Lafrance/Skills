@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/goal` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
 
 Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 
@@ -77,11 +77,11 @@ remain, send a **Questions-only** batch per [asking.md](../pack-shared/asking.md
 open — announce the numbered split in a separate **Locked in (tell me if this is wrong)**
 message.
 
-If the user corrects the split, revise the in-chat contracts and continue. Do not implement until `/goal` asks.
+If the user corrects the split, revise the in-chat contracts and continue. Do not implement until `/task` asks.
 
 ### 4. Hand off
 
-Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an [inline plan contract](../goal/reference.md#inline-plan-contract), then `/implement` only for frontier work. Do not create an INDEX or rely on an automatic artifact.
+Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an [inline plan contract](../task/reference.md#inline-plan-contract), then `/implement` only for frontier work. Do not create an INDEX or rely on an automatic artifact.
 
 ## Output template
 
