@@ -6,12 +6,13 @@ Review a shipped diff for quality and whether it matches the request.
 
 ## Owns
 
-Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, and the local remediation/promotion boundary.
+Two axes (Standards vs Spec), a Design axis when the diff is user-visible, blocker vs follow-up judgment per principle, naming alignment, and the local remediation/promotion boundary.
 
 ## Does not own
 
 - Evidence bar, modes, finding record, Wave fences, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Design file bars: cite `design:*`
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
 - Numbered parent dispatch: [`SKILL.md`](SKILL.md)
@@ -23,15 +24,17 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 | `code-review:axes` | Axes |
 | `code-review:blocker-vs-follow-up` | Blocker vs follow-up |
 | `code-review:naming-alignment` | Naming alignment |
+| `code-review:design-axis` | Design axis |
 
 ## Bars
 
 ### Axes
 
-Review along two independent axes; present them separately:
+Review along independent axes; present them separately. Add Design when the shipped diff is user-visible UI (`code-review:design-axis`).
 
 - **Standards:** maintainability, architecture, repository conventions, design quality, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
+- **Design:** whether the touched UI respects `docs/design.md`. Not a separate skill. Parallel Task like Spec.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Keep findings factual, not roleplay. Thoroughness means stronger path walks and better evidence, never hypothetical failures.
 
@@ -80,6 +83,17 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 
 Cite `taste:honest-names` on findings. Wave 2 must look for naming drift Wave 1 missed. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
+### Design axis
+
+When the shipped diff is user-visible UI, dispatch a Design Task in Wave 1 beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip Design when the file is missing or the diff has no UI; report that absence.
+
+Do not auto-map `diverges` or `undocumented` to Fix now. The parent asks whether the live UI is normal ([asking.md](../pack-shared/asking.md)):
+
+- **No:** Fix now. The UI must match `docs/design.md`. `/design` implements the fix.
+- **Yes:** `/design` updates `docs/design.md` with the common-sense why, usually fewer clicks or keystrokes (`design:fewer-clicks`). That is not a UI defect.
+
+Do not invent UX rules the file does not state. Do not ship a `/design-review` skill.
+
 ## Output
 
 Return the Wave 1 and Wave 2 fences from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
@@ -96,13 +110,15 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 
 After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
-For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)); use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable.
+For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Use available browser validation for targeted visual or interaction evidence, and state when visual confirmation was unavailable. Run `code-review:design-axis` when the diff is user-visible.
 
 ## Anti-patterns
 
 - Merging Standards and Spec into one undifferentiated ranking
-- Soloing Wave 1 Standards/Spec on the main agent instead of parallel Task workers
+- Soloing Wave 1 Standards/Spec/Design on the main agent instead of parallel Task workers
 - Skipping Wave 2 for an initial review or full rescan
+- Auto-failing or auto-passing Design mismatches without asking if they are normal
+- Inventing a `/design-review` skill
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Rubber-stamping Wave 1 without a hunt re-inspect
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits

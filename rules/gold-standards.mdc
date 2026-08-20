@@ -52,6 +52,14 @@ Apply them as **hard** standards. Do not skip because you “already know” the
 
 Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `unslop.mdc` (always on with this plugin).
 
+## App UX source of truth
+
+`docs/design.md` (workspace root, that path only) is the living source of truth for this app's UX and UI when the file exists. There is no size cap and no summary section.
+
+If the user says something is bad for the UX, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in the same turn. If the file is missing, run `/design` Initialization first. Do not wait for a separate `/design` invoke.
+
+Frontend and user-facing implementation uses `/design`. Review of UI diffs uses the Design axis inside `/code-review` and `/pr-review`. There is no `/design-review` skill.
+
 ## Plan mode — grill before the plan
 
 In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial work):
@@ -68,4 +76,4 @@ Every non-trivial plan **must** include a high-level Mermaid **Change diagram** 
 
 ## Conflict
 
-Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, design, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

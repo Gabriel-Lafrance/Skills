@@ -14,6 +14,10 @@ disable-model-invocation: true
 
 This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
 
+User-facing UI is `/design`. If this brief's write allowlist is screens,
+components, styling, or visible copy, return `blocked` and tell the parent
+to dispatch `/design` instead.
+
 Use the shared [execution context](../pack-shared/execution-context.md). The
 parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in
 chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
@@ -21,7 +25,7 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
 ## Read first
 
 1. `/taste` and `/architecture` doctrines (keep it simple + named principles +
-   structure). For UI, follow taste React & UI guidance.
+   structure). Do not implement user-facing UI here (`/design` owns that).
 2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
    decisions, Active Rules, current slice, write lane, and dependencies.
 3. Only the named ticket / PR, relevant Git diff/history, repository code and

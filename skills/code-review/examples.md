@@ -74,7 +74,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings and the Design matrix when the diff is user-visible. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
 
 **Wave 2** fence (re-inspect; do not clone the hunt rows):
 
@@ -83,7 +83,7 @@ This is the **Wave 1** fence (findings + Principles + Architecture + Correctness
 - none (Wave 1 already had the Stripe fork)
 
 ## Hunt re-inspect
-Re-walked Principles, Architecture, Correctness hunt. No new class. Did not rubber-stamp Wave 1.
+Re-walked Principles, Architecture, Correctness hunt, Design matrix. No new class. Did not rubber-stamp Wave 1.
 ```
 
 `/pr-review` Wave 2 also returns the four PR extras rows (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt.
@@ -114,6 +114,20 @@ This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and
 ```
 
 This meets the evidence bar: a public write with no identity check is a reachable trigger. Do not mark it Optional nit.
+
+## Design mismatch (ask first)
+
+```markdown
+- **design-invite-email-domain-append** · **design** · **follow-up**
+  - **Where:** `InviteMemberForm.tsx` (`email`)
+  - **Rule:** `docs/design.md` · Patterns / behavior (silent)
+  - **Match:** undocumented
+  - **Evidence:** Diff appends `@acme.com` on team invite. The design file has no invite-email rule.
+  - **Impact:** Review cannot tell accident from a fewer-clicks pattern.
+  - **Fix:** Ask if this is normal. No: remove the append. Yes: `/design` writes the why into `docs/design.md`.
+```
+
+Do not ship this as Fix now until the user answers. See [`../design/examples.md`](../design/examples.md).
 
 ## Evidence versus speculation
 

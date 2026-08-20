@@ -2,15 +2,16 @@
 
 ## Job
 
-Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior.
+Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. Design-review is a Wave 1 Task on this contract, not a skill.
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, Wave 1 and Wave 2 Output fences, one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Fixed-point inputs, modes, evidence bar, finding record, Wave 1 and Wave 2 Output fences (including Design when the diff is user-visible), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Design file bars: cite `design:*`
 - Blocker vs follow-up judgment table and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - PR extras, Pass A/B, posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 
@@ -24,7 +25,7 @@ execution context supplied by a parent. Do not depend on hidden review files.
 
 | Mode | Scope | Required work |
 | --- | --- | --- |
-| `initial` | Full shipped diff and available spec | Standards + Spec in parallel, then adversarial Wave 2 |
+| `initial` | Full shipped diff and available spec | Standards + Spec in parallel, plus Design when the diff is user-visible, then adversarial Wave 2 |
 | `remediation` | Named findings, fix diff, touched paths, and direct callers | Verify named findings, regressions, and correctness in the changed surface |
 | `full-rescan` | Full diff after meaningful change or user request | Run `initial` depth again and adjudicate prior PR threads when present |
 
@@ -75,9 +76,10 @@ without evidence that a direct guard is insufficient.
 Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout-place-order`).
 
 ```markdown
-- **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
+- **<id>** · **standards|spec|design|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
-  - **Rule:** `INV-*` | acceptance criterion | doctrine | none
+  - **Rule:** `INV-*` | acceptance criterion | doctrine | `docs/design.md` heading | none
+  - **Match:** respects | diverges | undocumented | n/a
   - **Trigger:** <required for runtime-risk findings>
   - **Evidence:** <hunk, path walk, or signal>
   - **Impact:** <why it matters>
@@ -87,7 +89,9 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 Fold recurring sites with the same root cause and fix shape into one record.
 Different root causes get different records. Drop duplicates by finding id. On a
 PR, include the id in the final comment as `**Finding:** \`<id>\``. The
-GitHub finding thread and that visible id are the durable record.
+GitHub finding thread and that visible id are the durable record. Design
+findings include **Match** (`respects` | `diverges` | `undocumented`). Other
+axes omit **Match**.
 
 ## Output
 
@@ -106,6 +110,15 @@ must stay true, each user-visible state the diff touches (enabled, disabled,
 loading, empty, error), and named unchanged behavior. Do not invent rows when
 no specification exists; say so, and still let Standards run the Correctness
 hunt (bugs are not "the ticket forgot to mention them").
+
+Design workers run when the shipped diff is user-visible UI. They **must** Read
+`docs/design.md` and `/design` doctrine this turn. Compare the touched UI to
+that file. Do not invent extra UX rules the file does not state. If the file is
+missing, skip Design, report the absence, and still let Standards and Spec run.
+`undocumented` means new UI with no heading yet, not a free pass. `diverges`
+means the UI contradicts a written rule. The parent asks whether a divergence
+or undocumented pattern is normal before mapping it to Fix now or a file update
+([`design:user-facing`](../design/doctrine.md#user-facing-work)).
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
 format below. It rejects and relaunches a narrative-only response once.
@@ -172,10 +185,19 @@ contract for models and completion reporting.
 | Requirement | Status | Evidence |
 | --- | --- | --- |
 | <Done when / rule / state / unchanged> | met \| gap \| none | … |
+
+## Design findings
+- <finding record>
+
+## Design matrix
+| docs/design.md heading / rule | Status | Evidence |
+| --- | --- | --- |
+| … | respects \| diverges \| undocumented \| none | … |
 ```
 
 Wave 1 returns Standards findings, Principles, Architecture, Correctness hunt,
-and (from the Spec worker) the Spec matrix.
+the Spec matrix, and (when the diff is user-visible) Design findings plus the
+Design matrix.
 
 ### Wave 2
 
@@ -184,7 +206,8 @@ and (from the Spec worker) the Spec matrix.
 - <new finding record and why Wave 1 missed it>
 
 ## Hunt re-inspect
-Re-walk Wave 1 tables (Principles, Architecture, Correctness hunt, Spec matrix).
+Re-walk Wave 1 tables (Principles, Architecture, Correctness hunt, Spec matrix,
+Design matrix when Design ran).
 Do not paste a cloned miss-class table. Do not mark a class `clear` unless this
 wave looked again. Restating Wave 1 with no new look is a reject.
 

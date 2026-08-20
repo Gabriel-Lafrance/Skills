@@ -2,8 +2,9 @@
 
 Load this only when a user-visible or browser-reachable acceptance criterion needs runtime proof. Terminal and code-path evidence remain the first choice for non-visual criteria.
 
-Parent skills (`/task`, `/code-review`) link here — there is no `/validate`
-skill. This protocol is **acceptance proof**, not PR decoration.
+Parent skills (`/task`, `/code-review`, `/design`) link here — there is no
+`/validate` skill. This protocol is **acceptance proof** and design capture,
+not PR decoration.
 
 PR screenshots are a different job: open the page, take a picture, embed it
 ([pr-ship.md](pr-ship.md)). Do not run this protocol just to fill a Demo
@@ -13,7 +14,7 @@ section.
 
 - Cursor's native Browser must be available in the current Agent session. A skill cannot enable it, bypass approval, or override Browser Protection, policy, or origin allowlists.
 - Read the relevant terminal first. Reuse an already-running development server; do not start a duplicate server just to inspect a page.
-- Use a reachable local URL or approved preview, safe non-destructive test data, and only the credentials already available to the session.
+- Use a reachable local URL or approved preview, safe non-destructive test data, and only the credentials already available to the session. For `/design` Initialization, the parent asks the user to log in in the Browser, then waits. Do not brute-force login.
 - Browser state can persist for the workspace. Reset the test state when safe, or record the starting state in the report.
 - If Browser access, the app, credentials, or required test data are unavailable, mark the criterion `blocked`. Do not call visual validation a pass.
 

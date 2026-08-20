@@ -13,6 +13,7 @@ Autonomy policy, hard stops, ticket/branch contract, checkpoint/fixed point, loo
 - `/pr-review` (human)
 - Test writing (`/create-test` may be recommended after review)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- User-facing UI and `docs/design.md`: `/design`
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -50,6 +51,7 @@ Take `recommended` on child soft Questions without waiting. Announce Locked-in c
 | Merge conflict or rejected push | Stop; never force-push |
 | Open blockers after a loop cap | Stop; do not ship |
 | Type genuinely unknowable | One Questions batch for type only |
+| Design mismatch "is this normal?" | Wait. Do not auto-pick. **No** means fix the UI; **Yes** means `/design` updates `docs/design.md` |
 
 ### Ticket and branch
 
@@ -82,7 +84,7 @@ Parent context template and review disposition: [reference.md](reference.md). Pr
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). Child skills must follow `/taste` and `/architecture` ([standards.md](../pack-shared/standards.md)).
+Run the [lifecycle](reference.md#lifecycle). Child skills must follow `/taste` and `/architecture` ([standards.md](../pack-shared/standards.md)). User-facing slices also follow `/design` and `docs/design.md`.
 
 Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared execution-context authority order. Rebuild and show the compact parent context before acting. Do not infer a prior user waiver, promotion, acceptance, or loop disposition from Git alone; re-announce what is known and ask only for the missing user-owned decision.
 

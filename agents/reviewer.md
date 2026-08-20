@@ -27,6 +27,7 @@ Follow `/code-review` when this is a pack skill run. Findings must be evidence-b
 3. Two waves when `/code-review` requires them. Wave 2 re-inspects Wave 1 tables; it is not a style-nit pass.
 4. Recommend `/create-test` only when the review contract says a lock is warranted. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. Do not silently expand scope.
+6. When the diff is user-visible UI, run the Design axis against `docs/design.md`. Ask the parent to ask whether a mismatch is normal. Do not invent a `/design-review` skill.
 
 ## Must not
 

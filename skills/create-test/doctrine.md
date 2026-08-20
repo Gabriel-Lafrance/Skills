@@ -45,4 +45,4 @@ This skill is a user start. Do not nest it under `/task` or start it automatical
 
 - Modifying production code just to make a test convenient unless the user explicitly asks
 - Starting `/task`, expanding into refactoring, or writing tests before approval
-- `/task`, `/implement`, and other build skills invoking this skill or writing test files
+- `/task`, `/implement`, `/design`, and other build skills invoking this skill or writing test files

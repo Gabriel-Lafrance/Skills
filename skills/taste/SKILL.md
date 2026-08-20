@@ -17,7 +17,7 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) (Job through Bars) · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
 Cite keys live in doctrine. Placement and `taste:keep-jobs-apart` defects are
-taste failures too. Parents (`/task`, `/analyze`, `/grill-me`, `/implement`,
+taste failures too. Parents (`/task`, `/analyze`, `/grill-me`, `/implement`, `/design`,
 `/architecture`) load `/taste` **and** `/architecture` before planning or
 writing code.
 
