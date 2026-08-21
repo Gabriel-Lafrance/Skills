@@ -1,18 +1,37 @@
 ---
-description: Multi-file edits, research, implement, or review work that should use Task subagents
-alwaysApply: false
+description: Main agent picks the specialist that owns the job. Tester always writes tests. No fixed spawn order. Main does not grep.
+alwaysApply: true
 ---
 
 # Subagents
 
-**Before non-trivial work** (multi-file edits, research, implement, review — not a typo or one-liner):
+**Before non-trivial work** (find, analyze, implement, review, multi-file
+edits — not a typo or one-liner):
 
 1. **Read** `pack-shared/subagents.md`
 
-Default: hand the job to a **Task** with a Worker Brief so the main chat stays lean (decide, ask the user, integrate, gates). Sequential Tasks are fine when there is only one job. When lanes are independent, launch **parallel** Tasks in the same turn.
+The main agent stays in its smart zone: split the **what**, inject
+**need-to-know**, dispatch **Task** workers, and **review** Completions. It
+does not grep the tree. Workers own **how**.
 
-Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
+When surfaces, slices, or review axes are independent, launch **one Task per
+lane in the same turn**. There is **no cap of two**. A slice can be one
+function. Sequential Tasks are required when there is only one non-trivial
+job.
 
-Worker Brief **Read first** must include `taste/doctrine.md` and `architecture/doctrine.md`.
+Pick the **listed** specialist that owns the job — pack roles (**explorer**,
+**analyzer**, **implementer**, **designer**, **reviewer**, **pr-reviewer**,
+**tester**) or Cursor built-ins (**explore**, **generalPurpose**, and others
+on the Task list). Do not follow a fixed spawn order. Explorer finds; analyzer
+judges; they are not the same. **Designer** owns user-facing UI and
+`docs/design.md`. **Implementer** owns non-UI slices. **Tester** always writes
+tests; the main agent never does. Do not use reviewer for a GitHub PR, and do
+not use pr-reviewer for a local branch. There is no architect worker.
 
-When this plugin is installed, prefer these named agents for the matching job: **explorer** (research), **architect** (structure), **implementer** (non-UI write slice), **designer** (user-facing UI and `docs/design.md`), **reviewer** (local diff), **pr-reviewer** (open GitHub PR). Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. Do not use implementer for screens and visible copy.
+Trivial work (typo, pure rename, git status, reading existing terminals) may
+stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
+Never auto-start `/create-test`.
+
+Worker **Read first** must include `taste/doctrine.md` and
+`architecture/doctrine.md`. Skip is a fail. User-facing work also reads
+`design/doctrine.md` and `docs/design.md`.

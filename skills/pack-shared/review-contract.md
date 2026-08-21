@@ -134,7 +134,10 @@ or **Follow-up**. There is no "is this normal?" path
 Experience-floor and Craft-floor findings use **Match** `n/a`.
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
-format below. It rejects and relaunches a narrative-only response once.
+format below. It dispatches Standards, Spec, and Design (when the diff is
+user-visible) as parallel Tasks (plus extra Tasks when the diff has
+independent surfaces), reviews Completions, and rejects and relaunches a
+narrative-only response once.
 
 Workers report no finding explicitly when their axis is clean. Mark each sweep
 row `clear`, `finding` (with finding id), or `none` when that check has no

@@ -117,6 +117,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 
 - Merging Standards and Spec into one undifferentiated ranking
 - Soloing Standards/Spec/Design on the main agent instead of parallel Task workers
+- Capping review dispatch at two Tasks when the diff has independent surfaces
 - Running a second adversarial review or hunt re-inspect after the parallel pass
 - Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
 - Skipping the Experience floor or the Craft floor when the diff is user-visible

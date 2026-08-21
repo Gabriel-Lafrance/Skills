@@ -22,15 +22,18 @@ If the user explicitly asks to save the split, get or honor an approved destinat
 
 ## Smart zone
 
-A slice fits the smart zone when it has:
+A slice fits the smart zone when:
 
-- one clear outcome a fresh agent can finish without rediscovering the goal;
-- one focused session or context window of work;
+- one clear **what** a specialist can finish without rediscovering the goal;
+- the job is one seam or even **one function**;
 - 1–3 binary checks that verify it alone;
-- a narrow lane with few files or one seam;
-- little needed history beyond its contract and blockers.
+- the **brief plus working set** stay around **30% of the context window**
+  after harness, skills, rules, and MCP (already about half);
+- little needed history beyond the injected brief and blockers.
 
-If it still needs “and then also…”, split it again. Parallel-ready slices with no blockers are useful; do not merge them merely for efficiency.
+The slice names **what**, not how. If it still needs “and then also…”, or the
+worker would have to re-map the repo, split it again. Parallel-ready slices
+with no blockers are useful; do not merge them merely for efficiency.
 
 ## Process
 
@@ -118,6 +121,7 @@ Copy the frontier and dependencies into **Current slices** of the execution cont
 
 - Horizontal layers when vertical thin slices fit
 - Mega-slices that push workers out of the smart zone
+- Slice contracts that prescribe how (step lists, patches) instead of what
 - Vague titles without binary Done when
 - Writing an automatic INDEX, plan file, status file, or resume state
 - Implementing before the split is announced and any Questions-only batch is answered

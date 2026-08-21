@@ -59,11 +59,13 @@ user-owned decisions.
 For when to spawn Tasks, Worker Brief shape, and after-wave integration, Read
 [subagents.md](subagents.md).
 
-The parent is the context compiler. Every Task prompt includes the applicable
-outcome, Done when, non-goals, Active Rules, lane, current slice, dependencies,
-prior decisions, and **Read first** paths for `/taste` and `/architecture`
-doctrines ([standards.md](standards.md)). Do not make a worker reconstruct
-intent from hidden files or a plan path.
+The parent is the context compiler. Every Task prompt is **what** plus
+**need-to-know**: outcome, Done when, non-goals, rules that must stay true,
+lane, current slice, explorer hits, locked structure excerpt, and **Read
+first** paths for `/taste` and `/architecture` doctrines
+([standards.md](standards.md)). Do not send a how-recipe. Do not make a
+worker reconstruct intent from hidden files or a plan path. Do not grep the
+tree on the parent.
 
 Omit Task `model` unless the user explicitly requested one. The parent owns
 integration, acceptance evidence, and `/code-review`; implementation workers do
@@ -76,9 +78,12 @@ Every worker ends with:
 **Status:** done | blocked
 **Scope:** …
 **Evidence:** …
+**Taste / architecture:** applied | skipped
 **Findings:** none | <finding IDs and summaries>
 **Handoff:** <changed interface, decision, or blocker>
 ```
+
+Skip on the taste/architecture mark is a fail. The parent rejects and relaunches.
 
 Skill-specific artifacts may follow this envelope when they add useful detail.
 

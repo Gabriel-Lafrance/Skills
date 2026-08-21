@@ -67,10 +67,13 @@ not reopen a broad review.
 ## Handoff
 
 The parent (this chat, or `/task` / `/just-do-it` when nested) owns
-fixed-point setup, worker dispatch, acceptance evidence, and review gates.
-Implementation workers do not run those gates or broaden a remediation
-review. Report stable finding IDs and the Fix now / Follow-up / Optional nit
-disposition in chat.
+fixed-point setup, worker dispatch, reviewing Completions, acceptance
+evidence, and review gates. Standards, Spec, and Design (when the diff is
+user-visible) **must** be parallel Tasks; add extra Tasks when the diff has
+independent surfaces. There is no second adversarial wave. Implementation
+workers do not run those gates or broaden a remediation review. Report
+stable finding IDs and the Fix now / Follow-up / Optional nit disposition
+in chat.
 
 ### If a parent already owns the next step
 

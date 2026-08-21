@@ -13,9 +13,9 @@ rules/                   # Cursor plugin rules (.mdc only — no extra README)
   no-emdash.mdc          # alwaysApply — dash characters
   unslop.mdc             # alwaysApply — chat-reply voice
   ship-work.mdc          # PRs / branches
-  subagents.mdc          # Task bias
+  subagents.mdc          # alwaysApply — main dispatches Tasks and reviews them
   project-tooling.mdc    # ESLint / Prettier in the app repo
-agents/                  # Custom agent configs (explorer, architect, implementer, designer, reviewer, pr-reviewer)
+agents/                  # Custom agent configs (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester)
 commands/                # Slash commands (setup-toolkit)
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
@@ -24,7 +24,7 @@ skills/
     standards.md         # must follow taste + architecture on every skill run
     plain-language.md    # talk to humans in ordinary words
     execution-context.md # in-chat parent / worker context
-    subagents.md         # Task bias, Worker Brief, spawn rules
+    subagents.md         # what vs how; explorer finds; analyzer judges; Worker Brief
     review-contract.md   # shared review evidence and finding rules
     doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
     browser-evidence.md  # browser proof for UI acceptance
@@ -79,7 +79,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
-- **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
+- **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, the specialist catalog, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill, no architect worker, and no fixed spawn order).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence (including Experience floor and Craft floor on UI diffs), correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
@@ -87,7 +87,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
   canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
   tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md), and that labor is **always** `tester` — the main agent never writes tests. Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
 
@@ -123,7 +123,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc`). Never put a `README.md` in `rules/`.
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
@@ -167,7 +167,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | --- | --- |
 | Skills | `skills/` |
 | Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars |
-| Agents | `agents/` (explorer, architect, implementer, designer, reviewer, pr-reviewer) |
+| Agents | `agents/` (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester) |
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 
@@ -175,7 +175,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
 
-- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), and [`unslop.mdc`](./rules/unslop.mdc).
+- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
 - Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
 - Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
 - `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).
