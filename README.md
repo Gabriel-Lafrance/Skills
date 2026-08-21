@@ -27,7 +27,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | Piece | Where | What it does |
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc` always apply; the others attach when relevant |
+| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
@@ -41,8 +41,8 @@ ESLint and Prettier are **not** Cursor plugin primitives. They only run if the a
 | [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams |
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
+| [`subagents.mdc`](./rules/subagents.mdc) | Always: main agent dispatches Task workers and reviews them; it does not solo non-trivial work |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
-| [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
 | [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
 
 Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. `no-emdash.mdc` and `unslop.mdc` are self-contained writing bars.
@@ -51,7 +51,7 @@ To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines.
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. Parents may also dispatch Cursor built-in Task types. Pick the listed type that fits. The main agent dispatches workers and reviews their output; it does not solo non-trivial work.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |

@@ -101,7 +101,8 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 ## Anti-patterns
 
 - Merging Standards and Spec into one undifferentiated ranking
-- Soloing Wave 1 Standards/Spec on the main agent instead of parallel Task workers
+- Soloing Wave 1 Standards/Spec or Wave 2 on the main agent instead of Task workers
+- Capping review dispatch at two Tasks when the diff has independent surfaces
 - Skipping Wave 2 for an initial review or full rescan
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Rubber-stamping Wave 1 without a hunt re-inspect

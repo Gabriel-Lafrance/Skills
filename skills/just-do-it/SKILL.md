@@ -14,7 +14,9 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 This skill is a user start. Do not nest it under `/task`. Parent orchestrator
-only. It takes recommended soft decisions,
+only. Dispatch Task workers per
+[../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
+Completions; do not solo non-trivial labor. It takes recommended soft decisions,
 auto-fixes only named Fix-now blockers, keeps optional improvements as
 follow-ups, and leaves `/pr-review` to a human.
 

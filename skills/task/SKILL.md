@@ -15,7 +15,8 @@ disable-model-invocation: true
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
 
 Orchestrator only. Dispatch Task workers per
-[../pack-shared/subagents.md](../pack-shared/subagents.md). Always load
+[../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
+Completions; do not solo non-trivial labor. Always load
 `/taste` and `/architecture` during grill and before every implement wave.
 
 `/task` follows the stateless

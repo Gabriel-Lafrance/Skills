@@ -1,8 +1,9 @@
 ---
 name: implementer
 description: >-
-  Bounded code worker. Use to implement one slice from a Worker Brief with
-  a write allowlist. Does not grill, review, or write tests.
+  Bounded code worker. Use proactively to implement one slice from a
+  Worker Brief with a write allowlist. Does not grill, review, or write
+  tests.
 ---
 
 # Implementer

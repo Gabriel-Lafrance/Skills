@@ -8,21 +8,35 @@ context in chat; no worker reads or updates agent-owned runtime files.
 
 ## Bias
 
-Default to Task subagents for **non-trivial** work so the main chat stays lean:
-decide, ask the user, integrate, and run gates. Sequential Tasks are fine when
-there is only one job — context isolation still pays off. Parallelize when
-lanes are independent. Stay on the main agent when the job is trivial.
+The main agent stays in its smart zone: **decide, ask the user, dispatch Task
+workers, and review their output**. It does not do non-trivial research,
+implementation, or review labor itself. Workers stay in theirs: one bounded
+job, then Completion.
+
+Sequential Tasks are required when there is only one non-trivial job — context
+isolation still pays off. When surfaces, slices, or review axes are
+independent, launch **one Task per lane in the same turn**. There is **no cap
+of two**. Stay on the main agent only when the job is trivial.
 
 ## Subagent model
 
 - Omit Task `model` so workers inherit the parent chat model.
 - Pass a model only when the user explicitly requested one.
 
+## Task type
+
+Pick any **listed** Task type that fits the job. Pack roles (`explorer`,
+`architect`, `implementer`, `reviewer`, `pr-reviewer`) and Cursor built-ins
+(`explore`, `generalPurpose`, and any other type on the Task list) are both
+valid. Match the job. Do not default to two generic workers by habit. Do not
+use `reviewer` for a GitHub PR, and do not use `pr-reviewer` for a local
+branch.
+
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| Main | Compiles context, assigns bounded work, integrates, updates chat context, records acceptance evidence, runs `/code-review` | Solo non-trivial research/implement/review the worker should own, make workers infer intent, or delegate final gates |
+| Main | Compiles context, assigns bounded work, reviews Completions, integrates, updates chat context, records acceptance evidence, dispatches review gates | Solo non-trivial research/implement/review, redo a worker's job, make workers infer intent, or delegate final gates |
 | Subagent | Delivers one bounded job in its file lane and returns Completion | Chat with the user, broaden scope, run lifecycle gates, or invent shared structure |
 
 ## Worker Brief
@@ -74,31 +88,40 @@ expansion. Report the blocker and smallest viable option to the parent.
 
 | Situation | Action |
 | --- | --- |
-| Non-trivial research, implement, review, or multi-file edit | **Must** Task (even if only one job) |
-| ≥2 independent lanes | **Must** parallel Tasks in the same turn |
-| Explore an independent lane | `explore` Task |
-| Implement one bounded slice | `generalPurpose` Task — one brief per independently reviewable slice |
-| Standards and Spec review | Parallel Tasks, then adversarial follow-up with miss-class re-inspection — see `/code-review` |
+| Non-trivial research, implement, review, structure, or multi-file edit | **Must** Task (even if only one job). Main reviews the Completion |
+| Independent surfaces, ready slices, or review axes | **Must** parallel Tasks in the same turn — **one Task per lane**. No cap of two |
+| Research a surface | Pack `explorer` or Cursor `explore` (or another listed type that fits) |
+| Structure card | Pack `architect` or Cursor `generalPurpose` (or another listed type that fits) |
+| Implement one bounded slice | Pack `implementer` or Cursor `generalPurpose` (or another listed type that fits) — one brief per independently reviewable slice |
+| Local diff review | Pack `reviewer` or Cursor `generalPurpose` (or another listed type that fits) |
+| GitHub PR review | Pack `pr-reviewer` or Cursor `generalPurpose` (or another listed type that fits) |
+| Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces), then adversarial Wave 2 as a Task — see `/code-review` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
 
 ## After a wave
 
 1. Collect every Completion report.
-2. Check it against the parent outcome, Active Rules, lane, and handoff.
+2. **Review** it against the parent outcome, rules that must stay true, lane,
+   and handoff. Reject and relaunch if the report is incomplete or off-lane.
+   Do not redo the worker's research, implementation, or review on the main
+   agent.
 3. Post an updated compact execution context in chat when phase, ownership, or
    decisions changed.
 4. If ready slices remain, update their status in **Current slices** and
    dispatch the next frontier. After every slice is integrated, blocked, or
    explicitly waived, the main agent records acceptance evidence (Done when,
-   Active Rules, seams — path walk / terminals / browser when UI); it then runs
-   `/code-review` when the parent requires it.
+   rules that must stay true, seams — path walk / terminals / browser when UI);
+   it then runs `/code-review` when the parent requires it (`/code-review`
+   still dispatches review Tasks).
 
 ## Anti-patterns
 
-- Soloing non-trivial multi-file or multi-lane work on the main agent when a
-  Task would protect context
-- Task without outcome, lane, Active Rules, taste/architecture Reads, and escalation boundary
+- Soloing non-trivial work on the main agent "to save a round"
+- Capping at two Tasks when more independent surfaces exist
+- Defaulting to `explore` / `generalPurpose` by habit when another listed type fits
+- Forbidding a listed Cursor type, or a listed pack role, that fits the job
+- Task without outcome, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
 - Worker running acceptance gates or `/code-review`

@@ -108,7 +108,9 @@ no specification exists; say so, and still let Standards run the Correctness
 hunt (bugs are not "the ticket forgot to mention them").
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
-format below. It rejects and relaunches a narrative-only response once.
+format below. It dispatches Wave 1 and Wave 2 as Tasks (plus extra Tasks when
+the diff has independent surfaces), reviews Completions, and rejects and
+relaunches a narrative-only response once.
 
 Workers report no finding explicitly when their axis is clean. Mark each sweep
 row `clear`, `finding` (with finding id), or `none` when that check has no

@@ -1,9 +1,9 @@
 ---
 name: reviewer
 description: >-
-  Quality reviewer for a shipped diff. Use after implementation to check
-  taste, architecture, honest names, trust the server, reachable bugs,
-  and whether the change matches the ask.
+  Quality reviewer for a shipped diff. Use proactively after implementation
+  to check taste, architecture, honest names, trust the server, reachable
+  bugs, and whether the change matches the ask.
 ---
 
 # Reviewer

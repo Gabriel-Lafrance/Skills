@@ -13,7 +13,7 @@ rules/                   # Cursor plugin rules (.mdc only — no extra README)
   no-emdash.mdc          # alwaysApply — dash characters
   unslop.mdc             # alwaysApply — chat-reply voice
   ship-work.mdc          # PRs / branches
-  subagents.mdc          # Task bias
+  subagents.mdc          # alwaysApply — main dispatches Tasks and reviews them
   project-tooling.mdc    # ESLint / Prettier in the app repo
 agents/                  # Custom agent configs (explorer, architect, implementer, reviewer, pr-reviewer)
 commands/                # Slash commands (setup-toolkit)
@@ -123,7 +123,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc`). Never put a `README.md` in `rules/`.
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files.
@@ -175,7 +175,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
 
-- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), and [`unslop.mdc`](./rules/unslop.mdc).
+- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
 - Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
 - Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
 - `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).

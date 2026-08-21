@@ -23,9 +23,10 @@ doctrines on every run via the standards contract. Use the shared
 
 Explore via Task subagents per
 [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-sibling/service/folder research **must** use a Task; ≥2 independent lanes
-**must** run in parallel. You write the structure card from their reports.
-Skip Tasks only for greenfield-trivial structure with no repo to explore.
+sibling/service/folder research **must** use a Task; independent lanes
+**must** run in parallel (one Task per lane, no cap of two). You review
+those reports and write the structure card from them. Skip Tasks only for
+greenfield-trivial structure with no repo to explore.
 
 If a parent already supplied outcome, Done when, non-goals, locked
 decisions, Active Rules, current slice, and lane, reuse that brief.

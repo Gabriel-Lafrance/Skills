@@ -20,7 +20,7 @@ Other skills Read these files by relative path:
 - [plain-language.md](plain-language.md) — talk to humans in ordinary words
 - [asking.md](asking.md) — how to ask the user
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff
-- [subagents.md](subagents.md) — Task subagent bias, Worker Brief, and spawn rules
+- [subagents.md](subagents.md) — Task bias: main dispatches and reviews; spawn rules; Worker Brief
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
 - [browser-evidence.md](browser-evidence.md) — browser proof for UI acceptance
   (`/task`); not for PR Demo screenshots

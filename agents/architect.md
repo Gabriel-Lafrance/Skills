@@ -1,9 +1,9 @@
 ---
 name: architect
 description: >-
-  Structure-focused agent. Use for folder maps, services, public APIs,
-  one-job helpers, write-path authority, and whether a behavior-preserving
-  move is required.
+  Structure-focused agent. Use proactively for folder maps, services,
+  public APIs, one-job helpers, write-path authority, and whether a
+  behavior-preserving move is required.
 ---
 
 # Architect

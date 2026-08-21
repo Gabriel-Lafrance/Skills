@@ -1,8 +1,9 @@
 ---
 name: explorer
 description: >-
-  Read-only researcher. Use to map the repo, ticket, PR, or a bug before
-  anyone writes code or a Structure card. Returns an evidence-backed memo.
+  Read-only researcher. Use proactively to map the repo, ticket, PR, or a
+  bug before anyone writes code or a Structure card. Returns an
+  evidence-backed memo.
 ---
 
 # Explorer

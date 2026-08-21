@@ -1,10 +1,10 @@
 ---
 name: pr-reviewer
 description: >-
-  Reviewer for an open GitHub pull request. Use to triage threads, run the
-  correctness hunt and PR extras, draft one-topic comments, and post only
-  after the user approves. Different from reviewer, which judges a local
-  branch diff.
+  Reviewer for an open GitHub pull request. Use proactively to triage
+  threads, run the correctness hunt and PR extras, draft one-topic
+  comments, and post only after the user approves. Different from
+  reviewer, which judges a local branch diff.
 ---
 
 # PR reviewer

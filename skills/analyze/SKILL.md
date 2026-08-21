@@ -33,8 +33,9 @@ architecture because the ask looks like a single file.
    Active Rules.
 2. Investigate via Task workers per
    [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-   research **must** use a Task; parallelize independent surfaces, then
-   synthesize the evidence. A `/write-ticket` seed is often a short capture:
+   research **must** use a Task; parallelize every independent surface in the
+   same turn (no cap of two), then review and synthesize the evidence. A
+   `/write-ticket` seed is often a short capture:
    still run the complete standard memo. Do not stub.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
    Mermaid diagram. Include an inline `/task` seed when the work is

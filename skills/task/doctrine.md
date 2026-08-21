@@ -92,7 +92,8 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Creating automatic runtime state instead of using the shared execution context
 - Planning before Locked grill closing or omitting a locked behavioral rule from Active Rules
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
-- Soloing non-trivial explore or implement work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
+- Soloing non-trivial explore, implement, or review work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
+- Capping a wave at two Tasks when more independent surfaces are ready
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
