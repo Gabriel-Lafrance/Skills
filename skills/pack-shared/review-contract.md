@@ -2,11 +2,11 @@
 
 ## Job
 
-Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. Design-review is a Wave 1 Task on this contract, not a skill.
+Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. Design-review is a parallel Task on this contract, not a skill.
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, Wave 1 and Wave 2 Output fences (including Design when the diff is user-visible), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including Design when the diff is user-visible, and PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
@@ -25,7 +25,7 @@ execution context supplied by a parent. Do not depend on hidden review files.
 
 | Mode | Scope | Required work |
 | --- | --- | --- |
-| `initial` | Full shipped diff and available spec | Standards + Spec in parallel, plus Design when the diff is user-visible, then adversarial Wave 2 |
+| `initial` | Full shipped diff and available spec | Standards + Spec in parallel, plus Design when the diff is user-visible |
 | `remediation` | Named findings, fix diff, touched paths, and direct callers | Verify named findings, regressions, and correctness in the changed surface |
 | `full-rescan` | Full diff after meaningful change or user request | Run `initial` depth again and adjudicate prior PR threads when present |
 
@@ -129,7 +129,7 @@ surface in the diff (for example cheap-reads on a copy-only change). The parent
 controls the dispatch and follows the [execution context](execution-context.md)
 contract for models and completion reporting.
 
-### Wave 1
+### Review output
 
 ```markdown
 ## Standards findings
@@ -193,23 +193,6 @@ contract for models and completion reporting.
 | docs/design.md heading / rule | Status | Evidence |
 | --- | --- | --- |
 | … | respects \| diverges \| undocumented \| none | … |
-```
-
-Wave 1 returns Standards findings, Principles, Architecture, Correctness hunt,
-the Spec matrix, and (when the diff is user-visible) Design findings plus the
-Design matrix.
-
-### Wave 2
-
-```markdown
-## Adversarial findings
-- <new finding record and why Wave 1 missed it>
-
-## Hunt re-inspect
-Re-walk Wave 1 tables (Principles, Architecture, Correctness hunt, Spec matrix,
-Design matrix when Design ran).
-Do not paste a cloned miss-class table. Do not mark a class `clear` unless this
-wave looked again. Restating Wave 1 with no new look is a reject.
 
 ## PR extras (`/pr-review` only)
 | Extra | Status | Note |
@@ -220,9 +203,11 @@ wave looked again. Restating Wave 1 with no new look is a reject.
 | Breaking public API | clear \| finding \| none | … |
 ```
 
-Wave 2 returns Adversarial findings plus the hunt re-inspect. `/pr-review`
-also returns the four PR extras rows. Secrets stay in the Correctness hunt,
-not here.
+One review pass. Return Standards findings, Principles, Architecture,
+Correctness hunt, the Spec matrix, and (when the diff is user-visible) Design
+findings plus the Design matrix. `/pr-review` also returns the four PR extras
+rows in this same fence. Secrets stay in the Correctness hunt, not in PR extras.
+There is no second adversarial wave and no hunt re-inspect.
 
 ### Baseline defects (Standards, after the tables)
 

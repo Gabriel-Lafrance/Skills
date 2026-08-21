@@ -79,7 +79,7 @@ expansion. Report the blocker and smallest viable option to the parent.
 | ≥2 independent lanes | **Must** parallel Tasks in the same turn |
 | Explore an independent lane | `explore` Task |
 | Implement one bounded slice | `generalPurpose` Task, or the **designer** agent when the slice is user-facing UI — one brief per independently reviewable slice |
-| Standards, Spec, and Design review | Parallel Tasks (Design only when the diff is user-visible), then adversarial follow-up with miss-class re-inspection — see `/code-review` |
+| Standards, Spec, and Design review | Parallel Tasks (Design only when the diff is user-visible). See `/code-review`. |
 | Capture `docs/design.md` | Task after the parent confirmed Browser login — see `/design` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |

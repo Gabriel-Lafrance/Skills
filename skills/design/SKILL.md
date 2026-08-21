@@ -24,7 +24,7 @@ path for this source of truth.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
 slices. Design-review is **not** a skill; `/code-review` and `/pr-review`
-dispatch it as a Wave 1 Task when the diff is user-visible.
+dispatch it as a parallel Task when the diff is user-visible.
 
 ## Process
 

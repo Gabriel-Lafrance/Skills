@@ -11,7 +11,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 ## Does not own
 
 - Non-UI slices: [`../implement/SKILL.md`](../implement/SKILL.md)
-- Design-review dispatch, Wave fences, finding records: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md) · [`../code-review/doctrine.md`](../code-review/doctrine.md)
+- Design-review dispatch, review output fence, finding records: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md) · [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - GitHub posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Numbered how-to: [`SKILL.md`](SKILL.md)

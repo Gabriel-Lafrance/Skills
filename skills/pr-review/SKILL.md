@@ -20,7 +20,7 @@ This skill is a user start. Do not nest it under `/task`.
 
 Read [doctrine.md](doctrine.md) and [reference.md](reference.md). The shared
 [review contract](../pack-shared/review-contract.md) owns review depth,
-evidence, Wave 1 / Wave 2 fences, finding records, and severity mapping. The
+evidence, the review output fence, finding records, and severity mapping. The
 shared [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
 

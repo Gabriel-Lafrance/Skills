@@ -74,19 +74,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings and the Design matrix when the diff is user-visible. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
-
-**Wave 2** fence (re-inspect; do not clone the hunt rows):
-
-```markdown
-## Adversarial findings
-- none (Wave 1 already had the Stripe fork)
-
-## Hunt re-inspect
-Re-walked Principles, Architecture, Correctness hunt, Design matrix. No new class. Did not rubber-stamp Wave 1.
-```
-
-`/pr-review` Wave 2 also returns the four PR extras rows (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings and the Design matrix when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
 
 ## Honest names / stale path after rename
 
@@ -99,7 +87,7 @@ Re-walked Principles, Architecture, Correctness hunt, Design matrix. No new clas
   - **Fix:** Rename file + primary export/locals to the payment-intent names and update imports in the same change.
 ```
 
-This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and skipped the naming alignment pass. Remediation is not clear until both path and symbols match.
+This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later wave. Remediation is not clear until both path and symbols match.
 
 ## Missing identity on a public write
 
@@ -137,9 +125,9 @@ Do not ship this as Fix now until the user answers. See [`../design/examples.md`
 
 **Not a finding:** “Add retries and a queue for a provider outage.” The diff establishes neither a provider boundary nor a delivery requirement. Omit it until evidence shows that a direct guard is insufficient.
 
-## Waves and review modes
+## Review modes
 
-Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-keep-jobs-apart-checkout-stripe`. Wave 2 still returns a **hunt re-inspect** of the Wave 1 tables.
+One review pass. Drop restatements of the same finding (`standards-keep-jobs-apart-checkout-stripe`). A new evidenced defect such as `standards-checkout-half-move` belongs in that same pass if the diff shows it.
 
 After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
 

@@ -10,7 +10,7 @@ Two axes (Standards vs Spec), a Design axis when the diff is user-visible, block
 
 ## Does not own
 
-- Evidence bar, modes, finding record, Wave fences, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
+- Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Design file bars: cite `design:*`
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
@@ -81,11 +81,11 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched lane changed meaning.
 4. **Half-moves:** a move/rename that updates content but keeps the old path (or the reverse) is a defect, not a style preference.
 
-Cite `taste:honest-names` on findings. Wave 2 must look for naming drift Wave 1 missed. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
+Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later wave. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
 ### Design axis
 
-When the shipped diff is user-visible UI, dispatch a Design Task in Wave 1 beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip Design when the file is missing or the diff has no UI; report that absence.
+When the shipped diff is user-visible UI, dispatch a Design Task beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip Design when the file is missing or the diff has no UI; report that absence.
 
 Do not auto-map `diverges` or `undocumented` to Fix now. The parent asks whether the live UI is normal ([asking.md](../pack-shared/asking.md)):
 
@@ -96,13 +96,13 @@ Do not invent UX rules the file does not state. Do not ship a `/design-review` s
 
 ## Output
 
-Return the Wave 1 and Wave 2 fences from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
+Return the review output fence from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
 
 Use the shared finding record in chat. IDs remain stable across follow-up discussion. Map shared severity with the contract table; do not re-explain it.
 
 ## Apply
 
-Remediation is never a broad architecture hunt and never gets a broad Wave 2. Do not silently upgrade a remediation pass to a full rescan.
+Remediation is never a broad architecture hunt and never reopens the full initial review. Do not silently upgrade a remediation pass to a full rescan.
 
 Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. A `/just-do-it` parent may take the recommended promotion only after the complete analysis is shown. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
 
@@ -115,12 +115,11 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 ## Anti-patterns
 
 - Merging Standards and Spec into one undifferentiated ranking
-- Soloing Wave 1 Standards/Spec/Design on the main agent instead of parallel Task workers
-- Skipping Wave 2 for an initial review or full rescan
+- Soloing Standards/Spec/Design on the main agent instead of parallel Task workers
+- Running a second adversarial review or hunt re-inspect after the parallel pass
 - Auto-failing or auto-passing Design mismatches without asking if they are normal
 - Inventing a `/design-review` skill
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
-- Rubber-stamping Wave 1 without a hunt re-inspect
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
 - Treating a public write without identity/ownership as Optional nit
 - Capping findings, accepting unstructured worker output, or reporting speculation
