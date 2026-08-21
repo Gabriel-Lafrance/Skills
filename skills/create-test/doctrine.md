@@ -6,10 +6,11 @@ Write durable behavior-lock tests for a complex public surface after review reco
 
 ## Owns
 
-What to lock, how to name the invariant, the Why/What/How approval gate, and the focused run.
+The Why / What / How approval gate and the lock report. After approval, dispatch `tester`.
 
 ## Does not own
 
+- How to write the test after approval (`tester`)
 - Production code changes (unless the user explicitly asks)
 - `/task` / implement / review
 - Numbered how-to: [`reference.md`](reference.md#process)
@@ -39,10 +40,12 @@ Approval brief, required test comment, and handoff live in [`reference.md`](refe
 
 Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, and coverage targets.
 
-This skill is a user start. Do not nest it under `/task` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill.
+This skill is a user start. Do not nest it under `/task` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill. After the user approves Why / What / How, the parent dispatches a `tester` Task; the tester owns how. Review may recommend this skill; nothing auto-invokes it.
 
 ## Anti-patterns
 
 - Modifying production code just to make a test convenient unless the user explicitly asks
 - Starting `/task`, expanding into refactoring, or writing tests before approval
+- Writing tests on the main agent after approval instead of dispatching `tester`
+- Dispatching `tester` or starting this skill without a user start
 - `/task`, `/implement`, and other build skills invoking this skill or writing test files

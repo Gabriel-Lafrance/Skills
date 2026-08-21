@@ -54,12 +54,14 @@ green without a user request.
 1. Read the public export, its callers, and existing nearby tests. State what
    behavior is being locked and what outside change it should catch.
 2. Draft every needed Why / What / How brief, batch them for approval, and wait.
-3. Pick the smallest scenario set: core outcome, critical guard, meaningful
-   edge, and a known regression when applicable.
-4. Write tests through the public API. Keep fixture helpers local and DRY.
-5. Add the approved three-line comment above each main test, using the
-   repository's comment style.
-6. Run the focused test. Confirm a behavior-breaking edit would fail and a
-   harmless extraction would remain green.
-7. Report the approved claim, files changed, command result, and one sentence
+   Do not write tests until each brief is approved.
+3. After approval, dispatch a `tester` Task per
+   [../pack-shared/subagents.md](../pack-shared/subagents.md). The brief is the
+   approved Why / What / How, public entry, and paths — **what**, not a recipe
+   of assertions. The tester owns **how** (scenario set, tests, comments,
+   focused run). Review the Completion against the approved claim.
+4. Report the approved claim, files changed, command result, and one sentence
    about what would turn the test red.
+
+Do not write tests on the main agent after approval. Never auto-start this
+skill or dispatch `tester` without a user start.

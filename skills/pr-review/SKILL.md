@@ -36,10 +36,15 @@ newly introduced follow-up surface).
    and every prior review page. Record `previousReviewedHead` from the last
    review this skill completed on this PR when available (from chat or the
    latest review commit association).
-2. With no prior finding thread, run the shared contract's `initial` review.
-3. On every follow-up, complete **Pass A** first (doctrine Output), then
+2. Dispatch `pr-reviewer` Tasks per
+   [../pack-shared/subagents.md](../pack-shared/subagents.md). Feed the what
+   (open GitHub PR, injected plan, bars). The worker owns how to hunt. The
+   parent reviews Completions and owns the publish question. Do not solo
+   non-trivial PR review labor.
+3. With no prior finding thread, run the shared contract's `initial` review.
+4. On every follow-up, complete **Pass A** first (doctrine Output), then
    **Pass B**.
-4. Use `full-rescan` only when the user explicitly requests it or materially
+5. Use `full-rescan` only when the user explicitly requests it or materially
    expands the review scope.
-5. Show drafts, ask one publish question, apply the stale-head guard, then post
+6. Show drafts, ask one publish question, apply the stale-head guard, then post
    only after approval.

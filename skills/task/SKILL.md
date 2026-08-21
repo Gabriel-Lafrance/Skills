@@ -16,7 +16,7 @@ disable-model-invocation: true
 
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
-Completions; do not solo non-trivial labor. Always load
+Completions; do not solo non-trivial labor or grep the tree. Always load
 `/taste` and `/architecture` during grill and before every implement wave.
 
 `/task` follows the stateless
@@ -33,8 +33,10 @@ destination.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → implement → acceptance evidence → `/code-review` → Fix
    mode as needed. Task waves follow
-   [subagents.md](../pack-shared/subagents.md). Always load `/taste` and
-   `/architecture` during grill and before every implement wave.
+   [subagents.md](../pack-shared/subagents.md): explorers find, analyzers
+   judge, then tiny implementers, then reviewers. Main does not grep. Always
+   load `/taste` and `/architecture` during grill and before every implement
+   wave.
 3. Announce completion.
 
 ### If a parent already owns the ticket, branch, and PR

@@ -28,7 +28,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
-| **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
+| **Agents** | `agents/` | Task roles: explorer, analyzer, implementer, reviewer, pr-reviewer, tester |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
 
@@ -51,15 +51,16 @@ To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. Parents may also dispatch Cursor built-in Task types. Pick the listed type that fits. The main agent dispatches workers and reviews their output; it does not solo non-trivial work.
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Explorer finds (grep stays off the main thread). Analyzer judges impact. Parents may also dispatch Cursor built-in Task types. Pick the listed type that fits.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
-| [`explorer`](./agents/explorer.md) | Read-only research memo | `/analyze` |
-| [`architect`](./agents/architect.md) | Structure card | `/architecture` |
-| [`implementer`](./agents/implementer.md) | One bounded code slice | `/implement` |
-| [`reviewer`](./agents/reviewer.md) | Local branch diff | `/code-review` |
+| [`explorer`](./agents/explorer.md) | Find relevant paths and snippets | noisy search (not `/analyze`) |
+| [`analyzer`](./agents/analyzer.md) | How / impact / risk memo | `/analyze` |
+| [`implementer`](./agents/implementer.md) | One tiny code what | `/implement` |
+| [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
+| [`tester`](./agents/tester.md) | Approved behavior-lock tests | `/create-test` (user start only) |
 
 ## Skills
 

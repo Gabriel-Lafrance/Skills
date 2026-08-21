@@ -8,15 +8,34 @@ context in chat; no worker reads or updates agent-owned runtime files.
 
 ## Bias
 
-The main agent stays in its smart zone: **decide, ask the user, dispatch Task
-workers, and review their output**. It does not do non-trivial research,
-implementation, or review labor itself. Workers stay in theirs: one bounded
-job, then Completion.
+The main agent stays in its smart zone: **decide, ask the user, split the
+what, inject need-to-know, dispatch Task workers, and review Completions**.
+It does not do non-trivial find, analyze, implement, or review labor. It does
+not grep the tree. Workers stay in theirs: one bounded job, then Completion.
 
-Sequential Tasks are required when there is only one non-trivial job — context
-isolation still pays off. When surfaces, slices, or review axes are
-independent, launch **one Task per lane in the same turn**. There is **no cap
-of two**. Stay on the main agent only when the job is trivial.
+A worker fits the **smart zone** when the brief plus working set stay around
+**30% of the context window**. Harness, skills, rules, and MCP already use
+about half. Sequential Tasks are required when there is only one non-trivial
+job. When surfaces, slices, or review axes are independent, launch **one Task
+per lane in the same turn**. There is **no cap of two**. Stay on the main
+agent only when the job is trivial.
+
+## What vs how
+
+One altitude: the parent coordinates; the specialist does the detail.
+
+- **Parent feeds what:** the tiny outcome, write allowlist, Done when, rules
+  that must stay true, and need-to-know (explorer hits, locked structure
+  excerpt, paths/snippets already found). That is the brief.
+- **Parent does not feed how:** no file-by-file recipes, no prescribed grep
+  script, no hunt order, no “first write this function then that helper”.
+- **Subagent owns how:** explorer chooses how to search; analyzer chooses how
+  to judge impact; implementer chooses how to shape the code; reviewer
+  chooses how to hunt; tester chooses how to lock the behavior. Taste and
+  architecture live in that how.
+- **After the wave:** the parent checks the Completion against the what.
+  Reject and relaunch if the what was missed or bars were skipped. Do not
+  take the how back onto the main agent.
 
 ## Subagent model
 
@@ -26,23 +45,27 @@ of two**. Stay on the main agent only when the job is trivial.
 ## Task type
 
 Pick any **listed** Task type that fits the job. Pack roles (`explorer`,
-`architect`, `implementer`, `reviewer`, `pr-reviewer`) and Cursor built-ins
-(`explore`, `generalPurpose`, and any other type on the Task list) are both
-valid. Match the job. Do not default to two generic workers by habit. Do not
-use `reviewer` for a GitHub PR, and do not use `pr-reviewer` for a local
-branch.
+`analyzer`, `implementer`, `reviewer`, `pr-reviewer`, `tester`) and Cursor
+built-ins (`explore`, `generalPurpose`, and any other type on the Task list)
+are both valid. Match the job. Do not default to two generic workers by habit.
+
+`explorer` finds. `analyzer` judges. They are not the same job. Do not use
+`reviewer` for a GitHub PR, and do not use `pr-reviewer` for a local branch.
+There is no architect worker: `/architecture` is a skill and a bar, not a
+Task type.
 
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| Main | Compiles context, assigns bounded work, reviews Completions, integrates, updates chat context, records acceptance evidence, dispatches review gates | Solo non-trivial research/implement/review, redo a worker's job, make workers infer intent, or delegate final gates |
-| Subagent | Delivers one bounded job in its file lane and returns Completion | Chat with the user, broaden scope, run lifecycle gates, or invent shared structure |
+| Main | Splits the what, injects need-to-know, assigns bounded work, reviews Completions, asks the user, integrates, records acceptance evidence, dispatches review gates | Grep the tree, solo non-trivial find/analyze/implement/review, specify how, redo a worker's how, make workers infer intent, or delegate final gates |
+| Subagent | Owns how for one bounded what, returns Completion | Chat with the user, broaden the what, run lifecycle gates, wait for a how-recipe, or invent shared structure |
 
 ## Worker Brief
 
 The main agent is the context compiler. Write the brief before every dispatch;
-do not hand a worker an opaque plan path or hidden state to reconstruct.
+do not hand a worker an opaque plan path or hidden state to reconstruct. Keep
+the brief small enough that the worker stays in the smart zone.
 
 ```markdown
 ## Parent outcome
@@ -61,67 +84,107 @@ do not hand a worker an opaque plan path or hidden state to reconstruct.
 | Rule 1 | … | … | … |
 
 ## Job
-**Slice:** <one bounded deliverable>
+**What:** <one bounded deliverable — can be one function>
 **Acceptance criteria:** <relevant rows>
-**Write allowlist:** <exact paths>
+**Write allowlist:** <exact paths, or none for read-only>
 **Must not touch:** <siblings or shared seams>
 **Dependencies / interfaces:** <ready, blocked, or contract>
+
+## Injected context
+**Locked structure excerpt:** <constraint, not a how-to | none>
+**Explorer hits:** <path, symbol, why it matched, short snippet | none yet>
+**Already known:** <facts the parent already has>
+**Do not redo:** <search, files, or questions already answered>
 
 ## Read first
 - `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
 - `pack-shared/plain-language.md` when this worker's output will be pasted into the discussion reply
-- <repo paths, ticket, PR, or committed docs only>
+- <repo paths, ticket, PR, or committed docs only — not a second copy of the doctrines>
 
 ## Escalation boundary
 Do not improvise a new abstraction, shared API, service, file lane, or scope
 expansion. Report the blocker and smallest viable option to the parent.
+Do not wait for the parent to specify how.
 
 ## Completion
 **Status:** done | blocked
 **Scope:** …
 **Evidence:** …
+**Taste / architecture:** applied | skipped
 **Findings:** none | <finding IDs and summaries>
 **Handoff:** <changed interface, decision, or blocker>
 ```
+
+Empty briefs, doctrine dumps, whole-repo dumps, and parent-written how are
+rejects. Explorer Completions are **hits only** (path, symbol, why it matched,
+short snippet). Analyzer Completions are the `/analyze` memo. Implementer,
+reviewer, and tester Completions must mark **Taste / architecture:**
+`applied`. Skip is a fail: the parent rejects and relaunches.
 
 ## When to spawn
 
 | Situation | Action |
 | --- | --- |
-| Non-trivial research, implement, review, structure, or multi-file edit | **Must** Task (even if only one job). Main reviews the Completion |
+| Non-trivial find, analyze, implement, review, or multi-file edit | **Must** Task (even if only one job). Main reviews the Completion |
 | Independent surfaces, ready slices, or review axes | **Must** parallel Tasks in the same turn — **one Task per lane**. No cap of two |
-| Research a surface | Pack `explorer` or Cursor `explore` (or another listed type that fits) |
-| Structure card | Pack `architect` or Cursor `generalPurpose` (or another listed type that fits) |
-| Implement one bounded slice | Pack `implementer` or Cursor `generalPurpose` (or another listed type that fits) — one brief per independently reviewable slice |
-| Local diff review | Pack `reviewer` or Cursor `generalPurpose` (or another listed type that fits) |
-| GitHub PR review | Pack `pr-reviewer` or Cursor `generalPurpose` (or another listed type that fits) |
+| Noisy search, grep, or fat-file reads | Pack `explorer` or Cursor `explore` — several in parallel. Main does not grep |
+| How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits), after explorer hits are in the brief |
+| Implement one tiny what | Pack `implementer` or Cursor `generalPurpose` — one brief per independently reviewable slice (can be one function) |
+| Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
+| Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
+| User-started `/create-test` after the lock brief is approved | Pack `tester` — never auto-start `/create-test` |
 | Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces), then adversarial Wave 2 as a Task — see `/code-review` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
 
+## Mastermind loop
+
+Default `/task` / `/analyze` wave. Skip a stage only when that labor is
+trivial.
+
+1. **Find.** Dispatch several `explorer` Tasks (one find-what each). Review
+   hit lists. Do not grep on the main agent.
+2. **Judge.** Dispatch one or more `analyzer` Tasks with those hits as
+   injected context. Review memos. Do not invent structure; lock it on the
+   parent and inject the excerpt.
+3. **Split.** `/split-task` cuts the what until each slice fits the smart
+   zone (one seam or one function). The slice names what, not how.
+4. **Build.** Dispatch ready `implementer` Tasks in the same turn when lanes
+   do not overlap. Each brief is what + need-to-know.
+5. **Check.** Dispatch `reviewer` Tasks (plan vs task, plus extra reviewers
+   for independent surfaces). Then acceptance evidence on the parent.
+   `/code-review` still dispatches review Tasks.
+
 ## After a wave
 
 1. Collect every Completion report.
-2. **Review** it against the parent outcome, rules that must stay true, lane,
-   and handoff. Reject and relaunch if the report is incomplete or off-lane.
-   Do not redo the worker's research, implementation, or review on the main
-   agent.
+2. **Review** it against the parent what, rules that must stay true, lane,
+   and handoff. Reject and relaunch if the report is incomplete, off-lane,
+   an explorer impact essay, an analyzer that spent the turn grepping, a
+   skipped taste/architecture mark, or a new service/layout the brief forbade.
+   Do not redo the worker's how on the main agent.
 3. Post an updated compact execution context in chat when phase, ownership, or
    decisions changed.
 4. If ready slices remain, update their status in **Current slices** and
    dispatch the next frontier. After every slice is integrated, blocked, or
    explicitly waived, the main agent records acceptance evidence (Done when,
    rules that must stay true, seams — path walk / terminals / browser when UI);
-   it then runs `/code-review` when the parent requires it (`/code-review`
-   still dispatches review Tasks).
+   it then runs `/code-review` when the parent requires it.
 
 ## Anti-patterns
 
 - Soloing non-trivial work on the main agent "to save a round"
+- Main grepping the tree or reading fat files that an explorer should isolate
+- Using `analyzer` as a search bot, or `explorer` as an impact-memo writer
+- Merging find and judge into one worker when the search is noisy
 - Capping at two Tasks when more independent surfaces exist
+- Feeding a how-recipe (step lists, prescribed patches, hunt scripts, grep scripts)
+- Empty brief, doctrine dump, or whole-repo dump
 - Defaulting to `explore` / `generalPurpose` by habit when another listed type fits
 - Forbidding a listed Cursor type, or a listed pack role, that fits the job
-- Task without outcome, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
+- Spawning an architect worker (`/architecture` is a bar, not a Task type)
+- Auto-starting `/create-test` or dispatching `tester` without a user start
+- Task without what, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
 - Worker running acceptance gates or `/code-review`

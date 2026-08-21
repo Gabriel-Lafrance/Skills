@@ -21,12 +21,13 @@ card. Cite keys live in [doctrine.md](doctrine.md). Other skills load both
 doctrines on every run via the standards contract. Use the shared
 [execution context](../pack-shared/execution-context.md).
 
-Explore via Task subagents per
+Find via Task subagents per
 [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-sibling/service/folder research **must** use a Task; independent lanes
-**must** run in parallel (one Task per lane, no cap of two). You review
-those reports and write the structure card from them. Skip Tasks only for
-greenfield-trivial structure with no repo to explore.
+sibling/service/folder search **must** use `explorer` Tasks (main does not
+grep); independent lanes **must** run in parallel (one Task per lane, no cap
+of two). You review those hits and write the structure card from them, then
+inject the excerpt into later briefs. Skip Tasks only for greenfield-trivial
+structure with no repo to explore. There is no architect worker.
 
 If a parent already supplied outcome, Done when, non-goals, locked
 decisions, Active Rules, current slice, and lane, reuse that brief.

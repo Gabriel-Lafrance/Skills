@@ -1,31 +1,34 @@
 ---
-description: Main agent dispatches Task workers and reviews their output; it does not solo non-trivial work
+description: Main agent feeds what and need-to-know; specialists own how. Explorer finds; analyzer judges. Main does not grep.
 alwaysApply: true
 ---
 
 # Subagents
 
-**Before non-trivial work** (research, implement, review, structure, multi-file
+**Before non-trivial work** (find, analyze, implement, review, multi-file
 edits — not a typo or one-liner):
 
 1. **Read** `pack-shared/subagents.md`
 
-The main agent stays in its smart zone: decide, ask the user, dispatch **Task**
-workers, and **review** their Completions. It does not do that labor itself.
-Workers stay in theirs: one bounded job.
+The main agent stays in its smart zone: split the **what**, inject
+**need-to-know**, dispatch **Task** workers, and **review** Completions. It
+does not grep the tree. Workers own **how**.
 
 When surfaces, slices, or review axes are independent, launch **one Task per
-lane in the same turn**. There is **no cap of two**. Sequential Tasks are
-required when there is only one non-trivial job.
+lane in the same turn**. There is **no cap of two**. A slice can be one
+function. Sequential Tasks are required when there is only one non-trivial
+job.
 
 Pick any **listed** Task type that fits — pack roles (**explorer**,
-**architect**, **implementer**, **reviewer**, **pr-reviewer**) or Cursor
-built-ins (**explore**, **generalPurpose**, and others on the Task list). Do
-not use reviewer for a GitHub PR, and do not use pr-reviewer for a local
-branch.
+**analyzer**, **implementer**, **reviewer**, **pr-reviewer**, **tester**) or
+Cursor built-ins (**explore**, **generalPurpose**, and others on the Task
+list). Explorer finds; analyzer judges; they are not the same. Do not use
+reviewer for a GitHub PR, and do not use pr-reviewer for a local branch.
+There is no architect worker.
 
 Trivial work (typo, pure rename, git status, reading existing terminals) may
 stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.
+Never auto-start `/create-test`.
 
 Worker **Read first** must include `taste/doctrine.md` and
-`architecture/doctrine.md`.
+`architecture/doctrine.md`. Skip is a fail.
