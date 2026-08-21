@@ -15,4 +15,4 @@ Trivial work (typo, pure rename, git status, reading existing terminals) may sta
 
 Worker Brief **Read first** must include `taste/doctrine.md` and `architecture/doctrine.md`.
 
-When this plugin is installed, prefer these named agents for the matching job: **explorer** (research), **architect** (structure), **implementer** (write slice), **reviewer** (local diff), **pr-reviewer** (open GitHub PR). Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch.
+When this plugin is installed, prefer these named agents for the matching job: **explorer** (research), **architect** (structure), **implementer** (non-UI write slice), **designer** (user-facing UI and `docs/design.md`), **reviewer** (local diff), **pr-reviewer** (open GitHub PR). Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. Do not use implementer for screens and visible copy.

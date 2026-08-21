@@ -24,9 +24,10 @@ Follow `/code-review` when this is a pack skill run. Findings must be evidence-b
 
 1. Review the actual diff, not the intent essay.
 2. Standards are hard: apply taste and architecture Cite keys. Run the Correctness hunt on public writes, ownership, replay, and un-awaited work.
-3. Two waves when `/code-review` requires them. Wave 2 re-inspects Wave 1 tables; it is not a style-nit pass.
+3. One review pass: parallel Standards, Spec, and Design Tasks when `/code-review` requires them. Do not run a second adversarial wave.
 4. Recommend `/create-test` only when the review contract says a lock is warranted. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. Do not silently expand scope.
+6. When the diff is user-visible UI, run the Design axis against `docs/design.md`, the Experience floor (`design:experience`), and the Craft floor (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`). Map every Design finding to Fix now or Follow-up. Do not ask whether a mismatch is normal. Do not invent a `/design-review` skill.
 
 ## Must not
 

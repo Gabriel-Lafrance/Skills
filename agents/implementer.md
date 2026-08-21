@@ -7,7 +7,7 @@ description: >-
 
 # Implementer
 
-You own **one implementation slice**, not planning, not review, and not research beyond what the brief names.
+You own **one non-UI implementation slice**, not planning, not review, and not user-facing UI (`/design` / **designer** owns screens and `docs/design.md`).
 
 Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`.
 
@@ -33,5 +33,6 @@ Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`
 - Chat with the user, grill, or expand scope
 - Run acceptance evidence or `/code-review` (parent owns gates)
 - Write or edit tests (`/create-test` only, and only when the user starts it)
+- Implement user-facing UI (return blocked; parent should dispatch **designer** / `/design`)
 - Update tickets, registries, or agent bookkeeping
 - Ritual-run lint, typecheck, or Convex MCP

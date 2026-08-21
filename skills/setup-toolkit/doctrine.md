@@ -6,13 +6,14 @@ Put lint and format **in the app repo**. Cursor plugins cannot run ESLint or Pre
 
 ## Owns
 
-Which templates to copy, what not to overwrite, Convex plugin detection, and the smoke check.
+Which templates to copy, what not to overwrite, Convex plugin detection, the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing.
 
 ## Does not own
 
 - Rewriting an existing lint stack
 - Reformatting the repo as part of setup
 - Plugin rules copy unless the user asks to pin them
+- The design file contents, Browser login, or route crawl: [`../design/doctrine.md`](../design/doctrine.md)
 - Detect/choose details: [`reference.md`](reference.md)
 
 ## Cite keys
@@ -42,6 +43,7 @@ The current workspace has:
 - `.vscode/settings.json` for format-on-save and ESLint **or** the existing settings left untouched
 - `package.json` scripts `lint`, `lint:fix`, `format`, and `format:check` when those names are free
 - Dev dependencies installed with the repo’s package manager
+- `/design` Initialization started when `docs/design.md` was missing (or reported skipped because the file already exists)
 
 ## Apply
 
@@ -49,9 +51,13 @@ Write configs next to the app `package.json`. That is the normal home for ESLint
 
 If the repo already has a working lint/format story, **fill only missing pieces** (no-emdash plugin file, `.vscode` recommendations, Prettier if missing). Do not overwrite their ESLint config. Print the import snippet if their config does not already include `noEmdashConfig`.
 
+After that work, if `docs/design.md` is missing, run `/design` Initialization (`design:initialization`). Do not invent the file from this skill. If the file already exists, leave it.
+
 ## Anti-patterns
 
 - Overwriting a working ESLint or Prettier config
+- Overwriting an existing `docs/design.md`
 - Ritual-linting or reformatting the whole tree as setup
 - Inventing a lint service folder (`architecture:folders` still says keep the existing structure here)
 - Asking the user facts the repo already answers
+- Writing `docs/design.md` from memory instead of `/design` Initialization

@@ -56,6 +56,7 @@ do not hand a worker an opaque plan path or hidden state to reconstruct.
 ## Read first
 - `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
 - `pack-shared/plain-language.md` when this worker's output will be pasted into the discussion reply
+- `docs/design.md` and `design/doctrine.md` when the slice is user-facing UI
 - <repo paths, ticket, PR, or committed docs only>
 
 ## Escalation boundary
@@ -77,8 +78,9 @@ expansion. Report the blocker and smallest viable option to the parent.
 | Non-trivial research, implement, review, or multi-file edit | **Must** Task (even if only one job) |
 | ≥2 independent lanes | **Must** parallel Tasks in the same turn |
 | Explore an independent lane | `explore` Task |
-| Implement one bounded slice | `generalPurpose` Task — one brief per independently reviewable slice |
-| Standards and Spec review | Parallel Tasks, then adversarial follow-up with miss-class re-inspection — see `/code-review` |
+| Implement one bounded slice | `generalPurpose` Task, or the **designer** agent when the slice is user-facing UI — one brief per independently reviewable slice |
+| Standards, Spec, and Design review | Parallel Tasks (Design only when the diff is user-visible). See `/code-review`. |
+| Capture `docs/design.md` | Task after the parent confirmed Browser login — see `/design` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
 

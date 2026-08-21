@@ -10,7 +10,7 @@ PR extras, historical Pass A, remediation-plus-new-surface Pass B, the stale-hea
 
 ## Does not own
 
-- Wave fences, hunt table, evidence bar, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
+- Review output fence, hunt table, evidence bar, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Blocker vs follow-up judgment and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - Local Fix-now implementation loop: `/code-review` + `/task`
 - Test writing: `/create-test`
@@ -38,7 +38,7 @@ Shared hunt already covers secrets. This skill **must** also inspect:
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
 | **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Do not block on missing screenshots |
 
-Add the first four rows to Wave 2 on a PR (review-contract PR extras table). How to QA is that chat note, not a miss-class row.
+Add the first four rows to the review output fence on a PR (review-contract PR extras table). How to QA is that chat note, not a hunt-table row.
 
 Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a `blocker` candidate (especially `taste:fail-fast`, `taste:safe-to-retry`, `taste:trust-the-server`, `taste:related-together` through internals, `taste:honest-names` after a rename, and `taste:types-tell-the-truth` on a public surface). A valuable cleanup that is not required for the PR contract remains a `follow-up`, not a performative Blocking comment. Apply the shared evidence bar before posting runtime-risk findings.
 
@@ -48,7 +48,7 @@ This skill is a user start. Do not nest it under `/task`. The PR title/body, lin
 
 ## Output
 
-Return Wave 1 and Wave 2 fences from the review contract, including the four PR extras rows on Wave 2.
+Return the review output fence from the review contract, including the four PR extras rows.
 
 Show every full new draft in chat before posting, then ask exactly one publish question for the batch. With no drafts and no unresolved blocker, ask once whether to approve. Final comment shape is in [reference.md](reference.md).
 
@@ -71,7 +71,7 @@ After Pass A completes on a follow-up:
 
 1. Pin `previousReviewedHead` (last reviewed head for this PR) and `currentHead` (live PR head). Partition `previousReviewedHead..currentHead`.
 2. Run shared-contract `remediation` over addressed findings, their changed/touched surface, and direct callers.
-3. Separately run `initial`-depth review (Standards + Spec, then adversarial Wave 2) over **newly introduced** files and hunks in that partition that are outside the remediation set. When both Pass A adjudication and new-surface review are heavy, dispatch via Task workers per [subagents.md](../pack-shared/subagents.md). New unrelated commits must not escape review.
+3. Separately run `initial`-depth review (Standards + Spec, plus Design when the new hunks are user-visible) over **newly introduced** files and hunks in that partition that are outside the remediation set. When both Pass A adjudication and new-surface review are heavy, dispatch via Task workers per [subagents.md](../pack-shared/subagents.md). New unrelated commits must not escape review.
 4. Promote the whole follow-up to `full-rescan` only when the user explicitly requests it or materially expands the review scope.
 
 Do not treat “new commits alone” as a reason to skip either the remediation pass or the new-surface pass.
@@ -98,7 +98,8 @@ After publication, report the result in chat and record the published head as `p
 
 ## Anti-patterns
 
-- Approving or commenting without Wave 1 fences, hunt re-inspect, or PR extras
+- Approving or commenting without the review output fence or PR extras
+- Running a second adversarial review or hunt re-inspect after the parallel pass
 - Soft-pedaling `taste:keep-jobs-apart`, `taste:fail-fast`, `taste:safe-to-retry`, or `taste:trust-the-server` as Nit when they introduce or extend a correctness or security risk in the PR surface
 - Skipping `/taste` / `/architecture` reads because the PR looks small
 - Skipping PR extras (body vs diff, historical threads, migration, breaking API)

@@ -11,6 +11,7 @@ The orchestrator loop: execution context, grill-before-plans, lookup table, mand
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- User-facing UI and `docs/design.md`: `/design`
 - Review disposition: `/code-review`
 - Test writing: `/create-test`
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
@@ -39,15 +40,16 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Grill | `/grill-me` |
 | Style contract | **`/taste` always** (grill + before every implement wave) |
 | Structure | **`/architecture` always** (grill + before every implement wave). For a typo or pure rename, load it and keep the existing structure |
+| UX source of truth | **`/design`** when the slice is user-facing UI. Run Initialization first if `docs/design.md` is missing |
 | Split | `/split-task` when multiple slices help |
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave |
-| Build | `/implement` |
+| Build | `/design` for user-facing UI; `/implement` for non-UI |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -60,11 +62,12 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | During grill and before/during every implement wave |
 | `/architecture` | **Yes** | During grill and before/during every implement wave. Prefer loading even for a one-file fix |
+| `/design` | If UI | User-facing slices. Initialization if `docs/design.md` is missing |
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
-| `/implement` | Yes | Frontier slices |
+| `/implement` | If non-UI | Frontier slices that are not user-facing |
 | Acceptance evidence | Yes | Path walk, terminals, browser when UI. Parent owned |
-| `/code-review` | Yes | Runs after acceptance evidence |
+| `/code-review` | Yes | Runs after acceptance evidence. Design axis when the diff is user-visible |
 
 ### Suitability and skip grill
 

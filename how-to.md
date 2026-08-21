@@ -15,7 +15,7 @@ rules/                   # Cursor plugin rules (.mdc only — no extra README)
   ship-work.mdc          # PRs / branches
   subagents.mdc          # Task bias
   project-tooling.mdc    # ESLint / Prettier in the app repo
-agents/                  # Custom agent configs (explorer, architect, implementer, reviewer, pr-reviewer)
+agents/                  # Custom agent configs (explorer, architect, implementer, designer, reviewer, pr-reviewer)
 commands/                # Slash commands (setup-toolkit)
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
@@ -55,7 +55,7 @@ Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Ta
 
 Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start. User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/design`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start (`/design` is also a user start for capturing `docs/design.md`). User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
 
 ## Frontmatter
 
@@ -80,20 +80,20 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
-- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, Wave 1 / Wave 2 fences, correctness hunt, and severity mapping.
+- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence (including Experience floor and Craft floor on UI diffs), correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
   follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review
   canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
   tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
 
 Cursor's native Browser is a runtime capability, not a `SKILL.md` frontmatter option. It needs no custom `mcp.json` or external package, but a skill cannot enable it or bypass approval, Browser Protection, policy, or origin allowlists.
 
-For post-build UI **acceptance** (`/task`, `/code-review`):
+For post-build UI **acceptance** (`/task`, `/code-review`) and `/design` capture:
 
 1. Use an Agent-mode session where Browser tools are exposed.
 2. Reuse a running local app or approved preview with safe test data.
@@ -126,7 +126,7 @@ npx skills@latest add . --list
 - **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files.
+- **Templates an agent must copy into an app** — live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
 
 ## Conventions
 
@@ -167,7 +167,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | --- | --- |
 | Skills | `skills/` |
 | Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars |
-| Agents | `agents/` (explorer, architect, implementer, reviewer, pr-reviewer) |
+| Agents | `agents/` (explorer, architect, implementer, designer, reviewer, pr-reviewer) |
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 

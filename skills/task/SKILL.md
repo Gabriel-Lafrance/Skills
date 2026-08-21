@@ -17,6 +17,7 @@ disable-model-invocation: true
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md). Always load
 `/taste` and `/architecture` during grill and before every implement wave.
+Load `/design` before every user-facing implement wave.
 
 `/task` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are
@@ -33,7 +34,8 @@ destination.
    applies) → plan → implement → acceptance evidence → `/code-review` → Fix
    mode as needed. Task waves follow
    [subagents.md](../pack-shared/subagents.md). Always load `/taste` and
-   `/architecture` during grill and before every implement wave.
+   `/architecture` during grill and before every implement wave. Load
+   `/design` before every user-facing implement wave.
 3. Announce completion.
 
 ### If a parent already owns the ticket, branch, and PR

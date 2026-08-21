@@ -30,17 +30,19 @@ until the user accepts. The next skill must follow those doctrines via
 | Ship branch + optional PR | `/publish` (same canvas + demo bar as `/just-do-it` or a cloud agent) |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
-| Review local branch vs main | `/code-review` |
+| Review local branch vs main | `/code-review` (Design axis when the diff is user-visible) |
 | Review open GitHub PR | `/pr-review` |
+| Capture or update the app UX source of truth | `/design` |
+| Build a screen / frontend | `/task` (it dispatches `/design`) |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
-| ESLint / Prettier / lint or format this app | `/setup-toolkit` |
+| ESLint / Prettier / lint or format this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
 `/architecture` — usually via `/analyze` → `/task`, or recommend those skills
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
+Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` or `/just-do-it` — `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
 
 ## How to answer
 

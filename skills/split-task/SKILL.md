@@ -81,7 +81,7 @@ If the user corrects the split, revise the in-chat contracts and continue. Do no
 
 ### 4. Hand off
 
-Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an [inline plan contract](../task/reference.md#inline-plan-contract), then `/implement` only for frontier work. Do not create an INDEX or rely on an automatic artifact.
+Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an [inline plan contract](../task/reference.md#inline-plan-contract), then `/design` for user-facing frontier work and `/implement` for non-UI. Do not create an INDEX or rely on an automatic artifact.
 
 ## Output template
 
