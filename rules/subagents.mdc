@@ -1,5 +1,5 @@
 ---
-description: Main agent feeds what and need-to-know; specialists own how. Explorer finds; analyzer judges. Main does not grep.
+description: Main agent picks the specialist that owns the job. Tester always writes tests. No fixed spawn order. Main does not grep.
 alwaysApply: true
 ---
 
@@ -19,12 +19,13 @@ lane in the same turn**. There is **no cap of two**. A slice can be one
 function. Sequential Tasks are required when there is only one non-trivial
 job.
 
-Pick any **listed** Task type that fits — pack roles (**explorer**,
+Pick the **listed** specialist that owns the job — pack roles (**explorer**,
 **analyzer**, **implementer**, **reviewer**, **pr-reviewer**, **tester**) or
 Cursor built-ins (**explore**, **generalPurpose**, and others on the Task
-list). Explorer finds; analyzer judges; they are not the same. Do not use
-reviewer for a GitHub PR, and do not use pr-reviewer for a local branch.
-There is no architect worker.
+list). Do not follow a fixed spawn order. Explorer finds; analyzer judges;
+they are not the same. **Tester** always writes tests; the main agent never
+does. Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a
+local branch. There is no architect worker.
 
 Trivial work (typo, pure rename, git status, reading existing terminals) may
 stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.

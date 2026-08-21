@@ -185,7 +185,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): noisy search **must** use `explorer` Tasks (the parent does not grep); independent find-whats **must** run in parallel (one Task per lane, no cap of two). Then dispatch `analyzer` Tasks with those hits as injected context to judge how, impact, and risk. The parent reviews Completions; it does not solo find or judge. Confirm `/taste` and `/architecture` decisions against the grill (both doctrines must already be loaded this turn), then inject the locked structure excerpt into later briefs. There is no architect worker.
+**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm `/taste` and `/architecture` decisions against the grill (both doctrines must already be loaded this turn), then inject the locked structure excerpt into later briefs. There is no architect worker.
 
 **Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/implement` — **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
 

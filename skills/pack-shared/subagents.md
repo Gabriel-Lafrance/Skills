@@ -20,6 +20,8 @@ job. When surfaces, slices, or review axes are independent, launch **one Task
 per lane in the same turn**. There is **no cap of two**. Stay on the main
 agent only when the job is trivial.
 
+Pick the specialist that owns the job. Do **not** follow a fixed spawn order.
+
 ## What vs how
 
 One altitude: the parent coordinates; the specialist does the detail.
@@ -44,21 +46,24 @@ One altitude: the parent coordinates; the specialist does the detail.
 
 ## Task type
 
-Pick any **listed** Task type that fits the job. Pack roles (`explorer`,
+Pick the **listed** specialist that owns the job. Pack roles (`explorer`,
 `analyzer`, `implementer`, `reviewer`, `pr-reviewer`, `tester`) and Cursor
 built-ins (`explore`, `generalPurpose`, and any other type on the Task list)
 are both valid. Match the job. Do not default to two generic workers by habit.
+Do **not** run a fixed explorer → analyzer → implementer → reviewer sequence.
 
-`explorer` finds. `analyzer` judges. They are not the same job. Do not use
-`reviewer` for a GitHub PR, and do not use `pr-reviewer` for a local branch.
-There is no architect worker: `/architecture` is a skill and a bar, not a
-Task type.
+`explorer` finds. `analyzer` judges. `implementer` changes code. `reviewer`
+checks a local diff. `pr-reviewer` checks an open GitHub PR. `tester` writes
+tests and is **always** summoned for that job — the main agent never writes
+tests. They are not interchangeable. Do not use `reviewer` for a GitHub PR,
+and do not use `pr-reviewer` for a local branch. There is no architect worker:
+`/architecture` is a skill and a bar, not a Task type.
 
 ## Roles
 
 | Role | Does | Does not |
 | --- | --- | --- |
-| Main | Splits the what, injects need-to-know, assigns bounded work, reviews Completions, asks the user, integrates, records acceptance evidence, dispatches review gates | Grep the tree, solo non-trivial find/analyze/implement/review, specify how, redo a worker's how, make workers infer intent, or delegate final gates |
+| Main | Splits the what, injects need-to-know, picks the specialist that owns the job, reviews Completions, asks the user, integrates, records acceptance evidence, dispatches review gates | Grep the tree, write tests, solo non-trivial find/analyze/implement/review, specify how, prescribe spawn order, redo a worker's how, make workers infer intent, or delegate final gates |
 | Subagent | Owns how for one bounded what, returns Completion | Chat with the user, broaden the what, run lifecycle gates, wait for a how-recipe, or invent shared structure |
 
 ## Worker Brief
@@ -128,32 +133,14 @@ reviewer, and tester Completions must mark **Taste / architecture:**
 | Non-trivial find, analyze, implement, review, or multi-file edit | **Must** Task (even if only one job). Main reviews the Completion |
 | Independent surfaces, ready slices, or review axes | **Must** parallel Tasks in the same turn — **one Task per lane**. No cap of two |
 | Noisy search, grep, or fat-file reads | Pack `explorer` or Cursor `explore` — several in parallel. Main does not grep |
-| How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits), after explorer hits are in the brief |
+| How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits) |
 | Implement one tiny what | Pack `implementer` or Cursor `generalPurpose` — one brief per independently reviewable slice (can be one function) |
 | Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
 | Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
-| User-started `/create-test` after the lock brief is approved | Pack `tester` — never auto-start `/create-test` |
+| Write tests | **Always** pack `tester`. Main never writes tests. `/create-test` still starts only when the user asks |
 | Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces), then adversarial Wave 2 as a Task — see `/code-review` |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
-
-## Mastermind loop
-
-Default `/task` / `/analyze` wave. Skip a stage only when that labor is
-trivial.
-
-1. **Find.** Dispatch several `explorer` Tasks (one find-what each). Review
-   hit lists. Do not grep on the main agent.
-2. **Judge.** Dispatch one or more `analyzer` Tasks with those hits as
-   injected context. Review memos. Do not invent structure; lock it on the
-   parent and inject the excerpt.
-3. **Split.** `/split-task` cuts the what until each slice fits the smart
-   zone (one seam or one function). The slice names what, not how.
-4. **Build.** Dispatch ready `implementer` Tasks in the same turn when lanes
-   do not overlap. Each brief is what + need-to-know.
-5. **Check.** Dispatch `reviewer` Tasks (plan vs task, plus extra reviewers
-   for independent surfaces). Then acceptance evidence on the parent.
-   `/code-review` still dispatches review Tasks.
 
 ## After a wave
 
@@ -183,7 +170,9 @@ trivial.
 - Defaulting to `explore` / `generalPurpose` by habit when another listed type fits
 - Forbidding a listed Cursor type, or a listed pack role, that fits the job
 - Spawning an architect worker (`/architecture` is a bar, not a Task type)
-- Auto-starting `/create-test` or dispatching `tester` without a user start
+- Following a fixed explorer → analyzer → implementer → reviewer spawn order
+- Writing tests on the main agent, or skipping `tester` when tests are the job
+- Auto-starting `/create-test`
 - Task without what, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs

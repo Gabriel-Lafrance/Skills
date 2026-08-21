@@ -40,7 +40,7 @@ until the user accepts. The next skill must follow those doctrines via
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): explorer finds, analyzer judges, implementer builds, reviewer checks. There is no architect worker.
+Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester always writes tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 
@@ -50,5 +50,5 @@ Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do
 4. Never dump doctrine or other SKILL bodies into this turn.
 5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
 6. When recommending `/task` or `/analyze`, say they will follow the coding and
-   structure standards (`/taste` and `/architecture`), and that they dispatch
-   explorers to find then analyzers to judge — the main agent does not grep.
+   structure standards (`/taste` and `/architecture`), and that they pick
+   specialists from the catalog — the main agent does not grep or write tests.

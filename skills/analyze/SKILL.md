@@ -32,11 +32,11 @@ architecture because the ask looks like a single file.
    Do not re-grill product intent when a parent already locked Done when and
    Active Rules.
 2. Investigate via Task workers per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md): noisy search
-   **must** use `explorer` Tasks (main does not grep); then `analyzer` Tasks
-   judge how, impact, and risk from those hits (no cap of two). Review
-   Completions, then post the memo. A `/write-ticket` seed is often a short
-   capture: still run the complete standard memo. Do not stub.
+   [../pack-shared/subagents.md](../pack-shared/subagents.md). Pick the
+   specialist that owns the job: `explorer` to find (main does not grep),
+   `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn
+   order. Review Completions, then post the memo. A `/write-ticket` seed is
+   often a short capture: still run the complete standard memo. Do not stub.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
    Mermaid diagram. Include an inline `/task` seed when the work is
    buildable, except when a parent will write the ticket itself.

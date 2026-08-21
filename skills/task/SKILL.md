@@ -32,9 +32,9 @@ destination.
    ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → implement → acceptance evidence → `/code-review` → Fix
-   mode as needed. Task waves follow
-   [subagents.md](../pack-shared/subagents.md): explorers find, analyzers
-   judge, then tiny implementers, then reviewers. Main does not grep. Always
+   mode as needed. Pick Task specialists per
+   [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
+   spawn order. Main does not grep or write tests. Always
    load `/taste` and `/architecture` during grill and before every implement
    wave.
 3. Announce completion.

@@ -51,7 +51,7 @@ To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Explorer finds (grep stays off the main thread). Analyzer judges impact. Parents may also dispatch Cursor built-in Task types. Pick the listed type that fits.
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Tester always writes tests. Parents may also dispatch Cursor built-in Task types.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
@@ -60,7 +60,7 @@ Named roles for Task / custom agents. They do not replace the skills; they load 
 | [`implementer`](./agents/implementer.md) | One tiny code what | `/implement` |
 | [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
-| [`tester`](./agents/tester.md) | Approved behavior-lock tests | `/create-test` (user start only) |
+| [`tester`](./agents/tester.md) | Write tests (always summoned) | `/create-test` (user start only) |
 
 ## Skills
 

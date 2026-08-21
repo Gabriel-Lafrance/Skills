@@ -12,7 +12,7 @@ The orchestrator loop: execution context, grill-before-plans, lookup table, mand
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Review disposition: `/code-review`
-- Test writing: `/create-test`
+- Test writing: `/create-test` (always via `tester`)
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -43,8 +43,9 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave (what vs how) |
 | Find | `explorer` Tasks — main does not grep |
-| Judge | `/analyze` via `analyzer` Tasks after explorer hits |
+| Judge | `/analyze` via `analyzer` Tasks |
 | Build | `/implement` |
+| Tests | not this skill — `/create-test` always summons `tester`; main never writes tests |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
@@ -57,7 +58,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 | Skill | Required? | Notes |
 | --- | --- | --- |
-| Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | Explorer then analyzer then tiny implement then review. Main does not grep |
+| Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | Pick the specialist that owns the job. Main does not grep or write tests |
 | `/trackers` | If ticket | Read only |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | During grill and before/during every implement wave |

@@ -79,7 +79,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
-- **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, explorer vs analyzer, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill and no architect worker).
+- **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, the specialist catalog, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill, no architect worker, and no fixed spawn order).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, Wave 1 / Wave 2 fences, correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
@@ -87,7 +87,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
   canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
   tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). After the user starts `/create-test` and approves the lock brief, the parent dispatches `tester`. `/task`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md), and that labor is **always** `tester` — the main agent never writes tests. Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
 ## Browser-assisted validation
 

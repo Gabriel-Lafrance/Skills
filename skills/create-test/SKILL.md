@@ -23,9 +23,8 @@ drafting the approval brief, test comment, or handoff.
 Lock observable behavior for a complex boundary. If the target is trivial, say
 so and stop.
 
-The parent owns the Why / What / How approval. After the user approves, dispatch
-a `tester` Task per
+The parent owns the Why / What / How question. **Tester** is the go-to writer
+of tests and must always be summoned for that labor per
 [../pack-shared/subagents.md](../pack-shared/subagents.md). Feed **what** to
-lock and need-to-know (approved brief, public entry, paths). The tester owns
-**how**. Review the Completion. Do not write the tests on the main agent.
-Never dispatch `tester` without this user start.
+lock and need-to-know (approved brief, public entry, paths). Tester owns
+**how**. Review the Completion. Never write tests on the main agent.

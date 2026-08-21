@@ -45,8 +45,8 @@ Fail the job if taste or architecture bars are skipped.
 5. Do not run acceptance evidence or `/code-review`; the parent integrates
    Completion reports and owns those gates. Do not update tickets, registries,
    status, or other agent bookkeeping.
-6. Do not write or edit tests. Only `/create-test` writes tests, and only
-   after the user starts it.
+6. Do not write or edit tests. Only `/create-test` writes tests (always via
+   `tester`), and only after the user starts it.
 
 ## Completion
 

@@ -38,7 +38,7 @@ Or install the **gabriel-skills** Cursor plugin from Marketplace / Customize.
 
 1. **Read** `taste/doctrine.md`
 2. **Read** `architecture/doctrine.md`
-3. **Read** `pack-shared/subagents.md` — the main agent dispatches Task workers and reviews their output; it does not solo non-trivial research, implementation, or review
+3. **Read** `pack-shared/subagents.md` — the main agent picks the specialist that owns the job and reviews Completions; it does not solo non-trivial find, analyze, implement, review, or tests, and it does not follow a fixed spawn order
 
 Apply taste and architecture as **hard** standards. Do not skip because you “already know” the pack. Do not skip architecture because the change looks like a single file; keep the existing structure when that is the smallest correct answer.
 
