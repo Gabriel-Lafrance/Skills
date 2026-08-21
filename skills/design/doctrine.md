@@ -23,6 +23,9 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 | `design:source-of-truth` | Source of truth |
 | `design:smallest-details` | Smallest details |
 | `design:fewer-clicks` | Fewer clicks |
+| `design:professional-craft` | Professional craft |
+| `design:ui-copy` | UI copy |
+| `design:quality-floor` | Quality floor |
 | `design:initialization` | Initialization |
 | `design:blend-edits` | Blend edits |
 | `design:user-facing` | User-facing work |
@@ -43,9 +46,27 @@ Put the agent in a designer and customer-experience seat. Excellence is usually 
 
 Prefer the interaction that saves a click or a keystroke when the next input is obvious. Document **why** in `docs/design.md` (who is helped, what work is skipped). Do not add magic that surprises the user (`taste:no-surprises`). Example: [`examples.md`](examples.md#fewer-clicks).
 
+### Professional craft
+
+Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
+
+Identity comes from `docs/design.md` Visual language, the live app, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
+
+When the user states a new identity, avoid the current AI-default looks (cream + terracotta serif, near-black + acid green, purple-on-white gradients, Inter/Roboto-only stacks). When the app already looks a certain way, match it, including if that way is quiet.
+
+### UI copy
+
+Interface words are design material. Name controls by what the person does. Keep the same word from button through success. Empty and error states say what happened and what to do next. Do not ship "Submit", "An error occurred", or empty screens with no next action. Detail: [`reference.md`](reference.md#ui-copy).
+
+### Quality floor
+
+Pack bars, not product taste. A user-facing slice must meet them even when `docs/design.md` is silent. Cite `design:quality-floor` in review. Table: [`reference.md`](reference.md#quality-floor).
+
+Missing focus, hover-only primary actions, placeholder-only labels, and body contrast below 4.5:1 are Fix now. Emoji-as-icon and missing reduced-motion on decorative motion are Follow-up.
+
 ### Initialization
 
-`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass creates the file, asks the user to log in, crawls **every** route in the app router via a Task subagent, and records patterns, components, and behavior. Do not brute-force login. If Browser is blocked, write what code can prove and mark visual capture as a gap. Never overwrite a file that already exists.
+`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass creates the file, asks the user to log in, crawls **every** route in the app router via a Task subagent, and records Visual language (observed color, type, density), patterns, components, and behavior. Do not brute-force login. If Browser is blocked, write what code can prove and mark visual capture as a gap. Never overwrite a file that already exists.
 
 ### Blend edits
 
@@ -57,7 +78,9 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
 
-A Design mismatch found in review is not auto-fixed. The parent asks whether the live UI is normal. **No** means fix the UI to match the file. **Yes** means update the file with common-sense reasoning (usually `design:fewer-clicks`).
+A Design mismatch against `docs/design.md` is not auto-fixed. The parent asks whether the live UI is normal. **No** means fix the UI to match the file. **Yes** means update the file with the common-sense why, usually `design:fewer-clicks`.
+
+Pack craft bars (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`) do not wait on that question. They are Fix now or Follow-up per Quality floor.
 
 ## Output
 
@@ -65,12 +88,14 @@ A Design mismatch found in review is not auto-fixed. The parent asks whether the
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
 
 ## Anti-patterns
 
-- A Summary section, a second design file, or a size cap
-- Inventing pixels, palettes, or flows that the app and `docs/design.md` do not support
+- A Summary section, a second design file, a palette catalog, a search script for looks, or a size cap
+- Inventing pixels, palettes, or flows that the app, `docs/design.md`, and the user did not supply
+- Shipping a first-pass "fine" screen that still needs a restyle to look professional
+- Skipping the quality floor because `docs/design.md` did not mention contrast or focus
 - Implementing user-facing UI through `/implement`
 - Shipping a `/design-review` skill (it is a review Task, not a skill)
 - Overwriting an existing `docs/design.md` from a blank template

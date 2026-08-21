@@ -26,7 +26,7 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Initialization
 
-**Good:** Parent asks the user to log in. A Task visits every route from the app router and writes Screens / flows plus Components without a Summary.
+**Good:** Parent asks the user to log in. A Task visits every route from the app router and writes Visual language (observed hex and type), Screens / flows, and Components without a Summary.
 
 **Bad:** A one-page screenshot and a short "overall look and feel" paragraph that will go stale.
 
@@ -48,3 +48,29 @@ Reply like: 1a
 If **1a**, Fix now on the UI. If **1b**, `/design` writes the fewer-clicks why into `docs/design.md` and the finding is not a UI fix.
 
 **Bad:** Auto-fail the review because the file was silent. **Bad:** Auto-pass because shipping it must mean it is fine.
+
+## Professional craft
+
+**Good:** Invite screen reuses the app's existing ink, surface, and accent hexes, the body type already in `layout.tsx`, and ships with a visible label, focus ring, empty state ("Invite a teammate to share this workspace"), and error next to the field. No second "make it pretty" turn.
+
+**Bad:** First pass is a gray form with "Submit" and Inter on a purple gradient, then a follow-up prompt to restyle it to match the app.
+
+**Bad:** The app is already navy + source-serif. The agent "improves" it to cream + terracotta because that is a distinctive look.
+
+## Missing identity
+
+**Good (parent, one-off):** Visual language is empty, no theme tokens, user has not stated a look. Ask what the product should feel like. Do not pick a palette.
+
+**Bad:** Invent "soft spa pink" so work can start.
+
+## Quality floor
+
+**Good:** New primary button is 44px tall, has a visible `:focus-visible` ring, and 4.5:1 contrast. Icon-only "more" has `aria-label="More actions"`.
+
+**Bad:** Placeholder-only email field, emoji as the invite icon, hover-only delete on a row. Review must not skip these because `docs/design.md` never mentioned contrast.
+
+## UI copy
+
+**Good:** Button "Publish". Toast "Published". Empty: "No drafts yet. New draft starts one."
+
+**Bad:** Button "Submit". Toast "Success". Empty: "Nothing here."

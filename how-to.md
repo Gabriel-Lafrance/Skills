@@ -80,7 +80,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for Task bias, Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill).
-- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
+- **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence (including Craft floor on UI diffs), correctness hunt, and severity mapping.
 - **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
   follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review

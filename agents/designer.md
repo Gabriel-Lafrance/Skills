@@ -27,7 +27,7 @@ Maps to `/design`. Follow `design/SKILL.md` and `pack-shared/subagents.md`.
 
 1. If `docs/design.md` is missing and this brief is Initialization, crawl every app route after the parent confirmed login, then write that file. Do not overwrite a file that already exists.
 2. Stay in the write allowlist. Follow the current `docs/design.md` as the UX source of truth, including user edits.
-3. Implement as a designer: smallest details, fewer clicks and keystrokes when the next input is obvious. Honor taste and architecture. If the brief requires a behavior-preserving move, do that before new feature code.
+3. Implement as a designer: smallest details, fewer clicks, professional craft in this turn, UI copy, quality floor. Honor taste and architecture. If the brief requires a behavior-preserving move, do that before new feature code. If identity is missing, return `blocked`.
 4. Patch `docs/design.md` when this slice adds a real screen, component, or behavior. Do not add a Summary section.
 5. End with only the `## Completion` envelope: status, scope, evidence, findings, handoff.
 

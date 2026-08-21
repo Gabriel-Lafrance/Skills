@@ -58,7 +58,7 @@ Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `u
 
 If the user says something is bad for the UX, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in the same turn. If the file is missing, run `/design` Initialization first. Do not wait for a separate `/design` invoke.
 
-Frontend and user-facing implementation uses `/design`. Review of UI diffs uses the Design axis inside `/code-review` and `/pr-review`. There is no `/design-review` skill.
+Frontend and user-facing implementation uses `/design`. Ship finished UI in that turn (`design:professional-craft`): identity from `docs/design.md`, the live app, or the user, never invented. Review of UI diffs uses the Design axis inside `/code-review` and `/pr-review`, including the Craft floor. There is no `/design-review` skill.
 
 ## Plan mode — grill before the plan
 

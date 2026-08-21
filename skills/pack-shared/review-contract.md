@@ -6,7 +6,7 @@ Shared review evidence and worker output for `/code-review` and `/pr-review`. Ea
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including Design when the diff is user-visible, and PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including Design matrix and Craft floor when the diff is user-visible, and PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
@@ -90,8 +90,9 @@ Fold recurring sites with the same root cause and fix shape into one record.
 Different root causes get different records. Drop duplicates by finding id. On a
 PR, include the id in the final comment as `**Finding:** \`<id>\``. The
 GitHub finding thread and that visible id are the durable record. Design
-findings include **Match** (`respects` | `diverges` | `undocumented`). Other
-axes omit **Match**.
+findings include **Match** (`respects` | `diverges` | `undocumented`).
+Craft-floor findings on the design axis use **Match** `n/a`. Other axes omit
+**Match**.
 
 ## Output
 
@@ -113,12 +114,16 @@ hunt (bugs are not "the ticket forgot to mention them").
 
 Design workers run when the shipped diff is user-visible UI. They **must** Read
 `docs/design.md` and `/design` doctrine this turn. Compare the touched UI to
-that file. Do not invent extra UX rules the file does not state. If the file is
-missing, skip Design, report the absence, and still let Standards and Spec run.
-`undocumented` means new UI with no heading yet, not a free pass. `diverges`
-means the UI contradicts a written rule. The parent asks whether a divergence
-or undocumented pattern is normal before mapping it to Fix now or a file update
-([`design:user-facing`](../design/doctrine.md#user-facing-work)).
+that file. Do not invent extra **product** patterns the file does not state.
+Still apply pack craft bars: `design:professional-craft`, `design:ui-copy`,
+and `design:quality-floor` (Craft floor table). If the file is missing, skip
+the Design matrix, report the absence, and still run the Craft floor when the
+diff is user-visible. `undocumented` means new UI with no heading yet, not a
+free pass. `diverges` means the UI contradicts a written rule. The parent asks
+whether a divergence or undocumented **product** pattern is normal before
+mapping it to Fix now or a file update
+([`design:user-facing`](../design/doctrine.md#user-facing-work)). Craft-floor
+findings do not wait on that question. Use **Match** `n/a` on those records.
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
 format below. It rejects and relaunches a narrative-only response once.
@@ -194,6 +199,20 @@ contract for models and completion reporting.
 | --- | --- | --- |
 | … | respects \| diverges \| undocumented \| none | … |
 
+## Craft floor
+| Check | Status | Note |
+| --- | --- | --- |
+| Identity respected | clear \| finding \| none | … |
+| Professional finish (not a restyle draft) | clear \| finding \| none | … |
+| UI copy | clear \| finding \| none | … |
+| Contrast | clear \| finding \| none | … |
+| Visible focus | clear \| finding \| none | … |
+| Touch target | clear \| finding \| none | … |
+| Visible labels | clear \| finding \| none | … |
+| Primary not hover-only | clear \| finding \| none | … |
+| Reduced motion | clear \| finding \| none | … |
+| Icons not emoji | clear \| finding \| none | … |
+
 ## PR extras (`/pr-review` only)
 | Extra | Status | Note |
 | --- | --- | --- |
@@ -205,9 +224,12 @@ contract for models and completion reporting.
 
 One review pass. Return Standards findings, Principles, Architecture,
 Correctness hunt, the Spec matrix, and (when the diff is user-visible) Design
-findings plus the Design matrix. `/pr-review` also returns the four PR extras
-rows in this same fence. Secrets stay in the Correctness hunt, not in PR extras.
-There is no second adversarial wave and no hunt re-inspect.
+findings, the Design matrix, and the Craft floor. Skip the Design matrix when
+`docs/design.md` is missing; still return the Craft floor. `/pr-review` also
+returns the four PR extras rows in this same fence. Secrets stay in the
+Correctness hunt, not in PR extras. There is no second adversarial wave and no
+hunt re-inspect. The parent rejects Design output that ran without a Craft
+floor table.
 
 ### Baseline defects (Standards, after the tables)
 

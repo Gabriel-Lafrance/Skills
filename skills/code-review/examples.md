@@ -74,7 +74,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings and the Design matrix when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings, the Design matrix when `docs/design.md` exists, and the Craft floor when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff. Reject Design output that ran without a Craft floor.
 
 ## Honest names / stale path after rename
 
@@ -116,6 +116,20 @@ This meets the evidence bar: a public write with no identity check is a reachabl
 ```
 
 Do not ship this as Fix now until the user answers. See [`../design/examples.md`](../design/examples.md).
+
+## Craft floor (pack bars, no ask)
+
+```markdown
+- **design-quality-floor-invite-placeholder-label** · **design** · **blocker**
+  - **Where:** `InviteMemberForm.tsx` (`email`)
+  - **Rule:** `design:quality-floor` · `design:ui-copy`
+  - **Match:** n/a
+  - **Evidence:** Email field has placeholder "Email" and no visible label. Diff adds the field.
+  - **Impact:** The control has no persistent name; placeholder-only labels fail the quality floor.
+  - **Fix:** Visible label "Work email"; keep placeholder as an example, not the name.
+```
+
+This is **Fix now**. Do not ask whether it is normal. Product-pattern mismatches still ask first.
 
 ## Evidence versus speculation
 
