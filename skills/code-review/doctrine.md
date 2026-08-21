@@ -85,14 +85,15 @@ Cite `taste:honest-names` on findings. Naming alignment is part of the Standards
 
 ### Design axis
 
-When the shipped diff is user-visible UI, dispatch a Design Task beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip the Design matrix when the file is missing or the diff has no UI; report that absence. Still run the Craft floor when the diff is user-visible.
+When the shipped diff is user-visible UI, dispatch a Design Task beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip the Design matrix when the file is missing or the diff has no UI; report that absence. Still run the Experience floor and the Craft floor when the diff is user-visible.
 
-Do not auto-map `diverges` or `undocumented` **product** patterns to Fix now. The parent asks whether the live UI is normal ([asking.md](../pack-shared/asking.md)):
+A Design finding is always **Fix now** or **Follow-up**. There is no "is this normal?" path.
 
-- **No:** Fix now. The UI must match `docs/design.md`. `/design` implements the fix.
-- **Yes:** `/design` updates `docs/design.md` with the common-sense why, usually fewer clicks or keystrokes (`design:fewer-clicks`). That is not a UI defect.
+- **diverges:** Fix now. The UI must match `docs/design.md`. `/design` implements the fix.
+- Pack-bar miss (`design:experience`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`): Fix now or Follow-up using those tables. Use **Match** `n/a`.
+- **undocumented** that already respects the pack bars: Follow-up. `/design` records the pattern. Do not revert the UI.
 
-Pack craft bars (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`) are not product-pattern questions. Map them with the quality-floor table. Do not invent extra product patterns the file does not state. Do not ship a `/design-review` skill.
+`docs/design.md` changes when the user wants a different design, not when review is guessing. Do not invent extra product patterns the file does not state. Do not ship a `/design-review` skill.
 
 ## Output
 
@@ -117,8 +118,8 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Merging Standards and Spec into one undifferentiated ranking
 - Soloing Standards/Spec/Design on the main agent instead of parallel Task workers
 - Running a second adversarial review or hunt re-inspect after the parallel pass
-- Auto-failing or auto-passing Design **product** mismatches without asking if they are normal
-- Skipping the Craft floor when the diff is user-visible
+- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
+- Skipping the Experience floor or the Craft floor when the diff is user-visible
 - Inventing a `/design-review` skill
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits

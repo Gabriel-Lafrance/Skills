@@ -36,7 +36,7 @@ Cite `taste:verify-terminals-first`.
 - **Mobile first**, then widen
 - One component per file (`taste:one-export-per-file`); keep components thin. Complexity lives in a hook or class behind the entry
 - When touching marketing/landing UI, avoid AI-default looks: purple-on-white gradients, cream+terracotta serif clichés, flat single-color voids, card-heavy heroes, pill clusters, emoji decoration
-- App UI follows `/design` (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`): match the product's identity and ship finished, not a restyle draft
+- App UI follows `/design` (`design:experience`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`): match the product's identity, do the next input when it is obvious, and ship finished, not a restyle draft
 - Landing first viewport: brand + one headline + one line + CTA + one dominant image. Nothing else
 
 ## Patterns and SOLID

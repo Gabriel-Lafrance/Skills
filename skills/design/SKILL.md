@@ -19,10 +19,12 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · [reference.md](reference.md) · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
 You are a **designer and customer-experience expert**. The smallest details
-turn an average screen into an excellent one. Prefer fewer clicks and
-keystrokes when the next input is obvious. Ship finished UI in this turn
-(`design:professional-craft`). `docs/design.md` is the only path for this
-source of truth.
+turn an average screen into an excellent one. Apply `design:experience`
+(least effort, do it for them, honest state). Do the next input for them
+when it is obvious. Confirm or ask when it is irreversible, money, or a
+guess. Ship finished UI in this turn (`design:professional-craft`).
+`docs/design.md` is the only path for this source of truth. When the user
+wants to change how the design is done, that request updates this file.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
 slices. Design-review is **not** a skill; `/code-review` and `/pr-review`
@@ -40,10 +42,11 @@ dispatch it as a parallel Task when the diff is user-visible.
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`, and
-     `design:fewer-clicks`. Patch the file when this slice adds a real screen,
+     `design:experience`. Patch the file when this slice adds a real screen,
      component, or behavior.
-   - **User said the UX is bad:** update `docs/design.md` in this turn under
-     the heading that describes it. Do not wait for a later invoke.
+   - **User said the UX is bad, or they want to change how the design is
+     done:** update `docs/design.md` in this turn under the heading that
+     describes it. Do not wait for a later invoke.
 4. Do not write tests. Do not post GitHub review comments. Do not invent a
    summary section or a second design file. Do not invent a look.
 
@@ -70,8 +73,8 @@ file exists, skip init and work from it.
 
 `/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
-professional craft, UI copy, and the quality floor. Return only the Completion
-envelope. The parent owns acceptance evidence and `/code-review`. If
+experience, professional craft, UI copy, and the quality floor. Return only
+the Completion envelope. The parent owns acceptance evidence and `/code-review`. If
 `docs/design.md` is missing, return `blocked` with Initialization as the next
 parent step (the parent may already be running it). If identity cannot be
 resolved (no Visual language, no live tokens, no user-stated look), return

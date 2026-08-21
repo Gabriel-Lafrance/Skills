@@ -22,7 +22,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 | --- | --- |
 | `design:source-of-truth` | Source of truth |
 | `design:smallest-details` | Smallest details |
-| `design:fewer-clicks` | Fewer clicks |
+| `design:experience` | Experience |
 | `design:professional-craft` | Professional craft |
 | `design:ui-copy` | UI copy |
 | `design:quality-floor` | Quality floor |
@@ -42,9 +42,20 @@ Required top-level headings stay stable so reviews can cite them. Nested heading
 
 Put the agent in a designer and customer-experience seat. Excellence is usually a small, specific thing: the control that is ready when the user needs it, the label that matches the job, the state that does not strand them, the extra click that should not exist. Judge and build at that grain. Do not ship "fine" when a smaller friction is still in the way.
 
-### Fewer clicks
+### Experience
 
-Prefer the interaction that saves a click or a keystroke when the next input is obvious. Document **why** in `docs/design.md` (who is helped, what work is skipped). Do not add magic that surprises the user (`taste:no-surprises`). Example: [`examples.md`](examples.md#fewer-clicks).
+Pack bars, not product taste. They apply even when `docs/design.md` is silent. Cite `design:experience`. Product exceptions (slower money, extra confirm on delete) live under Preferences. Table: [`reference.md`](reference.md#experience).
+
+| Rule | Meaning |
+| --- | --- |
+| **Least effort** | The person types, clicks, and moves the pointer as little as possible. Skip a step, field, or mouse trip when the app already knows the next input. |
+| **Do it for them** | Do not make the person do work the app can do. Do it when the next input is obvious (workspace domain on team invite, last-used account). Confirm or ask when it is irreversible, money, or a guess (public signup domain). Obvious help is not a surprise (`taste:no-surprises`). A guess is. |
+| **Explain complexity** | If a step is complex, explain it in the UI (short helper, example, or progressive disclosure). Do not hide the difficulty behind jargon. |
+| **Honest state** | The UI always matches reality: idle, dirty, pending, success, error, disabled, empty, no-permission. A control must not look saved while a write is in flight. |
+| **Respect time** | No fake waits, no full-page block for a fast save, no extra ceremony on a reversible action. Confirmations earn their cost. |
+| **Brain-off** | A person who is not thinking hard can still finish the happy path. No remembering a hidden rule, reading a wall, or choosing among equivalent options. Power features stay optional. |
+
+Least effort, do-it-for-them on an obvious input, dishonest state, and a happy path that requires a hidden rule are Fix now. Extra explanation on a dense expert view, or an existing adjacent screen left untouched, can be Follow-up. A written Preference that asks for a slower path is not a defect.
 
 ### Professional craft
 
@@ -72,15 +83,13 @@ Missing focus, hover-only primary actions, placeholder-only labels, and body con
 
 The user may add or remove anything in `docs/design.md`. The next agent run treats the current file as truth. Do not restore deleted bullets, fight a heading the user renamed, or keep a private shadow copy. Merge new capture under the heading that describes it.
 
-When the user says the UX is bad, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in that turn. Gold standards require the same even when `/design` was not invoked.
+When the user says the UX is bad, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in that turn. If they want to change how the design is done, that request updates the file. Gold standards require the same even when `/design` was not invoked.
 
 ### User-facing work
 
 User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
 
-A Design mismatch against `docs/design.md` is not auto-fixed. The parent asks whether the live UI is normal. **No** means fix the UI to match the file. **Yes** means update the file with the common-sense why, usually `design:fewer-clicks`.
-
-Pack craft bars (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`) do not wait on that question. They are Fix now or Follow-up per Quality floor.
+A Design finding is always **Fix now** or **Follow-up**. Do not ask whether a mismatch is normal. If the UI contradicts `docs/design.md`, Fix now: make the UI match the file. Pack bars (`design:experience`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) map with their tables. The file changes when the user wants a different design, not when review is guessing.
 
 ## Output
 
@@ -88,7 +97,7 @@ Pack craft bars (`design:professional-craft`, `design:ui-copy`, `design:quality-
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
 
 ## Anti-patterns
 
@@ -101,4 +110,6 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Overwriting an existing `docs/design.md` from a blank template
 - Brute-forcing login or calling a skipped Browser crawl a complete capture
 - Reverting the user's deletions on the next pass
-- Treating "the UI looks fine" as done while extra clicks or keystrokes remain
+- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
+- Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain
+- Making the person do work the app already knows, or guessing an irreversible choice without a confirm

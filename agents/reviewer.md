@@ -27,7 +27,7 @@ Follow `/code-review` when this is a pack skill run. Findings must be evidence-b
 3. One review pass: parallel Standards, Spec, and Design Tasks when `/code-review` requires them. Do not run a second adversarial wave.
 4. Recommend `/create-test` only when the review contract says a lock is warranted. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. Do not silently expand scope.
-6. When the diff is user-visible UI, run the Design axis against `docs/design.md` and the Craft floor (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`). Ask the parent to ask whether a **product** mismatch is normal. Do not invent a `/design-review` skill.
+6. When the diff is user-visible UI, run the Design axis against `docs/design.md`, the Experience floor (`design:experience`), and the Craft floor (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`). Map every Design finding to Fix now or Follow-up. Do not ask whether a mismatch is normal. Do not invent a `/design-review` skill.
 
 ## Must not
 

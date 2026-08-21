@@ -57,8 +57,8 @@ Apply `code-review:axes`, `code-review:blocker-vs-follow-up`,
 `code-review:naming-alignment`, `code-review:design-axis`, the review-contract
 evidence bar, and remediation analysis before any fix work. Standards workers
 must return the review output fence. Design workers return Design findings, the
-Design matrix when the file exists, and the Craft floor when the diff is
-user-visible. Standards must Read `/taste` and
+Design matrix when the file exists, the Experience floor, and the Craft floor
+when the diff is user-visible. Standards must Read `/taste` and
 `/architecture` this turn.
 
 For `remediation`, verify those findings and regressions in that surface; do

@@ -74,7 +74,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings, the Design matrix when `docs/design.md` exists, and the Craft floor when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff. Reject Design output that ran without a Craft floor.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings, the Design matrix when `docs/design.md` exists, the Experience floor, and the Craft floor when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff. Reject Design output that ran without the Experience floor or the Craft floor.
 
 ## Honest names / stale path after rename
 
@@ -103,21 +103,35 @@ This is **Fix now**. The Standards pass must run naming alignment; skipping it i
 
 This meets the evidence bar: a public write with no identity check is a reachable trigger. Do not mark it Optional nit.
 
-## Design mismatch (ask first)
+## Design mismatch (Fix now or Follow-up)
 
 ```markdown
 - **design-invite-email-domain-append** · **design** · **follow-up**
   - **Where:** `InviteMemberForm.tsx` (`email`)
-  - **Rule:** `docs/design.md` · Patterns / behavior (silent)
+  - **Rule:** `design:experience` · Do it for them
   - **Match:** undocumented
-  - **Evidence:** Diff appends `@acme.com` on team invite. The design file has no invite-email rule.
-  - **Impact:** Review cannot tell accident from a fewer-clicks pattern.
-  - **Fix:** Ask if this is normal. No: remove the append. Yes: `/design` writes the why into `docs/design.md`.
+  - **Evidence:** Diff appends `@acme.com` on team invite from the signed-in work email. The design file has no invite-email rule.
+  - **Impact:** The next input is obvious and the UI already does it. The source of truth does not record the pattern yet.
+  - **Fix:** `/design` writes the why into `docs/design.md` Patterns / behavior. Do not revert the append. Do not ask if it is normal.
 ```
 
-Do not ship this as Fix now until the user answers. See [`../design/examples.md`](../design/examples.md).
+Do not ship this as Fix now to remove the append. A `diverges` row against a written Patterns rule is **Fix now**: make the UI match the file. See [`../design/examples.md`](../design/examples.md).
 
-## Craft floor (pack bars, no ask)
+## Experience floor (pack bars)
+
+```markdown
+- **design-experience-respect-time-full-page-spinner** · **design** · **blocker**
+  - **Where:** `SaveButton.tsx` (`submit`)
+  - **Rule:** `design:experience` · Respect time
+  - **Match:** n/a
+  - **Evidence:** Diff wraps a fast save in a full-page spinner. `docs/design.md` Patterns already say inline progress.
+  - **Impact:** Extra ceremony on a reversible action. The person waits on a blank page for a 200ms patch.
+  - **Fix:** Inline progress on the same screen.
+```
+
+This is **Fix now**. Do not ask whether the spinner is normal. If the user wants that ceremony, they say so and `/design` writes it under **Preferences**.
+
+## Craft floor (pack bars)
 
 ```markdown
 - **design-quality-floor-invite-placeholder-label** · **design** · **blocker**
@@ -129,7 +143,7 @@ Do not ship this as Fix now until the user answers. See [`../design/examples.md`
   - **Fix:** Visible label "Work email"; keep placeholder as an example, not the name.
 ```
 
-This is **Fix now**. Do not ask whether it is normal. Product-pattern mismatches still ask first.
+This is **Fix now**. Do not ask whether it is normal. Experience-floor misses use the same mapping: Fix now or Follow-up from the Experience table, never a question.
 
 ## Evidence versus speculation
 

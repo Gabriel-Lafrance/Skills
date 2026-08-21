@@ -51,7 +51,6 @@ Take `recommended` on child soft Questions without waiting. Announce Locked-in c
 | Merge conflict or rejected push | Stop; never force-push |
 | Open blockers after a loop cap | Stop; do not ship |
 | Type genuinely unknowable | One Questions batch for type only |
-| Design mismatch "is this normal?" | Wait. Do not auto-pick. **No** means fix the UI; **Yes** means `/design` updates `docs/design.md` |
 
 ### Ticket and branch
 
@@ -96,3 +95,4 @@ Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared
 - Starting CR1/CR2 on an uncommitted or dirty fixed point
 - Force-pushing or pushing the default branch
 - Looping on Follow-ups or nits unless the user asks
+- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up

@@ -26,8 +26,10 @@ loading, empty, and error when those states exist.
 
 ## Patterns / behavior
 
-Cross-screen interaction rules. Prefer fewer clicks and keystrokes when
-the next input is obvious. Write the why next to the rule.
+Cross-screen interaction rules. Write the why next to the rule. Pack
+experience bars live in the skill, not as a sixth required heading here.
+If this product must add friction (money slower, extra delete confirm),
+put that under **Preferences**.
 
 ## Screens / flows
 
@@ -75,7 +77,7 @@ When updating `docs/design.md`:
 
 1. Read the whole file. That text is the rule, including user edits.
 2. Add new screens and components under the heading that names them.
-3. Patch a bullet only when this turn observed a replacement, or the user stated a new preference.
+3. Patch a bullet only when this turn observed a replacement, the user stated a new preference, or the user wants to change how the design is done.
 4. Do not restore text the user removed.
 5. Do not collapse long sections into a digest.
 6. Keep `docs/design.md` as the only path.
@@ -105,7 +107,8 @@ Before writing UI code:
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`).
 4. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
-Then implement to that plan exactly. Meet `design:quality-floor` without announcing it. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+Then implement to that plan exactly. Meet `design:experience` and
+`design:quality-floor` without announcing them. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
 
 When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
 
@@ -120,6 +123,33 @@ Write from the person's side of the screen:
 - Errors name what went wrong and the next step. They do not apologize and they are not vague.
 - Empty states invite the next action. They are not mood copy.
 - Placeholders never replace a visible label.
+
+## Experience
+
+Pack bars. Always on, even when `docs/design.md` is silent. Do not invent a
+required **Experience** heading in that file. Product exceptions live under
+**Preferences**.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Least effort | Extra click, extra typing, extra pointer travel, or a detour to reach the thing they asked for | Power-user shortcuts, command palette, bulk actions, keyboard-first as an alternative |
+| Do it for them | The next input is obvious and the app still makes them type or pick it (invite `@acme.com` from the signed-in work email) | Suggesting a **guess** as if it were a fact. That is a surprise, not help. |
+| Explain complexity | Complex step with no helper, example, or progressive disclosure | Optional tutorials, empty-state tours, docs links as the only explanation |
+| Honest state | Control or copy that lies about idle / dirty / pending / success / error / disabled / empty / no-permission | Extra status chrome the product does not need |
+| Respect time | Fake wait, full-page block for a fast save, ceremony on a reversible action | Background jobs, optimistic UI polish, progress for genuinely long work |
+| Brain-off | Happy path that requires holding several rules in your head | Power features, advanced filters, expert shortcuts |
+
+**Do it for them vs guess.** Do not confuse these. Obvious help is not a surprise (`taste:no-surprises`). A guess is.
+
+| Do it (obvious) | Guess (ask or confirm) |
+| --- | --- |
+| Invite teammate → prefill `@` + the signed-in user's email domain | Public signup → do not assume a company domain from a gmail address |
+| Save draft → keep the text they already typed | Irreversible delete / charge / send-to-everyone → confirm |
+| Return to the same screen, same scroll, same filters | Infer a preference they never stated |
+
+A finding that is normal for this product still goes in **Follow-up** if the pack would tighten it. Never a question. If they want the product to stay that way, they say so and you update **Preferences**.
+
+`diverges` from `docs/design.md` is **Fix now**: make the UI match the file. The file changes when the user wants a different design, not when review is guessing.
 
 ## Quality floor
 

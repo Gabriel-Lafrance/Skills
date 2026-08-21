@@ -1,12 +1,30 @@
 # Design examples
 
-## Fewer clicks
+## Experience (do it for them)
 
-**Good:** Team invite email field auto-appends `@acme.com` because members share the company domain. That saves keystrokes on the most likely invite. `docs/design.md` records the pattern and the why under Patterns / behavior.
+**Good:** Signed-in user is `maya@acme.com`. Invite teammate form prefills `@acme.com`. The next input is obvious. That is not a surprise (`taste:no-surprises`). Making her retype `acme.com` is leftover work. `docs/design.md` records the pattern and the why under Patterns / behavior.
 
-**Bad:** The same append with no note in `docs/design.md`, so review cannot tell accident from intent.
+**Bad:** The same append on public signup as `maya@gmail.com`. That is a guess. Leave the domain blank or ask.
 
-**Bad:** Auto-appending a random consumer domain on a public signup. The next input is not obvious; that surprises the user (`taste:no-surprises`).
+**Bad:** Skipping the confirm on "Delete workspace" because fewer clicks felt faster. Irreversible work confirms.
+
+## Honest state
+
+**Good:** Save button reads "Saving…" and stays disabled while the write is in flight. It does not look saved.
+
+**Bad:** Button flips to "Saved" on click, then the request fails and the row never changed.
+
+## Respect time
+
+**Good:** A fast save shows inline progress on the same screen.
+
+**Bad:** A full-page spinner for a 200ms patch. Extra ceremony on a reversible action.
+
+## Brain-off
+
+**Good:** New draft starts from one primary button. Advanced options stay behind an optional control.
+
+**Bad:** Happy path asks the person to pick among three equivalent "create" actions and remember which one keeps the draft.
 
 ## User said the UX is bad
 
@@ -15,6 +33,10 @@ User: "Having to type the full company domain every invite is bad UX."
 **Good:** Update `docs/design.md` in that turn. Add or extend the invite pattern: append the workspace domain, why it saves typing, and when not to (unknown domain, personal email). Then, if this chat is also implementing, match the UI.
 
 **Bad:** Nod in chat and leave `docs/design.md` untouched until someone remembers `/design`.
+
+## User wants to change how design is done
+
+The user says destructive actions should skip the confirm dialog. That is how design is done for this product. Blend-edit `docs/design.md` **Preferences** (and **Patterns** if the destructive row changes). Do not only change the component.
 
 ## Blend edits
 
@@ -30,24 +52,22 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 **Bad:** A one-page screenshot and a short "overall look and feel" paragraph that will go stale.
 
-## Design-review ask
+## Design finding is Fix now or Follow-up (never an ask)
 
-The diff appends `@acme.com` on invite. `docs/design.md` does not mention it.
-
-**Good (parent, after the Design worker reports the divergence):**
+User-facing work. Design axis found a mismatch. Put it in the table. Do not ask if it is normal.
 
 ```markdown
-## Questions
-Reply like: 1a
+### Design
+`docs/design.md` **Patterns** say inline progress. The live submit is a full-page spinner. `design:experience` Respect time.
 
-1. Invite email appends `@acme.com` for team members. That is not in docs/design.md. Is this normal?
-   - a) No: change the UI to match the design file recommended
-   - b) Yes: keep it and update the design file (say why it saves work)
+| Severity | Where | What | Why (cite) | Fix |
+| --- | --- | --- | --- | --- |
+| Fix now | `SaveButton.tsx` | Full-page spinner on a fast save | `docs/design.md` Patterns; `design:experience` | Inline progress on the same screen |
 ```
 
-If **1a**, Fix now on the UI. If **1b**, `/design` writes the fewer-clicks why into `docs/design.md` and the finding is not a UI fix.
+If the product **must** keep the spinner, the user says so. Then blend-edit **Preferences**. Do not guess that and ask.
 
-**Bad:** Auto-fail the review because the file was silent. **Bad:** Auto-pass because shipping it must mean it is fine.
+Undocumented UI that already respects the pack bars is **Follow-up**: `/design` records the pattern. Do not revert the UI. Do not ask "is this normal?"
 
 ## Professional craft
 
@@ -74,3 +94,7 @@ If **1a**, Fix now on the UI. If **1b**, `/design` writes the fewer-clicks why i
 **Good:** Button "Publish". Toast "Published". Empty: "No drafts yet. New draft starts one."
 
 **Bad:** Button "Submit". Toast "Success". Empty: "Nothing here."
+
+## User-facing UI without `/design`
+
+Worker shipped a settings page under `/implement`. Parent did not dispatch `/design`. **Wrong.** Route the UI through `/design`. `/implement` stays on the non-UI slice.
