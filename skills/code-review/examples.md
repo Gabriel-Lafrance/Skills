@@ -74,19 +74,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **Wave 1** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
-
-**Wave 2** fence (re-inspect; do not clone the hunt rows):
-
-```markdown
-## Adversarial findings
-- none (Wave 1 already had the Stripe fork)
-
-## Hunt re-inspect
-Re-walked Principles, Architecture, Correctness hunt. No new class. Did not rubber-stamp Wave 1.
-```
-
-`/pr-review` Wave 2 also returns the four PR extras rows (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. Design worker adds Design findings, the Design matrix when `docs/design.md` exists, the Experience floor, and the Craft floor when the diff is user-visible. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff. Reject Design output that ran without the Experience floor or the Craft floor.
 
 ## Honest names / stale path after rename
 
@@ -99,7 +87,7 @@ Re-walked Principles, Architecture, Correctness hunt. No new class. Did not rubb
   - **Fix:** Rename file + primary export/locals to the payment-intent names and update imports in the same change.
 ```
 
-This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and skipped the naming alignment pass. Remediation is not clear until both path and symbols match.
+This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later wave. Remediation is not clear until both path and symbols match.
 
 ## Missing identity on a public write
 
@@ -115,6 +103,48 @@ This is **Fix now**. Wave 2 should catch it if Wave 1 only reviewed behavior and
 
 This meets the evidence bar: a public write with no identity check is a reachable trigger. Do not mark it Optional nit.
 
+## Design mismatch (Fix now or Follow-up)
+
+```markdown
+- **design-invite-email-domain-append** · **design** · **follow-up**
+  - **Where:** `InviteMemberForm.tsx` (`email`)
+  - **Rule:** `design:experience` · Do it for them
+  - **Match:** undocumented
+  - **Evidence:** Diff appends `@acme.com` on team invite from the signed-in work email. The design file has no invite-email rule.
+  - **Impact:** The next input is obvious and the UI already does it. The source of truth does not record the pattern yet.
+  - **Fix:** `/design` writes the why into `docs/design.md` Patterns / behavior. Do not revert the append. Do not ask if it is normal.
+```
+
+Do not ship this as Fix now to remove the append. A `diverges` row against a written Patterns rule is **Fix now**: make the UI match the file. See [`../design/examples.md`](../design/examples.md).
+
+## Experience floor (pack bars)
+
+```markdown
+- **design-experience-respect-time-full-page-spinner** · **design** · **blocker**
+  - **Where:** `SaveButton.tsx` (`submit`)
+  - **Rule:** `design:experience` · Respect time
+  - **Match:** n/a
+  - **Evidence:** Diff wraps a fast save in a full-page spinner. `docs/design.md` Patterns already say inline progress.
+  - **Impact:** Extra ceremony on a reversible action. The person waits on a blank page for a 200ms patch.
+  - **Fix:** Inline progress on the same screen.
+```
+
+This is **Fix now**. Do not ask whether the spinner is normal. If the user wants that ceremony, they say so and `/design` writes it under **Preferences**.
+
+## Craft floor (pack bars)
+
+```markdown
+- **design-quality-floor-invite-placeholder-label** · **design** · **blocker**
+  - **Where:** `InviteMemberForm.tsx` (`email`)
+  - **Rule:** `design:quality-floor` · `design:ui-copy`
+  - **Match:** n/a
+  - **Evidence:** Email field has placeholder "Email" and no visible label. Diff adds the field.
+  - **Impact:** The control has no persistent name; placeholder-only labels fail the quality floor.
+  - **Fix:** Visible label "Work email"; keep placeholder as an example, not the name.
+```
+
+This is **Fix now**. Do not ask whether it is normal. Experience-floor misses use the same mapping: Fix now or Follow-up from the Experience table, never a question.
+
 ## Evidence versus speculation
 
 **Finding:** A public mutation accepts `orderId` and reaches a write without checking ownership. The trigger, path walk, and impact support a smallest fix: enforce ownership at the mutation boundary.
@@ -123,9 +153,9 @@ This meets the evidence bar: a public write with no identity check is a reachabl
 
 **Not a finding:** “Add retries and a queue for a provider outage.” The diff establishes neither a provider boundary nor a delivery requirement. Omit it until evidence shows that a direct guard is insufficient.
 
-## Waves and review modes
+## Review modes
 
-Wave 1 may find no Standards issue. Wave 2 can add `standards-checkout-half-move` only if it identifies a new evidenced defect that Wave 1 missed; it drops a restatement of `standards-keep-jobs-apart-checkout-stripe`. Wave 2 still returns a **hunt re-inspect** of the Wave 1 tables.
+One review pass. Drop restatements of the same finding (`standards-keep-jobs-apart-checkout-stripe`). A new evidenced defect such as `standards-checkout-half-move` belongs in that same pass if the diff shows it.
 
 After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
 

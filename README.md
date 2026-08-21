@@ -27,8 +27,8 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | Piece | Where | What it does |
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, and `unslop.mdc` always apply; the others attach when relevant |
-| **Agents** | `agents/` | Task roles: explorer, architect, implementer, reviewer, pr-reviewer |
+| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
+| **Agents** | `agents/` | Task roles: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
 
@@ -41,8 +41,8 @@ ESLint and Prettier are **not** Cursor plugin primitives. They only run if the a
 | [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams |
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
+| [`subagents.mdc`](./rules/subagents.mdc) | Always: main agent dispatches Task workers and reviews them; it does not solo non-trivial work |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
-| [`subagents.mdc`](./rules/subagents.mdc) | Multi-file research, implement, review |
 | [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
 
 Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. `no-emdash.mdc` and `unslop.mdc` are self-contained writing bars.
@@ -51,15 +51,17 @@ To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines.
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. Parents may also dispatch Cursor built-in Task types.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
-| [`explorer`](./agents/explorer.md) | Read-only research memo | `/analyze` |
-| [`architect`](./agents/architect.md) | Structure card | `/architecture` |
-| [`implementer`](./agents/implementer.md) | One bounded code slice | `/implement` |
-| [`reviewer`](./agents/reviewer.md) | Local branch diff | `/code-review` |
+| [`explorer`](./agents/explorer.md) | Find relevant paths and snippets | noisy search (not `/analyze`) |
+| [`analyzer`](./agents/analyzer.md) | How / impact / risk memo | `/analyze` |
+| [`implementer`](./agents/implementer.md) | One tiny non-UI code what | `/implement` |
+| [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | `/design` |
+| [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
+| [`tester`](./agents/tester.md) | Write tests (always summoned) | `/create-test` (user start only) |
 
 ## Skills
 
@@ -70,9 +72,9 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
-| **Build**         | `/task`, `/just-do-it`                                   | Implement end-to-end  |
+| **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, and editor extensions in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, and `docs/design.md` init |
 
 ```mermaid
 flowchart LR
@@ -92,12 +94,14 @@ flowchart LR
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
+- Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
 - Lint/format in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body, Change
   diagram, Browser screenshots when visual (not a UI test pass), and a Cursor
   review canvas.
 - Review a PR → `/pr-review`
+- Review UI against `docs/design.md` → `/code-review` or `/pr-review` (Design axis + Experience floor + Craft floor)
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

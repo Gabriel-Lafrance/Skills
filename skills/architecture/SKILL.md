@@ -21,11 +21,13 @@ card. Cite keys live in [doctrine.md](doctrine.md). Other skills load both
 doctrines on every run via the standards contract. Use the shared
 [execution context](../pack-shared/execution-context.md).
 
-Explore via Task subagents per
+Find via Task subagents per
 [../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-sibling/service/folder research **must** use a Task; ≥2 independent lanes
-**must** run in parallel. You write the structure card from their reports.
-Skip Tasks only for greenfield-trivial structure with no repo to explore.
+sibling/service/folder search **must** use `explorer` Tasks (main does not
+grep); independent lanes **must** run in parallel (one Task per lane, no cap
+of two). You review those hits and write the structure card from them, then
+inject the excerpt into later briefs. Skip Tasks only for greenfield-trivial
+structure with no repo to explore. There is no architect worker.
 
 If a parent already supplied outcome, Done when, non-goals, locked
 decisions, Active Rules, current slice, and lane, reuse that brief.
@@ -73,7 +75,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
 ### If a parent already owns the next step
 
 Hand the structure decision into the parent inline context and Worker Brief,
-then `/implement`. Return needed corrections to the parent.
+then `/design` for user-facing UI or `/implement` for non-UI. Return needed corrections to the parent.
 
 ### If this is a user one-off
 

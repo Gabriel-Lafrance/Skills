@@ -38,8 +38,9 @@ Or install the **gabriel-skills** Cursor plugin from Marketplace / Customize.
 
 1. **Read** `taste/doctrine.md`
 2. **Read** `architecture/doctrine.md`
+3. **Read** `pack-shared/subagents.md` — the main agent picks the specialist that owns the job and reviews Completions; it does not solo non-trivial find, analyze, implement, review, or tests, and it does not follow a fixed spawn order
 
-Apply them as **hard** standards. Do not skip because you “already know” the pack. Do not skip architecture because the change looks like a single file; keep the existing structure when that is the smallest correct answer.
+Apply taste and architecture as **hard** standards. Do not skip because you “already know” the pack. Do not skip architecture because the change looks like a single file; keep the existing structure when that is the smallest correct answer.
 
 **Before planning** (Cursor Plan mode, CreatePlan, or any non-trivial implementation plan):
 
@@ -47,17 +48,26 @@ Apply them as **hard** standards. Do not skip because you “already know” the
 2. **Read** `pack-shared/plain-language.md`
 3. **Read** `grill-me/doctrine.md`
 4. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
+5. **Read** `pack-shared/subagents.md` if not already loaded this turn
 
 **Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
 
 Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `unslop.mdc` (always on with this plugin).
+
+## App UX source of truth
+
+`docs/design.md` (workspace root, that path only) is the living source of truth for this app's UX and UI when the file exists. There is no size cap and no summary section.
+
+If the user says something is bad for the UX, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in the same turn. If the user wants to change how the design is done, that request updates `docs/design.md`. If the file is missing, run `/design` Initialization first. Do not wait for a separate `/design` invoke.
+
+Frontend and user-facing implementation uses `/design`. Ship finished UI in that turn (`design:professional-craft`): identity from `docs/design.md`, the live app, or the user, never invented. Apply `design:experience` even when the file is silent (least effort; do it for them when the next input is obvious; confirm when it is irreversible, money, or a guess). Review of UI diffs uses the Design axis inside `/code-review` and `/pr-review`, including the Experience floor and the Craft floor. Every Design finding is Fix now or Follow-up. There is no `/design-review` skill and no "is this normal?" path.
 
 ## Plan mode — grill before the plan
 
 In **Cursor Plan mode** (and any turn that will produce a plan for non-trivial work):
 
 1. **Do not** call CreatePlan / emit the final plan until material decisions are settled.
-2. **Grill first** — research the repo yourself, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
+2. **Grill first** — look up repository facts (Task workers for non-trivial research per `pack-shared/subagents.md`), then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
 3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
 4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message. Never mix Locked and Questions.
 5. After Locked closure, **then** produce the plan. New unknowns later → a **new** Questions-only batch.
@@ -68,4 +78,4 @@ Every non-trivial plan **must** include a high-level Mermaid **Change diagram** 
 
 ## Conflict
 
-Taste, architecture, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, design, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

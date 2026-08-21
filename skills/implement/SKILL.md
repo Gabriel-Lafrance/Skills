@@ -13,15 +13,21 @@ disable-model-invocation: true
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
+You own **how**. The parent sends **what** and need-to-know, not a recipe.
+
+User-facing UI is `/design`. If this brief's write allowlist is screens,
+components, styling, or visible copy, return `blocked` and tell the parent
+to dispatch `/design` instead.
 
 Use the shared [execution context](../pack-shared/execution-context.md). The
 parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in
 chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
+Fail the job if taste or architecture bars are skipped.
 
 ## Read first
 
 1. `/taste` and `/architecture` doctrines (keep it simple + named principles +
-   structure). For UI, follow taste React & UI guidance.
+   structure). Do not implement user-facing UI here (`/design` owns that).
 2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
    decisions, Active Rules, current slice, write lane, and dependencies.
 3. Only the named ticket / PR, relevant Git diff/history, repository code and
@@ -43,14 +49,15 @@ chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
 5. Do not run acceptance evidence or `/code-review`; the parent integrates
    Completion reports and owns those gates. Do not update tickets, registries,
    status, or other agent bookkeeping.
-6. Do not write or edit tests. `/create-test` follows a parent review
-   recommendation when needed.
+6. Do not write or edit tests. Only `/create-test` writes tests (always via
+   `tester`), and only after the user starts it.
 
 ## Completion
 
 End with only the [`## Completion` envelope](../pack-shared/execution-context.md#worker-handoff):
-status, scope, evidence, findings, and handoff. Do not append Progress,
-workspace status, or a validation/review report.
+status, scope, evidence, **Taste / architecture:** `applied`, findings, and
+handoff. Skip on that mark is a fail. Do not append Progress, workspace
+status, or a validation/review report.
 
 ## Escalation
 
