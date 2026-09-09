@@ -207,10 +207,9 @@ not here.
 
 If the shipped diff introduces any of these, it is a finding. Cite the matching
 key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
-`taste:throw-at-boundaries`, `taste:one-export-per-file`,
+`taste:no-dead-code`, `taste:throw-at-boundaries`, `taste:one-export-per-file`,
 `taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`.
-Findings still speak **plain (Classic)**. These are also `test:quality` hits
-when a scanner exists; do not raise, skip, or delete a gate to go green:
+Findings still speak **plain (Classic)**. These are also `test:quality` (or `test:mutants`) hits when a runner exists; do not raise, skip, or delete a gate to go green:
 
 - Nested control-flow pyramids
 - A function with more than five independent paths (cyclomatic complexity (McCabe))
@@ -219,11 +218,12 @@ when a scanner exists; do not raise, skip, or delete a gate to go green:
 - `any` or Convex `v.any` on a public surface (types tell the truth (make illegal states unrepresentable))
 - A public Convex write with no identity helper (trust the server (never trust the client))
 - Clock or randomness inside a query (deterministic queries)
+- Unused files, exports, or dependencies in the diff (no dead code (Knip))
 - Dynamic `import()`
 - New file with more than one main export
 - Class or interface chain deeper than two
 - Magic policy numbers at a call site that should be a named invariant
-- Raising, skipping, or deleting `test:quality` to go green
+- Raising, skipping, or deleting `test:quality` (or lowering the `test:mutants` break threshold) to go green
 
 ## Severity mapping
 
@@ -241,4 +241,5 @@ There is no unmapped `important` middle severity. `/pr-review` posts only
 After an initial or full-rescan review, recommend `/create-test` only for a
 complex architectural boundary with externally observable behavior and no
 durable lock, especially authorization, ownership, and safe-to-retry writes.
-Tell the user; do not invoke `/create-test` or write tests.
+Tell the user; do not invoke `/create-test` or write tests. After locks land,
+`test:mutants` proves they bite: surviving mutants mean the lock is decoration.

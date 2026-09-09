@@ -60,6 +60,7 @@ green without a user request.
 5. Add the approved three-line comment above each main test, using the
    repository's comment style.
 6. Run the focused test. Confirm a behavior-breaking edit would fail and a
-   harmless extraction would remain green.
+   harmless extraction would remain green. When the repo has `test:mutants`,
+   run it after locks land: surviving mutants mean the lock is decoration.
 7. Report the approved claim, files changed, command result, and one sentence
    about what would turn the test red.

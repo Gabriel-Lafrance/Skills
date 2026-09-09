@@ -9,7 +9,7 @@ Do **not** paste a style guide into chat. If this repo already has ESLint or Pre
 
 - Add or change lint/format tooling with `/setup-toolkit`. Do not invent a parallel config.
 - The toolkit ESLint baseline includes `no-emdash/no-emdash` (em dash, en dash, horizontal bar). Keep that rule on. Do not disable it to “make the prose look fancy.”
-- The toolkit also installs `test:quality` (`complexity.test.mjs` cyclomatic complexity (McCabe) cap 5, plus `principle-gate.test.mjs`). Keep both. Do not raise the cap, skip a gate, or delete a gate to go green. Split the function, type the value, throw at the boundary, or check identity instead. Gate failures use plain (Classic), for example fail fast (Fail Fast).
+- The toolkit also installs `test:quality` (complexity cap 5, principle gates, plus `knip.test.mjs` for dead code) and `test:mutants` (Stryker: flipped operators must fail the suite). Keep them. Do not raise the cap, skip a gate, delete a gate, or lower the mutant break threshold to go green. Split the function, type the value, throw at the boundary, check identity, remove dead code, or strengthen the lock instead. Gate failures use plain (Classic), for example fail fast (Fail Fast).
 - Cursor/VS Code workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Cursor reads those; do not add a parallel `.cursor/extensions.json`.
 - Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user’s running terminals own that loop (`taste` Verify).
 - Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.

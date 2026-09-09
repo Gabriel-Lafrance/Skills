@@ -183,6 +183,16 @@ function priceOrder(order: Order): number {
 
 Do not lock `1 + 1 = 2` or UI chrome with a test. `test:quality` is a principle check, not a behavior catalog.
 
+## Dead code
+
+**Bad - dead export ships:** `export function formatLegacyReceipt()` with no callers survives refactors and confuses readers. `knip.test.mjs` fails: no dead code (Knip).
+**Good:** delete it. If a future feature needs it, version control remembers.
+
+## Mutants
+
+**Bad - decoration lock:** a test calls `charge(card)` and asserts nothing. The suite is green; Stryker flips `>` to `>=` and nothing fails. Surviving mutant: kill the mutants (Mutation testing).
+**Good:** assert the observable contract (`assert.equal(receipt.cents, 500)`). The flipped operator fails. Mutant killed.
+
 ## Errors
 
 **Bad:**

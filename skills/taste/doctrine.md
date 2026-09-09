@@ -41,6 +41,8 @@ How a unit reads, names, errors, and stays simple. Keep-it-simple, named princip
 | `taste:comments` | Mechanical rules |
 | `taste:cite-a-sibling` | Mechanical rules |
 | `taste:oop-depth-cap` | Mechanical rules |
+| `taste:no-dead-code` | Mechanical rules |
+| `taste:kill-the-mutants` | Mechanical rules |
 | `taste:naming-files` | Naming and files |
 | `taste:plain-language` | Mechanical rules |
 | `taste:verify-terminals-first` | [`reference.md`](reference.md#verify-terminals-first) |
@@ -109,7 +111,7 @@ Apply these with keep it simple (KISS). Operational tests, not essays. In chat w
 
 **SOLID** is guidance in [`reference.md`](reference.md), not a quality gate.
 
-**Quality gates** (`test:quality` from `/setup-toolkit`) cover only mechanical cores: types tell the truth (make illegal states unrepresentable) (`any`, Convex `v.any`), fail fast (Fail Fast) (empty `catch`, Result bags), trust the server (never trust the client) (public Convex writes with no identity helper), and deterministic queries (clock or randomness inside a query). Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), leave it cleaner (Boy Scout Rule), no surprises (PoLA), and don’t repeat yourself (DRY) stay review. Do not add a keep-jobs-apart import denylist. Do not raise, skip, or delete a gate to go green.
+**Quality gates** (`test:quality` from `/setup-toolkit`, plus the deliberate `test:mutants`) cover only mechanical cores: types tell the truth (make illegal states unrepresentable) (`any`, Convex `v.any`), fail fast (Fail Fast) (empty `catch`, Result bags), trust the server (never trust the client) (public Convex writes with no identity helper), deterministic queries (clock or randomness inside a query), the dead-code core of leave it cleaner (Boy Scout Rule) (unused files, exports, dependencies via Knip), and kill the mutants (Mutation testing) (Stryker: flipped operators must fail the suite). Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), no surprises (PoLA), and don’t repeat yourself (DRY) stay review, as does the rest of leave it cleaner (Boy Scout Rule) beyond dead code. Do not add a keep-jobs-apart import denylist. Do not raise, skip, or delete a gate (or lower the mutant break threshold) to go green.
 
 ### Mechanical rules
 
@@ -118,8 +120,10 @@ Rules that are **not** already a named principle:
 | Rule | Classic | Meaning |
 | --- | --- | --- |
 | **Never-nest** | Guard clauses | Flatten control flow; extract early instead of deep `if` / `try` pyramids |
-| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs `test:quality` (this cap plus principle gates); do not raise the cap, skip the test, or delete it to go green |
+| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs `test:quality` (this cap plus principle and dead-code gates; mutants run separately as `test:mutants`); do not raise the cap, skip the test, or delete it to go green |
 | **Don’t repeat yourself** | DRY | One concept, one place; no copy-paste twins |
+| **No dead code** | Knip | No unused files, exports, or dependencies. `/setup-toolkit` installs the Knip gate in `test:quality`; remove the dead code instead of ignoring it to go green |
+| **Kill the mutants** | Mutation testing | Behavior locks must fail when Stryker flips an operator, negates a boolean, or changes a sign. `/setup-toolkit` installs `test:mutants` as a deliberate run (not in `test:quality`); never lower the break threshold to go green |
 | **Throw at boundaries** | Exceptions at boundaries | Throw + purposeful try/catch at boundaries that recover, translate, add actionable context, or clean up. Never `{ success: false }` / Result bags for expected failure control flow. Do not wrap local code merely because it could throw (`taste:fail-fast`) |
 | **One export per file** | — | One component (or main export) per file |
 | **Static imports** | — | No dynamic `import()` |
@@ -147,7 +151,7 @@ Cite-key self-check before acceptance evidence and `/code-review`:
 
 - [ ] `taste:keep-it-simple` (no extra layer, file, wrapper, pattern, or config beyond Done when / rules that must stay true)
 - [ ] Named principles in Cite keys: no clear violation in the touched lane
-- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
+- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:no-dead-code` · `taste:kill-the-mutants` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
 - [ ] `taste:cite-a-sibling` (good sibling, greenfield, or correcting debt; did not copy a known-wrong shape)
 - [ ] `taste:plain-language` in user-facing chat
 - [ ] `taste:verify-terminals-first` ([`reference.md`](reference.md#verify-terminals-first))

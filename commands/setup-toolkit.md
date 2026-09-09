@@ -4,7 +4,8 @@ description: >-
   Add ESLint, Prettier, Cursor/VS Code recommended extensions, and
   principle quality-gate tests to the current JS/TS repo using this
   pack's templates. Use when the user wants lint, format, eslint,
-  prettier, extensions, a complexity test, test:quality, or to install
+  prettier, extensions, a complexity test, test:quality, dead code,
+  knip, mutants, test:mutants, or to install
   the engineering toolkit into an app.
 ---
 
