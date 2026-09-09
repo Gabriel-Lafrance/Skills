@@ -40,9 +40,8 @@ template, not a filesystem schema.
 **Preflight:** <clean tree · branch · remote/base · commits ahead · gh auth>
 **Title:** [IN-1234] …
 **Body:**
-<complete PR body — includes Mermaid Change diagram, Demo when visual, canvas link>
+<complete PR body — includes Mermaid Change diagram>
 **URL:** pending | https://github.com/…/pull/N
-**Canvas:** pending | <share URL or local canvas link>
 **Human next:** review on GitHub or `/pr-review`
 ```
 
@@ -81,7 +80,7 @@ Numbered how-to. Bars stay in [doctrine.md](doctrine.md). Also summarized in [SK
 4. **Checkpoint → CR1.** Checkpoint if dirty; pin `baseSha`/`headSha`. Run `/code-review` against that fixed point and the active build context. Add each result to the parent Fix backlog. For named Fix-now blockers, run `/analyze` remediation, show its complete memo, promote the recommended bounded fix into `/task` Fix mode, checkpoint, then run `remediation` review. Follow-ups and nits never trigger a loop.
 5. **Checkpoint → CR2.** Checkpoint if dirty; pin fresh `headSha`. Run a fresh `/code-review` against `baseSha...headSha`; do not rubber-stamp CR1. Named Fix-now blockers may become a tightly bounded `fix-cr2-N` slice on the original ticket (`/task` Fix mode), then checkpoint and `remediation` review.
 6. **Loop cap.** Each of CR1 and CR2 has at most three remediation loops. Stop sooner when Fix-now is empty. At the cap with an open blocker, mark the context blocked and do not ship.
-7. **Ship.** Ensure a clean tree after any final ship commit(s) (never `--no-verify` unless explicitly requested), then run publish preflight: clean tree, real branch, remote/default base, commits ahead, and authenticated `gh` or Cursor’s pull-request tool. Build the full title and body from [publish reference](../publish/reference.md) (including the Mermaid **Change diagram**: one for new work, Before/After for rework). Follow [pr-ship.md](../pack-shared/pr-ship.md) for Demo screenshots, the Cursor review canvas, and which tool writes the PR. Print title and body in chat, then push with `git push -u origin HEAD` and create the PR (**opened**, not merged). Record the URL and canvas link in the parent context and hand review to a human.
+7. **Ship.** Ensure a clean tree after any final ship commit(s) (never `--no-verify` unless explicitly requested), then run publish preflight: clean tree, real branch, remote/default base, commits ahead, and authenticated `gh` or Cursor’s pull-request tool. Build the full title and body from [publish reference](../publish/reference.md) (including the Mermaid **Change diagram**: one for new work, Before/After for rework). Follow [pr-ship.md](../pack-shared/pr-ship.md) for which tool writes the PR. Print title and body in chat, then push with `git push -u origin HEAD` and create the PR (**opened**, not merged). Record the URL in the parent context and hand review to a human.
 
 ## New-chat recovery
 

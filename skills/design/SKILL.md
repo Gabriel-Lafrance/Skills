@@ -2,8 +2,8 @@
 name: design
 description: >-
   Designer and customer-experience worker for user-facing UI. Owns
-  docs/design.md (the app UX source of truth), captures the live app through
-  the Browser, and implements screens, components, and visible copy to a
+  docs/design.md (the app UX source of truth), captures the app from code,
+  and implements screens, components, and visible copy to a
   finished professional bar in one pass. Use when building frontend,
   initializing or updating design.md, or the user talks about UX, clicks,
   keystrokes, or how a screen should feel.
@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before capturing UX or writing UI. Do not skip.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
 
 **Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · [reference.md](reference.md) · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
@@ -37,8 +37,8 @@ dispatch it as a parallel Task when the diff is user-visible.
 2. **Read** the current `docs/design.md`. User edits and agent edits share
    that file; treat whatever is there now as the rule (`design:blend-edits`).
 3. Do the job in this turn:
-   - **Capture / refresh:** crawl every app route in a Task subagent and write
-     what you saw into `docs/design.md`, including Visual language tokens.
+   - **Capture / refresh:** inventory every app route from code in a Task subagent and write
+     what the code shows into `docs/design.md`, including Visual language tokens.
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`, and
@@ -52,19 +52,14 @@ dispatch it as a parallel Task when the diff is user-visible.
 
 ### Initialization
 
-Parent (this chat) owns login. Workers do not talk to the user.
+Code-derived. No browser, no login, no screenshots. Workers do not talk to the user.
 
-1. Reuse a running local app or approved preview. Do not start a duplicate
-   server just to look.
-2. Open the Browser. Ask the user to log in, then wait until they say they
-   are in. Do not brute-force login, captcha, or credentials.
-3. Dispatch a Task to discover **every** route from the app router and visit
-   each one. Record patterns, components, motion, copy, states, Visual language
-   tokens, and what the user is here to finish. Details: [reference.md](reference.md).
-4. Write `docs/design.md` using the heading skeleton in reference. Nested
+1. Discover **every** route from the app router in code.
+2. Dispatch a Task to inventory each one. Record patterns, components, motion, copy, states, Visual language
+   tokens from the theme, and what the user is here to finish. Details: [reference.md](reference.md).
+3. Write `docs/design.md` using the heading skeleton in reference. Nested
    headings may grow. There is no size cap and no Summary section.
-5. If Browser, app, or login is blocked, still write the file from routes and
-   components in code, mark visual capture as a gap, and say what is missing.
+4. Record only what the code proves. Mark anything visible only at runtime as a gap; do not invent it.
 
 Never overwrite an existing `docs/design.md` during Initialization. If the
 file exists, skip init and work from it.
@@ -77,7 +72,7 @@ experience, professional craft, UI copy, and the quality floor. Return only
 the Completion envelope. The parent owns acceptance evidence and `/code-review`. If
 `docs/design.md` is missing, return `blocked` with Initialization as the next
 parent step (the parent may already be running it). If identity cannot be
-resolved (no Visual language, no live tokens, no user-stated look), return
+resolved (no Visual language, no theme tokens, no user-stated look), return
 `blocked` and say the parent must ask.
 
 ### If this is a user one-off

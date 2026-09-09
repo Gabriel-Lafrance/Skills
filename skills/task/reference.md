@@ -128,7 +128,7 @@ After acceptance evidence is recorded and `/code-review` has run, report the out
 - …
 
 ## Evidence
-- Acceptance: <Done when / rules that must stay true / seams — path walk, terminal, browser>
+- Acceptance: <Done when / rules that must stay true / seams — path walk, terminal>
 - `/code-review`: …
 
 ## Decisions and rules
@@ -160,15 +160,14 @@ Reply like: 1b 2b
 2. Open a PR?
    - a) yes — push and create a PR using `/publish` body rules (typed title,
      What changed, Mermaid Change diagram, How to QA) and
-     [pr-ship.md](../pack-shared/pr-ship.md) (Demo screenshots, review canvas,
-     Cursor pull-request tool when available)
+     [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available)
    - b) no ← recommended
 ```
 
 Wait for the answer before committing or opening a PR. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
-[pr-ship.md](../pack-shared/pr-ship.md) for Demo, canvas, and create tool,
+[pr-ship.md](../pack-shared/pr-ship.md) for the create tool,
 show the draft in chat, then create. When `/task` runs under a parent
 (`/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.
@@ -197,7 +196,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 **Acceptance evidence and review.** After all implementation workers finish:
 
-1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks, terminal output, and (for UI criteria) the [browser evidence protocol](../pack-shared/browser-evidence.md). Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
+1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks and terminal output. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/code-review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
 4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.

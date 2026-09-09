@@ -79,7 +79,7 @@ Every review repair stays on the original ticket and may touch only the ticket l
 
 ## Output
 
-Parent context template and review disposition: [reference.md](reference.md). Print the complete PR title and body in chat before create. Record the URL and canvas link in the parent context and hand review to a human.
+Parent context template and review disposition: [reference.md](reference.md). Print the complete PR title and body in chat before create. Record the URL in the parent context and hand review to a human.
 
 ## Apply
 

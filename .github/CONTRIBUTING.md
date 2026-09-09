@@ -71,8 +71,6 @@ Open a PR against `main` using the pull request template:
 - **What changed**
 - **Change diagram** (Mermaid; Before/After for rework)
 - **How to QA**
-- **Demo** (Browser screenshots of the changed screen, plus a review canvas
-  when the change is visual). Pictures for reviewers — not a test pass.
 
 Agents that open the PR — `/publish`, `/just-do-it`, `/task` ship, or a cloud
 agent — follow [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).

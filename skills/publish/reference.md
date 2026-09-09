@@ -2,7 +2,7 @@
 
 Load this when locking type/ticket, naming a branch, drafting a PR, or publishing.
 Before create or update, also Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md)
-(screenshots, Cursor review canvas, which tool writes the PR). That file applies
+(which tool writes the PR). That file applies
 to every agent that opens a PR, not only `/publish`.
 
 ## Change types and branch names
@@ -78,10 +78,8 @@ Reply like: 1a
 
 ## Create command
 
-Pick the write path in [pr-ship.md](../pack-shared/pr-ship.md). When Cursor’s
-pull-request tool is available, use it and put screenshot `<img>` tags with
-absolute artifact paths in the body. Only when that tool is **not**
-available:
+Pick the write path in [pr-ship.md](../pack-shared/pr-ship.md). Only when Cursor’s
+pull-request tool is **not** available:
 
 ```bash
 gh pr create --title "<title>" --base <base> --body "$(cat <<'EOF'
@@ -109,7 +107,6 @@ Rules:
 - Name real modules/services/routes from the diff when helpful; avoid inventing architecture that is not in the change.
 - For Before/After, keep the same node ids where possible so the delta is obvious.
 - Put the diagram **after What changed** and **before How to QA**.
-- After How to QA, include **Demo** (Browser screenshots of the changed screen) when the change is visual, per [pr-ship.md](../pack-shared/pr-ship.md). This is not a test pass. Link the review canvas from Demo or Notes.
 
 ### New-work example
 
@@ -173,11 +170,6 @@ flowchart LR
 2. …
 - [ ] Expected: …
 
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
-
 ## Notes
 - … (omit section if none)
 ````
@@ -205,11 +197,6 @@ flowchart LR
 1. …
 2. Confirm the intended adjustment: …
 - [ ] Adjacent behavior remains unchanged
-
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
 
 ## Notes
 - … (omit section if none)
@@ -250,11 +237,6 @@ flowchart LR
 - [ ] Bug no longer reproduces
 - [ ] No obvious regression in adjacent flow
 
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
-
 ## Notes
 - … (omit section if none)
 ````
@@ -294,11 +276,6 @@ flowchart LR
 - [ ] Behavior still holds
 - [ ] No new product behavior landed with this PR
 
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
-
 ## Notes
 - … (omit section if none)
 ````
@@ -327,11 +304,6 @@ flowchart LR
 2. Confirm maintenance outcome: …
 - [ ] Intended maintenance landed
 - [ ] No unintended product behavior change
-
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
 
 ## Notes
 - … (omit section if none)
@@ -371,11 +343,6 @@ flowchart LR
 2. Confirm expected behavior: …
 - [ ] Production failure no longer reproduces
 - [ ] No obvious regression in adjacent flow
-
-## Demo
-<!-- Visual changes: Browser screenshots of the changed screen (not a test pass). Omit if not visual or Browser unavailable. -->
-<img alt="…" src="/opt/cursor/artifacts/screenshots/….png" />
-Review canvas: <share URL or local canvas link>
 
 ## Notes
 - Urgency / blast radius: …
@@ -419,10 +386,10 @@ After a successful push, use the draft/publish Question batch in this file. Wait
 
 ### 5. Draft the PR
 
-Build the title and body from the commits, diff, ticket, and locked type. Use the type template in this file. Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes. Include **Demo** screenshots and a review canvas per [pr-ship.md](../pack-shared/pr-ship.md): pictures for reviewers, not a browser test loop.
+Build the title and body from the commits, diff, ticket, and locked type. Use the type template in this file. Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Include the Mermaid **Change diagram**: one diagram for new/additive work; **Before** and **After** for refactor, structural moves, and bug/hotfix flow changes.
 
 Show the complete title and body, then use the publish-approval Question batch. Never create a PR silently.
 
 ### 6. Publish
 
-On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in this file). Return the PR URL and the canvas link. Do not write Linear comments or change ticket status.
+On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in this file). Return the PR URL. Do not write Linear comments or change ticket status.
