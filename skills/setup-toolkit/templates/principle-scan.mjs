@@ -22,6 +22,7 @@ const GATE_FILES = new Set([
   "principle-gate.test.mjs",
   "principle-scan.mjs",
   "cyclomatic-cap.mjs",
+  "knip.test.mjs",
 ]);
 
 const AUTH_EXEMPT = new Set([
@@ -37,7 +38,7 @@ export function hasConvex(root) {
   return existsSync(join(root, "convex"));
 }
 
-export function hasTsconfig(root) {
+function hasTsconfig(root) {
   return existsSync(join(root, "tsconfig.json"));
 }
 
