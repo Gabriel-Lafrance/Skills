@@ -22,9 +22,17 @@
 
 ## Brain-off
 
-**Good:** New draft starts from one primary button. Advanced options stay behind an optional control.
+**Good:** New draft starts from one primary button. Advanced options stay one level down (`design:first-glance`).
 
 **Bad:** Happy path asks the person to pick among three equivalent "create" actions and remember which one keeps the draft.
+
+## First glance
+
+**Good:** A row's primary action is the thing everyone does (Open, or the row itself). Duplicate, export, and delete sit in a three-dot menu or a popover. Settings show the two everyday toggles; API keys, webhooks, and retention live in an Advanced accordion.
+
+**Bad:** A toolbar of eight equal buttons, or a settings page that lists every expert toggle beside "Display name". Beginners scan chrome they do not need. Experts do not get a denser path; they get a noisier one.
+
+**Bad:** "Simplifying" by deleting the expert controls. First glance hides them one level down. It does not remove them.
 
 ## User said the UX is bad
 
@@ -52,23 +60,6 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 **Bad:** A one-page screenshot and a short "overall look and feel" paragraph that will go stale.
 
-## Design finding is Fix now or Follow-up (never an ask)
-
-User-facing work. Design axis found a mismatch. Put it in the table. Do not ask if it is normal.
-
-```markdown
-### Design
-`docs/design.md` **Patterns** say inline progress. The live submit is a full-page spinner. `design:experience` Respect time.
-
-| Severity | Where | What | Why (cite) | Fix |
-| --- | --- | --- | --- | --- |
-| Fix now | `SaveButton.tsx` | Full-page spinner on a fast save | `docs/design.md` Patterns; `design:experience` | Inline progress on the same screen |
-```
-
-If the product **must** keep the spinner, the user says so. Then blend-edit **Preferences**. Do not guess that and ask.
-
-Undocumented UI that already respects the pack bars is **Follow-up**: `/design` records the pattern. Do not revert the UI. Do not ask "is this normal?"
-
 ## Professional craft
 
 **Good:** Invite screen reuses the app's existing ink, surface, and accent hexes, the body type already in `layout.tsx`, and ships with a visible label, focus ring, empty state ("Invite a teammate to share this workspace"), and error next to the field. No second "make it pretty" turn.
@@ -87,7 +78,7 @@ Undocumented UI that already respects the pack bars is **Follow-up**: `/design` 
 
 **Good:** New primary button is 44px tall, has a visible `:focus-visible` ring, and 4.5:1 contrast. Icon-only "more" has `aria-label="More actions"`.
 
-**Bad:** Placeholder-only email field, emoji as the invite icon, hover-only delete on a row. Review must not skip these because `docs/design.md` never mentioned contrast.
+**Bad:** Placeholder-only email field, emoji as the invite icon, hover-only delete on a row. Do not skip these because `docs/design.md` never mentioned contrast.
 
 ## UI copy
 

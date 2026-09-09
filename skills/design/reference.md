@@ -105,10 +105,11 @@ Before writing UI code:
 1. Name the screen's single job and the identity you are using (file, live app, or user).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`).
-4. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
+4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
+5. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
-Then implement to that plan exactly. Meet `design:experience` and
-`design:quality-floor` without announcing them. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+Then implement to that plan exactly. Meet `design:experience`,
+`design:first-glance`, and `design:quality-floor` without announcing them. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
 
 When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
 
@@ -134,10 +135,10 @@ required **Experience** heading in that file. Product exceptions live under
 | --- | --- | --- |
 | Least effort | Extra click, extra typing, extra pointer travel, or a detour to reach the thing they asked for | Power-user shortcuts, command palette, bulk actions, keyboard-first as an alternative |
 | Do it for them | The next input is obvious and the app still makes them type or pick it (invite `@acme.com` from the signed-in work email) | Suggesting a **guess** as if it were a fact. That is a surprise, not help. |
-| Explain complexity | Complex step with no helper, example, or progressive disclosure | Optional tutorials, empty-state tours, docs links as the only explanation |
+| Explain complexity | Complex step with no helper or example | Optional tutorials, empty-state tours, docs links as the only explanation |
 | Honest state | Control or copy that lies about idle / dirty / pending / success / error / disabled / empty / no-permission | Extra status chrome the product does not need |
 | Respect time | Fake wait, full-page block for a fast save, ceremony on a reversible action | Background jobs, optimistic UI polish, progress for genuinely long work |
-| Brain-off | Happy path that requires holding several rules in your head | Power features, advanced filters, expert shortcuts |
+| Brain-off | Happy path that requires holding several rules in your head | Power features that already sit one level down (`design:first-glance`) |
 
 **Do it for them vs guess.** Do not confuse these. Obvious help is not a surprise (`taste:no-surprises`). A guess is.
 
@@ -147,9 +148,29 @@ required **Experience** heading in that file. Product exceptions live under
 | Save draft → keep the text they already typed | Irreversible delete / charge / send-to-everyone → confirm |
 | Return to the same screen, same scroll, same filters | Infer a preference they never stated |
 
-A finding that is normal for this product still goes in **Follow-up** if the pack would tighten it. Never a question. If they want the product to stay that way, they say so and you update **Preferences**.
+If the UI contradicts `docs/design.md`, make the UI match the file. The file changes when the user wants a different design. If they want a slower or denser path, they say so and you update **Preferences**.
 
-`diverges` from `docs/design.md` is **Fix now**: make the UI match the file. The file changes when the user wants a different design, not when review is guessing.
+## First glance
+
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:first-glance`. Product exceptions (show every control) live under
+**Preferences**.
+
+The first surface is what **everyone** needs. Extra actions and advanced
+settings sit one level down on the **same** screen. Overflow (three-dot menu)
+and popovers hold secondary actions. Accordions or an Advanced section hold
+dense expert settings. That serves beginners and experts without a beginner
+mode.
+
+Do not treat this as a widget catalog. Pick the control the product already
+uses. The test is the first look, not the component name.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Everyone first | First look shows equal-weight actions, rare settings, or expert toggles beside the common job | Extra hover hint on an already-simple surface |
+| One level down | Secondary action is a full toolbar button; advanced settings sit in the same list as everyday ones | Power shortcut that already lives behind overflow |
+| Same screen | Related extra action is a new page, wizard, or mode switch | Deep admin console that is a different job |
+| Both audiences | Beginner cannot finish without scanning expert chrome, or the expert path was deleted to "simplify" | Optional command palette / keyboard-first as an alternative |
 
 ## Quality floor
 

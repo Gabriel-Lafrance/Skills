@@ -11,7 +11,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 ## Does not own
 
 - Non-UI slices: [`../implement/SKILL.md`](../implement/SKILL.md)
-- Design-review dispatch, review output fence, finding records: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md) · [`../code-review/doctrine.md`](../code-review/doctrine.md)
+- Review: [`../code-review/doctrine.md`](../code-review/doctrine.md) · [`../pr-review/doctrine.md`](../pr-review/doctrine.md) (Standards and Spec only; no Design axis)
 - GitHub posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Numbered how-to: [`SKILL.md`](SKILL.md)
@@ -23,6 +23,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 | `design:source-of-truth` | Source of truth |
 | `design:smallest-details` | Smallest details |
 | `design:experience` | Experience |
+| `design:first-glance` | First glance |
 | `design:professional-craft` | Professional craft |
 | `design:ui-copy` | UI copy |
 | `design:quality-floor` | Quality floor |
@@ -36,7 +37,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 The only path is **`docs/design.md`** at the workspace root. It is the living source of truth for the whole app's UX and UI. There is no size cap. Do not add a Summary (or any rolling digest) that replaces detail as the file grows.
 
-Required top-level headings stay stable so reviews can cite them. Nested headings are free: when something new needs its own place, add a heading that names it well. Skeleton: [`reference.md`](reference.md#heading-skeleton).
+Required top-level headings stay stable so later captures can cite them. Nested headings are free: when something new needs its own place, add a heading that names it well. Skeleton: [`reference.md`](reference.md#heading-skeleton).
 
 ### Smallest details
 
@@ -50,12 +51,29 @@ Pack bars, not product taste. They apply even when `docs/design.md` is silent. C
 | --- | --- |
 | **Least effort** | The person types, clicks, and moves the pointer as little as possible. Skip a step, field, or mouse trip when the app already knows the next input. |
 | **Do it for them** | Do not make the person do work the app can do. Do it when the next input is obvious (workspace domain on team invite, last-used account). Confirm or ask when it is irreversible, money, or a guess (public signup domain). Obvious help is not a surprise (`taste:no-surprises`). A guess is. |
-| **Explain complexity** | If a step is complex, explain it in the UI (short helper, example, or progressive disclosure). Do not hide the difficulty behind jargon. |
+| **Explain complexity** | If a remaining step is complex, explain it in the UI (short helper or example). Do not hide the difficulty behind jargon. Extra chrome belongs one level down (`design:first-glance`), not in a wall of controls. |
 | **Honest state** | The UI always matches reality: idle, dirty, pending, success, error, disabled, empty, no-permission. A control must not look saved while a write is in flight. |
 | **Respect time** | No fake waits, no full-page block for a fast save, no extra ceremony on a reversible action. Confirmations earn their cost. |
-| **Brain-off** | A person who is not thinking hard can still finish the happy path. No remembering a hidden rule, reading a wall, or choosing among equivalent options. Power features stay optional. |
+| **Brain-off** | A person who is not thinking hard can still finish the happy path. No remembering a hidden rule, reading a wall, or choosing among equivalent options. Power features stay one level down (`design:first-glance`). |
 
 Least effort, do-it-for-them on an obvious input, dishonest state, and a happy path that requires a hidden rule are Fix now. Extra explanation on a dense expert view, or an existing adjacent screen left untouched, can be Follow-up. A written Preference that asks for a slower path is not a defect.
+
+### First glance
+
+Show only what every user needs at first glance. Put the rest one level down.
+
+The first surface is the shared path: beginner through expert. Primary job, primary action, and the few facts everyone needs stay visible. Extra actions, rare settings, and power controls live behind one more step on the same screen. Beginners are not taxed by chrome they do not need. Experts still reach density without a separate expert mode.
+
+This is the UI analog of a deep public surface (`architecture:deep-public-surface`): simple face, richness underneath. Cite `design:first-glance`. Table: [`reference.md`](reference.md#first-glance).
+
+| Rule | Meaning |
+| --- | --- |
+| **Everyone first** | The first look is what all users need to finish the common job. Not every action the screen can perform. |
+| **One level down** | Secondary actions go in an overflow (three-dot menu) or a popover. Advanced settings go in an accordion or an Advanced section. |
+| **Same screen** | Do not send people to another page for a related action that belongs here. Hide it here, one level down. |
+| **Both audiences** | A beginner can finish without hunting. An expert reaches the rest in one more click. |
+
+A first surface that shows a toolbar of equal-weight actions, or a settings list that mixes two everyday toggles with a wall of expert options, is Fix now. An existing adjacent screen left bloated, or a power shortcut that already sits behind overflow, can be Follow-up. A written Preference that wants every control visible is not a defect.
 
 ### Professional craft
 
@@ -71,7 +89,7 @@ Interface words are design material. Name controls by what the person does. Keep
 
 ### Quality floor
 
-Pack bars, not product taste. A user-facing slice must meet them even when `docs/design.md` is silent. Cite `design:quality-floor` in review. Table: [`reference.md`](reference.md#quality-floor).
+Pack bars, not product taste. A user-facing slice must meet them even when `docs/design.md` is silent. Cite `design:quality-floor` while building. Table: [`reference.md`](reference.md#quality-floor).
 
 Missing focus, hover-only primary actions, placeholder-only labels, and body contrast below 4.5:1 are Fix now. Emoji-as-icon and missing reduced-motion on decorative motion are Follow-up.
 
@@ -89,7 +107,7 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
 
-A Design finding is always **Fix now** or **Follow-up**. Do not ask whether a mismatch is normal. If the UI contradicts `docs/design.md`, Fix now: make the UI match the file. Pack bars (`design:experience`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) map with their tables. The file changes when the user wants a different design, not when review is guessing.
+These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 
 ## Output
 
@@ -97,7 +115,7 @@ A Design finding is always **Fix now** or **Follow-up**. Do not ask whether a mi
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:first-glance`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
 
 ## Anti-patterns
 
@@ -106,10 +124,11 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Shipping a first-pass "fine" screen that still needs a restyle to look professional
 - Skipping the quality floor because `docs/design.md` did not mention contrast or focus
 - Implementing user-facing UI through `/implement`
-- Shipping a `/design-review` skill (it is a review Task, not a skill)
+- Shipping a `/design-review` skill or a Design review axis inside `/code-review` or `/pr-review`
+- Putting every action and advanced setting on the first surface instead of one level down
 - Overwriting an existing `docs/design.md` from a blank template
 - Brute-forcing login or calling a skipped Browser crawl a complete capture
 - Reverting the user's deletions on the next pass
-- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
+- Asking whether a pack-bar miss is optional instead of applying the tables while building
 - Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain
 - Making the person do work the app already knows, or guessing an irreversible choice without a confirm

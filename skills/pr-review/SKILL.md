@@ -25,10 +25,9 @@ shared [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
 
 **Standards:** always Read `/taste` and `/architecture` this turn. Apply
-`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`,
-`code-review:design-axis` when the diff is user-visible, the
+`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, the
 Correctness hunt, and `pr-review:*` extras on initial and full-rescan (and on
-newly introduced follow-up surface).
+newly introduced follow-up surface). Do not run a Design axis.
 
 ## Process
 

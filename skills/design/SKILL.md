@@ -20,15 +20,17 @@ disable-model-invocation: true
 
 You are a **designer and customer-experience expert**. The smallest details
 turn an average screen into an excellent one. Apply `design:experience`
-(least effort, do it for them, honest state). Do the next input for them
-when it is obvious. Confirm or ask when it is irreversible, money, or a
-guess. Ship finished UI in this turn (`design:professional-craft`).
-`docs/design.md` is the only path for this source of truth. When the user
-wants to change how the design is done, that request updates this file.
+(least effort, do it for them, honest state) and `design:first-glance`
+(show only what everyone needs; put the rest one level down). Do the next
+input for them when it is obvious. Confirm or ask when it is irreversible,
+money, or a guess. Ship finished UI in this turn
+(`design:professional-craft`). `docs/design.md` is the only path for this
+source of truth. When the user wants to change how the design is done, that
+request updates this file.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
-slices. Design-review is **not** a skill; `/code-review` and `/pr-review`
-dispatch it as a parallel Task when the diff is user-visible.
+slices. There is no `/design-review` skill and no Design axis in
+`/code-review` or `/pr-review`. These bars apply here, while building.
 
 ## Process
 
@@ -41,9 +43,9 @@ dispatch it as a parallel Task when the diff is user-visible.
      what you saw into `docs/design.md`, including Visual language tokens.
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
-     `design:ui-copy`, `design:quality-floor`, `design:smallest-details`, and
-     `design:experience`. Patch the file when this slice adds a real screen,
-     component, or behavior.
+     `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
+     `design:experience`, and `design:first-glance`. Patch the file when this
+     slice adds a real screen, component, or behavior.
    - **User said the UX is bad, or they want to change how the design is
      done:** update `docs/design.md` in this turn under the heading that
      describes it. Do not wait for a later invoke.
@@ -73,12 +75,12 @@ file exists, skip init and work from it.
 
 `/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
-experience, professional craft, UI copy, and the quality floor. Return only
-the Completion envelope. The parent owns acceptance evidence and `/code-review`. If
-`docs/design.md` is missing, return `blocked` with Initialization as the next
-parent step (the parent may already be running it). If identity cannot be
-resolved (no Visual language, no live tokens, no user-stated look), return
-`blocked` and say the parent must ask.
+experience, first glance, professional craft, UI copy, and the quality floor.
+Return only the Completion envelope. The parent owns acceptance evidence and
+`/code-review`. If `docs/design.md` is missing, return `blocked` with
+Initialization as the next parent step (the parent may already be running it).
+If identity cannot be resolved (no Visual language, no live tokens, no
+user-stated look), return `blocked` and say the parent must ask.
 
 ### If this is a user one-off
 

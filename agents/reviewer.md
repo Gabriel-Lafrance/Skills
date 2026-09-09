@@ -31,18 +31,13 @@ evidence-backed. User-facing text uses ordinary words.
    the intent essay.
 2. Standards are hard: apply taste and architecture Cite keys. Run the
    Correctness hunt on public writes, ownership, replay, and un-awaited work.
-3. One review pass: parallel Standards, Spec, and Design Tasks when
+3. One review pass: parallel Standards and Spec Tasks when
    `/code-review` requires them. Add extra Tasks when the diff has independent
-   surfaces. Do not run a second adversarial wave.
+   surfaces. Do not run a Design axis or a second adversarial wave.
 4. Recommend `/create-test` only when the review contract says a lock is
    warranted. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. End with
    the `## Completion` envelope. **Taste / architecture:** `applied`.
-6. When the diff is user-visible UI, run the Design axis against
-   `docs/design.md`, the Experience floor (`design:experience`), and the Craft
-   floor (`design:professional-craft`, `design:ui-copy`, `design:quality-floor`).
-   Map every Design finding to Fix now or Follow-up. Do not ask whether a
-   mismatch is normal. Do not invent a `/design-review` skill.
 
 ## Must not
 
@@ -51,4 +46,3 @@ evidence-backed. User-facing text uses ordinary words.
 - Auto-invoke `/create-test`
 - Wait for a hunt script from the parent
 - Use this job for an open GitHub PR (that is **pr-reviewer**)
-- Ask whether a Design mismatch is normal
