@@ -35,9 +35,11 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 ### Source of truth
 
-The only path is **`docs/design.md`** at the workspace root. It is the living source of truth for the whole app's UX and UI. There is no size cap. Do not add a Summary (or any rolling digest) that replaces detail as the file grows.
+The only path is **`docs/design.md`** at the workspace root. It is a short **Do** / **Don't** list for this product's **UI and UX**. Nothing else belongs: no screen catalog, no component encyclopedia, no architecture, no data model, no API notes, no per-route happy path.
 
-Required top-level headings stay stable so later captures can cite them. Nested headings are free: when something new needs its own place, add a heading that names it well. Skeleton: [`reference.md`](reference.md#heading-skeleton).
+Crawl the app to observe. Write only rules. One bullet is one UI/UX rule, with a short why when it is not obvious. Merge duplicates. Pack bars stay in this skill; do not copy them into the file.
+
+If the file is already a catalog, distill it to Do / Don't the next time you touch it. Keep the user's stated likes and dislikes as bullets. Delete agent dumps. Skeleton: [`reference.md`](reference.md#heading-skeleton).
 
 ### Smallest details
 
@@ -45,7 +47,7 @@ Put the agent in a designer and customer-experience seat. Excellence is usually 
 
 ### Experience
 
-Pack bars, not product taste. They apply even when `docs/design.md` is silent. Cite `design:experience`. Product exceptions (slower money, extra confirm on delete) live under Preferences. Table: [`reference.md`](reference.md#experience).
+Pack bars, not product taste. They apply even when `docs/design.md` is silent. Cite `design:experience`. Product exceptions (slower money, extra confirm on delete) live as Do / Don't bullets. Table: [`reference.md`](reference.md#experience).
 
 | Rule | Meaning |
 | --- | --- |
@@ -56,7 +58,7 @@ Pack bars, not product taste. They apply even when `docs/design.md` is silent. C
 | **Respect time** | No fake waits, no full-page block for a fast save, no extra ceremony on a reversible action. Confirmations earn their cost. |
 | **Brain-off** | A person who is not thinking hard can still finish the happy path. No remembering a hidden rule, reading a wall, or choosing among equivalent options. Power features stay one level down (`design:first-glance`). |
 
-Least effort, do-it-for-them on an obvious input, dishonest state, and a happy path that requires a hidden rule are Fix now. Extra explanation on a dense expert view, or an existing adjacent screen left untouched, can be Follow-up. A written Preference that asks for a slower path is not a defect.
+Least effort, do-it-for-them on an obvious input, dishonest state, and a happy path that requires a hidden rule are Fix now. Extra explanation on a dense expert view, or an existing adjacent screen left untouched, can be Follow-up. A written Don't or Do that asks for a slower path is not a defect.
 
 ### First glance
 
@@ -73,13 +75,13 @@ This is the UI analog of a deep public surface (`architecture:deep-public-surfac
 | **Same screen** | Do not send people to another page for a related action that belongs here. Hide it here, one level down. |
 | **Both audiences** | A beginner can finish without hunting. An expert reaches the rest in one more click. |
 
-A first surface that shows a toolbar of equal-weight actions, or a settings list that mixes two everyday toggles with a wall of expert options, is Fix now. An existing adjacent screen left bloated, or a power shortcut that already sits behind overflow, can be Follow-up. A written Preference that wants every control visible is not a defect.
+A first surface that shows a toolbar of equal-weight actions, or a settings list that mixes two everyday toggles with a wall of expert options, is Fix now. An existing adjacent screen left bloated, or a power shortcut that already sits behind overflow, can be Follow-up. A written Do that wants every control visible is not a defect.
 
 ### Professional craft
 
 Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
 
-Identity comes from `docs/design.md` Visual language, the live app, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
+Identity comes from look bullets in `docs/design.md`, the live app, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
 
 When the user states a new identity, avoid the current AI-default looks (cream + terracotta serif, near-black + acid green, purple-on-white gradients, Inter/Roboto-only stacks). When the app already looks a certain way, match it, including if that way is quiet.
 
@@ -95,11 +97,11 @@ Missing focus, hover-only primary actions, placeholder-only labels, and body con
 
 ### Initialization
 
-`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass creates the file, asks the user to log in, crawls **every** route in the app router via a Task subagent, and records Visual language (observed color, type, density), patterns, components, and behavior. Do not brute-force login. If Browser is blocked, write what code can prove and mark visual capture as a gap. Never overwrite a file that already exists.
+`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass asks the user to log in, crawls **every** route to observe, and writes a short Do / Don't list. Do not brute-force login. If Browser is blocked, write UI/UX rules code can prove and mark visual capture as a gap. Never overwrite a file that already exists with a blank template. A bloated existing file is distilled on the next capture or UI slice, not during a skip-init.
 
 ### Blend edits
 
-The user may add or remove anything in `docs/design.md`. The next agent run treats the current file as truth. Do not restore deleted bullets, fight a heading the user renamed, or keep a private shadow copy. Merge new capture under the heading that describes it.
+The user may add or remove Do / Don't bullets. The next agent run treats those bullets as truth. Do not restore deleted bullets or keep a private shadow copy. New capture adds or tightens a UI/UX bullet. It does not grow a catalog.
 
 When the user says the UX is bad, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in that turn. If they want to change how the design is done, that request updates the file. Gold standards require the same even when `/design` was not invoked.
 
@@ -119,7 +121,8 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 
 ## Anti-patterns
 
-- A Summary section, a second design file, a palette catalog, a search script for looks, or a size cap
+- A screen catalog, component encyclopedia, per-route dump, architecture notes, or a second design file
+- Copying pack bars into `docs/design.md`, or writing hundreds of lines when a short Do / Don't list would do
 - Inventing pixels, palettes, or flows that the app, `docs/design.md`, and the user did not supply
 - Shipping a first-pass "fine" screen that still needs a restyle to look professional
 - Skipping the quality floor because `docs/design.md` did not mention contrast or focus

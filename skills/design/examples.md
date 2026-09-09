@@ -2,7 +2,7 @@
 
 ## Experience (do it for them)
 
-**Good:** Signed-in user is `maya@acme.com`. Invite teammate form prefills `@acme.com`. The next input is obvious. That is not a surprise (`taste:no-surprises`). Making her retype `acme.com` is leftover work. `docs/design.md` records the pattern and the why under Patterns / behavior.
+**Good:** Signed-in user is `maya@acme.com`. Invite teammate form prefills `@acme.com`. The next input is obvious. That is not a surprise (`taste:no-surprises`). Making her retype `acme.com` is leftover work. `docs/design.md` records it as a Do bullet.
 
 **Bad:** The same append on public signup as `maya@gmail.com`. That is a guess. Leave the domain blank or ask.
 
@@ -38,13 +38,13 @@
 
 User: "Having to type the full company domain every invite is bad UX."
 
-**Good:** Update `docs/design.md` in that turn. Add or extend the invite pattern: append the workspace domain, why it saves typing, and when not to (unknown domain, personal email). Then, if this chat is also implementing, match the UI.
+**Good:** Update `docs/design.md` in that turn. Add a Do bullet: prefill the workspace domain on invite, and when not to (unknown domain, personal email). Then, if this chat is also implementing, match the UI.
 
 **Bad:** Nod in chat and leave `docs/design.md` untouched until someone remembers `/design`.
 
 ## User wants to change how design is done
 
-The user says destructive actions should skip the confirm dialog. That is how design is done for this product. Blend-edit `docs/design.md` **Preferences** (and **Patterns** if the destructive row changes). Do not only change the component.
+The user says destructive actions should skip the confirm dialog. That is how design is done for this product. Add a Don't bullet (no confirm on destructive actions) or replace the confirm Do. Do not only change the component.
 
 ## Blend edits
 
@@ -56,9 +56,17 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Initialization
 
-**Good:** Parent asks the user to log in. A Task visits every route from the app router and writes Visual language (observed hex and type), Screens / flows, and Components without a Summary.
+**Good:** Parent asks the user to log in. A Task visits every route, then writes a short Do / Don't list (look, invite prefill, overflow for extra actions). No Screens heading. No component dump.
 
-**Bad:** A one-page screenshot and a short "overall look and feel" paragraph that will go stale.
+**Bad:** One subsection per route, hover/disabled/loading on every component, and a 400-line file.
+
+**Bad:** A one-page screenshot and a short "overall look and feel" paragraph with no do or don't.
+
+## docs/design.md is a short list
+
+**Good:** Two headings, Do and Don't. Identity is a look bullet. Exceptions are bullets. The file scans in one sitting.
+
+**Bad:** Visual language + Components + Patterns + Screens / flows + Preferences, with a happy path for each route. That is not UI/UX rules. That is a catalog.
 
 ## Professional craft
 
@@ -70,7 +78,7 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Missing identity
 
-**Good (parent, one-off):** Visual language is empty, no theme tokens, user has not stated a look. Ask what the product should feel like. Do not pick a palette.
+**Good (parent, one-off):** No look bullets, no theme tokens, user has not stated a look. Ask what the product should feel like. Do not pick a palette.
 
 **Bad:** Invent "soft spa pink" so work can start.
 

@@ -4,45 +4,29 @@ Load with [SKILL.md](SKILL.md) for the file shape, route crawl, login pause, and
 
 ## Heading skeleton
 
-Write `docs/design.md` with these H2s. Add H3+ whenever a thing needs a name of its own. Do not add Summary.
+Write `docs/design.md` with these H2s only. Do not add Screens, Components,
+Visual language, Preferences, Summary, or extra H2s.
 
 ```markdown
 # Design
 
-Living source of truth for this app's UX and UI. No summary. No size cap.
-Add a heading when something new needs its own place.
+UI and UX do / don't for this product. Pack bars live in `/design`, not here.
 
-## Visual language
+## Do
+- Reuse the live ink, surface, and accent. Do not add a second palette.
+- Prefill `@` + the signed-in work domain on team invite.
+- Put secondary row actions in a three-dot menu.
+- Confirm irreversible delete and charges.
 
-Identity for this product. Record what you observed or what the user stated:
-color roles with hex when visible, type (display / body / utility), space and
-density, motion, iconography, and what the product refuses (including AI-default
-looks this app is not). Do not invent a look here.
-
-## Components
-
-Reusable UI pieces and how each one behaves, including hover, disabled,
-loading, empty, and error when those states exist.
-
-## Patterns / behavior
-
-Cross-screen interaction rules. Write the why next to the rule. Pack
-experience bars live in the skill, not as a sixth required heading here.
-If this product must add friction (money slower, extra delete confirm),
-put that under **Preferences**.
-
-## Screens / flows
-
-One subsection per route or job. What the user is here to finish, the
-happy path, and the other states (empty, loading, error, success,
-no-permission).
-
-## Preferences
-
-Stated likes, dislikes, and exceptions, including why they save work.
+## Don't
+- Full-page spinner for a fast save. Use inline progress.
+- Placeholder-only labels.
+- List every expert setting beside Display name. Advanced goes in an accordion.
 ```
 
-If a fact does not fit, create a heading that describes it. Do not invent a sixth required H2 unless the product truly has a distinct kind (for example marketing vs in-app). Prefer nesting under an existing H2.
+One bullet is one UI/UX rule. Identity, exceptions, and patterns are bullets,
+not extra headings. If it is not a UI or UX do or don't, it does not belong.
+If the file catalogs routes or components, it is too long. Distill it.
 
 ## Route crawl
 
@@ -56,7 +40,14 @@ Discover routes from the repo, then visit each:
 | Expo / RN Router | `app/**` routes excluding `_layout` only files |
 | Other | The repo's existing router table; do not guess a framework |
 
-Visit **every** discovered route after login. Record URL, what the screen is for, primary action, states you can reach without destructive data, and repeating components. Capture Visual language from what you see (color roles + hex, type, density, motion, refuses). Skip auth-callback or logout URLs that would drop the session; note them as skipped.
+Visit **every** discovered route after login. Observe repeating UI/UX rules:
+what everyone sees first, where extra actions hide, what the product refuses,
+and look (color roles + hex, type, density) only as Do / Don't bullets. Skip
+auth-callback or logout URLs that would drop the session; note them as skipped
+in the Task Completion, not as a route dump in the file.
+
+Do **not** write a subsection per route. Do **not** list every component.
+The crawl is input. The file is a short Do / Don't list.
 
 Work in a Task so the main chat can stay on login and integration ([subagents.md](../pack-shared/subagents.md)).
 
@@ -69,18 +60,18 @@ Workers do not chat with the user. The parent:
 3. Waits until the user says they are in.
 4. Then dispatches the crawl Task.
 
-Do not brute-force login, paste secrets, or retry captcha. If login never happens, write the code-derived file and mark visual capture blocked ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+Do not brute-force login, paste secrets, or retry captcha. If login never happens, write a short Do / Don't list from code and mark visual capture blocked ([browser-evidence.md](../pack-shared/browser-evidence.md)).
 
 ## Merge into an existing file
 
 When updating `docs/design.md`:
 
-1. Read the whole file. That text is the rule, including user edits.
-2. Add new screens and components under the heading that names them.
-3. Patch a bullet only when this turn observed a replacement, the user stated a new preference, or the user wants to change how the design is done.
+1. Read the whole file. User Do / Don't bullets are the rule.
+2. Add or tighten a bullet only when this turn observed a new UI/UX rule, the user stated a preference, or the user wants to change how the design is done.
+3. Distill Screens, Components, Visual language, and Preferences catalogs into Do / Don't. Keep the user's intent. Delete the dump.
 4. Do not restore text the user removed.
-5. Do not collapse long sections into a digest.
-6. Keep `docs/design.md` as the only path.
+5. Do not grow the file with a new screen subsection.
+6. Keep `docs/design.md` as the only path. UI and UX only.
 
 ## User-facing vs `/implement`
 
@@ -90,7 +81,7 @@ Dispatch `/design` when the slice outcome is a screen, component, visible copy, 
 
 Resolve in this order. Stop at the first source that actually specifies look and feel:
 
-1. `docs/design.md` Visual language
+1. Look bullets in `docs/design.md` (Do / Don't about color, type, density)
 2. The live app and existing tokens / theme / CSS variables in the repo
 3. What the user stated this turn
 
@@ -127,9 +118,8 @@ Write from the person's side of the screen:
 
 ## Experience
 
-Pack bars. Always on, even when `docs/design.md` is silent. Do not invent a
-required **Experience** heading in that file. Product exceptions live under
-**Preferences**.
+Pack bars. Always on, even when `docs/design.md` is silent. Do not copy this
+table into that file. Product exceptions live as Do / Don't bullets.
 
 | Bar | Fix now | Follow-up |
 | --- | --- | --- |
@@ -148,13 +138,13 @@ required **Experience** heading in that file. Product exceptions live under
 | Save draft → keep the text they already typed | Irreversible delete / charge / send-to-everyone → confirm |
 | Return to the same screen, same scroll, same filters | Infer a preference they never stated |
 
-If the UI contradicts `docs/design.md`, make the UI match the file. The file changes when the user wants a different design. If they want a slower or denser path, they say so and you update **Preferences**.
+If the UI contradicts `docs/design.md`, make the UI match the file. The file changes when the user wants a different design. If they want a slower or denser path, they say so and you add a Do / Don't bullet.
 
 ## First glance
 
 Pack bar. Always on, even when `docs/design.md` is silent. Cite
-`design:first-glance`. Product exceptions (show every control) live under
-**Preferences**.
+`design:first-glance`. Product exceptions (show every control) live as Do /
+Don't bullets.
 
 The first surface is what **everyone** needs. Extra actions and advanced
 settings sit one level down on the **same** screen. Overflow (three-dot menu)
