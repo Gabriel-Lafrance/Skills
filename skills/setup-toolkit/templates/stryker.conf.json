@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "npm",
+  "commandRunner": {
+    "command": "npm test"
+  },
+  "coverageAnalysis": "all",
+  "mutate": [
+    "src/**/*.{js,mjs,cjs,jsx,ts,tsx}",
+    "convex/**/*.ts",
+    "!**/*.test.*",
+    "!**/*.spec.*",
+    "!**/*.config.*",
+    "!**/*.d.ts",
+    "!convex/_generated/**",
+    "!complexity.test.mjs",
+    "!principle-gate.test.mjs",
+    "!principle-scan.mjs",
+    "!knip.test.mjs",
+    "!cyclomatic-cap.mjs",
+    "!eslint-plugin-no-emdash.mjs"
+  ],
+  "reporters": ["clear-text", "html", "json"],
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": 60
+  },
+  "timeoutMS": 10000
+}
