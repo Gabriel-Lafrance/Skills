@@ -23,6 +23,7 @@ UI and UX do / don't for this product. Pack bars live in `/design`, not here.
 - Placeholder-only labels.
 - List every expert setting beside Display name. Advanced goes in an accordion.
 - Say "No API key" when Create is already on the screen.
+- Write the landing like a docs page, or docs like a slogan.
 ```
 
 One bullet is one UI/UX rule. Identity, exceptions, and patterns are bullets,
@@ -43,7 +44,8 @@ Discover routes from the repo, then visit each:
 
 Visit **every** discovered route after login. Observe repeating UI/UX rules:
 what everyone sees first, where extra actions hide, what the product refuses,
-and look (color roles + hex, type, density) only as Do / Don't bullets. Skip
+how words work (landing vs in-app vs docs), and look (color roles + hex, type,
+density) only as Do / Don't bullets. Skip
 auth-callback or logout URLs that would drop the session; note them as skipped
 in the Task Completion, not as a route dump in the file.
 
@@ -94,15 +96,15 @@ Do the design work in thinking, then ship once. The user should not need a secon
 
 Before writing UI code:
 
-1. Name the screen's single job and the identity you are using (file, live app, or user).
+1. Name the screen's single job and the identity you are using (file, live app, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`). If empty is "none yet," the create or invite control is enough (`design:no-obvious`).
 4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
 5. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
 Then implement to that plan exactly. Meet `design:experience`,
-`design:first-glance`, `design:no-obvious`, and `design:quality-floor`
-without announcing them. If Browser is available, screenshot the result and
+`design:first-glance`, `design:no-obvious`, `design:ui-copy`, and
+`design:quality-floor` without announcing them. If Browser is available, screenshot the result and
 fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
 
 When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
@@ -111,14 +113,36 @@ Landing / marketing first viewport still follows [`taste` React and UI](../taste
 
 ## UI copy
 
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:ui-copy`. Product voice (dry landing, playful docs) lives as Do /
+Don't bullets. Do not copy this table into that file.
+
+Unslop is **discussion text** in chat. Product copy is this bar. A landing
+that sells is correct. A landing that reads like a chat reply is wrong.
+
+Name the surface, then write:
+
+| Surface | Job of the words |
+| --- | --- |
+| Landing / marketing | Hook and sell. One claim, one reason to care, a CTA. Not a feature dump and not a tutorial. First viewport still follows [`taste` React and UI](../taste/reference.md#react-and-ui). |
+| Docs / help | Explain and be clear. Precise steps. Not slogans, not hype. |
+| App (settings, forms, product) | Short. Name the action. Do not sell. Do not lecture. Empty "none yet" is the control (`design:no-obvious`). |
+| Errors | What happened and what to do. Not an apology essay. |
+
 Write from the person's side of the screen:
 
 - Controls are verbs the person recognizes: "Save changes", not "Submit"; "Invite teammate", not "Create user".
 - The same word stays through the flow. A "Publish" button yields "Published", not "Success".
-- Errors name what went wrong and the next step. They do not apologize and they are not vague.
-- Empty "none yet" is the next action (Create, Invite, New draft). Do not caption it with "No API key" or "Nothing here" (`design:no-obvious`).
-- A failed search or a permission wall still needs a sentence. Those are not obvious from a blank list.
+- A sentence that could sit on any other product is filler. Rewrite it for this product and this screen.
+- Match the live app's voice when extending a screen. Do not invent a second voice.
 - Placeholders never replace a visible label.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Fits the surface | Landing that explains like docs; docs that sell; app chrome that markets or welcomes | A secondary paragraph that is a bit long on an otherwise-right surface |
+| This product | "Unlock the power of", "Welcome to your dashboard", "Seamlessly", or copy that could sit on any other product | A line that is specific but slightly off the live voice |
+| Real verbs | "Submit", "Success", "An error occurred", or a new name mid-flow | Optional helper that restates a visible verb |
+| Empty is the action | "No API key" / "Nothing here" next to Create (`design:no-obvious`) | Extra docs link beside an already-clear action |
 
 ## Experience
 

@@ -23,8 +23,10 @@ turn an average screen into an excellent one. Apply `design:experience`
 (least effort, do it for them, honest state), `design:first-glance`
 (show only what everyone needs; put the rest one level down), and
 `design:no-obvious` (do not caption an empty list; the create button is
-the message). Do the next input for them when it is obvious. Confirm or
-ask when it is irreversible, money, or a guess. Ship finished UI in this
+the message). Write copy that fits the surface (`design:ui-copy`): a
+landing hooks and sells; docs explain and stay clear; app UI names the
+action. Do the next input for them when it is obvious. Confirm or ask
+when it is irreversible, money, or a guess. Ship finished UI in this
 turn (`design:professional-craft`). `docs/design.md` is a short UI/UX
 **Do** / **Don't** list. When the user wants to change how the design is
 done, add a bullet.
@@ -79,13 +81,13 @@ file exists, skip init and work from it.
 
 `/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
-experience, first glance, don't tell the obvious, professional craft, UI
-copy, and the quality floor. Return only the Completion envelope. The parent
-owns acceptance evidence and `/code-review`. If `docs/design.md` is missing,
-return `blocked` with Initialization as the next parent step (the parent may
-already be running it). If identity cannot be resolved (no look bullets, no
-live tokens, no user-stated look), return `blocked` and say the parent must
-ask.
+experience, first glance, don't tell the obvious, copy that fits the
+surface, professional craft, and the quality floor. Return only the
+Completion envelope. The parent owns acceptance evidence and
+`/code-review`. If `docs/design.md` is missing, return `blocked` with
+Initialization as the next parent step (the parent may already be running
+it). If identity cannot be resolved (no look bullets, no live tokens, no
+user-stated look), return `blocked` and say the parent must ask.
 
 ### If this is a user one-off
 

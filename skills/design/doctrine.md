@@ -104,7 +104,20 @@ When the user states a new identity, avoid the current AI-default looks (cream +
 
 ### UI copy
 
-Interface words are design material. Name controls by what the person does. Keep the same word from button through success. Errors name what happened and what to do next. An empty "none yet" is the next action, not a status sentence (`design:no-obvious`). Do not ship "Submit", "An error occurred", or an empty screen with no way to start. Detail: [`reference.md`](reference.md#ui-copy).
+Interface words are design material. They must fit the job of this surface. Do not ship filler the person then has to rewrite.
+
+Name the surface before you write. A landing page hooks and sells: one claim, one reason to care, a CTA. A docs or help page explains and stays clear: precise steps, no slogans. App UI (settings, forms, product chrome) is short and job-shaped: name the action, do not sell, do not lecture. Chat unslop is discussion text only. Do not write a landing like a chat reply, and do not write docs like a landing.
+
+Match this product: the live app, voice bullets in `docs/design.md`, or the user this turn. A sentence that could sit on any other product is filler. Rewrite it. Cite `design:ui-copy`. Table: [`reference.md`](reference.md#ui-copy).
+
+| Rule | Meaning |
+| --- | --- |
+| **Fits the surface** | Landing / marketing: hook and sell. Docs / help: explain and be clear. App: the action, not a pitch. |
+| **This product** | Same voice as the live screens. Not "Unlock the power of", "Welcome to your dashboard", or "Seamlessly". |
+| **Real verbs** | Controls are what the person does. Same word from button through success. Not "Submit", "Success", or "An error occurred". |
+| **Empty is the action** | "None yet" is Create or Invite (`design:no-obvious`). Errors still name what happened. |
+
+Landing copy that reads like a tutorial, docs that sell, app chrome that markets, or interchangeable slogans are Fix now. A secondary paragraph that is a bit long on an otherwise-right surface can be Follow-up. A written Do that wants a dry landing or playful docs is not a defect.
 
 ### Quality floor
 
@@ -147,6 +160,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Shipping a `/design-review` skill or a Design review axis inside `/code-review` or `/pr-review`
 - Putting every action and advanced setting on the first surface instead of one level down
 - Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen
+- Shipping frontend copy that does not fit the surface (landing that explains, docs that sell, app chrome that markets) or filler that could sit on any other product
 - Overwriting an existing `docs/design.md` from a blank template
 - Brute-forcing login or calling a skipped Browser crawl a complete capture
 - Reverting the user's deletions on the next pass

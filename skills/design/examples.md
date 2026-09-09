@@ -66,7 +66,7 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Initialization
 
-**Good:** Parent asks the user to log in. A Task visits every route, then writes a short Do / Don't list (look, invite prefill, overflow for extra actions). No Screens heading. No component dump.
+**Good:** Parent asks the user to log in. A Task visits every route, then writes a short Do / Don't list (look, invite prefill, overflow for extra actions, landing hooks vs docs explain). No Screens heading. No component dump.
 
 **Bad:** One subsection per route, hover/disabled/loading on every component, and a 400-line file.
 
@@ -100,9 +100,19 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## UI copy
 
-**Good:** Button "Publish". Toast "Published". Empty drafts: New draft only. No "No drafts yet."
+**Good (landing):** Headline is the outcome they want. One line of proof. One CTA. The first viewport is brand + that headline + that line + CTA + one image (`taste` React and UI).
 
-**Bad:** Button "Submit". Toast "Success". Empty: "No API key" plus a create button.
+**Bad (landing):** "Our platform enables teams to seamlessly manage API keys." That is filler. Or a feature dump. Or a tutorial. Landing hooks and sells.
+
+**Good (docs):** "Webhooks POST a JSON body to your endpoint. Return 2xx within 5 seconds." Clear. No slogan.
+
+**Bad (docs):** "Supercharge your stack with real-time webhook magic." Docs explain. They do not sell.
+
+**Good (app):** Button "Publish". Toast "Published". Empty drafts: New draft only. No "No drafts yet."
+
+**Bad (app):** "Welcome to your workspace! Let's get you started on your journey." Settings and product chrome name the action. They do not pitch.
+
+**Bad:** Copy that could sit on any other product unchanged. Rewrite it for this screen.
 
 ## User-facing UI without `/design`
 
