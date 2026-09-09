@@ -34,6 +34,16 @@
 
 **Bad:** "Simplifying" by deleting the expert controls. First glance hides them one level down. It does not remove them.
 
+## Don't tell the obvious
+
+**Good:** The user has not minted an API key. The screen is the create actions (secret key, publishable key). No headline that says they have none.
+
+**Bad:** The same screen with "No API key" or "You haven't created a key yet" above those buttons. The blank list already said that.
+
+**Good:** Search for `invoice` returns nothing. Copy says "No drafts match 'invoice'." That is not visible from a blank list after a query.
+
+**Bad:** A permission wall that only shows a blank list and Create, with no note that they need admin to mint. No-permission is not obvious.
+
 ## User said the UX is bad
 
 User: "Having to type the full company domain every invite is bad UX."
@@ -70,7 +80,7 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Professional craft
 
-**Good:** Invite screen reuses the app's existing ink, surface, and accent hexes, the body type already in `layout.tsx`, and ships with a visible label, focus ring, empty state ("Invite a teammate to share this workspace"), and error next to the field. No second "make it pretty" turn.
+**Good:** Invite screen reuses the app's existing ink, surface, and accent hexes, the body type already in `layout.tsx`, and ships with a visible label, focus ring, an Invite teammate control (no "No teammates" caption), and error next to the field. No second "make it pretty" turn.
 
 **Bad:** First pass is a gray form with "Submit" and Inter on a purple gradient, then a follow-up prompt to restyle it to match the app.
 
@@ -90,9 +100,9 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## UI copy
 
-**Good:** Button "Publish". Toast "Published". Empty: "No drafts yet. New draft starts one."
+**Good:** Button "Publish". Toast "Published". Empty drafts: New draft only. No "No drafts yet."
 
-**Bad:** Button "Submit". Toast "Success". Empty: "Nothing here."
+**Bad:** Button "Submit". Toast "Success". Empty: "No API key" plus a create button.
 
 ## User-facing UI without `/design`
 

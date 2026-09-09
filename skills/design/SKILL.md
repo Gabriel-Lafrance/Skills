@@ -20,13 +20,14 @@ disable-model-invocation: true
 
 You are a **designer and customer-experience expert**. The smallest details
 turn an average screen into an excellent one. Apply `design:experience`
-(least effort, do it for them, honest state) and `design:first-glance`
-(show only what everyone needs; put the rest one level down). Do the next
-input for them when it is obvious. Confirm or ask when it is irreversible,
-money, or a guess. Ship finished UI in this turn
-(`design:professional-craft`). `docs/design.md` is a short UI/UX **Do** /
-**Don't** list. When the user wants to change how the design is done, add a
-bullet.
+(least effort, do it for them, honest state), `design:first-glance`
+(show only what everyone needs; put the rest one level down), and
+`design:no-obvious` (do not caption an empty list; the create button is
+the message). Do the next input for them when it is obvious. Confirm or
+ask when it is irreversible, money, or a guess. Ship finished UI in this
+turn (`design:professional-craft`). `docs/design.md` is a short UI/UX
+**Do** / **Don't** list. When the user wants to change how the design is
+done, add a bullet.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
 slices. There is no `/design-review` skill and no Design axis in
@@ -46,7 +47,8 @@ slices. There is no `/design-review` skill and no Design axis in
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
-     `design:experience`, and `design:first-glance`. Patch the file only when
+     `design:experience`, `design:first-glance`, and `design:no-obvious`.
+     Patch the file only when
      this slice creates a new UI/UX do or don't.
    - **User said the UX is bad, or they want to change how the design is
      done:** add or edit a Do / Don't bullet in this turn. Do not wait for a
@@ -77,12 +79,13 @@ file exists, skip init and work from it.
 
 `/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
-experience, first glance, professional craft, UI copy, and the quality floor.
-Return only the Completion envelope. The parent owns acceptance evidence and
-`/code-review`. If `docs/design.md` is missing, return `blocked` with
-Initialization as the next parent step (the parent may already be running it).
-If identity cannot be resolved (no look bullets, no live tokens, no
-user-stated look), return `blocked` and say the parent must ask.
+experience, first glance, don't tell the obvious, professional craft, UI
+copy, and the quality floor. Return only the Completion envelope. The parent
+owns acceptance evidence and `/code-review`. If `docs/design.md` is missing,
+return `blocked` with Initialization as the next parent step (the parent may
+already be running it). If identity cannot be resolved (no look bullets, no
+live tokens, no user-stated look), return `blocked` and say the parent must
+ask.
 
 ### If this is a user one-off
 

@@ -22,6 +22,7 @@ UI and UX do / don't for this product. Pack bars live in `/design`, not here.
 - Full-page spinner for a fast save. Use inline progress.
 - Placeholder-only labels.
 - List every expert setting beside Display name. Advanced goes in an accordion.
+- Say "No API key" when Create is already on the screen.
 ```
 
 One bullet is one UI/UX rule. Identity, exceptions, and patterns are bullets,
@@ -95,12 +96,14 @@ Before writing UI code:
 
 1. Name the screen's single job and the identity you are using (file, live app, or user).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
-3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`).
+3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`). If empty is "none yet," the create or invite control is enough (`design:no-obvious`).
 4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
 5. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
 Then implement to that plan exactly. Meet `design:experience`,
-`design:first-glance`, and `design:quality-floor` without announcing them. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+`design:first-glance`, `design:no-obvious`, and `design:quality-floor`
+without announcing them. If Browser is available, screenshot the result and
+fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
 
 When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
 
@@ -113,7 +116,8 @@ Write from the person's side of the screen:
 - Controls are verbs the person recognizes: "Save changes", not "Submit"; "Invite teammate", not "Create user".
 - The same word stays through the flow. A "Publish" button yields "Published", not "Success".
 - Errors name what went wrong and the next step. They do not apologize and they are not vague.
-- Empty states invite the next action. They are not mood copy.
+- Empty "none yet" is the next action (Create, Invite, New draft). Do not caption it with "No API key" or "Nothing here" (`design:no-obvious`).
+- A failed search or a permission wall still needs a sentence. Those are not obvious from a blank list.
 - Placeholders never replace a visible label.
 
 ## Experience
@@ -161,6 +165,25 @@ uses. The test is the first look, not the component name.
 | One level down | Secondary action is a full toolbar button; advanced settings sit in the same list as everyday ones | Power shortcut that already lives behind overflow |
 | Same screen | Related extra action is a new page, wizard, or mode switch | Deep admin console that is a different job |
 | Both audiences | Beginner cannot finish without scanning expert chrome, or the expert path was deleted to "simplify" | Optional command palette / keyboard-first as an alternative |
+
+## Don't tell the obvious
+
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:no-obvious`. Product exceptions (an onboarding paragraph on empty)
+live as Do / Don't bullets.
+
+Do not narrate what the screen already shows. A missing list plus Create
+or Invite is the empty state. Do not add "No API key", "You haven't created
+a key yet", or "Get started by creating your first key."
+
+Still write the non-obvious: errors, no-permission, a search or filter
+with zero hits, a cost, an irreversible side effect.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Don't caption empty | "No API key" / "Nothing here" / "You don't have any yet" next to Create or Invite | Extra helper that restates a visible control label |
+| The action is the copy | Onboarding paragraph that only restates the primary button | Optional docs link beside an already-clear action |
+| Say the non-obvious | Search or filter with zero hits and no match copy; permission wall that looks like a blank create screen | Extra status chrome on a state the control already shows (Saving…) |
 
 ## Quality floor
 

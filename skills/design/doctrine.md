@@ -24,6 +24,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 | `design:smallest-details` | Smallest details |
 | `design:experience` | Experience |
 | `design:first-glance` | First glance |
+| `design:no-obvious` | Don't tell the obvious |
 | `design:professional-craft` | Professional craft |
 | `design:ui-copy` | UI copy |
 | `design:quality-floor` | Quality floor |
@@ -77,6 +78,22 @@ This is the UI analog of a deep public surface (`architecture:deep-public-surfac
 
 A first surface that shows a toolbar of equal-weight actions, or a settings list that mixes two everyday toggles with a wall of expert options, is Fix now. An existing adjacent screen left bloated, or a power shortcut that already sits behind overflow, can be Follow-up. A written Do that wants every control visible is not a defect.
 
+### Don't tell the obvious
+
+Do not narrate what the screen already shows.
+
+If there are no API keys, do not say "No API key" or "You haven't created a key yet." Show the create action. The missing list plus the button is the message. The same for drafts, teammates, and any other "none yet": the next action is the copy. Do not add a status sentence that restates the blank.
+
+Still say what is not obvious: an error, a permission wall, a search or filter that returned nothing, a cost, an irreversible side effect. Honest state (`design:experience`) still forbids a control that looks saved while a write is in flight. This bar forbids captioning an empty list. Cite `design:no-obvious`. Table: [`reference.md`](reference.md#dont-tell-the-obvious).
+
+| Rule | Meaning |
+| --- | --- |
+| **Don't caption empty** | A blank list plus Create, Invite, or Mint is enough. "No API key" above that button is noise. |
+| **The action is the copy** | The primary control is the sentence. Do not add "Get started by creating your first key." |
+| **Say the non-obvious** | Errors, no-permission, failed search, money, irreversible. Those are not visible from a blank list alone. |
+
+A "none yet" screen that headlines "No API key" (or "Nothing here") next to Create is Fix now. Helper text that restates a visible label can be Follow-up. A written Do that wants an onboarding paragraph on empty is not a defect.
+
 ### Professional craft
 
 Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
@@ -87,7 +104,7 @@ When the user states a new identity, avoid the current AI-default looks (cream +
 
 ### UI copy
 
-Interface words are design material. Name controls by what the person does. Keep the same word from button through success. Empty and error states say what happened and what to do next. Do not ship "Submit", "An error occurred", or empty screens with no next action. Detail: [`reference.md`](reference.md#ui-copy).
+Interface words are design material. Name controls by what the person does. Keep the same word from button through success. Errors name what happened and what to do next. An empty "none yet" is the next action, not a status sentence (`design:no-obvious`). Do not ship "Submit", "An error occurred", or an empty screen with no way to start. Detail: [`reference.md`](reference.md#ui-copy).
 
 ### Quality floor
 
@@ -109,7 +126,7 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
 
-These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
+These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 
 ## Output
 
@@ -117,7 +134,7 @@ These bars apply while building. `/code-review` and `/pr-review` do not run a De
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:first-glance`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
 
 ## Anti-patterns
 
@@ -129,6 +146,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Implementing user-facing UI through `/implement`
 - Shipping a `/design-review` skill or a Design review axis inside `/code-review` or `/pr-review`
 - Putting every action and advanced setting on the first surface instead of one level down
+- Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen
 - Overwriting an existing `docs/design.md` from a blank template
 - Brute-forcing login or calling a skipped Browser crawl a complete capture
 - Reverting the user's deletions on the next pass
