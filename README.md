@@ -30,9 +30,9 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
-| **ESLint / Prettier / editor** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash and `.vscode` extension recommendations |
+| **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
 
-ESLint and Prettier are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
+ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
 ### Plugin rules (not User Rules)
 
@@ -74,7 +74,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, and `docs/design.md` init |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
 
 ```mermaid
 flowchart LR
@@ -95,7 +95,7 @@ flowchart LR
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
-- Lint/format in this app → `/setup-toolkit`
+- Lint/format/quality gates in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.

@@ -164,7 +164,9 @@ Reply like: 1b 2b
    - b) no ← recommended
 ```
 
-Wait for the answer before committing or opening a PR. If opening a PR, draft
+Wait for the answer before committing or opening a PR. Before a yes-commit,
+run this repo’s `lint` and `test` (`test:quality` when that is the test
+script) and fix failures first. If opening a PR, draft
 the body from [publish reference](../publish/reference.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
 [pr-ship.md](../pack-shared/pr-ship.md) for the create tool,

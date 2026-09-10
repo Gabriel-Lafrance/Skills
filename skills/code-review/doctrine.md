@@ -50,23 +50,23 @@ Treat the first two sources as **hard** unless repository rules conflict. On eve
 
 ### Blocker vs follow-up
 
-For the shipped diff, check each taste named principle. Cite the principle’s **plain name** and cite key in the finding **Rule** field when violated. The user-facing sentence must still explain the problem in ordinary words ([plain-language.md](../pack-shared/plain-language.md)).
+For the shipped diff, check each taste named principle. Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([plain-language.md](../pack-shared/plain-language.md)).
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
-| **Keep it simple** | New ceremony without evidence it is required for Done when / rules that must stay true | Slightly overbuilt but still correct |
-| **Keep jobs apart** | UI/feature owns Stripe, JWT, email, or mixed jobs in one unit | Mild mixing with a clear later split |
-| **One altitude** | One function both coordinates and does low-level detail in a way that hides bugs | Long but still readable |
-| **Read or write, not both** | A read also writes, or a command hides writes behind a “get” | Mild naming oddity on an otherwise correct command/query |
-| **Fail fast** | Invalid input accepted past the boundary into partial side effects | Late check that still prevents bad writes |
-| **Leave it cleaner** | Diff copies or extends a known-wrong shape in the touched lane | Cleanup opportunity not required for this PR |
-| **Related together** | Callers reach service internals; unrelated jobs jammed into one module | Coupling that works but should tighten |
-| **Safe to retry** | Replay/double-submit can duplicate charges, rows, or side effects | Missing key where risk is low |
-| **Say what happens** | Hidden globals, surprise side effects, or control flow a reader cannot see | Minor magic with local clarity |
-| **No surprises** | Surprising API/UI behavior vs name or docs | Slightly awkward but documented behavior |
-| **Honest names** | Diff changes the job but leaves a stale **file path**, **export**, **type**, or **widely used symbol** | Local helper mildly stale but still navigable |
-| **Trust the server** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
-| **Types tell the truth** | New public surface uses `any`, skips validators, or marks required data optional | Local private helper loosely typed but not on a boundary |
+| **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true | Slightly overbuilt but still correct |
+| **Keep jobs apart (SoC)** | UI/feature owns Stripe, JWT, email, or mixed jobs in one unit | Mild mixing with a clear later split |
+| **One altitude (SLAP)** | One function both coordinates and does low-level detail in a way that hides bugs | Long but still readable |
+| **Read or write, not both (CQS)** | A read also writes, or a command hides writes behind a “get” | Mild naming oddity on an otherwise correct command/query |
+| **Fail fast (Fail Fast)** | Invalid input accepted past the boundary into partial side effects | Late check that still prevents bad writes |
+| **Leave it cleaner (Boy Scout Rule)** | Diff copies or extends a known-wrong shape in the touched lane | Cleanup opportunity not required for this PR |
+| **Related together (Cohesion / Law of Demeter)** | Callers reach service internals; unrelated jobs jammed into one module | Coupling that works but should tighten |
+| **Safe to retry (Idempotency)** | Replay/double-submit can duplicate charges, rows, or side effects | Missing key where risk is low |
+| **Say what happens (explicit over implicit)** | Hidden globals, surprise side effects, or control flow a reader cannot see | Minor magic with local clarity |
+| **No surprises (PoLA)** | Surprising API/UI behavior vs name or docs | Slightly awkward but documented behavior |
+| **Honest names (intention-revealing names)** | Diff changes the job but leaves a stale **file path**, **export**, **type**, or **widely used symbol** | Local helper mildly stale but still navigable |
+| **Trust the server (never trust the client)** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
+| **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, or marks required data optional | Local private helper loosely typed but not on a boundary |
 
 A useful cleanup remains a **Follow-up** unless it violates the spec or an Active Rule, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
 

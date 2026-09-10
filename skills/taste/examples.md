@@ -153,6 +153,46 @@ async function placeOrder(input: Input) {
 }
 ```
 
+## Cyclomatic cap
+
+**Bad** — one function owns many paths (the quality-gate test fails):
+
+```typescript
+function priceOrder(order: Order): number {
+  if (!order.items.length) return 0;
+  let total = 0;
+  for (const item of order.items) {
+    if (item.kind === "sale") total += item.cents;
+    else if (item.kind === "bundle" && item.cents > 0) total += item.cents * 0.9;
+    else total += item.cents;
+  }
+  if (order.coupon) total = applyCoupon(total, order.coupon);
+  return total < 0 ? 0 : total;
+}
+```
+
+**Good** — each function stays at or under five paths:
+
+```typescript
+function priceOrder(order: Order): number {
+  const itemsTotal = sumItemPrices(order.items);
+  const afterCoupon = applyCoupon(itemsTotal, order.coupon);
+  return floorAtZero(afterCoupon);
+}
+```
+
+Do not lock `1 + 1 = 2` or UI chrome with a test. `test:quality` is a principle check, not a behavior catalog.
+
+## Dead code
+
+**Bad - dead export ships:** `export function formatLegacyReceipt()` with no callers survives refactors and confuses readers. `knip.test.mjs` fails: no dead code (Knip).
+**Good:** delete it. If a future feature needs it, version control remembers.
+
+## Mutants
+
+**Bad - decoration lock:** a test calls `charge(card)` and asserts nothing. The suite is green; Stryker flips `>` to `>=` and nothing fails. Surviving mutant: kill the mutants (Mutation testing).
+**Good:** assert the observable contract (`assert.equal(receipt.cents, 500)`). The flipped operator fails. Mutant killed.
+
 ## Errors
 
 **Bad:**

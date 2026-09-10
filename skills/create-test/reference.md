@@ -61,7 +61,9 @@ green without a user request.
    Why / What / How, public entry, and paths — **what**, not a recipe of
    assertions. Tester owns **how**. Review the Completion against the approved
    claim. Never write tests on the main agent.
-4. Report the approved claim, files changed, command result, and one sentence
+4. When the repo has `test:mutants`, run it after the locks land: surviving
+   mutants mean the lock is decoration.
+5. Report the approved claim, files changed, command result, and one sentence
    about what would turn the test red.
 
 Never auto-start this skill. Never skip `tester` when tests are the job.

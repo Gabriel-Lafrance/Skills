@@ -66,6 +66,11 @@ Use typed branches when possible (same contract as `/publish`):
 feature|tweak|bug|refactor|chore|hotfix/<ticket-or-no-ticket>-<slug>
 ```
 
+Before you commit, run this repo’s lint and tests when those scripts exist, and
+fix failures first. A red local run is a red PR. This pack itself has no lint
+or test CI; app repos that use `/setup-toolkit` do (`lint`, `test` or
+`test:quality`). Never skip hooks (`--no-verify`) unless you were asked to.
+
 Open a PR against `main` using the pull request template:
 
 - **What changed**

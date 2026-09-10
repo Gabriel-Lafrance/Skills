@@ -64,7 +64,7 @@ Take `recommended` on child soft Questions without waiting. Announce Locked-in c
 
 Reviews must see a real committed diff. Before every CR1 or CR2 pass (and before each remediation re-review):
 
-1. If the working tree has staged, unstaged, or untracked changes in scope, create a checkpoint commit on the typed branch, e.g. `wip: just-do-it checkpoint before CR1` (or `before CR1-remediation-N` / `before CR2`).
+1. If the working tree has staged, unstaged, or untracked changes in scope, create a checkpoint commit on the typed branch, e.g. `wip: just-do-it checkpoint before CR1` (or `before CR1-remediation-N` / `before CR2`). Before that commit, run this repo’s `lint` and `test` (`test:quality` when that is the test script) and fix failures so CI will not fail the PR.
 2. Refuse to start review while dirty relative to `HEAD`.
 3. Pin **Fixed point** as `<base>...<HEAD>` with recorded `baseSha` and `headSha` (`git rev-parse`). Pass both SHAs into every review brief. Do not use a bare `main...HEAD` label while work is uncommitted.
 4. After remediation edits, checkpoint again before the next review loop.

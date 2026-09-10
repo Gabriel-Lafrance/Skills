@@ -30,19 +30,19 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| Keep it simple | clear | |
-| Keep jobs apart | finding | `standards-keep-jobs-apart-checkout-stripe` |
-| One altitude | clear | |
-| Read or write, not both | clear | |
-| Fail fast | clear | |
-| Leave it cleaner | finding | same as keep-jobs-apart: copied wrong sibling |
-| Related together | finding | reaches Stripe instead of billing API |
-| Safe to retry | finding | bypasses billing retry safety |
-| Say what happens | clear | |
-| No surprises | clear | |
-| Honest names | clear | |
-| Trust the server | finding | UI path skips the billing write lock |
-| Types tell the truth | none | no new public contract |
+| Keep it simple (KISS) | clear | |
+| Keep jobs apart (SoC) | finding | `standards-keep-jobs-apart-checkout-stripe` |
+| One altitude (SLAP) | clear | |
+| Read or write, not both (CQS) | clear | |
+| Fail fast (Fail Fast) | clear | |
+| Leave it cleaner (Boy Scout Rule) | finding | same as keep-jobs-apart: copied wrong sibling |
+| Related together (Cohesion / Law of Demeter) | finding | reaches Stripe instead of billing API |
+| Safe to retry (Idempotency) | finding | bypasses billing retry safety |
+| Say what happens (explicit over implicit) | clear | |
+| No surprises (PoLA) | clear | |
+| Honest names (intention-revealing names) | clear | |
+| Trust the server (never trust the client) | finding | UI path skips the billing write lock |
+| Types tell the truth (make illegal states unrepresentable) | none | no new public contract |
 
 ## Architecture sweep
 | Check | Status | Note |

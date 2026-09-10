@@ -47,6 +47,13 @@ Then pick **one** write path:
 Push the branch before create, unless the user asked for local-only. Never
 force-push or push the default branch.
 
+## Before you commit
+
+Run this repo’s existing `lint` and `test` scripts (`test:quality` when that
+is the test script). Fix failures before `git commit`. That catches the same
+failures CI will report on the PR. Skip `test:mutants` here. If those scripts
+are missing, skip. Never `git commit --no-verify` unless the user asked.
+
 If a PR is already open on the branch, update its body with the same tool
 choice; do not open a second PR.
 

@@ -35,19 +35,23 @@ From lockfiles in the app root, first match wins:
 
 ## Pick templates
 
-| Condition | ESLint template | Dev packages |
-| --- | --- | --- |
-| `tsconfig.json` exists, or `typescript` is a dependency | `eslint.config.mjs` | `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-config-prettier`, `prettier` |
-| Same, and `convex/` exists or `@convex-dev/eslint-plugin` is already a dependency | `eslint.config.with-convex.mjs` (write as `eslint.config.mjs`) | plus `@convex-dev/eslint-plugin` |
-| JavaScript only | `eslint.config.js-only.mjs` (write as `eslint.config.mjs`) | `eslint`, `@eslint/js`, `eslint-config-prettier`, `prettier` |
+| Condition | ESLint template | Stryker template | Dev packages |
+| --- | --- | --- | --- |
+| `tsconfig.json` exists, or `typescript` is a dependency | `eslint.config.mjs` | `stryker.conf.with-ts.json` (write as `stryker.conf.json`) | `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-config-prettier`, `prettier`, `knip`, `@stryker-mutator/core`, `@stryker-mutator/typescript-checker` |
+| Same, and `convex/` exists or `@convex-dev/eslint-plugin` is already a dependency | `eslint.config.with-convex.mjs` (write as `eslint.config.mjs`) | `stryker.conf.with-ts.json` (write as `stryker.conf.json`) | plus `@convex-dev/eslint-plugin` |
+| JavaScript only | `eslint.config.js-only.mjs` (write as `eslint.config.mjs`) | `stryker.conf.json` | `eslint`, `@eslint/js`, `eslint-config-prettier`, `prettier`, `knip`, `@stryker-mutator/core` |
 
 Prettier is always `prettier.config.mjs` + `prettierignore` (written as `.prettierignore`).
 
-Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. If ESLint already exists, still copy the plugin file when it is missing, then print the import to add (do not edit their config):
+Knip config is always `knip.json`.
+
+Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. Always copy these next to the app `package.json` when missing (never overwrite): `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`. If ESLint already exists, still copy the plugin file and the quality-gate files when missing, then print the import to add (do not edit their config):
 
 ```js
+import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
 import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
 // include noEmdashConfig in the exported config array / tseslint.config(...)
+// rules: { complexity: ["error", maxCyclomaticComplexity] }
 ```
 
 Treat any of these as “ESLint already present”: `eslint.config.js`, `eslint.config.mjs`, `eslint.config.cjs`, `eslint.config.ts`, `.eslintrc`, `.eslintrc.js`, `.eslintrc.cjs`, `.eslintrc.json`, or `package.json` `"eslintConfig"`.
@@ -63,11 +67,54 @@ Add only keys that are missing:
   "lint": "eslint .",
   "lint:fix": "eslint . --fix",
   "format": "prettier --write .",
-  "format:check": "prettier --check ."
+  "format:check": "prettier --check .",
+  "test:quality": "node --test complexity.test.mjs principle-gate.test.mjs knip.test.mjs",
+  "test:mutants": "stryker run"
 }
 ```
 
-Do not change an existing script with the same name.
+Do not change an existing script with the same name. If `test` is missing, also add:
+
+```json
+{
+  "test": "node --test complexity.test.mjs principle-gate.test.mjs knip.test.mjs"
+}
+```
+
+Do not append the quality gates onto an existing `test` script. Do not include `test:mutants` in `test` or `test:quality`: mutants are a deliberate hardening run, not an every-save gate. Do not add a new `test:complexity` script; `test:quality` is the one agent command. If `test:complexity` already exists from an older setup, leave it and still add `test:quality` when that name is free.
+
+## Quality gates
+
+`test:quality` runs three fast Node tests. `test:mutants` is the slow mutant check (Stryker) and runs separately. Failure lines are `file:line` plus **plain (Classic)** plus what to do. Convex-only checks skip when there is no `convex/` directory. JavaScript-only apps (no `tsconfig.json`) skip TypeScript `any`; they still scan Convex `v.any` when that call appears. The Knip gate skips when its config or binary is missing.
+
+| Gate | Check |
+| --- | --- |
+| Cyclomatic complexity (McCabe) | `complexity.test.mjs` (cap 5) |
+| Types tell the truth (make illegal states unrepresentable) | `any`, Convex `v.any` |
+| Fail fast (Fail Fast) | empty `catch`, `{ success: true/false }` Result bags |
+| Trust the server (never trust the client) | public Convex `mutation` / `action` with no identity helper (`requireUser`, `getUserIdentity`, `getAuthUserId`, `auth.getUserId`). Skips `internalMutation`, `internalAction`, queries, `http.ts`, `httpActions.ts`, `crons.ts` |
+| Deterministic queries (no clock in queries) | `Date.now`, `new Date`, `Math.random`, `crypto.randomUUID` inside `query` / `internalQuery` |
+| No dead code (Knip) | `knip.test.mjs`: unused files, exports, and dependencies |
+| Kill the mutants (Mutation testing) | `test:mutants` (Stryker): flipped operators and negated booleans must fail the suite. Deliberate run, not part of `test:quality` |
+
+Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), no surprises (PoLA), and don’t repeat yourself (DRY) stay review, as does the rest of leave it cleaner (Boy Scout Rule) beyond dead code. Do not invent a denylist to fake them.
+
+### No dead code (Knip)
+
+Knip walks the import graph from package entries, framework plugins, and scripts. It reports unused files, unused exports, unused dependencies, and imports missing from `package.json`. The template `knip.json` is intentionally empty: Knip discovers entries itself. Narrow `entry` and `project` in that file only when Knip prints configuration hints for this repo.
+
+- If `test:quality` could not be added because the name is taken, the gate files are unreferenced: append them to `ignore` in the copied `knip.json` so Knip does not flag its own runner files, and tell the user where the gates run instead.
+- Never delete `knip.json` or add broad ignores to go green. Remove the dead code.
+
+### Kill the mutants (Mutation testing)
+
+Stryker flips operators (`>` to `>=`), negates booleans, and changes signs, one mutant at a time, then runs the behavior suite. A surviving mutant means the suite is decoration: green checkmarks that assert almost nothing. The break threshold fails the run when the score drops, so the rule lives in the build instead of in a prompt.
+
+- **Deliberate, not every save.** Run `test:mutants` after `/create-test` locks land, before shipping a risky slice, or nightly in CI. Never add it to `test:quality` or `test`. Mutation runs are CPU-heavy and run unattended.
+- **Configure after copying.** Set `packageManager` to the detected manager (`npm`, `pnpm`, or `yarn`; `bun` projects use `npm`). Keep `commandRunner.command` on `npm test` unless the behavior suite needs a different command. Never point Stryker at `test:quality`: static scanners cannot kill runtime mutants. When no behavior suite exists yet, tell the user mutants will fail until locks exist.
+- **Thresholds.** `break` 60 fails the run below 60. Raise it toward 80 as locks land. Never lower `break` (or set it to `null`) to go green. Add locks until mutants die.
+- **Faster runs.** The template omits `testRunner`: Stryker's default is the command runner, and naming it makes Knip demand a `@stryker-mutator/command-runner` package that does not exist. Apps on Vitest, Jest, or Mocha can set `testRunner` to that Stryker plugin with `coverageAnalysis: perTest` so each mutant runs only its covering tests. The command runner works everywhere but runs the whole suite per mutant. Keep `incremental` off: with the command runner Stryker reuses stale scores after test-only changes.
+- **TypeScript 7.** Stryker 10 does not support TypeScript 7 yet (its sandbox crashes reading the config). On `typescript@7`, still install the config, and tell the user `test:mutants` waits on upstream Stryker support. TypeScript 5 and JavaScript work today.
 
 ## Cursor / VS Code workspace files
 
@@ -93,7 +140,7 @@ npx eslint --version
 npx prettier --version
 ```
 
-(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint or format unless the user asked.
+(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, `test:quality`, or `test:mutants` unless the user asked.
 
 ## Design file
 
@@ -118,10 +165,12 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
+- `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, and `stryker.conf.json` are present next to `package.json` (or reported skipped)
 - `.vscode/extensions.json` has the ESLint and Prettier extension IDs
 - `.vscode/settings.json` was written or reported skipped
 - Existing configs were left in place and listed
 - Packages installed (or skipped because already present)
-- Scripts added or skipped with names listed
+- Scripts added or skipped with names listed (`test:quality`, `test:mutants`, and `test` only when it was missing)
 - One version smoke check ran
+- `test:quality` and `test:mutants` were **not** run as setup smoke
 - `docs/design.md` exists, or `/design` Initialization was started because it was missing

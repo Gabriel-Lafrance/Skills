@@ -35,7 +35,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Capture or update the app UX source of truth | `/design` |
 | Build a screen / frontend | `/task` (it dispatches `/design`) |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
-| ESLint / Prettier / lint or format this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
+| ESLint / Prettier / lint, format, dead code, mutants, or quality gate (`test:quality`, `test:mutants`) in this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
 `/architecture` — usually via `/analyze` → `/task`, or recommend those skills

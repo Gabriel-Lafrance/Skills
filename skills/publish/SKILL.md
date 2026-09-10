@@ -19,7 +19,8 @@ This skill is a user start. Do not nest it under `/task`. Publish only. Never in
 
 ## Process
 
-1. Inspect git and stop on unsafe states.
+1. Inspect git and stop on unsafe states. Before a commit, run this repo’s
+   `lint` and `test` (`test:quality` when that is the test script).
 2. Lock change type and ticket.
 3. Create or reuse the typed branch, then push unless local-only.
 4. Ask whether to draft and publish a PR.
