@@ -6,13 +6,13 @@ Review a shipped diff for quality and whether it matches the request.
 
 ## Owns
 
-Two axes (Standards vs Spec), a Design axis when the diff is user-visible, blocker vs follow-up judgment per principle, naming alignment, and the local remediation/promotion boundary.
+Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, and the local remediation/promotion boundary.
 
 ## Does not own
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- Design file bars: cite `design:*`
+- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md) (applied while building, not as a review axis)
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
 - Numbered parent dispatch: [`SKILL.md`](SKILL.md)
@@ -24,17 +24,17 @@ Two axes (Standards vs Spec), a Design axis when the diff is user-visible, block
 | `code-review:axes` | Axes |
 | `code-review:blocker-vs-follow-up` | Blocker vs follow-up |
 | `code-review:naming-alignment` | Naming alignment |
-| `code-review:design-axis` | Design axis |
 
 ## Bars
 
 ### Axes
 
-Review along independent axes; present them separately. Add Design when the shipped diff is user-visible UI (`code-review:design-axis`).
+Review along independent axes; present them separately.
 
-- **Standards:** maintainability, architecture, repository conventions, design quality, and reachable bugs in the shipped diff (Correctness hunt).
+- **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
-- **Design:** whether the touched UI respects `docs/design.md`. Not a separate skill. Parallel Task like Spec.
+
+UX bars (`design:*`) apply in `/design` while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Keep findings factual, not roleplay. Thoroughness means stronger path walks and better evidence, never hypothetical failures.
 
@@ -83,18 +83,6 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 
 Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later wave. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
-### Design axis
-
-When the shipped diff is user-visible UI, dispatch a Design Task beside Standards and Spec. The worker Reads `docs/design.md` and `/design` doctrine. Skip the Design matrix when the file is missing or the diff has no UI; report that absence. Still run the Experience floor and the Craft floor when the diff is user-visible.
-
-A Design finding is always **Fix now** or **Follow-up**. There is no "is this normal?" path.
-
-- **diverges:** Fix now. The UI must match `docs/design.md`. `/design` implements the fix.
-- Pack-bar miss (`design:experience`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`): Fix now or Follow-up using those tables. Use **Match** `n/a`.
-- **undocumented** that already respects the pack bars: Follow-up. `/design` records the pattern. Do not revert the UI.
-
-`docs/design.md` changes when the user wants a different design, not when review is guessing. Do not invent extra product patterns the file does not state. Do not ship a `/design-review` skill.
-
 ## Output
 
 Return the review output fence from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
@@ -111,17 +99,15 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 
 After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
-For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Run `code-review:design-axis` when the diff is user-visible.
+For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not dispatch a Design review Task.
 
 ## Anti-patterns
 
 - Merging Standards and Spec into one undifferentiated ranking
-- Soloing Standards/Spec/Design on the main agent instead of parallel Task workers
+- Soloing Standards or Spec on the main agent instead of parallel Task workers
 - Capping review dispatch at two Tasks when the diff has independent surfaces
 - Running a second adversarial review or hunt re-inspect after the parallel pass
-- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
-- Skipping the Experience floor or the Craft floor when the diff is user-visible
-- Inventing a `/design-review` skill
+- Inventing a `/design-review` skill or a Design review axis
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
 - Treating a public write without identity/ownership as Optional nit

@@ -2,16 +2,16 @@
 
 ## Job
 
-Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. Design-review is a parallel Task on this contract, not a skill.
+Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. There is no Design-review skill and no Design axis.
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including Design matrix, Experience floor, and Craft floor when the diff is user-visible, and PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- Design file bars: cite `design:*`
+- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md)
 - Blocker vs follow-up judgment table and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - PR extras, Pass A/B, posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 
@@ -25,7 +25,7 @@ execution context supplied by a parent. Do not depend on hidden review files.
 
 | Mode | Scope | Required work |
 | --- | --- | --- |
-| `initial` | Full shipped diff and available spec | Standards + Spec in parallel, plus Design when the diff is user-visible |
+| `initial` | Full shipped diff and available spec | Standards + Spec in parallel |
 | `remediation` | Named findings, fix diff, touched paths, and direct callers | Verify named findings, regressions, and correctness in the changed surface |
 | `full-rescan` | Full diff after meaningful change or user request | Run `initial` depth again and adjudicate prior PR threads when present |
 
@@ -76,10 +76,9 @@ without evidence that a direct guard is insufficient.
 Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout-place-order`).
 
 ```markdown
-- **<id>** · **standards|spec|design|cross** · **blocker|follow-up|nit**
+- **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
-  - **Rule:** `INV-*` | acceptance criterion | doctrine | `docs/design.md` heading | none
-  - **Match:** respects | diverges | undocumented | n/a
+  - **Rule:** `INV-*` | acceptance criterion | doctrine | none
   - **Trigger:** <required for runtime-risk findings>
   - **Evidence:** <hunk, path walk, or signal>
   - **Impact:** <why it matters>
@@ -89,10 +88,7 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 Fold recurring sites with the same root cause and fix shape into one record.
 Different root causes get different records. Drop duplicates by finding id. On a
 PR, include the id in the final comment as `**Finding:** \`<id>\``. The
-GitHub finding thread and that visible id are the durable record. Design
-findings include **Match** (`respects` | `diverges` | `undocumented`).
-Experience-floor and Craft-floor findings on the design axis use **Match**
-`n/a`. Other axes omit **Match**.
+GitHub finding thread and that visible id are the durable record.
 
 ## Output
 
@@ -112,32 +108,13 @@ loading, empty, error), and named unchanged behavior. Do not invent rows when
 no specification exists; say so, and still let Standards run the Correctness
 hunt (bugs are not "the ticket forgot to mention them").
 
-Design workers run when the shipped diff is user-visible UI. They **must** Read
-`docs/design.md` and `/design` doctrine this turn. Compare the touched UI to
-that file. Do not invent extra **product** patterns the file does not state.
-Still apply pack bars: `design:experience` (Experience floor),
-`design:professional-craft`, `design:ui-copy`, and `design:quality-floor`
-(Craft floor). If the file is missing, skip the Design matrix, report the
-absence, and still run both floors when the diff is user-visible.
-`undocumented` means new UI with no heading yet, not a free pass. `diverges`
-means the UI contradicts a written rule. Every Design finding is **Fix now**
-or **Follow-up**. There is no "is this normal?" path
-([`design:user-facing`](../design/doctrine.md#user-facing-work)).
-
-- `diverges`: Fix now. Make the UI match the file.
-- Pack-bar miss: Fix now or Follow-up using the Experience and Craft tables.
-- `undocumented` that already respects the pack bars: Follow-up. `/design`
-  records the pattern. Do not revert the UI.
-- `docs/design.md` changes when the user wants a different design, not when
-  review is guessing.
-
-Experience-floor and Craft-floor findings use **Match** `n/a`.
+UX bars live in `/design` while building. Do not dispatch a Design worker,
+return a Design matrix, or run an Experience or Craft floor.
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and
-format below. It dispatches Standards, Spec, and Design (when the diff is
-user-visible) as parallel Tasks (plus extra Tasks when the diff has
-independent surfaces), reviews Completions, and rejects and relaunches a
-narrative-only response once.
+format below. It dispatches Standards and Spec as parallel Tasks (plus extra
+Tasks when the diff has independent surfaces), reviews Completions, and
+rejects and relaunches a narrative-only response once.
 
 Workers report no finding explicitly when their axis is clean. Mark each sweep
 row `clear`, `finding` (with finding id), or `none` when that check has no
@@ -202,38 +179,6 @@ contract for models and completion reporting.
 | --- | --- | --- |
 | <Done when / rule / state / unchanged> | met \| gap \| none | … |
 
-## Design findings
-- <finding record>
-
-## Design matrix
-| docs/design.md heading / rule | Status | Evidence |
-| --- | --- | --- |
-| … | respects \| diverges \| undocumented \| none | … |
-
-## Experience floor
-| Check | Status | Note |
-| --- | --- | --- |
-| Least effort | clear \| finding \| none | … |
-| Do it for them | clear \| finding \| none | … |
-| Explain complexity | clear \| finding \| none | … |
-| Honest state | clear \| finding \| none | … |
-| Respect time | clear \| finding \| none | … |
-| Brain-off | clear \| finding \| none | … |
-
-## Craft floor
-| Check | Status | Note |
-| --- | --- | --- |
-| Identity respected | clear \| finding \| none | … |
-| Professional finish (not a restyle draft) | clear \| finding \| none | … |
-| UI copy | clear \| finding \| none | … |
-| Contrast | clear \| finding \| none | … |
-| Visible focus | clear \| finding \| none | … |
-| Touch target | clear \| finding \| none | … |
-| Visible labels | clear \| finding \| none | … |
-| Primary not hover-only | clear \| finding \| none | … |
-| Reduced motion | clear \| finding \| none | … |
-| Icons not emoji | clear \| finding \| none | … |
-
 ## PR extras (`/pr-review` only)
 | Extra | Status | Note |
 | --- | --- | --- |
@@ -244,13 +189,10 @@ contract for models and completion reporting.
 ```
 
 One review pass. Return Standards findings, Principles, Architecture,
-Correctness hunt, the Spec matrix, and (when the diff is user-visible) Design
-findings, the Design matrix, the Experience floor, and the Craft floor. Skip
-the Design matrix when `docs/design.md` is missing; still return both floors.
-`/pr-review` also returns the four PR extras rows in this same fence. Secrets
-stay in the Correctness hunt, not in PR extras. There is no second adversarial
-wave and no hunt re-inspect. The parent rejects Design output that ran without
-the Experience floor or the Craft floor.
+Correctness hunt, and the Spec matrix. `/pr-review` also returns the four PR
+extras rows in this same fence. Secrets stay in the Correctness hunt, not in
+PR extras. There is no Design axis, no second adversarial wave, and no hunt
+re-inspect.
 
 ### Baseline defects (Standards, after the tables)
 

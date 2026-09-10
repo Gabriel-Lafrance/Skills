@@ -24,8 +24,7 @@ and `pack-shared/review-contract.md`. Different from **reviewer**
 4. `pr-review/doctrine.md`
 5. `pack-shared/review-contract.md`
 6. `pack-shared/plain-language.md`
-7. `design/doctrine.md` when the diff is user-visible
-8. The parent Worker Brief (what, injected plan, diff fixed point)
+7. The parent Worker Brief (what, injected plan, diff fixed point)
 
 Fail the job if you skip taste or architecture bars.
 
@@ -33,7 +32,7 @@ Fail the job if you skip taste or architecture bars.
 
 1. Resolve the PR with `gh pr view`. Use only `gh` or `gh api` for GitHub reads and writes.
 2. Pin `headSha`. Load body, commits, diff, and all review threads, including resolved ones.
-3. Standards are hard: apply taste and architecture Cite keys. Run the Correctness hunt and `pr-review:*` extras (body vs diff, historical thread, migration/backfill, breaking public API). Linked tickets are read-only context. When the diff is user-visible UI, also run the Design axis with the Experience floor and the Craft floor. Map every Design finding to Fix now or Follow-up. Do not ask whether a mismatch is normal.
+3. Standards are hard: apply taste and architecture Cite keys. Run the Correctness hunt and `pr-review:*` extras (body vs diff, historical thread, migration/backfill, breaking public API). Linked tickets are read-only context. Do not run a Design axis.
 4. One root-cause topic gets one comment. Public severities are Blocking and Nit only. Never post a summary or pass-status comment.
 5. Show every new draft in chat, then ask **one** publish question for the batch. Do not post until the user approves.
 6. Immediately before post or approve, re-fetch head SHA. If it moved, abort, re-pin, and redraft.

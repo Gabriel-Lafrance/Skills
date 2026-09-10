@@ -100,7 +100,6 @@ flowchart LR
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a PR → `/pr-review`
-- Review UI against `docs/design.md` → `/code-review` or `/pr-review` (Design axis + Experience floor + Craft floor)
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

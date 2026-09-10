@@ -145,7 +145,7 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 | Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
 | Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
 | Write tests | **Always** pack `tester`. Main never writes tests. `/create-test` still starts only when the user asks |
-| Standards, Spec, and Design review | Parallel Tasks (Design only when the diff is user-visible; plus extra Tasks when the diff has independent surfaces). See `/code-review`. No second adversarial wave |
+| Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces). See `/code-review`. No Design axis. No second adversarial wave |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
 

@@ -71,7 +71,7 @@ After Pass A completes on a follow-up:
 
 1. Pin `previousReviewedHead` (last reviewed head for this PR) and `currentHead` (live PR head). Partition `previousReviewedHead..currentHead`.
 2. Run shared-contract `remediation` over addressed findings, their changed/touched surface, and direct callers.
-3. Separately run `initial`-depth review (Standards + Spec, plus Design when the new hunks are user-visible) over **newly introduced** files and hunks in that partition that are outside the remediation set. Non-trivial Pass A adjudication and new-surface review **must** dispatch via Task workers per [subagents.md](../pack-shared/subagents.md) (one Task per independent surface, no cap of two). New unrelated commits must not escape review.
+3. Separately run `initial`-depth review (Standards + Spec) over **newly introduced** files and hunks in that partition that are outside the remediation set. Non-trivial Pass A adjudication and new-surface review **must** dispatch via Task workers per [subagents.md](../pack-shared/subagents.md) (one Task per independent surface, no cap of two). New unrelated commits must not escape review.
 4. Promote the whole follow-up to `full-rescan` only when the user explicitly requests it or materially expands the review scope.
 
 Do not treat “new commits alone” as a reason to skip either the remediation pass or the new-surface pass.

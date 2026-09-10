@@ -70,7 +70,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | If non-UI | Frontier slices that are not user-facing |
 | Acceptance evidence | Yes | Path walk, terminals. Parent owned |
-| `/code-review` | Yes | Runs after acceptance evidence. Design axis when the diff is user-visible |
+| `/code-review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
 
 ### Suitability and skip grill
 

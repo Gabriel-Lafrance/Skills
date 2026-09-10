@@ -101,7 +101,7 @@ After lint/format work, check workspace-root `docs/design.md` only (no other pat
 
 | State | Action |
 | --- | --- |
-| File missing | Run `/design` Initialization. That skill inventories every route from code. |
+| File missing | Run `/design` Initialization. That skill inventories every route from code and writes a short Do / Don't list. |
 | File present | Leave it. Do not overwrite. |
 
 Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).

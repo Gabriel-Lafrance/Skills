@@ -56,11 +56,11 @@ Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `u
 
 ## App UX source of truth
 
-`docs/design.md` (workspace root, that path only) is the living source of truth for this app's UX and UI when the file exists. There is no size cap and no summary section.
+`docs/design.md` (workspace root, that path only) is a short **Do** / **Don't** list for this app's UI and UX when the file exists. No screen catalog, no component encyclopedia, no architecture.
 
 If the user says something is bad for the UX, too many clicks, too much typing, or they want a different interaction, update `docs/design.md` in the same turn. If the user wants to change how the design is done, that request updates `docs/design.md`. If the file is missing, run `/design` Initialization first. Do not wait for a separate `/design` invoke.
 
-Frontend and user-facing implementation uses `/design`. Ship finished UI in that turn (`design:professional-craft`): identity from `docs/design.md`, the repo's tokens and theme, or the user, never invented. Apply `design:experience` even when the file is silent (least effort; do it for them when the next input is obvious; confirm when it is irreversible, money, or a guess). Review of UI diffs uses the Design axis inside `/code-review` and `/pr-review`, including the Experience floor and the Craft floor. Every Design finding is Fix now or Follow-up. There is no `/design-review` skill and no "is this normal?" path.
+Frontend and user-facing implementation uses `/design`. Ship finished UI in that turn (`design:professional-craft`): identity from `docs/design.md`, the repo's tokens and theme, or the user, never invented. Apply `design:experience` even when the file is silent (least effort; do it for them when the next input is obvious; confirm when it is irreversible, money, or a guess). Apply `design:first-glance`: show only what every user needs at first glance; put extra actions and advanced settings one level down (overflow, popover, accordion). Apply `design:no-obvious`: do not caption an empty list ("No API key"); the create action is the message. Apply `design:ui-copy`: words fit the surface (landing hooks and sells; docs explain and stay clear; app UI names the action). Do not ship filler that could sit on any other product. `/code-review` and `/pr-review` stay Standards and Spec. There is no `/design-review` skill and no Design axis.
 
 ## Plan mode — grill before the plan
 

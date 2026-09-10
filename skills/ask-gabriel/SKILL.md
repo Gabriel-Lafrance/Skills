@@ -30,7 +30,7 @@ until the user accepts. The next skill must follow those doctrines via
 | Ship branch + optional PR | `/publish` (same ship contract as `/just-do-it` or a cloud agent) |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
-| Review local branch vs main | `/code-review` (Design axis when the diff is user-visible) |
+| Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
 | Capture or update the app UX source of truth | `/design` |
 | Build a screen / frontend | `/task` (it dispatches `/design`) |

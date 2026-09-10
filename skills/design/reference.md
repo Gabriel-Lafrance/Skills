@@ -4,45 +4,31 @@ Load with [SKILL.md](SKILL.md) for the file shape, route inventory, and merge ru
 
 ## Heading skeleton
 
-Write `docs/design.md` with these H2s. Add H3+ whenever a thing needs a name of its own. Do not add Summary.
+Write `docs/design.md` with these H2s only. Do not add Screens, Components,
+Visual language, Preferences, Summary, or extra H2s.
 
 ```markdown
 # Design
 
-Living source of truth for this app's UX and UI. No summary. No size cap.
-Add a heading when something new needs its own place.
+UI and UX do / don't for this product. Pack bars live in `/design`, not here.
 
-## Visual language
+## Do
+- Reuse the live ink, surface, and accent. Do not add a second palette.
+- Prefill `@` + the signed-in work domain on team invite.
+- Put secondary row actions in a three-dot menu.
+- Confirm irreversible delete and charges.
 
-Identity for this product. Record what you observed or what the user stated:
-color roles with hex when visible, type (display / body / utility), space and
-density, motion, iconography, and what the product refuses (including AI-default
-looks this app is not). Do not invent a look here.
-
-## Components
-
-Reusable UI pieces and how each one behaves, including hover, disabled,
-loading, empty, and error when those states exist.
-
-## Patterns / behavior
-
-Cross-screen interaction rules. Write the why next to the rule. Pack
-experience bars live in the skill, not as a sixth required heading here.
-If this product must add friction (money slower, extra delete confirm),
-put that under **Preferences**.
-
-## Screens / flows
-
-One subsection per route or job. What the user is here to finish, the
-happy path, and the other states (empty, loading, error, success,
-no-permission).
-
-## Preferences
-
-Stated likes, dislikes, and exceptions, including why they save work.
+## Don't
+- Full-page spinner for a fast save. Use inline progress.
+- Placeholder-only labels.
+- List every expert setting beside Display name. Advanced goes in an accordion.
+- Say "No API key" when Create is already on the screen.
+- Write the landing like a docs page, or docs like a slogan.
 ```
 
-If a fact does not fit, create a heading that describes it. Do not invent a sixth required H2 unless the product truly has a distinct kind (for example marketing vs in-app). Prefer nesting under an existing H2.
+One bullet is one UI/UX rule. Identity, exceptions, and patterns are bullets,
+not extra headings. If it is not a UI or UX do or don't, it does not belong.
+If the file catalogs routes or components, it is too long. Distill it.
 
 ## Route inventory
 
@@ -56,7 +42,16 @@ Discover routes from the repo, then inventory each from code:
 | Expo / RN Router | `app/**` routes excluding `_layout` only files |
 | Other | The repo's existing router table; do not guess a framework |
 
-Inventory **every** discovered route from code. Record URL, what the screen is for, primary action, states declared in code, and repeating components. Capture Visual language from tokens, theme, and CSS (color roles + hex, type, density, motion, refuses). Note routes whose behavior only shows at runtime as gaps; do not invent them.
+Inventory **every** discovered route from code. Observe repeating UI/UX
+rules: what everyone needs first, where extra actions hide, what the
+product refuses, how words work (landing vs in-app vs docs), and look
+(color roles + hex, type, density from tokens, theme, and CSS) only as
+Do / Don't bullets. Note routes whose behavior only shows at runtime as
+gaps in the Task Completion; do not invent them. Do not dump those
+routes into the file.
+
+Do **not** write a subsection per route. Do **not** list every component.
+The inventory is input. The file is a short Do / Don't list.
 
 Work in a Task ([subagents.md](../pack-shared/subagents.md)).
 
@@ -64,12 +59,12 @@ Work in a Task ([subagents.md](../pack-shared/subagents.md)).
 
 When updating `docs/design.md`:
 
-1. Read the whole file. That text is the rule, including user edits.
-2. Add new screens and components under the heading that names them.
-3. Patch a bullet only when this turn observed a replacement, the user stated a new preference, or the user wants to change how the design is done.
+1. Read the whole file. User Do / Don't bullets are the rule.
+2. Add or tighten a bullet only when this turn observed a new UI/UX rule, the user stated a preference, or the user wants to change how the design is done.
+3. Distill Screens, Components, Visual language, and Preferences catalogs into Do / Don't. Keep the user's intent. Delete the dump.
 4. Do not restore text the user removed.
-5. Do not collapse long sections into a digest.
-6. Keep `docs/design.md` as the only path.
+5. Do not grow the file with a new screen subsection.
+6. Keep `docs/design.md` as the only path. UI and UX only.
 
 ## User-facing vs `/implement`
 
@@ -79,7 +74,7 @@ Dispatch `/design` when the slice outcome is a screen, component, visible copy, 
 
 Resolve in this order. Stop at the first source that actually specifies look and feel:
 
-1. `docs/design.md` Visual language
+1. Look bullets in `docs/design.md` (Do / Don't about color, type, density)
 2. Existing tokens / theme / CSS variables in the repo
 3. What the user stated this turn
 
@@ -91,12 +86,14 @@ Do the design work in thinking, then ship once. The user should not need a secon
 
 Before writing UI code:
 
-1. Name the screen's single job and the identity you are using (file, repo tokens, or user).
+1. Name the screen's single job and the identity you are using (file, repo tokens, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
-3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`).
-4. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
+3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`). If empty is "none yet," the create or invite control is enough (`design:no-obvious`).
+4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
+5. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
-Then implement to that plan exactly. Meet `design:experience` and
+Then implement to that plan exactly. Meet `design:experience`,
+`design:first-glance`, `design:no-obvious`, `design:ui-copy`, and
 `design:quality-floor` without announcing them.
 
 When the identity is **user-stated and new** (no app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
@@ -105,28 +102,50 @@ Landing / marketing first viewport still follows [`taste` React and UI](../taste
 
 ## UI copy
 
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:ui-copy`. Product voice (dry landing, playful docs) lives as Do /
+Don't bullets. Do not copy this table into that file.
+
+Unslop is **discussion text** in chat. Product copy is this bar. A landing
+that sells is correct. A landing that reads like a chat reply is wrong.
+
+Name the surface, then write:
+
+| Surface | Job of the words |
+| --- | --- |
+| Landing / marketing | Hook and sell. One claim, one reason to care, a CTA. Not a feature dump and not a tutorial. First viewport still follows [`taste` React and UI](../taste/reference.md#react-and-ui). |
+| Docs / help | Explain and be clear. Precise steps. Not slogans, not hype. |
+| App (settings, forms, product) | Short. Name the action. Do not sell. Do not lecture. Empty "none yet" is the control (`design:no-obvious`). |
+| Errors | What happened and what to do. Not an apology essay. |
+
 Write from the person's side of the screen:
 
 - Controls are verbs the person recognizes: "Save changes", not "Submit"; "Invite teammate", not "Create user".
 - The same word stays through the flow. A "Publish" button yields "Published", not "Success".
-- Errors name what went wrong and the next step. They do not apologize and they are not vague.
-- Empty states invite the next action. They are not mood copy.
+- A sentence that could sit on any other product is filler. Rewrite it for this product and this screen.
+- Match existing copy in the repo when extending a screen. Do not invent a second voice.
 - Placeholders never replace a visible label.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Fits the surface | Landing that explains like docs; docs that sell; app chrome that markets or welcomes | A secondary paragraph that is a bit long on an otherwise-right surface |
+| This product | "Unlock the power of", "Welcome to your dashboard", "Seamlessly", or copy that could sit on any other product | A line that is specific but slightly off the existing voice |
+| Real verbs | "Submit", "Success", "An error occurred", or a new name mid-flow | Optional helper that restates a visible verb |
+| Empty is the action | "No API key" / "Nothing here" next to Create (`design:no-obvious`) | Extra docs link beside an already-clear action |
 
 ## Experience
 
-Pack bars. Always on, even when `docs/design.md` is silent. Do not invent a
-required **Experience** heading in that file. Product exceptions live under
-**Preferences**.
+Pack bars. Always on, even when `docs/design.md` is silent. Do not copy this
+table into that file. Product exceptions live as Do / Don't bullets.
 
 | Bar | Fix now | Follow-up |
 | --- | --- | --- |
 | Least effort | Extra click, extra typing, extra pointer travel, or a detour to reach the thing they asked for | Power-user shortcuts, command palette, bulk actions, keyboard-first as an alternative |
 | Do it for them | The next input is obvious and the app still makes them type or pick it (invite `@acme.com` from the signed-in work email) | Suggesting a **guess** as if it were a fact. That is a surprise, not help. |
-| Explain complexity | Complex step with no helper, example, or progressive disclosure | Optional tutorials, empty-state tours, docs links as the only explanation |
+| Explain complexity | Complex step with no helper or example | Optional tutorials, empty-state tours, docs links as the only explanation |
 | Honest state | Control or copy that lies about idle / dirty / pending / success / error / disabled / empty / no-permission | Extra status chrome the product does not need |
 | Respect time | Fake wait, full-page block for a fast save, ceremony on a reversible action | Background jobs, optimistic UI polish, progress for genuinely long work |
-| Brain-off | Happy path that requires holding several rules in your head | Power features, advanced filters, expert shortcuts |
+| Brain-off | Happy path that requires holding several rules in your head | Power features that already sit one level down (`design:first-glance`) |
 
 **Do it for them vs guess.** Do not confuse these. Obvious help is not a surprise (`taste:no-surprises`). A guess is.
 
@@ -136,9 +155,48 @@ required **Experience** heading in that file. Product exceptions live under
 | Save draft → keep the text they already typed | Irreversible delete / charge / send-to-everyone → confirm |
 | Return to the same screen, same scroll, same filters | Infer a preference they never stated |
 
-A finding that is normal for this product still goes in **Follow-up** if the pack would tighten it. Never a question. If they want the product to stay that way, they say so and you update **Preferences**.
+If the UI contradicts `docs/design.md`, make the UI match the file. The file changes when the user wants a different design. If they want a slower or denser path, they say so and you add a Do / Don't bullet.
 
-`diverges` from `docs/design.md` is **Fix now**: make the UI match the file. The file changes when the user wants a different design, not when review is guessing.
+## First glance
+
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:first-glance`. Product exceptions (show every control) live as Do /
+Don't bullets.
+
+The first surface is what **everyone** needs. Extra actions and advanced
+settings sit one level down on the **same** screen. Overflow (three-dot menu)
+and popovers hold secondary actions. Accordions or an Advanced section hold
+dense expert settings. That serves beginners and experts without a beginner
+mode.
+
+Do not treat this as a widget catalog. Pick the control the product already
+uses. The test is the first look, not the component name.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Everyone first | First look shows equal-weight actions, rare settings, or expert toggles beside the common job | Extra hover hint on an already-simple surface |
+| One level down | Secondary action is a full toolbar button; advanced settings sit in the same list as everyday ones | Power shortcut that already lives behind overflow |
+| Same screen | Related extra action is a new page, wizard, or mode switch | Deep admin console that is a different job |
+| Both audiences | Beginner cannot finish without scanning expert chrome, or the expert path was deleted to "simplify" | Optional command palette / keyboard-first as an alternative |
+
+## Don't tell the obvious
+
+Pack bar. Always on, even when `docs/design.md` is silent. Cite
+`design:no-obvious`. Product exceptions (an onboarding paragraph on empty)
+live as Do / Don't bullets.
+
+Do not narrate what the screen already shows. A missing list plus Create
+or Invite is the empty state. Do not add "No API key", "You haven't created
+a key yet", or "Get started by creating your first key."
+
+Still write the non-obvious: errors, no-permission, a search or filter
+with zero hits, a cost, an irreversible side effect.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Don't caption empty | "No API key" / "Nothing here" / "You don't have any yet" next to Create or Invite | Extra helper that restates a visible control label |
+| The action is the copy | Onboarding paragraph that only restates the primary button | Optional docs link beside an already-clear action |
+| Say the non-obvious | Search or filter with zero hits and no match copy; permission wall that looks like a blank create screen | Extra status chrome on a state the control already shows (Saving…) |
 
 ## Quality floor
 
