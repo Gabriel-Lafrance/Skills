@@ -97,9 +97,8 @@ flowchart LR
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
 - Lint/format in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
-  opens a GitHub PR follows the same ship contract: typed body, Change
-  diagram, Browser screenshots when visual (not a UI test pass), and a Cursor
-  review canvas.
+  opens a GitHub PR follows the same ship contract: typed body and Change
+  diagram.
 - Review a PR → `/pr-review`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).

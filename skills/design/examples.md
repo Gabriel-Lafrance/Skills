@@ -62,15 +62,15 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 **Good:** The next capture or implement pass follows inline confirmation. It does not put the toast bullet back.
 
-**Bad:** The agent re-adds toasts because the last Browser crawl still showed one on an old build.
+**Bad:** The agent re-adds toasts because an old build once showed one, even though the user deleted that bullet.
 
 ## Initialization
 
-**Good:** Parent asks the user to log in. A Task visits every route, then writes a short Do / Don't list (look, invite prefill, overflow for extra actions, landing hooks vs docs explain). No Screens heading. No component dump.
+**Good:** A Task inventories every route from the app router in code, then writes a short Do / Don't list (look from theme tokens, invite prefill, overflow for extra actions, landing hooks vs docs explain). No Screens heading. No component dump.
 
 **Bad:** One subsection per route, hover/disabled/loading on every component, and a 400-line file.
 
-**Bad:** A one-page screenshot and a short "overall look and feel" paragraph with no do or don't.
+**Bad:** A one-paragraph "overall look and feel" note with no do or don't.
 
 ## docs/design.md is a short list
 

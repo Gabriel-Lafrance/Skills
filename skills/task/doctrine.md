@@ -69,7 +69,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | If non-UI | Frontier slices that are not user-facing |
-| Acceptance evidence | Yes | Path walk, terminals, browser when UI. Parent owned |
+| Acceptance evidence | Yes | Path walk, terminals. Parent owned |
 | `/code-review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
 
 ### Suitability and skip grill
@@ -104,5 +104,5 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
-- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool) because this skill is not `/publish`
+- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (create tool) because this skill is not `/publish`
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

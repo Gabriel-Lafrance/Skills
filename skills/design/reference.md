@@ -1,6 +1,6 @@
 # Design reference
 
-Load with [SKILL.md](SKILL.md) for the file shape, route crawl, login pause, and merge rules. Bars stay in [doctrine.md](doctrine.md).
+Load with [SKILL.md](SKILL.md) for the file shape, route inventory, and merge rules. Bars stay in [doctrine.md](doctrine.md).
 
 ## Heading skeleton
 
@@ -30,9 +30,9 @@ One bullet is one UI/UX rule. Identity, exceptions, and patterns are bullets,
 not extra headings. If it is not a UI or UX do or don't, it does not belong.
 If the file catalogs routes or components, it is too long. Distill it.
 
-## Route crawl
+## Route inventory
 
-Discover routes from the repo, then visit each:
+Discover routes from the repo, then inventory each from code:
 
 | Stack signal | Where to look |
 | --- | --- |
@@ -42,28 +42,18 @@ Discover routes from the repo, then visit each:
 | Expo / RN Router | `app/**` routes excluding `_layout` only files |
 | Other | The repo's existing router table; do not guess a framework |
 
-Visit **every** discovered route after login. Observe repeating UI/UX rules:
-what everyone sees first, where extra actions hide, what the product refuses,
-how words work (landing vs in-app vs docs), and look (color roles + hex, type,
-density) only as Do / Don't bullets. Skip
-auth-callback or logout URLs that would drop the session; note them as skipped
-in the Task Completion, not as a route dump in the file.
+Inventory **every** discovered route from code. Observe repeating UI/UX
+rules: what everyone needs first, where extra actions hide, what the
+product refuses, how words work (landing vs in-app vs docs), and look
+(color roles + hex, type, density from tokens, theme, and CSS) only as
+Do / Don't bullets. Note routes whose behavior only shows at runtime as
+gaps in the Task Completion; do not invent them. Do not dump those
+routes into the file.
 
 Do **not** write a subsection per route. Do **not** list every component.
-The crawl is input. The file is a short Do / Don't list.
+The inventory is input. The file is a short Do / Don't list.
 
-Work in a Task so the main chat can stay on login and integration ([subagents.md](../pack-shared/subagents.md)).
-
-## Login pause
-
-Workers do not chat with the user. The parent:
-
-1. Opens or reuses the Browser on the local app.
-2. Asks the user to log in there.
-3. Waits until the user says they are in.
-4. Then dispatches the crawl Task.
-
-Do not brute-force login, paste secrets, or retry captcha. If login never happens, write a short Do / Don't list from code and mark visual capture blocked ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+Work in a Task ([subagents.md](../pack-shared/subagents.md)).
 
 ## Merge into an existing file
 
@@ -85,7 +75,7 @@ Dispatch `/design` when the slice outcome is a screen, component, visible copy, 
 Resolve in this order. Stop at the first source that actually specifies look and feel:
 
 1. Look bullets in `docs/design.md` (Do / Don't about color, type, density)
-2. The live app and existing tokens / theme / CSS variables in the repo
+2. Existing tokens / theme / CSS variables in the repo
 3. What the user stated this turn
 
 If none of those exist, the parent asks. A worker returns `blocked` and names this gap. Do not pick a palette "to get started."
@@ -96,7 +86,7 @@ Do the design work in thinking, then ship once. The user should not need a secon
 
 Before writing UI code:
 
-1. Name the screen's single job and the identity you are using (file, live app, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`).
+1. Name the screen's single job and the identity you are using (file, repo tokens, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`). If empty is "none yet," the create or invite control is enough (`design:no-obvious`).
 4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
@@ -104,10 +94,9 @@ Before writing UI code:
 
 Then implement to that plan exactly. Meet `design:experience`,
 `design:first-glance`, `design:no-obvious`, `design:ui-copy`, and
-`design:quality-floor` without announcing them. If Browser is available, screenshot the result and
-fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+`design:quality-floor` without announcing them.
 
-When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
+When the identity is **user-stated and new** (no app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
 
 Landing / marketing first viewport still follows [`taste` React and UI](../taste/reference.md#react-and-ui).
 
@@ -134,13 +123,13 @@ Write from the person's side of the screen:
 - Controls are verbs the person recognizes: "Save changes", not "Submit"; "Invite teammate", not "Create user".
 - The same word stays through the flow. A "Publish" button yields "Published", not "Success".
 - A sentence that could sit on any other product is filler. Rewrite it for this product and this screen.
-- Match the live app's voice when extending a screen. Do not invent a second voice.
+- Match existing copy in the repo when extending a screen. Do not invent a second voice.
 - Placeholders never replace a visible label.
 
 | Bar | Fix now | Follow-up |
 | --- | --- | --- |
 | Fits the surface | Landing that explains like docs; docs that sell; app chrome that markets or welcomes | A secondary paragraph that is a bit long on an otherwise-right surface |
-| This product | "Unlock the power of", "Welcome to your dashboard", "Seamlessly", or copy that could sit on any other product | A line that is specific but slightly off the live voice |
+| This product | "Unlock the power of", "Welcome to your dashboard", "Seamlessly", or copy that could sit on any other product | A line that is specific but slightly off the existing voice |
 | Real verbs | "Submit", "Success", "An error occurred", or a new name mid-flow | Optional helper that restates a visible verb |
 | Empty is the action | "No API key" / "Nothing here" next to Create (`design:no-obvious`) | Extra docs link beside an already-clear action |
 

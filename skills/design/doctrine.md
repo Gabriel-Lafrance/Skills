@@ -6,7 +6,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 ## Owns
 
-`docs/design.md`, Initialization (Browser route crawl), user-facing implementation, and how a live screen may update that file.
+`docs/design.md`, Initialization (code-derived route inventory), user-facing implementation, and how a live screen may update that file.
 
 ## Does not own
 
@@ -38,7 +38,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 The only path is **`docs/design.md`** at the workspace root. It is a short **Do** / **Don't** list for this product's **UI and UX**. Nothing else belongs: no screen catalog, no component encyclopedia, no architecture, no data model, no API notes, no per-route happy path.
 
-Crawl the app to observe. Write only rules. One bullet is one UI/UX rule, with a short why when it is not obvious. Merge duplicates. Pack bars stay in this skill; do not copy them into the file.
+Inventory routes from code. Write only rules. One bullet is one UI/UX rule, with a short why when it is not obvious. Merge duplicates. Pack bars stay in this skill; do not copy them into the file.
 
 If the file is already a catalog, distill it to Do / Don't the next time you touch it. Keep the user's stated likes and dislikes as bullets. Delete agent dumps. Skeleton: [`reference.md`](reference.md#heading-skeleton).
 
@@ -98,7 +98,7 @@ A "none yet" screen that headlines "No API key" (or "Nothing here") next to Crea
 
 Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
 
-Identity comes from look bullets in `docs/design.md`, the live app, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
+Identity comes from look bullets in `docs/design.md`, the repo's tokens and theme, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
 
 When the user states a new identity, avoid the current AI-default looks (cream + terracotta serif, near-black + acid green, purple-on-white gradients, Inter/Roboto-only stacks). When the app already looks a certain way, match it, including if that way is quiet.
 
@@ -108,12 +108,12 @@ Interface words are design material. They must fit the job of this surface. Do n
 
 Name the surface before you write. A landing page hooks and sells: one claim, one reason to care, a CTA. A docs or help page explains and stays clear: precise steps, no slogans. App UI (settings, forms, product chrome) is short and job-shaped: name the action, do not sell, do not lecture. Chat unslop is discussion text only. Do not write a landing like a chat reply, and do not write docs like a landing.
 
-Match this product: the live app, voice bullets in `docs/design.md`, or the user this turn. A sentence that could sit on any other product is filler. Rewrite it. Cite `design:ui-copy`. Table: [`reference.md`](reference.md#ui-copy).
+Match this product: existing copy in the repo, voice bullets in `docs/design.md`, or the user this turn. A sentence that could sit on any other product is filler. Rewrite it. Cite `design:ui-copy`. Table: [`reference.md`](reference.md#ui-copy).
 
 | Rule | Meaning |
 | --- | --- |
 | **Fits the surface** | Landing / marketing: hook and sell. Docs / help: explain and be clear. App: the action, not a pitch. |
-| **This product** | Same voice as the live screens. Not "Unlock the power of", "Welcome to your dashboard", or "Seamlessly". |
+| **This product** | Same voice as existing screens. Not "Unlock the power of", "Welcome to your dashboard", or "Seamlessly". |
 | **Real verbs** | Controls are what the person does. Same word from button through success. Not "Submit", "Success", or "An error occurred". |
 | **Empty is the action** | "None yet" is Create or Invite (`design:no-obvious`). Errors still name what happened. |
 
@@ -127,7 +127,7 @@ Missing focus, hover-only primary actions, placeholder-only labels, and body con
 
 ### Initialization
 
-`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass asks the user to log in, crawls **every** route to observe, and writes a short Do / Don't list. Do not brute-force login. If Browser is blocked, write UI/UX rules code can prove and mark visual capture as a gap. Never overwrite a file that already exists with a blank template. A bloated existing file is distilled on the next capture or UI slice, not during a skip-init.
+`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass inventories **every** route from the app router in code, then writes a short Do / Don't list. Record only what the code proves. Mark runtime-only behavior as a gap. Never overwrite a file that already exists with a blank template. A bloated existing file is distilled on the next capture or UI slice, not during a skip-init.
 
 ### Blend edits
 
@@ -162,7 +162,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen
 - Shipping frontend copy that does not fit the surface (landing that explains, docs that sell, app chrome that markets) or filler that could sit on any other product
 - Overwriting an existing `docs/design.md` from a blank template
-- Brute-forcing login or calling a skipped Browser crawl a complete capture
+- Calling a partial route inventory complete when router-declared routes were skipped
 - Reverting the user's deletions on the next pass
 - Asking whether a pack-bar miss is optional instead of applying the tables while building
 - Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain

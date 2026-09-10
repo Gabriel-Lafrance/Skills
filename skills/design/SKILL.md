@@ -2,8 +2,8 @@
 name: design
 description: >-
   Designer and customer-experience worker for user-facing UI. Owns
-  docs/design.md (the app UX source of truth), captures the live app through
-  the Browser, and implements screens, components, and visible copy to a
+  docs/design.md (the app UX source of truth), captures the app from code,
+  and implements screens, components, and visible copy to a
   finished professional bar in one pass. Use when building frontend,
   initializing or updating design.md, or the user talks about UX, clicks,
   keystrokes, or how a screen should feel.
@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before capturing UX or writing UI. Do not skip.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
+**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
 
 **Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · [reference.md](reference.md) · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
@@ -43,9 +43,10 @@ slices. There is no `/design-review` skill and no Design axis in
    (`design:blend-edits`). Distill a screen or component catalog to Do /
    Don't the next time you touch the file.
 3. Do the job in this turn:
-   - **Capture / refresh:** crawl every app route in a Task subagent to
-     observe. Write or distill `docs/design.md` to a short UI/UX **Do** /
-     **Don't** list. Do not dump screens, components, or routes.
+   - **Capture / refresh:** inventory every app route from code in a Task
+     subagent. Observe repeating UI/UX rules. Write or distill
+     `docs/design.md` to a short UI/UX **Do** / **Don't** list. Do not dump
+     screens, components, or routes.
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
@@ -60,19 +61,16 @@ slices. There is no `/design-review` skill and no Design axis in
 
 ### Initialization
 
-Parent (this chat) owns login. Workers do not talk to the user.
+Code-derived. No browser, no login, no screenshots. Workers do not talk to the user.
 
-1. Reuse a running local app or approved preview. Do not start a duplicate
-   server just to look.
-2. Open the Browser. Ask the user to log in, then wait until they say they
-   are in. Do not brute-force login, captcha, or credentials.
-3. Dispatch a Task to discover **every** route from the app router and visit
-   each one. Observe repeating UI/UX rules. Details: [reference.md](reference.md).
-4. Write `docs/design.md` as a short **Do** / **Don't** list
+1. Discover **every** route from the app router in code.
+2. Dispatch a Task to inventory each one. Observe repeating UI/UX rules.
+   Details: [reference.md](reference.md).
+3. Write `docs/design.md` as a short **Do** / **Don't** list
    ([reference.md](reference.md#heading-skeleton)). No screen catalog. No
    component encyclopedia.
-5. If Browser, app, or login is blocked, still write UI/UX rules code can
-   prove, mark visual capture as a gap, and say what is missing.
+4. Record only what the code proves. Mark anything visible only at runtime
+   as a gap; do not invent it.
 
 Never overwrite an existing `docs/design.md` during Initialization. If the
 file exists, skip init and work from it.
@@ -86,7 +84,7 @@ surface, professional craft, and the quality floor. Return only the
 Completion envelope. The parent owns acceptance evidence and
 `/code-review`. If `docs/design.md` is missing, return `blocked` with
 Initialization as the next parent step (the parent may already be running
-it). If identity cannot be resolved (no look bullets, no live tokens, no
+it). If identity cannot be resolved (no look bullets, no theme tokens, no
 user-stated look), return `blocked` and say the parent must ask.
 
 ### If this is a user one-off

@@ -141,7 +141,7 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 | How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits) |
 | Implement one tiny non-UI what | Pack `implementer` or Cursor `generalPurpose` — one brief per independently reviewable slice (can be one function) |
 | Implement user-facing UI | Pack `designer` — one brief per independently reviewable slice. Do not use `implementer` |
-| Capture `docs/design.md` | `designer` Task after the parent confirmed Browser login — see `/design` |
+| Capture `docs/design.md` | `designer` Task with a code-derived route inventory — see `/design` |
 | Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
 | Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
 | Write tests | **Always** pack `tester`. Main never writes tests. `/create-test` still starts only when the user asks |
@@ -162,7 +162,7 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 4. If ready slices remain, update their status in **Current slices** and
    dispatch the next frontier. After every slice is integrated, blocked, or
    explicitly waived, the main agent records acceptance evidence (Done when,
-   rules that must stay true, seams — path walk / terminals / browser when UI);
+   rules that must stay true, seams — path walk / terminals);
    it then runs `/code-review` when the parent requires it.
 
 ## Anti-patterns

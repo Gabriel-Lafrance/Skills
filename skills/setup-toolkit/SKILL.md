@@ -23,6 +23,6 @@ Add **ESLint**, **Prettier**, and Cursor/VS Code workspace files to the **curren
 
 The ESLint templates include a no-emdash rule (em dash, en dash, horizontal bar). Workspace files recommend the ESLint and Prettier extensions.
 
-If `docs/design.md` is missing at the workspace root, run `/design` Initialization after the lint/format work. That skill owns the Browser login and route crawl. Do not write a fake design file from this skill.
+If `docs/design.md` is missing at the workspace root, run `/design` Initialization after the lint/format work. That skill owns the code-derived route inventory. Do not write a fake design file from this skill.
 
 This pack’s Cursor **plugin rules** already apply when the plugin is installed. This skill does not copy those rules into `.cursor/rules` unless the user asks to pin them in the app repo.
