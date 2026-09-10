@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 This skill is a user start. Do not nest it under `/task` or start it
 automatically. Only `/code-review` and `/pr-review` may recommend a lock; only
-the user starts this skill.
+the user starts this skill. Review may recommend it; nothing auto-invokes it.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md).
 
@@ -22,3 +22,9 @@ drafting the approval brief, test comment, or handoff.
 
 Lock observable behavior for a complex boundary. If the target is trivial, say
 so and stop.
+
+The parent owns the Why / What / How question. **Tester** is the go-to writer
+of tests and must always be summoned for that labor per
+[../pack-shared/subagents.md](../pack-shared/subagents.md). Feed **what** to
+lock and need-to-know (approved brief, public entry, paths). Tester owns
+**how**. Review the Completion. Never write tests on the main agent.

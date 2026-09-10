@@ -12,11 +12,13 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before grilling, planning, or implementing. Do not skip.
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
 
 Orchestrator only. Dispatch Task workers per
-[../pack-shared/subagents.md](../pack-shared/subagents.md). Always load
+[../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
+Completions; do not solo non-trivial labor or grep the tree. Always load
 `/taste` and `/architecture` during grill and before every implement wave.
+Load `/design` before every user-facing implement wave.
 
 `/task` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are
@@ -31,9 +33,11 @@ destination.
    ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → implement → acceptance evidence → `/code-review` → Fix
-   mode as needed. Task waves follow
-   [subagents.md](../pack-shared/subagents.md). Always load `/taste` and
-   `/architecture` during grill and before every implement wave.
+   mode as needed. Pick Task specialists per
+   [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
+   spawn order. Main does not grep or write tests. Always
+   load `/taste` and `/architecture` during grill and before every implement
+   wave. Load `/design` before every user-facing implement wave.
 3. Announce completion.
 
 ### If a parent already owns the ticket, branch, and PR

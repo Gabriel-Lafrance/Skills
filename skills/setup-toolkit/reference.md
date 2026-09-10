@@ -142,6 +142,17 @@ npx prettier --version
 
 (or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, `test:quality`, or `test:mutants` unless the user asked.
 
+## Design file
+
+After lint/format work, check workspace-root `docs/design.md` only (no other path).
+
+| State | Action |
+| --- | --- |
+| File missing | Run `/design` Initialization. That skill inventories every route from code. |
+| File present | Leave it. Do not overwrite. |
+
+Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
+
 ## Pin plugin rules (only if asked)
 
 If the user wants Cursor rules **in this app repo** (cloud agents, teammates without the plugin):
@@ -162,3 +173,4 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 - Scripts added or skipped with names listed (`test:quality`, `test:mutants`, and `test` only when it was missing)
 - One version smoke check ran
 - `test:quality` and `test:mutants` were **not** run as setup smoke
+- `docs/design.md` exists, or `/design` Initialization was started because it was missing

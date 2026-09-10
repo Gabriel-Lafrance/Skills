@@ -27,20 +27,22 @@ until the user accepts. The next skill must follow those doctrines via
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
-| Ship branch + optional PR | `/publish` (same canvas + demo bar as `/just-do-it` or a cloud agent) |
+| Ship branch + optional PR | `/publish` (same ship contract as `/just-do-it` or a cloud agent) |
 | Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
 | Sharpen intent | `/grill-me` |
-| Review local branch vs main | `/code-review` |
+| Review local branch vs main | `/code-review` (Design axis when the diff is user-visible) |
 | Review open GitHub PR | `/pr-review` |
+| Capture or update the app UX source of truth | `/design` |
+| Build a screen / frontend | `/task` (it dispatches `/design`) |
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
-| ESLint / Prettier / lint, format, dead code, mutants, or quality gate (`test:quality`, `test:mutants`) in this app | `/setup-toolkit` |
+| ESLint / Prettier / lint, format, dead code, mutants, or quality gate (`test:quality`, `test:mutants`) in this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
 
 **Bias:** Before non-trivial coding, prefer paths that run `/taste` and
 `/architecture` — usually via `/analyze` → `/task`, or recommend those skills
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do-it` — not typical destinations. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md).
+Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` or `/just-do-it` — `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester always writes tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 
@@ -50,4 +52,5 @@ Internals (`/implement`, …) are worker steps looked up by `/task` or `/just-do
 4. Never dump doctrine or other SKILL bodies into this turn.
 5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
 6. When recommending `/task` or `/analyze`, say they will follow the coding and
-   structure standards (`/taste` and `/architecture`).
+   structure standards (`/taste` and `/architecture`), and that they pick
+   specialists from the catalog — the main agent does not grep or write tests.

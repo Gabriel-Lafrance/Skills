@@ -1,6 +1,6 @@
 {
   "name": "gabriel-skills",
-  "version": "1.3.0",
+  "version": "1.7.0",
   "description": "Engineering toolkit for Cursor: agent skills, plugin rules, commands, and ESLint/Prettier templates.",
   "author": {
     "name": "Gabriel Lafrance"
@@ -19,6 +19,7 @@
     "architecture",
     "taste",
     "unslop",
+    "design",
     "review"
   ],
   "skills": "./skills",

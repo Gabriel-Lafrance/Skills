@@ -20,7 +20,7 @@ Cite keys live in doctrine. When speaking to the user, cite principles as
 **plain (Classic)** — `keep this simple (KISS)`. Never acronym-only and never
 the paraphrase without the classic name. Placement and
 `taste:keep-jobs-apart` defects are taste failures too. Parents (`/task`,
-`/analyze`, `/grill-me`, `/implement`, `/architecture`) load `/taste` **and**
+`/analyze`, `/grill-me`, `/implement`, `/design`, `/architecture`) load `/taste` **and**
 `/architecture` before planning or writing code.
 
 ### If this is a user one-off (audit or fix a lane)

@@ -5,9 +5,9 @@ description: >-
   Quality checks use /taste and /architecture (keep it simple, keep jobs
   apart, honest names, trust the server, types tell the truth, and related
   rules), a correctness hunt for reachable bugs, plus a pass for stale file and
-  symbol names after renames. Two review waves, evidence-backed findings,
-  and a bounded fix path. Use for branch, PR, or parent-owned review.
-  User must invoke (not auto).
+  symbol names after renames. Parallel Standards, Spec, and Design Tasks,
+  evidence-backed findings, and a bounded fix path. Use for branch, PR, or
+  parent-owned review. User must invoke (not auto).
 disable-model-invocation: true
 ---
 
@@ -20,9 +20,9 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md)
 
 Standards always load `/taste` and `/architecture`. Worker output uses the
-review-contract **Wave 1** and **Wave 2** fences (Principles, Architecture,
-Correctness hunt; Wave 2 hunt re-inspect). User-facing findings use ordinary
-words ([plain-language.md](../pack-shared/plain-language.md)).
+review-contract **review output** fence (Principles, Architecture, Correctness
+hunt). User-facing findings use ordinary words
+([plain-language.md](../pack-shared/plain-language.md)).
 
 ## Inputs
 
@@ -49,15 +49,17 @@ relevant acceptance criterion or state that no rule applies.
 
 Select the shared review mode deliberately:
 
-- `initial` reviews the complete shipped diff with Standards and Spec, then Wave 2.
+- `initial` reviews the complete shipped diff with Standards and Spec in parallel. Add Design when the diff is user-visible UI. There is no second adversarial wave.
 - `remediation` receives named finding IDs, the fix diff, touched direct paths, and direct callers only.
 - `full-rescan` requires an explicit request to re-open full-review depth after a meaningful change.
 
 Apply `code-review:axes`, `code-review:blocker-vs-follow-up`,
-`code-review:naming-alignment`, the review-contract evidence bar, and
-remediation analysis before any fix work. Standards workers must return the
-Wave 1 fences. Wave 2 must return the hunt re-inspect. Standards must Read
-`/taste` and `/architecture` this turn.
+`code-review:naming-alignment`, `code-review:design-axis`, the review-contract
+evidence bar, and remediation analysis before any fix work. Standards workers
+must return the review output fence. Design workers return Design findings, the
+Design matrix when the file exists, the Experience floor, and the Craft floor
+when the diff is user-visible. Standards must Read `/taste` and
+`/architecture` this turn.
 
 For `remediation`, verify those findings and regressions in that surface; do
 not reopen a broad review.
@@ -65,10 +67,13 @@ not reopen a broad review.
 ## Handoff
 
 The parent (this chat, or `/task` / `/just-do-it` when nested) owns
-fixed-point setup, worker dispatch, acceptance evidence, and review gates.
-Implementation workers do not run those gates or broaden a remediation
-review. Report stable finding IDs and the Fix now / Follow-up / Optional nit
-disposition in chat.
+fixed-point setup, worker dispatch, reviewing Completions, acceptance
+evidence, and review gates. Standards, Spec, and Design (when the diff is
+user-visible) **must** be parallel Tasks; add extra Tasks when the diff has
+independent surfaces. There is no second adversarial wave. Implementation
+workers do not run those gates or broaden a remediation review. Report
+stable finding IDs and the Fix now / Follow-up / Optional nit disposition
+in chat.
 
 ### If a parent already owns the next step
 

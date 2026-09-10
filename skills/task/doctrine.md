@@ -11,8 +11,9 @@ The orchestrator loop: execution context, grill-before-plans, lookup table, mand
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- User-facing UI and `docs/design.md`: `/design`
 - Review disposition: `/code-review`
-- Test writing: `/create-test`
+- Test writing: `/create-test` (always via `tester`)
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -39,15 +40,19 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Grill | `/grill-me` |
 | Style contract | **`/taste` always** (grill + before every implement wave) |
 | Structure | **`/architecture` always** (grill + before every implement wave). For a typo or pure rename, load it and keep the existing structure |
+| UX source of truth | **`/design`** when the slice is user-facing UI. Run Initialization first if `docs/design.md` is missing |
 | Split | `/split-task` when multiple slices help |
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
-| Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave |
-| Build | `/implement` |
+| Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave (what vs how) |
+| Find | `explorer` Tasks — main does not grep |
+| Judge | `/analyze` via `analyzer` Tasks |
+| Build | `/design` for user-facing UI; `/implement` for non-UI |
+| Tests | not this skill — `/create-test` always summons `tester`; main never writes tests |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -55,16 +60,17 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 | Skill | Required? | Notes |
 | --- | --- | --- |
-| Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | All non-trivial explore / implement / review waves |
+| Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | Pick the specialist that owns the job. Main does not grep or write tests |
 | `/trackers` | If ticket | Read only |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | During grill and before/during every implement wave |
 | `/architecture` | **Yes** | During grill and before/during every implement wave. Prefer loading even for a one-file fix |
+| `/design` | If UI | User-facing slices. Initialization if `docs/design.md` is missing |
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
-| `/implement` | Yes | Frontier slices |
-| Acceptance evidence | Yes | Path walk, terminals, browser when UI. Parent owned |
-| `/code-review` | Yes | Runs after acceptance evidence |
+| `/implement` | If non-UI | Frontier slices that are not user-facing |
+| Acceptance evidence | Yes | Path walk, terminals. Parent owned |
+| `/code-review` | Yes | Runs after acceptance evidence. Design axis when the diff is user-visible |
 
 ### Suitability and skip grill
 
@@ -92,10 +98,11 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Creating automatic runtime state instead of using the shared execution context
 - Planning before Locked grill closing or omitting a locked behavioral rule from Active Rules
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
-- Soloing non-trivial explore or implement work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
+- Soloing non-trivial explore, implement, or review work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
+- Capping a wave at two Tasks when more independent surfaces are ready
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
-- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (canvas, screenshots, create tool) because this skill is not `/publish`
+- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (create tool) because this skill is not `/publish`
 - Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it

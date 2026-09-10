@@ -14,6 +14,5 @@ Before branches or PRs, **Read**:
 **Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
 
 - Typed branch names per `publish/reference.md` when you control the branch contract
-- PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Demo screenshots when visual (not a UI test pass)
-- Cursor review canvas for non-trivial PRs
+- PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser
 - Cursor’s pull-request tool when it exists; do not fall back to `gh pr create` in that session

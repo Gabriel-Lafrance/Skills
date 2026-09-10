@@ -13,6 +13,7 @@ Autonomy policy, hard stops, ticket/branch contract, checkpoint/fixed point, loo
 - `/pr-review` (human)
 - Test writing (`/create-test` may be recommended after review)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
+- User-facing UI and `docs/design.md`: `/design`
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -78,11 +79,11 @@ Every review repair stays on the original ticket and may touch only the ticket l
 
 ## Output
 
-Parent context template and review disposition: [reference.md](reference.md). Print the complete PR title and body in chat before create. Record the URL and canvas link in the parent context and hand review to a human.
+Parent context template and review disposition: [reference.md](reference.md). Print the complete PR title and body in chat before create. Record the URL in the parent context and hand review to a human.
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). Child skills must follow `/taste` and `/architecture` ([standards.md](../pack-shared/standards.md)).
+Run the [lifecycle](reference.md#lifecycle). Child skills must follow `/taste` and `/architecture` ([standards.md](../pack-shared/standards.md)). User-facing slices also follow `/design` and `docs/design.md`.
 
 Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared execution-context authority order. Rebuild and show the compact parent context before acting. Do not infer a prior user waiver, promotion, acceptance, or loop disposition from Git alone; re-announce what is known and ask only for the missing user-owned decision.
 
@@ -94,3 +95,4 @@ Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared
 - Starting CR1/CR2 on an uncommitted or dirty fixed point
 - Force-pushing or pushing the default branch
 - Looping on Follow-ups or nits unless the user asks
+- Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
