@@ -16,7 +16,7 @@ This author almost always has **frontend localhost** and **`npx convex dev`** al
 
 - Call **Convex MCP** (`status`, `data`, `tables`, `logs`, `run`, `runOneoffQuery`, `insights`, `functionSpec`, env tools, and similar) just to verify
 - Re-run `npx convex …`, deploy, or codegen after every slice when `convex dev` is already watching
-- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts
+- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts **while coding a slice**. **Do** run this repo’s `lint` and `test` (or `test:quality`) **once, immediately before commit**, so the PR does not fail CI. Skip `test:mutants` at that step.
 - Start a second frontend/Convex process when one is already up
 - Dispatch a subagent whose only job is MCP verification
 

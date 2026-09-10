@@ -13,6 +13,7 @@ Before branches or PRs, **Read**:
 
 **Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
 
+- Before you commit or push: run this repo’s `lint` and `test` (`test:quality` when that is the test script). Fix failures first so CI does not fail the PR. Skip `test:mutants` here. Never `--no-verify` unless the user asked.
 - Typed branch names per `publish/reference.md` when you control the branch contract
 - PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser
 - Cursor’s pull-request tool when it exists; do not fall back to `gh pr create` in that session

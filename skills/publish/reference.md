@@ -360,7 +360,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 | State | Action |
 | --- | --- |
 | No `gh` or not authenticated | Stop before PR unless Cursor’s pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
-| Dirty tree | Ask commit first, stash, or abort; never auto-commit |
+| Dirty tree | Ask commit first, stash, or abort; never auto-commit. Before that commit, run this repo’s `lint` and `test` (`test:quality` when that is the test script) and fix failures so CI will not fail the PR |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create a real branch before continuing |
 

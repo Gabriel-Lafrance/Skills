@@ -29,12 +29,13 @@ optional improvements as follow-ups, and leaves `/pr-review` to a human.
    bounded build (`/task` returns evidence; this parent owns shipping).
    Pick specialists from [subagents.md](../pack-shared/subagents.md); do not
    follow a fixed spawn order.
-4. Checkpoint-commit the working tree; pin `baseSha...headSha`. Run
+4. Checkpoint-commit the working tree after `lint` and `test` (`test:quality`
+   when that is the test script) pass; pin `baseSha...headSha`. Run
    `/code-review` (CR1); remediate Fix-now with `/analyze` + `/task`
    Fix mode; checkpoint before each re-review.
 5. Checkpoint if dirty; run a fresh `/code-review` (CR2) against the pinned
    fixed point; remediate the same way.
-6. Ship commit(s) if needed, preflight, print the full PR draft in chat, then
+6. Ship commit(s) if needed (same lint and test first), preflight, print the full PR draft in chat, then
    push and create the PR (opened, not merged) using
    [pr-ship.md](../pack-shared/pr-ship.md) (Cursor’s pull-request tool when
    available). Do not skip that contract because
