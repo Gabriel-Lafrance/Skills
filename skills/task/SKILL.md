@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before grilling, planning, or implementing. Do not skip.
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Browser:** [../pack-shared/browser-evidence.md](../pack-shared/browser-evidence.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
+**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
 
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md) and review their

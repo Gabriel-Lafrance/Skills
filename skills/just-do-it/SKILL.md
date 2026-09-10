@@ -36,8 +36,8 @@ optional improvements as follow-ups, and leaves `/pr-review` to a human.
    fixed point; remediate the same way.
 6. Ship commit(s) if needed, preflight, print the full PR draft in chat, then
    push and create the PR (opened, not merged) using
-   [pr-ship.md](../pack-shared/pr-ship.md) — screenshots, review canvas, and
-   Cursor’s pull-request tool when available. Do not skip that contract because
+   [pr-ship.md](../pack-shared/pr-ship.md) (Cursor’s pull-request tool when
+   available). Do not skip that contract because
    this skill is not `/publish`.
 
 Hard stops, review caps, shipping, context handoffs, and new-chat recovery live

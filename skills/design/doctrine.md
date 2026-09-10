@@ -6,7 +6,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 ## Owns
 
-`docs/design.md`, Initialization (Browser route crawl), user-facing implementation, and how a live screen may update that file.
+`docs/design.md`, Initialization (code-derived route inventory), user-facing implementation, and how a live screen may update that file.
 
 ## Does not own
 
@@ -61,7 +61,7 @@ Least effort, do-it-for-them on an obvious input, dishonest state, and a happy p
 
 Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
 
-Identity comes from `docs/design.md` Visual language, the live app, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
+Identity comes from `docs/design.md` Visual language, the repo's tokens and theme, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
 
 When the user states a new identity, avoid the current AI-default looks (cream + terracotta serif, near-black + acid green, purple-on-white gradients, Inter/Roboto-only stacks). When the app already looks a certain way, match it, including if that way is quiet.
 
@@ -77,7 +77,7 @@ Missing focus, hover-only primary actions, placeholder-only labels, and body con
 
 ### Initialization
 
-`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass creates the file, asks the user to log in, crawls **every** route in the app router via a Task subagent, and records Visual language (observed color, type, density), patterns, components, and behavior. Do not brute-force login. If Browser is blocked, write what code can prove and mark visual capture as a gap. Never overwrite a file that already exists.
+`/setup-toolkit` and the first `/design` with no `docs/design.md` both trigger Initialization. That pass creates the file from a code-derived inventory of **every** route in the app router via a Task subagent, and records Visual language (color, type, density from the theme), patterns, components, and behavior. Never overwrite a file that already exists.
 
 ### Blend edits
 
@@ -108,7 +108,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Implementing user-facing UI through `/implement`
 - Shipping a `/design-review` skill (it is a review Task, not a skill)
 - Overwriting an existing `docs/design.md` from a blank template
-- Brute-forcing login or calling a skipped Browser crawl a complete capture
+- Calling a partial route inventory complete when router-declared routes were skipped
 - Reverting the user's deletions on the next pass
 - Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up
 - Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain

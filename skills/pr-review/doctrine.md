@@ -36,7 +36,7 @@ Shared hunt already covers secrets. This skill **must** also inspect:
 | **Historical thread** | A prior Blocking thread is still broken on `currentHead` | Thread is fixed or genuinely moot (Pass A) |
 | **Migration / backfill** | Schema or data change with no path for existing rows, or dual-write skipped when reads would break | Additive nullable field with a safe default |
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
-| **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Do not block on missing screenshots |
+| **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Never a blocker |
 
 Add the first four rows to the review output fence on a PR (review-contract PR extras table). How to QA is that chat note, not a hunt-table row.
 

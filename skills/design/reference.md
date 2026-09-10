@@ -1,6 +1,6 @@
 # Design reference
 
-Load with [SKILL.md](SKILL.md) for the file shape, route crawl, login pause, and merge rules. Bars stay in [doctrine.md](doctrine.md).
+Load with [SKILL.md](SKILL.md) for the file shape, route inventory, and merge rules. Bars stay in [doctrine.md](doctrine.md).
 
 ## Heading skeleton
 
@@ -44,9 +44,9 @@ Stated likes, dislikes, and exceptions, including why they save work.
 
 If a fact does not fit, create a heading that describes it. Do not invent a sixth required H2 unless the product truly has a distinct kind (for example marketing vs in-app). Prefer nesting under an existing H2.
 
-## Route crawl
+## Route inventory
 
-Discover routes from the repo, then visit each:
+Discover routes from the repo, then inventory each from code:
 
 | Stack signal | Where to look |
 | --- | --- |
@@ -56,20 +56,9 @@ Discover routes from the repo, then visit each:
 | Expo / RN Router | `app/**` routes excluding `_layout` only files |
 | Other | The repo's existing router table; do not guess a framework |
 
-Visit **every** discovered route after login. Record URL, what the screen is for, primary action, states you can reach without destructive data, and repeating components. Capture Visual language from what you see (color roles + hex, type, density, motion, refuses). Skip auth-callback or logout URLs that would drop the session; note them as skipped.
+Inventory **every** discovered route from code. Record URL, what the screen is for, primary action, states declared in code, and repeating components. Capture Visual language from tokens, theme, and CSS (color roles + hex, type, density, motion, refuses). Note routes whose behavior only shows at runtime as gaps; do not invent them.
 
-Work in a Task so the main chat can stay on login and integration ([subagents.md](../pack-shared/subagents.md)).
-
-## Login pause
-
-Workers do not chat with the user. The parent:
-
-1. Opens or reuses the Browser on the local app.
-2. Asks the user to log in there.
-3. Waits until the user says they are in.
-4. Then dispatches the crawl Task.
-
-Do not brute-force login, paste secrets, or retry captcha. If login never happens, write the code-derived file and mark visual capture blocked ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+Work in a Task ([subagents.md](../pack-shared/subagents.md)).
 
 ## Merge into an existing file
 
@@ -91,7 +80,7 @@ Dispatch `/design` when the slice outcome is a screen, component, visible copy, 
 Resolve in this order. Stop at the first source that actually specifies look and feel:
 
 1. `docs/design.md` Visual language
-2. The live app and existing tokens / theme / CSS variables in the repo
+2. Existing tokens / theme / CSS variables in the repo
 3. What the user stated this turn
 
 If none of those exist, the parent asks. A worker returns `blocked` and names this gap. Do not pick a palette "to get started."
@@ -102,15 +91,15 @@ Do the design work in thinking, then ship once. The user should not need a secon
 
 Before writing UI code:
 
-1. Name the screen's single job and the identity you are using (file, live app, or user).
+1. Name the screen's single job and the identity you are using (file, repo tokens, or user).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`).
 4. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
 Then implement to that plan exactly. Meet `design:experience` and
-`design:quality-floor` without announcing them. If Browser is available, screenshot the result and fix what still looks unfinished in this same turn ([browser-evidence.md](../pack-shared/browser-evidence.md)).
+`design:quality-floor` without announcing them.
 
-When the identity is **user-stated and new** (no live app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
+When the identity is **user-stated and new** (no app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
 
 Landing / marketing first viewport still follows [`taste` React and UI](../taste/reference.md#react-and-ui).
 

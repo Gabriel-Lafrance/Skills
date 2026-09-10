@@ -27,8 +27,7 @@ skills/
     subagents.md         # what vs how; explorer finds; analyzer judges; Worker Brief
     review-contract.md   # shared review evidence and finding rules
     doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
-    browser-evidence.md  # browser proof for UI acceptance
-    pr-ship.md           # every agent that opens a PR (canvas + screenshots)
+    pr-ship.md           # every agent that opens a PR (create-tool choice)
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
@@ -81,31 +80,15 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, Active Rules, scope, and handoff visible in chat, and compile that context into each worker brief. Do not create agent-owned runtime trees.
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, the specialist catalog, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill, no architect worker, and no fixed spawn order).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence (including Experience floor and Craft floor on UI diffs), correctness hunt, and severity mapping.
-- **Browser evidence:** UI acceptance proof links [`browser-evidence.md`](./skills/pack-shared/browser-evidence.md). Do not use it to fill a PR Demo section.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
-  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor review
-  canvas, Browser screenshots in the body (not a UI test pass), Cursor PR
+  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor PR
   tool when available.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md), and that labor is **always** `tester` — the main agent never writes tests. Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user — never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
-## Browser-assisted validation
+## No visual tooling
 
-Cursor's native Browser is a runtime capability, not a `SKILL.md` frontmatter option. It needs no custom `mcp.json` or external package, but a skill cannot enable it or bypass approval, Browser Protection, policy, or origin allowlists.
-
-For post-build UI **acceptance** (`/task`, `/code-review`) and `/design` capture:
-
-1. Use an Agent-mode session where Browser tools are exposed.
-2. Reuse a running local app or approved preview with safe test data.
-3. Use [`skills/pack-shared/browser-evidence.md`](./skills/pack-shared/browser-evidence.md) as the single browser evidence protocol; link to it instead of copying its steps into other skills.
-4. Write capability-based guidance: use Browser when it is available; otherwise report visual validation as `blocked`, never passed.
-
-For PR **Demo screenshots** (any agent that opens a PR): follow
-[`pr-ship.md`](./skills/pack-shared/pr-ship.md). Open the changed screen, take
-one or a few pictures, embed them. Do not run the acceptance protocol to fill
-Demo. If Browser is unavailable, omit Demo — do not block the PR.
-
-Browser state can persist per workspace. Reset safe test state when needed, or report the state used as evidence.
+This pack does not use Cursor's Browser, review canvas, screenshots, or videos. Acceptance evidence is path walks and terminal output. PR bodies are text (type, ticket, what changed, Change diagram, How to QA, Notes). Do not add skills or contracts that open a browser, capture screens, or produce canvases.
 
 ## Add a skill
 
@@ -133,10 +116,9 @@ npx skills@latest add . --list
 - One skill = one job. Prefer new skill over bloating an existing one.
 - Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)). Cite another skill’s keys instead of restating its Bars.
 - Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
-- Teach in ordinary words — no explainer-video links in skill bodies. PR Demo
-  screenshots are a different job ([`pr-ship.md`](./skills/pack-shared/pr-ship.md)). Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
+- Teach in ordinary words — no explainer-video links in skill bodies. Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
-- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private canvas/demo recipe into that skill.
+- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private ship recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 - Plugin rules stay short pointers to skill doctrines, except `no-emdash.mdc` and `unslop.mdc` (self-contained writing bars). Do not copy `/taste` or `/architecture` bodies into `.mdc` files.

@@ -13,7 +13,7 @@ Which templates to copy, what not to overwrite, Convex plugin detection, the smo
 - Rewriting an existing lint stack
 - Reformatting the repo as part of setup
 - Plugin rules copy unless the user asks to pin them
-- The design file contents, Browser login, or route crawl: [`../design/doctrine.md`](../design/doctrine.md)
+- The design file contents or code-derived route inventory: [`../design/doctrine.md`](../design/doctrine.md)
 - Detect/choose details: [`reference.md`](reference.md)
 
 ## Cite keys

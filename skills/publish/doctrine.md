@@ -11,7 +11,7 @@ Type lock, branch naming contract, no auto-commit / no force-push, draft-before-
 ## Does not own
 
 - Numbered how-to: [`reference.md`](reference.md#process) · [`SKILL.md`](SKILL.md)
-- Screenshots, canvas, create-tool choice: [pr-ship.md](../pack-shared/pr-ship.md)
+- Create-tool choice: [pr-ship.md](../pack-shared/pr-ship.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 
 ## Cite keys
@@ -29,7 +29,7 @@ none (uses `taste:*` and `architecture:*`)
 - Do not auto-commit, force-push, or push to the default branch.
 - Show the complete PR title and body before creating the PR; wait for explicit approval.
 - Every PR body includes a high-level Mermaid **Change diagram** (one for new work; Before/After for rework) per [reference.md](reference.md).
-- Follow [pr-ship.md](../pack-shared/pr-ship.md): Browser screenshots in the body when the change is visual (not a UI test pass), a Cursor review canvas for non-trivial PRs, and Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
+- Follow [pr-ship.md](../pack-shared/pr-ship.md): Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
 When `/just-do-it` reads this doctrine for its preflight and templates, its explicit autonomous parent instruction replaces the approval wait only after it has printed the complete draft in chat. It still follows [pr-ship.md](../pack-shared/pr-ship.md). This approval exception does not apply to `/publish` when the user invoked it directly.
@@ -64,8 +64,7 @@ Run the [process](reference.md#process). Keep **How to QA** concrete: paths, rol
 - Creating a PR before draft and approval
 - Empty QA instructions
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception)
-- Shipping a visual change without a screenshot when Browser was available, or a non-trivial PR without a review canvas, or using `gh pr create` when Cursor’s pull-request tool is available
-- Running a full UI test loop just to fill Demo
+- Using `gh pr create` when Cursor’s pull-request tool is available
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
 - Labeling product tweaks, refactors, or defects as Chore
