@@ -16,7 +16,7 @@ This skill is a worker step for `/task` or `/just-do-it`, not a typical user sta
 
 Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 
-Slices must name entry/folder per architecture; do not split in a way that forks a service or primitive.
+Slices must name entry/folder per architecture and nest new files in that folder; do not split in a way that forks a service or primitive or lands mixed siblings.
 
 If the user explicitly asks to save the split, get or honor an approved destination and write only that requested artifact.
 
@@ -63,7 +63,7 @@ Break the parent into the smallest ordered slices that still deliver value. Each
 | **Title** | Imperative and specific |
 | **Outcome** | One sentence: what becomes true when this slice is done |
 | **Lane** | Narrower than the parent when possible |
-| **Entry / folder** | Expected entry point and folder when files are added |
+| **Entry / folder** | Expected entry point and owning folder when files are added; no mixed-parent dump |
 | **Active Rules** | Rules implemented or preserved by this slice |
 | **Done when** | 1–3 binary checks for this slice only |
 | **Blocked by** | Earlier slice IDs, or none |
@@ -123,6 +123,7 @@ Copy the frontier and dependencies into **Current slices** of the execution cont
 - Mega-slices that push workers out of the smart zone
 - Slice contracts that prescribe how (step lists, patches) instead of what
 - Vague titles without binary Done when
+- Landing a slice as mixed siblings with no owning folder
 - Writing an automatic INDEX, plan file, status file, or resume state
 - Implementing before the split is announced and any Questions-only batch is answered
 - Asking yes/no to confirm the split

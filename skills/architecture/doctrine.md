@@ -2,7 +2,7 @@
 
 ## Job
 
-Shape scalable code: one service per domain job, a simple public API, one-job helpers inside those modules, writes that check who may act, folders that match the domain, and cheap honest reads.
+Shape scalable code: one service per domain job, a simple public API, one-job helpers inside those modules, writes that check who may act, related files nested in a named folder, and cheap honest reads.
 
 ## Owns
 
@@ -117,17 +117,22 @@ Anti-patterns: bolting new code onto a known-wrong shape because it was already 
 
 ### Folders
 
-Never sprinkle related files across a flat directory. **Propose the folder map before creating files.**
+**Nest related files in a named folder.** That is how the tree stays maintainable. A mixed flat directory is a messy codebase. Keep-it-simple (KISS) and never-nest (guard clauses) do **not** authorize a flat dump: never-nest flattens *control flow*, not the filesystem (`taste:never-nest`).
 
-1. Mirror existing repo conventions (services folder, feature folder, domain folder). Explore first.
+**Create the owning folder before the files.** Propose the folder map first. A new concern gets a folder **even when it starts as one file**. Do not wait until five siblings already exist.
+
+1. Mirror existing repo conventions (services folder, feature folder, domain folder). Explore first. A **good nested sibling** wins over a nearby flat dump (`taste:cite-a-sibling`). A nearby flat dump is debt (`architecture:prior-mistakes`), not a template.
 2. Prefer **`services/<concern>/`** (or the repo's equivalent) for shared domain APIs; **feature folders** for product UI/orchestration that *calls* those services.
 3. If no convention fits, create a **feature/domain folder** and put the cluster inside it.
-4. Colocate what changes together; separate what changes for different reasons.
+4. Colocate what changes together; nest collaborators one level down (`components/`, `hooks/`, private helpers) when they are not the public entry. Separate what changes for different reasons.
 5. Name files per `taste:naming-files`.
 6. Avoid `utils.ts` / `helpers.ts` dumping grounds. Name the concept (often: promote to a service, or a primitive inside one).
-7. Cite a good sibling feature or existing service when one exists (`taste:cite-a-sibling`). Bad nearby code is debt to move, not a template.
+7. **Convex:** a one-file concern may stay `convex/billing.ts` when that is the repo pattern. A second file for that concern **moves the cluster** into `convex/billing/` (do not add `billingStripe.ts` as a `convex/`-root sibling). Do not keep both `convex/billing.ts` and `convex/billing/`.
+8. **App Router:** `page.tsx` / `layout.tsx` / `route.ts` stay at the route folder. Other files for that slice nest in that folder (`components/`, `hooks/`) or a feature folder, not as mixed siblings of unrelated routes.
 
-Anti-pattern: five new sibling files next to unrelated code with no folder; or a new payments helper beside a feature when a billing service should own it.
+Leave at the repo root only files that belong there (`package.json`, `tsconfig.json`, `docs/design.md`). Patching an existing file in an already-correct folder does not require a new folder.
+
+Anti-patterns: new related files as siblings in `src/`, `app/`, `convex/`, or any mixed parent; treating `taste:never-nest` or `taste:keep-it-simple` as “don’t make a folder”; waiting until the directory is already messy before nesting; a new payments helper beside a feature when a billing service should own it.
 
 ### Collaborating parts
 
@@ -146,9 +151,9 @@ features/checkout/      # UI + orchestration. Calls makeUserPay
 features/upgrade/       # same
 ```
 
-Convex modules live under `convex/` with taste naming (`billing.ts`, not `billing-actions.ts`). A Convex service module still exposes a small public set of queries/mutations/actions; features call those. They do not duplicate Stripe/auth logic in another Convex file.
+Convex modules live under `convex/` with taste naming (`billing.ts`, not `billing-actions.ts`). When the concern is more than one file, nest them under `convex/<concern>/` (`architecture:folders`). A Convex service module still exposes a small public set of queries/mutations/actions; features call those. They do not duplicate Stripe/auth logic in another Convex file.
 
-Adjust names to the repo. Keep depth shallow: public entry → primitives / collaborators → leaf helpers. Never-nest deep control flow (`taste:never-nest`); extract instead.
+Adjust names to the repo. **Inside the owning folder**, keep the tree shallow: public entry → primitives / collaborators → at most one leaf folder (`components/`, `hooks/`). That nesting is required. It is not extra ceremony. `taste:never-nest` is about `if` / `try` pyramids, not the filesystem. Do not skip the owning folder to keep the tree “flat.” Do not invent four empty layers (`services/billing/stripe/v2/internal/`).
 
 ### Cheap reads
 
@@ -224,10 +229,11 @@ Present this **Structure** card before writing code (and include it in the inlin
 - **New / extend:** path. One specific job; how it stays reusable without breaking
 - **Inside:** which service / deep module owns it
 **Hidden behind services / entry:** bullet list of responsibilities callers must not see
-**Folder map:**
+**Folder map:** (required owning folder; no mixed-parent dump)
 - `services/<concern>/` (or repo equivalent)
   - `<concern>.ts`          # public API
   - collaborator…
+  - `components/` or other one-level leaf when needed
 - `features/<slice>/`       # calls services. No domain fork
   - entry + UI…
 **Fits existing pattern:** yes (cite **good** service / feature) | correcting debt (what) | new (why)
@@ -257,7 +263,7 @@ Self-check before done (cite keys, not a second essay):
 - [ ] `architecture:services` (domain in a service with a public API, or an existing one extended; features call it)
 - [ ] `architecture:primitives` (one job each; reused not forked; inside the owning module)
 - [ ] `architecture:prior-mistakes` (not copied; required moves done; optional ones are follow-ups)
-- [ ] `architecture:folders` / `architecture:collaborating-parts`
+- [ ] `architecture:folders` / `architecture:collaborating-parts` (new files nested in an owning folder, not mixed siblings)
 - [ ] `architecture:deep-public-surface`
 - [ ] `architecture:authority` when the slice has writes
 - [ ] `architecture:cheap-reads` when the slice has lists, counts, or dashboards
@@ -273,19 +279,20 @@ Process (pointers, not a second copy of the bars): Explore → structure card �
 
 Apply when the work could add files, move ownership, or touch data, including:
 
-- New feature with more than one new file
+- New feature (even one new file)
 - Any domain capability (payments, auth, email) a second feature might need
 - Temptation to copy Stripe/auth/email logic into a feature or leave it misplaced
 - Clear prior mistake in the lane when the current goal or named finding requires a behavior-preserving move
 - Extracting logic from a large file
 - Adding React state/effects that would otherwise bloat a component
-- Any change that would add files without a parent folder
+- Any new file for a new concern, or a second file that would sit as a mixed sibling
+- Any change that would add files without an owning folder
 - Any feature with lists, dashboards, counts, totals, leaderboards, or stats
 - Any query that would scan children to answer a parent-level question
 - Any public write, webhook, or admin path
 - Any query that would read the wall clock or filter a growing table without an index
 
-Hand off: structure card → `/task` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns, duplicated-service anti-patterns, and missing write-path authority under `/task`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md).
+Hand off: structure card → `/task` (inline plan contracts in chat). Acceptance evidence and `/code-review` will fail scale anti-patterns, duplicated-service anti-patterns, mixed-parent file dumps, and missing write-path authority under `/task`. Other pack skills load this doctrine on **every** run via [standards.md](../pack-shared/standards.md).
 
 ## Anti-patterns
 
@@ -293,6 +300,8 @@ Hand off: structure card → `/task` (inline plan contracts in chat). Acceptance
 - Shallow public surface that leaks steps to every caller
 - Forking a primitive's job locally
 - Copying a known-wrong shape because it was already there
+- Dumping new related files into a mixed parent directory
+- Treating `taste:never-nest` or `taste:keep-it-simple` as permission to skip the owning folder
 - Hot-path compute-on-read for metrics
 - `Date.now()` or randomness inside a query
 - UI-only guard as the write lock

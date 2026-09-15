@@ -201,10 +201,14 @@ re-inspect.
 If the shipped diff introduces any of these, it is a finding. Cite the matching
 key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
 `taste:no-dead-code`, `taste:throw-at-boundaries`, `taste:one-export-per-file`,
-`taste:static-imports`, `taste:oop-depth-cap`) or `taste:keep-it-simple`.
-Findings still speak **plain (Classic)**. These are also `test:quality` (or `test:mutants`) hits when a runner exists; do not raise, skip, or delete a gate to go green:
+`taste:static-imports`, `taste:oop-depth-cap`, `architecture:folders`) or `taste:keep-it-simple`.
+Findings still speak **plain (Classic)**. Mechanical cores below are also
+`test:quality` (or `test:mutants`) hits when a runner exists, except folder
+placement (review-only, `architecture:folders`). Do not raise, skip, or delete
+a gate to go green:
 
 - Nested control-flow pyramids
+- New related files added as mixed siblings with no owning folder
 - A function with more than five independent paths (cyclomatic complexity (McCabe))
 - Copy-paste twins of a concept already in-repo
 - `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast))

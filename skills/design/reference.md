@@ -86,14 +86,15 @@ Do the design work in thinking, then ship once. The user should not need a secon
 
 Before writing UI code:
 
-1. Name the screen's single job and the identity you are using (file, repo tokens, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`).
+1. Name the screen's single job and the identity you are using (file, repo tokens, or user). Name what the words are for: hook and sell, explain, or name the action (`design:ui-copy`). If those words are in a language other than the source, name the job first, then the term speakers use (`design:spoken-locale`).
 2. List the color roles, type roles, density, and motion that identity already uses. New UI reuses those. It does not introduce a second system.
 3. Decide empty, loading, error, disabled, and success for every control this slice owns (`design:ui-copy`). If empty is "none yet," the create or invite control is enough (`design:no-obvious`).
 4. Name the first glance: what everyone needs on this surface, and what sits one level down (`design:first-glance`).
 5. Cut decoration that does not serve the job. One restrained motion beat is enough when motion exists; scattered entrance animations are not.
 
 Then implement to that plan exactly. Meet `design:experience`,
-`design:first-glance`, `design:no-obvious`, `design:ui-copy`, and
+`design:first-glance`, `design:no-obvious`, `design:ui-copy`,
+`design:spoken-locale`, and
 `design:quality-floor` without announcing them.
 
 When the identity is **user-stated and new** (no app yet), still one-shot it: distinctive type pairing from what they asked, a real hierarchy, and none of the AI-default looks listed in `design:professional-craft`. Do not run a catalog or invent a second file.
@@ -132,6 +133,41 @@ Write from the person's side of the screen:
 | This product | "Unlock the power of", "Welcome to your dashboard", "Seamlessly", or copy that could sit on any other product | A line that is specific but slightly off the existing voice |
 | Real verbs | "Submit", "Success", "An error occurred", or a new name mid-flow | Optional helper that restates a visible verb |
 | Empty is the action | "No API key" / "Nothing here" next to Create (`design:no-obvious`) | Extra docs link beside an already-clear action |
+
+## Spoken locale
+
+Pack bar. Always on when writing strings a person reads, even when
+`docs/design.md` is silent. Cite `design:spoken-locale`. Product exceptions
+(keep an English brand name) live as Do / Don't bullets. Do not copy this
+table into that file.
+
+Translate the **job**, not the source words. A speaker of the target language
+must recognize the term. A glued dictionary compound is not a translation.
+
+How to write the string:
+
+1. **Name the job** in one ordinary sentence in the source language. Example: "the person removes the background from a photo."
+2. **Drop the source phrasing.** Forget "Background remover" as a template.
+3. **Ask what speakers call that job.** Reuse the repo's locale for that language if it already named it.
+4. **If the repo has no term**, use what real products in that locale print for the same job. Do not invent a parallel.
+5. **Read it as speech.** If it sounds like the source language with swapped words, rewrite. Many languages name a tool with a verb ("Retirer l'arrière-plan") or an established category word ("Détourage"), not an English agent-noun mapped to a fake `-eur` / `-er` noun.
+6. **Keep that term** on the button, title, empty state, and success. Code paths stay on `taste:naming-files`.
+
+Do not:
+
+- Concatenate dictionary hits (`background` + `remover` → `suppresseur de fond`)
+- Invent a noun because English had a noun
+- Mix two native terms for the same job in one flow
+- Leave machine-translation output because it is "technically equivalent"
+
+The same steps run French → English and any other pair. The test is the speaker, not the dictionary.
+
+| Bar | Fix now | Follow-up |
+| --- | --- | --- |
+| Name the job first | Label is a word-for-word swap the speaker would not say | A native term that is slightly more formal than nearby copy |
+| No glued dictionary | Fake compound or invented agent-noun in the shipped string | An extra tooltip that restates an already-right label |
+| What speakers already say | New parallel term when the locale file or sibling screen already named the job | Nearby older strings left on a term you are not touching |
+| One term through the flow | Button says one native job, success says a different invented one | Optional helper that repeats the same native term |
 
 ## Experience
 

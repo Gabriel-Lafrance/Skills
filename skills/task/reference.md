@@ -68,7 +68,7 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 ## Architecture
 - **Service / public API:** <owns or calls>
 - **Primitives:** <reuse | new inside which module | none>
-- **Folder map:** <paths this slice may add>
+- **Folder map:** <owning folder this slice must create or use; no mixed-parent dump>
 - **Scalability:** <stored-on-write | none for this slice>
 
 ## Design

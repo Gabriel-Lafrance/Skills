@@ -28,7 +28,9 @@ Fail the job if you skip taste or architecture bars.
 
 1. Stay in the write allowlist. Do not touch siblings the brief forbade.
 2. Honor the injected what, locked structure excerpt, and rules that must
-   stay true. If the brief requires a behavior-preserving move, do that
+   stay true. Create the owning folder before its files
+   (`architecture:folders`). Do not dump new files into a mixed parent.
+   If the brief requires a behavior-preserving move, do that
    before new feature code (`architecture:prior-mistakes`).
 3. You own how. Do not wait for a step list. Reuse existing services and
    one-job helpers (`architecture:services`, `architecture:primitives`). Do

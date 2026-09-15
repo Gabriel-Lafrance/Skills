@@ -114,6 +114,16 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 **Bad:** Copy that could sit on any other product unchanged. Rewrite it for this screen.
 
+## Spoken locale
+
+**Bad:** English "Background remover" becomes French "Suppresseur de fond". That is each word swapped and glued. Speakers do not call that job a "suppresseur".
+
+**Good:** The job is removing a photo's background. French product UI names that job "Détourage", "Retirer l'arrière-plan", or "Enlever le fond". Pick one native term (reuse the locale file if it already chose) and keep it on the button, title, and success.
+
+**Bad:** Locale file already says "Retirer l'arrière-plan", and a new screen invents "Suppresseur de fond" beside it.
+
+**Good (English from French):** French "Détourage" for that job becomes "Background removal" or "Remove background", not "Detourage" unless that is the kept brand name.
+
 ## User-facing UI without `/design`
 
 Worker shipped a settings page under `/implement`. Parent did not dispatch `/design`. **Wrong.** Route the UI through `/design`. `/implement` stays on the non-UI slice.

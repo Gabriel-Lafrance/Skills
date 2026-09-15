@@ -24,8 +24,8 @@ Do this **every time** the skill is used this turn, including worker steps. Do n
 ## How to apply (hard, not flavor)
 
 - **Taste is required.** Apply Cite keys in taste doctrine. Violations fail the skill’s quality bar. `/code-review` treats them as required unless repository docs contradict.
-- **Architecture is required.** Always load it. Apply Cite keys in architecture doctrine whenever the work could add files, move ownership, or touch data. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
-- **Smallest structure still wins.** Loading architecture does not authorize extra layers. Taste still requires the smallest shape that meets the outcome (`taste:keep-it-simple`).
+- **Architecture is required.** Always load it. Apply Cite keys in architecture doctrine whenever the work could add files, move ownership, or touch data. New files go in an owning folder (`architecture:folders`); do not dump them in a mixed parent. For a typo or a user-specified pure rename, still load; the application is “keep the existing structure.”
+- **Smallest structure still wins.** Loading architecture does not authorize extra layers. Taste still requires the smallest shape that meets the outcome (`taste:keep-it-simple`). The owning folder is not an extra layer.
 - **Fail closed.** Do not invent a weaker standard. Do not treat “structure not in play” as permission to skip the architecture Read.
 
 ## Parents and workers

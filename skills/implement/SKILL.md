@@ -37,7 +37,10 @@ Fail the job if taste or architecture bars are skipped.
 
 1. Stay in the write allowlist. Parallel work is safe only when the parent
    brief proves non-overlapping lanes and compatible interfaces.
-2. Honor the inline Structure decisions and Active Rules. If a
+2. Honor the inline Structure decisions and Active Rules. Create the
+   owning folder from the folder map **before** writing files
+   (`architecture:folders`). Do not add new files as mixed siblings in
+   `src/`, `app/`, `convex/`, or any other mixed parent. If a
    required behavior-preserving move is in the brief, do it before feature
    code and show that the old observable behavior still holds. Apply `/taste`
    implement self-check and `/architecture` self-check before Completion.
