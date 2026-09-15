@@ -68,7 +68,7 @@ Keep it simple does **not** mean shallow modules, duplicated domain logic, or sk
 
 Before adding a new layer, file, service, wrapper, class hierarchy, shared API, queue, lock, retry system, or other coordination machinery, identify the evidence that a local implementation cannot meet the rule safely. A UI-disabled state is user feedback; if a client can bypass it, add the direct authoritative backend or state-transition guard before proposing coordination infrastructure (`taste:trust-the-server`, [`architecture:authority`](../architecture/doctrine.md#authority)).
 
-This budget does not prohibit a real service, deep module, or extension seam for a genuinely independent domain capability or explicitly planned growth. It prohibits speculative ceremony, identity wrappers, one-off helper files, and abstractions created only because a local `if` looks untidy.
+This budget does not prohibit a real service, deep module, extension seam, or the **owning folder** for a new concern ([`architecture:folders`](../architecture/doctrine.md#folders)). The folder is not extra ceremony. It prohibits speculative ceremony, identity wrappers, one-off helper files dumped in a mixed parent, and abstractions created only because a local `if` looks untidy.
 
 **Bad code** is whatever increases **complexity** or **entropy**. Good code is keep-it-simple first, deep where it matters (simple surface, rich inside), built from one-job helpers inside services / deep modules ([`architecture:primitives`](../architecture/doctrine.md#primitives)), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
 
@@ -119,7 +119,7 @@ Rules that are **not** already a named principle:
 
 | Rule | Classic | Meaning |
 | --- | --- | --- |
-| **Never-nest** | Guard clauses | Flatten control flow; extract early instead of deep `if` / `try` pyramids |
+| **Never-nest** | Guard clauses | Flatten control flow; extract early instead of deep `if` / `try` pyramids. Does **not** mean flatten the folder tree ([`architecture:folders`](../architecture/doctrine.md#folders)) |
 | **Cyclomatic cap** | Cyclomatic complexity (McCabe) | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs `test:quality` (this cap plus principle and dead-code gates; mutants run separately as `test:mutants`); do not raise the cap, skip the test, or delete it to go green |
 | **Don’t repeat yourself** | DRY | One concept, one place; no copy-paste twins |
 | **No dead code** | Knip | No unused files, exports, or dependencies. `/setup-toolkit` installs the Knip gate in `test:quality`; remove the dead code instead of ignoring it to go green |
@@ -142,7 +142,7 @@ Prefer classes for stateful domain behavior and shared lifecycle (often that cla
 | --- | --- |
 | App / UI / general TS | `lowercase-with-hyphens` (`use-checkout.ts`, `order-summary.tsx`) |
 | **Convex** `convex/**` | **No `-` or `_` in filenames** (`orders.ts`, `orderActions.ts`) |
-| Folders | Feature/domain folders before flat dumps; no anonymous `utils` / `helpers` bags ([`architecture:folders`](../architecture/doctrine.md#folders)) |
+| Folders | Nest related files in a named folder even for the first file of a new concern; no mixed-parent dumps; no anonymous `utils` / `helpers` bags ([`architecture:folders`](../architecture/doctrine.md#folders)) |
 | **Honest names** | Path and primary export describe today’s job. After a rename, move, or scope change: update the filename, exports, types, functions, and variables in the same edit. Never leave new logic under the old name (`taste:honest-names`) |
 
 ## Output
@@ -173,4 +173,5 @@ Terminals first: [reference.md](reference.md#verify-terminals-first). React/UI: 
 - `any` on a public surface, skipped validators, or required data marked optional
 - Ritual lint / typecheck / Convex MCP instead of reading existing terminals
 - Acronym-only principle talk (“SoC violation”) or plain-only (“keep it simple” with no KISS). Use `plain (Classic)`
+- Using never-nest (guard clauses) or keep it simple (KISS) as permission to dump files in a mixed directory
 - Restating `/architecture` services, folders, or primitives in this file

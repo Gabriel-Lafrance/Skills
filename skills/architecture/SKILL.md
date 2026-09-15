@@ -3,10 +3,11 @@ name: architecture
 description: >-
   Shape scalable code: one service per domain job, simple public APIs,
   one-job helpers inside those services, writes that check who may act,
-  clear folders, cheap honest reads, and writes that are safe to retry.
+  nested folders, cheap honest reads, and writes that are safe to retry.
   Use to decide structure, or inside /task before planning.
-  Triggers: folders, services, split logic, data/reads, duplicating
-  domain logic, auth on writes, Date.now in queries.
+  Triggers: folders, nest files, flat directory, mixed parent,
+  services, split logic, data/reads, duplicating domain logic,
+  auth on writes, Date.now in queries.
 disable-model-invocation: true
 ---
 
@@ -59,17 +60,19 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    or update a plan, workspace, register, or other agent-owned artifact.
    Open structure decisions → one `/grill-me` Questions batch (follow
    [../pack-shared/asking.md](../pack-shared/asking.md)).
-4. **Implement against the card.** When a service or feature boundary is
-   justified, create its folder before its files. Perform Moves / corrections
-   before bolting new feature code onto the old shape. Put domain logic in the
-   service; features call public functions only. Build depth with primitives
-   inside the service. Enforce identity and ownership on public writes in the
-   service. Keep queries deterministic; validate public args
-   (`taste:types-tell-the-truth`).
+4. **Implement against the card.** Create the owning folder before its files
+   (`architecture:folders`). Never add new files to a mixed parent (`src/`,
+   `app/`, `convex/`, or a route folder already holding unrelated files).
+   Perform Moves / corrections before bolting new feature code onto the old
+   shape. Put domain logic in the service; features call public functions
+   only. Build depth with primitives inside the service. Enforce identity and
+   ownership on public writes in the service. Keep queries deterministic;
+   validate public args (`taste:types-tell-the-truth`).
 5. For mid-implementation sprawl, duplicated domain logic, a forked primitive,
    or a prior mistake: make a move only when the current acceptance criteria,
    Active Rules, or a named finding require it; otherwise retain the smallest
-   direct shape and record a follow-up in chat.
+   direct shape in the **owning folder** and record a follow-up in chat. About
+   to add a mixed sibling? Nest it. That is not extra ceremony.
 6. Run the doctrine Output self-check before done.
 
 ### If a parent already owns the next step
@@ -80,5 +83,6 @@ then `/design` for user-facing UI or `/implement` for non-UI. Return needed corr
 ### If this is a user one-off
 
 - Structure card approved → `/task`
-- Scale, duplicated-service, forked-primitive, missed-move, or missing
-  write-path authority → acceptance evidence / `/code-review`
+- Scale, duplicated-service, forked-primitive, missed-move, mixed-parent
+  file dump, or missing write-path authority → acceptance evidence /
+  `/code-review`

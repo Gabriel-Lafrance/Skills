@@ -6,7 +6,7 @@ Review a shipped diff for quality and whether it matches the request.
 
 ## Owns
 
-Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, and the local remediation/promotion boundary.
+Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, and the local remediation/promotion boundary.
 
 ## Does not own
 
@@ -24,6 +24,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 | `code-review:axes` | Axes |
 | `code-review:blocker-vs-follow-up` | Blocker vs follow-up |
 | `code-review:naming-alignment` | Naming alignment |
+| `code-review:folder-placement` | Folder placement |
 
 ## Bars
 
@@ -83,6 +84,17 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 
 Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later wave. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
+### Folder placement
+
+On every `initial` or `full-rescan` Standards pass, walk **new files** in the shipped diff against `architecture:folders`:
+
+1. Related new files must sit in a named owning folder, not as mixed siblings of unrelated code in `src/`, `app/`, `convex/`, or a route folder that already holds a different slice.
+2. A new concern gets a folder even for the first file. Do not wait for five siblings.
+3. `taste:never-nest` and `taste:keep-it-simple` are not a defense. Never-nest is control flow.
+4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`architecture:prior-mistakes`).
+
+Cite `architecture:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
+
 ## Output
 
 Return the review output fence from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
@@ -110,6 +122,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Inventing a `/design-review` skill or a Design review axis
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
+- Treating a mixed-parent file dump in the shipped diff as Optional nit or as “keep it simple”
 - Treating a public write without identity/ownership as Optional nit
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation

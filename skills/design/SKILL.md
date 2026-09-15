@@ -48,7 +48,10 @@ slices. There is no `/design-review` skill and no Design axis in
      `docs/design.md` to a short UI/UX **Do** / **Don't** list. Do not dump
      screens, components, or routes.
    - **Implement UI:** stay in the write allowlist. Resolve identity
-     ([reference.md](reference.md#identity)). Apply `design:professional-craft`,
+     ([reference.md](reference.md#identity)). Nest new UI files in the
+     owning feature or route folder from the structure card
+     (`architecture:folders`) before writing them. Do not add cards, hooks,
+     or helpers as mixed siblings of unrelated routes. Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
      `design:experience`, `design:first-glance`, and `design:no-obvious`.
      Patch the file only when

@@ -89,6 +89,19 @@ This is the **review output** fence (findings + Principles + Architecture + Corr
 
 This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later wave. Remediation is not clear until both path and symbols match.
 
+## New files dumped in a mixed parent
+
+```markdown
+- **standards-folders-orders-src-dump** · **standards** · **blocker**
+  - **Where:** `src/useOrders.ts`, `src/OrderCard.tsx`
+  - **Rule:** `architecture:folders`
+  - **Evidence:** Diff adds order hook and card as siblings of `src/page.tsx` with no owning folder. Structure card called for `src/orders/`.
+  - **Impact:** The tree is already a mixed dump; the next order file will land in the same mess.
+  - **Fix:** Create `src/orders/` (and `src/orders/components/` for the card); move the new files; do not leave mixed siblings in `src/`.
+```
+
+This is **Fix now**. `taste:never-nest` and `taste:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
+
 ## Missing identity on a public write
 
 ```markdown

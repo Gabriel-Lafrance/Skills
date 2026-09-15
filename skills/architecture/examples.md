@@ -104,7 +104,9 @@ Prove old behavior still holds (tests / path walk / terminals). Do not recommend
 
 ## Folders before files
 
-**Bad** — flat dump next to unrelated code:
+Folder nesting is required for maintainability. `taste:never-nest` does not mean flatten the tree.
+
+**Bad** — mixed flat dump (even one new file at `src/` is wrong for a new concern):
 
 ```text
 src/
@@ -117,7 +119,7 @@ src/
   formatMoney.ts
 ```
 
-**Good** — feature folder + simple entry:
+**Good** — owning folder first, then files; collaborators one level down:
 
 ```text
 src/orders/
@@ -129,6 +131,28 @@ src/orders/
     order-list.tsx
   format-money.ts
 ```
+
+**Bad** — second Convex file dumped as a root sibling:
+
+```text
+convex/
+  schema.ts
+  billing.ts
+  billingStripe.ts       # mixed sibling
+```
+
+**Good** — move the cluster into `convex/billing/` (do not keep both `billing.ts` and `billing/`):
+
+```text
+convex/
+  schema.ts
+  billing/
+    billing.ts           # public queries/mutations/actions
+    stripe.ts            # private
+```
+
+**Bad** — empty ceremony tree (`services/billing/stripe/v2/internal/helpers/`).  
+**Good** — owning folder + public entry + collaborators + at most one leaf folder.
 
 ## Entry point hides collaborators
 

@@ -121,6 +121,8 @@ await makeUserPay({ userId, cents, reason: "upgrade" });
 
 ## Never-nest
 
+Flatten **control flow**, not the folder tree. Deep `if` / `try` pyramids are the defect. Related files still nest in an owning folder (`architecture:folders`).
+
 **Bad:**
 
 ```typescript
@@ -215,11 +217,13 @@ function parseConfig(raw: string): Config {
 
 ## Naming
 
-**App UI — good:** `components/order-summary.tsx`, `hooks/use-checkout.ts`  
-**App UI — bad:** `OrderSummary.tsx` next to five unrelated siblings with no folder  
+**App UI — good:** `features/orders/components/order-summary.tsx`, `features/checkout/hooks/use-checkout.ts`  
+**App UI — bad:** `OrderSummary.tsx` next to five unrelated siblings with no folder (`architecture:folders`)  
 
-**Convex — good:** `convex/orders.ts`, `convex/orderActions.ts`  
-**Convex — bad:** `convex/order-actions.ts`, `convex/order_actions.ts`
+**Convex names — good:** `convex/orders.ts`, `convex/orderActions.ts`  
+**Convex names — bad:** `convex/order-actions.ts`, `convex/order_actions.ts`  
+**Convex folders — good:** a second billing file lives in `convex/billing/`  
+**Convex folders — bad:** `convex/billingStripe.ts` as a mixed sibling of `convex/billing.ts`
 
 ## Speculative ceremony (tiny work)
 
