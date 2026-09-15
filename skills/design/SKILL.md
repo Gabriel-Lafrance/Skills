@@ -5,7 +5,8 @@ description: >-
   docs/design.md (the app UX source of truth), captures the app from code,
   and implements screens, components, and visible copy to a
   finished professional bar in one pass. Use when building frontend,
-  initializing or updating design.md, or the user talks about UX, clicks,
+  initializing or updating design.md, translating UI copy, locale files,
+  English or French strings, or the user talks about UX, clicks,
   keystrokes, or how a screen should feel.
 disable-model-invocation: true
 ---
@@ -25,7 +26,10 @@ turn an average screen into an excellent one. Apply `design:experience`
 `design:no-obvious` (do not caption an empty list; the create button is
 the message). Write copy that fits the surface (`design:ui-copy`): a
 landing hooks and sells; docs explain and stay clear; app UI names the
-action. Do the next input for them when it is obvious. Confirm or ask
+action. Translate the job into words speakers of that language actually
+use (`design:spoken-locale`); do not swap dictionary words (not
+"Background remover" → "Suppresseur de fond"). Do the next input for them
+when it is obvious. Confirm or ask
 when it is irreversible, money, or a guess. Ship finished UI in this
 turn (`design:professional-craft`). `docs/design.md` is a short UI/UX
 **Do** / **Don't** list. When the user wants to change how the design is
@@ -54,6 +58,7 @@ slices. There is no `/design-review` skill and no Design axis in
      or helpers as mixed siblings of unrelated routes. Apply `design:professional-craft`,
      `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
      `design:experience`, `design:first-glance`, and `design:no-obvious`.
+     Write locale and translated strings with `design:spoken-locale`.
      Patch the file only when
      this slice creates a new UI/UX do or don't.
    - **User said the UX is bad, or they want to change how the design is
@@ -83,7 +88,8 @@ file exists, skip init and work from it.
 `/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
 experience, first glance, don't tell the obvious, copy that fits the
-surface, professional craft, and the quality floor. Return only the
+surface, spoken locale (job first, then speaker terms), professional craft,
+and the quality floor. Return only the
 Completion envelope. The parent owns acceptance evidence and
 `/code-review`. If `docs/design.md` is missing, return `blocked` with
 Initialization as the next parent step (the parent may already be running

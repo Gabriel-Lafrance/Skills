@@ -13,6 +13,7 @@ This contract is for **what the user reads**. Internal worker notes may keep cit
 5. Do not teach pack cite keys (`taste:keep-jobs-apart`) as the user-facing name.
 6. Skill names like `/task` are fine when recommending a next step.
 7. A finding ID or rule ID may appear for tracking. The same bullet must still include the plain (Classic) sentence of what is wrong and what to do.
+8. When the user writes in a language, reply in that language. Product, UI, and locale strings follow [`design:spoken-locale`](../design/doctrine.md#spoken-locale): words speakers actually use for that job, not a word-for-word swap.
 
 The canonical map lives in [`../taste/doctrine.md`](../taste/doctrine.md) (named principles and mechanical rules).
 
@@ -54,3 +55,4 @@ Follow [asking.md](asking.md). Question text and Locked-in text must be readable
 - Using a nickname the user has not used for anything other than these classic principle names
 - A review comment that is only a rule slug
 - Explaining a decision in words only an author of this pack would know
+- Replying with glued dictionary translations when the user or the product is in another language

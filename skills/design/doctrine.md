@@ -27,6 +27,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 | `design:no-obvious` | Don't tell the obvious |
 | `design:professional-craft` | Professional craft |
 | `design:ui-copy` | UI copy |
+| `design:spoken-locale` | Spoken locale |
 | `design:quality-floor` | Quality floor |
 | `design:initialization` | Initialization |
 | `design:blend-edits` | Blend edits |
@@ -108,7 +109,7 @@ Interface words are design material. They must fit the job of this surface. Do n
 
 Name the surface before you write. A landing page hooks and sells: one claim, one reason to care, a CTA. A docs or help page explains and stays clear: precise steps, no slogans. App UI (settings, forms, product chrome) is short and job-shaped: name the action, do not sell, do not lecture. Chat unslop is discussion text only. Do not write a landing like a chat reply, and do not write docs like a landing.
 
-Match this product: existing copy in the repo, voice bullets in `docs/design.md`, or the user this turn. A sentence that could sit on any other product is filler. Rewrite it. Cite `design:ui-copy`. Table: [`reference.md`](reference.md#ui-copy).
+Match this product: existing copy in the repo, voice bullets in `docs/design.md`, or the user this turn. A sentence that could sit on any other product is filler. Rewrite it. Translated strings: [`design:spoken-locale`](#spoken-locale). Cite `design:ui-copy`. Table: [`reference.md`](reference.md#ui-copy).
 
 | Rule | Meaning |
 | --- | --- |
@@ -118,6 +119,23 @@ Match this product: existing copy in the repo, voice bullets in `docs/design.md`
 | **Empty is the action** | "None yet" is Create or Invite (`design:no-obvious`). Errors still name what happened. |
 
 Landing copy that reads like a tutorial, docs that sell, app chrome that markets, or interchangeable slogans are Fix now. A secondary paragraph that is a bit long on an otherwise-right surface can be Follow-up. A written Do that wants a dry landing or playful docs is not a defect.
+
+### Spoken locale
+
+User-visible words in a language must sound like a **speaker of that language named the job**. Translate the job, not the source words. This is how English and French (and any other locale) stay maintainable: fake dictionary compounds make the product sound broken.
+
+Applies to app UI, locale files, landing, docs, emails, and any other string a person reads. Code identifiers stay on `taste:naming-files`. How to do it: [`reference.md`](reference.md#spoken-locale).
+
+| Rule | Meaning |
+| --- | --- |
+| **Name the job first** | In one ordinary sentence, say what the person does. Drop the source phrasing. Then write the ordinary term for that job in the target language. |
+| **No glued dictionary** | Do not swap each source word for a dictionary hit and concatenate. That invents terms a speaker would not say. |
+| **What speakers already say** | Reuse the repo's locale for that language. If none, use the term real products in that locale use for the same job. |
+| **One term through the flow** | The button, title, empty state, and success use the same native term. Do not mix a fake compound with a real one. |
+
+Test: would a speaker say this to a colleague for this job? If not, rewrite. Cite `design:spoken-locale`.
+
+A glued dictionary label (English agent-noun copied into French, or the reverse) is Fix now. A real native term that is slightly more formal than nearby copy can be Follow-up. A written Do that wants an English product name left untranslated is not a defect.
 
 ### Quality floor
 
@@ -139,7 +157,7 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
 
-These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
+These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 
 ## Output
 
@@ -147,7 +165,7 @@ These bars apply while building. `/code-review` and `/pr-review` do not run a De
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, and whenever the user states a UX preference. Apply `design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, whenever the user states a UX preference, and whenever writing or translating strings a person reads (including locale files). Apply `design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
 
 ## Anti-patterns
 
@@ -161,6 +179,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Putting every action and advanced setting on the first surface instead of one level down
 - Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen
 - Shipping frontend copy that does not fit the surface (landing that explains, docs that sell, app chrome that markets) or filler that could sit on any other product
+- Translating word by word (English "Background remover" to French "Suppresseur de fond") instead of the words speakers use for that job
 - Overwriting an existing `docs/design.md` from a blank template
 - Calling a partial route inventory complete when router-declared routes were skipped
 - Reverting the user's deletions on the next pass
