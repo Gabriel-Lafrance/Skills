@@ -35,7 +35,9 @@ Fail the job if you skip taste or architecture bars.
 3. You own how. Do not wait for a step list. Reuse existing services and
    one-job helpers (`architecture:services`, `architecture:primitives`). Do
    not invent a shared API, service, or extra layer. If the slice needs one,
-   return `blocked` with the smallest option for the parent.
+   return `blocked` with the smallest option for the parent. Before adding
+   an environment variable, inventory existing names and jobs
+   (`taste:reuse-env`). Reuse `SITE_URL`; do not create `FRONTEND_URL`.
 4. Check taste Output and architecture Output self-checks before Completion.
 5. Gather slice-local evidence only: existing terminals first
    (`taste:verify-terminals-first`), then one narrow command if needed.

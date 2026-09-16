@@ -20,7 +20,7 @@ and `pack-shared/review-contract.md`. Different from **reviewer**
 
 1. `taste/doctrine.md`
 2. `architecture/doctrine.md`
-3. `code-review/doctrine.md` (`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, `code-review:folder-placement`)
+3. `code-review/doctrine.md` (`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, `code-review:folder-placement`, `code-review:env-reuse`)
 4. `pr-review/doctrine.md`
 5. `pack-shared/review-contract.md`
 6. `pack-shared/plain-language.md`

@@ -153,6 +153,7 @@ contract for models and completion reporting.
 | Services / public API | clear \| finding \| none | … |
 | Simple public surface | clear \| finding \| none | … |
 | One-job helpers (reuse, not copy) | clear \| finding \| none | … |
+| Env var reuse (no synonym) | clear \| finding \| none | … |
 | Folders / placement | clear \| finding \| none | … |
 | Cheap reads (store on write) | clear \| finding \| none | … |
 | Indexes / no scan | clear \| finding \| none | … |
@@ -200,7 +201,7 @@ re-inspect.
 
 If the shipped diff introduces any of these, it is a finding. Cite the matching
 key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
-`taste:no-dead-code`, `taste:throw-at-boundaries`, `taste:one-export-per-file`,
+`taste:reuse-env`, `taste:no-dead-code`, `taste:throw-at-boundaries`, `taste:one-export-per-file`,
 `taste:static-imports`, `taste:oop-depth-cap`, `architecture:folders`) or `taste:keep-it-simple`.
 Findings still speak **plain (Classic)**. Mechanical cores below are also
 `test:quality` (or `test:mutants`) hits when a runner exists, except folder
@@ -211,6 +212,7 @@ a gate to go green:
 - New related files added as mixed siblings with no owning folder
 - A function with more than five independent paths (cyclomatic complexity (McCabe))
 - Copy-paste twins of a concept already in-repo
+- A new environment variable whose job an existing var already does (`FRONTEND_URL` while `SITE_URL` exists)
 - `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast))
 - `any` or Convex `v.any` on a public surface (types tell the truth (make illegal states unrepresentable))
 - A public Convex write with no identity helper (trust the server (never trust the client))

@@ -28,7 +28,7 @@ Research repository facts yourself, then batch every material user decision that
 - actor, trigger, expected outcome, and enabled, disabled, loading, and empty states for each user-visible or stateful behavior;
 - transitions, forbidden states, invalid input, errors, retries, timing, duplicate actions, concurrency, writes, side effects, feedback, boundaries, and unchanged behavior;
 - domain language, named events, packages, vendors, storage, roles, and standing policies;
-- **Always** taste and architecture Cite keys: owner, public boundary, folders (owning folder, not a mixed parent), write path, who may act, what a caller can skip, where the write is rejected, and whether a behavior-preserving move is required. For a typo or pure rename, lock “keep the existing structure.”
+- **Always** taste and architecture Cite keys: owner, public boundary, folders (owning folder, not a mixed parent), write path, who may act, what a caller can skip, where the write is rejected, and whether a behavior-preserving move is required. For a typo or pure rename, lock “keep the existing structure.” If the slice needs config, lock reuse of an existing env var that already holds that job (`taste:reuse-env`); do not ask the user to invent `FRONTEND_URL` when `SITE_URL` exists.
 
 Distinguish facts from user-owned decisions. Rediscover facts from the repository, ticket, PR, and diff; place decisions, waivers, non-goals, and rules in the execution context.
 

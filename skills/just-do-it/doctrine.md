@@ -39,7 +39,7 @@ Pass the applicable context to every child; never pass a path for it to reconstr
 
 ### Autonomy and hard stops
 
-Take `recommended` on child soft Questions without waiting. Announce Locked-in conclusions only in announce-only messages (never above a Questions batch). Auto-remediate only a named **Fix now** item that cites an invariant/spec, correctness, security, or regression defect, or a shipped-diff `architecture:folders` miss (new files placed in a mixed parent). Keep other architecture, readability, relocation of untouched debt, cleanup, and nits as Follow-up; do not promote or loop on them unless the user asks.
+Take `recommended` on child soft Questions without waiting. Announce Locked-in conclusions only in announce-only messages (never above a Questions batch). Auto-remediate only a named **Fix now** item that cites an invariant/spec, correctness, security, or regression defect, a shipped-diff `architecture:folders` miss (new files placed in a mixed parent), or a shipped-diff `taste:reuse-env` miss (new env synonym for a job an existing var already holds). Keep other architecture, readability, relocation of untouched debt, cleanup, and nits as Follow-up; do not promote or loop on them unless the user asks.
 
 | Hard stop | Action |
 | --- | --- |

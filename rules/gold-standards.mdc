@@ -76,6 +76,10 @@ Skip the grill only for trivial asks (typo, pure rename the user already specifi
 
 Every non-trivial plan **must** include a high-level Mermaid **Change diagram** with **both** `### Before` and `### After`. Prefer modules, actors, and request/data flow. Keep the same node ids across Before/After when possible. A plan without Before/After is incomplete.
 
+## Environment variables
+
+Before adding, renaming, requesting, or reading a **new** environment variable, apply `taste:reuse-env` in `taste/doctrine.md`. Inventory existing names and **jobs** first (`.env.example`, `process.env` usages, Convex/Vercel env list when you are about to write that store). Reuse `SITE_URL` instead of inventing `FRONTEND_URL`. Add a name only when no existing var already holds that value.
+
 ## Conflict
 
 Taste, architecture, design, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

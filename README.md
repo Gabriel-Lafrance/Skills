@@ -38,7 +38,7 @@ ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They 
 
 | Rule | When it applies |
 | --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams, reuse existing env vars |
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
 | [`subagents.mdc`](./rules/subagents.mdc) | Always: main agent dispatches Task workers and reviews them; it does not solo non-trivial work |

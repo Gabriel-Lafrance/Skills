@@ -49,6 +49,20 @@ import { createStripeSession } from "@/services/billing/billing-stripe";
 import { makeUserPay } from "@/services/billing/billing";
 ```
 
+## Reuse env vars
+
+**Bad** — `SITE_URL` already holds the public site URL; a second name is invented:
+
+```typescript
+const origin = process.env.FRONTEND_URL;
+```
+
+**Good** — reuse the existing var (`taste:reuse-env`):
+
+```typescript
+const origin = process.env.SITE_URL;
+```
+
 ## Deep vs shallow service API
 
 **Bad — shallow** — “service” still forces callers to orchestrate collaborators (complex interface, little depth):

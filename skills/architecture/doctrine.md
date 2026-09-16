@@ -44,7 +44,7 @@ A **service** is the code about one domain concern (auth, billing, notifications
 | **Public API** | Named operations features call, for example `makeUserPay()`, `requireUser()`, `sendReceipt()` |
 | **Feature** | Product slice that orchestrates services + its own UI/state. Never copies billing/auth internals |
 
-- **Explore for an existing service first.** Extend its public API before inventing a parallel one.
+- **Explore for an existing service first.** Extend its public API before inventing a parallel one. Explore existing environment variables the same way (`taste:reuse-env`): reuse `SITE_URL`; do not invent `FRONTEND_URL`.
 - If the concern is a genuinely independent domain capability or the goal explicitly plans growth, create the service (folder + public entry) and have the feature call it. For bounded local behavior, keep the smallest direct shape until it has independent ownership, real duplication, or a locked rule that needs a boundary.
 - Features import **only** the service's public surface. Stripe/SDK/DB helpers stay behind that surface.
 - Name public functions as **verbs the product understands** (`makeUserPay`, not `runStripeCheckoutSessionHelper`).
