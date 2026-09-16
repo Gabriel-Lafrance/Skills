@@ -7,6 +7,7 @@ description: >-
   Use to decide structure, or inside /task before planning.
   Triggers: folders, nest files, flat directory, mixed parent,
   services, split logic, data/reads, duplicating domain logic,
+  environment variables, SITE_URL, FRONTEND_URL,
   auth on writes, Date.now in queries.
 disable-model-invocation: true
 ---
@@ -67,7 +68,8 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    shape. Put domain logic in the service; features call public functions
    only. Build depth with primitives inside the service. Enforce identity and
    ownership on public writes in the service. Keep queries deterministic;
-   validate public args (`taste:types-tell-the-truth`).
+   validate public args (`taste:types-tell-the-truth`). Before a new env
+   name, inventory existing vars by job (`taste:reuse-env`).
 5. For mid-implementation sprawl, duplicated domain logic, a forked primitive,
    or a prior mistake: make a move only when the current acceptance criteria,
    Active Rules, or a named finding require it; otherwise retain the smallest
@@ -84,5 +86,6 @@ then `/design` for user-facing UI or `/implement` for non-UI. Return needed corr
 
 - Structure card approved → `/task`
 - Scale, duplicated-service, forked-primitive, missed-move, mixed-parent
-  file dump, or missing write-path authority → acceptance evidence /
+  file dump, env synonym (`FRONTEND_URL` while `SITE_URL` exists), or missing
+  write-path authority → acceptance evidence /
   `/code-review`

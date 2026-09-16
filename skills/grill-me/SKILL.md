@@ -33,7 +33,7 @@ record only when the user requests it and approves its destination.
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste` Cite keys (`taste:keep-it-simple` and Named principles) |
+   | Always | `/taste` Cite keys (`taste:keep-it-simple` and Named principles). If the slice needs config, lock reuse of existing env vars (`taste:reuse-env`); do not ask whether to add `FRONTEND_URL` when `SITE_URL` already holds that job. |
    | Always | `/architecture` Cite keys: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked

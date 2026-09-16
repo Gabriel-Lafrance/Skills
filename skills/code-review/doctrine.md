@@ -6,7 +6,7 @@ Review a shipped diff for quality and whether it matches the request.
 
 ## Owns
 
-Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, and the local remediation/promotion boundary.
+Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, and the local remediation/promotion boundary.
 
 ## Does not own
 
@@ -25,6 +25,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 | `code-review:blocker-vs-follow-up` | Blocker vs follow-up |
 | `code-review:naming-alignment` | Naming alignment |
 | `code-review:folder-placement` | Folder placement |
+| `code-review:env-reuse` | Env reuse |
 
 ## Bars
 
@@ -95,6 +96,16 @@ On every `initial` or `full-rescan` Standards pass, walk **new files** in the sh
 
 Cite `architecture:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
 
+### Env reuse
+
+On every `initial` or `full-rescan` Standards pass, walk **new environment variables** in the shipped diff against `taste:reuse-env`:
+
+1. Inventory names already in `.env.example`, committed `.env*` templates, and `process.env` / `import.meta.env` usages in the repo (and the platform env list when the diff sets dashboard/CLI vars).
+2. A new name whose **job or value** an existing var already holds (`FRONTEND_URL` while `SITE_URL` exists) is a finding. Cite `taste:reuse-env`.
+3. Mapping in code from the existing name is correct. Duplicating the value under a synonym is not. A required platform prefix must use the existing name (`NEXT_PUBLIC_SITE_URL`), not a third synonym.
+
+A shipped-diff synonym is **Fix now**. Untouched historical aliases left in files the diff did not add are Follow-up unless the goal or a named finding requires a move.
+
 ## Output
 
 Return the review output fence from the [review contract](../pack-shared/review-contract.md#output). Show Fix now, Follow-up, and Optional nit after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
@@ -123,6 +134,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
 - Treating a mixed-parent file dump in the shipped diff as Optional nit or as “keep it simple”
+- Treating a new `FRONTEND_URL` (or other synonym) as Optional nit when `SITE_URL` already holds that job
 - Treating a public write without identity/ownership as Optional nit
 - Capping findings, accepting unstructured worker output, or reporting speculation
 - Running a broad rescan during remediation

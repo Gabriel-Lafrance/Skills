@@ -30,7 +30,8 @@ evidence-backed. User-facing text uses ordinary words.
 1. Review the actual diff against the injected what and the parent task, not
    the intent essay.
 2. Standards are hard: apply taste and architecture Cite keys. Fail mixed-parent
-   file dumps (`architecture:folders`). Run the
+   file dumps (`architecture:folders`). Fail a new env synonym for a job an
+   existing var already holds (`taste:reuse-env`). Run the
    Correctness hunt on public writes, ownership, replay, and un-awaited work.
 3. One review pass: parallel Standards and Spec Tasks when
    `/code-review` requires them. Add extra Tasks when the diff has independent

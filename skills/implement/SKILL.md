@@ -46,7 +46,10 @@ Fail the job if taste or architecture bars are skipped.
    implement self-check and `/architecture` self-check before Completion.
 3. Reuse existing services and primitives. Do not copy a known-wrong shape or
    invent a shared API, service, abstraction, or lane. Return the smallest
-   viable option as a finding when the slice needs one.
+   viable option as a finding when the slice needs one. Before adding an
+   environment variable, inventory existing names and jobs (`taste:reuse-env`).
+   If `SITE_URL` already holds the public site URL, read it; do not create
+   `FRONTEND_URL`.
 4. Gather only slice-local evidence needed for Completion: existing terminal
    output first, then a narrow relevant command if needed.
 5. Do not run acceptance evidence or `/code-review`; the parent integrates

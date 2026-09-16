@@ -50,6 +50,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Services / public API | finding | feature forks Stripe instead of `billing.makeUserPay` |
 | Simple public surface | finding | callers now orchestrate checkout-session steps |
 | One-job helpers (reuse, not copy) | finding | billing helper bypassed |
+| Env var reuse (no synonym) | none | no new env |
 | Folders / placement | clear | |
 | Cheap reads (store on write) | none | no aggregate read |
 | Indexes / no scan | none | |
@@ -101,6 +102,19 @@ This is **Fix now**. The Standards pass must run naming alignment; skipping it i
 ```
 
 This is **Fix now**. `taste:never-nest` and `taste:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
+
+## New env synonym for an existing job
+
+```markdown
+- **standards-reuse-env-frontend-url** · **standards** · **blocker**
+  - **Where:** `.env.example` (`FRONTEND_URL`)
+  - **Rule:** `taste:reuse-env`
+  - **Evidence:** Diff adds `FRONTEND_URL` and `process.env.FRONTEND_URL`. `.env.example` already has `SITE_URL` for the public site URL.
+  - **Impact:** Two names hold the same job; the next agent will keep inventing more.
+  - **Fix:** Read `SITE_URL`. Delete `FRONTEND_URL`. If a library wants another name, map in code from `SITE_URL`.
+```
+
+This is **Fix now**. Matching is by job and value, not by the name the agent first thought of. Untouched historical aliases this PR did not add stay Follow-up unless a required move is in scope.
 
 ## Missing identity on a public write
 

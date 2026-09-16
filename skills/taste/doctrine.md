@@ -35,6 +35,7 @@ How a unit reads, names, errors, and stays simple. Keep-it-simple, named princip
 | `taste:never-nest` | Mechanical rules |
 | `taste:cyclomatic-cap` | Mechanical rules |
 | `taste:dont-repeat-yourself` | Mechanical rules |
+| `taste:reuse-env` | Mechanical rules |
 | `taste:throw-at-boundaries` | Mechanical rules |
 | `taste:one-export-per-file` | Mechanical rules |
 | `taste:static-imports` | Mechanical rules |
@@ -122,6 +123,7 @@ Rules that are **not** already a named principle:
 | **Never-nest** | Guard clauses | Flatten control flow; extract early instead of deep `if` / `try` pyramids. Does **not** mean flatten the folder tree ([`architecture:folders`](../architecture/doctrine.md#folders)) |
 | **Cyclomatic cap** | Cyclomatic complexity (McCabe) | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs `test:quality` (this cap plus principle and dead-code gates; mutants run separately as `test:mutants`); do not raise the cap, skip the test, or delete it to go green |
 | **Don’t repeat yourself** | DRY | One concept, one place; no copy-paste twins |
+| **Reuse env vars** | — | Inventory existing environment variables by **job and value** before adding a name. If `SITE_URL` already holds the public site URL, use it; do not create `FRONTEND_URL`. Detail: [Reuse env vars](#reuse-env-vars) |
 | **No dead code** | Knip | No unused files, exports, or dependencies. `/setup-toolkit` installs the Knip gate in `test:quality`; remove the dead code instead of ignoring it to go green |
 | **Kill the mutants** | Mutation testing | Behavior locks must fail when Stryker flips an operator, negates a boolean, or changes a sign. `/setup-toolkit` installs `test:mutants` as a deliberate run (not in `test:quality`); never lower the break threshold to go green |
 | **Throw at boundaries** | Exceptions at boundaries | Throw + purposeful try/catch at boundaries that recover, translate, add actionable context, or clean up. Never `{ success: false }` / Result bags for expected failure control flow. Do not wrap local code merely because it could throw (`taste:fail-fast`) |
@@ -135,6 +137,18 @@ Rules that are **not** already a named principle:
 A unit does one job well (a logger only logs; it does not format emails or hit the DB): that is `taste:keep-jobs-apart`, not a separate rule. A reader can walk the happy path without branching into unrelated concerns: `taste:say-what-happens` and `taste:no-surprises`.
 
 Prefer classes for stateful domain behavior and shared lifecycle (often that class *is* the service). Prefer hooks for React state/effects. Call sites import the simple entry point / service public API only ([`architecture:deep-public-surface`](../architecture/doctrine.md#deep-public-surface)). Prefer over-splitting files inside a service or feature folder over god files.
+
+### Reuse env vars
+
+Before adding, renaming, requesting, or reading a **new** environment variable (`vercel env add`, Convex env set, `.env*` edits, `process.env.NEW_NAME`):
+
+1. **Inventory names that already exist.** Read `.env.example`, other committed `.env*` templates, `process.env` / `import.meta.env` usages, and docs. If you are about to write a dashboard or CLI secret store, list that store once (`npx convex env list`, `vercel env ls`, or the matching MCP env list). That list is for reuse, not ritual verify (`taste:verify-terminals-first`).
+2. **Match by job and value, not by the name you first thought of.** Public site URL, API origin, database URL, webhook secret, auth issuer: if an existing var already holds that job, reuse its name.
+3. **Same name already present:** reuse it. Do not store the same value a second time under a synonym.
+4. **A library wants a different name:** map in code from the existing var (`const siteUrl = process.env.SITE_URL`). Do not duplicate the value in the env store. A platform prefix (`NEXT_PUBLIC_`, `VITE_`) is allowed only when the runtime requires that exact prefix for client exposure, and then it must be the prefixed form of the **existing** name (`NEXT_PUBLIC_SITE_URL` from `SITE_URL`), not a third synonym (`FRONTEND_URL`).
+5. **Add a new name only when no existing var holds that job.**
+
+Anti-example: `SITE_URL` exists; the agent adds `FRONTEND_URL`, `APP_URL`, or `NEXT_PUBLIC_FRONTEND_URL`. Correct: read `SITE_URL` (or `NEXT_PUBLIC_SITE_URL` when the client bundle requires the prefix).
 
 ### Naming and files
 
@@ -151,7 +165,7 @@ Cite-key self-check before acceptance evidence and `/code-review`:
 
 - [ ] `taste:keep-it-simple` (no extra layer, file, wrapper, pattern, or config beyond Done when / rules that must stay true)
 - [ ] Named principles in Cite keys: no clear violation in the touched lane
-- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:no-dead-code` · `taste:kill-the-mutants` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
+- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:reuse-env` · `taste:no-dead-code` · `taste:kill-the-mutants` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
 - [ ] `taste:cite-a-sibling` (good sibling, greenfield, or correcting debt; did not copy a known-wrong shape)
 - [ ] `taste:plain-language` in user-facing chat
 - [ ] `taste:verify-terminals-first` ([`reference.md`](reference.md#verify-terminals-first))
@@ -174,4 +188,5 @@ Terminals first: [reference.md](reference.md#verify-terminals-first). React/UI: 
 - Ritual lint / typecheck / Convex MCP instead of reading existing terminals
 - Acronym-only principle talk (“SoC violation”) or plain-only (“keep it simple” with no KISS). Use `plain (Classic)`
 - Using never-nest (guard clauses) or keep it simple (KISS) as permission to dump files in a mixed directory
+- Inventing `FRONTEND_URL` (or another synonym) when `SITE_URL` or another existing var already holds that job (`taste:reuse-env`)
 - Restating `/architecture` services, folders, or primitives in this file

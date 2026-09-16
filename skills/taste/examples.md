@@ -185,6 +185,27 @@ function priceOrder(order: Order): number {
 
 Do not lock `1 + 1 = 2` or UI chrome with a test. `test:quality` is a principle check, not a behavior catalog.
 
+## Reuse env vars
+
+**Bad** — `SITE_URL` already holds the public site URL; the agent adds a synonym:
+
+```bash
+npx convex env set FRONTEND_URL https://example.com
+# or: echo "https://example.com" | vercel env add FRONTEND_URL production
+```
+
+```typescript
+const origin = process.env.FRONTEND_URL;
+```
+
+**Good** — inventory first, then read the name that already has that job:
+
+```typescript
+const origin = process.env.SITE_URL;
+```
+
+A client bundle that requires a prefix uses `NEXT_PUBLIC_SITE_URL` (the existing name plus the required prefix), not `NEXT_PUBLIC_FRONTEND_URL`. A library that wants `FRONTEND_URL` maps in code: `process.env.SITE_URL`. Do not store the same URL twice.
+
 ## Dead code
 
 **Bad - dead export ships:** `export function formatLegacyReceipt()` with no callers survives refactors and confuses readers. `knip.test.mjs` fails: no dead code (Knip).

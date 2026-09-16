@@ -2,7 +2,8 @@
 name: taste
 description: >-
   Pack coding taste: keep it simple, keep jobs apart, honest names, fail fast,
-  trust the server, types tell the truth, don’t repeat yourself, and related
+  trust the server, types tell the truth, don’t repeat yourself, reuse
+  existing env vars, and related
   rules. Use to audit or apply taste to a lane; parents load it
   before planning or writing code.
 disable-model-invocation: true

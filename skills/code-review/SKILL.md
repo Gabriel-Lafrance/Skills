@@ -4,8 +4,9 @@ description: >-
   Review a shipped diff for quality and whether it matches the request.
   Quality checks use /taste and /architecture (keep it simple, keep jobs
   apart, honest names, trust the server, types tell the truth, and related
-  rules), a correctness hunt for reachable bugs, plus a pass for stale file and
-  symbol names after renames. Parallel Standards and Spec Tasks,
+  rules), a correctness hunt for reachable bugs,   plus a pass for stale file and
+  symbol names after renames, mixed-parent file dumps, and new env
+  synonyms (`FRONTEND_URL` when `SITE_URL` already exists). Parallel Standards and Spec Tasks,
   evidence-backed findings, and a bounded fix path. Use for branch, PR, or
   parent-owned review. User must invoke (not auto).
 disable-model-invocation: true
