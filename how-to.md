@@ -10,11 +10,11 @@ AGENTS.md                # always-on contract (source of truth for the bars)
   plugin.json            # optional Cursor plugin manifest
   marketplace.json       # Team marketplace import
 rules/                   # Cursor pointers at AGENTS.md headings (.mdc only, no extra README)
-  gold-standards.mdc     # alwaysApply — the one Read of AGENTS.md
-  no-emdash.mdc          # alwaysApply — obey No em dash
-  unslop.mdc             # alwaysApply — obey Unslop
+  gold-standards.mdc     # alwaysApply: the one Read of AGENTS.md
+  no-emdash.mdc          # alwaysApply: obey No em dash
+  unslop.mdc             # alwaysApply: obey Unslop
   ship-work.mdc          # obey Ship work
-  subagents.mdc          # alwaysApply — obey Subagents
+  subagents.mdc          # alwaysApply: obey Subagents
   project-tooling.mdc    # obey Project tooling
 agents/                  # Custom agent configs (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester)
 commands/                # Slash commands (setup-toolkit)
@@ -45,7 +45,7 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 **Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — other skills will fail looking for `../pack-shared/...`.
 
-**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. `/setup-toolkit` finds that file beside `skills/` and copies it into the app and the user-level path. Put files a skill copies into an app (ESLint/Prettier templates) **inside that skill folder**.
+**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. [`skills/setup-toolkit/templates/AGENTS.md`](./skills/setup-toolkit/templates/AGENTS.md) is the same contract so the skill can install it. `/setup-toolkit` copies that file into the app and into each harness home that already exists. Put files a skill copies into an app **inside that skill folder**.
 
 **Rules folder:** only `.mdc` rule files. A `README.md` in `rules/` would be loaded as a rule. Document rules in [README.md](./README.md) and this file.
 
@@ -107,7 +107,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). The body is one line: obey a heading in [`AGENTS.md`](./AGENTS.md). Do not paste that heading's prose into the rule. `gold-standards.mdc` is the one Read. `alwaysApply: true` only when every chat needs the pointer (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`. Do not add a `CLAUDE.md` in the pack or an app.
+- **Rule:** `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). The body is one line: obey a heading in [`AGENTS.md`](./AGENTS.md). Do not paste that heading's prose into the rule. `gold-standards.mdc` is the one Read. `alwaysApply: true` only when every chat needs the pointer (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`. Do not add a `CLAUDE.md` in the pack or an app.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
@@ -124,6 +124,7 @@ npx skills@latest add . --list
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
 - Plugin rules stay short pointers at headings in `AGENTS.md`. Do not paste `/taste`, `/architecture`, or the `AGENTS.md` body into `.mdc` files.
 - Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
+- When you change pack-root `AGENTS.md`, copy the same file to `skills/setup-toolkit/templates/AGENTS.md` in that change. Setup uses the root file when the pack is on disk, and the template when only the skill was installed.
 
 ## Publish / install
 
@@ -165,4 +166,4 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 - Do **not** paste `AGENTS.md` into a User Rules box or into an `.mdc` file.
 - Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. The Unslop catalog lives in `AGENTS.md` because it is not a skill.
 - Do **not** add a `CLAUDE.md` in the pack or the app.
-- `npx skills` does not install `AGENTS.md` or `rules/`. `/setup-toolkit` copies `AGENTS.md` into the app root when that file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It also refreshes `~/.claude/AGENTS.md` and writes `~/.cursor/rules/gabriel-skills/follow-agents.mdc` as a pointer. Copy `rules/*.mdc` into an app only when someone asks.
+- `npx skills` does not install root `AGENTS.md` or `rules/`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the app when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It then writes only the harness homes that already exist (Claude import, Cursor pointer, Codex `AGENTS.md`, and the other rows in the setup reference). It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`. Copy `rules/*.mdc` into an app only when someone asks.

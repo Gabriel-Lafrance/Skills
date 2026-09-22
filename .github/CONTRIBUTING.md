@@ -16,7 +16,8 @@ for how agents should work live in skill doctrines (especially `/taste` and
 `/architecture`) and the must-follow contract
 [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md). Chat
 replies follow the Unslop section of `AGENTS.md`. Do not paste that file into a
-User Rules box, and do not add a parallel `CLAUDE.md`.
+User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
+installs the contract into an app and into harness homes that already exist.
 
 ## Before you start
 
