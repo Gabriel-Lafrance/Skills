@@ -50,7 +50,7 @@ Apply taste and architecture as **hard** standards. Do not skip because you “a
 4. **Read** `taste/doctrine.md` and `architecture/doctrine.md` if not already loaded this turn
 5. **Read** `pack-shared/subagents.md` if not already loaded this turn
 
-**Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
+**Before branches or PRs:** follow the ship-work rule (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`). Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run that repo's CI in this environment and push only when it is green. Do not run that suite on a commit you are not pushing.
 
 Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow `unslop.mdc` (always on with this plugin).
 

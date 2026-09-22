@@ -27,7 +27,7 @@ skills/
     subagents.md         # what vs how; explorer finds; analyzer judges; Worker Brief
     review-contract.md   # shared review evidence and finding rules
     doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
-    pr-ship.md           # every agent that opens a PR (create-tool choice)
+    pr-ship.md           # every agent that opens a PR (create tool, green before push)
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
@@ -81,8 +81,9 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, the specialist catalog, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill, no architect worker, and no fixed spawn order).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
-  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor PR
-  tool when available.
+  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md): Cursor PR
+  tool when available, and the CI mirror in this environment before a
+  push that opens or updates a PR.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (that labor is **always** `tester`, the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user, never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 

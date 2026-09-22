@@ -22,7 +22,7 @@ Other skills Read these files by relative path:
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff
 - [subagents.md](subagents.md) — what vs how; pick the specialist; tester always writes tests; Worker Brief
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
-- [pr-ship.md](pr-ship.md) — every agent that opens a PR: create-tool choice (not
-  only `/publish`)
+- [pr-ship.md](pr-ship.md): every agent that opens a PR, the create-tool choice,
+  and the CI mirror before a push that opens or updates a PR (not only `/publish`)
 
 This folder exists so `npx skills` installs the contracts next to every other skill (`../pack-shared/...`). Root-level `skills/*.md` files are **not** installed.

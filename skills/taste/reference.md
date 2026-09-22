@@ -4,7 +4,7 @@ Load with [doctrine.md](doctrine.md) when verifying, touching UI, or naming an e
 
 ## Verify (terminals first)
 
-This author almost always has **frontend localhost** and **`npx convex dev`** already running. CI owns type/lint. **Do not** re-verify by poking Convex MCP, re-running `convex` CLI, or spamming status tools.
+This author almost always has **frontend localhost** and **`npx convex dev`** already running. While coding, read those terminals. The suite runs once in this environment before a push that opens or updates a PR ([pr-ship.md](../pack-shared/pr-ship.md)), not by waiting for GitHub. **Do not** re-verify by poking Convex MCP, re-running `convex` CLI, or spamming status tools.
 
 **Prefer, in order:**
 
@@ -16,7 +16,7 @@ This author almost always has **frontend localhost** and **`npx convex dev`** al
 
 - Call **Convex MCP** (`status`, `data`, `tables`, `logs`, `run`, `runOneoffQuery`, `insights`, `functionSpec`, env tools, and similar) just to verify
 - Re-run `npx convex …`, deploy, or codegen after every slice when `convex dev` is already watching
-- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts **while coding a slice**. **Do** run this repo’s `lint` and `test` (or `test:quality`) **once, immediately before commit**, so the PR does not fail CI. Skip `test:mutants` at that step.
+- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts **while coding a slice**. **Do** run the CI mirror in [pr-ship.md](../pack-shared/pr-ship.md) **once, immediately before a push that opens a PR or a commit or push on an open PR**. Do not run it on a commit you are not pushing. Skip `test:mutants` unless the pull_request workflow runs it.
 - Start a second frontend/Convex process when one is already up
 - Dispatch a subagent whose only job is MCP verification
 

@@ -19,8 +19,10 @@ This skill is a user start. Do not nest it under `/task`. Publish only. Never in
 
 ## Process
 
-1. Inspect git and stop on unsafe states. Before a commit, run this repo’s
-   `lint` and `test` (`test:quality` when that is the test script).
+1. Inspect git and stop on unsafe states. Before a push that opens a PR, or
+   a commit or push on a branch that already has an open PR, run the CI
+   mirror in [pr-ship.md](../pack-shared/pr-ship.md) in this environment.
+   Do not run it on a commit you are not pushing.
 2. Lock change type and ticket.
 3. Create or reuse the typed branch, then push unless local-only.
 4. Ask whether to draft and publish a PR.
