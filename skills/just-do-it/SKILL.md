@@ -25,7 +25,7 @@ optional improvements as follow-ups, and leaves `/pr-review` to a human.
 
 1. Resolve the Linear ticket through read-only `/trackers` and open the parent
    execution context.
-2. Create a typed branch after git hard stops pass.
+2. Create a typed standalone branch after git hard stops pass (`git switch --detach <base-sha>`, then `git switch -c`, or `--no-track`). It must not track `dev`, `main`, or `master`.
 3. Run `/analyze` (this parent owns the next step), then `/task` for the
    bounded build (`/task` returns evidence; this parent owns shipping).
    Pick specialists from [subagents.md](../pack-shared/subagents.md); do not

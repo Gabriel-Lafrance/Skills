@@ -362,7 +362,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 | No `gh` or not authenticated | Stop before PR unless the harness pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
 | Dirty tree | Ask commit first, stash, or abort; never auto-commit. If that commit will be pushed, or a PR is already open on the branch, run the CI mirror in [pr-ship.md](../pack-shared/pr-ship.md) first and push only when it is green |
 | No commits ahead of base | Stop; there is nothing to publish |
-| Detached HEAD | Create a real branch before continuing |
+| Detached HEAD | Create the standalone branch from that commit (section 3), then continue on the new branch. Do not stay detached |
 
 ### 2. Lock type and ticket
 
@@ -370,11 +370,40 @@ Use the Question batch in this file unless both are already clear. If no ticket 
 
 ### 3. Branch and push
 
-1. Build `{type}/{ticket}-{slug}` from the locked values.
+A new branch is a standalone ref. GitHub applies `dev`'s protection to the ref the push updates. A new branch name does not inherit that protection. The push takes it when the update lands on `dev`.
+
+That happens in three common cases:
+
+- `git switch -c <name> origin/dev` and `git checkout -b <name> origin/dev` set upstream to `origin/dev` under the default `branch.autoSetupMerge` (`true`). `inherit` and `always` also copy it when you start from a local `dev` that already tracks `origin/dev`.
+- A plain `git push` then fails and tells you to run `git push origin HEAD:dev`. Do not run that. It updates protected `dev`.
+- With `push.default=upstream`, a plain `git push` updates `dev` and never creates the new remote ref.
+
+The same trap exists for `main` and `master`.
+
+1. Build `{type}/{ticket}-{slug}` from the locked values. The name is not `dev`, `main`, or `master`.
 2. Announce the branch in a Locked block from this file.
-3. Create, rename, or reuse the branch. Only rename a disposable local branch that already holds the intended commits.
-4. Unless the user asked for local-only work, push with `git push -u origin HEAD`.
-5. Never force-push or push to `main`/`master`.
+3. Record the base SHA (`git rev-parse <base>`). Create the branch from that commit so it is not attached to the base branch:
+
+   ```bash
+   git switch --detach <base-sha>
+   git switch -c <new-branch>
+   ```
+
+   Same result in one command: `git switch --no-track -c <new-branch> <base-sha>`.
+
+   Do not use `git switch -c` or `git checkout -b` without `--no-track`. Do not `git branch --set-upstream-to` `origin/dev`, `origin/main`, `origin/master`, or the default branch. End on the new branch. A lasting detached HEAD is not the goal. `git branch --show-current` prints `<new-branch>`.
+
+   Reuse a local branch only when it already holds the intended commits and its upstream is unset or `origin/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, run `git branch --unset-upstream` before any push. If the current branch is `dev`, `main`, or `master`, create the standalone branch before any commit. Do not commit on those branches.
+
+   Only rename a disposable local branch that already holds the intended commits, and only when that rename leaves upstream unset or pointed at `origin/<new-branch>`.
+4. Unless the user asked for local-only work, push the new name only:
+
+   ```bash
+   git push -u origin HEAD:refs/heads/<new-branch>
+   ```
+
+   Before the push, `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or `origin/master`, stop.
+5. Never force-push. Never `git push` with no refspec while upstream is `origin/dev`, `origin/main`, or `origin/master`. If git suggests `git push origin HEAD:dev`, `HEAD:main`, or `HEAD:master`, do not run it. Never push `dev`, `main`, `master`, or the default branch.
 
 ### 4. Ask whether to draft and publish
 

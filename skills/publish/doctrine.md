@@ -26,7 +26,8 @@ none (uses `taste:*` and `architecture:*`)
 
 - Lock exactly one type: `feature`, `tweak`, `bug`, `refactor`, `chore`, or `hotfix`.
 - Use the branch naming contract in [reference.md](reference.md).
-- Do not auto-commit, force-push, or push to the default branch.
+- Do not auto-commit, force-push, or push `dev`, `main`, `master`, or the default branch.
+- A new branch is standalone. Cut it from the base commit with the steps in [reference.md](reference.md) (`git switch --detach`, then `git switch -c`, or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`.
 - Show the complete PR title and body before creating the PR; wait for explicit approval.
 - Every PR body includes a high-level Mermaid **Change diagram** (one for new work; Before/After for rework) per [reference.md](reference.md).
 - Follow [pr-ship.md](../pack-shared/pr-ship.md): the harness pull-request tool when it exists (do not fall back to `gh pr create` in that session).
@@ -70,3 +71,5 @@ Run the [process](reference.md#process). Keep **How to QA** concrete: paths, rol
 - Labeling product tweaks, refactors, or defects as Chore
 - Turning a Tweak, Refactor, Chore, or Hotfix into the wrong PR template
 - Implementing new product work instead of shipping existing work
+- A new branch that tracks `origin/dev`, `origin/main`, or `origin/master`
+- `git push` with no refspec while upstream is one of those refs

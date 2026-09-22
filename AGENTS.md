@@ -633,6 +633,7 @@ Before branches or PRs, **Read**:
 **Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
 
 - Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the CI mirror in `pack-shared/pr-ship.md` in this environment. Push once it is green. A local commit you are not pushing, while no PR is open, does not run that suite. Do not invent a suite when the repo has no workflow and no lint or test script. Never `--no-verify` unless the user asked.
+- A new branch is a standalone ref. Cut it from the base commit with the steps in `publish/reference.md`: `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). Do not copy the upstream of `dev`, `main`, or `master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Never push those branches.
 - Typed branch names per `publish/reference.md` when you control the branch contract
 - PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser
 - Use the harness pull-request tool when it has one. Otherwise use `gh` as `pr-ship.md` describes. Do not use `gh` in a session that already has a pull-request tool.
