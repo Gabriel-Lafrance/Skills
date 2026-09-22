@@ -2,8 +2,8 @@
 name: create-test
 description: >-
   Write durable behavior-lock tests for complex hooks, domain logic, facades,
-  and stateful classes. User-invoked skill, used only after
-  /code-review or /pr-review recommends a lock—not for coverage theater.
+  and stateful classes. The user starts it, or /task continues it after the
+  user accepts that task's lock briefs. Not for coverage theater.
 disable-model-invocation: true
 ---
 
@@ -11,9 +11,15 @@ disable-model-invocation: true
 
 **Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so locks sit on the public surface, not internals. Do not skip.
 
-This skill is a user start. Do not nest it under `/task` or start it
-automatically. Only `/code-review` and `/pr-review` may recommend a lock; only
-the user starts this skill. Review may recommend it; nothing auto-invokes it.
+The user starts this skill. `/task` may continue it only after the user
+accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
+That answer is the start for those briefs. Each task brief cites a grilled
+rule. `/implement`, `/design`, and other build workers do not start this
+skill. Silence, and a parent taking `recommended`, are not a start.
+
+`/code-review` and `/pr-review` may still recommend a lock the task did not
+offer. The user starts this skill for that recommendation. Nothing writes
+tests on its own.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md).
 

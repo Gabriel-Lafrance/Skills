@@ -55,7 +55,10 @@ green without a user request.
    public export or nearby tests need a noisy hunt, pick `explorer`. Do not
    grep the tree on the main agent.
 2. Draft every needed Why / What / How brief, batch them for approval, and wait.
-   Do not write tests until each brief is approved.
+   Do not write tests until each brief is approved. When `/task` already
+   collected that approval, do not ask again. Require the grilled rule id on
+   each of those briefs. If the user corrected the rule after approval, stop
+   and return the brief to `/task`.
 3. **Tester** always writes the tests. Dispatch `tester` per
    [../pack-shared/subagents.md](../pack-shared/subagents.md) with the approved
    Why / What / How, public entry, and paths — **what**, not a recipe of
@@ -66,4 +69,4 @@ green without a user request.
 5. Report the approved claim, files changed, command result, and one sentence
    about what would turn the test red.
 
-Never auto-start this skill. Never skip `tester` when tests are the job.
+Never auto-start this skill. A `/task` suggestion is not a start until the user accepts the brief. Never skip `tester` when tests are the job.

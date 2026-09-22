@@ -316,7 +316,7 @@ When explore shows a wrong folder, duplicated domain logic, a feature-forked ser
 
 - **Do not copy it.** Cite a *good* sibling or service, or create the correct shape.
 - If required, prefer a **behavior-preserving move**: relocate into the right service/folder, extract the public API, rewire callers, delete the dead path. This reduces entropy. If not required, capture it as a follow-up rather than expanding the goal.
-- Name the old observable behavior and how you will prove it still holds (existing tests if any, path walk + acceptance evidence / terminals). Do **not** write new tests here: locks are `/create-test` only after `/code-review` or `/pr-review` recommends them. If you cannot be sure the move preserves behavior, include the move in the next `/grill-me` Questions batch. If the move is required and you can preserve behavior, do it; otherwise keep it as a follow-up.
+- Name the old observable behavior and how you will prove it still holds (existing tests if any, path walk + acceptance evidence / terminals). A new lock waits for a user-accepted `/create-test` brief: a `/task` suggestion after grill Locked, or a recommendation from `/code-review` or `/pr-review`. If you cannot be sure the move preserves behavior, include the move in the next `/grill-me` Questions batch. If the move is required and you can preserve behavior, do it; otherwise keep it as a follow-up.
 - Update the Structure card (**Moves / corrections**) before coding; mid-implement, patch the plan Structure, then move.
 - Same spirit as `/code-review` simplification: apply it while **building**, not only at review time.
 
@@ -602,9 +602,9 @@ When the harness can spawn a specialist, dispatch one. When it cannot, do that r
 
 When surfaces, slices, or review axes are independent, launch **one specialist per lane in the same turn** if the harness allows it. There is **no cap of two**. A slice can be one function. A single non-trivial job is one pass, then the next.
 
-Pick the **listed** specialist that owns the job: **explorer**, **analyzer**, **implementer**, **designer**, **reviewer**, **pr-reviewer**, **tester**. A harness built-in that matches the job is also valid. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. They are not the same. **Designer** owns user-facing UI and `docs/design.md`. **Implementer** owns non-UI slices. **Tester** writes a behavior lock only when the user started `/create-test`. Ordinary edits do not get tests. The main agent never writes tests. Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. There is no architect worker.
+Pick the **listed** specialist that owns the job: **explorer**, **analyzer**, **implementer**, **designer**, **reviewer**, **pr-reviewer**, **tester**. A harness built-in that matches the job is also valid. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. They are not the same. **Designer** owns user-facing UI and `docs/design.md`. **Implementer** owns non-UI slices. **Tester** writes a behavior lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. The main agent never writes tests. Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. There is no architect worker.
 
-Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only lint ritual passes. Never auto-start `/create-test`.
+Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only lint ritual passes. Never auto-start `/create-test`. A `/task` suggestion is not a start until the user answers, and they can refuse every test.
 
 Worker **Read first** must include this file's **Taste** and **Architecture** sections. Skip is a fail. User-facing work also reads `design/doctrine.md` and `docs/design.md`.
 
@@ -618,7 +618,13 @@ Running tests that already exist is fine. Fix an existing assertion only when th
 
 Quality gates from `/setup-toolkit` (`test:quality`, `test:mutants`) stay. Do not delete them. Do not invent behavior tests to satisfy them.
 
-Write a test only when the user explicitly asked for that lock, or started `/create-test` after `/code-review` or `/pr-review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift). Then `tester` writes it. The main agent does not. Never start `/create-test` on your own. If the target is trivial, say so and stop.
+Write a test only when the user has accepted that lock:
+
+- they explicitly asked for it, or
+- they answered yes on a `/task` behavior-lock brief after grill Locked (each brief cites a grilled rule; every brief has a no; silence and a parent taking `recommended` are not acceptance), or
+- they started `/create-test` after `/code-review` or `/pr-review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift).
+
+Then `tester` writes it. The main agent does not. Do not start `/create-test` without one of those acceptances. If the target is trivial, say so and stop.
 
 This binds every agent, including `tester` and `implementer`.
 

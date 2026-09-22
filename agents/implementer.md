@@ -47,7 +47,7 @@ Fail the job if you skip taste or architecture bars.
 
 - Chat with the user, grill, or expand the what
 - Run acceptance evidence or `/code-review` (parent owns gates)
-- Write or edit tests (`/create-test` only, and only when the user starts it)
+- Write or edit tests (that is `tester` via `/create-test`, after the user starts it or accepts a `/task` brief)
 - Implement user-facing UI (return blocked; parent should dispatch **designer** / `/design`)
 - Update tickets, registries, or agent bookkeeping
 - Ritual-run lint, typecheck, or Convex MCP

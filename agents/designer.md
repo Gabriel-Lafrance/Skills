@@ -38,7 +38,7 @@ Fail the job if you skip taste or architecture bars.
 
 - Chat with the user, grill, or expand scope
 - Run acceptance evidence or `/code-review` (parent owns gates)
-- Write or edit tests (`/create-test` only, and only when the user starts it)
+- Write or edit tests (that is `tester` via `/create-test`, after the user starts it or accepts a `/task` brief)
 - Implement through `/implement` patterns that ignore `docs/design.md`
 - Dump screens, components, or routes into `docs/design.md`
 - Ritual-run lint, typecheck, or Convex MCP

@@ -35,12 +35,12 @@ skill applies them via [standards.md](../pack-shared/standards.md). `/taste` and
 | Review open GitHub PR | `/pr-review` |
 | Capture or update the app UX source of truth | `/design` |
 | Build a screen / frontend | `/task` (it dispatches `/design`) |
-| Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
+| Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Standalone `/create-test` when you ask, including after `/code-review` or `/pr-review` recommends a lock the task did not offer |
 | ESLint / Prettier / lint, format, dead code, mutants, or quality gate (`test:quality`, `test:mutants`) in this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
 
 **Bias:** Before non-trivial coding, the Taste and Architecture sections already apply. Prefer `/analyze` then `/task` for a build. Recommend `/taste` or `/architecture` when the ask is an audit of style or structure. Do not paste those sections into this router.
 
-Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task` or `/just-do-it`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock only when the user started `/create-test`. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
+Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task` or `/just-do-it`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 
