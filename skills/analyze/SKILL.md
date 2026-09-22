@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Analyze
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before researching or posting the memo. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before researching or posting the memo. Do not skip.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -22,9 +22,8 @@ disable-model-invocation: true
 - Return the analysis memo in chat. Do not create automatic runtime artifacts or hidden paths.
 - Save a memo only when the user explicitly requests it and approves the destination.
 
-**Read:** [doctrine.md](doctrine.md). **Always** Read and apply `/taste` and
-`/architecture` (see [standards.md](../pack-shared/standards.md)). Do not skip
-architecture because the ask looks like a single file.
+**Read:** [doctrine.md](doctrine.md). **Always** apply the **Taste** and **Architecture** sections of `AGENTS.md` (see [standards.md](../pack-shared/standards.md)). Do not skip
+Architecture because the ask looks like a single file.
 
 ## Process
 

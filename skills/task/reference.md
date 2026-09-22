@@ -160,7 +160,7 @@ Reply like: 1b 2b
 2. Open a PR?
    - a) yes — push and create a PR using `/publish` body rules (typed title,
      What changed, Mermaid Change diagram, How to QA) and
-     [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available)
+     [pr-ship.md](../pack-shared/pr-ship.md) (the harness pull-request tool when it has one, otherwise `gh`)
    - b) no ← recommended
 ```
 
@@ -182,7 +182,7 @@ Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested v
 
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
-3. Unless the skip rule applies, run `/grill-me` fully. It pulls in `/taste` and `/architecture` on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
+3. Unless the skip rule applies, run `/grill-me` fully. It applies the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
 4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
 
@@ -190,7 +190,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm `/taste` and `/architecture` decisions against the grill (both doctrines must already be loaded this turn), then inject the locked structure excerpt into later briefs. There is no architect worker. For UI, also confirm `/design` and `docs/design.md` (Initialization first if the file is missing).
+**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm Taste and Architecture decisions against the grill (the Taste and Architecture sections must already be applied this turn), then inject the locked structure excerpt into later briefs. There is no architect worker. For UI, also confirm `/design` and `docs/design.md` (Initialization first if the file is missing).
 
 **Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/design` (user-facing) or `/implement` (non-UI) — **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
 

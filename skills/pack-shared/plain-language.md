@@ -15,7 +15,7 @@ This contract is for **what the user reads**. Internal worker notes may keep cit
 7. A finding ID or rule ID may appear for tracking. The same bullet must still include the plain (Classic) sentence of what is wrong and what to do.
 8. When the user writes in a language, reply in that language. Product, UI, and locale strings follow [`design:spoken-locale`](../design/doctrine.md#spoken-locale): words speakers actually use for that job, not a word-for-word swap.
 
-The canonical map lives in [`../taste/doctrine.md`](../taste/doctrine.md) (named principles and mechanical rules).
+The canonical map lives in the **Taste** section of the pack `AGENTS.md` (named principles and mechanical rules).
 
 ## Say this, not that
 
@@ -37,12 +37,7 @@ The canonical map lives in [`../taste/doctrine.md`](../taste/doctrine.md) (named
 ## AI tells
 
 Ordinary words are not enough if the sentence still sounds generated.
-Chat replies follow the unslop plugin rule
-([`../../rules/unslop.mdc`](../../rules/unslop.mdc)) when the plugin or
-pinned rules are installed. This file owns jargon and nicknames. That
-rule owns puffery, chatbot closings, fake cadence, and drafting the
-reply clean. `npx skills` does not install plugin rules; pin them with
-`/setup-toolkit` if you need them without the plugin.
+Chat replies follow the Unslop section of the pack `AGENTS.md`. This file owns jargon and nicknames. That section owns puffery, chatbot closings, fake cadence, and drafting the reply clean.
 
 ## Questions and announcements
 

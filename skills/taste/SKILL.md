@@ -1,28 +1,26 @@
 ---
 name: taste
 description: >-
-  Pack coding taste: keep it simple, keep jobs apart, honest names, fail fast,
-  trust the server, types tell the truth, don’t repeat yourself, reuse
-  existing env vars, and related
-  rules. Use to audit or apply taste to a lane; parents load it
-  before planning or writing code.
+  Examples and a lane audit for the Taste rules in AGENTS.md. Those rules
+  are always on. Use this skill to judge a concrete shape or see good and
+  bad snippets, not as the source of the rules.
 disable-model-invocation: true
 ---
 
 # Taste
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). This skill *is* taste; still Read `/architecture` doctrine this turn. Other skills load both via that contract. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). The rules are the **Taste** and **Architecture** sections of `AGENTS.md`. This skill holds the audit steps and the examples. Do not skip the rules because this skill was not invoked.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-**Read:** [doctrine.md](doctrine.md) (Job through Bars) · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
+**Read:** the **Taste** section of `AGENTS.md` · [examples.md](examples.md) · [reference.md](reference.md) when verifying or touching UI · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
-Cite keys live in doctrine. When speaking to the user, cite principles as
-**plain (Classic)** — `keep this simple (KISS)`. Never acronym-only and never
+Cite keys are the headings in the Taste section. When speaking to the user, cite principles as
+**plain (Classic)**: `keep this simple (KISS)`. Never acronym-only and never
 the paraphrase without the classic name. Placement and
 `taste:keep-jobs-apart` defects are taste failures too. Parents (`/task`,
-`/analyze`, `/grill-me`, `/implement`, `/design`, `/architecture`) load `/taste` **and**
-`/architecture` before planning or writing code.
+`/analyze`, `/grill-me`, `/implement`, `/design`) apply the Taste and Architecture
+sections before planning or writing code.
 
 ### If this is a user one-off (audit or fix a lane)
 
@@ -31,7 +29,7 @@ principles, or “is this clean?”; when reviewing a lane without a full `/task
 or when tightening a messy file before or after a small change.
 
 1. Identify the lane (paths / symbols) and the ask.
-2. Read doctrine + examples; apply Cite keys (`taste:keep-it-simple` and Named principles).
+2. Apply the Taste section plus [examples.md](examples.md). Use cite keys (`taste:keep-it-simple` and Named principles).
 3. Report concrete violations with path evidence and the smallest fix
    (`taste:leave-it-cleaner` / `taste:keep-it-simple`: no speculative rewrite).
 4. If the user asks to fix, apply only behavior-preserving edits in that lane.
@@ -43,12 +41,12 @@ Hand-offs: structure / folders / services → `/architecture`. Build end-to-end
 
 ### If this skill is already loaded inside a build
 
-1. Load taste **and** architecture doctrine before grill close, plan contracts,
+1. Apply the Taste and Architecture sections before grill close, plan contracts,
    or implement briefs.
 2. Carry relevant cite keys into Active Rules / acceptance when they are
    behavioral (example: `taste:fail-fast` at a boundary, `taste:safe-to-retry`
    on a webhook).
-3. Run the **Output** self-check in doctrine before acceptance evidence and
+3. Run the checklist in the Taste section before acceptance evidence and
    `/code-review`.
 4. `/code-review` Standards axis treats taste **and** architecture violations as
    hard unless repo docs contradict.

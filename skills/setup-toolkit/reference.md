@@ -6,16 +6,17 @@ Load with [SKILL.md](SKILL.md). Copy files from [templates/](templates/). Do not
 
 Templates are at `<pack-root>/skills/setup-toolkit/templates/`.
 
-Find `<pack-root>` from the same skill-root order as the gold-standards rule:
+Find `<pack-root>` from the same skill-root order as `AGENTS.md`:
 
 1. Parent of `setup-toolkit` under `~/.agents/skills/`
-2. Parent of `setup-toolkit` under `~/.cursor/skills/`
-3. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
+2. Parent of `setup-toolkit` under `~/.claude/skills/`
+3. Parent of `setup-toolkit` under `~/.cursor/skills/`
+4. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
 
 If templates are missing, stop. Tell the user to install the plugin or:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 ```
 
 ## Detect the app root
@@ -153,16 +154,55 @@ After lint/format work, check workspace-root `docs/design.md` only (no other pat
 
 Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
 
-## Pin plugin rules (only if asked)
+## Install AGENTS.md
 
-If the user wants Cursor rules **in this app repo** (cloud agents, teammates without the plugin):
+The pack stays harness-agnostic. This skill is what installs the contract into a repo, a user home, and a harness. Do this before lint setup, and do it even when the workspace has no `package.json`.
 
-1. Create `.cursor/rules/gabriel-skills/`.
-2. Copy every `*.mdc` from `<pack-root>/rules/` into that folder.
-3. Do not copy them when the user did not ask. The marketplace plugin already loads `rules/` for installed users.
+### Source file
+
+Use the first file that contains `gabriel-skills-agents`:
+
+1. Walk up from this skill until a directory contains both `AGENTS.md` and `skills/setup-toolkit/`. That is the pack root.
+2. Otherwise use [templates/AGENTS.md](templates/AGENTS.md) in this skill (`npx skills` ships the skill folder, not the pack root).
+
+If neither file has the marker, say so and skip this section. Do not invent the text.
+
+Copy that source. The same bytes go to every destination below. Do not rewrite them.
+
+### Repo
+
+Every harness that reads `AGENTS.md` gets this file. That includes Claude Code, Cursor, Codex, Amp, Factory, Aider, Gemini CLI (once its settings point at `AGENTS.md`), goose, OpenCode, Roo, Windsurf, Zed, and Warp. Cursor uses this file. Do not also write `.cursor/rules` or a `.mdc` pointer.
+
+1. If workspace-root `AGENTS.md` is missing, copy the source there.
+2. If it exists and contains `gabriel-skills-agents`, overwrite it with the source.
+3. If it exists and does not contain that marker, leave it and say so.
+
+Do not add a `CLAUDE.md` in the pack or the app. A project `CLAUDE.md` makes Claude Code skip `AGENTS.md` unless that file imports it.
+
+### User and harness homes
+
+Install a row only when that harness home **already exists** on the machine, or the user named that harness. Do not create `~/.claude`, `~/.codex`, or `~/.gemini` for a harness that is not installed. Report each row as written or skipped. Cursor has no row: the repo `AGENTS.md` is its install.
+
+Refresh a pack-owned `AGENTS.md` only when it is missing or already contains `gabriel-skills-agents`. A different file stays put. Do not destroy unrelated user text.
+
+| Harness | Home exists | What to write |
+| --- | --- | --- |
+| Claude Code | `~/.claude/` | Copy the source to `~/.claude/gabriel-skills/AGENTS.md`. If `~/.claude/CLAUDE.md` is missing, create it with one line and no backticks: `@~/.claude/gabriel-skills/AGENTS.md`. If it exists and does not already mention `gabriel-skills/AGENTS.md`, append that same line. Do not replace the rest. |
+| Codex | `~/.codex/`, or `$CODEX_HOME` when that directory exists | Copy the source to `AGENTS.md` in that home. Do not write `AGENTS.override.md`. |
+| Gemini CLI | `~/.gemini/` or workspace `.gemini/` | Do not create `GEMINI.md`. If `settings.json` exists and `context.fileName` is absent, set it to `AGENTS.md` and leave every other key. If `GEMINI.md` exists and does not mention `AGENTS.md`, append one line: `Also follow AGENTS.md.` |
+| Aider | workspace `.aider.conf.yml` | If `read` is missing, add `read: AGENTS.md`. If `read` is a list, append `AGENTS.md` when it is absent. If `read` is some other string, leave it and say so. Do not create the file. |
+
+Project adapters, only when that path already exists in the target repo:
+
+- `CLAUDE.md` or `.claude/CLAUDE.md`: if it does not already import `AGENTS.md`, append a line with no backticks: `@AGENTS.md`. Do not replace the rest. Do not create either file.
 
 ## Done when
 
+- Workspace-root `AGENTS.md` is the pack copy, or a different `AGENTS.md` was left in place and reported
+- Each harness home that already existed was updated, or reported skipped because the file was not the pack copy
+- Harness homes that do not exist were not created
+- No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when that import was missing
+- No `.cursor/rules` file and no `.mdc` file was written
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
 - `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, and `stryker.conf.json` are present next to `package.json` (or reported skipped)

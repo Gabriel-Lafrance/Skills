@@ -4,21 +4,20 @@
     "name": "Gabriel Lafrance"
   },
   "metadata": {
-    "description": "Gabriel Lafrance engineering toolkit — Cursor skills, rules, commands, and lint/format templates.",
+    "description": "Gabriel Lafrance engineering toolkit: skills, an AGENTS.md contract, and lint/format templates.",
     "version": "1.7.0"
   },
   "plugins": [
     {
       "name": "gabriel-skills",
       "source": ".",
-      "description": "Engineering toolkit for Cursor: agent skills, plugin rules, commands, and ESLint/Prettier templates.",
+      "description": "Engineering toolkit: agent skills, an AGENTS.md contract, and ESLint/Prettier templates.",
       "version": "1.7.0",
       "homepage": "https://github.com/Gabriel-Lafrance/Skills",
       "repository": "https://github.com/Gabriel-Lafrance/Skills",
       "license": "MIT",
       "keywords": [
         "skills",
-        "rules",
         "commands",
         "agents",
         "eslint",

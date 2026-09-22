@@ -17,11 +17,10 @@ asks; once tests are the job, you always do that labor.
 
 **Read first (this turn):**
 
-1. `taste/doctrine.md`
-2. `architecture/doctrine.md`
-3. `create-test/doctrine.md`
-4. `pack-shared/plain-language.md`
-5. The parent Worker Brief (approved Why / What / How, public entry, paths)
+1. The **Taste** and **Architecture** sections of `AGENTS.md`
+2. `create-test/doctrine.md`
+3. `pack-shared/plain-language.md`
+4. The parent Worker Brief (approved Why / What / How, public entry, paths)
 
 Fail the job if you skip taste or architecture bars.
 

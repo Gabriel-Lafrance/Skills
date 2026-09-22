@@ -1,7 +1,8 @@
 # Subagents
 
-Shared contract for Task subagents. Parents Read this file and dispatch Task
-tools directly — there is no separate `/orchestrate` skill.
+Shared contract for specialists. When the harness can spawn one, parents
+dispatch that tool. When it cannot, run that role as its own pass. There is
+no separate `/orchestrate` skill.
 
 Use the shared [execution context](execution-context.md). The parent carries
 context in chat; no worker reads or updates agent-owned runtime files.
@@ -9,16 +10,17 @@ context in chat; no worker reads or updates agent-owned runtime files.
 ## Bias
 
 The main agent stays in its smart zone: **decide, ask the user, split the
-what, inject need-to-know, dispatch Task workers, and review Completions**.
+what, inject need-to-know, dispatch specialists, and review Completions**.
 It does not do non-trivial find, analyze, implement, or review labor. It does
 not grep the tree. Workers stay in theirs: one bounded job, then Completion.
 
 A worker fits the **smart zone** when the brief plus working set stay around
 **30% of the context window**. Harness, skills, rules, and MCP already use
-about half. Sequential Tasks are required when there is only one non-trivial
-job. When surfaces, slices, or review axes are independent, launch **one Task
-per lane in the same turn**. There is **no cap of two**. Stay on the main
-agent only when the job is trivial.
+about half. A sequential pass is required when there is only one non-trivial
+job. When surfaces, slices, or review axes are independent, launch **one
+specialist per lane in the same turn** when the harness allows it. When it
+does not, run those passes one after another. There is **no cap of two**.
+Stay on the main agent only when the job is trivial.
 
 Pick the specialist that owns the job. Do **not** follow a fixed spawn order.
 
@@ -40,28 +42,26 @@ One altitude: the parent coordinates; the specialist does the detail.
   Reject and relaunch if the what was missed or bars were skipped. Do not
   take the how back onto the main agent.
 
-## Subagent model
+## Specialist model
 
-- Omit Task `model` so workers inherit the parent chat model.
-- Pass a model only when the user explicitly requested one.
+- Do not set a worker model unless the user explicitly requested one and the harness allows it. Otherwise the worker inherits the parent model.
 
-## Task type
+## Specialist
 
 Pick the **listed** specialist that owns the job. Pack roles (`explorer`,
 `analyzer`, `implementer`, `designer`, `reviewer`, `pr-reviewer`, `tester`)
-and Cursor built-ins (`explore`, `generalPurpose`, and any other type on the
-Task list) are both valid. Match the job. Do not default to two generic
-workers by habit. Do **not** run a fixed explorer → analyzer → implementer →
-reviewer sequence.
+and a harness built-in that matches the job are both valid. Match the job.
+Do not default to two generic workers by habit. Do **not** run a fixed
+explorer, analyzer, implementer, reviewer sequence.
 
 `explorer` finds. `analyzer` judges. `implementer` changes non-UI code.
 `designer` implements user-facing UI and `docs/design.md`. `reviewer` checks
 a local diff. `pr-reviewer` checks an open GitHub PR. `tester` writes tests
-and is **always** summoned for that job — the main agent never writes tests.
+and is **always** summoned for that job. The main agent never writes tests.
 They are not interchangeable. Do not use `reviewer` for a GitHub PR, and do
 not use `pr-reviewer` for a local branch. Do not use `implementer` for
-screens and visible copy. There is no architect worker: `/architecture` is a
-skill and a bar, not a Task type.
+screens and visible copy. There is no architect worker. The Architecture section of `AGENTS.md` is a
+bar, not a specialist.
 
 ## Roles
 
@@ -106,7 +106,7 @@ the brief small enough that the worker stays in the smart zone.
 **Do not redo:** <search, files, or questions already answered>
 
 ## Read first
-- `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
+- the **Taste** and **Architecture** sections of `AGENTS.md` (hard, [standards.md](standards.md))
 - `pack-shared/plain-language.md` when this worker's output will be pasted into the discussion reply
 - `docs/design.md` and `design/doctrine.md` when the slice is user-facing UI
 - <repo paths, ticket, PR, or committed docs only — not a second copy of the doctrines>
@@ -135,19 +135,19 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 
 | Situation | Action |
 | --- | --- |
-| Non-trivial find, analyze, implement, review, or multi-file edit | **Must** Task (even if only one job). Main reviews the Completion |
-| Independent surfaces, ready slices, or review axes | **Must** parallel Tasks in the same turn — **one Task per lane**. No cap of two |
-| Noisy search, grep, or fat-file reads | Pack `explorer` or Cursor `explore` — several in parallel. Main does not grep |
+| Non-trivial find, analyze, implement, review, or multi-file edit | **Must** be a specialist (or its own pass when the harness cannot spawn one). Main reviews the Completion |
+| Independent surfaces, ready slices, or review axes | **Must** be parallel specialists in the same turn when the harness allows it: **one per lane**. No cap of two. Otherwise run the passes in order |
+| Noisy search, grep, or fat-file reads | Pack `explorer`, or a harness finder. Several in parallel when the harness allows it. Main does not grep |
 | How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits) |
-| Implement one tiny non-UI what | Pack `implementer` or Cursor `generalPurpose` — one brief per independently reviewable slice (can be one function) |
-| Implement user-facing UI | Pack `designer` — one brief per independently reviewable slice. Do not use `implementer` |
-| Capture `docs/design.md` | `designer` Task with a code-derived route inventory — see `/design` |
-| Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
-| Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
+| Implement one tiny non-UI what | Pack `implementer`, or a harness general worker when no pack role exists. One brief per independently reviewable slice (can be one function) |
+| Implement user-facing UI | Pack `designer`. One brief per independently reviewable slice. Do not use `implementer` |
+| Capture `docs/design.md` | `designer` with a code-derived route inventory. See `/design` |
+| Local diff vs the what and the parent task | Pack `reviewer`, or a harness general worker when no pack role exists |
+| Open GitHub PR | Pack `pr-reviewer`, or a harness general worker when no pack role exists |
 | Write tests | **Always** pack `tester`. Main never writes tests. `/create-test` still starts only when the user asks |
-| Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces). See `/code-review`. No Design axis. No second adversarial wave |
+| Standards and Spec review | Parallel specialists (plus extra passes when the diff has independent surfaces). See `/code-review`. No Design axis. No second adversarial wave |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
-| Verify logs / MCP lint ritual | Main only — never a verification-only Task |
+| Verify logs / MCP lint ritual | Main only. Never a verification-only specialist |
 
 ## After a wave
 
@@ -172,19 +172,19 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 - Using `analyzer` as a search bot, or `explorer` as an impact-memo writer
 - Merging find and judge into one worker when the search is noisy
 - Using `implementer` for screens and visible copy (that is `designer`)
-- Capping at two Tasks when more independent surfaces exist
+- Capping at two specialists when more independent surfaces exist
 - Feeding a how-recipe (step lists, prescribed patches, hunt scripts, grep scripts)
 - Empty brief, doctrine dump, or whole-repo dump
-- Defaulting to `explore` / `generalPurpose` by habit when another listed type fits
-- Forbidding a listed Cursor type, or a listed pack role, that fits the job
-- Spawning an architect worker (`/architecture` is a bar, not a Task type)
+- Defaulting to a generic worker by habit when a listed pack role fits
+- Forbidding a harness built-in, or a listed pack role, that fits the job
+- Spawning an architect worker (the Architecture section of `AGENTS.md` is a bar, not a specialist)
 - Following a fixed explorer → analyzer → implementer → reviewer spawn order
 - Writing tests on the main agent, or skipping `tester` when tests are the job
 - Auto-starting `/create-test`
-- Task without what, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
+- A specialist pass without what, lane, rules that must stay true, Taste and Architecture applied, and an escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
 - Worker running acceptance gates or `/code-review`
-- Passing Task `model` without a user request
+- Passing a worker model without a user request
 - Writing a progress, registry, or status file for agent-only bookkeeping
 - Inventing a parallel `/orchestrate` skill instead of this contract

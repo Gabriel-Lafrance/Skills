@@ -42,13 +42,13 @@ Use an A+ exam bar: report every evidenced defect on an initial review or full r
 
 Resolve Standards in this order:
 
-1. `/taste` doctrine (Cite keys)
-2. `/architecture` doctrine (Cite keys)
+1. The **Taste** section of `AGENTS.md` (Cite keys)
+2. The **Architecture** section of `AGENTS.md` (Cite keys)
 3. Repository rules and committed project documentation (these win on conflict)
 4. Optional project standards when present; do not require a particular standards file
 5. Baseline defects in the review contract
 
-Treat the first two sources as **hard** unless repository rules conflict. On every `initial` or `full-rescan`, **Read** both doctrines before adjudicating Standards ([standards.md](../pack-shared/standards.md)). Reject Standards output that skipped either Read.
+Treat the first two sources as **hard** unless repository rules conflict. On every `initial` or `full-rescan`, **Apply** the Taste and Architecture sections of `AGENTS.md` before adjudicating Standards ([standards.md](../pack-shared/standards.md)). Reject Standards output that skipped either section.
 
 ### Blocker vs follow-up
 

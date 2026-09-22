@@ -78,8 +78,8 @@ Reply like: 1a
 
 ## Create command
 
-Pick the write path in [pr-ship.md](../pack-shared/pr-ship.md). Only when Cursor’s
-pull-request tool is **not** available:
+Pick the write path in [pr-ship.md](../pack-shared/pr-ship.md). Only when this
+harness has **no** pull-request tool:
 
 ```bash
 gh pr create --title "<title>" --base <base> --body "$(cat <<'EOF'
@@ -359,7 +359,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 
 | State | Action |
 | --- | --- |
-| No `gh` or not authenticated | Stop before PR unless Cursor’s pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
+| No `gh` or not authenticated | Stop before PR unless the harness pull-request tool is available (see [pr-ship.md](../pack-shared/pr-ship.md)) |
 | Dirty tree | Ask commit first, stash, or abort; never auto-commit. Before that commit, run this repo’s `lint` and `test` (`test:quality` when that is the test script) and fix failures so CI will not fail the PR |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create a real branch before continuing |
@@ -392,4 +392,4 @@ Show the complete title and body, then use the publish-approval Question batch. 
 
 ### 6. Publish
 
-On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (Cursor pull-request tool when available; otherwise the heredoc in this file). Return the PR URL. Do not write Linear comments or change ticket status.
+On approval only, create or update the PR with the tool choice in [pr-ship.md](../pack-shared/pr-ship.md) (the harness pull-request tool when it has one; otherwise the heredoc in this file). Return the PR URL. Do not write Linear comments or change ticket status.

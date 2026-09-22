@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Grill Me
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before recommending answers. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before recommending answers. Do not skip.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
@@ -29,7 +29,7 @@ record only when the user requests it and approves its destination.
    missing.
 2. Batch every unsettled topic from the doctrine's behavior sweep. Include
    plan count and file lane so the first batch is complete.
-3. Apply `/taste` and `/architecture` before recommending answers:
+3. Apply the **Taste** and **Architecture** sections of `AGENTS.md` before recommending answers:
 
    | When | Include in the batch |
    | --- | --- |

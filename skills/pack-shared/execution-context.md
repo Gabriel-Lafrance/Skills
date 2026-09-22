@@ -61,8 +61,7 @@ For when to spawn Tasks, Worker Brief shape, and after-wave integration, Read
 
 The parent is the context compiler. Every Task prompt is **what** plus
 **need-to-know**: outcome, Done when, non-goals, rules that must stay true,
-lane, current slice, explorer hits, locked structure excerpt, and **Read
-first** paths for `/taste` and `/architecture` doctrines
+lane, current slice, explorer hits, locked structure excerpt, and the **Taste** and **Architecture** sections of `AGENTS.md` in **Read first**
 ([standards.md](standards.md)). Do not send a how-recipe. Do not make a
 worker reconstruct intent from hidden files or a plan path. Do not grep the
 tree on the parent.

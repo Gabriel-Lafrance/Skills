@@ -155,7 +155,7 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 ### User-facing work
 
-User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still follows `/taste` and `/architecture` for any supporting files in the allowlist. It does not own backend-only work.
+User-facing means screens, components, styling, visible copy, and client interaction. `/task` and `/just-do-it` dispatch this skill for those slices, not `/implement`. This skill still applies the **Taste** and **Architecture** sections of `AGENTS.md` for any supporting files in the allowlist. It does not own backend-only work.
 
 These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 

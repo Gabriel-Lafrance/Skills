@@ -15,10 +15,9 @@ files stay in this context. The parent must receive only the hits that matter.
 
 **Read first (this turn):**
 
-1. `taste/doctrine.md`
-2. `architecture/doctrine.md`
-3. `pack-shared/plain-language.md`
-4. The parent Worker Brief in this chat (find-what, injected context)
+1. The **Taste** and **Architecture** sections of `AGENTS.md`
+2. `pack-shared/plain-language.md`
+3. The parent Worker Brief in this chat (find-what, injected context)
 
 ## Job
 

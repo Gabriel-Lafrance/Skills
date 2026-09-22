@@ -9,13 +9,14 @@ disable-model-invocation: true
 
 # Just Do It
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before analyze, build, or review. Do not skip. For user-facing work also load `/design` and `docs/design.md`.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before analyze, build, or review. Do not skip. For user-facing work also load `/design` and `docs/design.md`.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 This skill is a user start. Do not nest it under `/task`. Parent orchestrator
-only. Dispatch Task workers per
-[../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
+only. Dispatch specialists per
+[../pack-shared/subagents.md](../pack-shared/subagents.md) (the harness
+specialist tool when it has one, otherwise that role as its own pass) and review their
 Completions; do not solo non-trivial labor, grep the tree, or write tests. It
 takes recommended soft decisions, auto-fixes only named Fix-now blockers, keeps
 optional improvements as follow-ups, and leaves `/pr-review` to a human.
@@ -37,8 +38,8 @@ optional improvements as follow-ups, and leaves `/pr-review` to a human.
    fixed point; remediate the same way.
 6. Ship commit(s) if needed (same lint and test first), preflight, print the full PR draft in chat, then
    push and create the PR (opened, not merged) using
-   [pr-ship.md](../pack-shared/pr-ship.md) (Cursor’s pull-request tool when
-   available). Do not skip that contract because
+   [pr-ship.md](../pack-shared/pr-ship.md) (the harness pull-request tool when
+   it has one, otherwise `gh`). Do not skip that contract because
    this skill is not `/publish`.
 
 Hard stops, review caps, shipping, context handoffs, and new-chat recovery live

@@ -94,13 +94,13 @@ After publication, report the result in chat and record the published head as `p
 - Do not create helper scripts or repository files to prepare or publish a review.
 - Keep the shared finding ID internally and reuse the matching GitHub thread for an existing issue. Do not duplicate an open finding as a new comment.
 - After explicit approval, post each draft as its own PR comment using `gh` or `gh api`. Request changes when any published draft is Blocking; otherwise submit a comment review.
-- On every `initial` or `full-rescan`, Read `/taste` and `/architecture` this turn. Do not skip because the PR looks small. Run `code-review:blocker-vs-follow-up` and `code-review:naming-alignment`.
+- On every `initial` or `full-rescan`, Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn. Do not skip because the PR looks small. Run `code-review:blocker-vs-follow-up` and `code-review:naming-alignment`.
 
 ## Anti-patterns
 
 - Approving or commenting without the review output fence or PR extras
 - Running a second adversarial review or hunt re-inspect after the parallel pass
 - Soft-pedaling `taste:keep-jobs-apart`, `taste:fail-fast`, `taste:safe-to-retry`, or `taste:trust-the-server` as Nit when they introduce or extend a correctness or security risk in the PR surface
-- Skipping `/taste` / `/architecture` reads because the PR looks small
+- Skipping the Taste and Architecture sections because the PR looks small
 - Skipping PR extras (body vs diff, historical threads, migration, breaking API)
 - Posting a summary comment instead of one-topic findings

@@ -9,10 +9,11 @@ description: >-
 
 # Ask Gabriel
 
-You don't remember every skill — ask. Stay **thin**: recommend only; do **not**
-load other skills' bodies — including `/taste` and `/architecture` doctrines —
-until the user accepts. The next skill must follow those doctrines via
-[standards.md](../pack-shared/standards.md).
+You don't remember every skill. Ask. Stay **thin**: recommend only. Do **not**
+load other skills' bodies until the user accepts. The **Taste** and **Architecture**
+sections of `AGENTS.md` are already the rules. Do not restate them here. The next
+skill applies them via [standards.md](../pack-shared/standards.md). `/taste` and
+`/architecture` are the examples and the audit.
 
 **Sole auto-invokable skill** in this pack. Never recommend `*-flow` skill names. Nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
@@ -21,9 +22,9 @@ until the user accepts. The next skill must follow those doctrines via
 | Situation | Start with |
 | --- | --- |
 | Unsure which skill | Stay here — answer below |
-| Fuzzy idea / research | `/analyze` (it loads `/taste` + `/architecture`) |
+| Fuzzy idea / research | `/analyze` (it applies the Taste and Architecture sections) |
 | Bug / something broken | `/analyze` → `/task` when buildable |
-| Build until X is true | `/task` (must follow `/taste` and `/architecture`) |
+| Build until X is true | `/task` (must apply the **Taste** and **Architecture** sections of `AGENTS.md`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
 | Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
@@ -37,12 +38,9 @@ until the user accepts. The next skill must follow those doctrines via
 | Lock complex behavior with tests | `/create-test` (user must ask; only after `/code-review` or `/pr-review` recommends) |
 | ESLint / Prettier / lint, format, dead code, mutants, or quality gate (`test:quality`, `test:mutants`) in this app | `/setup-toolkit` (also starts `/design` Initialization if `docs/design.md` is missing) |
 
-**Bias:** Before non-trivial coding, prefer paths that run `/taste` and
-`/architecture` — usually via `/analyze` → `/task`, or recommend those skills
-directly when the ask is style or structure. Invoked skills must follow both
-doctrines; do not load those bodies in this router.
+**Bias:** Before non-trivial coding, the Taste and Architecture sections already apply. Prefer `/analyze` then `/task` for a build. Recommend `/taste` or `/architecture` when the ask is an audit of style or structure. Do not paste those sections into this router.
 
-Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` or `/just-do-it` — `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester always writes tests. There is no architect worker and no fixed spawn order.
+Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task` or `/just-do-it`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester always writes tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 
@@ -50,7 +48,5 @@ Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` o
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
-6. When recommending `/task` or `/analyze`, say they will follow the coding and
-   structure standards (`/taste` and `/architecture`), and that they pick
-   specialists from the catalog — the main agent does not grep or write tests.
+5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (Unslop section of `AGENTS.md`).
+6. When recommending `/task` or `/analyze`, say they apply the Taste and Architecture sections of `AGENTS.md`, and that they pick specialists from the catalog. The main agent does not grep or write tests.
