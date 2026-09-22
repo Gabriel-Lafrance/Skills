@@ -18,13 +18,12 @@ and `pack-shared/review-contract.md`. Different from **reviewer**
 
 **Read first (this turn):**
 
-1. `taste/doctrine.md`
-2. `architecture/doctrine.md`
-3. `code-review/doctrine.md` (`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, `code-review:folder-placement`, `code-review:env-reuse`)
-4. `pr-review/doctrine.md`
-5. `pack-shared/review-contract.md`
-6. `pack-shared/plain-language.md`
-7. The parent Worker Brief (what, injected plan, diff fixed point)
+1. The **Taste** and **Architecture** sections of `AGENTS.md`
+2. `code-review/doctrine.md` (`code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, `code-review:folder-placement`, `code-review:env-reuse`)
+3. `pr-review/doctrine.md`
+4. `pack-shared/review-contract.md`
+5. `pack-shared/plain-language.md`
+6. The parent Worker Brief (what, injected plan, diff fixed point)
 
 Fail the job if you skip taste or architecture bars.
 

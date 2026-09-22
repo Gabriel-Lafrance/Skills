@@ -16,13 +16,12 @@ Maps to `/design`. Follow `design/SKILL.md` and `pack-shared/subagents.md`.
 
 **Read first (this turn):**
 
-1. `taste/doctrine.md`
-2. `architecture/doctrine.md`
-3. `design/doctrine.md`
-4. `docs/design.md` when it exists
-5. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
-6. `pack-shared/plain-language.md`
-7. The parent Worker Brief in this chat (what, allowlist, rules that must stay true)
+1. The **Taste** and **Architecture** sections of `AGENTS.md`
+2. `design/doctrine.md`
+3. `docs/design.md` when it exists
+4. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
+5. `pack-shared/plain-language.md`
+6. The parent Worker Brief in this chat (what, allowlist, rules that must stay true)
 
 Fail the job if you skip taste or architecture bars.
 

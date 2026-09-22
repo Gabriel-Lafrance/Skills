@@ -83,7 +83,7 @@ Parent context template and review disposition: [reference.md](reference.md). Pr
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). Child skills must follow `/taste` and `/architecture` ([standards.md](../pack-shared/standards.md)). User-facing slices also follow `/design` and `docs/design.md`.
+Run the [lifecycle](reference.md#lifecycle). Child skills must apply the **Taste** and **Architecture** sections of `AGENTS.md` ([standards.md](../pack-shared/standards.md)). User-facing slices also follow `/design` and `docs/design.md`.
 
 Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared execution-context authority order. Rebuild and show the compact parent context before acting. Do not infer a prior user waiver, promotion, acceptance, or loop disposition from Git alone; re-announce what is known and ask only for the missing user-owned decision.
 

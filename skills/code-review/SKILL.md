@@ -14,13 +14,13 @@ disable-model-invocation: true
 
 # Code Review
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before adjudicating Standards. Do not skip.
 
 **Shared contracts:** [review](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md)
 
 **Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md)
 
-Standards always load `/taste` and `/architecture`. Worker output uses the
+Standards always apply the **Taste** and **Architecture** sections of `AGENTS.md`. Worker output uses the
 review-contract **review output** fence (Principles, Architecture, Correctness
 hunt). User-facing findings use ordinary words
 ([plain-language.md](../pack-shared/plain-language.md)).
@@ -57,7 +57,7 @@ Select the shared review mode deliberately:
 Apply `code-review:axes`, `code-review:blocker-vs-follow-up`,
 `code-review:naming-alignment`, the review-contract evidence bar, and
 remediation analysis before any fix work. Standards workers must return the
-review output fence. Standards must Read `/taste` and `/architecture` this
+review output fence. Standards must apply the **Taste** and **Architecture** sections of `AGENTS.md` this
 turn. Do not dispatch a Design review Task.
 
 For `remediation`, verify those findings and regressions in that surface; do

@@ -12,9 +12,9 @@ Skills under [`skills/`](../skills/). The always-on contract is
 Cursor rules copy. An optional Cursor plugin ships the same skills, plus
 [`agents/`](../agents/) and [`commands/`](../commands/).
 Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
-for how agents should work live in skill doctrines (especially `/taste` and
-`/architecture`) and the must-follow contract
-[`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md). Chat
+for how agents should work live in the Taste and Architecture sections of
+[`AGENTS.md`](../AGENTS.md). [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md)
+tells every skill to apply those sections. Chat
 replies follow the Unslop section of `AGENTS.md`. Do not paste that file into a
 User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
 installs the contract into an app and into harness homes that already exist.
@@ -42,7 +42,7 @@ npx skills@latest add . --list
 
 `npx skills` can target Claude, Cursor, or both (`-a claude`, `-a cursor`). The
 Cursor plugin is optional and does not add a separate ruleset. Installed skills
-must follow taste and architecture. ESLint and
+must apply the Taste and Architecture sections of `AGENTS.md`. ESLint and
 Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
 copied into **app** repos by `/setup-toolkit` — they are not run from this
@@ -52,7 +52,9 @@ markdown pack.
 
 - Prefer improving an existing skill over adding a new one.
 - Numbered how-to lives in `SKILL.md`. Put durable rules in `doctrine.md` and
-  detail in `reference.md` / `examples.md`.
+  detail in `reference.md` / `examples.md`. Taste and Architecture are the
+  exception: those rules live in `AGENTS.md`, and their doctrine files only
+  point there.
 - Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
 - Teach principles in prose — avoid steering agents with a catalog of concrete

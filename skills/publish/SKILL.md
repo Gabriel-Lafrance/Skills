@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 # Publish
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn so the Change diagram and QA match the shipped structure. Do not skip. Every PR this pack opens also follows [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) (create tool), including `/just-do-it` and any agent that ships a branch, not only this skill.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so the Change diagram and QA match the shipped structure. Do not skip. Every PR this pack opens also follows [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) (create tool), including `/just-do-it` and any agent that ships a branch, not only this skill.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 

@@ -13,4 +13,4 @@ description: >-
 
 Follow the `/setup-toolkit` skill in this pack (`skills/setup-toolkit/SKILL.md`).
 
-Read `taste/doctrine.md` and `architecture/doctrine.md` this turn, then execute that skill. The skill installs the contract. This command does not grow a second copy of those steps. Do not invent a different ESLint or Prettier stack. Do not add a project `CLAUDE.md`.
+Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn, then execute that skill. The skill installs the contract. This command does not grow a second copy of those steps. Do not invent a different ESLint or Prettier stack. Do not add a project `CLAUDE.md`.

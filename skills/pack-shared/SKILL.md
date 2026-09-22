@@ -15,8 +15,8 @@ Not a user skill. Do not recommend `/pack-shared`.
 
 Other skills Read these files by relative path:
 
-- [standards.md](standards.md) — must follow `/taste` and `/architecture` on every skill run
-- [doctrine-schema.md](doctrine-schema.md) — H2 order every `skills/*/doctrine.md` must use
+- [standards.md](standards.md): apply the **Taste** and **Architecture** sections of `AGENTS.md` on every skill run
+- [doctrine-schema.md](doctrine-schema.md): H2 order for skill doctrines. Taste and architecture doctrine files point at `AGENTS.md` and do not use that schema
 - [plain-language.md](plain-language.md) — talk to humans in ordinary words
 - [asking.md](asking.md) — how to ask the user
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff

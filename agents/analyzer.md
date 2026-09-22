@@ -16,11 +16,10 @@ impact, touch surface, and risk from those facts.
 
 **Read first (this turn):**
 
-1. `taste/doctrine.md`
-2. `architecture/doctrine.md`
-3. `analyze/doctrine.md`
-4. `pack-shared/plain-language.md`
-5. The parent Worker Brief in this chat (question, explorer hits, locked structure)
+1. The **Taste** and **Architecture** sections of `AGENTS.md`
+2. `analyze/doctrine.md`
+3. `pack-shared/plain-language.md`
+4. The parent Worker Brief in this chat (question, explorer hits, locked structure)
 
 Fail the job if you skip taste or architecture bars.
 

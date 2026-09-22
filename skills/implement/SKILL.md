@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 # Implement
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn before writing code. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before writing code. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -26,8 +26,7 @@ Fail the job if taste or architecture bars are skipped.
 
 ## Read first
 
-1. `/taste` and `/architecture` doctrines (keep it simple + named principles +
-   structure). Do not implement user-facing UI here (`/design` owns that).
+1. The **Taste** and **Architecture** sections of `AGENTS.md` (keep it simple, named principles, and structure). Do not implement user-facing UI here (`/design` owns that).
 2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
    decisions, Active Rules, current slice, write lane, and dependencies.
 3. Only the named ticket / PR, relevant Git diff/history, repository code and
@@ -42,8 +41,7 @@ Fail the job if taste or architecture bars are skipped.
    (`architecture:folders`). Do not add new files as mixed siblings in
    `src/`, `app/`, `convex/`, or any other mixed parent. If a
    required behavior-preserving move is in the brief, do it before feature
-   code and show that the old observable behavior still holds. Apply `/taste`
-   implement self-check and `/architecture` self-check before Completion.
+   code and show that the old observable behavior still holds. Apply the Taste checklist and the Architecture self-check in `AGENTS.md` before Completion.
 3. Reuse existing services and primitives. Do not copy a known-wrong shape or
    invent a shared API, service, abstraction, or lane. Return the smallest
    viable option as a finding when the slice needs one. Before adding an

@@ -18,7 +18,7 @@ npx skills@latest update -g -y
 
 `npx skills` copies skill folders. It does not copy root `AGENTS.md`. The setup skill ships a copy of the contract and installs it into the repo and the user harness homes. Run `/setup-toolkit` in an app.
 
-Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
+The **Taste** and **Architecture** sections of [`AGENTS.md`](./AGENTS.md) are always-on rules ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not restate those sections.
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
@@ -58,7 +58,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
-| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route and standards   |
+| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route, plus examples and audits for the always-on rules |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |

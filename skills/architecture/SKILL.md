@@ -1,26 +1,22 @@
 ---
 name: architecture
 description: >-
-  Shape scalable code: one service per domain job, simple public APIs,
-  one-job helpers inside those services, writes that check who may act,
-  nested folders, cheap honest reads, and writes that are safe to retry.
-  Use to decide structure, or inside /task before planning.
-  Triggers: folders, nest files, flat directory, mixed parent,
-  services, split logic, data/reads, duplicating domain logic,
-  environment variables, SITE_URL, FRONTEND_URL,
-  auth on writes, Date.now in queries.
+  Examples and a structure audit for the Architecture rules in AGENTS.md.
+  Those rules are always on. Use this skill to draft a structure card or
+  see good and bad shapes, not as the source of the rules. Triggers:
+  folders, services, data reads, SITE_URL, auth on writes, Date.now in
+  queries.
 disable-model-invocation: true
 ---
 
 # Architecture
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). This skill *is* architecture; still Read `/taste` doctrine this turn before drafting a structure card. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). The rules are the **Taste** and **Architecture** sections of `AGENTS.md`. This skill holds the audit steps and the examples. Do not skip the rules because this skill was not invoked.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-Always load `/taste` (or Read its doctrine) before drafting a structure
-card. Cite keys live in [doctrine.md](doctrine.md). Other skills load both
-doctrines on every run via the standards contract. Use the shared
+Apply the **Taste** and **Architecture** sections of `AGENTS.md` before drafting a structure
+card. Cite keys are the headings in those sections. Use the shared
 [execution context](../pack-shared/execution-context.md).
 
 Find via Task subagents per
@@ -54,7 +50,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
      helper; do not invent a parallel auth path)
    - Whether list/query paths are indexed and paginated, and whether queries
      stay deterministic
-2. **Draft** the doctrine **Structure** card in chat (Output: always / if
+2. **Draft** the **Structure** card from the Architecture section in chat (always / if
    writes / if lists / if big feature). A required behavior-preserving move is
    listed before feature code begins.
 3. Carry the applicable card in the inline execution context. Do not create
@@ -75,7 +71,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    Active Rules, or a named finding require it; otherwise retain the smallest
    direct shape in the **owning folder** and record a follow-up in chat. About
    to add a mixed sibling? Nest it. That is not extra ceremony.
-6. Run the doctrine Output self-check before done.
+6. Run the self-check in the Architecture section before done.
 
 ### If a parent already owns the next step
 

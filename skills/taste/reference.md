@@ -1,6 +1,6 @@
 # Taste reference
 
-Load with [doctrine.md](doctrine.md) when verifying, touching UI, or naming an extension seam. Bars stay in doctrine. Snippets stay in [examples.md](examples.md).
+Load when verifying, touching UI, or naming an extension seam. The rules are the **Taste** section of `AGENTS.md`. Snippets stay in [examples.md](examples.md).
 
 ## Verify (terminals first)
 

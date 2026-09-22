@@ -15,7 +15,7 @@ disable-model-invocation: true
 
 # Setup toolkit
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn. Do not skip.
 
 This skill is a user start. Do not nest it under `/task`.
 

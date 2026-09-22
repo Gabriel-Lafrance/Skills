@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Create Test
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md) — Read `/taste` and `/architecture` doctrines this turn so locks sit on the public surface, not internals. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so locks sit on the public surface, not internals. Do not skip.
 
 This skill is a user start. Do not nest it under `/task` or start it
 automatically. Only `/code-review` and `/pr-review` may recommend a lock; only

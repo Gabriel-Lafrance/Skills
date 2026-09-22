@@ -22,7 +22,7 @@ none (uses `taste:*` and `architecture:*`)
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md). Templates and question batches: [reference.md](reference.md).
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md), then `/taste` and `/architecture` doctrines this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR. That contract applies to **every** agent that opens a PR, not only this skill.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md), then apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so the Change diagram and QA describe the real structure. Read [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) before creating or updating a PR. That contract applies to **every** agent that opens a PR, not only this skill.
 
 - Lock exactly one type: `feature`, `tweak`, `bug`, `refactor`, `chore`, or `hotfix`.
 - Use the branch naming contract in [reference.md](reference.md).

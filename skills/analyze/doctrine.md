@@ -40,7 +40,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
 - Rediscover the relevant code and sibling patterns. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Noisy search **must** use `explorer` Tasks per [subagents.md](../pack-shared/subagents.md). The main agent does not grep the tree. When independent find-whats exist, spawn parallel explorers in the same turn (no cap of two). Pick `analyzer` to judge how, impact, risk, and files touched. Do not follow a fixed spawn order. Give each the applicable brief and wait for all results; never sleep or poll for them. Trivial single-path lookups may stay on the main agent.
-- Apply **`/taste` and `/architecture` always** ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip the architecture Read because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
+- Apply the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip the Architecture section because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review, or a `/just-do-it` parent explicitly forwarded named rows under its autonomy policy. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 
@@ -78,7 +78,7 @@ flowchart LR
 - `path`: why
 
 ### Recommended direction
-<smallest coherent approach and why. Cite `/taste` and `/architecture` Cite keys when they drive the shape>
+<smallest coherent approach and why. Cite Taste and Architecture cite keys when they drive the shape>
 
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>

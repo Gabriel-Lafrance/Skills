@@ -60,8 +60,8 @@ a local diff. `pr-reviewer` checks an open GitHub PR. `tester` writes tests
 and is **always** summoned for that job. The main agent never writes tests.
 They are not interchangeable. Do not use `reviewer` for a GitHub PR, and do
 not use `pr-reviewer` for a local branch. Do not use `implementer` for
-screens and visible copy. There is no architect worker: `/architecture` is a
-skill and a bar, not a specialist.
+screens and visible copy. There is no architect worker. The Architecture section of `AGENTS.md` is a
+bar, not a specialist.
 
 ## Roles
 
@@ -106,7 +106,7 @@ the brief small enough that the worker stays in the smart zone.
 **Do not redo:** <search, files, or questions already answered>
 
 ## Read first
-- `taste/doctrine.md` and `architecture/doctrine.md` (hard — [standards.md](standards.md))
+- the **Taste** and **Architecture** sections of `AGENTS.md` (hard, [standards.md](standards.md))
 - `pack-shared/plain-language.md` when this worker's output will be pasted into the discussion reply
 - `docs/design.md` and `design/doctrine.md` when the slice is user-facing UI
 - <repo paths, ticket, PR, or committed docs only — not a second copy of the doctrines>
@@ -177,11 +177,11 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 - Empty brief, doctrine dump, or whole-repo dump
 - Defaulting to a generic worker by habit when a listed pack role fits
 - Forbidding a harness built-in, or a listed pack role, that fits the job
-- Spawning an architect worker (`/architecture` is a bar, not a specialist)
+- Spawning an architect worker (the Architecture section of `AGENTS.md` is a bar, not a specialist)
 - Following a fixed explorer → analyzer → implementer → reviewer spawn order
 - Writing tests on the main agent, or skipping `tester` when tests are the job
 - Auto-starting `/create-test`
-- A specialist pass without what, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
+- A specialist pass without what, lane, rules that must stay true, Taste and Architecture applied, and an escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path
 - Parallel work with overlapping lanes or undefined handoffs
 - Worker running acceptance gates or `/code-review`

@@ -92,8 +92,7 @@ GitHub finding thread and that visible id are the durable record.
 
 ## Output
 
-Standards workers **must** Read `/taste` and `/architecture` doctrines this
-turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
+Standards workers **must** apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
 principles) using **plain (Classic)** (`keep jobs apart (SoC)`) and cite those
 keys in finding **Rule** fields when violated. Never acronym-only (`SoC
 violation`) and never the paraphrase without the classic name. User-facing
@@ -101,7 +100,7 @@ notes must be ordinary sentences ([plain-language.md](plain-language.md)). On
 `initial` / `full-rescan`, also run the code-review naming alignment pass, the
 Architecture sweep, the Correctness hunt, and the Baseline defects scan. The
 parent rejects Standards output that lacks the Principles, Architecture, or
-Correctness tables, or that skipped a doctrine Read.
+Correctness tables, or that skipped either section.
 
 Spec workers fill the **Spec matrix** with every Done-when row, every rule that
 must stay true, each user-visible state the diff touches (enabled, disabled,

@@ -1,6 +1,8 @@
 # Doctrine schema
 
-Every `skills/*/doctrine.md` uses **these H2s, in this order, with these names**.
+`skills/taste/doctrine.md` and `skills/architecture/doctrine.md` are pointers. The rules live in the **Taste** and **Architecture** sections of `AGENTS.md`. Those two files do not use the list below.
+
+Every other `skills/*/doctrine.md` uses **these H2s, in this order, with these names**.
 Do not invent `## Ownership`, `## Core rules`, or `## Process` in doctrine.
 
 | Order | H2 | What goes here |

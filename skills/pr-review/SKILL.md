@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 # PR Review
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Read `/taste` and `/architecture` doctrines this turn before adjudicating Standards. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before adjudicating Standards. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -24,7 +24,7 @@ evidence, the review output fence, finding records, and severity mapping. The
 shared [execution context](../pack-shared/execution-context.md) owns stateless
 authority and handoff rules.
 
-**Standards:** always Read `/taste` and `/architecture` this turn. Apply
+**Standards:** always apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn. Apply
 `code-review:blocker-vs-follow-up`, `code-review:naming-alignment`, the
 Correctness hunt, and `pr-review:*` extras on initial and full-rescan (and on
 newly introduced follow-up surface). Do not run a Design axis.
