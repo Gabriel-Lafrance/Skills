@@ -9,13 +9,14 @@ Templates are at `<pack-root>/skills/setup-toolkit/templates/`.
 Find `<pack-root>` from the same skill-root order as the gold-standards rule:
 
 1. Parent of `setup-toolkit` under `~/.agents/skills/`
-2. Parent of `setup-toolkit` under `~/.cursor/skills/`
-3. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
+2. Parent of `setup-toolkit` under `~/.claude/skills/`
+3. Parent of `setup-toolkit` under `~/.cursor/skills/`
+4. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
 
 If templates are missing, stop. Tell the user to install the plugin or:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 ```
 
 ## Detect the app root
@@ -153,6 +154,25 @@ After lint/format work, check workspace-root `docs/design.md` only (no other pat
 
 Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
 
+## Install AGENTS.md
+
+The pack contract is `<pack-root>/AGENTS.md`. Find `<pack-root>` by walking up from this skill until a directory contains both `AGENTS.md` (with `gabriel-skills-agents`) and `skills/setup-toolkit/`. If that file is missing, say so and skip this section. Do not invent the text. Do this before lint setup, and do it even when the workspace has no `package.json`.
+
+### App root
+
+1. If workspace-root `AGENTS.md` is missing, copy the pack file there.
+2. If it exists and contains `gabriel-skills-agents`, overwrite it with the pack file.
+3. If it exists and does not contain that marker, leave it and say so.
+
+### User-level
+
+Refresh the pack-owned copies. Do not destroy unrelated user text.
+
+- Claude: write `~/.claude/AGENTS.md` from the pack file (overwrite that path; it is the pack copy). If `~/.claude/CLAUDE.md` exists and does not already mention `~/.claude/AGENTS.md`, append one line: `Also follow ~/.claude/AGENTS.md`. Do not replace the rest of `CLAUDE.md`. If `CLAUDE.md` is missing, do not create it.
+- Cursor: write `~/.cursor/rules/gabriel-skills/follow-agents.mdc` with `alwaysApply: true` and a body that says to Read the pack `AGENTS.md` (workspace root when it contains `gabriel-skills-agents`, otherwise `~/.claude/AGENTS.md`, otherwise the pack root). Do not paste the `AGENTS.md` body into that file.
+
+Do not add a `CLAUDE.md` in the pack or the app.
+
 ## Pin plugin rules (only if asked)
 
 If the user wants Cursor rules **in this app repo** (cloud agents, teammates without the plugin):
@@ -163,6 +183,10 @@ If the user wants Cursor rules **in this app repo** (cloud agents, teammates wit
 
 ## Done when
 
+- Workspace-root `AGENTS.md` is the pack copy, or a different `AGENTS.md` was left in place and reported
+- `~/.claude/AGENTS.md` matches the pack file
+- `~/.claude/CLAUDE.md` was not replaced (a pointer line was appended only when it was missing)
+- `~/.cursor/rules/gabriel-skills/follow-agents.mdc` points at `AGENTS.md` and does not contain the contract body
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
 - `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, and `stryker.conf.json` are present next to `package.json` (or reported skipped)

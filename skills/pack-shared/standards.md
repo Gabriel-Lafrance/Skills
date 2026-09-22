@@ -1,6 +1,6 @@
 # Must follow taste and architecture
 
-Pack skills do **not** depend on Cursor User Rules. Plugin rules in [`rules/`](../../rules/) apply when the **gabriel-skills** Cursor plugin is installed (`gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` are always on). Gold-standards is a pointer; it is not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement**.
+The always-on contract is the pack [`AGENTS.md`](../../AGENTS.md). Pack skills do **not** depend on a User Rules paste. Cursor rules in [`rules/`](../../rules/) are pointers at that file when the **gabriel-skills** plugin is installed. Those pointers are not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement** for taste and architecture.
 
 Do not substitute a private checklist or this file’s summary. **Source of truth is the doctrines.**
 

@@ -6,9 +6,10 @@ description: >-
   this pack's templates. Also starts docs/design.md capture when that file
   is missing. Use when the user wants linting, formatting, ESLint, Prettier,
   a formatter, recommended extensions, a complexity test, test:quality, dead
-  code, Knip, mutants, Stryker, test:mutants, design.md, or to add the
-  engineering toolkit to an app. Bans em dashes. Not for rewriting an
-  existing lint stack.
+  code, Knip, mutants, Stryker, test:mutants, design.md, AGENTS.md, or to
+  add the engineering toolkit to an app. Copies the pack AGENTS.md into the
+  app and the user-level instruction file. Bans em dashes. Not for rewriting
+  an existing lint stack.
 disable-model-invocation: true
 ---
 
@@ -26,4 +27,4 @@ The ESLint templates include a no-emdash rule (em dash, en dash, horizontal bar)
 
 If `docs/design.md` is missing at the workspace root, run `/design` Initialization after the lint/format work. That skill owns the code-derived route inventory. Do not write a fake design file from this skill.
 
-This pack’s Cursor **plugin rules** already apply when the plugin is installed. This skill does not copy those rules into `.cursor/rules` unless the user asks to pin them in the app repo.
+Copy the pack `AGENTS.md` into the app root and into the user-level instruction path for this harness. Details are in [reference.md](reference.md). Do not add a `CLAUDE.md`. The Cursor plugin is optional. Do not copy `rules/*.mdc` into the app `.cursor/rules/` unless the user asks to pin them.

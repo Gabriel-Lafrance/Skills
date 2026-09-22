@@ -5,16 +5,17 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
 ## Layout
 
 ```text
+AGENTS.md                # always-on contract (source of truth for the bars)
 .cursor-plugin/
-  plugin.json            # Cursor plugin manifest
+  plugin.json            # optional Cursor plugin manifest
   marketplace.json       # Team marketplace import
-rules/                   # Cursor plugin rules (.mdc only — no extra README)
-  gold-standards.mdc     # alwaysApply — doctrine Reads, grill, diagrams
-  no-emdash.mdc          # alwaysApply — dash characters
-  unslop.mdc             # alwaysApply — chat-reply voice
-  ship-work.mdc          # PRs / branches
-  subagents.mdc          # alwaysApply — main dispatches Tasks and reviews them
-  project-tooling.mdc    # ESLint / Prettier in the app repo
+rules/                   # Cursor pointers at AGENTS.md headings (.mdc only, no extra README)
+  gold-standards.mdc     # alwaysApply — the one Read of AGENTS.md
+  no-emdash.mdc          # alwaysApply — obey No em dash
+  unslop.mdc             # alwaysApply — obey Unslop
+  ship-work.mdc          # obey Ship work
+  subagents.mdc          # alwaysApply — obey Subagents
+  project-tooling.mdc    # obey Project tooling
 agents/                  # Custom agent configs (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester)
 commands/                # Slash commands (setup-toolkit)
 skills/
@@ -44,7 +45,7 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 **Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — other skills will fail looking for `../pack-shared/...`.
 
-**Plugin vs `npx skills`:** the Cursor plugin auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders. Put any file a skill must copy into a consumer repo (ESLint/Prettier templates) **inside that skill folder**, not only at the plugin root.
+**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. `/setup-toolkit` finds that file beside `skills/` and copies it into the app and the user-level path. Put files a skill copies into an app (ESLint/Prettier templates) **inside that skill folder**.
 
 **Rules folder:** only `.mdc` rule files. A `README.md` in `rules/` would be loaded as a rule. Document rules in [README.md](./README.md) and this file.
 
@@ -73,7 +74,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 ## Shared contracts
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Named principles use **plain (Classic)** — `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (INV-1, Worker Brief) stays banned.
-- **Unslop:** chat replies follow the plugin rule [`unslop.mdc`](./rules/unslop.mdc) (`alwaysApply`). Not a skill. Do not add `/unslop`. Toggle it in Customize. `npx skills` does not install it; pin `rules/*.mdc` with `/setup-toolkit` when needed without the plugin.
+- **Unslop:** chat replies follow the **Unslop** section of [`AGENTS.md`](./AGENTS.md). [`unslop.mdc`](./rules/unslop.mdc) only points at that section. Not a skill. Do not add `/unslop`. `npx skills` does not install `rules/`; `/setup-toolkit` copies `AGENTS.md`.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
@@ -81,8 +82,8 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Subagents:** parents link [`subagents.md`](./skills/pack-shared/subagents.md) for what vs how, the specialist catalog, injected Worker Brief, parallel lanes, and after-wave integration (there is no `/orchestrate` skill, no architect worker, and no fixed spawn order).
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
-  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md) — Cursor PR
-  tool when available.
+  follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md): the harness
+  pull-request tool when it has one, otherwise `gh`.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (that labor is **always** `tester`, the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user, never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`.
 
@@ -106,7 +107,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`.
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). The body is one line: obey a heading in [`AGENTS.md`](./AGENTS.md). Do not paste that heading's prose into the rule. `gold-standards.mdc` is the one Read. `alwaysApply: true` only when every chat needs the pointer (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`. Do not add a `CLAUDE.md` in the pack or an app.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
@@ -115,25 +116,27 @@ npx skills@latest add . --list
 
 - One skill = one job. Prefer new skill over bloating an existing one.
 - Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)). Cite another skill’s keys instead of restating its Bars.
-- Cursor-native: Plan mode, CreatePlan, Task subagents (`pack-shared/subagents.md`), acceptance evidence gates.
+- Harness tools: use the plan tool after the grill when the harness has one, otherwise write the plan in chat. Dispatch a specialist when the harness can spawn one, otherwise that role is its own pass (`pack-shared/subagents.md`). Open a pull request with the harness tool when it has one, otherwise `gh` (`pack-shared/pr-ship.md`). Acceptance evidence stays path walks and terminal output.
 - Teach in ordinary words — no explainer-video links in skill bodies. Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
 - New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private ship recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
-- Plugin rules stay short pointers to skill doctrines, except `no-emdash.mdc` and `unslop.mdc` (self-contained writing bars). Do not copy `/taste` or `/architecture` bodies into `.mdc` files.
+- Plugin rules stay short pointers at headings in `AGENTS.md`. Do not paste `/taste`, `/architecture`, or the `AGENTS.md` body into `.mdc` files.
 - Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
 
 ## Publish / install
 
-Preferred: Cursor plugin via Marketplace / team marketplace import of this repo. After you push, refresh the marketplace (or Auto Refresh).
+The contract is [`AGENTS.md`](./AGENTS.md). The Cursor plugin is optional. After you push a plugin change, refresh the marketplace (or Auto Refresh).
 
-Skills-only from GitHub:
+Skills from GitHub, for Claude, Cursor, or both:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
+
+Use `-a claude` or `-a cursor` alone when you only need one harness.
 
 After you push, `npx skills` users refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
 
@@ -148,16 +151,18 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | Component | This pack |
 | --- | --- |
 | Skills | `skills/` |
-| Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars |
+| Rules | `rules/*.mdc`: pointers at `AGENTS.md`. `gold-standards.mdc` is the one Read. Do not paste the body again |
 | Agents | `agents/` (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester) |
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 
-### Plugin rules (not User Rules)
+### Contract and plugin pointers
 
-Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
+[`AGENTS.md`](./AGENTS.md) is the always-on contract for every harness, including chats that never invoke a skill. Cursor loads plugin `rules/` as pointers at that file. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
 
-- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
-- Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
-- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
-- `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).
+- One injection. [`gold-standards.mdc`](./rules/gold-standards.mdc) tells the agent to Read `AGENTS.md`. The other rules keep their frontmatter so Customize can toggle them, and their bodies say which heading to obey.
+- Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
+- Do **not** paste `AGENTS.md` into a User Rules box or into an `.mdc` file.
+- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. The Unslop catalog lives in `AGENTS.md` because it is not a skill.
+- Do **not** add a `CLAUDE.md` in the pack or the app.
+- `npx skills` does not install `AGENTS.md` or `rules/`. `/setup-toolkit` copies `AGENTS.md` into the app root when that file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It also refreshes `~/.claude/AGENTS.md` and writes `~/.cursor/rules/gabriel-skills/follow-agents.mdc` as a pointer. Copy `rules/*.mdc` into an app only when someone asks.

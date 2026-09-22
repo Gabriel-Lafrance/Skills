@@ -1,7 +1,7 @@
 # Opening a pull request
 
 Every agent that **creates or updates a GitHub PR** while this pack is
-installed follows this contract — **not only `/publish`**.
+installed follows this contract, **not only `/publish`**.
 
 Parents include `/publish`, `/just-do-it` ship, `/task` when this chat
 owns shipping and the user asked to open a PR, and any cloud or freeform agent that ships a branch
@@ -41,8 +41,8 @@ Then pick **one** write path:
 
 | Session | How to create or update the PR |
 | --- | --- |
-| Cursor pull-request tool is available (typical cloud agent) | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write. |
-| No Cursor pull-request tool (typical local `gh`) | Use the heredoc in [publish reference](../publish/reference.md). |
+| This harness has a pull-request tool | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write. |
+| No pull-request tool | Use the heredoc in [publish reference](../publish/reference.md). |
 
 Push the branch before create, unless the user asked for local-only. Never
 force-push or push the default branch.
@@ -59,7 +59,7 @@ choice; do not open a second PR.
 
 ## Anti-patterns
 
-- Creating the PR with `gh` in a session that has Cursor’s pull-request tool
+- Creating the PR with `gh` when this harness has a pull-request tool
 - Opening a browser, capturing screenshots, or producing a review canvas to ship a PR
 - Committing binaries into the repo to “attach” a demo
 - Recording a walkthrough or checking every UI state at ship time

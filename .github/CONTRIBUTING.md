@@ -1,22 +1,22 @@
 # Contributing
 
-Thanks for helping improve **Gabriel Lafrance Skills** — an engineering toolkit
-for Cursor.
+Thanks for helping improve **Gabriel Lafrance Skills**, an engineering toolkit
+for Claude, Cursor, and other harnesses.
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## What this repo is
 
-A Cursor **plugin toolkit**: skills under [`skills/`](../skills/), plugin rules
+Skills under [`skills/`](../skills/), plus an optional Cursor plugin: rules
 under [`rules/`](../rules/), agents under [`agents/`](../agents/), and commands
-under [`commands/`](../commands/). Pack layout and authoring rules live in
-[`how-to.md`](../how-to.md). Standards for how agents should work live in skill
-doctrines (especially `/taste` and `/architecture`), the must-follow contract
-[`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md), and the
-plugin rules (especially
-[`rules/gold-standards.mdc`](../rules/gold-standards.mdc)). Chat replies follow
-[`unslop.mdc`](../rules/unslop.mdc). Do not paste those
-rules into User Rules when the plugin is installed.
+under [`commands/`](../commands/). The always-on contract is
+[`AGENTS.md`](../AGENTS.md). The plugin rules are short pointers at that file.
+Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
+for how agents should work live in skill doctrines (especially `/taste` and
+`/architecture`) and the must-follow contract
+[`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md). Chat
+replies follow the Unslop section of `AGENTS.md`. Do not paste that file into a
+User Rules box, and do not add a parallel `CLAUDE.md`.
 
 ## Before you start
 
@@ -39,8 +39,10 @@ There is no build step. Edit skill markdown, then smoke-check:
 npx skills@latest add . --list
 ```
 
-The Cursor plugin loads [`rules/`](../rules/) automatically. Installed skills
-must follow taste and architecture even if a rule is toggled off. ESLint and
+`npx skills` can target Claude, Cursor, or both (`-a claude`, `-a cursor`). The
+Cursor plugin is optional and loads [`rules/`](../rules/) as pointers at
+[`AGENTS.md`](../AGENTS.md). Installed skills must follow taste and architecture
+even if a rule is toggled off. ESLint and
 Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
 copied into **app** repos by `/setup-toolkit` — they are not run from this

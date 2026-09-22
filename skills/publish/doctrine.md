@@ -29,7 +29,7 @@ none (uses `taste:*` and `architecture:*`)
 - Do not auto-commit, force-push, or push to the default branch.
 - Show the complete PR title and body before creating the PR; wait for explicit approval.
 - Every PR body includes a high-level Mermaid **Change diagram** (one for new work; Before/After for rework) per [reference.md](reference.md).
-- Follow [pr-ship.md](../pack-shared/pr-ship.md): Cursor’s pull-request tool when it exists (do not fall back to `gh pr create` in that session).
+- Follow [pr-ship.md](../pack-shared/pr-ship.md): the harness pull-request tool when it exists (do not fall back to `gh pr create` in that session).
 - A linked ticket is required when known or detectable. Do not invent one.
 
 When `/just-do-it` reads this doctrine for its preflight and templates, its explicit autonomous parent instruction replaces the approval wait only after it has printed the complete draft in chat. It still follows [pr-ship.md](../pack-shared/pr-ship.md). This approval exception does not apply to `/publish` when the user invoked it directly.
@@ -50,7 +50,7 @@ When `/just-do-it` reads this doctrine for its preflight and templates, its expl
 | --- | --- |
 | Dirty tree | Ask commit, stash, or abort; never auto-commit |
 | Push rejected | Show the remote error; do not force-push |
-| `gh` missing or unauthenticated | Stop before PR with install/auth guidance unless Cursor’s pull-request tool can create it |
+| `gh` missing or unauthenticated | Stop before PR with install/auth guidance unless the harness pull-request tool can create it |
 | PR already open | Return its URL; ask whether to update the body or stop |
 | Unknown type | Lock it before branching |
 
@@ -64,7 +64,7 @@ Run the [process](reference.md#process). Keep **How to QA** concrete: paths, rol
 - Creating a PR before draft and approval
 - Empty QA instructions
 - Shipping a PR without a Mermaid Change diagram (unless Notes explain a typo-only exception)
-- Using `gh pr create` when Cursor’s pull-request tool is available
+- Using `gh pr create` when the harness pull-request tool is available
 - Labeling a defect, standalone capability, or structural cleanup as a Tweak
 - Labeling urgent production breakage as Bug when Hotfix fits, or routine defects as Hotfix
 - Labeling product tweaks, refactors, or defects as Chore

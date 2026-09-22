@@ -1,57 +1,62 @@
 # Gabriel Lafrance Skills
 
-Engineering toolkit for Cursor: agent skills, plugin rules, custom agents, commands, and ESLint/Prettier templates.
+Engineering toolkit for Claude, Cursor, and other harnesses: agent skills, an always-on [`AGENTS.md`](./AGENTS.md) contract, an optional Cursor plugin, and ESLint/Prettier templates.
 
 ## Install
 
-**Cursor plugin (recommended).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace). That is the full toolkit: skills, rules, agents, and commands.
+The always-on contract is [`AGENTS.md`](./AGENTS.md). `/setup-toolkit` copies that file into the app root and into the user-level instruction path for Claude and Cursor. Do not add a parallel `CLAUDE.md`.
+
+**Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) when you also want Cursor rules, agents, and commands. Those rules are short pointers at `AGENTS.md`.
 
 Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
 
 ```bash
-# Skills only (no plugin rules, agents, or commands)
-npx skills@latest add Gabriel-Lafrance/Skills -a cursor -s '*' -g -y
+# Claude, Cursor, or both. Use one -a flag when you only need one harness.
+npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
 
-Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the unslop plugin rule ([`unslop.mdc`](./rules/unslop.mdc)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
+`npx skills` copies skill folders. It does not copy `AGENTS.md`, `rules/`, `agents/`, or `commands/`. Run `/setup-toolkit` in an app to install the contract.
 
-If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
+Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
+
+If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
 The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead.
 
-## What the plugin ships
+## What ships
 
-Cursor plugins can bundle more than skills. This one uses the pieces that help engineers day to day. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
+The contract and the skills work in any harness. The Cursor plugin is one adapter on top. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
 
 | Piece | Where | What it does |
 | --- | --- | --- |
+| **Contract** | `AGENTS.md` | Always-on bars. `/setup-toolkit` copies this file into the app and the user-level path |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
-| **Agents** | `agents/` | Task roles: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
+| **Rules** | `rules/*.mdc` | Cursor pointers at headings in `AGENTS.md`. `gold-standards.mdc` is the one Read. The others stay toggleable and do not repeat the prose |
+| **Agents** | `agents/` | Cursor specialist configs: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
 
-ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
+ESLint, Prettier, and `test:quality` are app-repo config, not harness primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
-### Plugin rules (not User Rules)
+### Plugin rules (pointers at AGENTS.md)
 
 | Rule | When it applies |
 | --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: force doctrine Reads, grill before a plan, Before/After diagrams, reuse existing env vars |
-| [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
-| [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
-| [`subagents.mdc`](./rules/subagents.mdc) | Always: main agent dispatches Task workers and reviews them; it does not solo non-trivial work |
-| [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
-| [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
+| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: Read `AGENTS.md` (Gold standards, including grill before a plan) |
+| [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: obey **No em dash** in `AGENTS.md` |
+| [`unslop.mdc`](./rules/unslop.mdc) | Always: obey **Unslop** in `AGENTS.md` |
+| [`subagents.mdc`](./rules/subagents.mdc) | Always: obey **Subagents** in `AGENTS.md` |
+| [`ship-work.mdc`](./rules/ship-work.mdc) | Obey **Ship work** in `AGENTS.md` |
+| [`project-tooling.mdc`](./rules/project-tooling.mdc) | Obey **Project tooling** in `AGENTS.md` |
 
-Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. `no-emdash.mdc` and `unslop.mdc` are self-contained writing bars.
+Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. Do not paste `AGENTS.md` into a User Rules box or into these `.mdc` files.
 
-To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without the plugin), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
+`/setup-toolkit` copies `AGENTS.md` by default. Copy `rules/*.mdc` into an app's `.cursor/rules/gabriel-skills/` only when you ask for that pin.
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. Parents may also dispatch Cursor built-in Task types.
+Named roles for the Cursor adapter. Other harnesses use the same roles through their specialist tool, or as a separate pass when they cannot spawn one. The roles do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. A harness built-in that matches the job is fine.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
@@ -74,7 +79,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | Copy `AGENTS.md`, then ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
 
 ```mermaid
 flowchart LR
