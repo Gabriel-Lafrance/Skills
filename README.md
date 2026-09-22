@@ -1,12 +1,12 @@
 # Gabriel Lafrance Skills
 
-Engineering toolkit for Claude, Cursor, and other harnesses: agent skills, an always-on [`AGENTS.md`](./AGENTS.md) contract, an optional Cursor plugin, and ESLint/Prettier templates.
+Engineering toolkit for any harness: agent skills, an always-on [`AGENTS.md`](./AGENTS.md) contract, and ESLint/Prettier templates. An optional Cursor plugin ships the skills.
 
 ## Install
 
 The always-on contract is [`AGENTS.md`](./AGENTS.md). The pack does not pre-install that file into a harness. `/setup-toolkit` copies it into the app, then into each harness home that already exists on the machine. Do not add a project `CLAUDE.md`.
 
-**Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) when you also want Cursor rules, agents, and commands. Those rules are short pointers at `AGENTS.md`.
+**Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
 Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
 
@@ -16,7 +16,7 @@ npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 npx skills@latest update -g -y
 ```
 
-`npx skills` copies skill folders. It does not copy root `AGENTS.md`, `rules/`, `agents/`, or `commands/`. The setup skill ships a copy of the contract and installs it into the repo and the user harness homes. Run `/setup-toolkit` in an app.
+`npx skills` copies skill folders. It does not copy root `AGENTS.md`. The setup skill ships a copy of the contract and installs it into the repo and the user harness homes. Run `/setup-toolkit` in an app.
 
 Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
 
@@ -26,37 +26,21 @@ The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pac
 
 ## What ships
 
-The contract and the skills work in any harness. The Cursor plugin is one adapter on top. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
+The contract and the skills work in any harness. There is no Cursor-only ruleset. The optional Cursor plugin ships the same skills. It does **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
 
 | Piece | Where | What it does |
 | --- | --- | --- |
-| **Contract** | `AGENTS.md` | Always-on bars. `/setup-toolkit` installs this file into the app and into each existing harness home |
+| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` installs this file into the app and into each existing harness home |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Cursor pointers at headings in `AGENTS.md`. `gold-standards.mdc` is the one Read. The others stay toggleable and do not repeat the prose |
-| **Agents** | `agents/` | Cursor specialist configs: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
-| **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
+| **Specialists** | `agents/` | Same roles every harness uses. Cursor can spawn them as custom agents. Other harnesses use their specialist tool, or a separate pass |
+| **Setup command** | `commands/setup-toolkit.md` | Cursor slash entry for the same `/setup-toolkit` skill |
 | **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
 
 ESLint, Prettier, and `test:quality` are app-repo config, not harness primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
-### Plugin rules (pointers at AGENTS.md)
+### Specialists
 
-| Rule | When it applies |
-| --- | --- |
-| [`gold-standards.mdc`](./rules/gold-standards.mdc) | Always: Read `AGENTS.md` (Gold standards, including grill before a plan) |
-| [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: obey **No em dash** in `AGENTS.md` |
-| [`unslop.mdc`](./rules/unslop.mdc) | Always: obey **Unslop** in `AGENTS.md` |
-| [`subagents.mdc`](./rules/subagents.mdc) | Always: obey **Subagents** in `AGENTS.md` |
-| [`ship-work.mdc`](./rules/ship-work.mdc) | Obey **Ship work** in `AGENTS.md` |
-| [`project-tooling.mdc`](./rules/project-tooling.mdc) | Obey **Project tooling** in `AGENTS.md` |
-
-Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. Do not paste `AGENTS.md` into a User Rules box or into these `.mdc` files.
-
-`/setup-toolkit` copies `AGENTS.md` by default. Copy `rules/*.mdc` into an app's `.cursor/rules/gabriel-skills/` only when you ask for that pin.
-
-### Plugin agents
-
-Named roles for the Cursor adapter. Other harnesses use the same roles through their specialist tool, or as a separate pass when they cannot spawn one. The roles do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. A harness built-in that matches the job is fine.
+The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. A harness built-in that matches the job is fine. When the harness cannot spawn one, that role is its own pass.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |

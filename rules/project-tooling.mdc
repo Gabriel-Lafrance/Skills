@@ -1,8 +1,0 @@
----
-description: ESLint, Prettier, formatters, linters, complexity tests, quality gates, or installing lint/format tooling in a JS/TS repo
-alwaysApply: false
----
-
-# Project tooling
-
-Obey the **Project tooling** section of the pack `AGENTS.md`. If that file is not already read this turn, Read it the way `gold-standards.mdc` says. Do not paste the section here.

@@ -7,10 +7,10 @@ By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## What this repo is
 
-Skills under [`skills/`](../skills/), plus an optional Cursor plugin: rules
-under [`rules/`](../rules/), agents under [`agents/`](../agents/), and commands
-under [`commands/`](../commands/). The always-on contract is
-[`AGENTS.md`](../AGENTS.md). The plugin rules are short pointers at that file.
+Skills under [`skills/`](../skills/). The always-on contract is
+[`AGENTS.md`](../AGENTS.md) for every harness, including Cursor. There is no
+Cursor rules copy. An optional Cursor plugin ships the same skills, plus
+[`agents/`](../agents/) and [`commands/`](../commands/).
 Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
 for how agents should work live in skill doctrines (especially `/taste` and
 `/architecture`) and the must-follow contract
@@ -41,9 +41,8 @@ npx skills@latest add . --list
 ```
 
 `npx skills` can target Claude, Cursor, or both (`-a claude`, `-a cursor`). The
-Cursor plugin is optional and loads [`rules/`](../rules/) as pointers at
-[`AGENTS.md`](../AGENTS.md). Installed skills must follow taste and architecture
-even if a rule is toggled off. ESLint and
+Cursor plugin is optional and does not add a separate ruleset. Installed skills
+must follow taste and architecture. ESLint and
 Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
 copied into **app** repos by `/setup-toolkit` — they are not run from this

@@ -1,6 +1,6 @@
 # Must follow taste and architecture
 
-The always-on contract is the pack [`AGENTS.md`](../../AGENTS.md). Pack skills do **not** depend on a User Rules paste. Cursor rules in [`rules/`](../../rules/) are pointers at that file when the **gabriel-skills** plugin is installed. Those pointers are not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement** for taste and architecture.
+The always-on contract is the pack [`AGENTS.md`](../../AGENTS.md). Pack skills do **not** depend on a User Rules paste or a Cursor rules file. That file is not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement** for taste and architecture.
 
 Do not substitute a private checklist or this file’s summary. **Source of truth is the doctrines.**
 
@@ -34,4 +34,4 @@ Parents put both doctrine paths in every Worker Brief **Read first** (see [subag
 
 ## Conflict
 
-Repository `AGENTS.md` / `.cursor/rules` may add constraints. They must not weaken taste or architecture unless the user explicitly overrides in chat.
+A repository's own instructions may add constraints. They must not weaken taste or architecture unless the user explicitly overrides in chat.

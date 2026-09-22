@@ -132,7 +132,7 @@ Rules that are **not** already a named principle:
 | **Comments** | — | Comments only to summarize big/complex functions. No narrating obvious code |
 | **Cite a sibling** | — | Before inventing shape, mirror a **good** nearby feature or existing service that matches this taste + `/architecture`. Bad nearby code is debt, not a template. When you touch that lane, prefer a behavior-preserving move ([`architecture:prior-mistakes`](../architecture/doctrine.md#prior-mistakes)) (`taste:leave-it-cleaner` when you can preserve behavior) |
 | **OOP depth cap** | Composition over deep inheritance | At most two levels of class or interface nesting in a chain (example: `PaymentMethod` ← `CardPayment`). Prefer composition over a third layer. Depth 3+ is wrong for this taste: flatten or compose |
-| **Plain language** | — | Chat cites principles as plain (Classic) ([plain-language.md](../pack-shared/plain-language.md)). Replies follow the unslop plugin rule |
+| **Plain language** | none | Chat cites principles as plain (Classic) ([plain-language.md](../pack-shared/plain-language.md)). Replies follow the Unslop section of `AGENTS.md` |
 
 A unit does one job well (a logger only logs; it does not format emails or hit the DB): that is `taste:keep-jobs-apart`, not a separate rule. A reader can walk the happy path without branching into unrelated concerns: `taste:say-what-happens` and `taste:no-surprises`.
 
@@ -171,7 +171,7 @@ Cite-key self-check before acceptance evidence and `/code-review`:
 - [ ] `taste:verify-terminals-first` ([`reference.md`](reference.md#verify-terminals-first))
 - [ ] Structure matches the `/architecture` card when one exists (Moves, primitives, authority)
 
-Fail any box → fix before acceptance evidence and `/code-review`. `/code-review` Standards treats violations of this file as **hard** unless the repo’s own `AGENTS.md` / `.cursor/rules` contradict (repo wins on conflict).
+Fail any box → fix before acceptance evidence and `/code-review`. `/code-review` Standards treats violations of this file as **hard** unless the repo’s own instructions contradict (repo wins on conflict).
 
 ## Apply
 

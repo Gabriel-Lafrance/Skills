@@ -50,7 +50,7 @@ Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` o
 2. Recommend **one** next skill and the next 1–2 steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Never dump doctrine or other SKILL bodies into this turn.
-5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (unslop plugin rule).
+5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (Unslop section of `AGENTS.md`).
 6. When recommending `/task` or `/analyze`, say they will follow the coding and
    structure standards (`/taste` and `/architecture`), and that they pick
    specialists from the catalog — the main agent does not grep or write tests.

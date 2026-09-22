@@ -1,8 +1,0 @@
----
-description: Never write em dashes, en dashes, or horizontal bars in chat or files
-alwaysApply: true
----
-
-# No em dash
-
-Obey the **No em dash** section of the pack `AGENTS.md`. If that file is not already read this turn, Read it the way `gold-standards.mdc` says. Do not paste the section here.

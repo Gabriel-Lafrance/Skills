@@ -12,7 +12,7 @@ Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` 
 
 - Rewriting an existing lint stack
 - Reformatting the repo as part of setup
-- Copying `rules/*.mdc` into the app unless the user asks to pin them
+- Writing `.cursor/rules` or any `.mdc` file (Cursor reads `AGENTS.md`)
 - Adding a project `CLAUDE.md` (Claude Code then skips `AGENTS.md`)
 - Creating a harness home the user does not have
 - Behavior-lock tests (`/create-test`)
@@ -42,7 +42,7 @@ none (uses `taste:*` and `architecture:*`)
 The machine and the app have:
 
 - Workspace-root `AGENTS.md` copied from the pack when missing or already marked `gabriel-skills-agents` (a different file is left in place)
-- Each existing harness home updated in that harness's own instruction file (Claude import, Cursor pointer, Codex `AGENTS.md`, Gemini setting, Aider `read`), or reported skipped
+- Each existing harness home updated in that harness's own instruction file (Claude import, Codex `AGENTS.md`, Gemini setting, Aider `read`), or reported skipped. Cursor is covered by the repo `AGENTS.md`
 - No new harness home directory, and no new project `CLAUDE.md`
 
 The current workspace has:
@@ -73,7 +73,7 @@ After that work, if `docs/design.md` is missing, run `/design` Initialization (`
 - Overwriting an app or user `AGENTS.md` that is not the pack copy
 - Replacing `~/.claude/CLAUDE.md` or a project `CLAUDE.md` instead of appending one import line
 - Creating `~/.claude`, `~/.cursor`, `~/.codex`, or `~/.gemini` when that harness is not installed
-- Pasting the `AGENTS.md` body into a Cursor rule
+- Writing a Cursor `.mdc` rule or `.cursor/rules` copy of the contract
 - Adding a `CLAUDE.md` in the pack or the app
 - Overwriting a working ESLint or Prettier config
 - Overwriting an existing `docs/design.md`

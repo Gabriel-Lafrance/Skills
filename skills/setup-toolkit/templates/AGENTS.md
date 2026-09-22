@@ -40,7 +40,7 @@ If required files are missing from all roots: say the pack is not installed. Do 
 npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
 ```
 
-The Cursor plugin is optional. This file is the contract either way.
+This file is the contract in every harness, including Cursor. Do not keep a second Cursor rules copy.
 
 ### Mandatory doctrine Reads
 

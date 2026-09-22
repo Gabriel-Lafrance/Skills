@@ -5,18 +5,11 @@ For **authors** of Gabriel Lafrance Skills — not for end users installing the 
 ## Layout
 
 ```text
-AGENTS.md                # always-on contract (source of truth for the bars)
+AGENTS.md                # always-on contract for every harness, including Cursor
 .cursor-plugin/
-  plugin.json            # optional Cursor plugin manifest
+  plugin.json            # optional Cursor plugin manifest (skills, agents, commands)
   marketplace.json       # Team marketplace import
-rules/                   # Cursor pointers at AGENTS.md headings (.mdc only, no extra README)
-  gold-standards.mdc     # alwaysApply: the one Read of AGENTS.md
-  no-emdash.mdc          # alwaysApply: obey No em dash
-  unslop.mdc             # alwaysApply: obey Unslop
-  ship-work.mdc          # obey Ship work
-  subagents.mdc          # alwaysApply: obey Subagents
-  project-tooling.mdc    # obey Project tooling
-agents/                  # Custom agent configs (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester)
+agents/                  # Specialist configs (same roles in every harness)
 commands/                # Slash commands (setup-toolkit)
 skills/
   pack-shared/           # installable shared contracts (NOT user-invoked)
@@ -45,9 +38,7 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 **Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — other skills will fail looking for `../pack-shared/...`.
 
-**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `rules/`, `agents/`, `commands/`, and `skills/`. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. [`skills/setup-toolkit/templates/AGENTS.md`](./skills/setup-toolkit/templates/AGENTS.md) is the same contract so the skill can install it. `/setup-toolkit` copies that file into the app and into each harness home that already exists. Put files a skill copies into an app **inside that skill folder**.
-
-**Rules folder:** only `.mdc` rule files. A `README.md` in `rules/` would be loaded as a rule. Document rules in [README.md](./README.md) and this file.
+**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `agents/`, `commands/`, and `skills/`. It does not ship a rules folder. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. [`skills/setup-toolkit/templates/AGENTS.md`](./skills/setup-toolkit/templates/AGENTS.md) is the same contract so the skill can install it. `/setup-toolkit` copies that file into the app and into each harness home that already exists. Cursor reads the repo file. Do not add a `.cursor/rules` or `.mdc` copy. Put files a skill copies into an app **inside that skill folder**.
 
 Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Tab events. Do not add **MCP** unless there is a real server to ship. ESLint and Prettier are app-repo configs, not plugin components.
 
@@ -74,7 +65,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 ## Shared contracts
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Named principles use **plain (Classic)** — `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (INV-1, Worker Brief) stays banned.
-- **Unslop:** chat replies follow the **Unslop** section of [`AGENTS.md`](./AGENTS.md). [`unslop.mdc`](./rules/unslop.mdc) only points at that section. Not a skill. Do not add `/unslop`. `npx skills` does not install `rules/`; `/setup-toolkit` copies `AGENTS.md`.
+- **Unslop:** chat replies follow the **Unslop** section of [`AGENTS.md`](./AGENTS.md). Not a skill. Do not add `/unslop`. `/setup-toolkit` copies `AGENTS.md`.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
@@ -105,10 +96,11 @@ This pack does not use Cursor's Browser, review canvas, screenshots, or videos. 
 npx skills@latest add . --list
 ```
 
-## Add a plugin rule, agent, or command
+## Add an agent or command
 
-- **Rule:** `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). The body is one line: obey a heading in [`AGENTS.md`](./AGENTS.md). Do not paste that heading's prose into the rule. `gold-standards.mdc` is the one Read. `alwaysApply: true` only when every chat needs the pointer (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`. Do not add a `CLAUDE.md` in the pack or an app.
-- **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
+Do not add a `rules/` folder or a `.mdc` file. The always-on contract is [`AGENTS.md`](./AGENTS.md) for every harness, including Cursor. Do not add a `CLAUDE.md` in the pack or an app.
+
+- **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read. The same role must stay in `pack-shared/subagents.md`, because other harnesses do not load `agents/`.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
 
@@ -122,7 +114,7 @@ npx skills@latest add . --list
 - New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, `pack-shared/subagents.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private ship recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` in the README catalog — it is an install vehicle, not an on-ramp.
-- Plugin rules stay short pointers at headings in `AGENTS.md`. Do not paste `/taste`, `/architecture`, or the `AGENTS.md` body into `.mdc` files.
+- Do not add Cursor-only rules. Do not paste `/taste` or `/architecture` into `AGENTS.md`. Those stay skills the contract tells the agent to Read.
 - Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
 - When you change pack-root `AGENTS.md`, copy the same file to `skills/setup-toolkit/templates/AGENTS.md` in that change. Setup uses the root file when the pack is on disk, and the template when only the skill was installed.
 
@@ -152,18 +144,16 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | Component | This pack |
 | --- | --- |
 | Skills | `skills/` |
-| Rules | `rules/*.mdc`: pointers at `AGENTS.md`. `gold-standards.mdc` is the one Read. Do not paste the body again |
-| Agents | `agents/` (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester) |
+| Agents | `agents/` (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester). Same roles as `pack-shared/subagents.md` |
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 
-### Contract and plugin pointers
+### Contract
 
-[`AGENTS.md`](./AGENTS.md) is the always-on contract for every harness, including chats that never invoke a skill. Cursor loads plugin `rules/` as pointers at that file. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
+[`AGENTS.md`](./AGENTS.md) is the always-on contract for every harness, including Cursor and including chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md).
 
-- One injection. [`gold-standards.mdc`](./rules/gold-standards.mdc) tells the agent to Read `AGENTS.md`. The other rules keep their frontmatter so Customize can toggle them, and their bodies say which heading to obey.
-- Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
-- Do **not** paste `AGENTS.md` into a User Rules box or into an `.mdc` file.
-- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. The Unslop catalog lives in `AGENTS.md` because it is not a skill.
+- Do **not** add a `rules/` folder, a `.mdc` file, or a `.cursor/rules` copy.
+- Do **not** paste `AGENTS.md` into a User Rules box.
+- Do **not** duplicate `/taste` or `/architecture` doctrine into `AGENTS.md`. The Unslop catalog lives there because it is not a skill.
 - Do **not** add a `CLAUDE.md` in the pack or the app.
-- `npx skills` does not install root `AGENTS.md` or `rules/`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the app when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It then writes only the harness homes that already exist (Claude import, Cursor pointer, Codex `AGENTS.md`, and the other rows in the setup reference). It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`. Copy `rules/*.mdc` into an app only when someone asks.
+- `npx skills` does not install root `AGENTS.md`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the app when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It then writes only the harness homes that already exist (Claude import, Codex `AGENTS.md`, and the other rows in the setup reference). Cursor is the repo file. It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`.

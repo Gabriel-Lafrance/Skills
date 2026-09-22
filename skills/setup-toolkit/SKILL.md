@@ -27,4 +27,4 @@ The ESLint templates include a no-emdash rule (em dash, en dash, horizontal bar)
 
 If `docs/design.md` is missing at the workspace root, run `/design` Initialization after the lint/format work. That skill owns the code-derived route inventory. Do not write a fake design file from this skill.
 
-Install the pack `AGENTS.md` into this repo, then into each harness home that already exists for this user (Claude, Cursor, Codex, Gemini CLI, Aider). Details are in [reference.md](reference.md). Do not create a harness home that is not installed. Do not add a project `CLAUDE.md`. The Cursor plugin is optional. Do not copy `rules/*.mdc` into the app `.cursor/rules/` unless the user asks to pin them.
+Install the pack `AGENTS.md` into this repo, then into each harness home that already exists for this user (Claude Code, Codex, Gemini CLI, Aider). Cursor reads the repo file. Do not write a `.cursor/rules` or `.mdc` copy. Details are in [reference.md](reference.md). Do not create a harness home that is not installed. Do not add a project `CLAUDE.md`.
