@@ -27,7 +27,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 | Piece | Where | What it does |
 | --- | --- | --- |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
-| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` always apply; the others attach when relevant |
+| **Rules** | `rules/*.mdc` | Persistent Cursor rules. `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, `subagents.mdc`, and `no-drive-by-tests.mdc` always apply; the others attach when relevant |
 | **Agents** | `agents/` | Task roles: explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester |
 | **Commands** | `commands/` | `/setup-toolkit` slash command (same job as the skill) |
 | **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
@@ -42,6 +42,7 @@ ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They 
 | [`no-emdash.mdc`](./rules/no-emdash.mdc) | Always: never write em dash, en dash, or horizontal bar |
 | [`unslop.mdc`](./rules/unslop.mdc) | Always: cut AI tells from the assistant's reply in this discussion |
 | [`subagents.mdc`](./rules/subagents.mdc) | Always: main agent dispatches Task workers and reviews them; it does not solo non-trivial work |
+| [`no-drive-by-tests.mdc`](./rules/no-drive-by-tests.mdc) | Always: do not add tests for ordinary edits; a test is a user-asked behavior lock |
 | [`ship-work.mdc`](./rules/ship-work.mdc) | PRs, branches, shipping |
 | [`project-tooling.mdc`](./rules/project-tooling.mdc) | ESLint / Prettier already in the repo, or installing them |
 
@@ -51,7 +52,7 @@ To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without
 
 ### Plugin agents
 
-Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester always writes tests. Parents may also dispatch Cursor built-in Task types.
+Named roles for Task / custom agents. They do not replace the skills; they load the same doctrines. The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester writes a behavior lock only when the user started `/create-test`. Ordinary edits do not get tests. Parents may also dispatch Cursor built-in Task types.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
@@ -61,7 +62,7 @@ Named roles for Task / custom agents. They do not replace the skills; they load 
 | [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | `/design` |
 | [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
-| [`tester`](./agents/tester.md) | Write tests (always summoned) | `/create-test` (user start only) |
+| [`tester`](./agents/tester.md) | Behavior lock the user asked for | `/create-test` (user start only) |
 
 ## Skills
 

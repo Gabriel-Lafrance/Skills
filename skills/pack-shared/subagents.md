@@ -56,8 +56,9 @@ reviewer sequence.
 
 `explorer` finds. `analyzer` judges. `implementer` changes non-UI code.
 `designer` implements user-facing UI and `docs/design.md`. `reviewer` checks
-a local diff. `pr-reviewer` checks an open GitHub PR. `tester` writes tests
-and is **always** summoned for that job — the main agent never writes tests.
+a local diff. `pr-reviewer` checks an open GitHub PR. `tester` writes a behavior lock only when the user started `/create-test`.
+Nobody adds tests for a small tweak. When a lock is the job, tester writes
+it. The main agent never writes tests.
 They are not interchangeable. Do not use `reviewer` for a GitHub PR, and do
 not use `pr-reviewer` for a local branch. Do not use `implementer` for
 screens and visible copy. There is no architect worker: `/architecture` is a
@@ -144,7 +145,7 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 | Capture `docs/design.md` | `designer` Task with a code-derived route inventory — see `/design` |
 | Local diff vs the what and the parent task | Pack `reviewer` or Cursor `generalPurpose` |
 | Open GitHub PR | Pack `pr-reviewer` or Cursor `generalPurpose` |
-| Write tests | **Always** pack `tester`. Main never writes tests. `/create-test` still starts only when the user asks |
+| Write tests | Only when the user started `/create-test` for a complex lock. Then pack `tester`. Main never writes tests. Do not spawn tester for a small tweak |
 | Standards and Spec review | Parallel Tasks (plus extra Tasks when the diff has independent surfaces). See `/code-review`. No Design axis. No second adversarial wave |
 | Typo, pure rename, single obvious one-liner, git status, reading existing terminals | Main may do it |
 | Verify logs / MCP lint ritual | Main only — never a verification-only Task |
@@ -179,7 +180,8 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 - Forbidding a listed Cursor type, or a listed pack role, that fits the job
 - Spawning an architect worker (`/architecture` is a bar, not a Task type)
 - Following a fixed explorer → analyzer → implementer → reviewer spawn order
-- Writing tests on the main agent, or skipping `tester` when tests are the job
+- Writing tests on the main agent, or skipping `tester` when a user-asked lock is the job
+- Adding tests because code changed (small tweak, copy, rename, coverage, tautology)
 - Auto-starting `/create-test`
 - Task without what, lane, rules that must stay true, taste/architecture Reads, and escalation boundary
 - Worker asked to infer user decisions from an id, temp directory, or plan path

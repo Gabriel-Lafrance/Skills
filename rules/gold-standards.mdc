@@ -82,4 +82,4 @@ Before adding, renaming, requesting, or reading a **new** environment variable, 
 
 ## Conflict
 
-Taste, architecture, design, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.
+Taste, architecture, design, publish, grill, asking, plain language, subagents, and PR ship doctrines win over generic agent habit. The unslop plugin rule wins for chat-reply voice. The no-drive-by-tests plugin rule wins over adding a test for every edit. Project `AGENTS.md` / `.cursor/rules` may add repo-specific constraints; they must not replace or weaken these standards unless the user explicitly overrides in the chat.

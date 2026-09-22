@@ -1,5 +1,5 @@
 ---
-description: Main agent picks the specialist that owns the job. Tester always writes tests. No fixed spawn order. Main does not grep.
+description: Main agent picks the specialist that owns the job. Ordinary edits do not get tests. No fixed spawn order. Main does not grep.
 alwaysApply: true
 ---
 
@@ -24,9 +24,11 @@ Pick the **listed** specialist that owns the job — pack roles (**explorer**,
 **tester**) or Cursor built-ins (**explore**, **generalPurpose**, and others
 on the Task list). Do not follow a fixed spawn order. Explorer finds; analyzer
 judges; they are not the same. **Designer** owns user-facing UI and
-`docs/design.md`. **Implementer** owns non-UI slices. **Tester** always writes
-tests; the main agent never does. Do not use reviewer for a GitHub PR, and do
-not use pr-reviewer for a local branch. There is no architect worker.
+`docs/design.md`. **Implementer** owns non-UI slices. **Tester** writes a
+lock only when the user started `/create-test`. Nobody adds tests for a
+small tweak. The main agent never writes tests. Do not use
+reviewer for a GitHub PR, and do not use pr-reviewer for a local branch.
+There is no architect worker.
 
 Trivial work (typo, pure rename, git status, reading existing terminals) may
 stay on the main agent. Never spawn verification-only MCP/lint ritual Tasks.

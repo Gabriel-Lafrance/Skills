@@ -20,7 +20,7 @@ Other skills Read these files by relative path:
 - [plain-language.md](plain-language.md) — talk to humans in ordinary words
 - [asking.md](asking.md) — how to ask the user
 - [execution-context.md](execution-context.md) — in-chat context and worker handoff
-- [subagents.md](subagents.md) — what vs how; pick the specialist; tester always writes tests; Worker Brief
+- [subagents.md](subagents.md) — what vs how; pick the specialist; tests only for a user-asked lock; Worker Brief
 - [review-contract.md](review-contract.md) — evidence, modes, and finding records
 - [pr-ship.md](pr-ship.md) — every agent that opens a PR: create-tool choice (not
   only `/publish`)

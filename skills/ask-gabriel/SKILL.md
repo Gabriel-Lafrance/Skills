@@ -42,7 +42,7 @@ until the user accepts. The next skill must follow those doctrines via
 directly when the ask is style or structure. Invoked skills must follow both
 doctrines; do not load those bodies in this router.
 
-Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` or `/just-do-it` — `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester always writes tests. There is no architect worker and no fixed spawn order.
+Internals (`/implement`, `/design`, …) are worker steps looked up by `/task` or `/just-do-it` — `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are **user-facing** as well as parent-loaded. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock only when the user started `/create-test`. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 

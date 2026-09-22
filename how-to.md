@@ -14,6 +14,7 @@ rules/                   # Cursor plugin rules (.mdc only — no extra README)
   unslop.mdc             # alwaysApply — chat-reply voice
   ship-work.mdc          # PRs / branches
   subagents.mdc          # alwaysApply — main dispatches Tasks and reviews them
+  no-drive-by-tests.mdc  # alwaysApply — no tests for ordinary edits
   project-tooling.mdc    # ESLint / Prettier in the app repo
 agents/                  # Custom agent configs (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester)
 commands/                # Slash commands (setup-toolkit)
@@ -106,7 +107,7 @@ npx skills@latest add . --list
 
 ## Add a plugin rule, agent, or command
 
-- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc`). Never put a `README.md` in `rules/`.
+- **Rule** — `rules/<name>.mdc` with YAML frontmatter (`description`, `alwaysApply`, optional `globs`). Keep it a pointer to skill doctrines, except self-contained writing bars (`no-emdash.mdc`, `unslop.mdc`) and the self-contained test bar (`no-drive-by-tests.mdc`). `alwaysApply: true` only when every chat needs it (today: `gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, `subagents.mdc`, and `no-drive-by-tests.mdc`). Never put a `README.md` in `rules/`.
 - **Agent** — `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it which doctrines to Read.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
 - **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
@@ -148,7 +149,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | Component | This pack |
 | --- | --- |
 | Skills | `skills/` |
-| Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars |
+| Rules | `rules/*.mdc` — gold-standards is a pointer; no-emdash and unslop are self-contained writing bars; no-drive-by-tests is the self-contained test bar |
 | Agents | `agents/` (explorer, analyzer, implementer, designer, reviewer, pr-reviewer, tester) |
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
@@ -157,7 +158,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
 
-- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
+- Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), [`subagents.mdc`](./rules/subagents.mdc), and [`no-drive-by-tests.mdc`](./rules/no-drive-by-tests.mdc).
 - Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
-- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
+- Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill. `no-drive-by-tests.mdc` owns the "do not test every edit" bar because freeform chats never load `/create-test`.
 - `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).
