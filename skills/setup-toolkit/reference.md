@@ -153,16 +153,30 @@ After lint/format work, check workspace-root `docs/design.md` only (no other pat
 
 Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
 
-## Pin plugin rules (only if asked)
+## Install user rules
 
-If the user wants Cursor rules **in this app repo** (cloud agents, teammates without the plugin):
+Plugin rules are not a reliable apply path. `npx skills` does not install `rules/`. Copy the files into the user rules folder Cursor reads on this machine. Do this before lint setup, and do it even when the workspace has no `package.json`.
+
+1. Find `<pack-root>/rules/*.mdc`. Walk up from this skill until a directory contains both `rules/` and `skills/setup-toolkit/`. That directory is the pack root (this repo or the installed plugin). If `rules/` is missing, say so and skip this step. Do not invent the rule text.
+2. Create the user rules folder:
+   - macOS and Linux: `~/.cursor/rules/gabriel-skills/`
+   - Windows: `%USERPROFILE%\.cursor\rules\gabriel-skills\`
+3. Copy every `*.mdc` from `<pack-root>/rules/` into that folder. Overwrite those names. Delete a file in `gabriel-skills/` only when the pack no longer ships that name.
+4. Do not touch any other file under `~/.cursor/rules`.
+5. Do not paste the same text into Customize → Rules. That text box is a second copy and it goes stale.
+
+## Pin rules in the app (only if asked)
+
+If the user wants the same rules **in this app repo** (cloud agents, teammates on that repo):
 
 1. Create `.cursor/rules/gabriel-skills/`.
 2. Copy every `*.mdc` from `<pack-root>/rules/` into that folder.
-3. Do not copy them when the user did not ask. The marketplace plugin already loads `rules/` for installed users.
+3. Do not copy them when the user did not ask. The user-rules copy above is the default.
 
 ## Done when
 
+- Pack `rules/*.mdc` are in `~/.cursor/rules/gabriel-skills/` (or that step was reported skipped because `rules/` was missing)
+- Other files under `~/.cursor/rules` were left alone
 - Missing configs were written from templates
 - `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
 - `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, and `stryker.conf.json` are present next to `package.json` (or reported skipped)

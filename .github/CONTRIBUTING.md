@@ -16,7 +16,8 @@ doctrines (especially `/taste` and `/architecture`), the must-follow contract
 plugin rules (especially
 [`rules/gold-standards.mdc`](../rules/gold-standards.mdc)). Chat replies follow
 [`unslop.mdc`](../rules/unslop.mdc). Do not paste those
-rules into User Rules when the plugin is installed.
+rules into the Customize rules text box. `/setup-toolkit` copies them into
+`~/.cursor/rules/gabriel-skills/`.
 
 ## Before you start
 

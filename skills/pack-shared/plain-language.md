@@ -41,8 +41,8 @@ Chat replies follow the unslop plugin rule
 ([`../../rules/unslop.mdc`](../../rules/unslop.mdc)) when the plugin or
 pinned rules are installed. This file owns jargon and nicknames. That
 rule owns puffery, chatbot closings, fake cadence, and drafting the
-reply clean. `npx skills` does not install plugin rules; pin them with
-`/setup-toolkit` if you need them without the plugin.
+reply clean. `npx skills` does not install plugin rules. `/setup-toolkit`
+copies them into `~/.cursor/rules/gabriel-skills/`.
 
 ## Questions and announcements
 

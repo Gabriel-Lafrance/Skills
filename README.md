@@ -16,7 +16,7 @@ npx skills@latest update -g -y
 
 Installed skills **must follow** [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) on every run ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the unslop plugin rule ([`unslop.mdc`](./rules/unslop.mdc)). `/ask-gabriel` stays a thin router and does not load `/taste` or `/architecture`.
 
-If you previously pasted gold standards into **User Rules**, remove that paste after installing the plugin so the same text is not applied twice.
+If you previously pasted these rules into the Customize rules text box, remove that paste. `/setup-toolkit` copies `rules/*.mdc` into `~/.cursor/rules/gabriel-skills/` so Cursor loads them. A paste in the text box is a second copy and it goes stale.
 
 The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead.
 
@@ -34,7 +34,7 @@ Cursor plugins can bundle more than skills. This one uses the pieces that help e
 
 ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
-### Plugin rules (not User Rules)
+### Plugin rules
 
 | Rule | When it applies |
 | --- | --- |
@@ -47,7 +47,7 @@ ESLint, Prettier, and `test:quality` are **not** Cursor plugin primitives. They 
 
 Toggle individual rules in **Customize → Rules** (Always / Agent Decides / Manual). Taste and architecture stay in skills. `no-emdash.mdc` and `unslop.mdc` are self-contained writing bars.
 
-To pin the same `.mdc` files in an **app** repo (cloud agents, teammates without the plugin), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
+`/setup-toolkit` copies every `rules/*.mdc` into `~/.cursor/rules/gabriel-skills/` on this machine (Windows: `%USERPROFILE%\.cursor\rules\gabriel-skills\`). To pin the same files in an **app** repo (cloud agents, teammates on that repo), ask `/setup-toolkit` to copy them into `.cursor/rules/gabriel-skills/`.
 
 ### Plugin agents
 
@@ -74,7 +74,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, user rules, and `docs/design.md` init in the current app |
 
 ```mermaid
 flowchart LR
@@ -95,7 +95,7 @@ flowchart LR
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
-- Lint/format/quality gates in this app → `/setup-toolkit`
+- Lint/format/quality gates, or pack rules not loading → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.

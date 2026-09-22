@@ -73,7 +73,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 ## Shared contracts
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Named principles use **plain (Classic)** — `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (INV-1, Worker Brief) stays banned.
-- **Unslop:** chat replies follow the plugin rule [`unslop.mdc`](./rules/unslop.mdc) (`alwaysApply`). Not a skill. Do not add `/unslop`. Toggle it in Customize. `npx skills` does not install it; pin `rules/*.mdc` with `/setup-toolkit` when needed without the plugin.
+- **Unslop:** chat replies follow the plugin rule [`unslop.mdc`](./rules/unslop.mdc) (`alwaysApply`). Not a skill. Do not add `/unslop`. Toggle it in Customize. `npx skills` does not install it. `/setup-toolkit` copies `rules/*.mdc` into `~/.cursor/rules/gabriel-skills/`.
 - **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and **Reads** `/taste` plus `/architecture` doctrines on every run. `/ask-gabriel` stays thin and does not load the bodies.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md) — batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
@@ -153,11 +153,11 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 | Commands | `commands/` — do not alias every skill (avoids slash-command collisions with Cursor builtins and with skills) |
 | Hooks / MCP | none until there is a concrete server or an explicit format-on-edit decision |
 
-### Plugin rules (not User Rules)
+### Plugin rules and user rules
 
-Cursor loads plugin `rules/` automatically on install. That is the apply path for Plan mode and freeform chats that never invoke a skill. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a plugin rule.
+Cursor may load plugin `rules/` on install. That channel is not reliable, and `npx skills` does not install `rules/`. `/setup-toolkit` copies every `rules/*.mdc` into `~/.cursor/rules/gabriel-skills/` (Windows: `%USERPROFILE%\.cursor\rules\gabriel-skills\`) so Cursor loads them as user rules. Skills still follow `/taste` and `/architecture` via [`pack-shared/standards.md`](./skills/pack-shared/standards.md) even if a user disables a rule.
 
 - Split rules so **Customize** can toggle them. Keep `alwaysApply` only on [`gold-standards.mdc`](./rules/gold-standards.mdc), [`no-emdash.mdc`](./rules/no-emdash.mdc), [`unslop.mdc`](./rules/unslop.mdc), and [`subagents.mdc`](./rules/subagents.mdc).
-- Do **not** paste rule bodies into **User Rules** when the plugin is installed (duplicates).
+- Do **not** paste rule bodies into the Customize rules text box. `/setup-toolkit` owns the file copy. A paste doubles the same guidance and goes stale.
 - Do **not** duplicate `/taste` or `/architecture` doctrine into `.mdc` files. Pointers only. `unslop.mdc` owns the chat-voice catalog because it is not a skill.
-- `npx skills` does not install `rules/`. Users who want rules without the plugin can copy `rules/*.mdc` into an app’s `.cursor/rules/gabriel-skills/` (or ask `/setup-toolkit` to pin them).
+- Copy into an app’s `.cursor/rules/gabriel-skills/` only when the user asks to pin them in that repo (cloud agents, teammates).

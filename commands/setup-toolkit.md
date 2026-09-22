@@ -3,10 +3,10 @@ name: setup-toolkit
 description: >-
   Add ESLint, Prettier, Cursor/VS Code recommended extensions, and
   principle quality-gate tests to the current JS/TS repo using this
-  pack's templates. Use when the user wants lint, format, eslint,
-  prettier, extensions, a complexity test, test:quality, dead code,
-  knip, mutants, test:mutants, or to install
-  the engineering toolkit into an app.
+  pack's templates. Copies pack rules into ~/.cursor/rules/gabriel-skills/.
+  Use when the user wants lint, format, eslint, prettier, extensions,
+  a complexity test, test:quality, dead code, knip, mutants, test:mutants,
+  user rules, or to install the engineering toolkit into an app.
 ---
 
 # Setup toolkit

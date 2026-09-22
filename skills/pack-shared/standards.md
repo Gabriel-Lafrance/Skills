@@ -1,6 +1,6 @@
 # Must follow taste and architecture
 
-Pack skills do **not** depend on Cursor User Rules. Plugin rules in [`rules/`](../../rules/) apply when the **gabriel-skills** Cursor plugin is installed (`gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` are always on). Gold-standards is a pointer; it is not a substitute for these Reads. When a pack skill runs, **this contract is the enforcement**.
+Pack skills do **not** depend on Cursor User Rules. When a pack skill runs, **this contract is the enforcement**. Plugin rules in [`rules/`](../../rules/) are the source (`gold-standards.mdc`, `no-emdash.mdc`, `unslop.mdc`, and `subagents.mdc` are always on). `/setup-toolkit` copies those files into `~/.cursor/rules/gabriel-skills/` so freeform chats load them. Gold-standards is a pointer; it is not a substitute for these Reads.
 
 Do not substitute a private checklist or this file’s summary. **Source of truth is the doctrines.**
 
