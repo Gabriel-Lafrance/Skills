@@ -6,7 +6,7 @@ Write durable behavior-lock tests for a complex public surface after review reco
 
 ## Owns
 
-The Why / What / How approval gate and the lock report. Tester always writes the tests.
+The Why / What / How approval gate and the lock report. When a lock is approved, tester writes the tests.
 
 ## Does not own
 
@@ -41,7 +41,7 @@ Approval brief, required test comment, and handoff live in [`reference.md`](refe
 
 Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and tautological checks (`expect(add(1, 2)).toBe(3)`). Quality gates such as cyclomatic complexity (McCabe), fail fast (Fail Fast), no dead code (Knip), and kill the mutants (Mutation testing) are installed by `/setup-toolkit`, not written here.
 
-This skill is a user start. Do not nest it under `/task` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill. Review may recommend it; nothing auto-invokes it. **Tester** always writes the tests; the main agent never does.
+This skill is a user start. Do not nest it under `/task` or start it automatically. Only `/code-review` and `/pr-review` may recommend a lock; only the user starts this skill. Review may recommend it; nothing auto-invokes it. Ordinary edits do not get tests. When the user started this skill, **tester** writes the tests; the main agent never does.
 
 ## Anti-patterns
 
@@ -51,4 +51,5 @@ This skill is a user start. Do not nest it under `/task` or start it automatical
 - Starting this skill without a user start
 - `/task`, `/implement`, `/design`, and other build skills invoking this skill or writing test files
 - Tautological tests (recompute the same arithmetic as the code, assert UI chrome exists) or coverage theater
+- Adding a test because the code changed, including a small tweak, copy change, rename, or one-line fix
 - Raising, skipping, or deleting a `/setup-toolkit` quality gate (or lowering the mutant break threshold) instead of splitting a branchy function, typing the value, throwing at the boundary, checking identity, removing dead code, or strengthening the lock

@@ -602,11 +602,25 @@ When the harness can spawn a specialist, dispatch one. When it cannot, do that r
 
 When surfaces, slices, or review axes are independent, launch **one specialist per lane in the same turn** if the harness allows it. There is **no cap of two**. A slice can be one function. A single non-trivial job is one pass, then the next.
 
-Pick the **listed** specialist that owns the job: **explorer**, **analyzer**, **implementer**, **designer**, **reviewer**, **pr-reviewer**, **tester**. A harness built-in that matches the job is also valid. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. They are not the same. **Designer** owns user-facing UI and `docs/design.md`. **Implementer** owns non-UI slices. **Tester** always writes tests. The main agent never does. Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. There is no architect worker.
+Pick the **listed** specialist that owns the job: **explorer**, **analyzer**, **implementer**, **designer**, **reviewer**, **pr-reviewer**, **tester**. A harness built-in that matches the job is also valid. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. They are not the same. **Designer** owns user-facing UI and `docs/design.md`. **Implementer** owns non-UI slices. **Tester** writes a behavior lock only when the user started `/create-test`. Ordinary edits do not get tests. The main agent never writes tests. Do not use reviewer for a GitHub PR, and do not use pr-reviewer for a local branch. There is no architect worker.
 
 Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only lint ritual passes. Never auto-start `/create-test`.
 
 Worker **Read first** must include this file's **Taste** and **Architecture** sections. Skip is a fail. User-facing work also reads `design/doctrine.md` and `docs/design.md`.
+
+## No drive-by tests
+
+Changing code is not a reason to add a test.
+
+Do not create or extend a test for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Do not add a test to chase coverage, to restate the implementation (`expect(add(1, 2)).toBe(3)`), or because the suite should cover this.
+
+Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie. Do not add a new case next to it.
+
+Quality gates from `/setup-toolkit` (`test:quality`, `test:mutants`) stay. Do not delete them. Do not invent behavior tests to satisfy them.
+
+Write a test only when the user explicitly asked for that lock, or started `/create-test` after `/code-review` or `/pr-review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift). Then `tester` writes it. The main agent does not. Never start `/create-test` on your own. If the target is trivial, say so and stop.
+
+This binds every agent, including `tester` and `implementer`.
 
 ## Ship work
 
@@ -618,7 +632,7 @@ Before branches or PRs, **Read**:
 
 **Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
 
-- Before you commit or push: run this repo's `lint` and `test` (`test:quality` when that is the test script). Fix failures first so CI does not fail the PR. Skip `test:mutants` here. Never `--no-verify` unless the user asked.
+- Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the CI mirror in `pack-shared/pr-ship.md` in this environment. Push once it is green. A local commit you are not pushing, while no PR is open, does not run that suite. Do not invent a suite when the repo has no workflow and no lint or test script. Never `--no-verify` unless the user asked.
 - Typed branch names per `publish/reference.md` when you control the branch contract
 - PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser
 - Use the harness pull-request tool when it has one. Otherwise use `gh` as `pr-ship.md` describes. Do not use `gh` in a session that already has a pull-request tool.
@@ -632,7 +646,7 @@ Do **not** paste a style guide into chat. If this repo already has ESLint or Pre
 - The toolkit also installs `test:quality` (complexity cap 5, principle gates, plus `knip.test.mjs` for dead code) and `test:mutants` (Stryker: flipped operators must fail the suite). Keep them. Do not raise the cap, skip a gate, delete a gate, or lower the mutant break threshold to go green. Split the function, type the value, throw at the boundary, check identity, remove dead code, or strengthen the lock instead. Gate failures use plain (Classic), for example fail fast (Fail Fast).
 - Editor workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Do not add a parallel `.cursor/extensions.json`.
 - Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user's running terminals own that loop (`taste` Verify).
-- **Before you commit** (and before you push a PR): run this repo's existing `lint` and `test` scripts (`test:quality` when that is the test script). Fix failures first. A red tree here is a red PR. Skip `test:mutants` at this step (deliberate hardening, not a save gate). If those scripts are missing, skip. Never `git commit --no-verify` unless the user asked.
+- **Before a push that opens or updates a PR:** run the CI mirror in `pack-shared/pr-ship.md` in this environment, then push once. A local commit with no open PR and no push does not run that suite. Skip `test:mutants` unless the pull_request workflow runs it. If there is no workflow and no lint or test script, say so. Never `git commit --no-verify` unless the user asked.
 - Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.
 - Do not reformat the whole tree as a drive-by. Format only files you already had to touch, unless the user asked for a repo-wide format.
 - Never overwrite an existing `eslint.config.*`, Prettier config, or `.vscode/settings.json` without asking.
