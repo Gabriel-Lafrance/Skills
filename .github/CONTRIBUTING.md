@@ -70,10 +70,14 @@ Use typed branches when possible (same contract as `/publish`):
 feature|tweak|bug|refactor|chore|hotfix/<ticket-or-no-ticket>-<slug>
 ```
 
-Before you commit, run this repo’s lint and tests when those scripts exist, and
-fix failures first. A red local run is a red PR. This pack itself has no lint
-or test CI; app repos that use `/setup-toolkit` do (`lint`, `test` or
-`test:quality`). Never skip hooks (`--no-verify`) unless you were asked to.
+Before a push that opens a PR, or a commit or push on a branch that already
+has an open PR, run that repo's CI in your environment and fix failures
+first. A red push spends CI for nothing. This pack itself has no lint or
+test CI; app repos that use `/setup-toolkit` do (`lint`, `test` or
+`test:quality`), and the check is the mirror in
+[`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md). Do not
+run that suite on a commit you are not pushing. Never skip hooks
+(`--no-verify`) unless you were asked to.
 
 Open a PR against `main` using the pull request template:
 
