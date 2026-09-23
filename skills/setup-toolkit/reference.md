@@ -30,7 +30,7 @@ Read the disk. Print a short list. Do not ask the user for these facts.
 | User skills | `pack-shared` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
 | Repo skills | `pack-shared` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore this when the workspace **is** the Skills pack) |
 | Repo contract | workspace-root `AGENTS.md` missing, pack copy (`gabriel-skills-agents`), or a different file |
-| User contract | each harness row in [Install AGENTS.md](#install-agents-md): home exists or not, pack copy or different |
+| User contract | each existing harness home: Claude import of the template (or a stale `gabriel-skills/AGENTS.md`), Codex symlink or pack file or a different file, Gemini and Aider as their rows say |
 | App | workspace `package.json` present or not; ESLint / Prettier already present or not |
 
 This workspace is the Skills pack when a parent directory contains both `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`.
@@ -230,7 +230,7 @@ Use the first file that contains `gabriel-skills-agents`:
 
 If neither file has the marker, say so and skip this section. Do not invent the text.
 
-Copy that source. The same bytes go to every **chosen** destination below. Do not rewrite them.
+Those bytes are the repo copy only. Do not rewrite them. Claude and Codex do not receive this copy.
 
 ### Repo
 
@@ -250,12 +250,23 @@ Run this block only when they chose user data or both.
 
 Install a row only when that harness home **already exists** on the machine, or the user named that harness. Do not create `~/.claude`, `~/.codex`, or `~/.gemini` for a harness that is not installed. Report each row as written or skipped. Cursor has no row: the repo `AGENTS.md` is its install.
 
-Refresh a pack-owned `AGENTS.md` only when it is missing or already contains `gabriel-skills-agents`. A different file stays put. Do not destroy unrelated user text.
+#### Pointer target
+
+Claude and Codex use the first existing `setup-toolkit/templates/AGENTS.md`. Use its absolute path.
+
+1. `<parent>/setup-toolkit/templates/AGENTS.md`, where `<parent>` is the parent of `setup-toolkit` under `~/.agents/skills/`
+2. The same file under `~/.claude/skills/`
+3. The same file under `~/.cursor/skills/`
+4. `skills/setup-toolkit/templates/AGENTS.md` when this workspace is the Skills pack
+
+If none of those files exist, skip the Claude and Codex rows and say the template is missing. Gemini and Aider rows still apply. Do not invent the text.
+
+A different user file stays put. Do not destroy unrelated user text.
 
 | Harness | Home exists | What to write |
 | --- | --- | --- |
-| Claude Code | `~/.claude/` | Copy the source to `~/.claude/gabriel-skills/AGENTS.md`. If `~/.claude/CLAUDE.md` is missing, create it with one line and no backticks: `@~/.claude/gabriel-skills/AGENTS.md`. If it exists and does not already mention `gabriel-skills/AGENTS.md`, append that same line. Do not replace the rest. |
-| Codex | `~/.codex/`, or `$CODEX_HOME` when that directory exists | Copy the source to `AGENTS.md` in that home. Do not write `AGENTS.override.md`. |
+| Claude Code | `~/.claude/` | Do not write `~/.claude/gabriel-skills/AGENTS.md`. In `~/.claude/CLAUDE.md`, one line and no backticks: `@` plus the absolute pointer path. If `CLAUDE.md` is missing, create it with that one line. If it already imports that path, leave the rest. If it still imports `gabriel-skills/AGENTS.md`, replace that import with the pointer path. If neither import is present, append that one line. Do not replace unrelated text. If `~/.claude/gabriel-skills/AGENTS.md` exists and contains `gabriel-skills-agents`, delete it. If that path exists and does not contain the marker, leave it. |
+| Codex | `~/.codex/`, or `$CODEX_HOME` when that directory exists | Symlink `AGENTS.md` in that home to the absolute pointer path. If a regular file there contains `gabriel-skills-agents`, replace it with the symlink. If the file exists and is not the pack copy, leave it. Do not write `AGENTS.override.md`. If the symlink cannot be created, copy the template bytes and say so. |
 | Gemini CLI | `~/.gemini/` or workspace `.gemini/` | Do not create `GEMINI.md`. If `settings.json` exists and `context.fileName` is absent, set it to `AGENTS.md` and leave every other key. If `GEMINI.md` exists and does not mention `AGENTS.md`, append one line: `Also follow AGENTS.md.` |
 | Aider | workspace `.aider.conf.yml` | If `read` is missing, add `read: AGENTS.md`. If `read` is a list, append `AGENTS.md` when it is absent. If `read` is some other string, leave it and say so. Do not create the file. |
 
@@ -268,6 +279,8 @@ Project adapters, only when that path already exists in the target repo:
 - Verify printed skill roots, `AGENTS.md` state, and whether an app `package.json` exists
 - Destination and lint were asked once and they replied (lint omitted when there is no `package.json`)
 - Pack skills and `AGENTS.md` were written only to the destinations they chose
+- When they chose the repo: workspace-root `AGENTS.md` is the pack copy, or a different file was left in place and reported
+- When they chose user data: `~/.claude/CLAUDE.md` has one `@` import of the resolved template path and no backticks. `~/.claude/gabriel-skills/AGENTS.md` was not written. If that path was the pack file, it was deleted. A different file at that path was left alone. Codex `AGENTS.md` is a symlink to the resolved template, or the template bytes were copied there and that fallback was reported because the symlink could not be created. A Codex file that is not the pack copy was left in place and reported
 - Destinations they did not choose were left untouched
 - Harness homes that do not exist were not created
 - No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when they chose the repo and that import was missing

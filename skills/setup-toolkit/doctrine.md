@@ -2,7 +2,7 @@
 
 ## Job
 
-Put this pack and the `AGENTS.md` contract onto the machine. Phase one verifies what is already installed, then writes skills and rules to the **repo** or to **user data** (or both) after one question. ESLint, Prettier, and quality gates are a later, opt-in phase. The pack repo stays harness-agnostic. This skill is the skills.sh installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
+Put this pack and the `AGENTS.md` contract onto the machine. Phase one verifies what is already installed, then writes skills and the contract to the **repo** or to **user data** (or both) after one question. ESLint, Prettier, and quality gates are a later, opt-in phase. The pack repo stays harness-agnostic. This skill is the skills.sh installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
 
 ## Owns
 
@@ -27,7 +27,7 @@ none (uses `taste:*` and `architecture:*`)
 ## Bars
 
 1. **Verify, then ask, then install.** Look up skill roots, `AGENTS.md`, and harness homes first. Print those facts. Then one Questions batch: destination (repo, user data, or both) and, when a `package.json` exists, whether to add ESLint, Prettier, and quality gates. Wait. Do not copy lint files on `no`. Follow [asking.md](../pack-shared/asking.md).
-2. **Pack first.** For each chosen destination, if that scope is missing `pack-shared`, install the rest of this pack with the command in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack. Then copy `AGENTS.md` only to the chosen destinations. The contract copy does not need `package.json`. Refresh a pack copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed.
+2. **Pack first.** For each chosen destination, if that scope is missing `pack-shared`, install the rest of this pack with the command in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack. Then install `AGENTS.md` only for the chosen destinations. The repo copy is the full file. Claude is one `@` import of the installed template. Codex is a symlink to that template, and a byte copy only when the symlink cannot be created (say so in that case). Gemini CLI and Aider keep their rows. The contract step does not need `package.json`. Refresh the repo copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed. Do not write `~/.claude/gabriel-skills/AGENTS.md`.
 3. **Fail fast on lint setup** if they said yes to lint and there is no `package.json` at the workspace root (or the obvious app root the user named). ESLint and Prettier belong in JS/TS apps, not in this markdown pack itself. Phase one still stands.
 4. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, `complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
 5. **One stack.** Templates in [templates/](templates/) only. Do not add extra ESLint plugins beyond no-emdash and Convex when detected. The cyclomatic cap is ESLint’s built-in `complexity` rule plus the quality-gate test, not a third plugin. Quality tooling is ESLint, Prettier, Knip, and Stryker from templates. Do not swap in a different dead-code or mutation runner. Do not add a UI import denylist for keep jobs apart (SoC). Do not raise a cap, skip a gate, or delete a gate to go green (`taste:cyclomatic-cap`, `taste:fail-fast`, `taste:types-tell-the-truth`, `taste:trust-the-server`, `taste:no-dead-code`, `taste:kill-the-mutants`).
@@ -43,7 +43,7 @@ The machine and the app have, for the destinations they chose:
 
 - Pack skills in the user-level skill home, the project skill home, or both
 - Workspace-root `AGENTS.md` when they chose the repo (a different file is left in place)
-- Existing harness homes updated when they chose user data (or reported skipped). Cursor has no user-home row: the repo `AGENTS.md` is its contract
+- When they chose user data: Claude `@` import of the installed template, Codex symlink to that template (template bytes copied and reported only if the symlink could not be created), Gemini setting, Aider `read`, or reported skipped. Cursor has no user-home row: the repo `AGENTS.md` is its contract
 - No new harness home directory, and no new project `CLAUDE.md`
 - No ESLint, Prettier, or quality-gate files unless they said yes to that phase
 
@@ -73,7 +73,8 @@ After that work, if they said yes to lint and `docs/design.md` is missing, run `
 ## Anti-patterns
 
 - Overwriting an app or user `AGENTS.md` that is not the pack copy
-- Replacing `~/.claude/CLAUDE.md` or a project `CLAUDE.md` instead of appending one import line
+- Replacing `~/.claude/CLAUDE.md` or a project `CLAUDE.md` wholesale. On the user file, replace a stale `gabriel-skills/AGENTS.md` import with the template path, or add that one `@` line when the import is missing. Do not replace unrelated text
+- Writing `~/.claude/gabriel-skills/AGENTS.md`
 - Creating `~/.claude`, `~/.cursor`, `~/.codex`, or `~/.gemini` when that harness is not installed
 - Writing a Cursor `.mdc` rule or `.cursor/rules` copy of the contract
 - Adding a `CLAUDE.md` in the pack or the app

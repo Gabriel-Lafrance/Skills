@@ -17,7 +17,7 @@ for how agents should work live in the Taste and Architecture sections of
 tells every skill to apply those sections. Chat
 replies follow the Unslop section of `AGENTS.md`. Do not paste that file into a
 User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
-installs the contract into an app and into harness homes that already exist.
+copies the full contract into an app when that destination is chosen. Claude and Codex point at the installed template when user data is chosen.
 
 ## Before you start
 

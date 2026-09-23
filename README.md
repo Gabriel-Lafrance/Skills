@@ -29,7 +29,7 @@ The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `creat
 
 Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
 
-`npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract. It asks whether that file goes in the repo, in your harness homes, or both. It does not copy ESLint or quality gates until you say yes.
+`npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships `skills/setup-toolkit/templates/AGENTS.md` (the same bytes as the root file). It asks whether the contract goes in the repo, in your harness homes, or both. The repo gets the full file. Claude Code points at that installed template with one `@` import. Codex symlinks its home `AGENTS.md` to that template. It does not copy ESLint or quality gates until you say yes.
 
 The **Taste** and **Architecture** sections of [`AGENTS.md`](./AGENTS.md) are always-on rules ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not restate those sections.
 
@@ -43,7 +43,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 | Piece | Where | What it does |
 | --- | --- | --- |
-| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` copies this file into the repo, user harness homes, or both after you choose |
+| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` copies the full file into the repo when you choose the repo. When you choose user data, Claude and Codex point at the installed template |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
 | **Specialists** | `agents/` | Same roles every harness uses. Cursor can spawn them as custom agents. Other harnesses use their specialist tool, or a separate pass |
 | **Setup command** | `commands/setup-toolkit.md` | Cursor slash entry for the same `/setup-toolkit` skill |

@@ -30,7 +30,7 @@ Find this contract in the same spirit. Stop at the first `AGENTS.md` that contai
 
 1. `AGENTS.md` at the workspace root
 2. `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`
-3. `~/.claude/gabriel-skills/AGENTS.md`
+3. The first `setup-toolkit/templates/AGENTS.md` under the skill roots above (`~/.agents/skills/`, then `~/.claude/skills/`, then `~/.cursor/skills/`, then workspace `skills/` when this repo is open, then the plugin `skills/`)
 4. The `AGENTS.md` beside `skills/` when this repository is the open workspace
 5. The `AGENTS.md` beside the installed plugin's `skills/` folder
 
