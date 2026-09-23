@@ -2,11 +2,11 @@
 
 ## Job
 
-Put lint, format, and principle quality gates **in the app repo**, and install the pack `AGENTS.md` into that repo and into each harness home that already exists for this user. The pack repo stays harness-agnostic. This skill is the installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
+Put this pack, the contract, and the lint tools onto the machine. Install remaining pack skills into every harness already present, copy `AGENTS.md` into the app and those harness homes, then copy lint, format, and quality gates into the app repo. The pack repo stays harness-agnostic. This skill is the skills.sh installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
 
 ## Owns
 
-Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` into the repo and into existing harness homes, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing.
+Which templates to copy, what not to overwrite, installing the rest of this pack with `npx skills`, installing the pack `AGENTS.md` into the repo and into existing harness homes, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing.
 
 ## Does not own
 
@@ -26,7 +26,7 @@ none (uses `taste:*` and `architecture:*`)
 
 ## Bars
 
-1. **Contract first.** Install the pack `AGENTS.md` before lint setup. This step does not need `package.json`. Copy it into the repo. Then install each harness row in [reference.md](reference.md#install-agents-md) whose home already exists. Refresh a pack copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed.
+1. **Pack first.** If `pack-shared` is missing next to this skill, install the rest of this pack with the command in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack. Then install the pack `AGENTS.md` before lint setup. The contract copy does not need `package.json`. Copy it into the repo. Then install each harness row in [reference.md](reference.md#install-agents-md) whose home already exists. Refresh a pack copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed.
 2. **Fail fast on lint setup** if there is no `package.json` at the workspace root (or the obvious app root the user named). ESLint and Prettier belong in JS/TS apps, not in this markdown pack itself. The `AGENTS.md` copy still stands.
 3. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, `complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
 4. **One stack.** Templates in [templates/](templates/) only. Do not add extra ESLint plugins beyond no-emdash and Convex when detected. The cyclomatic cap is ESLint’s built-in `complexity` rule plus the quality-gate test, not a third plugin. Quality tooling is ESLint, Prettier, Knip, and Stryker from templates. Do not swap in a different dead-code or mutation runner. Do not add a UI import denylist for keep jobs apart (SoC). Do not raise a cap, skip a gate, or delete a gate to go green (`taste:cyclomatic-cap`, `taste:fail-fast`, `taste:types-tell-the-truth`, `taste:trust-the-server`, `taste:no-dead-code`, `taste:kill-the-mutants`).
@@ -41,6 +41,7 @@ none (uses `taste:*` and `architecture:*`)
 
 The machine and the app have:
 
+- The rest of this pack in the user-level skill home when this skill was installed alone (`npx skills add ... --all -g`)
 - Workspace-root `AGENTS.md` copied from the pack when missing or already marked `gabriel-skills-agents` (a different file is left in place)
 - Each existing harness home updated in that harness's own instruction file (Claude import, Codex `AGENTS.md`, Gemini setting, Aider `read`), or reported skipped. Cursor is covered by the repo `AGENTS.md`
 - No new harness home directory, and no new project `CLAUDE.md`
@@ -62,7 +63,7 @@ The current workspace has:
 
 ## Apply
 
-Copy the pack `AGENTS.md` first ([reference.md](reference.md#install-agents-md)). Then write configs next to the app `package.json`. That is the normal home for ESLint and Prettier. Do not invent `services/lint/` or a wrapper package unless this repo already publishes shareable configs that way.
+Install missing pack skills first ([reference.md](reference.md#pack-skills)). Copy the pack `AGENTS.md` next ([reference.md](reference.md#install-agents-md)). Then write configs next to the app `package.json`. That is the normal home for ESLint and Prettier. Do not invent `services/lint/` or a wrapper package unless this repo already publishes shareable configs that way.
 
 If the repo already has a working lint/format story, **fill only missing pieces** (no-emdash plugin file, quality-gate files, `.vscode` recommendations, Prettier if missing). Do not overwrite their ESLint config. Print the import snippet if their config does not already include `noEmdashConfig` or the cyclomatic cap.
 
@@ -87,3 +88,5 @@ After that work, if `docs/design.md` is missing, run `/design` Initialization (`
 - Adding a keep-jobs-apart (SoC) SDK or UI import denylist
 - Skipping Convex identity or clock checks by deleting `convex/` from the test instead of fixing the function
 - Writing `docs/design.md` from memory instead of `/design` Initialization
+- Copying only lint files and leaving the rest of this pack uninstalled when `pack-shared` is missing
+- Telling the user to hunt the skills.sh leaderboard instead of `npx skills add gabriel-lafrance/skills@setup-toolkit`

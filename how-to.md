@@ -125,16 +125,24 @@ Do not add a `rules/` folder or a `.mdc` file. The always-on contract is [`AGENT
 
 The contract is [`AGENTS.md`](./AGENTS.md). The Cursor plugin is optional. After you push a plugin change, refresh the marketplace (or Auto Refresh).
 
-Skills from GitHub, for Claude, Cursor, or both:
+Skills from GitHub, for every harness the CLI already sees:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
+npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
+```
+
+Then run `/setup-toolkit` in an app. That skill installs the rest of this pack (`npx skills add Gabriel-Lafrance/Skills --all -g`), then `AGENTS.md`, then lint.
+
+To copy every skill without running setup:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills --all -g
 npx skills@latest update -g -y
 ```
 
 Use `-a claude` or `-a cursor` alone when you only need one harness.
 
-After you push, `npx skills` users refresh with `update`. While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
+After you push, `npx skills` users refresh with `update`. The skills.sh on-ramp is [`setup-toolkit`](https://skills.sh/gabriel-lafrance/skills/setup-toolkit). While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
 
 ### Cursor plugin / marketplace
 

@@ -4,19 +4,32 @@ Engineering toolkit for any harness: agent skills, an always-on [`AGENTS.md`](./
 
 ## Install
 
-The always-on contract is [`AGENTS.md`](./AGENTS.md). The pack does not pre-install that file into a harness. `/setup-toolkit` copies it into the app, then into each harness home that already exists on the machine. Do not add a project `CLAUDE.md`.
+This pack is on [skills.sh](https://skills.sh/gabriel-lafrance/skills/setup-toolkit). Install **one** skill, then run it. That skill lands the rest of the pack, `AGENTS.md`, and the app tooling.
+
+```bash
+npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
+```
+
+In an app chat, run `/setup-toolkit`. Do not add a project `CLAUDE.md`.
+
+`npx skills find setup-toolkit` ranks by install count and will show other "toolkit" skills first. Use the command above, not the leaderboard.
+
+To copy every skill without running setup:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills --all -g
+npx skills@latest update -g -y
+```
+
+`--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
+
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md).
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
 Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
 
-```bash
-# Claude, Cursor, or both. Use one -a flag when you only need one harness.
-npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
-npx skills@latest update -g -y
-```
-
-`npx skills` copies skill folders. It does not copy root `AGENTS.md`. The setup skill ships a copy of the contract and installs it into the repo and the user harness homes. Run `/setup-toolkit` in an app.
+`npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract and installs it into the repo and the user harness homes.
 
 The **Taste** and **Architecture** sections of [`AGENTS.md`](./AGENTS.md) are always-on rules ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not restate those sections.
 
@@ -84,7 +97,7 @@ flowchart LR
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
-- Lint/format/quality gates in this app → `/setup-toolkit`
+- Lint/format/quality gates, or this pack on a new machine → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.

@@ -13,11 +13,34 @@ Find `<pack-root>` from the same skill-root order as `AGENTS.md`:
 3. Parent of `setup-toolkit` under `~/.cursor/skills/`
 4. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
 
-If templates are missing, stop. Tell the user to install the plugin or:
+If templates are missing, stop. Tell the user:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
+npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
 ```
+
+Then run this skill again.
+
+## Pack skills
+
+`npx skills add gabriel-lafrance/skills@setup-toolkit` copies **this folder**. It does not copy `task`, `pack-shared`, or the rest. This step fills them.
+
+Skip when any of these is true:
+
+- This workspace is the Skills pack (a parent directory contains both `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`).
+- `pack-shared` already sits next to this `setup-toolkit` folder (the rest of the pack is already installed in that skill root).
+
+Otherwise run:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills --all -g
+```
+
+`--all` is every skill in this repo, into every harness the CLI already sees, with no prompt. `-g` is the user-level skill home so the same pack is on Claude, Cursor, Codex, and the other agents on this machine.
+
+If that command fails (no network, old Node), say so and continue with `AGENTS.md` from [templates/AGENTS.md](templates/AGENTS.md). Do not invent skill folders by hand.
+
+Do not pass `--skill setup-toolkit` on this second add. The point of this skill is to land the whole pack after the one skills.sh install.
 
 ## Detect the app root
 

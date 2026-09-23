@@ -41,9 +41,11 @@ npx skills@latest add . --list
 ```
 
 `npx skills` can target Claude, Cursor, or both (`-a claude`, `-a cursor`). The
-Cursor plugin is optional and does not add a separate ruleset. Installed skills
-must apply the Taste and Architecture sections of `AGENTS.md`. ESLint and
-Prettier templates live in
+Cursor plugin is optional and does not add a separate ruleset. People install
+this pack from skills.sh with
+`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then
+`/setup-toolkit`. Installed skills must apply the Taste and Architecture
+sections of `AGENTS.md`. ESLint and Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
 copied into **app** repos by `/setup-toolkit` — they are not run from this
 markdown pack.
