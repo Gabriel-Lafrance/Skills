@@ -46,7 +46,8 @@ Take `recommended` on child soft Questions without waiting. The `/task` behavior
 | Missing or invalid Linear ticket | Stop; require `IN-1234` or URL |
 | Linear MCP or `gh` unavailable when needed | State the blocker in context |
 | Dirty tree before early branch | Ask commit, stash, or abort |
-| Detached HEAD or no remote | Fix or stop |
+| Detached HEAD | Create the standalone branch from that commit before any commit. Do not stay detached |
+| No remote | Fix or stop |
 | Dirty tree at CR1/CR2 start | Checkpoint commit or stop. Never review uncommitted work |
 | Merge conflict or rejected push | Stop; never force-push |
 | Open blockers after a loop cap | Stop; do not ship |
@@ -57,9 +58,9 @@ Take `recommended` on child soft Questions without waiting. The `/task` behavior
 
 - A ticket is required; never invent one.
 - Lock type from Linear metadata where possible: Feature → `feature/`, Tweak → `tweak/`, Bug → `bug/`, Refactor → `refactor/`, Chore → `chore/`, Hotfix → `hotfix/`. Otherwise infer from the ticket and announce it Locked.
-- After hard stops pass, create `{type}/{ticket}-{slug}` from the default base (`main`, else `master`); no colons and no push until shipping.
+- After hard stops pass, create `{type}/{ticket}-{slug}` as a standalone branch from the default base (`main`, else `master`) using the steps in [publish reference](../publish/reference.md): `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). No colons. No push until shipping. Do not track `origin/dev`, `origin/main`, or `origin/master`.
 - Record **base SHA** at branch creation (`git rev-parse <base>`).
-- Never push the default branch or force-push.
+- Never push `dev`, `main`, `master`, or the default branch, and never force-push. Never `git push` with no refspec while upstream is one of those.
 
 ### Checkpoint and fixed point
 
@@ -95,6 +96,7 @@ Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared
 - Invoking `/create-test` without a user start (review may still recommend a lock the task did not offer)
 - Creating a PR without showing the complete draft in chat (including the Mermaid Change diagram required by publish) or without following [pr-ship.md](../pack-shared/pr-ship.md)
 - Starting CR1/CR2 on an uncommitted or dirty fixed point
-- Force-pushing or pushing the default branch
+- Force-pushing or pushing `dev`, `main`, `master`, or the default branch
+- Cutting a branch that tracks `origin/dev`, `origin/main`, or `origin/master`
 - Looping on Follow-ups or nits unless the user asks
 - Asking whether a Design mismatch is normal instead of mapping it to Fix now or Follow-up

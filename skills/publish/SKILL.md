@@ -24,7 +24,7 @@ This skill is a user start. Do not nest it under `/task`. Publish only. Never in
    mirror in [pr-ship.md](../pack-shared/pr-ship.md) in this environment.
    Do not run it on a commit you are not pushing.
 2. Lock change type and ticket.
-3. Create or reuse the typed branch, then push unless local-only.
+3. Create or reuse the typed branch as a standalone ref (the steps in [reference.md](reference.md): detach, then `switch -c`, or `--no-track`). It must not track `dev`, `main`, or `master`. Then push that ref unless local-only.
 4. Ask whether to draft and publish a PR.
 5. Show the full title and body (including the Mermaid Change diagram).
 6. Create the PR only after approval, using the create tool in

@@ -21,7 +21,7 @@ skills/
     subagents.md         # what vs how; explorer finds; analyzer judges; Worker Brief
     review-contract.md   # shared review evidence and finding rules
     doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
-    pr-ship.md           # every agent that opens a PR (create tool, green before push)
+    pr-ship.md           # every agent that opens a PR (create tool, standalone branch, green before push)
   setup-toolkit/
     templates/           # ESLint / Prettier files copied into app repos
   <skill-name>/
@@ -74,8 +74,10 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR ship:** every agent that creates a GitHub PR (not only `/publish`)
   follows [`pr-ship.md`](./skills/pack-shared/pr-ship.md): the harness
-  pull-request tool when it has one, otherwise `gh`, and the CI mirror in
-  this environment before a push that opens or updates a PR.
+  pull-request tool when it has one, otherwise `gh`, a standalone branch
+  that does not track `dev` (steps in
+  [`publish/reference.md`](./skills/publish/reference.md)), and the CI mirror
+  in this environment before a push that opens or updates a PR.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
 - **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (`tester` writes them after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests; the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, and `/just-do-it` do not write tests or start `/create-test`. `/just-do-it` does not answer the task's lock question. The always-on bar is the **No drive-by tests** section of [`AGENTS.md`](./AGENTS.md).
 

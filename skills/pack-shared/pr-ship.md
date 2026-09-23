@@ -9,7 +9,7 @@ as a PR.
 
 Body templates, change type, branch names, and Mermaid rules stay in
 [`../publish/reference.md`](../publish/reference.md). This file owns
-which create/update tool to use, and the CI mirror before a push that opens or updates a PR.
+which create/update tool to use, the push check that the branch is standalone, and the CI mirror before a push that opens or updates a PR.
 
 No Demo screenshots, no review canvas, no videos. The PR body is text:
 type, ticket, what changed, Change diagram, How to QA, Notes. Do not
@@ -19,7 +19,7 @@ open a browser, capture screenshots, or produce a canvas to ship a PR.
 
 1. [`../publish/reference.md`](../publish/reference.md) — title, type template,
    Change diagram, How to QA.
-2. This file: create tool and the CI mirror.
+2. This file: create tool, the standalone push check, and the CI mirror.
 
 ## Who this applies to
 
@@ -44,8 +44,18 @@ Then pick **one** write path:
 | This harness has a pull-request tool | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write. |
 | No pull-request tool | Use the heredoc in [publish reference](../publish/reference.md). |
 
-Push the branch before create, unless the user asked for local-only. Never
-force-push or push the default branch.
+Push the new branch before create, unless the user asked for local-only.
+Create and push it with the standalone steps in
+[publish reference](../publish/reference.md): `git switch --detach <base-sha>`
+then `git switch -c <new-branch>` (or `git switch --no-track -c`), then
+`git push -u origin HEAD:refs/heads/<new-branch>`. Before that push, upstream
+is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or
+`origin/master`, stop. A branch cut from `dev` is its own ref. It does not
+keep `dev`'s upstream, and the push does not update `dev`, so it does not
+take `dev`'s protection. Never force-push. Never `git push` with no refspec
+while upstream is `origin/dev`, `origin/main`, or `origin/master`. If git
+suggests `git push origin HEAD:dev`, `HEAD:main`, or `HEAD:master`, do not
+run it. Never push `dev`, `main`, `master`, or the default branch.
 
 If a PR is already open on the branch, update its body with the same tool
 choice; do not open a second PR.
@@ -103,6 +113,7 @@ again before the push.
 
 ## Anti-patterns
 
+- Pushing a new branch onto `dev`, `main`, or `master`, or leaving its upstream on those refs
 - Pushing red so GitHub Actions is the first time the suite runs
 - Running the CI mirror on a commit that will not be pushed
 - Creating the PR with `gh` when this harness has a pull-request tool

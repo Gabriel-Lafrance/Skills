@@ -70,6 +70,13 @@ Use typed branches when possible (same contract as `/publish`):
 feature|tweak|bug|refactor|chore|hotfix/<ticket-or-no-ticket>-<slug>
 ```
 
+Create that branch from the base commit with `git switch --detach <base-sha>`,
+then `git switch -c <name>` (or `git switch --no-track -c`). Do not let it
+track `dev`, `main`, or `master`. Push `HEAD:refs/heads/<name>`. A branch cut
+from `dev` is its own ref: the push does not update `dev`, so it does not
+take `dev`'s protection. Steps live in
+[`skills/publish/reference.md`](../skills/publish/reference.md).
+
 Before a push that opens a PR, or a commit or push on a branch that already
 has an open PR, run that repo's CI in your environment and fix failures
 first. A red push spends CI for nothing. This pack itself has no lint or
