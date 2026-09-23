@@ -239,5 +239,8 @@ There is no unmapped `important` middle severity. `/pr-review` posts only
 After an initial or full-rescan review, recommend `/create-test` only for a
 complex architectural boundary with externally observable behavior and no
 durable lock, especially authorization, ownership, and safe-to-retry writes.
-Tell the user; do not invoke `/create-test` or write tests. After locks land,
-`test:mutants` proves they bite: surviving mutants mean the lock is decoration.
+Tell the user; do not invoke `/create-test` or write tests. Skip a claim the
+user already accepted in the current `/task` lock batch, and skip a claim they
+refused there, unless the shipped public contract differs from that brief.
+After locks land, `test:mutants` proves they bite: surviving mutants mean the
+lock is decoration.

@@ -36,7 +36,8 @@ evidence-backed. User-facing text uses ordinary words.
    `/code-review` requires them. Add extra Tasks when the diff has independent
    surfaces. Do not run a Design axis or a second adversarial wave.
 4. Recommend `/create-test` only when the review contract says a lock is
-   warranted. Never write tests yourself.
+   warranted, and the user did not already accept or refuse that same claim
+   in the task. Never write tests yourself.
 5. Return findings with severity, evidence, and a bounded fix path. End with
    the `## Completion` envelope. **Taste / architecture:** `applied`.
 

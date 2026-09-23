@@ -40,7 +40,7 @@ ESLint, Prettier, and `test:quality` are app-repo config, not harness primitives
 
 ### Specialists
 
-The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester writes a behavior lock only when the user started `/create-test`. Ordinary edits do not get tests. A harness built-in that matches the job is fine. When the harness cannot spawn one, that role is its own pass.
+The parent feeds **what** to do and **need-to-know**; each specialist owns **how**. Pick the listed specialist that owns the job. Do not follow a fixed spawn order. Explorer finds. Analyzer judges. Designer owns user-facing UI. Tester writes a behavior lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. A harness built-in that matches the job is fine. When the harness cannot spawn one, that role is its own pass.
 
 | Agent | Owns | Skill |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ The parent feeds **what** to do and **need-to-know**; each specialist owns **how
 | [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | `/design` |
 | [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
-| [`tester`](./agents/tester.md) | Behavior lock the user asked for | `/create-test` (user start only) |
+| [`tester`](./agents/tester.md) | Behavior lock the user accepted | `/create-test` (user start, or `/task` after the user accepts the briefs) |
 
 ## Skills
 

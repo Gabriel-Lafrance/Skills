@@ -19,7 +19,9 @@ only. Dispatch specialists per
 specialist tool when it has one, otherwise that role as its own pass) and review their
 Completions; do not solo non-trivial labor, grep the tree, or write tests. It
 takes recommended soft decisions, auto-fixes only named Fix-now blockers, keeps
-optional improvements as follow-ups, and leaves `/pr-review` to a human.
+optional improvements as follow-ups, and leaves `/pr-review` to a human. The
+`/task` behavior-lock question is not a soft decision: wait, and the user may
+refuse every test.
 
 ## Lifecycle
 

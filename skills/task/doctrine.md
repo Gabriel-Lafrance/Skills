@@ -6,14 +6,14 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 ## Owns
 
-The orchestrator loop: execution context, grill-before-plans, lookup table, mandatory skill checklist, suitability, skip-grill, completion, pause, and recovery rules. You are the orchestrator; Task subagents do the labor ([subagents.md](../pack-shared/subagents.md)).
+The orchestrator loop: execution context, grill-before-plans, behavior-lock suggestion after that grill, lookup table, mandatory skill checklist, suitability, skip-grill, completion, pause, and recovery rules. You are the orchestrator; Task subagents do the labor ([subagents.md](../pack-shared/subagents.md)).
 
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - User-facing UI and `docs/design.md`: `/design`
 - Review disposition: `/code-review`
-- Test writing: `/create-test` (always via `tester`)
+- Test file contents: `/create-test` via `tester`, and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -28,7 +28,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 **Active Rules:** Every behavioral rule locked during the grill receives an `INV-*` row in the in-chat execution context with its enforcement and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each Active Rule to an intended slice or `all`.
+**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each Active Rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
 
 **Quality bar:** Parent-owned acceptance evidence (Done when + Active Rules + cross-slice seams) and `/code-review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
 
@@ -47,7 +47,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Find | `explorer` Tasks — main does not grep |
 | Judge | `/analyze` via `analyzer` Tasks |
 | Build | `/design` for user-facing UI; `/implement` for non-UI |
-| Tests | not this skill — `/create-test` always summons `tester`; main never writes tests |
+| Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs go to `/create-test` via `tester`. Main never writes tests |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
@@ -70,6 +70,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | If non-UI | Frontier slices that are not user-facing |
 | Acceptance evidence | Yes | Path walk, terminals. Parent owned |
+| Behavior locks | When a complex public rule exists | After the plan names the public entry. Wait. Refusing every test is complete |
 | `/code-review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
 
 ### Suitability and skip grill
@@ -79,6 +80,20 @@ Track these rows in the in-chat execution context or a concise progress message.
 **Skip grill only if all are true:** the ticket or user already has binary acceptance criteria; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as Active Rules even when skipping.
 
 For ticket-driven tasks, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
+
+### Behavior locks
+
+Suggest tests only from grilled Active Rules, using the `/create-test` bar for what is worth locking. Detail and the question template live in [reference.md](reference.md#behavior-lock-suggestion).
+
+| Rule | Meaning |
+| --- | --- |
+| After the grill is locked | No brief until Locked closing, and until the plan names the public entry. A typo, rename, or other trivial skip offers nothing. When skip-grill applies because the rules are already specific, suggest from those rules |
+| Cite a grilled rule | Why and What come from that rule's observable outcome. A brief with no rule is invalid |
+| Same bar as `/create-test` | Offer a complex public surface that can silently drift: authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, tautology, and quality-gate template |
+| The user chooses | One Questions batch. Every brief has a no. Silence is not yes. A parent does not take `recommended` |
+| A correction reopens the rule | "That is not the behavior" updates the rule and discards briefs that cited it. Do not build from the old rule |
+| `tester` writes | An accepted brief is a `/create-test` slice after the public entry exists. The main agent does not write the file |
+| A refusal sticks | `/code-review` and `/pr-review` do not re-offer that same claim unless the shipped public contract differs |
 
 ## Output
 
@@ -105,4 +120,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
 - Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (create tool) because this skill is not `/publish`
-- Writing or editing test files, or invoking `/create-test` automatically; only `/create-test` writes tests after `/code-review` or `/pr-review` recommends it
+- Writing or editing test files on this skill
+- Suggesting a lock before grill Locked closing, or for behavior the grill did not record
+- Treating silence, a refused brief, or a parent `recommended` default as acceptance
+- Starting the implement wave while the lock question is still open
