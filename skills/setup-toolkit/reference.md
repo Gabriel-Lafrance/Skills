@@ -13,11 +13,74 @@ Find `<pack-root>` from the same skill-root order as `AGENTS.md`:
 3. Parent of `setup-toolkit` under `~/.cursor/skills/`
 4. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
 
-If templates are missing, stop. Tell the user to install the plugin or:
+If templates are missing, stop. Tell the user:
 
 ```bash
-npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
+npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
 ```
+
+Then run this skill again.
+
+## Verify
+
+Read the disk. Print a short list. Do not ask the user for these facts.
+
+| Fact | How to see it |
+| --- | --- |
+| User skills | `pack-shared` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
+| Repo skills | `pack-shared` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore this when the workspace **is** the Skills pack) |
+| Repo contract | workspace-root `AGENTS.md` missing, pack copy (`gabriel-skills-agents`), or a different file |
+| User contract | each harness row in [Install AGENTS.md](#install-agents-md): home exists or not, pack copy or different |
+| App | workspace `package.json` present or not; ESLint / Prettier already present or not |
+
+This workspace is the Skills pack when a parent directory contains both `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`.
+
+## Questions
+
+After Verify, one batch. Wait. Do not install until they reply. Shape: [asking.md](../pack-shared/asking.md).
+
+```markdown
+## Questions
+Reply like: 1a 2a
+
+1. Where should this pack and AGENTS.md go?
+   - a) User data (every harness already on this machine) recommended
+   - b) This repo
+   - c) Both
+2. Add ESLint, Prettier, and quality gates to this app?
+   - a) no recommended
+   - b) yes
+```
+
+Omit item 2 when there is no `package.json`. Cursor reads the repo `AGENTS.md`. If they pick user data only, say that Cursor in this app will not see the contract until they add a repo file or pick both.
+
+Do not ask which ESLint template. Detect that.
+
+## Pack skills
+
+`npx skills add gabriel-lafrance/skills@setup-toolkit` copies **this folder**. It does not copy `task`, `pack-shared`, or the rest. This step fills them for the destinations they chose.
+
+Skip a destination when:
+
+- This workspace is the Skills pack (do not reinstall the pack into itself).
+- **User data:** `pack-shared` already sits in `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/`.
+- **This repo:** `pack-shared` already sits in the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/`.
+
+Otherwise run the matching command:
+
+```bash
+# User data
+npx skills@latest add Gabriel-Lafrance/Skills --all -g
+
+# This repo (project skill home, no -g)
+npx skills@latest add Gabriel-Lafrance/Skills --all
+```
+
+`--all` is every skill in this repo, into every harness the CLI already sees, with no prompt. `-g` is the user-level skill home. Omit `-g` for the current repo.
+
+If that command fails (no network, old Node), say so and continue with `AGENTS.md` from [templates/AGENTS.md](templates/AGENTS.md). Do not invent skill folders by hand.
+
+Do not pass `--skill setup-toolkit` on this second add. The point of phase one is to land the whole pack after the one skills.sh install.
 
 ## Detect the app root
 
@@ -152,11 +215,11 @@ After lint/format work, check workspace-root `docs/design.md` only (no other pat
 | File missing | Run `/design` Initialization. That skill inventories every route from code and writes a short Do / Don't list. |
 | File present | Leave it. Do not overwrite. |
 
-Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
+Skip Initialization when they said no to lint, or when this workspace is not an app.
 
 ## Install AGENTS.md
 
-The pack stays harness-agnostic. This skill is what installs the contract into a repo, a user home, and a harness. Do this before lint setup, and do it even when the workspace has no `package.json`.
+The pack stays harness-agnostic. This skill is what installs the contract. Do this in phase one, only for the destinations they chose, even when the workspace has no `package.json`. Do not write the repo file if they picked user data only. Do not write harness homes if they picked this repo only.
 
 ### Source file
 
@@ -167,11 +230,13 @@ Use the first file that contains `gabriel-skills-agents`:
 
 If neither file has the marker, say so and skip this section. Do not invent the text.
 
-Copy that source. The same bytes go to every destination below. Do not rewrite them.
+Copy that source. The same bytes go to every **chosen** destination below. Do not rewrite them.
 
 ### Repo
 
-Every harness that reads `AGENTS.md` gets this file. That includes Claude Code, Cursor, Codex, Amp, Factory, Aider, Gemini CLI (once its settings point at `AGENTS.md`), goose, OpenCode, Roo, Windsurf, Zed, and Warp. Cursor uses this file. Do not also write `.cursor/rules` or a `.mdc` pointer.
+Run this block only when they chose this repo or both.
+
+Every harness that reads a workspace `AGENTS.md` gets this file. That includes Claude Code, Cursor, Codex, Amp, Factory, Aider, Gemini CLI (once its settings point at `AGENTS.md`), goose, OpenCode, Roo, Windsurf, Zed, and Warp. Cursor uses this file. Do not also write `.cursor/rules` or a `.mdc` pointer.
 
 1. If workspace-root `AGENTS.md` is missing, copy the source there.
 2. If it exists and contains `gabriel-skills-agents`, overwrite it with the source.
@@ -180,6 +245,8 @@ Every harness that reads `AGENTS.md` gets this file. That includes Claude Code, 
 Do not add a `CLAUDE.md` in the pack or the app. A project `CLAUDE.md` makes Claude Code skip `AGENTS.md` unless that file imports it.
 
 ### User and harness homes
+
+Run this block only when they chose user data or both.
 
 Install a row only when that harness home **already exists** on the machine, or the user named that harness. Do not create `~/.claude`, `~/.codex`, or `~/.gemini` for a harness that is not installed. Report each row as written or skipped. Cursor has no row: the repo `AGENTS.md` is its install.
 
@@ -198,19 +265,13 @@ Project adapters, only when that path already exists in the target repo:
 
 ## Done when
 
-- Workspace-root `AGENTS.md` is the pack copy, or a different `AGENTS.md` was left in place and reported
-- Each harness home that already existed was updated, or reported skipped because the file was not the pack copy
+- Verify printed skill roots, `AGENTS.md` state, and whether an app `package.json` exists
+- Destination and lint were asked once and they replied (lint omitted when there is no `package.json`)
+- Pack skills and `AGENTS.md` were written only to the destinations they chose
+- Destinations they did not choose were left untouched
 - Harness homes that do not exist were not created
-- No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when that import was missing
+- No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when they chose the repo and that import was missing
 - No `.cursor/rules` file and no `.mdc` file was written
-- Missing configs were written from templates
-- `eslint-plugin-no-emdash.mjs` is present next to ESLint config (or reported skipped)
-- `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, and `stryker.conf.json` are present next to `package.json` (or reported skipped)
-- `.vscode/extensions.json` has the ESLint and Prettier extension IDs
-- `.vscode/settings.json` was written or reported skipped
-- Existing configs were left in place and listed
-- Packages installed (or skipped because already present)
-- Scripts added or skipped with names listed (`test:quality`, `test:mutants`, and `test` only when it was missing)
-- One version smoke check ran
+- ESLint, Prettier, quality gates, editor files, packages, scripts, and the lint smoke check ran only if they said yes to lint
 - `test:quality` and `test:mutants` were **not** run as setup smoke
-- `docs/design.md` exists, or `/design` Initialization was started because it was missing
+- `/design` Initialization ran only if they said yes to lint and `docs/design.md` was missing

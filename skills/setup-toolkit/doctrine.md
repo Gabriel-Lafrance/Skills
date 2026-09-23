@@ -2,11 +2,11 @@
 
 ## Job
 
-Put lint, format, and principle quality gates **in the app repo**, and install the pack `AGENTS.md` into that repo and into each harness home that already exists for this user. The pack repo stays harness-agnostic. This skill is the installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
+Put this pack and the `AGENTS.md` contract onto the machine. Phase one verifies what is already installed, then writes skills and rules to the **repo** or to **user data** (or both) after one question. ESLint, Prettier, and quality gates are a later, opt-in phase. The pack repo stays harness-agnostic. This skill is the skills.sh installer. Cursor plugins cannot run ESLint or Prettier for a project that has no config.
 
 ## Owns
 
-Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` into the repo and into existing harness homes, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing.
+Which templates to copy, what not to overwrite, verifying current installs, installing the rest of this pack with `npx skills` into the chosen scope, installing the pack `AGENTS.md` into the chosen destinations, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing after they opted into lint.
 
 ## Does not own
 
@@ -26,12 +26,12 @@ none (uses `taste:*` and `architecture:*`)
 
 ## Bars
 
-1. **Contract first.** Install the pack `AGENTS.md` before lint setup. This step does not need `package.json`. Copy it into the repo. Then install each harness row in [reference.md](reference.md#install-agents-md) whose home already exists. Refresh a pack copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed.
-2. **Fail fast on lint setup** if there is no `package.json` at the workspace root (or the obvious app root the user named). ESLint and Prettier belong in JS/TS apps, not in this markdown pack itself. The `AGENTS.md` copy still stands.
-3. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, `complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
-4. **One stack.** Templates in [templates/](templates/) only. Do not add extra ESLint plugins beyond no-emdash and Convex when detected. The cyclomatic cap is ESLint’s built-in `complexity` rule plus the quality-gate test, not a third plugin. Quality tooling is ESLint, Prettier, Knip, and Stryker from templates. Do not swap in a different dead-code or mutation runner. Do not add a UI import denylist for keep jobs apart (SoC). Do not raise a cap, skip a gate, or delete a gate to go green (`taste:cyclomatic-cap`, `taste:fail-fast`, `taste:types-tell-the-truth`, `taste:trust-the-server`, `taste:no-dead-code`, `taste:kill-the-mutants`).
-5. **Detect, then choose the matching template** (see [reference.md](reference.md)). Do not ask the user facts the repo already answers. Convex-only principle checks run only when `convex/` exists. The Knip gate runs only when its config exists. Stryker uses the TypeScript-checker template when `tsconfig.json` exists.
-6. **Ask** only when a real fork remains (for example two app roots, or the user asked to replace a config). Follow [asking.md](../pack-shared/asking.md).
+1. **Verify, then ask, then install.** Look up skill roots, `AGENTS.md`, and harness homes first. Print those facts. Then one Questions batch: destination (repo, user data, or both) and, when a `package.json` exists, whether to add ESLint, Prettier, and quality gates. Wait. Do not copy lint files on `no`. Follow [asking.md](../pack-shared/asking.md).
+2. **Pack first.** For each chosen destination, if that scope is missing `pack-shared`, install the rest of this pack with the command in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack. Then copy `AGENTS.md` only to the chosen destinations. The contract copy does not need `package.json`. Refresh a pack copy only when it is missing or already contains `gabriel-skills-agents`. Leave a different `AGENTS.md` in place and say so. Do not create a harness directory that is not installed.
+3. **Fail fast on lint setup** if they said yes to lint and there is no `package.json` at the workspace root (or the obvious app root the user named). ESLint and Prettier belong in JS/TS apps, not in this markdown pack itself. Phase one still stands.
+4. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, `complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
+5. **One stack.** Templates in [templates/](templates/) only. Do not add extra ESLint plugins beyond no-emdash and Convex when detected. The cyclomatic cap is ESLint’s built-in `complexity` rule plus the quality-gate test, not a third plugin. Quality tooling is ESLint, Prettier, Knip, and Stryker from templates. Do not swap in a different dead-code or mutation runner. Do not add a UI import denylist for keep jobs apart (SoC). Do not raise a cap, skip a gate, or delete a gate to go green (`taste:cyclomatic-cap`, `taste:fail-fast`, `taste:types-tell-the-truth`, `taste:trust-the-server`, `taste:no-dead-code`, `taste:kill-the-mutants`).
+6. **Detect, then choose the matching template** (see [reference.md](reference.md)). Do not ask the user facts the repo already answers. Convex-only principle checks run only when `convex/` exists. The Knip gate runs only when its config exists. Stryker uses the TypeScript-checker template when `tsconfig.json` exists.
 7. **Do not ritual-lint the whole tree** after install. One smoke command is enough (`npx eslint --print-config eslint.config.mjs` or `package-manager exec eslint --version`). Full `lint` only if the user asked. Do not run `test:quality` or `test:mutants` as setup smoke: on an existing messy codebase they are supposed to fail until functions are split, types/errors/auth are honest, dead code is removed, and locks bite.
 8. **Do not reformat the repo** as part of setup. Leave `format` for the user.
 9. Convex ESLint plugin **only** when `convex/` exists (or `@convex-dev/eslint-plugin` is already a dependency).
@@ -39,13 +39,15 @@ none (uses `taste:*` and `architecture:*`)
 
 ## Output
 
-The machine and the app have:
+The machine and the app have, for the destinations they chose:
 
-- Workspace-root `AGENTS.md` copied from the pack when missing or already marked `gabriel-skills-agents` (a different file is left in place)
-- Each existing harness home updated in that harness's own instruction file (Claude import, Codex `AGENTS.md`, Gemini setting, Aider `read`), or reported skipped. Cursor is covered by the repo `AGENTS.md`
+- Pack skills in the user-level skill home, the project skill home, or both
+- Workspace-root `AGENTS.md` when they chose the repo (a different file is left in place)
+- Existing harness homes updated when they chose user data (or reported skipped). Cursor has no user-home row: the repo `AGENTS.md` is its contract
 - No new harness home directory, and no new project `CLAUDE.md`
+- No ESLint, Prettier, or quality-gate files unless they said yes to that phase
 
-The current workspace has:
+If they said yes to lint, the current workspace has:
 
 - `eslint.config.mjs` (flat config) **or** the existing ESLint config left untouched
 - `eslint-plugin-no-emdash.mjs` next to that config (bans em dash, en dash, and horizontal bar)
@@ -62,11 +64,11 @@ The current workspace has:
 
 ## Apply
 
-Copy the pack `AGENTS.md` first ([reference.md](reference.md#install-agents-md)). Then write configs next to the app `package.json`. That is the normal home for ESLint and Prettier. Do not invent `services/lint/` or a wrapper package unless this repo already publishes shareable configs that way.
+Verify first ([reference.md](reference.md#verify)). Ask destination and lint ([reference.md](reference.md#questions)). Wait. Install missing pack skills and `AGENTS.md` only for the chosen destinations. Write lint configs next to the app `package.json` only if they said yes. Do not invent `services/lint/` or a wrapper package unless this repo already publishes shareable configs that way.
 
-If the repo already has a working lint/format story, **fill only missing pieces** (no-emdash plugin file, quality-gate files, `.vscode` recommendations, Prettier if missing). Do not overwrite their ESLint config. Print the import snippet if their config does not already include `noEmdashConfig` or the cyclomatic cap.
+If they said yes to lint and the repo already has a working lint/format story, **fill only missing pieces** (no-emdash plugin file, quality-gate files, `.vscode` recommendations, Prettier if missing). Do not overwrite their ESLint config. Print the import snippet if their config does not already include `noEmdashConfig` or the cyclomatic cap.
 
-After that work, if `docs/design.md` is missing, run `/design` Initialization (`design:initialization`). Do not invent the file from this skill. If the file already exists, leave it.
+After that work, if they said yes to lint and `docs/design.md` is missing, run `/design` Initialization (`design:initialization`). Do not invent the file from this skill. If the file already exists, leave it.
 
 ## Anti-patterns
 
@@ -87,3 +89,7 @@ After that work, if `docs/design.md` is missing, run `/design` Initialization (`
 - Adding a keep-jobs-apart (SoC) SDK or UI import denylist
 - Skipping Convex identity or clock checks by deleting `convex/` from the test instead of fixing the function
 - Writing `docs/design.md` from memory instead of `/design` Initialization
+- Copying only lint files and leaving the rest of this pack uninstalled when the chosen destination is missing `pack-shared`
+- Copying ESLint, Prettier, or quality gates before they said yes
+- Writing `AGENTS.md` to a destination they did not choose
+- Telling the user to hunt the skills.sh leaderboard instead of `npx skills add gabriel-lafrance/skills@setup-toolkit`

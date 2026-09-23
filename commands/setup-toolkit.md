@@ -1,12 +1,12 @@
 ---
 name: setup-toolkit
 description: >-
-  Install the pack AGENTS.md into the current repo and into each harness
-  home that already exists, then add ESLint, Prettier, editor workspace
-  files, and principle quality-gate tests from this pack's templates.
-  Use when the user wants the engineering toolkit, AGENTS.md, lint,
-  format, eslint, prettier, extensions, a complexity test, test:quality,
-  dead code, knip, mutants, or test:mutants in an app.
+  Install the pack AGENTS.md into the repo or the user's harness
+  data (the skill asks), then optionally add ESLint, Prettier, editor
+  workspace files, and principle quality-gate tests from this pack's
+  templates. Use when the user wants the engineering toolkit, AGENTS.md,
+  lint, format, eslint, prettier, extensions, a complexity test,
+  test:quality, dead code, knip, mutants, or test:mutants in an app.
 ---
 
 # Setup toolkit

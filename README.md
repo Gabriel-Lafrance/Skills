@@ -4,19 +4,32 @@ Engineering toolkit for any harness: agent skills, an always-on [`AGENTS.md`](./
 
 ## Install
 
-The always-on contract is [`AGENTS.md`](./AGENTS.md). The pack does not pre-install that file into a harness. `/setup-toolkit` copies it into the app, then into each harness home that already exists on the machine. Do not add a project `CLAUDE.md`.
+This pack is on [skills.sh](https://skills.sh/gabriel-lafrance/skills/setup-toolkit). Install **one** skill, then run it. Phase one installs the pack and `AGENTS.md` into the repo or your user data. ESLint, Prettier, and quality gates are asked separately.
+
+```bash
+npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
+```
+
+In an app chat, run `/setup-toolkit`. Do not add a project `CLAUDE.md`.
+
+`npx skills find setup-toolkit` ranks by install count and will show other "toolkit" skills first. Use the command above, not the leaderboard.
+
+To copy every skill without running setup:
+
+```bash
+npx skills@latest add Gabriel-Lafrance/Skills --all -g
+npx skills@latest update -g -y
+```
+
+`--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
+
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md).
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
 Team admins can also import this repo from **Cursor Dashboard → Plugins → Add Marketplace → Import from Repo** using `https://github.com/Gabriel-Lafrance/Skills`.
 
-```bash
-# Claude, Cursor, or both. Use one -a flag when you only need one harness.
-npx skills@latest add Gabriel-Lafrance/Skills -a claude -a cursor -s '*' -g -y
-npx skills@latest update -g -y
-```
-
-`npx skills` copies skill folders. It does not copy root `AGENTS.md`. The setup skill ships a copy of the contract and installs it into the repo and the user harness homes. Run `/setup-toolkit` in an app.
+`npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract. It asks whether that file goes in the repo, in your harness homes, or both. It does not copy ESLint or quality gates until you say yes.
 
 The **Taste** and **Architecture** sections of [`AGENTS.md`](./AGENTS.md) are always-on rules ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not restate those sections.
 
@@ -30,13 +43,13 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 | Piece | Where | What it does |
 | --- | --- | --- |
-| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` installs this file into the app and into each existing harness home |
+| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` copies this file into the repo, user harness homes, or both after you choose |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
 | **Specialists** | `agents/` | Same roles every harness uses. Cursor can spawn them as custom agents. Other harnesses use their specialist tool, or a separate pass |
 | **Setup command** | `commands/setup-toolkit.md` | Cursor slash entry for the same `/setup-toolkit` skill |
-| **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** by `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
+| **ESLint / Prettier / editor / quality gate** | `skills/setup-toolkit/templates/` | Config copied **into your app** only when you opt in during `/setup-toolkit`, including no-emdash, `test:quality` (cyclomatic complexity (McCabe) cap 5 plus principle and dead-code gates), `test:mutants` (Stryker), and `.vscode` extension recommendations |
 
-ESLint, Prettier, and `test:quality` are app-repo config, not harness primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json`, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
+ESLint, Prettier, and `test:quality` are app-repo config, not harness primitives. They only run if the app repo has config and packages. `/setup-toolkit` writes those files next to your `package.json` when you say yes, plus `.vscode/extensions.json` (ESLint + Prettier extensions) and `.vscode/settings.json` (format on save). Cursor reads the `.vscode` folder the same way VS Code does.
 
 ### Specialists
 
@@ -63,7 +76,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
 | **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | Copy `AGENTS.md`, then ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier / quality gates are opt-in |
 
 ```mermaid
 flowchart LR
@@ -84,7 +97,7 @@ flowchart LR
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
-- Lint/format/quality gates in this app → `/setup-toolkit`
+- Lint/format/quality gates, or this pack on a new machine → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
