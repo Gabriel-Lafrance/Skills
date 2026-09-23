@@ -46,7 +46,7 @@ Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Ta
 
 Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules. Link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/design`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start (`/design` is also a user start for capturing `docs/design.md`). User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/setup-toolkit`) say that in `SKILL.md`. `/create-test` stays a user start. `/task` may continue it only after the user accepts that task's lock briefs.
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules. Link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/split-task`) say in `SKILL.md` they are not a typical user start. User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/setup-toolkit`) say that in `SKILL.md`. `/create-test` stays a user start. `/task` may continue it only after the user accepts that task's lock briefs.
 
 ## Frontmatter
 
@@ -79,7 +79,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
   [`publish/reference.md`](./skills/publish/reference.md)), and the CI mirror
   in this environment before a push that opens or updates a PR.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (`tester` writes them after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests; the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, and `/just-do-it` do not write tests or start `/create-test`. `/just-do-it` does not answer the task's lock question. The always-on bar is the **No drive-by tests** section of [`AGENTS.md`](./AGENTS.md).
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (`tester` writes them after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests; the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/implement`, `/analyze`, `/write-ticket`, `/publish`, and `/just-do-it` do not write tests or start `/create-test`. `/just-do-it` does not answer the task's lock question. The always-on bar is the **No drive-by tests** section of [`AGENTS.md`](./AGENTS.md).
 
 ## No visual tooling
 
@@ -105,7 +105,7 @@ Do not add a `rules/` folder or a `.mdc` file. The always-on contract is [`AGENT
 
 - **Agent:** `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it to apply the Taste and Architecture sections of `AGENTS.md`. The same role must stay in `pack-shared/subagents.md`, because other harnesses do not load `agents/`.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
+- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is written by the designer from the routes in code before UI work, not by copying a stub from this pack. `/setup-toolkit` does not write that file.
 
 ## Conventions
 

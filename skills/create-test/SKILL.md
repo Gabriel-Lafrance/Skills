@@ -14,7 +14,7 @@ disable-model-invocation: true
 The user starts this skill. `/task` may continue it only after the user
 accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
 That answer is the start for those briefs. Each task brief cites a grilled
-rule. `/implement`, `/design`, and other build workers do not start this
+rule. `/implement`, the designer, and other build workers do not start this
 skill. Silence, and a parent taking `recommended`, are not a start.
 
 `/code-review` and `/pr-review` may still recommend a lock the task did not

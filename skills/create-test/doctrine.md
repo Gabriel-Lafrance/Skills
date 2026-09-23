@@ -51,7 +51,7 @@ The user starts this skill. `/task` may continue it only for briefs the user acc
 - Writing tests on the main agent, or skipping `tester` when tests are the job
 - Starting this skill without a user start, or from a `/task` brief the user did not accept
 - A `/task` brief that does not cite a grilled rule
-- `/implement`, `/design`, and other build workers invoking this skill or writing test files
+- `/implement`, the designer, and other build workers invoking this skill or writing test files
 - Tautological tests (recompute the same arithmetic as the code, assert UI chrome exists) or coverage theater
 - Adding a test because the code changed, including a small tweak, copy change, rename, or one-line fix
 - Raising, skipping, or deleting a `/setup-toolkit` quality gate (or lowering the mutant break threshold) instead of splitting a branchy function, typing the value, throwing at the boundary, checking identity, removing dead code, or strengthening the lock

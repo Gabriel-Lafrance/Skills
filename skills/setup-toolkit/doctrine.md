@@ -6,7 +6,7 @@ Put lint, format, and principle quality gates **in the app repo**, and install t
 
 ## Owns
 
-Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` into the repo and into existing harness homes, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing.
+Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` into the repo and into existing harness homes, Convex plugin detection, the quality-gate tests (`test:quality`), the mutant check (`test:mutants`), and the smoke check.
 
 ## Does not own
 
@@ -17,7 +17,7 @@ Which templates to copy, what not to overwrite, installing the pack `AGENTS.md` 
 - Creating a harness home the user does not have
 - Behavior-lock tests (`/create-test`)
 - A keep-jobs-apart (SoC) import denylist
-- The design file contents or code-derived route inventory: [`../design/doctrine.md`](../design/doctrine.md)
+- `docs/design.md` contents or a code-derived route inventory: the App UX section of `AGENTS.md` and the designer
 - Detect/choose details: [`reference.md`](reference.md)
 
 ## Cite keys
@@ -58,7 +58,7 @@ The current workspace has:
 - `.vscode/settings.json` for format-on-save and ESLint **or** the existing settings left untouched
 - `package.json` scripts `lint`, `lint:fix`, `format`, `format:check`, `test:quality`, and `test:mutants` when those names are free; `test` set to the quality command only when `test` is missing
 - Dev dependencies installed with the repo’s package manager
-- `/design` Initialization started when `docs/design.md` was missing (or reported skipped because the file already exists)
+- `docs/design.md` left untouched
 
 ## Apply
 
@@ -66,7 +66,7 @@ Copy the pack `AGENTS.md` first ([reference.md](reference.md#install-agents-md))
 
 If the repo already has a working lint/format story, **fill only missing pieces** (no-emdash plugin file, quality-gate files, `.vscode` recommendations, Prettier if missing). Do not overwrite their ESLint config. Print the import snippet if their config does not already include `noEmdashConfig` or the cyclomatic cap.
 
-After that work, if `docs/design.md` is missing, run `/design` Initialization (`design:initialization`). Do not invent the file from this skill. If the file already exists, leave it.
+Do not write `docs/design.md` from this skill. If the file is missing, the designer writes a short Do / Don't list from the routes in code before UI work. If the file already exists, leave it.
 
 ## Anti-patterns
 
@@ -86,4 +86,4 @@ After that work, if `docs/design.md` is missing, run `/design` Initialization (`
 - Deleting `knip.json` so dead code passes
 - Adding a keep-jobs-apart (SoC) SDK or UI import denylist
 - Skipping Convex identity or clock checks by deleting `convex/` from the test instead of fixing the function
-- Writing `docs/design.md` from memory instead of `/design` Initialization
+- Writing `docs/design.md` from this skill

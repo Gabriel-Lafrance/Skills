@@ -145,14 +145,7 @@ npx prettier --version
 
 ## Design file
 
-After lint/format work, check workspace-root `docs/design.md` only (no other path).
-
-| State | Action |
-| --- | --- |
-| File missing | Run `/design` Initialization. That skill inventories every route from code and writes a short Do / Don't list. |
-| File present | Leave it. Do not overwrite. |
-
-Skip Initialization only when this workspace is not an app (setup already stopped for a missing `package.json`).
+This skill does not write workspace-root `docs/design.md` and does not start a design pass. If the file is missing, the designer writes a short Do / Don't list from the routes in code before UI work. If the file is present, leave it. Never overwrite an existing file with a blank template.
 
 ## Install AGENTS.md
 
@@ -213,4 +206,4 @@ Project adapters, only when that path already exists in the target repo:
 - Scripts added or skipped with names listed (`test:quality`, `test:mutants`, and `test` only when it was missing)
 - One version smoke check ran
 - `test:quality` and `test:mutants` were **not** run as setup smoke
-- `docs/design.md` exists, or `/design` Initialization was started because it was missing
+- `docs/design.md` was left untouched

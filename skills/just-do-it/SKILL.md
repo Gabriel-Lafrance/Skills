@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Just Do It
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before analyze, build, or review. Do not skip. For user-facing work also load `/design` and `docs/design.md`.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before analyze, build, or review. Do not skip. For user-facing work also follow the App UX section of `AGENTS.md` and `docs/design.md`. The designer owns that UI.
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) · [../publish/doctrine.md](../publish/doctrine.md) · [../publish/reference.md](../publish/reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -25,8 +25,8 @@ refuse every test.
 
 ## Lifecycle
 
-1. Resolve the Linear ticket through read-only `/trackers` and open the parent
-   execution context.
+1. Read the Linear ticket with that tracker's read API and open the parent
+   execution context. Do not change status, comment, or close unless the user asks in that turn.
 2. Create a typed standalone branch after git hard stops pass (`git switch --detach <base-sha>`, then `git switch -c`, or `--no-track`). It must not track `dev`, `main`, or `master`.
 3. Run `/analyze` (this parent owns the next step), then `/task` for the
    bounded build (`/task` returns evidence; this parent owns shipping).

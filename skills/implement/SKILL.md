@@ -15,9 +15,9 @@ disable-model-invocation: true
 This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
 You own **how**. The parent sends **what** and need-to-know, not a recipe.
 
-User-facing UI is `/design`. If this brief's write allowlist is screens,
+User-facing UI is the designer. If this brief's write allowlist is screens,
 components, styling, or visible copy, return `blocked` and tell the parent
-to dispatch `/design` instead.
+to dispatch the designer instead.
 
 Use the shared [execution context](../pack-shared/execution-context.md). The
 parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in
@@ -26,7 +26,7 @@ Fail the job if taste or architecture bars are skipped.
 
 ## Read first
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md` (keep it simple, named principles, and structure). Do not implement user-facing UI here (`/design` owns that).
+1. The **Taste** and **Architecture** sections of `AGENTS.md` (keep it simple, named principles, and structure). Do not implement user-facing UI here (the designer owns that).
 2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
    decisions, Active Rules, current slice, write lane, and dependencies.
 3. Only the named ticket / PR, relevant Git diff/history, repository code and

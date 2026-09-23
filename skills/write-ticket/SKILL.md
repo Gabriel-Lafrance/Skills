@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a user start. Do not nest it under `/task`. It writes a tracker ticket; `/trackers` reads.
+This skill is a user start. Do not nest it under `/task`. It writes a tracker ticket.
 Always run `/analyze` to full memo depth (this parent owns the next step). Do not run a type-specific
 open grill. Do not invoke full `/grill-me`.
 

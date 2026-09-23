@@ -75,8 +75,8 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 - **Scalability:** <stored-on-write | none for this slice>
 
 ## Design
-- **File:** `docs/design.md` present | missing (Initialization first)
-- **Worker:** `/design` (user-facing) | `/implement` (non-UI) | split
+- **File:** `docs/design.md` present | missing (the designer writes a short Do / Don't list from the routes in code before UI work)
+- **Worker:** designer (user-facing) | `/implement` (non-UI) | split
 
 ## Rules that must stay true
 | ID | Role | How we enforce it | How we check it |
@@ -220,7 +220,7 @@ Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested v
 
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
-3. Unless the skip rule applies, run `/grill-me` fully. It applies the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
+3. Unless the skip rule applies, run `/grill-me` fully. It applies the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in the App UX section of `AGENTS.md` and the current `docs/design.md`.
 4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) has to be specific. A fuzzy rule cannot become a test later.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
 6. Do not suggest tests in this phase.
@@ -229,13 +229,13 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm Taste and Architecture decisions against the grill (the Taste and Architecture sections must already be applied this turn), then inject the locked structure excerpt into later briefs. There is no architect worker. For UI, also confirm `/design` and `docs/design.md` (Initialization first if the file is missing).
+**Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm Taste and Architecture decisions against the grill (the Taste and Architecture sections must already be applied this turn), then inject the locked structure excerpt into later briefs. There is no architect worker. For UI, also confirm the designer and `docs/design.md` (the designer writes a short Do / Don't list from the routes in code before UI work if the file is missing).
 
-**Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/design` (user-facing) or `/implement` (non-UI). The contract states **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
+**Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before the designer (user-facing) or `/implement` (non-UI). The contract states **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
 
 **Suggest behavior locks.** Run [Behavior-lock suggestion](#behavior-lock-suggestion). Phase is `locks` while the question is open. If the user corrects a rule, return to grill for that rule before any implement wave. If they accept or refuse without correcting the rule, record it and continue. If nothing qualifies, record none and continue.
 
-**Implement wave.** Dispatch ready frontier slices as Task workers with a Worker Brief from [subagents.md](../pack-shared/subagents.md). User-facing slices use `/design` (and `docs/design.md`). Non-UI slices use `/implement`. Launch every ready slice in the same turn when lanes do not overlap. Each prompt is **what** plus injected need-to-know (explorer hits, locked structure excerpt, rules). Do not send a how-recipe. Anti-pattern: the parent solos non-trivial implement work. After the public entry exists, dispatch `tester` for each accepted brief. After integration, update **Current slices** in chat; if ready slices remain, dispatch the next frontier. Only when every slice is integrated, blocked, or explicitly waived does the parent enter acceptance evidence. The parent owns integration and the acceptance/review gates (`/code-review` still dispatches review Tasks that check the result against the what).
+**Implement wave.** Dispatch ready frontier slices as Task workers with a Worker Brief from [subagents.md](../pack-shared/subagents.md). User-facing slices use the designer (and `docs/design.md`). Non-UI slices use `/implement`. Launch every ready slice in the same turn when lanes do not overlap. Each prompt is **what** plus injected need-to-know (explorer hits, locked structure excerpt, rules). Do not send a how-recipe. Anti-pattern: the parent solos non-trivial implement work. After the public entry exists, dispatch `tester` for each accepted brief. After integration, update **Current slices** in chat; if ready slices remain, dispatch the next frontier. Only when every slice is integrated, blocked, or explicitly waived does the parent enter acceptance evidence. The parent owns integration and the acceptance/review gates (`/code-review` still dispatches review Tasks that check the result against the what).
 
 **Acceptance evidence and review.** After all implementation workers finish:
 

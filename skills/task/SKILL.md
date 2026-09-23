@@ -18,7 +18,7 @@ disable-model-invocation: true
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
 Completions; do not solo non-trivial labor or grep the tree. Always apply the **Taste** and **Architecture** sections of `AGENTS.md` during grill and before every implement wave.
-Load `/design` before every user-facing implement wave.
+Dispatch the designer before every user-facing implement wave.
 
 `/task` follows the stateless
 [execution-context contract](../pack-shared/execution-context.md): plans are
@@ -38,7 +38,7 @@ destination.
    per [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
    spawn order. Main does not grep or write tests. Always
    apply the **Taste** and **Architecture** sections of `AGENTS.md` during grill and before every implement
-   wave. Load `/design` before every user-facing implement wave.
+   wave. Dispatch the designer before every user-facing implement wave.
 3. Announce completion.
 
 ### If a parent already owns the ticket, branch, and PR

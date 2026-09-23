@@ -109,7 +109,7 @@ the brief small enough that the worker stays in the smart zone.
 ## Read first
 - the **Taste** and **Architecture** sections of `AGENTS.md` (hard, [standards.md](standards.md))
 - `pack-shared/plain-language.md` when this worker's output will be pasted into the discussion reply
-- `docs/design.md` and `design/doctrine.md` when the slice is user-facing UI
+- the App UX section of `AGENTS.md` and `docs/design.md` when the slice is user-facing UI
 - <repo paths, ticket, PR, or committed docs only — not a second copy of the doctrines>
 
 ## Escalation boundary
@@ -142,7 +142,7 @@ designer, reviewer, and tester Completions must mark **Taste / architecture:**
 | How / impact / risk / files touched (`/analyze`) | Pack `analyzer` (or another listed type that fits) |
 | Implement one tiny non-UI what | Pack `implementer`, or a harness general worker when no pack role exists. One brief per independently reviewable slice (can be one function) |
 | Implement user-facing UI | Pack `designer`. One brief per independently reviewable slice. Do not use `implementer` |
-| Capture `docs/design.md` | `designer` with a code-derived route inventory. See `/design` |
+| Capture `docs/design.md` | `designer` writes a short Do / Don't list from the routes in code before UI work. Never overwrite an existing file with a blank template |
 | Local diff vs the what and the parent task | Pack `reviewer`, or a harness general worker when no pack role exists |
 | Open GitHub PR | Pack `pr-reviewer`, or a harness general worker when no pack role exists |
 | Write tests | When the user started `/create-test`, or accepted a `/task` behavior-lock brief, for a complex lock. Then pack `tester`. Main never writes tests. Do not spawn tester for a small tweak or a refused brief |

@@ -11,7 +11,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- User-facing UI and `docs/design.md`: `/design`
+- User-facing UI and `docs/design.md`: the designer
 - Review disposition: `/code-review`
 - Test file contents: `/create-test` via `tester`, and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
@@ -36,23 +36,23 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 | Need | Call |
 | --- | --- |
-| Ticket context | `/trackers` (read only) when ticket/PR |
+| Ticket context | Read the ticket or PR itself when one is named (GitHub with `gh` view, Linear with that tracker's read API). Do not change status, comment, or close unless the user asks in that turn |
 | Grill | `/grill-me` |
 | Style contract | **`/taste` always** (grill + before every implement wave) |
 | Structure | **`/architecture` always** (grill + before every implement wave). For a typo or pure rename, load it and keep the existing structure |
-| UX source of truth | **`/design`** when the slice is user-facing UI. Run Initialization first if `docs/design.md` is missing |
+| UX source of truth | App UX section of `AGENTS.md` and `docs/design.md` when the slice is user-facing UI. If `docs/design.md` is missing, the designer writes a short Do / Don't list from the routes in code before UI work |
 | Split | `/split-task` when multiple slices help |
 | Plan contract | Parent issues [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Conductor | [subagents.md](../pack-shared/subagents.md) for every Task wave (what vs how) |
 | Find | `explorer` Tasks — main does not grep |
 | Judge | `/analyze` via `analyzer` Tasks |
-| Build | `/design` for user-facing UI; `/implement` for non-UI |
+| Build | designer for user-facing UI; `/implement` for non-UI |
 | Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs go to `/create-test` via `tester`. Main never writes tests |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/code-review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/code-review`, `/analyze`). Dispatch the designer for user-facing UI. Each skill follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -61,11 +61,11 @@ Track these rows in the in-chat execution context or a concise progress message.
 | Skill | Required? | Notes |
 | --- | --- | --- |
 | Task workers ([subagents.md](../pack-shared/subagents.md)) | Yes | Pick the specialist that owns the job. Main does not grep or write tests |
-| `/trackers` | If ticket | Read only |
+| Ticket or PR read | If ticket | Read it (GitHub `gh` view, Linear read API). Do not change status, comment, or close unless the user asks in that turn |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | During grill and before/during every implement wave |
 | `/architecture` | **Yes** | During grill and before/during every implement wave. Prefer loading even for a one-file fix |
-| `/design` | If UI | User-facing slices. Initialization if `docs/design.md` is missing |
+| designer | If UI | User-facing slices. If `docs/design.md` is missing, write a short Do / Don't list from the routes in code before UI work |
 | `/split-task` | If multi-slice | Announce inline slices |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | `/implement` | If non-UI | Frontier slices that are not user-facing |
@@ -79,7 +79,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 **Skip grill only if all are true:** the ticket or user already has binary acceptance criteria; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as Active Rules even when skipping.
 
-For ticket-driven tasks, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
+For ticket-driven tasks, read the ticket or PR first (GitHub with `gh` view, Linear with that tracker's read API), then grill open decisions. Do not change status, comment, or close unless the user asks in that turn.
 
 ### Behavior locks
 

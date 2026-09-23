@@ -19,7 +19,7 @@ Cite keys are the headings in the Taste section. When speaking to the user, cite
 **plain (Classic)**: `keep this simple (KISS)`. Never acronym-only and never
 the paraphrase without the classic name. Placement and
 `taste:keep-jobs-apart` defects are taste failures too. Parents (`/task`,
-`/analyze`, `/grill-me`, `/implement`, `/design`) apply the Taste and Architecture
+`/analyze`, `/grill-me`, `/implement`) apply the Taste and Architecture
 sections before planning or writing code.
 
 ### If this is a user one-off (audit or fix a lane)

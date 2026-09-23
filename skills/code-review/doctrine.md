@@ -12,7 +12,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md) (applied while building, not as a review axis)
+- UX bars and `docs/design.md`: the App UX section of `AGENTS.md` and `docs/design.md` (applied while building, not as a review axis)
 - GitHub posting, Pass A/B, PR extras: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
 - Numbered parent dispatch: [`SKILL.md`](SKILL.md)
@@ -36,7 +36,7 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX bars (`design:*`) apply in `/design` while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
+UX bars (`design:*`) apply from the App UX section of `AGENTS.md` while building. Do not add a Design axis, Design matrix, Experience floor, or Craft floor.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Keep findings factual, not roleplay. Thoroughness means stronger path walks and better evidence, never hypothetical failures.
 
@@ -122,7 +122,7 @@ If Fix now is empty, end the review without starting a fix loop. Do not write ex
 
 After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
-For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not dispatch a Design review Task.
+For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md`. Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not dispatch a Design review Task.
 
 ## Anti-patterns
 
@@ -130,7 +130,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Soloing Standards or Spec on the main agent instead of parallel Task workers
 - Capping review dispatch at two Tasks when the diff has independent surfaces
 - Running a second adversarial review or hunt re-inspect after the parallel pass
-- Inventing a `/design-review` skill or a Design review axis
+- Inventing a Design review axis
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
 - Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
 - Treating a mixed-parent file dump in the shipped diff as Optional nit or as “keep it simple”

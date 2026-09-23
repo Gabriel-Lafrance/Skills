@@ -47,7 +47,7 @@ The parent feeds **what** to do and **need-to-know**; each specialist owns **how
 | [`explorer`](./agents/explorer.md) | Find relevant paths and snippets | noisy search (not `/analyze`) |
 | [`analyzer`](./agents/analyzer.md) | How / impact / risk memo | `/analyze` |
 | [`implementer`](./agents/implementer.md) | One tiny non-UI code what | `/implement` |
-| [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | `/design` |
+| [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | App UX section of `AGENTS.md` |
 | [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
 | [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
 | [`tester`](./agents/tester.md) | Behavior lock the user accepted | `/create-test` (user start, or `/task` after the user accepts the briefs) |
@@ -61,9 +61,9 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route, plus examples and audits for the always-on rules |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
-| **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
+| **Build**         | `/task`, `/just-do-it`                                   | Implement end-to-end |
 | **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
-| **Toolkit**       | `/setup-toolkit`                                         | Copy `AGENTS.md`, then ESLint, Prettier, editor extensions, `test:quality` / `test:mutants`, and `docs/design.md` init in the current app |
+| **Toolkit**       | `/setup-toolkit`                                         | Copy `AGENTS.md`, then ESLint, Prettier, editor extensions, and `test:quality` / `test:mutants` in the current app |
 
 ```mermaid
 flowchart LR
@@ -83,7 +83,7 @@ flowchart LR
 - Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
 - Ticket → build → `/write-ticket` then `/task`
 - Build now → `/task` or `/just-do-it`
-- Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
+- Build a screen → `/task` (the designer owns user-facing UI)
 - Lint/format/quality gates in this app → `/setup-toolkit`
 - Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change

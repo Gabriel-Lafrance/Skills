@@ -11,7 +11,7 @@ Fixed-point inputs, modes, evidence bar, finding record, one review output fence
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md)
+- UX bars and `docs/design.md`: the App UX section of `AGENTS.md` and `docs/design.md`
 - Blocker vs follow-up judgment table and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - PR extras, Pass A/B, posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
 
@@ -108,7 +108,7 @@ loading, empty, error), and named unchanged behavior. Do not invent rows when
 no specification exists; say so, and still let Standards run the Correctness
 hunt (bugs are not "the ticket forgot to mention them").
 
-UX bars live in `/design` while building. Do not dispatch a Design worker,
+UX bars live in the App UX section of `AGENTS.md` and in `docs/design.md` while building. Do not dispatch a Design review,
 return a Design matrix, or run an Experience or Craft floor.
 
 The parent provides the fixed-point diff, relevant spec, Active Rules, and

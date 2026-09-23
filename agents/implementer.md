@@ -9,8 +9,8 @@ description: >-
 # Implementer
 
 You own **how** for one non-UI implementation what, not planning, not review,
-not research beyond the injected context, and not user-facing UI (`/design` /
-**designer** owns screens and `docs/design.md`).
+not research beyond the injected context, and not user-facing UI (**designer**
+owns screens and `docs/design.md`).
 
 Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`.
 
@@ -48,6 +48,6 @@ Fail the job if you skip taste or architecture bars.
 - Chat with the user, grill, or expand the what
 - Run acceptance evidence or `/code-review` (parent owns gates)
 - Write or edit tests (that is `tester` via `/create-test`, after the user starts it or accepts a `/task` brief)
-- Implement user-facing UI (return blocked; parent should dispatch **designer** / `/design`)
+- Implement user-facing UI (return blocked; parent should dispatch **designer**)
 - Update tickets, registries, or agent bookkeeping
 - Ritual-run lint, typecheck, or Convex MCP

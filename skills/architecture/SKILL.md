@@ -76,7 +76,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
 ### If a parent already owns the next step
 
 Hand the structure decision into the parent inline context and Worker Brief,
-then `/design` for user-facing UI or `/implement` for non-UI. Return needed corrections to the parent.
+then the designer for user-facing UI or `/implement` for non-UI. Return needed corrections to the parent.
 
 ### If this is a user one-off
 
