@@ -44,11 +44,12 @@ npx skills@latest add . --list
 Cursor plugin is optional and does not add a separate ruleset. People install
 this pack from skills.sh with
 `npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then
-`/setup-toolkit`. Installed skills must apply the Taste and Architecture
-sections of `AGENTS.md`. ESLint and Prettier templates live in
+`/setup-toolkit`. That skill asks where skills and `AGENTS.md` go. Installed
+skills must apply the Taste and Architecture sections of `AGENTS.md`. ESLint
+and Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
-copied into **app** repos by `/setup-toolkit` — they are not run from this
-markdown pack.
+copied into **app** repos only when the user says yes. They are not run from
+this markdown pack.
 
 ## How to change skills
 

@@ -38,7 +38,7 @@ Skill folder names: `lowercase-with-hyphens` (e.g. `grill-me`, `code-review`).
 
 **Install rule:** `npx skills` only copies folders that contain `SKILL.md`. Pack-wide contracts must live under `pack-shared/` (or another skill folder). Bare `skills/*.md` files are **not** installed — other skills will fail looking for `../pack-shared/...`.
 
-**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `agents/`, `commands/`, and `skills/`. It does not ship a rules folder. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. [`skills/setup-toolkit/templates/AGENTS.md`](./skills/setup-toolkit/templates/AGENTS.md) is the same contract so the skill can install it. `/setup-toolkit` copies that file into the app and into each harness home that already exists. Cursor reads the repo file. Do not add a `.cursor/rules` or `.mdc` copy. Put files a skill copies into an app **inside that skill folder**.
+**Plugin vs `npx skills`:** the Cursor plugin is optional. It auto-discovers `agents/`, `commands/`, and `skills/`. It does not ship a rules folder. `npx skills` still copies **only** skill folders, and can target Claude, Cursor, or both (`-a claude`, `-a cursor`). It does not install root `AGENTS.md`. [`skills/setup-toolkit/templates/AGENTS.md`](./skills/setup-toolkit/templates/AGENTS.md) is the same contract so the skill can install it. `/setup-toolkit` asks whether that file goes in the app, in existing harness homes, or both. Cursor reads the repo file. Do not add a `.cursor/rules` or `.mdc` copy. Put files a skill copies into an app **inside that skill folder**.
 
 Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Tab events. Do not add **MCP** unless there is a real server to ship. ESLint and Prettier are app-repo configs, not plugin components.
 
@@ -105,7 +105,7 @@ Do not add a `rules/` folder or a `.mdc` file. The always-on contract is [`AGENT
 
 - **Agent:** `agents/<name>.md` with `name` + `description` frontmatter. One job. Tell it to apply the Taste and Architecture sections of `AGENTS.md`. The same role must stay in `pack-shared/subagents.md`, because other harnesses do not load `agents/`.
 - **Command** — `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
+- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`, and `.vscode/` workspace files **only when the user said yes**. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
 
 ## Conventions
 
@@ -131,7 +131,7 @@ Skills from GitHub, for every harness the CLI already sees:
 npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
 ```
 
-Then run `/setup-toolkit` in an app. That skill installs the rest of this pack (`npx skills add Gabriel-Lafrance/Skills --all -g`), then `AGENTS.md`, then lint.
+Then run `/setup-toolkit` in an app. Phase one verifies, then installs the rest of this pack and `AGENTS.md` into the repo or user data (it asks). Lint is a later question.
 
 To copy every skill without running setup:
 
@@ -167,4 +167,4 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 - Do **not** paste `AGENTS.md` into a User Rules box.
 - Do **not** copy the Taste or Architecture rules back into `skills/taste/doctrine.md` or `skills/architecture/doctrine.md`. Those files point at `AGENTS.md`. The Unslop catalog also lives in `AGENTS.md` because it is not a skill.
 - Do **not** add a `CLAUDE.md` in the pack or the app.
-- `npx skills` does not install root `AGENTS.md`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the app when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. It then writes only the harness homes that already exist (Claude import, Codex `AGENTS.md`, and the other rows in the setup reference). Cursor is the repo file. It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`.
+- `npx skills` does not install root `AGENTS.md`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the destinations the user chose: the app, existing harness homes, or both. Refresh only when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. Cursor is the repo file. It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`. ESLint and quality gates wait for a yes.

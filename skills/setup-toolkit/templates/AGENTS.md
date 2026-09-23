@@ -648,7 +648,7 @@ Before branches or PRs, **Read**:
 
 Do **not** paste a style guide into chat. If this repo already has ESLint or Prettier, **follow those configs**.
 
-- Add or change lint/format tooling with `/setup-toolkit`. Do not invent a parallel config.
+- Add or change lint/format tooling with `/setup-toolkit` after the user says yes to that phase. Do not invent a parallel config.
 - The toolkit ESLint baseline includes `no-emdash/no-emdash` (em dash, en dash, horizontal bar). Keep that rule on. Do not disable it to "make the prose look fancy."
 - The toolkit also installs `test:quality` (complexity cap 5, principle gates, plus `knip.test.mjs` for dead code) and `test:mutants` (Stryker: flipped operators must fail the suite). Keep them. Do not raise the cap, skip a gate, delete a gate, or lower the mutant break threshold to go green. Split the function, type the value, throw at the boundary, check identity, remove dead code, or strengthen the lock instead. Gate failures use plain (Classic), for example fail fast (Fail Fast).
 - Editor workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Do not add a parallel `.cursor/extensions.json`.
