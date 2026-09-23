@@ -1,10 +1,11 @@
 ---
 name: task
 description: >-
-  Stateless end-to-end build loop: grill, plan, implement, gather acceptance
-  evidence, and review one verifiable outcome using in-chat execution context.
-  Use when the user wants a feature or outcome built end to end. Nested under
-  /just-do-it when that parent owns shipping.
+  Stateless end-to-end build loop: grill, plan, suggest behavior-lock tests
+  the user can refuse, implement, gather acceptance evidence, and review one
+  verifiable outcome using in-chat execution context. Use when the user wants
+  a feature or outcome built end to end. Nested under /just-do-it when that
+  parent owns shipping.
 disable-model-invocation: true
 ---
 
@@ -31,9 +32,10 @@ destination.
    Rules, fixed point, and slice bounds, accept that brief. Do not re-derive
    ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
-   applies) → plan → implement → acceptance evidence → `/code-review` → Fix
-   mode as needed. Pick Task specialists per
-   [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
+   applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
+   → implement → acceptance evidence → `/code-review` → Fix mode as needed.
+   The suggestion waits. The user can refuse every test. Pick Task specialists
+   per [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
    spawn order. Main does not grep or write tests. Always
    apply the **Taste** and **Architecture** sections of `AGENTS.md` during grill and before every implement
    wave. Load `/design` before every user-facing implement wave.
@@ -57,3 +59,4 @@ Recovery, progress, lookup, and safety rules live in the doctrine and reference.
 
 - Asking ship Questions when a parent owns shipping
 - Pushing, committing for ship, or opening a PR when nested
+- Suggesting a test before the grill is locked, or writing a test the user did not accept

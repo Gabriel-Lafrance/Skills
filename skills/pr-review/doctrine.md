@@ -13,7 +13,7 @@ PR extras, historical Pass A, remediation-plus-new-surface Pass B, the stale-hea
 - Review output fence, hunt table, evidence bar, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Blocker vs follow-up judgment and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
 - Local Fix-now implementation loop: `/code-review` + `/task`
-- Test writing: `/create-test`
+- Test writing: `/create-test`. Recommend a lock the task did not offer; skip a claim the user already accepted or refused unless the shipped contract differs
 
 ## Cite keys
 

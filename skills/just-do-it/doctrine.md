@@ -11,7 +11,7 @@ Autonomy policy, hard stops, ticket/branch contract, checkpoint/fixed point, loo
 ## Does not own
 
 - `/pr-review` (human)
-- Test writing (`/create-test` may be recommended after review)
+- Test writing. `/task` may suggest locks and must wait for the user. `/create-test` may still be recommended after review for a lock the task did not offer
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - User-facing UI and `docs/design.md`: `/design`
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
@@ -39,7 +39,7 @@ Pass the applicable context to every child; never pass a path for it to reconstr
 
 ### Autonomy and hard stops
 
-Take `recommended` on child soft Questions without waiting. Announce Locked-in conclusions only in announce-only messages (never above a Questions batch). Auto-remediate only a named **Fix now** item that cites an invariant/spec, correctness, security, or regression defect, a shipped-diff `architecture:folders` miss (new files placed in a mixed parent), or a shipped-diff `taste:reuse-env` miss (new env synonym for a job an existing var already holds). Keep other architecture, readability, relocation of untouched debt, cleanup, and nits as Follow-up; do not promote or loop on them unless the user asks.
+Take `recommended` on child soft Questions without waiting. The `/task` behavior-lock question is not soft: stop and ask the user, and they can refuse every test. Announce Locked-in conclusions only in announce-only messages (never above a Questions batch). Auto-remediate only a named **Fix now** item that cites an invariant/spec, correctness, security, or regression defect, a shipped-diff `architecture:folders` miss (new files placed in a mixed parent), or a shipped-diff `taste:reuse-env` miss (new env synonym for a job an existing var already holds). Keep other architecture, readability, relocation of untouched debt, cleanup, and nits as Follow-up; do not promote or loop on them unless the user asks.
 
 | Hard stop | Action |
 | --- | --- |
@@ -51,6 +51,7 @@ Take `recommended` on child soft Questions without waiting. Announce Locked-in c
 | Merge conflict or rejected push | Stop; never force-push |
 | Open blockers after a loop cap | Stop; do not ship |
 | Type genuinely unknowable | One Questions batch for type only |
+| `/task` behavior-lock question | Stop and ask the user. Do not take `recommended`. Refusing every test is allowed |
 
 ### Ticket and branch
 
@@ -90,7 +91,8 @@ Rediscover ticket, PR, branch, diff, commits, and repository facts in the shared
 ## Anti-patterns
 
 - Running `/pr-review` from this skill
-- Writing/editing tests or invoking `/create-test` (it may be recommended after review)
+- Writing or editing tests, or answering the `/task` behavior-lock question for the user
+- Invoking `/create-test` without a user start (review may still recommend a lock the task did not offer)
 - Creating a PR without showing the complete draft in chat (including the Mermaid Change diagram required by publish) or without following [pr-ship.md](../pack-shared/pr-ship.md)
 - Starting CR1/CR2 on an uncommitted or dirty fixed point
 - Force-pushing or pushing the default branch

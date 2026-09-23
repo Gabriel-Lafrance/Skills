@@ -161,4 +161,4 @@ same ID.
 - `billing.makeUserPay` — its externally observable authorization and idempotency behavior lacks a durable lock.
 ```
 
-Recommend the lock to the user; do not invoke `/create-test` or write test files.
+Recommend the lock to the user; do not invoke `/create-test` or write test files. If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.

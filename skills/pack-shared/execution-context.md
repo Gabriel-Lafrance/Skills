@@ -30,7 +30,7 @@ relevant context visible in chat:
 **Ticket / PR:** <reference | none>
 **Fixed point:** <base...HEAD | none>
 **Lane:** <allowed paths and symbols>
-**Phase:** grill | plan | implement | acceptance | review | fix | done
+**Phase:** grill | plan | locks | implement | acceptance | review | fix | done
 **Next:** …
 
 ### Locked decisions
@@ -40,6 +40,9 @@ relevant context visible in chat:
 | ID | Rule | How we enforce it | How we check it |
 | --- | --- | --- | --- |
 | Rule 1 | … | … | … |
+
+### Behavior locks
+- <none | waiting on the user | Rule N accepted | Rule N refused>
 
 ### Current slices
 | Slice | Status | Scope / acceptance | Dependencies |

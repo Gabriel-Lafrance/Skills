@@ -120,7 +120,7 @@ Before any fix work, send selected **Fix now** findings to `/analyze` in review-
 
 If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates from this skill.
 
-After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Never invoke `/create-test`, write tests, or edit test files from this skill.
+After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
 For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not dispatch a Design review Task.
 

@@ -22,7 +22,7 @@ Use the shared template, keeping only fields that matter to current work:
 **Ticket / PR:** <reference | none>
 **Fixed point:** <base...HEAD | none>
 **Lane:** <allowed paths and symbols>
-**Phase:** grill | plan | implement | acceptance | review | fix | done
+**Phase:** grill | plan | locks | implement | acceptance | review | fix | done
 **Next:** …
 
 ### Locked decisions
@@ -32,6 +32,9 @@ Use the shared template, keeping only fields that matter to current work:
 | ID | Rule | How we enforce it | How we check it |
 | --- | --- | --- | --- |
 | Rule 1 | … | … | … |
+
+### Behavior locks
+- <none | waiting on the user | Rule N accepted | Rule N refused>
 
 ### Current slices
 - <scope, acceptance criteria, ownership, dependencies, and status>
@@ -137,6 +140,9 @@ After acceptance evidence is recorded and `/code-review` has run, report the out
 ## Fix backlog
 - <none | waived finding and user decision>
 
+## Behavior locks
+- <none offered | Rule N accepted, file, command | Rule N refused>
+
 ## Manual next steps
 - <none | user action>
 ```
@@ -176,6 +182,36 @@ show the draft in chat, then create. When `/task` runs under a parent
 (`/just-do-it` or similar), return the completion evidence to the parent
 instead; it owns the branch, preflight, draft visibility, and PR creation.
 
+## Behavior-lock suggestion
+
+Run this after grill Locked closing and after the inline plan names the public entry. Do not run it during an open grill, on a trivial skip (typo, rename, one-line fix), or during Fix mode. When skip-grill applies because the rules are already specific, suggest from those rules.
+
+1. Walk each Active Rule. Offer a brief only when [`/create-test`](../create-test/doctrine.md) would lock it: a complex public surface whose behavior can silently drift (authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook).
+2. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, tautology, quality-gate template, typo, rename, one-line fix, and any statement the user called a preference, example, or non-binding idea.
+3. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. If the plan has no public entry, offer nothing.
+4. If no brief qualifies, record `Behavior locks: none` and continue. Do not ask.
+5. If one or more qualify, send one Questions-only message and wait. This question is a hard stop. `/just-do-it` does not take `recommended`. Silence is not a yes. Do not start the implement wave while it is open. The briefs are the last check that the grilled rule is the behavior the user wants locked.
+
+```markdown
+## Questions
+Reply like: 1a 2b
+
+1. Lock Rule 2 on `makeUserPay`? Why: a double submit could charge twice. What: the same retry key creates one charge. How: call `makeUserPay` twice with that key and assert one charge.
+   - a) yes ← recommended
+   - b) no, do not add this test
+2. Lock Rule 3 on `refundPayment`? Why: a caller could refund someone else's payment. What: only the owner can refund. How: call `refundPayment` as a non-owner and assert it is rejected.
+   - a) yes ← recommended
+   - b) no, do not add this test
+```
+
+Recommend `yes` for a claim `/create-test` would lock. The user can answer `no` on every line.
+
+A correction ("that is not the behavior") updates the rule, discards briefs that cited it, and suggests again from the corrected rule. Do not implement from the old rule.
+
+`no` means no test. The rule still stands. Record the refusal. Do not ask again for that same claim in `/code-review` or `/pr-review` unless the shipped public contract differs.
+
+`yes` adds a `tester` slice after the product slice that creates the public entry. Dispatch `tester` with the accepted Why / What / How, the rule id, and the public entry. Follow `/create-test`. The main agent does not write the test. Acceptance evidence includes the [lock handoff](../create-test/reference.md#handoff). When the repo has `test:mutants`, run it for those locks.
+
 ## Lifecycle
 
 Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
@@ -185,8 +221,9 @@ Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested v
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
 3. Unless the skip rule applies, run `/grill-me` fully. It applies the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
-4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification.
+4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) has to be specific. A fuzzy rule cannot become a test later.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
+6. Do not suggest tests in this phase.
 
 On a Locked correction or unanswered real question, revise or wait. Never infer a user decision, waiver, invariant, or promotion from code alone.
 
@@ -194,24 +231,27 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 **Explore and shape.** Dispatch per [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Noisy search **must** use `explorer` Tasks (the parent does not grep). Independent find-whats **must** run in parallel (one Task per lane, no cap of two). Pick `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn order. The parent reviews Completions; it does not solo find or judge. Confirm Taste and Architecture decisions against the grill (the Taste and Architecture sections must already be applied this turn), then inject the locked structure excerpt into later briefs. There is no architect worker. For UI, also confirm `/design` and `docs/design.md` (Initialization first if the file is missing).
 
-**Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/design` (user-facing) or `/implement` (non-UI) — **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
+**Split and plan.** Prefer small, ordered slices. `/split-task` announces the inline split; a what can be one function. The parent then issues an [inline plan contract](#inline-plan-contract) for each slice before `/design` (user-facing) or `/implement` (non-UI). The contract states **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
 
-**Implement wave.** Dispatch ready frontier slices as Task workers with a Worker Brief from [subagents.md](../pack-shared/subagents.md). User-facing slices use `/design` (and `docs/design.md`). Non-UI slices use `/implement`. Launch every ready slice in the same turn when lanes do not overlap. Each prompt is **what** plus injected need-to-know (explorer hits, locked structure excerpt, rules). Do not send a how-recipe. Anti-pattern: the parent solos non-trivial implement work. After integration, update **Current slices** in chat; if ready slices remain, dispatch the next frontier. Only when every slice is integrated, blocked, or explicitly waived does the parent enter acceptance evidence. The parent owns integration and the acceptance/review gates (`/code-review` still dispatches review Tasks that check the result against the what).
+**Suggest behavior locks.** Run [Behavior-lock suggestion](#behavior-lock-suggestion). Phase is `locks` while the question is open. If the user corrects a rule, return to grill for that rule before any implement wave. If they accept or refuse without correcting the rule, record it and continue. If nothing qualifies, record none and continue.
+
+**Implement wave.** Dispatch ready frontier slices as Task workers with a Worker Brief from [subagents.md](../pack-shared/subagents.md). User-facing slices use `/design` (and `docs/design.md`). Non-UI slices use `/implement`. Launch every ready slice in the same turn when lanes do not overlap. Each prompt is **what** plus injected need-to-know (explorer hits, locked structure excerpt, rules). Do not send a how-recipe. Anti-pattern: the parent solos non-trivial implement work. After the public entry exists, dispatch `tester` for each accepted brief. After integration, update **Current slices** in chat; if ready slices remain, dispatch the next frontier. Only when every slice is integrated, blocked, or explicitly waived does the parent enter acceptance evidence. The parent owns integration and the acceptance/review gates (`/code-review` still dispatches review Tasks that check the result against the what).
 
 **Acceptance evidence and review.** After all implementation workers finish:
 
-1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks and terminal output. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
+1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks and terminal output. When a lock was accepted, include the tester handoff and the focused test result. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/code-review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
 4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
 5. If the user declines a fix, completion remains blocked until every Fix-now finding is fixed or waived by name.
+6. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the review contract, and the user starts `/create-test` for that one.
 
 ### Fix mode (review remediation only)
 
 Fix mode is one bounded slice of the current task, not fresh product discovery:
 
 1. Carry only explicitly promoted findings into the current slice. Each cites its review finding, violated Active Rule, acceptance criterion, correctness/security issue, or regression.
-2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule.
+2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule. Do not suggest a new test from Fix mode.
 3. Prefer the smallest authoritative correction. Do not add queues, retries, wrappers, or new services unless the named finding proves a guard is insufficient.
 4. No new feature scope, optional cleanup, or architecture move unless the named finding requires it.
 5. Re-check the named findings and Active Rules with acceptance evidence, then run `/code-review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.

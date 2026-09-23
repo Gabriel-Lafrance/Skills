@@ -46,7 +46,7 @@ Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Ta
 
 Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules — link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/design`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start (`/design` is also a user start for capturing `docs/design.md`). User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/create-test`, `/setup-toolkit`) say that in `SKILL.md`.
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules. Link [`asking.md`](./skills/pack-shared/asking.md). Worker steps (`/implement`, `/design`, `/trackers`, `/split-task`) say in `SKILL.md` they are not a typical user start (`/design` is also a user start for capturing `docs/design.md`). User starts that must not nest (`/pr-review`, `/publish`, `/just-do-it`, `/write-ticket`, `/setup-toolkit`) say that in `SKILL.md`. `/create-test` stays a user start. `/task` may continue it only after the user accepts that task's lock briefs.
 
 ## Frontmatter
 
@@ -77,7 +77,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
   pull-request tool when it has one, otherwise `gh`, and the CI mirror in
   this environment before a push that opens or updates a PR.
 - **Do not** put shared contracts at `skills/*.md` — they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (that labor is `tester` only after the user started it; ordinary edits do not get tests; the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). Only [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may **recommend** `/create-test` (tell the user, never auto-invoke). `/task`, `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, `/just-do-it`, etc. must not create tests or call `/create-test`. The always-on bar is the **No drive-by tests** section of [`AGENTS.md`](./AGENTS.md).
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (`tester` writes them after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests; the main agent never writes tests) and [`/setup-toolkit`](./skills/setup-toolkit/SKILL.md) copying quality-gate templates (`complexity.test.mjs`, `cyclomatic-cap.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/code-review`](./skills/code-review/SKILL.md) and [`/pr-review`](./skills/pr-review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/implement`, `/design`, `/analyze`, `/write-ticket`, `/publish`, and `/just-do-it` do not write tests or start `/create-test`. `/just-do-it` does not answer the task's lock question. The always-on bar is the **No drive-by tests** section of [`AGENTS.md`](./AGENTS.md).
 
 ## No visual tooling
 
@@ -85,7 +85,7 @@ This pack does not use Cursor's Browser, review canvas, screenshots, or videos. 
 
 ## Add a skill
 
-1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/task` say so in `SKILL.md`.
+1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Worker steps say they are not a typical user start. User starts that must not nest under `/task` say so in `SKILL.md`. `/create-test` is the exception in the skill-folders section: `/task` continues it only after the user accepts the lock briefs.
 2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` except taste and architecture follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Taste and Architecture rules live in [`AGENTS.md`](./AGENTS.md). Their `doctrine.md` files only point there. Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md).
 3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
 4. Wire discovery:
