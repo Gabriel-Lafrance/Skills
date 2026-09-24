@@ -244,6 +244,8 @@ Every harness that reads a workspace `AGENTS.md` gets this file. That includes C
 
 Do not add a `CLAUDE.md` in the pack or the app. A project `CLAUDE.md` makes Claude Code skip `AGENTS.md` unless that file imports it.
 
+Do not write `.cursor/rules` or `.cursor/hooks.json` in the app. If `.cursor/rules/gabriel-skills/follow-agents.mdc` exists, delete that file only. Leave every other Cursor rule and hook alone.
+
 ### User and harness homes
 
 Run this block only when they chose user data or both.
@@ -262,6 +264,8 @@ Claude and Codex use the first existing `setup-toolkit/templates/AGENTS.md`. Use
 If none of those files exist, skip the Claude and Codex rows and say the template is missing. Gemini and Aider rows still apply. Do not invent the text.
 
 A different user file stays put. Do not destroy unrelated user text.
+
+Cursor has no install row. Do not write `~/.cursor/rules`, a `.mdc` file, `~/.cursor/hooks.json`, or `.cursor/hooks.json`. If `~/.cursor/rules/gabriel-skills/follow-agents.mdc` exists, delete that file only. Leave every other file under `~/.cursor/rules`. Do not create `~/.cursor` when it is missing.
 
 | Harness | Home exists | What to write |
 | --- | --- | --- |
@@ -284,7 +288,7 @@ Project adapters, only when that path already exists in the target repo:
 - Destinations they did not choose were left untouched
 - Harness homes that do not exist were not created
 - No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when they chose the repo and that import was missing
-- No `.cursor/rules` file and no `.mdc` file was written
+- No `.cursor/rules` file, `.mdc` file, or `.cursor/hooks.json` was written. When that destination was chosen, `gabriel-skills/follow-agents.mdc` was deleted if it already existed (`~/.cursor/rules` for user data, the app `.cursor/rules` for the repo). Other Cursor rules and hooks were left alone
 - ESLint, Prettier, quality gates, editor files, packages, scripts, and the lint smoke check ran only if they said yes to lint
 - `test:quality` and `test:mutants` were **not** run as setup smoke
 - `/design` Initialization ran only if they said yes to lint and `docs/design.md` was missing
