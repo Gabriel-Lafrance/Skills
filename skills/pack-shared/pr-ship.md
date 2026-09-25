@@ -1,14 +1,12 @@
 # Opening a pull request
 
 Every agent that **creates or updates a GitHub PR** while this pack is
-installed follows this contract, **not only `/publish`**.
+installed follows this contract. The name pattern and hard rules are in the Ship work section of `AGENTS.md`.
 
-Parents include `/publish`, `/just-do-it` ship, `/task` when this chat
-owns shipping and the user asked to open a PR, and any cloud or freeform agent that ships a branch
-as a PR.
+This applies to `/task` when this chat owns shipping and the user asked to open a PR, and to any cloud or freeform agent that ships a branch as a PR.
 
-Body templates, change type, branch names, and Mermaid rules stay in
-[`../publish/reference.md`](../publish/reference.md). This file owns
+Body templates and Mermaid rules stay in
+[`ship.md`](ship.md). This file owns
 which create/update tool to use, the push check that the branch is standalone, and the CI mirror before a push that opens or updates a PR.
 
 No Demo screenshots, no review canvas, no videos. The PR body is text:
@@ -17,36 +15,32 @@ open a browser, capture screenshots, or produce a canvas to ship a PR.
 
 ## Required Reads
 
-1. [`../publish/reference.md`](../publish/reference.md) — title, type template,
-   Change diagram, How to QA.
+1. [`ship.md`](ship.md): title, type template, Change diagram, How to QA.
 2. This file: create tool, the standalone push check, and the CI mirror.
 
 ## Who this applies to
 
 | Actor | Follows this? |
 | --- | --- |
-| `/publish` | Yes |
-| `/just-do-it` ship | Yes |
-| Standalone `/task` after “open a PR?” = yes | Yes |
-| Cloud / background agent opening a PR without naming `/publish` | Yes |
-| `/pr-review` (comments only) | No — does not create the PR |
-| Flow `/task` | No — the parent ships |
+| Standalone `/task` after "open a PR?" = yes | Yes |
+| Any agent opening a PR | Yes |
+| `/pr-review` (comments only) | No. Does not create the PR |
+| Nested `/task` when a parent owns shipping | No. The parent ships |
 
 ## Create tool
 
-Show the complete title and body in chat before creating (approval rules stay
-with `/publish`; `/just-do-it` still prints the draft, then creates).
+Show the complete title and body in chat before creating. Wait for approval. The Ship work section of `AGENTS.md` is the rule.
 
 Then pick **one** write path:
 
 | Session | How to create or update the PR |
 | --- | --- |
 | This harness has a pull-request tool | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write. |
-| No pull-request tool | Use the heredoc in [publish reference](../publish/reference.md). |
+| No pull-request tool | Use the heredoc in [ship.md](ship.md). |
 
 Push the new branch before create, unless the user asked for local-only.
 Create and push it with the standalone steps in
-[publish reference](../publish/reference.md): `git switch --detach <base-sha>`
+[ship.md](ship.md): `git switch --detach <base-sha>`
 then `git switch -c <new-branch>` (or `git switch --no-track -c`), then
 `git push -u origin HEAD:refs/heads/<new-branch>`. Before that push, upstream
 is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or

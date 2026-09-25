@@ -164,7 +164,7 @@ Reply like: 1b 2b
    - a) yes — create a commit
    - b) no — leave uncommitted ← recommended
 2. Open a PR?
-   - a) yes — push and create a PR using `/publish` body rules (typed title,
+   - a) yes: push and create a PR using the Ship work rules (typed title,
      What changed, Mermaid Change diagram, How to QA) and
      [pr-ship.md](../pack-shared/pr-ship.md) (the harness pull-request tool when it has one, otherwise `gh`)
    - b) no ← recommended
@@ -175,12 +175,12 @@ a PR, or a PR is already open on the branch, run the CI mirror in
 [pr-ship.md](../pack-shared/pr-ship.md) in this environment before the
 commit you will push. A local commit with no PR and no push does not get
 that suite. If opening a PR, draft
-the body from [publish reference](../publish/reference.md) (including Mermaid
+the body from [ship.md](../pack-shared/ship.md) (including Mermaid
 **Change diagram**: one for new work, Before/After for rework), follow
 [pr-ship.md](../pack-shared/pr-ship.md) for the create tool,
-show the draft in chat, then create. When `/task` runs under a parent
-(`/just-do-it` or similar), return the completion evidence to the parent
-instead; it owns the branch, preflight, draft visibility, and PR creation.
+show the draft in chat, then create. When `/task` runs under a parent that
+owns shipping, return the completion evidence to the parent instead; it owns
+the branch, preflight, draft visibility, and PR creation.
 
 ## Behavior-lock suggestion
 
@@ -190,7 +190,7 @@ Run this after grill Locked closing and after the inline plan names the public e
 2. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, tautology, quality-gate template, typo, rename, one-line fix, and any statement the user called a preference, example, or non-binding idea.
 3. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. If the plan has no public entry, offer nothing.
 4. If no brief qualifies, record `Behavior locks: none` and continue. Do not ask.
-5. If one or more qualify, send one Questions-only message and wait. This question is a hard stop. `/just-do-it` does not take `recommended`. Silence is not a yes. Do not start the implement wave while it is open. The briefs are the last check that the grilled rule is the behavior the user wants locked.
+5. If one or more qualify, send one Questions-only message and wait. This question is a hard stop. Silence is not a yes. Do not start the implement wave while it is open. The briefs are the last check that the grilled rule is the behavior the user wants locked.
 
 ```markdown
 ## Questions
@@ -242,7 +242,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks and terminal output. When a lock was accepted, include the tester handoff and the focused test result. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/code-review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
-4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion. A `/just-do-it` parent may take the recommended promotion only after the complete remediation analysis is shown.
+4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion.
 5. If the user declines a fix, completion remains blocked until every Fix-now finding is fixed or waived by name.
 6. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the review contract, and the user starts `/create-test` for that one.
 

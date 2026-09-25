@@ -73,9 +73,9 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | ----------------- | -------------------------------------------------------- | --------------------- |
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route, plus examples and audits for the always-on rules |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
-| **Specify**       | `/write-ticket`                                          | One prompt → detailed ticket |
-| **Build**         | `/task`, `/just-do-it`, `/design`                        | Implement end-to-end; UI worker |
-| **Review & ship** | `/code-review`, `/publish`, `/pr-review`, `/create-test` | Quality gates and PRs |
+| **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
+| **Build**         | `/task`, `/design`                                       | Implement end-to-end; UI worker |
+| **Review & ship** | `/code-review`, `/pr-review`, `/create-test` | Quality gates and PRs. Branch and PR rules are in `AGENTS.md` |
 | **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier / quality gates are opt-in |
 
 ```mermaid
@@ -93,12 +93,13 @@ flowchart LR
 
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
-- Ticket from a note → `/write-ticket` (analyzes; asks only if too short)
-- Ticket → build → `/write-ticket` then `/task`
-- Build now → `/task` or `/just-do-it`
+- Idea to keep → `/write-ticket` Memo
+- Understand a problem → `/write-ticket` Research (grills before it saves)
+- One-shot build spec → `/write-ticket` Plan, then `/task`
+- Build now → `/task`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
 - Lint/format/quality gates, or this pack on a new machine → `/setup-toolkit`
-- Ship a PR → `/publish` (or `/just-do-it` / a cloud agent). Every path that
+- Ship a PR → the Ship work section of `AGENTS.md` (any agent, including a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a PR → `/pr-review`

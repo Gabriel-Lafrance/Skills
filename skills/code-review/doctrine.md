@@ -116,7 +116,7 @@ Use the shared finding record in chat. IDs remain stable across follow-up discus
 
 Remediation is never a broad architecture hunt and never reopens the full initial review. Do not silently upgrade a remediation pass to a full rescan.
 
-Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. A `/just-do-it` parent may take the recommended promotion only after the complete analysis is shown. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
+Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
 
 If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates from this skill.
 

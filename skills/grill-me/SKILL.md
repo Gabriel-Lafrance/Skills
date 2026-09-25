@@ -28,7 +28,9 @@ record only when the user requests it and approves its destination.
    that brief. Re-announce only facts or user decisions that changed or were
    missing.
 2. Batch every unsettled topic from the doctrine's behavior sweep. Include
-   plan count and file lane so the first batch is complete.
+   plan count and file lane so the first batch is complete. When the parent
+   is `/write-ticket`, interview only the topic list it supplied (Research
+   or Plan). Skip implementation plan count and file lane.
 3. Apply the **Taste** and **Architecture** sections of `AGENTS.md` before recommending answers:
 
    | When | Include in the batch |
@@ -53,8 +55,10 @@ under the shared
 
 ### If a parent already owns the next step
 
-Hand the inline context back to `/task` for planning. Do not stop to wait for
-the user to pick a next skill.
+Hand the inline context back to that parent. `/task` plans from it.
+`/write-ticket` writes or promotes the ticket from it. Do not stop to wait
+for the user to pick a next skill. Do not start `/task` when `/write-ticket`
+is the parent.
 
 ### If this is a user one-off
 

@@ -1,10 +1,11 @@
 ---
 name: write-ticket
 description: >-
-  Create or refine one Feature, Tweak, Bug, Refactor, Chore, or Hotfix ticket
-  from a single prompt. Infers type and body, always runs full /analyze,
-  and asks only a too-short grill or missing tracker metadata. Use for Linear
-  or GitHub tickets, including “don’t forget this” captures; never inside /task.
+  Create or promote one Linear or GitHub ticket as Memo, Research, or Plan.
+  Memo saves an idea with no grill. Research records the need and the problem
+  after /grill-me. Plan records how to solve it in code after a second
+  /grill-me, detailed enough to implement in one pass. Use for a new ticket,
+  a promotion, or a don't-forget note. Never inside /task.
 disable-model-invocation: true
 ---
 
@@ -15,21 +16,15 @@ disable-model-invocation: true
 **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
 This skill is a user start. Do not nest it under `/task`. It writes a tracker ticket; `/trackers` reads.
-Always run `/analyze` to full memo depth (this parent owns the next step). Do not run a type-specific
-open grill. Do not invoke full `/grill-me`.
+`/task` does not promote a ticket. This skill does. It never implements the ticket.
 
 ## Process
 
-1. Load an existing ticket or seed from the prompt. Infer type, tracker, and
-   body fields. Do not ask what research can answer.
-2. If the idea is too short to analyze, send **one** asking-contract batch
-   (include missing metadata in that same batch). Wait. Otherwise skip grill.
-3. Run `/analyze` fully on the seed (Task workers, complete memo).
-4. Fill the **same six sections** every type (Type, Diagram, Ask, Done when,
-   Out of scope, Start here) using that type’s preset. Announce the draft.
-   If metadata is still missing, one metadata batch — then write. If
-   metadata was already known, write after the draft is visible. No
-   “write this?” question. Status is Todo unless the prompt (or existing
-   ticket) already names one.
+1. Load an existing ticket or the prompt. Infer the tracker. Infer the target stage when the prompt or the current body already names Memo, Research, or Plan.
+2. If the target stage is missing, send **one** asking-contract batch for the stage. Include priority, assignee, and tracker in that same batch when those are also missing. Wait.
+3. **Memo.** Draft the short note and write it. No `/analyze`. No `/grill-me`.
+4. **Research or Plan.** Run `/analyze` to full memo depth for that stage (this parent owns the next step). Then run `/grill-me` with the stage topic list in the doctrine. `/grill-me` returns here. Do not start `/task`.
+5. Fill that stage's body from the reference. Assign the work kind during Research. Show the draft in a Locked message with no Questions. If priority, assignee, or tracker is still missing, one metadata batch, then write. If those were already known, write after the draft is visible. No "write this?" question.
+6. On a promotion, post the previous body as a comment, replace the description, and set the stage label. Same ticket. Status is **Todo** on create. On promote or refine, keep the current status unless the prompt names another.
 
-Question templates, bodies, and tracker fields live in the reference and doctrine.
+Bodies, topic lists, and tracker fields live in the doctrine and reference.

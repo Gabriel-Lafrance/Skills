@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task`, not a typical user start.
 
 Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
 

@@ -2,8 +2,8 @@
 name: analyze
 description: >-
   Stateless task analysis returned in chat. One-off research with
-  promote-to-task handoffs, or nested under a parent (write-ticket, just-do-it,
-  review remediation). Does not write tickets or automatic artifacts.
+  promote-to-task handoffs, or nested under a parent (write-ticket, review
+  remediation). Does not write tickets or automatic artifacts.
 disable-model-invocation: true
 ---
 
@@ -34,15 +34,16 @@ Architecture because the ask looks like a single file.
    [../pack-shared/subagents.md](../pack-shared/subagents.md). Pick the
    specialist that owns the job: `explorer` to find (main does not grep),
    `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn
-   order. Review Completions, then post the memo. A `/write-ticket` seed is
-   often a short capture: still run the complete standard memo. Do not stub.
+   order. Review Completions, then post the memo. A `/write-ticket` Research
+   or Plan seed still gets the complete standard memo. Research memos gather
+   the problem. Plan memos gather the code that would change. Do not stub.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
    Mermaid diagram. Include an inline `/task` seed when the work is
    buildable, except when a parent will write the ticket itself.
 
 ### Review remediation
 
-Use this mode only for named Fix-now rows from `/code-review` or `/just-do-it`.
+Use this mode only for named Fix-now rows from `/code-review`.
 Present every selected stable-finding analysis before any promotion choice.
 Do not add findings, reopen product discovery, or analyze Follow-up items
 and nits.
@@ -52,9 +53,7 @@ and nits.
 Skip one-off hand-off Questions. Skip `/task` promotion unless the parent
 explicitly instructed `promote + start`. Return the memo to the parent.
 
-- `/write-ticket`: return the memo; the parent drafts and writes the ticket.
-- `/just-do-it` standard research: parent may instruct `promote + start`
-  after the memo is shown.
+- `/write-ticket`: return the memo; the parent grills, then drafts and writes the ticket.
 - Review remediation: parent shows the complete memo, then promotes under
   its rules.
 
@@ -68,7 +67,7 @@ the user already named the next step.
 ## Anti-patterns
 
 - Offering hand-off Questions when a parent owns the next step
-- Stubbing the memo because a `/write-ticket` seed is short or ungrilled
+- Stubbing the memo because a `/write-ticket` Research or Plan seed is short
 - Returning a memo with no diagram when the path can be drawn
 - Grepping the tree on the main agent, or using an analyzer as a search bot
 - Broadening into product discovery during review remediation

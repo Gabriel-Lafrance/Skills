@@ -42,6 +42,8 @@ Recommend the smallest authoritative guard: UI state for feedback plus a direct 
 
 ### Interview rules
 
+When `/write-ticket` is the parent, its topic list replaces the sweep above. Do not add implementation plan count or file lane. Return the locked context to `/write-ticket`.
+
 1. Follow decision dependencies. If a later answer depends on an earlier one, cover both paths in one batch or defer the dependent choice.
 2. Use the shared asking contract: batch known questions, give discrete options a recommendation, and do not re-ask settled decisions.
 3. Prefer recommendations grounded in good sibling patterns and applicable `/taste` and `/architecture` Cite keys. When a behavior-preserving move clearly reduces entropy, recommend it over copying existing debt.
@@ -74,6 +76,7 @@ Save a durable record only when the user asks and approves its destination.
 
 After Locked closure:
 
+- Parent is `/write-ticket` → return the locked context to it. Do not start `/task`.
 - Structure still needs a decision → `/architecture`, then `/task`.
 - Ready to build → `/task`, carrying the inline execution context.
 
