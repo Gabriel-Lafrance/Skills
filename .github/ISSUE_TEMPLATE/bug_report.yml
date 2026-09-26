@@ -11,8 +11,8 @@ body:
     id: skill
     attributes:
       label: Skill or file
-      description: e.g. `/task`, `skills/taste/doctrine.md`
-      placeholder: /taste
+      description: e.g. `/task`, `skills/rules/code-quality.md`
+      placeholder: /task
     validations:
       required: true
   - type: textarea

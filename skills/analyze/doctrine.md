@@ -11,16 +11,16 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 ## Does not own
 
 - Implementation, ticket writes, or `/task` promotion unless the user (or an explicit parent instruction) chooses it
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - Numbered process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+**Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user)
 
 Facts come from live repository, ticket, PR, and diff evidence. User decisions, waivers, invariants, and promotions come only from the visible execution context or a new user answer.
 
@@ -38,8 +38,8 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 
 - Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
 - Rediscover the relevant code and sibling patterns. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
-- Noisy search **must** use `explorer` Tasks per [subagents.md](../pack-shared/subagents.md). The main agent does not grep the tree. When independent find-whats exist, spawn parallel explorers in the same turn (no cap of two). Pick `analyzer` to judge how, impact, risk, and files touched. Do not follow a fixed spawn order. Give each the applicable brief and wait for all results; never sleep or poll for them. Trivial single-path lookups may stay on the main agent.
-- Apply the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip the Architecture section because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
+- Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
+- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer good siblings and behavior-preserving moves. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 
@@ -47,15 +47,11 @@ Review-remediation mode: use only after the user selected named **Fix now** rows
 
 Post the memo in chat; keep it current in the execution context rather than in an agent-owned file. Lead with a high-level Mermaid diagram so a reader can see the path before the prose.
 
-Diagram rules:
+The memo diagram follows the [Change diagram](../rules/shipping-templates.md#change-diagram) section of shipping-templates.md: one diagram for new work, Before/After for rework. Plans use Before/After instead ([planning.md](../rules/planning.md)). On top of that section:
 
-- Prefer modules, actors, and request/data flow, not every file or function.
-- **New or additive work:** one diagram of the recommended path.
-- **Rework** (bug, refactor, or a flow that changes): Before and After under Diagram, keeping the same node ids where possible.
 - **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the failing interleave, plus the expected order when it is known.
-- Use `flowchart`, `sequenceDiagram`, or `graph`. Pick the clearest form.
 - Name real modules/services/routes from the evidence. Do not invent a shape the repo does not support.
-- Omit only when the ask is truly diagram-hostile (typo, copy, one-line chore) and say why under Diagram.
+- If you omit it (typo, copy, one-line chore), say why under Diagram.
 
 ````markdown
 ## Analysis memo
@@ -77,12 +73,12 @@ flowchart LR
 - `path`: why
 
 ### Recommended direction
-<smallest coherent approach and why. Cite Taste and Architecture cite keys when they drive the shape>
+<smallest coherent approach and why. Cite `quality:*` and `structure:*` keys when they drive the shape>
 
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>
 **Owner:** <existing or proposed deep boundary>
-**Architecture notes:** <`taste:keep-jobs-apart` / `taste:related-together` / `taste:safe-to-retry` / `taste:trust-the-server` if relevant | none>
+**Architecture notes:** <`quality:keep-jobs-apart` / `quality:related-together` / `quality:safe-to-retry` / `quality:trust-the-server` if relevant | none>
 **Not prescribed:** implementation details
 
 ### Touch surface and constraints
@@ -96,10 +92,8 @@ flowchart LR
 **Done when:** <binary checks>
 **Non-goals:** …
 **Lane:** …
-**Active Rules:** <relevant `INV-*` rows or none>
+**Rules that must stay true:** <relevant Rule N rows or none>
 ````
-
-For rework, replace the single mermaid with Before/After under Diagram, same node ids where possible.
 
 Include the draft `/task` seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
 
@@ -116,7 +110,7 @@ Return one section for every selected stable finding ID before asking for promot
 
 ### <finding-id>: <short finding>
 **Source:** <review pass + path/symbol>
-**Rule:** <`INV-*`, acceptance criterion, or review rule>
+**Rule:** <Rule N, Done when item, or review rule>
 **Current behavior and evidence:** …
 **Root cause:** …
 **Proposed smallest fix:** …
@@ -129,7 +123,7 @@ Return one section for every selected stable finding ID before asking for promot
 **Outcome:** …
 **Done when:** <one binary row per selected finding ID>
 **Lane:** …
-**Active Rules:** <preserved and newly locked rules>
+**Rules that must stay true:** <preserved and newly locked rules>
 ```
 
 ## Apply
@@ -158,7 +152,7 @@ Reply like: 1a
 
 A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo. Do not start the ticket write or the grill from this skill.
 
-Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
+Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
 On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
 
@@ -185,6 +179,5 @@ Reply like: 1a
 - Promoting a remediation without first showing its complete stable-finding analysis
 - Replacing evidence with an implementation-level design
 - Offering one-off hand-off Questions when a parent owns the next step
-- Grepping the tree on the main agent, or using an analyzer as a search bot
-- Returning an explorer hit list instead of the `/analyze` memo
-- Inventing a parallel layout instead of using the injected structure excerpt
+- Returning a raw search hit list instead of the `/analyze` memo
+- Inventing a parallel layout instead of using the locked structure excerpt

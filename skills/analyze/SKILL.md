@@ -9,11 +9,12 @@ disable-model-invocation: true
 
 # Analyze
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before researching or posting the memo. Do not skip.
+Investigate a task, idea, ticket, PR, or review-fix backlog and return an evidence-backed memo in chat. Never write to Linear or GitHub.
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+## Read when
 
-`/analyze` investigates a task, idea, ticket, PR, or review-fix backlog and returns an evidence-backed memo in chat. It never writes to Linear or GitHub.
+- Before researching, even when the ask looks like a single file: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
+- Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user).
 
 ## Contract
 
@@ -22,28 +23,22 @@ disable-model-invocation: true
 - Return the analysis memo in chat. Do not create automatic runtime artifacts or hidden paths.
 - Save a memo only when the user explicitly requests it and approves the destination.
 
-**Read:** [doctrine.md](doctrine.md). **Always** apply the **Taste** and **Architecture** sections of `AGENTS.md` (see [standards.md](../pack-shared/standards.md)). Do not skip
-Architecture because the ask looks like a single file.
-
 ## Process
 
 1. Establish or refresh the relevant execution context and normalize the ask.
    Do not re-grill product intent when a parent already locked Done when and
-   Active Rules.
-2. Investigate via Task workers per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md). Pick the
-   specialist that owns the job: `explorer` to find (main does not grep),
-   `analyzer` to judge how, impact, and risk. Do not follow a fixed spawn
-   order. Review Completions, then post the memo. A `/write-ticket` Research
-   or Plan seed still gets the complete standard memo. Research memos gather
-   the problem. Plan memos gather the code that would change. Do not stub.
+   rules that must stay true.
+2. Investigate: find the relevant code first, then judge how, impact, and
+   risk from those facts. A `/write-ticket` Research or Plan seed
+   still gets the complete standard memo: Research memos gather the problem,
+   Plan memos gather the code that would change.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
    Mermaid diagram. Include an inline `/task` seed when the work is
    buildable, except when a parent will write the ticket itself.
 
 ### Review remediation
 
-Use this mode only for named Fix-now rows from `/code-review`.
+Use this mode only for named Fix-now rows from `/review`.
 Present every selected stable-finding analysis before any promotion choice.
 Do not add findings, reopen product discovery, or analyze Follow-up items
 and nits.
@@ -69,6 +64,6 @@ the user already named the next step.
 - Offering hand-off Questions when a parent owns the next step
 - Stubbing the memo because a `/write-ticket` Research or Plan seed is short
 - Returning a memo with no diagram when the path can be drawn
-- Grepping the tree on the main agent, or using an analyzer as a search bot
+- Returning a raw search hit list instead of the memo
 - Broadening into product discovery during review remediation
 - Creating tickets, implementing code, or writing tests

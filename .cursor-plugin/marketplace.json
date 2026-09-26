@@ -5,26 +5,25 @@
   },
   "metadata": {
     "description": "Gabriel Lafrance engineering toolkit: skills, an AGENTS.md contract, and lint/format templates.",
-    "version": "1.7.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "gabriel-skills",
       "source": ".",
       "description": "Engineering toolkit: agent skills, an AGENTS.md contract, and ESLint/Prettier templates.",
-      "version": "1.7.0",
+      "version": "2.0.0",
       "homepage": "https://github.com/Gabriel-Lafrance/Skills",
       "repository": "https://github.com/Gabriel-Lafrance/Skills",
       "license": "MIT",
       "keywords": [
         "skills",
         "commands",
-        "agents",
         "eslint",
         "prettier",
         "toolkit",
         "architecture",
-        "taste",
+        "code-quality",
         "unslop",
         "design",
         "review"

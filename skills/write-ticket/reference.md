@@ -1,14 +1,10 @@
 # Write Ticket reference
 
-Load when asking the stage or metadata batch, drafting a body, or writing the tracker.
-
-`/grill-me` owns the Research and Plan questions. This file owns the stage batch, the metadata batch, and the bodies.
+Load when asking the stage or metadata batch, drafting a body, or writing the tracker. `/grill-me` owns the Research and Plan questions.
 
 ## Stage batch
 
-Send this only when the target stage is not already named. Include priority, assignee, and tracker when those are also missing so there is only one wait. Drop any item the prompt, the ticket, or the repo already answers.
-
-When an existing ticket is loaded, recommend the next stage.
+Send only when the target stage is not already named. Drop any item the prompt, the ticket, or the repo already answers. Append the missing [metadata batch](#metadata-batch) items (priority, assignee, tracker, renumbered, without the "Keep current" options) so there is only one wait.
 
 ```markdown
 ## Questions
@@ -18,28 +14,13 @@ Reply like: 1b 2c 3a
    - a) Memo: save the idea, no research
    - b) Research: understand the need and the problem
    - c) Plan: specify how to solve it in code
-2. Priority?
-   - a) No priority or unset
-   - b) Low
-   - c) Medium ← recommended unless urgency is clear
-   - d) High
-   - e) Urgent
-3. Assignee?
-   - a) Unassigned ← recommended unless someone owns it
-   - b) <current user if known>
-   - c) <teammate from the tracker roster>
-   - d) Other: say who
-4. Tracker?
-   - a) <Linear or GitHub already used in this repo> ← recommended
-   - b) The other tracker
-   - c) Other: paste a team, repo, or URL
 ```
 
-Mark exactly one stage option as recommended. Memo when this is a reminder. Research when promoting a Memo. Plan when promoting Research, or when the prompt is already a build.
+Mark exactly one stage as recommended: Memo for a reminder, Research when promoting a Memo, Plan when promoting Research or when the prompt is already a build. On an existing ticket, recommend the next stage.
 
 ## Metadata batch
 
-Use when the stage is already known but priority, assignee, or tracker is still unknown after the draft. Do not ask status. Do not ask "write this?".
+Use when the stage is known but priority, assignee, or tracker is still unknown after the draft. Do not ask status. Do not ask "write this?".
 
 ```markdown
 ## Questions
@@ -64,42 +45,23 @@ Reply like: 1c 2a
    - c) Other: paste a team, repo, or URL
 ```
 
-Discover real options before asking. Linear priorities and members come from its capability. GitHub uses actual labels and collaborators. Status is **Todo** on create (map to the tracker's Todo state; GitHub stays open). On promote or refine, keep the current status unless the prompt names another.
+Discover real options first: Linear priorities and members from its capability, GitHub labels and collaborators. Status is **Todo** on create (the tracker's Todo state; GitHub stays open). On promote or refine, keep the current status unless the prompt names another.
 
 ## Locked draft
 
-No Questions in this message. The user can correct it before the write when they reply. If they do not, write this draft.
-
-### Memo
+No Questions in this message. If the user does not correct it, write this draft. Memo uses only **Stage** and **Note**.
 
 ```markdown
 ## Locked in (tell me if this is wrong)
-**Stage:** Memo
-**Note:** …
-```
-
-### Research
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Stage:** Research
+**Stage:** Research | Plan
 **Kind:** Feature | Tweak | Bug | Refactor | Chore
-**Need:** …
-**Problem:** …
+**Need:** …                     (Research)
+**Problem:** …                  (Research)
+**Outcome:** …                  (Plan)
+**Done when:** …                (Plan)
+**Tests:** none | behavior lock | end-to-end | both   (Plan)
 **Out of scope:** … | _none_
-```
-
-### Plan
-
-```markdown
-## Locked in (tell me if this is wrong)
-**Stage:** Plan
-**Kind:** Feature
-**Outcome:** …
-**Done when:** …
-**Tests:** none | behavior lock | end-to-end | both
-**Out of scope:** … | _none_
-**Start here:** `path` - `symbol` | _unknown_
+**Start here:** `path` - `symbol` | _unknown_   (Plan)
 ```
 
 ## Bodies
@@ -107,6 +69,8 @@ No Questions in this message. The user can correct it before the write when they
 Do not rename these headings. Use `_none` or `_unknown` only where the template allows it.
 
 ### Memo
+
+No kind, no diagram.
 
 ```markdown
 ## Stage
@@ -116,11 +80,9 @@ Memo
 <the idea in a few sentences>
 ```
 
-No kind. No diagram.
-
 ### Research
 
-Understanding only. No file map, no snippets, no design pattern.
+Understanding only: no file map, no snippets, no design pattern. A Research ticket always has a kind.
 
 ```markdown
 ## Stage
@@ -151,11 +113,9 @@ Feature
 - … | _none_
 ```
 
-Kind is unset only when this is still a Memo. A Research ticket has a kind.
-
 ### Plan
 
-How to solve the problem in code. A coding agent can implement from this body alone.
+A coding agent can implement from this body alone.
 
 ````markdown
 ## Stage
@@ -219,34 +179,20 @@ or `none`
 - <answer the implementer must not ask again>
 ````
 
-`## Structure` uses `_none` on a row the change does not need. A one-line fix can set pattern, abstraction, one-job helpers, and deep module to `_none`, and still name the file.
-
-`## Snippets` is `_none` only when every hard choice is already written in Rules, Structure, and Files.
-
-`## Tests` is one of: `none`, a behavior lock, end-to-end, or both. Name what each lock proves.
+- `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file.
+- `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.
+- `## Tests`: `none`, behavior lock, end-to-end, or both. Name what each lock proves.
 
 ## Plan diagrams
 
-Start from the analysis mermaid. Embed a real `mermaid` fence. Use real names from the repo. Keep it to modules, people, and request flow.
+Start from the analysis mermaid. Embed a real `mermaid` fence with real repo names: modules, people, request flow.
 
 | Situation | Picture |
 | --- | --- |
-| New path | One flowchart of the intended path |
+| New path | One flowchart of the intended path (like the After fence above, under `## Diagram` with no Before/After subheads) |
 | A change to an existing flow | Before and After, same node ids |
 | Race, ordering, double-submit, or concurrency | Sequence of the failing interleave, then the expected order |
 | Typo, copy, or one-line chore | No picture. Under Diagram, say why. |
-
-### Intended path
-
-````markdown
-## Diagram
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-````
 
 ### Race
 
@@ -283,6 +229,6 @@ sequenceDiagram
 
 ## Tracker write
 
-Set a label for the stage: `Memo`, `Research`, or `Plan`. On Research and Plan, also set the kind label when that label exists. The `## Stage` heading is the contract even when the label cannot be set.
+Label the stage: `Memo`, `Research`, or `Plan`. On Research and Plan, also set the kind label when it exists. The `## Stage` heading is the contract even when a label cannot be set.
 
-On promotion, the comment is the previous description, unchanged. Then update the description.
+On promotion, post the previous description unchanged as a comment, then update the description.

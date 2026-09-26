@@ -1,52 +1,51 @@
 ---
 name: ask-gabriel
 description: >-
-  Thin router over this pack: recommend which skill to run next. Sole
-  auto-invokable skill. Use when unsure which skill, what to run next, before
-  non-trivial work, after a phase completes, when multiple pack skills could
-  apply, or the user asks what to do. Agents should reach for this often.
+  Thin router over this pack: recommend which skill to run next. Use when the
+  user asks which skill to run or is unsure what to do next.
 ---
 
 # Ask Gabriel
 
-You don't remember every skill. Ask. Stay **thin**: recommend only. Do **not**
-load other skills' bodies until the user accepts. The **Taste** and **Architecture**
-sections of `AGENTS.md` are already the rules. Do not restate them here. The next
-skill applies them via [standards.md](../pack-shared/standards.md). `/taste` and
-`/architecture` are the examples and the audit.
+Recommend the next skill. Stay **thin**: do **not** load other skills' bodies until the user accepts.
 
-**Sole auto-invokable skill** in this pack. Never recommend `*-flow` skill names. Nested vs one-off is a fork inside that skill’s `SKILL.md`.
+## Read when
+
+- Nothing up front. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) already apply; the next skill loads them. Do not restate or paste them here.
+- Before replying: the [Plain language](../rules/writing-style.md#plain-language) and Unslop sections of [writing-style.md](../rules/writing-style.md#unslop).
 
 ## On-ramps
 
 | Situation | Start with |
 | --- | --- |
-| Unsure which skill | Stay here — answer below |
-| Fuzzy idea / research | `/analyze` (it applies the Taste and Architecture sections) |
+| Unsure which skill | Stay here and answer below |
+| Fuzzy idea / research | `/analyze` |
 | Bug / something broken | `/analyze` → `/task` when buildable |
-| Build until X is true | `/task` (must apply the **Taste** and **Architecture** sections of `AGENTS.md`) |
-| Coding style / KISS / principles / “is this clean?” | `/taste` |
-| Structure / folders / services / data shape | `/architecture` |
+| Build until X is true | `/task` |
+| Coding style / KISS / principles / “is this clean?” | `/review` (Standards applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)) |
+| Structure / folders / services / data shape | `/analyze`, then `/task` (both apply [code-structure.md](../rules/code-structure.md); shapes in [code-structure-examples.md](../rules/code-structure-examples.md)) |
 | Need a Linear/GitHub ticket | `/write-ticket` (Memo, Research, or Plan) |
-| Ship a branch or pull request | The Ship work section of `AGENTS.md` |
+| Ship a branch or pull request | [shipping.md](../rules/shipping.md) |
 | Linear ticket → build | `/task` with the ticket. Ship with those same rules |
 | Sharpen intent | `/grill-me` |
-| Review local branch vs main | `/code-review` |
-| Review open GitHub PR | `/pr-review` |
-| Capture or update the app UX source of truth | `/design` |
-| Build a screen / frontend | `/task` (it dispatches `/design`) |
-| Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Standalone `/create-test` when you ask, including after `/code-review` or `/pr-review` recommends a lock the task did not offer |
-| ESLint / Prettier / lint, format, dead code, mutants, quality gates, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in; starts `/design` Initialization only if you opted into lint and `docs/design.md` is missing) |
+| Review local branch vs main, or an open GitHub PR | `/review` |
+| Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
+| Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Ask for a test directly, or say yes when `/review` recommends a lock the task did not offer. Either way the agent follows [testing.md](../rules/testing.md) |
+| ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in) |
 
-**Bias:** Before non-trivial coding, the Taste and Architecture sections already apply. Prefer `/analyze` then `/task` for a build. Recommend `/taste` or `/architecture` when the ask is an audit of style or structure. Do not paste those sections into this router.
+Prefer `/analyze` then `/task` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
-Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
+`/task` splits the work and builds every slice itself. A test is written only when the user asked for it or accepted a `/task` behavior-lock brief or a `/review` recommendation ([testing.md](../rules/testing.md)). Ordinary edits do not get tests.
 
-## How to answer
+## Process
 
 1. If the ask is unclear, ask for one sentence of intent.
-2. Recommend **one** next skill and the next 1–2 steps.
+2. Recommend **one** next skill and the next one or two steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
-4. Never dump doctrine or other SKILL bodies into this turn.
-5. Talk in ordinary words ([plain-language.md](../pack-shared/plain-language.md)). Do not use unexplained abbreviations. Skip chatbot closings and puffery (Unslop section of `AGENTS.md`).
-6. When recommending `/task` or `/analyze`, say they apply the Taste and Architecture sections of `AGENTS.md`, and that they pick specialists from the catalog. The main agent does not grep or write tests.
+4. Talk in ordinary words. Do not use unexplained abbreviations. Skip chatbot closings and puffery.
+5. When recommending `/task` or `/analyze`, say they apply code-quality.md and code-structure.md.
+
+## Anti-patterns
+
+- Dumping doctrine or other SKILL bodies into this turn
+- Pasting the rules into this router

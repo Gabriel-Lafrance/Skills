@@ -2,7 +2,8 @@
 
 ## Supported versions
 
-This repository publishes Cursor agent skills as Markdown. Only the latest
+This repository publishes agent skills as Markdown and an always-on
+`AGENTS.md` contract for any harness. Only the latest
 `main` branch is supported.
 
 | Branch | Supported |
@@ -21,7 +22,7 @@ Prefer GitHub’s private reporting (when enabled on this repo):
 3. Include skill paths or install steps if relevant
 
 If private advisories are unavailable, contact the maintainer on GitHub:
-[@Gabriel-Lafrance](https://github.com/Gabriel-Lafrance) — use a private
+[@Gabriel-Lafrance](https://github.com/Gabriel-Lafrance): use a private
 channel and do not paste exploit details in public issues or PRs.
 
 ## What to expect

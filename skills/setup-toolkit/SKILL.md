@@ -1,51 +1,52 @@
 ---
 name: setup-toolkit
 description: >-
-  Gabriel Lafrance Skills on-ramp (setup-toolkit) from skills.sh. First
-  verifies, then installs this pack and AGENTS.md into the repo or the
-  user's harness data. ESLint, Prettier, and quality gates are opt-in.
-  Use when the user wants npx skills, skills.sh, this pack, AGENTS.md,
-  linting, formatting, Knip, Stryker, or to set up tools across Claude,
-  Cursor, Codex, and other environments. Not for rewriting an existing
-  lint stack.
+  Verify, then install this pack and AGENTS.md in the repo, user level, or
+  both, with pointer lines for other harnesses. Lint and format are opt-in.
+  Use when the user wants npx skills, skills.sh, this pack, AGENTS.md, or
+  linting set up. Not for rewriting an existing lint stack.
 disable-model-invocation: true
 ---
 
 # Setup toolkit
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn. Do not skip.
+Install this pack and `AGENTS.md`, then optionally ESLint and Prettier. User start only; do not nest it under `/task`. Install this skill with
+`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then run it.
 
-This skill is a user start. Do not nest it under `/task`.
+## Read when
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
+- Every run: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md).
+- At the step that links a section: [reference.md](reference.md).
+- Talking to or asking the user: the [Plain language](../rules/writing-style.md#plain-language) and [Asking the user](../rules/writing-style.md#asking-the-user) sections of writing-style.md.
 
-This is the skills.sh skill for this pack. Install it with
-`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then run
-this skill.
-
-Phase one verifies what is already on disk, then installs the rest of this pack
-and `AGENTS.md` into the **repo**, **user data**, or both. ESLint, Prettier, editor
-files, and quality gates (`test:quality`, `test:mutants`) are a second phase.
-Ask before that phase. Do not copy lint files until the user says yes.
-
-If they said yes to lint, and `docs/design.md` is missing at the workspace root,
-run `/design` Initialization after. That skill owns the code-derived route
-inventory. Do not write a fake design file from this skill.
+Phase one verifies what is on disk, then installs the pack and `AGENTS.md` into
+**this repo** (recommended), **user level**, or both. ESLint, Prettier, and
+editor files are a second phase. Ask before that phase. Do not copy lint files
+until the user says yes.
 
 ## Process
 
-1. Verify. Look up skill roots, `AGENTS.md`, harness homes, and whether this
+1. Verify. Look up skill roots, `AGENTS.md`, harnesses in use, and whether this
    app has a `package.json`. Print those facts. Do not ask the user for them
-   ([reference.md](reference.md#verify)).
-2. Ask once ([reference.md](reference.md#questions)). Wait. Destination is
-   repo, user data, or both. Lint is yes or no. Skip the lint item when there
-   is no `package.json`.
-3. Phase one: install pack skills and `AGENTS.md` only for the chosen
-   destination ([reference.md](reference.md#pack-skills),
-   [reference.md](reference.md#install-agents-md)).
-4. Phase two, only if they said yes to lint: copy lint, format, editor, and
-   quality-gate templates.
-5. If they said yes to lint and `docs/design.md` is missing, run `/design`
-   Initialization.
+   ([reference.md](reference.md#verify)). Refresh a pack `AGENTS.md` whose
+   marker version is older or missing, and tell the user it was out of date
+   with links to what changed ([reference.md](reference.md#contract-version)).
+2. Ask once ([reference.md](reference.md#questions)). Wait. Scope is this repo,
+   this repo and user level, or user level only. Lint is yes or no. Skip the
+   lint item when there is no `package.json`.
+3. Phase one: install or update pack skills and `AGENTS.md` for the chosen
+   scopes, with pointer lines for harnesses that read another filename
+   ([reference.md](reference.md#pack-skills),
+   [reference.md](reference.md#install-agentsmd)).
+4. Phase two, only if they said yes to lint: copy lint, format, and editor
+   templates.
+5. Delete old pack leftovers and retired pack skill folders when they match, and nothing else
+   ([reference.md](reference.md#clean-up-old-installs)).
+6. Report every file written, refreshed, appended, symlinked, copied,
+   deleted, or skipped, with the reason ([reference.md](reference.md#report)).
 
-Details: [reference.md](reference.md). Do not write a `.cursor/rules` or `.mdc` copy. Do not create a harness home that is not installed. Do not add a project `CLAUDE.md`.
+## Anti-patterns
+
+- Overwriting an instructions file that lacks `gabriel-skills-agents`
+- Creating a home folder for a harness that is not installed
+- Writing a `.cursor/rules` or `.mdc` copy
