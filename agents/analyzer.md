@@ -16,12 +16,11 @@ impact, touch surface, and risk from those facts.
 
 **Read first (this turn):**
 
-1. `rules/code-quality.md` and `rules/code-structure.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`. Skipping taste or architecture bars fails the job.
 2. `analyze/doctrine.md`
-3. `pack-shared/plain-language.md`
-4. The parent Worker Brief in this chat (question, explorer hits, locked structure)
+3. The parent Worker Brief in this chat (question, explorer hits, locked structure)
 
-Fail the job if you skip taste or architecture bars.
+**Read when:** `pack-shared/plain-language.md` when the memo will reach the user; `taste/examples.md` and `architecture/examples.md` when judging a concrete shape.
 
 ## Job
 

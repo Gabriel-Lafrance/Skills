@@ -11,18 +11,17 @@ disable-model-invocation: true
 
 # Pack shared contracts
 
-Not a user skill. Do not recommend `/pack-shared`.
+Not a user skill. Do not recommend `/pack-shared`. This folder exists so `npx skills` installs the contracts next to every other skill (`../pack-shared/...`). Root-level `skills/*.md` files are **not** installed.
 
-Other skills Read these files by relative path:
+## Read when
 
-- [standards.md](standards.md): apply `rules/code-quality.md` and `rules/code-structure.md` on every skill run
-- [doctrine-schema.md](doctrine-schema.md): H2 order for skill doctrines. Taste and architecture doctrine files point at `rules/code-quality.md` and `rules/code-structure.md` and do not use that schema
-- [plain-language.md](plain-language.md) — talk to humans in ordinary words
-- [asking.md](asking.md) — how to ask the user
-- [execution-context.md](execution-context.md) — in-chat context and worker handoff
-- [subagents.md](subagents.md): what vs how; pick the specialist; tests only for a user-asked lock; Worker Brief
-- [review-contract.md](review-contract.md) — evidence, modes, and finding records
-- [ship.md](ship.md): templates and steps for a branch and a pull request
-- [pr-ship.md](pr-ship.md): every agent that opens a PR (create tool, standalone branch push, and the CI mirror before a push that opens or updates a PR)
+Other skills link the file they need at the step that needs it:
 
-This folder exists so `npx skills` installs the contracts next to every other skill (`../pack-shared/...`). Root-level `skills/*.md` files are **not** installed.
+- [standards.md](standards.md): who applies `rules/code-quality.md` and `rules/code-structure.md`, and when
+- [doctrine-schema.md](doctrine-schema.md): writing a skill doctrine (H2 order). Taste and architecture doctrine files point at the rules files and do not use that schema
+- [plain-language.md](plain-language.md): talking to humans in ordinary words
+- [asking.md](asking.md): asking the user anything
+- [execution-context.md](execution-context.md): keeping in-chat context and handing off to workers
+- [subagents.md](subagents.md): dispatching a specialist (what vs how, Worker Brief, tests only for a user-accepted lock)
+- [review-contract.md](review-contract.md): reviewing (evidence, modes, finding records)
+- [ship.md](ship.md) and [pr-ship.md](pr-ship.md): only when this chat will cut a branch or open a PR (templates, create tool, standalone branch push, CI mirror)

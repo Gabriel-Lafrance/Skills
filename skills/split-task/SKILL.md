@@ -8,21 +8,17 @@ disable-model-invocation: true
 
 # Split Task
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before splitting lanes or folders. Do not skip.
+Split one task or goal into **small, ordered inline slice contracts** for `/task` (a worker step, not a typical user start). Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md). If the user explicitly asks to save the split, get or honor an approved destination and write only that requested artifact.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+## Read when
 
-This skill is a worker step for `/task`, not a typical user start.
+- Before splitting lanes or folders: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)). Slices name entry/folder per architecture; do not split in a way that forks a service or primitive.
+- Before asking the user anything: [asking.md](../pack-shared/asking.md).
+- Expanding a slice for hand-off: the [inline plan contract](../task/reference.md#inline-plan-contract).
 
-Split one task or goal into **small, ordered inline slice contracts**. Keep the result in chat under the shared [execution context](../pack-shared/execution-context.md); do not write an INDEX, plan path, status file, or workspace state.
+## Slice size
 
-Slices must name entry/folder per architecture and nest new files in that folder; do not split in a way that forks a service or primitive or lands mixed siblings.
-
-If the user explicitly asks to save the split, get or honor an approved destination and write only that requested artifact.
-
-## Smart zone
-
-A slice fits the smart zone when:
+A slice is small enough when:
 
 - one clear **what** a specialist can finish without rediscovering the goal;
 - the job is one seam or even **one function**;
@@ -49,10 +45,10 @@ Normalize the request using the active execution context:
 **Non-goals:** <explicit exclusions>
 **Done when:**
 1. <binary check>
-**Active Rules:** <relevant INV IDs>
+**Rules that must stay true:** <relevant Rule N>
 ```
 
-If the parent is vague, batch only the real clarifying questions using [asking.md](../pack-shared/asking.md). Do not invent scope.
+If the parent is vague, batch only the real clarifying questions. Do not invent scope.
 
 ### 2. Split ruthlessly
 
@@ -64,10 +60,10 @@ Break the parent into the smallest ordered slices that still deliver value. Each
 | **Outcome** | One sentence: what becomes true when this slice is done |
 | **Lane** | Narrower than the parent when possible |
 | **Entry / folder** | Expected entry point and owning folder when files are added; no mixed-parent dump |
-| **Active Rules** | Rules implemented or preserved by this slice |
+| **Rules that must stay true** | Rules implemented or preserved by this slice |
 | **Done when** | 1–3 binary checks for this slice only |
 | **Blocked by** | Earlier slice IDs, or none |
-| **Why this size** | Why it fits the smart zone or cannot shrink further |
+| **Why this size** | Why it meets the slice size above or cannot shrink further |
 
 Split further when a slice touches more than one major concern, needs more than one explore pass, has independent Done-when rows, or would force a long plan into working memory. For wide refactors, expand, migrate in small batches, then contract.
 
@@ -75,16 +71,15 @@ Split further when a slice touches more than one major concern, needs more than 
 
 List blockers first and mark the frontier. The agent owns the split, so do not
 ask yes/no for it. If other real product, UX, architecture, or taste questions
-remain, send a **Questions-only** batch per [asking.md](../pack-shared/asking.md)
-(no Locked heading). After those are settled — or immediately when nothing is
-open — announce the numbered split in a separate **Locked in (tell me if this is wrong)**
+remain, send a **Questions-only** batch (no Locked heading). After those are
+settled, or immediately when nothing is open, announce the numbered split in a separate **Locked in (tell me if this is wrong)**
 message.
 
 If the user corrects the split, revise the in-chat contracts and continue. Do not implement until `/task` asks.
 
 ### 4. Hand off
 
-Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an [inline plan contract](../task/reference.md#inline-plan-contract), then `/design` for user-facing frontier work and `/implement` for non-UI. Do not create an INDEX or rely on an automatic artifact.
+Copy the frontier and dependencies into **Current slices** of the execution context. Expand implementation-ready slices with an inline plan contract, then `/design` for user-facing frontier work and `/implement` for non-UI.
 
 ## Output template
 
@@ -120,7 +115,7 @@ Copy the frontier and dependencies into **Current slices** of the execution cont
 ## Anti-patterns
 
 - Horizontal layers when vertical thin slices fit
-- Mega-slices that push workers out of the smart zone
+- Mega-slices whose brief plus working set exceed the slice size above
 - Slice contracts that prescribe how (step lists, patches) instead of what
 - Vague titles without binary Done when
 - Landing a slice as mixed siblings with no owning folder

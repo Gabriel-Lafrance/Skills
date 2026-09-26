@@ -8,35 +8,27 @@ disable-model-invocation: true
 
 # Implement
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before writing code. Do not skip.
-
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
-
-This skill is a worker step for `/task`, not a typical user start.
-You own **how**. The parent sends **what** and need-to-know, not a recipe.
+Implement one bounded non-UI slice for `/task` (a worker step, not a typical user start). You own **how**; the parent sends **what** and need-to-know in a complete [Worker Brief](../pack-shared/subagents.md#worker-brief), not a recipe. Do not reconstruct intent from a workspace, plan, or agent-owned state.
 
 User-facing UI is `/design`. If this brief's write allowlist is screens,
 components, styling, or visible copy, return `blocked` and tell the parent
 to dispatch `/design` instead.
 
-Use the shared [execution context](../pack-shared/execution-context.md). The
-parent sends a complete [Worker Brief](../pack-shared/subagents.md#worker-brief) in
-chat; do not reconstruct intent from a workspace, plan, or agent-owned state.
-Fail the job if taste or architecture bars are skipped.
+## Read when
 
-## Read first
+- Before writing code: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)). Skipping taste or architecture bars fails the job.
+- Every run: the inline outcome, Done when, non-goals, Ticket / PR, fixed
+  point, locked decisions, rules that must stay true, current slice, write
+  lane, and dependencies from the shared [execution context](../pack-shared/execution-context.md).
+- As needed, only: the named ticket / PR, relevant Git diff/history,
+  repository code and rules, and repo paths listed in the brief.
+- Before asking the parent a question: [asking.md](../pack-shared/asking.md).
 
-1. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) (keep it simple, named principles, and structure). Do not implement user-facing UI here (`/design` owns that).
-2. The inline outcome, Done when, non-goals, Ticket / PR, fixed point, locked
-   decisions, Active Rules, current slice, write lane, and dependencies.
-3. Only the named ticket / PR, relevant Git diff/history, repository code and
-   rules, and repo paths listed in the brief.
-
-## Deliver one bounded slice
+## Process
 
 1. Stay in the write allowlist. Parallel work is safe only when the parent
    brief proves non-overlapping lanes and compatible interfaces.
-2. Honor the inline Structure decisions and Active Rules. Create the
+2. Honor the inline Structure decisions and rules that must stay true. Create the
    owning folder from the folder map **before** writing files
    (`architecture:folders`). Do not add new files as mixed siblings in
    `src/`, `app/`, `convex/`, or any other mixed parent. If a

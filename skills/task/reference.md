@@ -37,7 +37,7 @@ Use the shared template, keeping only fields that matter to current work:
 - <none | waiting on the user | Rule N accepted | Rule N refused>
 
 ### Current slices
-- <scope, acceptance criteria, ownership, dependencies, and status>
+- <scope, done when, ownership, dependencies, and status>
 
 ### Fix backlog
 - `finding-id` — fix now | follow-up | waived
@@ -89,7 +89,7 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 - **Handoffs / seams:** …
 - **Must not touch:** …
 
-## Acceptance criteria
+## Done when
 - [ ] …
 
 ## Out of scope
@@ -153,40 +153,29 @@ explicit promotion, bounded Fix mode, re-checked acceptance evidence, and
 
 ## Ship questions
 
-After the completion summary, ask one batch only when this chat owns
-shipping. Defaults remain no unless already requested:
+After the completion summary, ask once only when this chat owns shipping.
+The default is no unless the user already asked to ship:
 
 ```markdown
 ## Questions
-Reply like: 1b 2b
+Reply like: 1b
 
-1. Commit these changes now?
-   - a) yes — create a commit
-   - b) no — leave uncommitted ← recommended
-2. Open a PR?
-   - a) yes: push and create a PR using [shipping.md](../rules/shipping.md) (typed title,
-     What changed, Mermaid Change diagram, How to QA) and
-     [pr-ship.md](../pack-shared/pr-ship.md) (the harness pull-request tool when it has one, otherwise `gh`)
-   - b) no ← recommended
+1. Ship this work?
+   - a) yes: cut a branch, commit, push, and draft a PR for your approval
+   - b) no: leave the changes uncommitted ← recommended
 ```
 
-Wait for the answer before committing or opening a PR. If they said yes to
-a PR, or a PR is already open on the branch, run the CI mirror in
-[pr-ship.md](../pack-shared/pr-ship.md) in this environment before the
-commit you will push. A local commit with no PR and no push does not get
-that suite. If opening a PR, draft
-the body from [ship.md](../pack-shared/ship.md) (including Mermaid
-**Change diagram**: one for new work, Before/After for rework), follow
-[pr-ship.md](../pack-shared/pr-ship.md) for the create tool,
-show the draft in chat, then create. When `/task` runs under a parent that
-owns shipping, return the completion evidence to the parent instead; it owns
-the branch, preflight, draft visibility, and PR creation.
+Wait for the answer. On yes, follow the Process in [ship.md](../pack-shared/ship.md)
+from its first step: branch, commit, push, PR draft, approval. When `/task`
+runs under a parent that owns shipping, return the completion evidence to the
+parent instead; it owns the branch, preflight, draft visibility, and PR
+creation.
 
 ## Behavior-lock suggestion
 
 Run this after grill Locked closing and after the inline plan names the public entry. Do not run it during an open grill, on a trivial skip (typo, rename, one-line fix), or during Fix mode. When skip-grill applies because the rules are already specific, suggest from those rules.
 
-1. Walk each Active Rule. Offer a brief only when [`/create-test`](../create-test/doctrine.md) would lock it: a complex public surface whose behavior can silently drift (authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook).
+1. Walk each rule that must stay true. Offer a brief only when [`/create-test`](../create-test/doctrine.md) would lock it: a complex public surface whose behavior can silently drift (authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook).
 2. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, tautology, quality-gate template, typo, rename, one-line fix, and any statement the user called a preference, example, or non-binding idea.
 3. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. If the plan has no public entry, offer nothing.
 4. If no brief qualifies, record `Behavior locks: none` and continue. Do not ask.
@@ -221,7 +210,7 @@ Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested v
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
 3. Unless the skip rule applies, run `/grill-me` fully. It applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
-4. Record Locked decisions and Active Rules in chat. Every locked behavioral answer has an `INV-*` row with authoritative enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) has to be specific. A fuzzy rule cannot become a test later.
+4. Record Locked decisions and rules that must stay true in chat. Every locked behavioral answer becomes a numbered rule (Rule 1, Rule 2) with authoritative enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) has to be specific. A fuzzy rule cannot become a test later.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
 6. Do not suggest tests in this phase.
 
@@ -239,7 +228,7 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 **Acceptance evidence and review.** After all implementation workers finish:
 
-1. Confirm **Done when**, Active Rules, and slice acceptance criteria, including cross-slice seams, with path walks and terminal output. When a lock was accepted, include the tester handoff and the focused test result. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
+1. Confirm **Done when** (task and slice) and rules that must stay true, including cross-slice seams, with path walks and terminal output. When a lock was accepted, include the tester handoff and the focused test result. No browser validation, no screenshots. Record pass / fail / blocked per criterion in chat. Do not call an unperformed check a pass.
 2. Always run **`/review`** next.
 3. Put each review finding in the in-chat **Fix backlog** as `fix now`, `follow-up`, or `waived`.
 4. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the proposed correction, and enter Fix mode only after explicit user promotion.
@@ -250,8 +239,8 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 Fix mode is one bounded slice of the current task, not fresh product discovery:
 
-1. Carry only explicitly promoted findings into the current slice. Each cites its review finding, violated Active Rule, acceptance criterion, correctness/security issue, or regression.
-2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing Active Rules; add one only when the finding exposes an unrecorded behavioral rule. Do not suggest a new test from Fix mode.
+1. Carry only explicitly promoted findings into the current slice. Each cites its review finding, violated rule that must stay true, Done when item, correctness/security issue, or regression.
+2. Grill only the enforcement, footprint, and observable behavior needed to clear those findings. Preserve existing rules that must stay true; add one only when the finding exposes an unrecorded behavioral rule. Do not suggest a new test from Fix mode.
 3. Prefer the smallest authoritative correction. Do not add queues, retries, wrappers, or new services unless the named finding proves a guard is insufficient.
 4. No new feature scope, optional cleanup, or architecture move unless the named finding requires it.
-5. Re-check the named findings and Active Rules with acceptance evidence, then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
+5. Re-check the named findings and rules that must stay true with acceptance evidence, then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.

@@ -13,11 +13,17 @@ disable-model-invocation: true
 
 # Design
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before capturing UX or writing UI. Do not skip.
+Own `docs/design.md` and ship user-facing UI to a finished professional bar in one pass.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
+## Read when
 
-**Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md) · [reference.md](reference.md) · [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
+- Before capturing UX or writing UI: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
+- At the step that names a section (identity, route inventory, heading skeleton, craft detail): [reference.md](reference.md).
+- Judging a concrete screen or copy choice: [examples.md](examples.md).
+- Before dispatching the route inventory Task: [subagents.md](../pack-shared/subagents.md).
+- Talking to the user: [plain-language.md](../pack-shared/plain-language.md). Asking anything: [asking.md](../pack-shared/asking.md).
+
+## Bars
 
 You are a **designer and customer-experience expert**. The smallest details
 turn an average screen into an excellent one. Apply `design:experience`
@@ -31,9 +37,9 @@ use (`design:spoken-locale`); do not swap dictionary words (not
 "Background remover" → "Suppresseur de fond"). Do the next input for them
 when it is obvious. Confirm or ask
 when it is irreversible, money, or a guess. Ship finished UI in this
-turn (`design:professional-craft`). `docs/design.md` is a short UI/UX
-**Do** / **Don't** list. When the user wants to change how the design is
-done, add a bullet.
+turn (`design:professional-craft`). Meet `design:smallest-details` and
+`design:quality-floor`. `docs/design.md` is a short UI/UX **Do** /
+**Don't** list.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
 slices. There is no `/design-review` skill and no Design axis in
@@ -49,23 +55,19 @@ slices. There is no `/design-review` skill and no Design axis in
 3. Do the job in this turn:
    - **Capture / refresh:** inventory every app route from code in a Task
      subagent. Observe repeating UI/UX rules. Write or distill
-     `docs/design.md` to a short UI/UX **Do** / **Don't** list. Do not dump
-     screens, components, or routes.
+     `docs/design.md` to a short UI/UX **Do** / **Don't** list.
    - **Implement UI:** stay in the write allowlist. Resolve identity
      ([reference.md](reference.md#identity)). Nest new UI files in the
      owning feature or route folder from the structure card
-     (`architecture:folders`) before writing them. Do not add cards, hooks,
-     or helpers as mixed siblings of unrelated routes. Apply `design:professional-craft`,
-     `design:ui-copy`, `design:quality-floor`, `design:smallest-details`,
-     `design:experience`, `design:first-glance`, and `design:no-obvious`.
-     Write locale and translated strings with `design:spoken-locale`.
-     Patch the file only when
-     this slice creates a new UI/UX do or don't.
+     (`architecture:folders`) before writing them, not as mixed siblings of
+     unrelated routes. Apply every bar above. Patch `docs/design.md` only
+     when this slice creates a new UI/UX do or don't.
    - **User said the UX is bad, or they want to change how the design is
      done:** add or edit a Do / Don't bullet in this turn. Do not wait for a
      later invoke.
 4. Do not write tests. Do not post GitHub review comments. Do not invent a
-   second design file. Do not invent a look. Do not catalog the app.
+   second design file. Do not invent a look. Do not catalog screens,
+   components, or routes.
 
 ### Initialization
 
@@ -86,11 +88,8 @@ file exists, skip init and work from it.
 ### If a parent already owns the next step
 
 `/task` sent a Worker Brief for a user-facing slice. Stay in
-the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
-experience, first glance, don't tell the obvious, copy that fits the
-surface, spoken locale (job first, then speaker terms), professional craft,
-and the quality floor. Return only the
-Completion envelope. The parent owns acceptance evidence and
+the allowlist. Follow `docs/design.md` and the Bars above (spoken locale:
+job first, then speaker terms). Return only the Completion envelope. The parent owns acceptance evidence and
 `/review`. If `docs/design.md` is missing, return `blocked` with
 Initialization as the next parent step (the parent may already be running
 it). If identity cannot be resolved (no look bullets, no theme tokens, no
@@ -98,8 +97,8 @@ user-stated look), return `blocked` and say the parent must ask.
 
 ### If this is a user one-off
 
-Run Initialization when the file is missing. If identity is missing, ask using
-[asking.md](../pack-shared/asking.md). Otherwise capture, advise, or implement
+Run Initialization when the file is missing. If identity is missing, ask the
+user. Otherwise capture, advise, or implement
 the named screen to the professional-craft bar. Larger product scope that needs
 a grill and a Done-when still goes through `/task`; this skill remains the UI
 worker inside that loop.

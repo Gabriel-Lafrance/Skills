@@ -11,9 +11,11 @@ disable-model-invocation: true
 
 # Pack rules
 
-Not a user skill. Do not recommend `/rules`.
+Not a user skill. Do not recommend `/rules`. This folder exists so `npx skills` installs the rules next to every other skill (`../rules/...`). Root-level `skills/*.md` files are **not** installed.
 
-`AGENTS.md` is the short always-on index. It says which file to open for which job. The rule text lives here:
+## Read when
+
+The Read when table in `AGENTS.md` is the source for when to open each file:
 
 - [code-quality.md](code-quality.md): taste rules (`taste:*` cite keys), keep it simple, named principles, mechanical rules, reuse env vars, naming
 - [code-structure.md](code-structure.md): architecture rules (`architecture:*` cite keys), services, primitives, folders, cheap reads, authority, the Structure card
@@ -24,5 +26,3 @@ Not a user skill. Do not recommend `/rules`.
 - [testing.md](testing.md): no drive-by tests; write a test only after the user accepts that lock
 - [shipping.md](shipping.md): branch names and hard rules for branches and pull requests
 - [tooling.md](tooling.md): lint, format, quality gates, and the CI mirror before a push
-
-This folder exists so `npx skills` installs the rules next to every other skill (`../rules/...`). Root-level `skills/*.md` files are **not** installed.

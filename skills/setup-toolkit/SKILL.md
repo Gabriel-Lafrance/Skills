@@ -13,24 +13,19 @@ disable-model-invocation: true
 
 # Setup toolkit
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Do not skip.
+Install this pack and `AGENTS.md`, then optionally lint and quality gates. User start only; do not nest it under `/task`. Install this skill with
+`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then run it.
 
-This skill is a user start. Do not nest it under `/task`.
+## Read when
 
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
-
-This is the skills.sh skill for this pack. Install it with
-`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then run
-this skill.
+- Every run: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
+- At the step that links a section: [reference.md](reference.md).
+- Talking to or asking the user: [plain-language.md](../pack-shared/plain-language.md) and [asking.md](../pack-shared/asking.md).
 
 Phase one verifies what is already on disk, then installs the rest of this pack
 and `AGENTS.md` into the **repo**, **user data**, or both. ESLint, Prettier, editor
 files, and quality gates (`test:quality`, `test:mutants`) are a second phase.
 Ask before that phase. Do not copy lint files until the user says yes.
-
-If they said yes to lint, and `docs/design.md` is missing at the workspace root,
-run `/design` Initialization after. That skill owns the code-derived route
-inventory. Do not write a fake design file from this skill.
 
 ## Process
 
@@ -45,7 +40,12 @@ inventory. Do not write a fake design file from this skill.
    [reference.md](reference.md#install-agentsmd)).
 4. Phase two, only if they said yes to lint: copy lint, format, editor, and
    quality-gate templates.
-5. If they said yes to lint and `docs/design.md` is missing, run `/design`
-   Initialization.
+5. If they said yes to lint and `docs/design.md` is missing at the workspace
+   root, run `/design` Initialization. That skill owns the code-derived route
+   inventory. Do not write a fake design file from this skill.
 
-Details: [reference.md](reference.md). Do not write a `.cursor/rules` or `.mdc` copy. Do not create a harness home that is not installed. Do not add a project `CLAUDE.md`.
+## Anti-patterns
+
+- Writing a `.cursor/rules` or `.mdc` copy
+- Creating a harness home that is not installed
+- Adding a project `CLAUDE.md`

@@ -28,7 +28,7 @@ none (uses `taste:*` and `architecture:*`)
 | Public entry | Exercise the public entry point. Mock only true external boundaries (network, clock, storage, authentication) |
 | Name the invariant | Every test title states it |
 | Approve first | Before writing, the user approves concise **Why**, **What**, and **How** statements for each main claim. A `/task` brief is already approved when the user answered yes on that line |
-| Cite the grilled rule | A lock that came from `/task` names the Active Rule it locks. No rule, no test |
+| Cite the grilled rule | A lock that came from `/task` names the rule that must stay true it locks (Rule N). No rule, no test |
 | High-conviction set | A few scenarios over combinatorial or snapshot theater |
 | Reuse the repo | Runner, layout, fixtures, helpers. Do not add a framework |
 | Focused run | Only the focused test file or filter unless that is inconclusive or the user asks otherwise |

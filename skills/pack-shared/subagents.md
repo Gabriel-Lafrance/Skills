@@ -9,13 +9,12 @@ context in chat; no worker reads or updates agent-owned runtime files.
 
 ## Bias
 
-The main agent stays in its smart zone: **decide, ask the user, split the
+The main agent's job: **decide, ask the user, split the
 what, inject need-to-know, dispatch specialists, and review Completions**.
 It does not do non-trivial find, analyze, implement, or review labor. It does
-not grep the tree. Workers stay in theirs: one bounded job, then Completion.
+not grep the tree. A worker does one bounded job, then returns a Completion.
 
-A worker fits the **smart zone** when the brief plus working set stay around
-**30% of the context window**. Harness, skills, rules, and MCP already use
+Keep a worker's brief plus working set around **30% of the context window**. Harness, skills, rules, and MCP already use
 about half. A sequential pass is required when there is only one non-trivial
 job. When surfaces, slices, or review axes are independent, launch **one
 specialist per lane in the same turn** when the harness allows it. When it
@@ -74,7 +73,7 @@ bar, not a specialist.
 
 The main agent is the context compiler. Write the brief before every dispatch;
 do not hand a worker an opaque plan path or hidden state to reconstruct. Keep
-the brief small enough that the worker stays in the smart zone.
+the brief plus working set small (see Bias).
 
 ```markdown
 ## Parent outcome
@@ -94,7 +93,7 @@ the brief small enough that the worker stays in the smart zone.
 
 ## Job
 **What:** <one bounded deliverable — can be one function>
-**Acceptance criteria:** <relevant rows>
+**Done when:** <rows for this job>
 **Write allowlist:** <exact paths, or none for read-only>
 **Must not touch:** <siblings or shared seams>
 **Dependencies / interfaces:** <ready, blocked, or contract>
@@ -129,7 +128,7 @@ Empty briefs, doctrine dumps, whole-repo dumps, and parent-written how are
 rejects. Explorer Completions are **hits only** (path, symbol, why it matched,
 short snippet). Analyzer Completions are the `/analyze` memo. Implementer,
 designer, reviewer, and tester Completions must mark **Taste / architecture:**
-`applied`. Skip is a fail: the parent rejects and relaunches.
+`applied`. The parent rejects and relaunches a Completion marked `skipped`.
 
 ## When to spawn
 

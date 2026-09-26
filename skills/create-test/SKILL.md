@@ -9,7 +9,17 @@ disable-model-invocation: true
 
 # Create Test
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn so locks sit on the public surface, not internals. Do not skip.
+Lock observable behavior for a complex boundary. If the target is trivial, say
+so and stop.
+
+## Read when
+
+- Every run, so locks sit on the public surface, not internals: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
+- Drafting the approval brief, test comment, or handoff: [reference.md](reference.md).
+- Asking the Why / What / How question: [asking.md](../pack-shared/asking.md).
+- Summoning the tester: [subagents.md](../pack-shared/subagents.md).
+
+## Who starts it
 
 The user starts this skill. `/task` may continue it only after the user
 accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
@@ -17,20 +27,12 @@ That answer is the start for those briefs. Each task brief cites a grilled
 rule. `/implement`, `/design`, and other build workers do not start this
 skill. Silence, and a parent taking `recommended`, are not a start.
 
-`/review` may still recommend a lock the task did not
-offer. The user starts this skill for that recommendation. Nothing writes
-tests on its own.
+`/review` may still recommend a lock the task did not offer. The user starts
+this skill for that recommendation. Nothing writes tests on its own.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md).
-
-**Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) when
-drafting the approval brief, test comment, or handoff.
-
-Lock observable behavior for a complex boundary. If the target is trivial, say
-so and stop.
+## Process
 
 The parent owns the Why / What / How question. **Tester** is the go-to writer
-of tests and must always be summoned for that labor per
-[../pack-shared/subagents.md](../pack-shared/subagents.md). Feed **what** to
-lock and need-to-know (approved brief, public entry, paths). Tester owns
-**how**. Review the Completion. Never write tests on the main agent.
+of tests and must always be summoned for that labor. Feed **what** to lock
+and need-to-know (approved brief, public entry, paths). Tester owns **how**.
+Review the Completion. Never write tests on the main agent.

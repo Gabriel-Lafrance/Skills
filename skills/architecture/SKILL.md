@@ -11,30 +11,26 @@ disable-model-invocation: true
 
 # Architecture
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). The rules are in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). This skill holds the audit steps and the examples. Do not skip the rules because this skill was not invoked.
+Audit structure and draft the Structure card. The rules live in `rules/` and apply whether or not this skill runs; this skill holds the audit steps and the examples. Cite keys are the headings in the rules files.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+## Read when
 
-Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before drafting a structure
-card. Cite keys are the headings in those files. Use the shared
-[execution context](../pack-shared/execution-context.md).
-
-Find via Task subagents per
-[../pack-shared/subagents.md](../pack-shared/subagents.md): non-trivial
-sibling/service/folder search **must** use `explorer` Tasks (main does not
-grep); independent lanes **must** run in parallel (one Task per lane, no cap
-of two). You review those hits and write the structure card from them, then
-inject the excerpt into later briefs. Skip Tasks only for greenfield-trivial
-structure with no repo to explore. There is no architect worker.
+- Before drafting a structure card: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), and the shared [execution context](../pack-shared/execution-context.md).
+- Judging a concrete shape: [examples.md](examples.md).
+- Before dispatching explorers: [subagents.md](../pack-shared/subagents.md).
+- Before asking the user anything: [asking.md](../pack-shared/asking.md).
 
 If a parent already supplied outcome, Done when, non-goals, locked
-decisions, Active Rules, current slice, and lane, reuse that brief.
+decisions, rules that must stay true, current slice, and lane, reuse that brief.
 
 ## Process
 
-1. **Explore.** Reuse or extend a service before inventing a parallel one;
-   reuse a primitive when it already does the one job. Flag wrong shape in
-   the lane rather than copying it. Note:
+1. **Explore.** Non-trivial sibling, service, or folder search uses
+   `explorer` Tasks (main does not grep); independent lanes run in parallel
+   (one Task per lane, no cap of two). Skip Tasks only for greenfield-trivial
+   structure with no repo to explore. There is no architect worker. Review
+   the hits, write the structure card from them, and inject the excerpt into
+   later briefs. Flag wrong shape in the lane rather than copying it. Note:
    - Existing services for the same concern (billing, auth): reuse/extend first
    - Existing primitives inside those services / deep modules: reuse when they
      already answer that specific job; do not fork
@@ -55,8 +51,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    listed before feature code begins.
 3. Carry the applicable card in the inline execution context. Do not create
    or update a plan, workspace, register, or other agent-owned artifact.
-   Open structure decisions → one `/grill-me` Questions batch (follow
-   [../pack-shared/asking.md](../pack-shared/asking.md)).
+   Open structure decisions → one `/grill-me` Questions batch.
 4. **Implement against the card.** Create the owning folder before its files
    (`architecture:folders`). Never add new files to a mixed parent (`src/`,
    `app/`, `convex/`, or a route folder already holding unrelated files).
@@ -67,10 +62,10 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    validate public args (`taste:types-tell-the-truth`). Before a new env
    name, inventory existing vars by job (`taste:reuse-env`).
 5. For mid-implementation sprawl, duplicated domain logic, a forked primitive,
-   or a prior mistake: make a move only when the current acceptance criteria,
-   Active Rules, or a named finding require it; otherwise retain the smallest
-   direct shape in the **owning folder** and record a follow-up in chat. About
-   to add a mixed sibling? Nest it. That is not extra ceremony.
+   or a prior mistake: make a move only when the current Done when, rules
+   that must stay true, or a named finding require it; otherwise retain the smallest
+   direct shape in the **owning folder** (not extra ceremony) and record a
+   follow-up in chat.
 6. Run the self-check in [code-structure.md](../rules/code-structure.md) before done.
 
 ### If a parent already owns the next step

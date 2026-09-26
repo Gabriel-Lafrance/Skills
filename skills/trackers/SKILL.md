@@ -2,26 +2,23 @@
 name: trackers
 description: >-
   Read-only Linear/GitHub ticket and PR context for specifications and
-  acceptance criteria. Used by parent orchestrators and never writes to trackers.
+  Done when. Used by parent orchestrators and never writes to trackers.
 disable-model-invocation: true
 ---
 
 # Trackers
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn so ticket AC and constraints are not dropped. Do not skip.
+Read a Linear or GitHub ticket or PR via **MCP** or **`gh`** and return a compact ticket brief in the parent's inline [execution context](../pack-shared/execution-context.md). A worker step for `/task`, not a typical user start. Do not persist the brief in agent-owned state. Cursor Cloud Agent linking is separate.
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+## Read when
 
-This skill is a worker step for `/task`, not a typical user start.
+- Every run, so the ticket's taste and architecture Done when checks are recognized: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
+- Before asking the user anything: [asking.md](../pack-shared/asking.md).
 
-This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
-brief in the parent's inline [execution context](../pack-shared/execution-context.md);
-do not persist it in agent-owned state. Cursor Cloud Agent linking is separate.
-
-Keep taste/architecture acceptance criteria and constraints from the ticket in
-the brief. Do not drop them. A Plan also keeps its rules, structure, files,
-snippets, done-when, tests, and already-decided lines. Research keeps the
-need, the problem, and what the grill settled.
+Keep taste/architecture Done when checks and constraints from the ticket in
+the brief. A Plan also keeps its rules, structure, files, snippets,
+done-when, tests, and already-decided lines. Research keeps the need, the
+problem, and what the grill settled.
 
 ## Hard rule: read only
 
@@ -54,9 +51,9 @@ several related ones.
 
 Before calling anything:
 
-1. `GetMcpTools` with pattern `linear|github` (or inspect the Linear / GitHub server directly).
-2. Read the live tool schema — prefer **read** tools (`get_issue`, `list_comments`, `get_pull_request`, …). Ignore write tools.
-3. If a server is `needsAuth`, run its `mcp_auth` once, then rediscover tools.
+1. List the harness's MCP tools for Linear and GitHub.
+2. Read the live tool schema. Prefer **read** tools (`get_issue`, `list_comments`, `get_pull_request`, …). Ignore write tools.
+3. If a server needs authentication, ask the user to authenticate it, then list the tools again.
 
 ## Fetch
 
@@ -67,7 +64,7 @@ Prefer MCP read tools matching: `get_issue`, `list_comments`, `list_issue_status
 Pass the identifier as given (`IN-1234`). Pull:
 
 - Title, description, status, priority, labels, assignee
-- Acceptance criteria / QA checklists in the description
+- Done when checks (acceptance or QA checklists) in the description
 - Comments that add constraints (ignore pure chatter)
 - Linked PRs / git branch if present — then fetch PR title/body/review comments when available (read only)
 
@@ -118,12 +115,12 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 <ticket or PR URL only — do not paste the full body into every later prompt>
 ```
 
-Missing acceptance criteria → ask **one** question or derive binary Done when from the Ask (and show it for approval). Do not write that back to the tracker.
+Missing Done when → ask **one** question or derive binary Done when from the Ask (and show it for approval). Do not write that back to the tracker.
 
 ## How callers use the brief
 
 - Spec source for the parent brief, acceptance evidence, and `/review`
-- Keep the Ticket / PR reference and relevant acceptance criteria in chat; the
+- Keep the Ticket / PR reference and relevant Done when in chat; the
   parent combines them with Git and repository evidence
 - Do not create a workspace, status, plan, register, or tracker update
 
@@ -131,7 +128,7 @@ Missing acceptance criteria → ask **one** question or derive binary Done when 
 
 | Problem | Action |
 | --- | --- |
-| No Linear MCP | Tell the user to add Linear from Cursor MCP tools (`https://mcp.linear.app/mcp`), then retry. Do not fake the ticket. |
+| No Linear MCP | Tell the user to add the Linear MCP server (`https://mcp.linear.app/mcp`) in their harness, then retry. Do not fake the ticket. |
 | No `gh` / not logged in | Ask them to install/auth `gh`, or paste the issue body once. |
 | Ticket / PR not found | Stop; confirm ID / team / repo. |
 

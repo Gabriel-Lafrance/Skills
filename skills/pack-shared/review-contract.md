@@ -78,7 +78,7 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 ```markdown
 - **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
-  - **Rule:** `INV-*` | acceptance criterion | doctrine | none
+  - **Rule:** Rule N | Done when item | doctrine | none
   - **Trigger:** <required for runtime-risk findings>
   - **Evidence:** <hunk, path walk, or signal>
   - **Impact:** <why it matters>
@@ -111,7 +111,7 @@ hunt (bugs are not "the ticket forgot to mention them").
 UX bars live in `/design` while building. Do not dispatch a Design worker,
 return a Design matrix, or run an Experience or Craft floor.
 
-The parent provides the fixed-point diff, relevant spec, Active Rules, and
+The parent provides the fixed-point diff, relevant spec, rules that must stay true, and
 format below. It dispatches Standards and Spec as parallel Tasks (plus extra
 Tasks when the diff has independent surfaces), reviews Completions, and
 rejects and relaunches a narrative-only response once.

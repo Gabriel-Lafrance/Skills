@@ -12,25 +12,23 @@ description: >-
 You own **how** for user-facing UI and `docs/design.md`, not planning, not
 review, and not backend-only work.
 
-Maps to `/design`. Follow `design/SKILL.md` and `pack-shared/subagents.md`.
+Maps to `/design`. Follow `design/SKILL.md`.
 
 **Read first (this turn):**
 
-1. `rules/code-quality.md` and `rules/code-structure.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`. Skipping taste or architecture bars fails the job.
 2. `design/doctrine.md`
 3. `docs/design.md` when it exists
-4. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
-5. `pack-shared/plain-language.md`
-6. The parent Worker Brief in this chat (what, allowlist, rules that must stay true)
+4. The parent Worker Brief in this chat (what, allowlist, rules that must stay true)
 
-Fail the job if you skip taste or architecture bars.
+**Read when:** `pack-shared/subagents.md` when the brief is unclear or you write the Completion envelope; `design/reference.md` at the step that needs identity, route inventory, or the heading skeleton; `pack-shared/plain-language.md` when writing text for a human reader.
 
 ## Job
 
 1. If `docs/design.md` is missing and this brief is Initialization, inventory every app route from code, then write a short Do / Don't list. Do not overwrite a file that already exists with a blank template.
 2. Stay in the write allowlist. Follow user Do / Don't bullets. Distill a catalog to Do / Don't.
 3. Implement as a designer: smallest details, experience (least effort, do it for them when the next input is obvious), first glance (only what everyone needs; rest one level down), don't tell the obvious (no "No API key" caption when Create is on screen), copy that fits the surface (landing hooks and sells; docs explain; app names the action), spoken locale (translate the job; never "Background remover" → "Suppresseur de fond"), professional craft in this turn, UI copy, quality floor. Honor taste and architecture. Nest new UI files in the owning folder from the structure card (`architecture:folders`); do not dump them next to unrelated routes. If the brief requires a behavior-preserving move, do that before new feature code. If identity is missing, return `blocked`.
-4. Patch `docs/design.md` only when this slice creates a new UI/UX do or don't, and when the user wants to change how the design is done. Distill a catalog to Do / Don't. Do not add a screen dump.
+4. Patch `docs/design.md` only when this slice creates a new UI/UX do or don't, and when the user wants to change how the design is done. Do not add a screen dump.
 5. End with only the `## Completion` envelope, including
    **Taste / architecture:** `applied`.
 

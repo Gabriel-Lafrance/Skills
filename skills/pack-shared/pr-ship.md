@@ -7,7 +7,7 @@ This applies to `/task` when this chat owns shipping and the user asked to open 
 
 Body templates and Mermaid rules stay in
 [`ship.md`](ship.md). This file owns
-which create/update tool to use, the push check that the branch is standalone, and the CI mirror before a push that opens or updates a PR.
+which create/update tool to use and the CI mirror before a push that opens or updates a PR.
 
 No Demo screenshots, no review canvas, no videos. The PR body is text:
 type, ticket, what changed, Change diagram, How to QA, Notes. Do not
@@ -15,14 +15,14 @@ open a browser, capture screenshots, or produce a canvas to ship a PR.
 
 ## Required Reads
 
-1. [`ship.md`](ship.md): title, type template, Change diagram, How to QA.
-2. This file: create tool, the standalone push check, and the CI mirror.
+1. [`ship.md`](ship.md): for the title and body template (type template, Change diagram, How to QA).
+2. This file: create tool and the CI mirror.
 
 ## Who this applies to
 
 | Actor | Follows this? |
 | --- | --- |
-| Standalone `/task` after "open a PR?" = yes | Yes |
+| Standalone `/task` after "Ship this work?" = yes | Yes |
 | Any agent opening a PR | Yes |
 | `/review` on a GitHub PR (comments only) | No. Does not create the PR |
 | Nested `/task` when a parent owns shipping | No. The parent ships |
@@ -38,18 +38,7 @@ Then pick **one** write path:
 | This harness has a pull-request tool | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write. |
 | No pull-request tool | Use the heredoc in [ship.md](ship.md). |
 
-Push the new branch before create, unless the user asked for local-only.
-Create and push it with the standalone steps in
-[ship.md](ship.md): `git switch --detach <base-sha>`
-then `git switch -c <new-branch>` (or `git switch --no-track -c`), then
-`git push -u origin HEAD:refs/heads/<new-branch>`. Before that push, upstream
-is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or
-`origin/master`, stop. A branch cut from `dev` is its own ref. It does not
-keep `dev`'s upstream, and the push does not update `dev`, so it does not
-take `dev`'s protection. Never force-push. Never `git push` with no refspec
-while upstream is `origin/dev`, `origin/main`, or `origin/master`. If git
-suggests `git push origin HEAD:dev`, `HEAD:main`, or `HEAD:master`, do not
-run it. Never push `dev`, `main`, `master`, or the default branch.
+Before create, cut and push the branch with the branch-and-push step of the Process in [ship.md](ship.md), unless the user asked for local-only.
 
 If a PR is already open on the branch, update its body with the same tool
 choice; do not open a second PR.

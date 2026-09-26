@@ -11,24 +11,26 @@ disable-model-invocation: true
 
 # Review
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before adjudicating Standards, on every `initial` or `full-rescan` (and on newly introduced PR follow-up surface). Do not skip because the diff looks small.
+Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec axes with evidence-backed findings.
 
-**Shared contracts:** [review](../pack-shared/review-contract.md) · [execution context](../pack-shared/execution-context.md)
+## Read when
 
-**Read:** [doctrine.md](doctrine.md) · [examples.md](examples.md). For a GitHub PR, also [reference.md](reference.md) and [asking.md](../pack-shared/asking.md).
+- Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
+- Every run: [doctrine.md](doctrine.md) and the [review contract](../pack-shared/review-contract.md).
+- A parent supplied the handoff: the [execution context](../pack-shared/execution-context.md).
+- Unsure whether a finding meets the evidence bar or how to word it: [examples.md](examples.md).
+- Writing user-facing findings: [plain-language.md](../pack-shared/plain-language.md).
+- GitHub PR only: [reference.md](reference.md) and [asking.md](../pack-shared/asking.md).
 
 Worker output uses the review-contract **review output** fence (Principles,
 Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
-User-facing findings use ordinary words
-([plain-language.md](../pack-shared/plain-language.md)).
 
 ## Pick the target
 
 - **Local branch diff** (default): the user or a parent names a branch, ref, or
   the current work. Results stay in chat. `/task` may nest this mode.
 - **GitHub PR**: the user gives a PR number or link. Drafts comments and asks
-  one publish question. This is a user start only. Do not nest it under
-  `/task`.
+  one publish question. User start only.
 
 ## Modes
 
@@ -38,7 +40,7 @@ Select the shared review mode deliberately:
   parallel.
 - `remediation` receives named finding IDs, the fix diff, touched direct paths,
   and direct callers only. Verify those findings and regressions in that
-  surface; do not reopen a broad review.
+  surface only.
 - `full-rescan` requires an explicit request (or material scope expansion) to
   re-open full-review depth after a meaningful change.
 
@@ -50,19 +52,18 @@ bar. On a GitHub PR, also apply the `review:*` PR extras.
 
 1. Pin the requested fixed point and inspect its shipped diff.
 2. If a parent already supplied outcome, done-when, non-goals, ticket or PR,
-   fixed point, lane, phase, Active Rules, current slices, and fix backlog,
-   treat that chat context as the binding handoff. Do not reconstruct intent
-   from hidden files. Otherwise derive the Spec axis from, in order:
-   1. The user's stated outcome and acceptance criteria
+   fixed point, lane, phase, rules that must stay true, current slices, and fix backlog,
+   treat that chat context as the binding handoff. Otherwise derive the Spec axis from, in order:
+   1. The user's stated outcome and Done when
    2. A named PR, ticket, and their available discussion
    3. Relevant repository code, rules, and committed documentation
 
    If no specification is available, say so and run Standards without
-   inventing requirements. Cite an Active Rule only when it is actually
-   violated; otherwise cite the relevant acceptance criterion or state that no
+   inventing requirements. Cite a rule that must stay true only when it is actually
+   violated; otherwise cite the relevant Done when item or state that no
    rule applies.
 3. Dispatch `reviewer` Tasks per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md). Standards and
+   [subagents.md](../pack-shared/subagents.md). Standards and
    Spec **must** be parallel Tasks; add extra Tasks when the diff has
    independent surfaces.
 4. Report stable finding IDs and the Fix now / Follow-up / Optional nit
@@ -93,14 +94,20 @@ unless the user asked for that next step.
    review this skill completed on this PR when available (from chat or the
    latest review commit association).
 2. Dispatch `reviewer` Tasks per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md), telling each
+   [subagents.md](../pack-shared/subagents.md), telling each
    worker this is an open GitHub PR. Feed the what (PR, injected plan, bars).
    The worker owns how to hunt. The parent reviews Completions and owns the
-   publish question. Do not solo non-trivial PR review labor.
+   publish question.
 3. With no prior finding thread, run the shared contract's `initial` review.
 4. On every follow-up, complete **Pass A** first, then **Pass B**
-   ([reference.md](reference.md#follow-up-passes)).
-5. Use `full-rescan` only when the user explicitly requests it or materially
-   expands the review scope.
-6. Show drafts, ask one publish question, apply the stale-head guard, then post
+   ([reference.md](reference.md#follow-up-passes)). Use `full-rescan` only
+   under the condition in Modes.
+5. Show drafts, ask one publish question, apply the stale-head guard, then post
    only after approval ([reference.md](reference.md)).
+
+## Anti-patterns
+
+- Nesting GitHub PR mode under `/task`
+- Reopening a broad review in `remediation` mode
+- Reconstructing intent from hidden files when a parent supplied the handoff
+- Soloing non-trivial PR review labor on the main agent

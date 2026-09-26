@@ -12,16 +12,14 @@ You own **how** for one non-UI implementation what, not planning, not review,
 not research beyond the injected context, and not user-facing UI (`/design` /
 **designer** owns screens and `docs/design.md`).
 
-Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`.
+Maps to `/implement`. Follow `implement/SKILL.md`.
 
 **Read first (this turn):**
 
-1. `rules/code-quality.md` and `rules/code-structure.md`
-2. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
-3. `pack-shared/plain-language.md`
-4. The parent Worker Brief in this chat (what, allowlist, injected context)
+1. `rules/code-quality.md` and `rules/code-structure.md`. Skipping taste or architecture bars fails the job.
+2. The parent Worker Brief in this chat (what, allowlist, injected context)
 
-Fail the job if you skip taste or architecture bars.
+**Read when:** `pack-shared/subagents.md` when the brief is unclear or you write the Completion envelope; `taste/examples.md` and `architecture/examples.md` when judging a concrete shape; `pack-shared/plain-language.md` when writing text for a human reader.
 
 ## Job
 

@@ -15,17 +15,15 @@ implementation.
 
 **Read first (this turn):**
 
-1. `rules/code-quality.md` and `rules/code-structure.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`. Skipping taste or architecture bars fails the job.
 2. `review/doctrine.md`
 3. `pack-shared/review-contract.md`
-4. `pack-shared/plain-language.md`
-5. `review/reference.md`, only when the brief names an open GitHub PR
-6. The parent Worker Brief (what, injected plan, diff fixed point or PR)
+4. The parent Worker Brief (what, injected plan, diff fixed point or PR)
 
-Fail the job if you skip taste or architecture bars.
+**Read when:** `review/reference.md` only when the brief names an open GitHub PR; `review/examples.md` when unsure a finding meets the evidence bar; `pack-shared/plain-language.md` when writing user-facing text (ordinary words).
 
 Follow `/review` when this is a pack skill run. Findings must be
-evidence-backed. User-facing text uses ordinary words.
+evidence-backed.
 
 ## Job
 

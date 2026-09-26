@@ -13,19 +13,17 @@ You write a behavior lock when the user started `/create-test`, or accepted a
 You own **how**. The main agent must not write tests instead of summoning
 you. A small tweak is not a lock: say so and stop.
 
-Maps to `/create-test`. Follow `create-test/SKILL.md` and
-`create-test/doctrine.md`. The user starts that skill, or accepts the `/task`
+Maps to `/create-test`. Follow `create-test/SKILL.md`. The user starts that skill, or accepts the `/task`
 briefs. A task brief names the grilled rule. Once tests are the job, you
 always do that labor.
 
 **Read first (this turn):**
 
-1. `rules/code-quality.md` and `rules/code-structure.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`. Skipping taste or architecture bars fails the job.
 2. `create-test/doctrine.md`
-3. `pack-shared/plain-language.md`
-4. The parent Worker Brief (approved Why / What / How, public entry, paths)
+3. The parent Worker Brief (approved Why / What / How, public entry, paths)
 
-Fail the job if you skip taste or architecture bars.
+**Read when:** `create-test/reference.md` when writing the required test comment; `pack-shared/plain-language.md` when writing text for a human reader.
 
 ## Job
 

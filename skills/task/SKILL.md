@@ -11,35 +11,35 @@ disable-model-invocation: true
 
 # Task
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before grilling, planning, or implementing. Do not skip.
+Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless the user explicitly requests a saved artifact and approves its destination.
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
+## Read when
 
-Orchestrator only. Dispatch Task workers per
-[../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
-Completions; do not solo non-trivial labor or grep the tree. Always apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) during grill and before every implement wave.
-Load `/design` before every user-facing implement wave.
-
-`/task` follows the stateless
-[execution-context contract](../pack-shared/execution-context.md): plans are
-inline unless the user explicitly requests a saved artifact and approves its
-destination.
+- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) and the [execution-context contract](../pack-shared/execution-context.md).
+- At the step that names a section: [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
+- Before dispatching a worker: [subagents.md](../pack-shared/subagents.md).
+- Before asking the user anything: [asking.md](../pack-shared/asking.md).
+- Only when this chat will open a PR: [pr-ship.md](../pack-shared/pr-ship.md).
 
 ## Process
 
 1. Establish or refresh the in-chat execution context.
-   If a parent already supplied ticket, lane, Done when, non-goals, Active
-   Rules, fixed point, and slice bounds, accept that brief. Do not re-derive
-   ticket or branch ownership the parent holds.
+   If a parent already supplied ticket, lane, Done when, non-goals, rules
+   that must stay true, fixed point, and slice bounds, accept that brief. Do
+   not re-derive ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
    → implement → acceptance evidence → `/review` → Fix mode as needed.
-   The suggestion waits. The user can refuse every test. Pick Task specialists
-   per [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
-   spawn order. Main does not grep or write tests. Always
-   apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) during grill and before every implement
-   wave. Load `/design` before every user-facing implement wave.
+   - Orchestrate only: pick specialists from the subagents catalog (not a
+     fixed spawn order) and review their Completions. Main does not solo
+     non-trivial labor, grep the tree, or write tests.
+   - Apply code-quality.md and code-structure.md during grill and before
+     every implement wave. Load `/design` before every user-facing implement
+     wave.
+   - The behavior-lock suggestion waits for the user, who can refuse every test.
 3. Announce completion.
+
+Recovery, progress, lookup, and safety rules live in the doctrine and reference.
 
 ### If a parent already owns the ticket, branch, and PR
 
@@ -48,12 +48,10 @@ Return a completion summary plus evidence envelope to the parent.
 
 ### If this chat owns shipping
 
-Offer ship Questions only after all gates pass (see
-[reference.md](reference.md#ship-questions)). Do not commit or open a PR
-unless the user answers yes. If they ask to open a PR, follow
-[../pack-shared/pr-ship.md](../pack-shared/pr-ship.md). Do not invent a parent.
-
-Recovery, progress, lookup, and safety rules live in the doctrine and reference.
+Offer ship Questions only after all gates pass
+([reference.md](reference.md#ship-questions)). Do not commit or open a PR
+unless the user answers yes. If they ask to open a PR, follow pr-ship.md. Do
+not invent a parent.
 
 ## Anti-patterns
 

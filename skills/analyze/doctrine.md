@@ -47,15 +47,11 @@ Review-remediation mode: use only after the user selected named **Fix now** rows
 
 Post the memo in chat; keep it current in the execution context rather than in an agent-owned file. Lead with a high-level Mermaid diagram so a reader can see the path before the prose.
 
-Diagram rules:
+The memo diagram follows the Change diagram section of [ship.md](../pack-shared/ship.md): one diagram for new work, Before/After for rework. Plans use Before/After instead ([planning.md](../rules/planning.md)). On top of ship.md:
 
-- Prefer modules, actors, and request/data flow, not every file or function.
-- **New or additive work:** one diagram of the recommended path.
-- **Rework** (bug, refactor, or a flow that changes): Before and After under Diagram, keeping the same node ids where possible.
 - **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the failing interleave, plus the expected order when it is known.
-- Use `flowchart`, `sequenceDiagram`, or `graph`. Pick the clearest form.
 - Name real modules/services/routes from the evidence. Do not invent a shape the repo does not support.
-- Omit only when the ask is truly diagram-hostile (typo, copy, one-line chore) and say why under Diagram.
+- If you omit it (typo, copy, one-line chore), say why under Diagram.
 
 ````markdown
 ## Analysis memo
@@ -96,10 +92,8 @@ flowchart LR
 **Done when:** <binary checks>
 **Non-goals:** …
 **Lane:** …
-**Active Rules:** <relevant `INV-*` rows or none>
+**Rules that must stay true:** <relevant Rule N rows or none>
 ````
-
-For rework, replace the single mermaid with Before/After under Diagram, same node ids where possible.
 
 Include the draft `/task` seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
 
@@ -116,7 +110,7 @@ Return one section for every selected stable finding ID before asking for promot
 
 ### <finding-id>: <short finding>
 **Source:** <review pass + path/symbol>
-**Rule:** <`INV-*`, acceptance criterion, or review rule>
+**Rule:** <Rule N, Done when item, or review rule>
 **Current behavior and evidence:** …
 **Root cause:** …
 **Proposed smallest fix:** …
@@ -129,7 +123,7 @@ Return one section for every selected stable finding ID before asking for promot
 **Outcome:** …
 **Done when:** <one binary row per selected finding ID>
 **Lane:** …
-**Active Rules:** <preserved and newly locked rules>
+**Rules that must stay true:** <preserved and newly locked rules>
 ```
 
 ## Apply

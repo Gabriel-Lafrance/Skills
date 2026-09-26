@@ -22,15 +22,15 @@ none (uses `taste:*` and `architecture:*`)
 
 ## Bars
 
-Use the shared [execution context](../pack-shared/execution-context.md) as the source of truth for this task. Keep the outcome, Done when, non-goals, Active Rules, current slices, Fix backlog, phase, and next action visible in chat.
+Use the shared [execution context](../pack-shared/execution-context.md) as the source of truth for this task. Keep the outcome, Done when, non-goals, rules that must stay true, current slices, Fix backlog, phase, and next action visible in chat.
 
 Follow the shared stateless default: inline plan and slice contracts are normal; save an artifact only when the user asks and supplies or approves its destination.
 
-**Active Rules:** Every behavioral rule locked during the grill receives an `INV-*` row in the in-chat execution context with its enforcement and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
+**Rules that must stay true:** Every behavioral rule locked during the grill becomes a numbered rule (Rule 1, Rule 2) in the in-chat execution context with its enforcement and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each Active Rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
+**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
 
-**Quality bar:** Parent-owned acceptance evidence (Done when + Active Rules + cross-slice seams) and `/review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
+**Quality bar:** Parent-owned acceptance evidence (Done when + rules that must stay true + cross-slice seams) and `/review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
 
 ### Lookup
 
@@ -77,13 +77,13 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 **Hard reject:** vague wishes or open-ended research with no binary done state. Multiple unrelated outcomes need separate `/task` contexts.
 
-**Skip grill only if all are true:** the ticket or user already has binary acceptance criteria; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as Active Rules even when skipping.
+**Skip grill only if all are true:** the ticket or user already has a binary Done when; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as rules that must stay true even when skipping.
 
 For ticket-driven tasks, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
 
 ### Behavior locks
 
-Suggest tests only from grilled Active Rules, using the `/create-test` bar for what is worth locking. Detail and the question template live in [reference.md](reference.md#behavior-lock-suggestion).
+Suggest tests only from grilled rules that must stay true, using the `/create-test` bar for what is worth locking. Detail and the question template live in [reference.md](reference.md#behavior-lock-suggestion).
 
 | Rule | Meaning |
 | --- | --- |
@@ -111,7 +111,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 
 - Declaring completion without acceptance evidence then `/review`
 - Creating automatic runtime state instead of using the shared execution context
-- Planning before Locked grill closing or omitting a locked behavioral rule from Active Rules
+- Planning before Locked grill closing or omitting a locked behavioral rule from the rules that must stay true
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
 - Soloing non-trivial explore, implement, or review work on the parent instead of Task workers per [subagents.md](../pack-shared/subagents.md)
 - Capping a wave at two Tasks when more independent surfaces are ready

@@ -4,7 +4,7 @@
 
 1. **Read** `pack-shared/subagents.md`. The main agent picks the specialist that owns the job and reviews Completions. It does not solo non-trivial find, analyze, implement, review, or tests, and it does not follow a fixed spawn order.
 
-The main agent stays in its smart zone: split the **what**, inject **need-to-know**, dispatch specialists, and **review** Completions. It does not grep the tree. Workers own **how**.
+The main agent splits the **what**, injects **need-to-know**, dispatches specialists, and **reviews** Completions. It keeps each worker brief plus working set small. It does not grep the tree. Workers own **how**.
 
 When the harness can spawn a specialist, dispatch one. When it cannot, do that role as its own pass. Do not mix find, judge, and implement in one pass.
 
@@ -14,5 +14,5 @@ Pick the **listed** specialist that owns the job: **explorer**, **analyzer**, **
 
 Trivial work (typo, pure rename, git status, reading existing terminals) may stay on the main agent. Never spawn verification-only lint ritual passes. Never auto-start `/create-test`. A `/task` suggestion is not a start until the user answers, and they can refuse every test.
 
-Worker **Read first** must include `rules/code-quality.md` and `rules/code-structure.md`. Skip is a fail. User-facing work also reads `design/doctrine.md` and `docs/design.md`.
+Worker **Read first** must include `rules/code-quality.md` and `rules/code-structure.md`. User-facing work also reads `design/doctrine.md` and `docs/design.md`.
 

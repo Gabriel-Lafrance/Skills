@@ -2,148 +2,130 @@
 
 Cite keys use the `taste:` prefix.
 
-These rules apply on every non-trivial change, whether or not anyone invoked `/taste`. Examples are in `taste/examples.md`. Verify and UI detail is in `taste/reference.md`.
+These rules apply on every non-trivial change, whether or not anyone invoked `/taste`. Examples: `taste/examples.md`. Verify and UI detail: `taste/reference.md`.
 
 ## Keep it simple
 
-**Keep it simple** (KISS, Keep It Stupid Simple, expanded once here) is the default: the stupid-simple solution that still meets the outcome and Active Rules. Cleverness, ceremony, and speculative architecture are costs. Pay them only when evidence demands it.
+Pick the simplest shape that meets the outcome and the rules that must stay true (KISS, Keep It Stupid Simple). Do not build for an imaginary product (YAGNI).
 
-| Do | Do not |
+| Do | Don't |
 | --- | --- |
-| Straight-line happy path; obvious names; one clear owner | Indirection for cleanliness, premature seams, config for imaginary products |
-| Inline a one-call-site guard | Extract a helper/file/class that only wraps that guard |
-| A plain function or single class for tiny glue | Pattern theater (factory-of-factories, empty bases, one-line impl files) |
-| Deep entry when richness already exists | Shallow APIs that force every caller to orchestrate steps |
+| Straight-line happy path, obvious names, one owner | Indirection for tidiness, early seams, config nobody needs |
+| Inline a guard used in one place | A helper, file or class that only wraps it |
+| One plain function or class for small glue | Factories of factories, empty base classes, one-line files |
+| One deep entry when the logic is rich ([`architecture:deep-public-surface`](code-structure.md#deep-public-surface)) | Shallow APIs that make every caller orchestrate steps |
+| A new folder for a new concern ([`architecture:folders`](code-structure.md#folders)) | One-off helper files in a mixed parent folder |
 
-Keep it simple does **not** mean shallow modules, duplicated domain logic, or skipping a real service when the domain is independent. It means: simple surface, no extra moving parts. When keep-it-simple and growth conflict on a **big** feature, name the required seam, then keep everything else stupid simple (seam + one real impl, not a hierarchy of unused extension points). Detail: [`reference.md`](../taste/reference.md#futureproofing).
+- Extract only when the extraction owns its own behavior, removes real duplication, or enforces a locked rule. An untidy `if` is not a reason.
+- Add a layer, service, wrapper, class tree, shared API, queue, lock or retry system only when you can name why a local version fails. If a client can bypass a disabled UI state, add the backend guard first ([`architecture:authority`](code-structure.md#authority)).
+- Simple never means shallow modules, duplicated domain logic, or skipping a real service for an independent domain.
+- A big feature may add one named seam with one real implementation. Detail: [reference.md](../taste/reference.md#futureproofing).
+- Reuse an existing one-job helper instead of forking it ([`architecture:primitives`](code-structure.md#primitives)). A small product change should touch one place per concept.
+- Never extend a known-wrong shape. A behavior-preserving delete or move that removes a branch or layer happens when the goal or a named finding requires it; otherwise record a follow-up.
 
-**Abstraction budget.** Prefer the smallest clear shape that fulfills the assigned outcome and Active Rules. Keep a one-call-site guard inline when it has one local purpose; extract it only when the extraction owns independent behavior, removes real duplication, or is required to enforce a locked invariant. Do not build for an imaginary product (YAGNI).
-
-Before adding a new layer, file, service, wrapper, class hierarchy, shared API, queue, lock, retry system, or other coordination machinery, identify the evidence that a local implementation cannot meet the rule safely. A UI-disabled state is user feedback; if a client can bypass it, add the direct authoritative backend or state-transition guard before proposing coordination infrastructure (`taste:trust-the-server`, [`architecture:authority`](code-structure.md#authority)).
-
-This budget does not prohibit a real service, deep module, extension seam, or the **owning folder** for a new concern ([`architecture:folders`](code-structure.md#folders)). The folder is not extra ceremony. It prohibits speculative ceremony, identity wrappers, one-off helper files dumped in a mixed parent, and abstractions created only because a local `if` looks untidy.
-
-**Bad code** is whatever increases **complexity** or **entropy**. Good code is keep-it-simple first, deep where it matters (simple surface, rich inside), built from one-job helpers inside services / deep modules ([`architecture:primitives`](code-structure.md#primitives)), orthogonal by service, and leaves the touched lane cleaner or no dirtier than before.
-
-| Term | Meaning |
-| --- | --- |
-| **Complexity** | Change amplification, cognitive load, unknown unknowns: hard to understand or change safely. Prefer fewer concepts at the call site; put richness behind a deep entry ([`architecture:deep-public-surface`](code-structure.md#deep-public-surface)). Forking a one-job helper’s job locally amplifies change. |
-| **Entropy** | Local disorder that spreads when copied or left untouched in a lane you edit. Touching a dirty lane without a behavior-preserving cleanup when you can preserve behavior increases entropy. Forking or bypassing an existing one-job helper is entropy. |
-
-Operational tests (apply before shipping a slice):
-
-1. **Keep it simple:** Is there a stupider-simple shape that still meets Done when and Active Rules? Prefer it.
-2. **Call-site:** Does the caller need internals / order / edge cases? Then the surface is shallow.
-3. **Change:** Would a small product change touch many files for one concept? Then complexity (amplification).
-4. **Window:** Are we copying or extending a known-wrong shape? Then entropy.
-5. **Judo:** Is there a behavior-preserving delete/move that removes a whole branch or layer? Do it when the active goal or a named finding requires it; otherwise record a follow-up.
-6. **One-job helper:** Does an existing block already answer this? Reuse it; do not fork ([`architecture:primitives`](code-structure.md#primitives)).
-
-Named-principle checks live in the table below. Do not restate them here.
+**Check:** could a simpler shape still pass? Use it.
 
 ## Named principles
 
-Apply these with keep it simple (KISS). Operational tests, not essays. In chat with the user, cite each as **plain (Classic)** ([plain-language.md](../pack-shared/plain-language.md)): `We need to keep this simple (KISS).` Never acronym-only and never plain-only. Cite keys stay `taste:*`. Structural placement lives in [code-structure.md](code-structure.md).
+In chat, cite each as **plain (Classic)** ([plain-language.md](../pack-shared/plain-language.md)): `We need to keep this simple (KISS).` Never acronym-only or plain-only. Placement rules live in [code-structure.md](code-structure.md).
 
 | Principle | Classic | Meaning | Test |
 | --- | --- | --- | --- |
-| **Keep jobs apart** | SoC (Separation of Concerns) | UI, domain, and I/O change for different reasons: keep them in different modules. | Would a UI copy change force a billing rewrite? If yes, jobs are mixed. |
-| **One altitude** | SLAP (Single Level of Abstraction) | A function either coordinates *or* does detail work, not both. | Does this function both call services *and* parse bytes / format strings? Split it. |
-| **Read or write, not both** | CQS (Command Query Separation) | A method either changes state or returns data, not both. | Does a getter also write? Does a command hide a write behind a “get”? Fix the shape. |
-| **Fail fast** | Fail Fast | Reject bad input at the door; do not limp along. | Is bad input caught at the entry, or deep inside after partial side effects? |
-| **Leave it cleaner** | Boy Scout Rule | Leave the files you touched a little cleaner (without changing behavior). | Did this edit copy a known mess, or slightly clean paths you already touched? |
-| **Related together** | Cohesion; Law of Demeter when the issue is `a.b.c` | Things that change together live together; callers use a small public surface. | Do unrelated jobs share a file? Do callers reach through `a.b.c` internals? |
-| **Safe to retry** | Idempotency | Repeating the same request has the same effect (payments, webhooks, retries, writes). | Can a double-submit create a duplicate charge, row, or side effect? |
-| **Say what happens** | Explicit over implicit | Prefer clear data and control flow over magic. | Can a new reader see *what happens* without chasing hidden context? |
-| **No surprises** | PoLA (Principle of Least Astonishment) | APIs and UI behave as a careful reader expects. | Would a teammate be surprised by a side effect, return value, or name? |
-| **Honest names** | Intention-revealing names | File paths, exports, functions, types, and variables match the *current* job. Rename when the job changes. | After a rename, does the path still describe the old job? Would a reader open the wrong file? |
-| **Trust the server** | Never trust the client | UI and client checks are feedback. Auth, ownership, money, and permissions are enforced on the write path. | Could a caller skip the UI (or toggle a client flag) and still perform the write? If yes, the lock is missing. |
-| **Types tell the truth** | Make illegal states unrepresentable | Public args, returns, and stored fields match reality: no `any`, no optional that is required, validators at the boundary. | Would a lie in the type or a missing validator let bad data through? |
+| **Keep jobs apart** | SoC (Separation of Concerns) | UI, domain and I/O in different modules | Would a UI copy change force a billing rewrite? |
+| **One altitude** | SLAP (Single Level of Abstraction) | Coordinate or do detail work, not both | Does it call services *and* parse or format? |
+| **Read or write, not both** | CQS (Command Query Separation) | Change state or return data | Does a getter write? |
+| **Fail fast** | Fail Fast | Reject bad input at the door | Is bad input caught before side effects? |
+| **Leave it cleaner** | Boy Scout Rule | Touched files end a little cleaner, behavior unchanged | Did this edit copy a known mess? |
+| **Related together** | Cohesion; Law of Demeter when the issue is `a.b.c` | What changes together lives together | Do callers reach through `a.b.c`? |
+| **Safe to retry** | Idempotency | Repeating a request has the same effect | Can a double-submit duplicate a charge or row? |
+| **Say what happens** | Explicit over implicit | Visible data and control flow | Can a new reader follow it without hidden context? |
+| **No surprises** | PoLA (Principle of Least Astonishment) | Does what a careful reader expects | Would a side effect, return or name surprise a teammate? |
+| **Honest names** | Intention-revealing names | Names match the current job | Does the path still describe the old job? |
+| **Trust the server** | Never trust the client | Auth, ownership, money, permissions enforced on the write path | Could a caller skip the UI and still write? |
+| **Types tell the truth** | Make illegal states unrepresentable | No `any`, no optional that is required, validators at the boundary | Would a lying type let bad data through? |
 
-**How they relate:** Keep-jobs-apart + related-together shape *where* code lives (Architecture services). One-altitude, read-or-write, say-what-happens, no-surprises, and honest names shape *how* a unit reads. Fail fast + safe-to-retry + trust-the-server shape *boundaries*. Types-tell-the-truth shapes *contracts*. Leave-it-cleaner shapes *edits in messy files*.
+**SOLID** is guidance in [reference.md](../taste/reference.md), not a gate.
 
-**SOLID** is guidance in [`reference.md`](../taste/reference.md), not a quality gate.
+**Quality gates.** `test:quality` and the deliberate `test:mutants` (both from `/setup-toolkit`) check only: `any` and Convex `v.any`, empty `catch` and Result bags, public Convex writes with no identity helper, clock or randomness in a query, dead code (Knip), and surviving mutants (Stryker). Keep jobs apart, one altitude, read or write, no surprises, don't repeat yourself, and the rest of leave it cleaner stay review. No keep-jobs-apart import denylist. Never raise, skip or delete a gate, or lower the mutant break threshold, to go green.
 
-**Quality gates** (`test:quality` from `/setup-toolkit`, plus the deliberate `test:mutants`) cover only mechanical cores: types tell the truth (make illegal states unrepresentable) (`any`, Convex `v.any`), fail fast (Fail Fast) (empty `catch`, Result bags), trust the server (never trust the client) (public Convex writes with no identity helper), deterministic queries (clock or randomness inside a query), the dead-code core of leave it cleaner (Boy Scout Rule) (unused files, exports, dependencies via Knip), and kill the mutants (Mutation testing) (Stryker: flipped operators must fail the suite). Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), no surprises (PoLA), and don’t repeat yourself (DRY) stay review, as does the rest of leave it cleaner (Boy Scout Rule) beyond dead code. Do not add a keep-jobs-apart import denylist. Do not raise, skip, or delete a gate (or lower the mutant break threshold) to go green.
+**Check:** does the touched lane clearly break a row?
 
 ## Mechanical rules
 
-Rules that are **not** already a named principle:
-
 | Rule | Classic | Meaning |
 | --- | --- | --- |
-| **Never-nest** | Guard clauses | Flatten control flow; extract early instead of deep `if` / `try` pyramids. Does **not** mean flatten the folder tree ([`architecture:folders`](code-structure.md#folders)) |
-| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | A function has at most **5** independent paths. Each `if`, loop, `catch`, `case`, ternary, and logical and/or adds a path. Extract a named helper instead of adding a branch. `/setup-toolkit` installs `test:quality` (this cap plus principle and dead-code gates; mutants run separately as `test:mutants`); do not raise the cap, skip the test, or delete it to go green |
-| **Don’t repeat yourself** | DRY | One concept, one place; no copy-paste twins |
-| **Reuse env vars** | none | Inventory existing environment variables by **job and value** before adding a name. If `SITE_URL` already holds the public site URL, use it; do not create `FRONTEND_URL`. Detail: [Reuse env vars](#reuse-env-vars) |
-| **No dead code** | Knip | No unused files, exports, or dependencies. `/setup-toolkit` installs the Knip gate in `test:quality`; remove the dead code instead of ignoring it to go green |
-| **Kill the mutants** | Mutation testing | Behavior locks must fail when Stryker flips an operator, negates a boolean, or changes a sign. `/setup-toolkit` installs `test:mutants` as a deliberate run (not in `test:quality`); never lower the break threshold to go green |
-| **Throw at boundaries** | Exceptions at boundaries | Throw + purposeful try/catch at boundaries that recover, translate, add actionable context, or clean up. Never `{ success: false }` / Result bags for expected failure control flow. Do not wrap local code merely because it could throw (`taste:fail-fast`) |
-| **One export per file** | none | One component (or main export) per file |
+| **Never-nest** | Guard clauses | Early returns, no `if` / `try` pyramids. Not about folders |
+| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | At most **5** paths per function; each `if`, loop, `catch`, `case`, ternary, and / or adds one. Extract a named helper (`test:quality`) |
+| **Don't repeat yourself** | DRY | One concept, one place |
+| **Reuse env vars** | none | See [Reuse env vars](#reuse-env-vars) |
+| **No dead code** | Knip | No unused files, exports or dependencies (`test:quality`). Delete, do not ignore |
+| **Kill the mutants** | Mutation testing | Behavior locks fail when Stryker flips an operator, boolean or sign (`test:mutants`, not in `test:quality`) |
+| **Throw at boundaries** | Exceptions at boundaries | Catch only to recover, translate, add context or clean up. No `{ success: false }` / Result bags. No wrapping just because code could throw |
+| **One export per file** | none | One component or main export |
 | **Static imports** | none | No dynamic `import()` |
-| **Comments** | none | Comments only to summarize big/complex functions. No narrating obvious code |
-| **Cite a sibling** | none | Before inventing shape, mirror a **good** nearby feature or existing service that matches this taste and [code-structure.md](code-structure.md). Bad nearby code is debt, not a template. When you touch that lane, prefer a behavior-preserving move ([`architecture:prior-mistakes`](code-structure.md#prior-mistakes)) (`taste:leave-it-cleaner` when you can preserve behavior) |
-| **OOP depth cap** | Composition over deep inheritance | At most two levels of class or interface nesting in a chain (example: `PaymentMethod` ← `CardPayment`). Prefer composition over a third layer. Depth 3+ is wrong for this taste: flatten or compose |
-| **Plain language** | none | Chat cites principles as plain (Classic) ([plain-language.md](../pack-shared/plain-language.md)). Replies follow [writing-style.md](writing-style.md#unslop) |
+| **Comments** | none | Only to summarize big or complex functions |
+| **Cite a sibling** | none | Mirror a **good** nearby feature or service; bad code is debt ([`architecture:prior-mistakes`](code-structure.md#prior-mistakes)) |
+| **OOP depth cap** | Composition over deep inheritance | At most **two** levels (`PaymentMethod` ← `CardPayment`); compose instead of a third |
+| **Plain language** | none | Chat cites plain (Classic); replies follow [writing-style.md](writing-style.md#unslop) |
 
-A unit does one job well (a logger only logs; it does not format emails or hit the DB): that is `taste:keep-jobs-apart`, not a separate rule. A reader can walk the happy path without branching into unrelated concerns: `taste:say-what-happens` and `taste:no-surprises`.
+Classes for stateful domain behavior (often the service), hooks for React state. Call sites import only the public entry. Prefer many small files in a service or feature folder over a god file.
 
-Prefer classes for stateful domain behavior and shared lifecycle (often that class *is* the service). Prefer hooks for React state/effects. Call sites import the simple entry point / service public API only ([`architecture:deep-public-surface`](code-structure.md#deep-public-surface)). Prefer over-splitting files inside a service or feature folder over god files.
+**Check:** over 5 paths, deep nesting, or a Result bag?
 
 ## Reuse env vars
 
-Before adding, renaming, requesting, or reading a **new** environment variable (`vercel env add`, Convex env set, `.env*` edits, `process.env.NEW_NAME`):
+Before adding, renaming, requesting or reading a **new** environment variable:
 
-1. **Inventory names that already exist.** Read `.env.example`, other committed `.env*` templates, `process.env` / `import.meta.env` usages, and docs. If you are about to write a dashboard or CLI secret store, list that store once (`npx convex env list`, `vercel env ls`, or the matching MCP env list). That list is for reuse, not ritual verify (`taste:verify-terminals-first`).
-2. **Match by job and value, not by the name you first thought of.** Public site URL, API origin, database URL, webhook secret, auth issuer: if an existing var already holds that job, reuse its name.
-3. **Same name already present:** reuse it. Do not store the same value a second time under a synonym.
-4. **A library wants a different name:** map in code from the existing var (`const siteUrl = process.env.SITE_URL`). Do not duplicate the value in the env store. A platform prefix (`NEXT_PUBLIC_`, `VITE_`) is allowed only when the runtime requires that exact prefix for client exposure, and then it must be the prefixed form of the **existing** name (`NEXT_PUBLIC_SITE_URL` from `SITE_URL`), not a third synonym (`FRONTEND_URL`).
-5. **Add a new name only when no existing var holds that job.**
+1. List what exists: `.env.example`, committed `.env*` templates, `process.env` / `import.meta.env` usages, docs. Before writing a dashboard or CLI store, list it once (`npx convex env list`, `vercel env ls`, MCP env list). That list is for reuse, not ritual verify.
+2. Match by job and value (site URL, API origin, database URL, webhook secret, auth issuer), not by the name you first thought of. Never store one value under two names.
+3. A library wants another name: map in code (`const siteUrl = process.env.SITE_URL`). A platform prefix (`NEXT_PUBLIC_`, `VITE_`) goes only on the existing name, only when the runtime requires it.
+4. Add a name only when no existing variable holds that job.
 
-Anti-example: `SITE_URL` exists; the agent adds `FRONTEND_URL`, `APP_URL`, or `NEXT_PUBLIC_FRONTEND_URL`. Correct: read `SITE_URL` (or `NEXT_PUBLIC_SITE_URL` when the client bundle requires the prefix).
+Example: `SITE_URL` exists. Read it (or `NEXT_PUBLIC_SITE_URL`). Never add `FRONTEND_URL` or `APP_URL`.
+
+**Check:** does an existing variable already hold this value?
 
 ## Naming and files
 
 | Area | Rule |
 | --- | --- |
-| App / UI / general TS | `lowercase-with-hyphens` (`use-checkout.ts`, `order-summary.tsx`) |
-| **Convex** `convex/**` | **No `-` or `_` in filenames** (`orders.ts`, `orderActions.ts`) |
-| Folders | Nest related files in a named folder even for the first file of a new concern; no mixed-parent dumps; no anonymous `utils` / `helpers` bags ([`architecture:folders`](code-structure.md#folders)) |
-| **Honest names** | Path and primary export describe today’s job. After a rename, move, or scope change: update the filename, exports, types, functions, and variables in the same edit. Never leave new logic under the old name (`taste:honest-names`) |
+| App / UI / general TS | `lowercase-with-hyphens` (`use-checkout.ts`) |
+| **Convex** `convex/**` | **No `-` or `_`** (`orders.ts`, `orderActions.ts`) |
+| Folders | A named folder from the first file of a concern; no `utils` / `helpers` bags ([`architecture:folders`](code-structure.md#folders)) |
+| **Honest names** | On rename, move or scope change, update filename, exports, types and variables in the same edit |
+
+**Check:** would a reader open the right file from its name?
 
 ## Checklist
 
-Cite-key self-check before acceptance evidence and `/review`:
+Before acceptance evidence and `/review` (a failed box is fixed first):
 
-- [ ] `taste:keep-it-simple` (no extra layer, file, wrapper, pattern, or config beyond Done when / rules that must stay true)
-- [ ] Named principles in Cite keys: no clear violation in the touched lane
+- [ ] `taste:keep-it-simple`: nothing beyond done when and the rules that must stay true
+- [ ] Named principles: no clear violation in the touched lane
 - [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:reuse-env` · `taste:no-dead-code` · `taste:kill-the-mutants` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
-- [ ] `taste:cite-a-sibling` (good sibling, greenfield, or correcting debt; did not copy a known-wrong shape)
-- [ ] `taste:plain-language` in user-facing chat
-- [ ] `taste:verify-terminals-first` ([`reference.md`](../taste/reference.md#verify-terminals-first))
-- [ ] Structure matches [code-structure.md](code-structure.md) when one exists (Moves, primitives, authority)
+- [ ] `taste:cite-a-sibling`: good sibling, greenfield, or correcting debt
+- [ ] `taste:plain-language` in chat
+- [ ] `taste:verify-terminals-first` ([reference.md](../taste/reference.md#verify-terminals-first))
+- [ ] Structure matches [code-structure.md](code-structure.md)
 
-Fail any box → fix before acceptance evidence and `/review`. `/review` Standards treats violations of this file as **hard** unless the repo’s own instructions contradict (repo wins on conflict).
+`/review` Standards treats violations as **hard** unless the repo's own instructions contradict (repo wins).
 
 ## Apply
 
-Apply these rules and [code-structure.md](code-structure.md) as **hard** standards before non-trivial code (new behavior, refactors, structural edits, more than a typo) and every time a pack skill other than `/ask-gabriel` runs. Do not wait for `/taste` or `/architecture`. Do not skip because you "already know" the pack. Do not skip code structure because the change looks like a single file. Keep the existing structure when that is the smallest correct answer.
+Apply this file and [code-structure.md](code-structure.md) as hard standards before grilling, planning, or non-trivial code (more than a typo), and whenever a pack skill other than `/ask-gabriel` runs. Do not skip because you know the pack or the change is one file. Keeping the existing structure is fine when it is the smallest correct answer.
 
-When judging a concrete shape, also Read `taste/examples.md` and `architecture/examples.md` from the skill root. When verifying or touching UI, also Read `taste/reference.md`. Examples illustrate the rules. They do not replace them.
-
-Apply these rules before grilling, planning, or writing code. They apply whether or not a skill runs. When `/task` writes what "done" means, include taste-relevant checks when the change touches structure or UI (entry point, folder map, no Result bags, Convex names legal, jobs not mixed, public writes check identity, public args validated). Plans must not propose shapes that violate this section (including SOLID-maximalist boilerplate or class trees deeper than two).
-
-Terminals first: [taste/reference.md](../taste/reference.md#verify-terminals-first). React/UI: [taste/reference.md](../taste/reference.md#react-and-ui).
+- Judging a shape: Read `taste/examples.md` and `architecture/examples.md`; they illustrate, not replace.
+- UI work: [taste/reference.md](../taste/reference.md#react-and-ui).
+- `/task` done when for structure or UI includes: entry point, folder map, no Result bags, legal Convex names, jobs apart, identity on public writes, validated args.
+- Plans never propose SOLID-heavy boilerplate or class trees deeper than two.
 
 ## Taste: do not
 
-- Cleverness or extra machinery without evidence it is required
-- Copying a bad sibling to stay consistent with debt
-- Treating a disabled button, hidden route, or client `if` as authorization
-- `any` on a public surface, skipped validators, or required data marked optional
-- Ritual lint / typecheck / Convex MCP instead of reading existing terminals
-- Acronym-only principle talk (“SoC violation”) or plain-only (“keep it simple” with no KISS). Use `plain (Classic)`
-- Using never-nest (guard clauses) or keep it simple (KISS) as permission to dump files in a mixed directory
-- Inventing `FRONTEND_URL` (or another synonym) when `SITE_URL` or another existing var already holds that job (`taste:reuse-env`)
-- Restating code-structure services, folders, or primitives in this file
-
+- Machinery without evidence, or copying a bad sibling
+- A disabled button, hidden route or client `if` as authorization
+- `any` on a public API, skipped validators, required data marked optional
+- Ritual lint, typecheck or Convex MCP instead of reading terminals
+- Acronym-only or plain-only principle names
+- Never-nest or keep it simple as an excuse for a flat folder
+- A synonym environment variable
+- Restating code-structure rules here

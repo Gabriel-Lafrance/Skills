@@ -7,7 +7,7 @@ Findings stay in chat and retain stable IDs across review and remediation. List 
 ```markdown
 - **standards-billing-authority-checkout** · **standards** · **blocker**
   - **Where:** `checkout.ts` (`chargeOrder`)
-  - **Rule:** `INV-4`
+  - **Rule:** Rule 4
   - **Trigger:** An authenticated caller submits an order that reaches the copied provider call.
   - **Evidence:** The new path bypasses `billing.makeUserPay`, where authorization and idempotency are enforced.
   - **Impact:** A charge can skip the authoritative safety checks.

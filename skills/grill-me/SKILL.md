@@ -2,23 +2,19 @@
 name: grill-me
 description: >-
   Relentless stateless interview that sharpens intent through batched questions
-  and a Locked closure in chat. Keeps decisions and Active Rules in shared
+  and a Locked closure in chat. Keeps decisions and rules that must stay true in shared
   execution context. User must invoke (not auto).
 disable-model-invocation: true
 ---
 
 # Grill Me
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before recommending answers. Do not skip.
+Discover product, behavioral, taste, and architecture decisions through batched Questions, and keep locked decisions and rules that must stay true visible in the execution context.
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
+## Read when
 
-`/grill-me` discovers product, behavioral, taste, and architecture
-decisions without automatic logs or hidden artifacts. Keep locked decisions and
-applicable Active Rules visible in the execution context. Save a durable
-record only when the user requests it and approves its destination.
-
-**Read:** [doctrine.md](doctrine.md).
+- Before recommending answers: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
+- Every run: [doctrine.md](doctrine.md), [execution-context.md](../pack-shared/execution-context.md), [asking.md](../pack-shared/asking.md), and [plain-language.md](../pack-shared/plain-language.md).
 
 ## Process
 
@@ -31,7 +27,7 @@ record only when the user requests it and approves its destination.
    plan count and file lane so the first batch is complete. When the parent
    is `/write-ticket`, interview only the topic list it supplied (Research
    or Plan). Skip implementation plan count and file lane.
-3. Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before recommending answers:
+3. Include the code-quality.md and code-structure.md topics in that batch:
 
    | When | Include in the batch |
    | --- | --- |
@@ -40,13 +36,13 @@ record only when the user requests it and approves its destination.
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.
-5. Put answers, Active Rules, corrections, and revised lanes directly in the
+5. Put answers, rules that must stay true, corrections, and revised lanes directly in the
    execution context. If a correction exposes a new material unknown, send a
    new Questions-only batch.
 6. When material Questions are settled, announce **Locked in (tell me if this is wrong)**
    for non-goals, split, and shared understanding in a **separate**
    announce-only message. Do not issue plans until that Locked closure stands
-   and every relevant Active Rule has an enforcement and verification owner.
+   and every relevant rule has an enforcement and verification owner.
 
 Do not create automatic files for language, choices, rules, or progress. If
 the user wants a durable artifact, ask for or honor an approved destination
