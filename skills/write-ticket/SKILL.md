@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 # Write Ticket
 
-Create or promote one tracker ticket. User start only; `/trackers` reads tickets, and `/task` never promotes one. This skill never implements the ticket.
+Create or promote one tracker ticket. User start only; `/task` reads tickets ([ticket context](../task/doctrine.md#ticket-context)) and never promotes one. This skill never implements the ticket.
 
 ## Read when
 

@@ -16,7 +16,7 @@ skills/
     code-quality.md      # taste rules (taste:* cite keys)
     code-structure.md    # architecture rules (architecture:* cite keys)
     planning.md          # grill first, Before/After change diagram
-    user-experience.md   # docs/design.md as the UX source of truth
+    user-experience.md   # every UI and UX rule (design:*), docs/design.md contract
     writing-style.md     # no em dash, Unslop
     testing.md           # no drive-by tests
     shipping.md          # branch names and PR hard rules
@@ -56,7 +56,7 @@ Do not add plugin **hooks** unless the pack explicitly wants scripts on agent/Ta
 
 Each skill is `SKILL.md` plus optional `doctrine.md`, `examples.md`, and `reference.md`.
 
-Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules. Link [`asking.md`](./skills/pack-shared/asking.md). Inner steps (`/design`, `/trackers`) say in `SKILL.md` they are not a typical user start (`/design` is also a user start for capturing `docs/design.md`). User starts that must not nest (`/review` on a GitHub PR, `/write-ticket`, `/setup-toolkit`) say that in `SKILL.md`. `/create-test` stays a user start. `/task` may continue it only after the user accepts that task's lock briefs.
+Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the next question) is a short fork in that file. Do not paste pack-wide ask rules. Link [`asking.md`](./skills/pack-shared/asking.md). User starts that must not nest (`/review` on a GitHub PR, `/write-ticket`, `/setup-toolkit`) say that in `SKILL.md`. `/create-test` stays a user start. `/task` may continue it only after the user accepts that task's lock briefs.
 
 ## Frontmatter
 
@@ -83,7 +83,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Review:** review skills link [`review-contract.md`](./skills/pack-shared/review-contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR ship:** every agent that creates a GitHub PR follows [`skills/rules/shipping.md`](./skills/rules/shipping.md), [`ship.md`](./skills/pack-shared/ship.md), and [`pr-ship.md`](./skills/pack-shared/pr-ship.md): the harness pull-request tool when it has one, otherwise `gh`, a standalone branch that does not track `dev`, and the CI mirror in this environment before a push that opens or updates a PR.
 - **Do not** put shared contracts at `skills/*.md`: they will not install.
-- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (the agent writes them only after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/review`](./skills/review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/task` build slices, `/design`, `/analyze`, and `/write-ticket` do not write tests or start `/create-test`. The always-on bar is [`skills/rules/testing.md`](./skills/rules/testing.md).
+- **Tests:** **no skill writes or edits test files** except [`/create-test`](./skills/create-test/SKILL.md) (the agent writes them only after the user started that skill, or after the user accepted a `/task` behavior-lock brief; ordinary edits do not get tests). `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/review`](./skills/review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never auto-invoke). `/task` build slices, `/analyze`, and `/write-ticket` do not write tests or start `/create-test`. The always-on bar is [`skills/rules/testing.md`](./skills/rules/testing.md).
 
 ## No visual tooling
 
@@ -107,7 +107,7 @@ npx skills@latest add . --list
 
 Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on index is [`AGENTS.md`](./AGENTS.md) for every harness, including Cursor; the rule text lives in `skills/rules/`. Do not add a `CLAUDE.md` in the pack or an app.
 - **Command:** `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files **only when the user said yes**. Missing `docs/design.md` is initialized by `/design`, not by copying a stub from this pack.
+- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files **only when the user said yes**. Missing `docs/design.md` is written from the routes in code before UI work ([`design:initialization`](./skills/rules/user-experience.md#initialization)), not by copying a stub from this pack. `/setup-toolkit` does not write that file.
 
 ## Conventions
 

@@ -41,7 +41,7 @@ Hand-offs: structure / folders / services → `/architecture`. Build end-to-end
 
 ### If this skill is already loaded inside a build
 
-Parents (`/task`, `/analyze`, `/grill-me`, `/design`) apply
+Parents (`/task`, `/analyze`, `/grill-me`) apply
 code-quality.md and code-structure.md before planning or writing code.
 
 1. Apply both files before grill close, plan contracts, or implement briefs.

@@ -48,6 +48,6 @@ The user starts this skill. `/task` may continue it only for briefs the user acc
 - Starting `/task`, expanding into refactoring, or writing tests before approval
 - Starting this skill without a user start, or from a `/task` brief the user did not accept
 - A `/task` brief that does not cite a grilled rule
-- `/task` build slices, `/design`, and other build steps invoking this skill or writing test files
+- `/task` build slices and other build steps invoking this skill or writing test files
 - Tautological tests (recompute the same arithmetic as the code, assert UI chrome exists) or coverage theater
 - Adding a test because the code changed, including a small tweak, copy change, rename, or one-line fix

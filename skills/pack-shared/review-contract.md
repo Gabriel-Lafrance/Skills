@@ -11,7 +11,7 @@ Inputs, modes, evidence bar, finding record, the review output fence (with PR ex
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md)
+- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md)
 - Blocker vs follow-up judgment, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
 - Pass A/B and posting: [`../review/reference.md`](../review/reference.md)
 
@@ -85,7 +85,7 @@ Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in
 
 **Spec pass**: one Spec matrix row per Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
 
-No Design pass, Design matrix, or Experience/Craft floor: UX bars live in `/design` while building.
+No Design pass, Design matrix, or Experience/Craft floor: UX rules in [user-experience.md](../rules/user-experience.md) apply while building.
 
 Cover every independent part of the diff. Narrative-only output is incomplete. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect (for example cheap reads on a copy-only change). One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
 

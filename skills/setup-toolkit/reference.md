@@ -120,9 +120,18 @@ Only touch a harness whose home already exists. Never create a home folder for a
 | Codex | `$CODEX_HOME` when set, else `~/.codex/` | `AGENTS.md` missing or a pack copy: symlink it to `<template>`. If the symlink fails, copy the file and say it will not refresh on update. Someone else's file: append `Follow <template>.` |
 | Cursor | none | No user-level file. Say the repo install covers Cursor |
 
+## Clean up old installs
+
+Older versions of this pack left two files that nothing reads now. Delete only these, only in the scopes they chose:
+
+- **Old Claude copy** (b or c): if `~/.claude/gabriel-skills/AGENTS.md` contains `gabriel-skills-agents`, delete it, and remove the `@~/.claude/gabriel-skills/AGENTS.md` line from `~/.claude/CLAUDE.md` when present. Remove `~/.claude/gabriel-skills/` only if it is then empty. A file there without the marker stays.
+- **Old Cursor pointer:** delete `gabriel-skills/follow-agents.mdc` under `~/.cursor/rules` (b or c) or the app `.cursor/rules` (a or b) when it exists. Leave every other Cursor rule and hook.
+
+Setup never writes `.cursor/rules`, an `.mdc` file, or `.cursor/hooks.json`.
+
 ## Report
 
-End with one line per file: path, then **written**, **refreshed**, **appended**, **symlinked**, **copied**, or **skipped**, and the reason (for example "skipped: foreign AGENTS.md, pointer appended instead" or "skipped: `~/.gemini` not installed").
+End with one line per file: path, then **written**, **refreshed**, **appended**, **symlinked**, **copied**, **deleted**, or **skipped**, and the reason (for example "skipped: foreign AGENTS.md, pointer appended instead", "skipped: `~/.gemini` not installed", or "deleted: old pack copy"). List each [cleanup](#clean-up-old-installs) path that existed as deleted, or skipped with the reason (for example "skipped: no `gabriel-skills-agents` marker").
 
 ## Detect the app
 
@@ -164,12 +173,11 @@ Copy from `templates/vscode/` into the app's `.vscode/`. Cursor reads `.vscode/`
 
 Run the package manager add command once with the chosen packages. Do not pin versions unless the repo already pins exact versions everywhere. Then run `npx eslint --version` (or through the detected manager) and report the version. Do not lint or format the whole repo unless the user asked.
 
-**Design file:** after the lint phase, check workspace-root `docs/design.md` only. Missing: run `/design` Initialization. Present: leave it. Skip when they said no to lint.
-
 ## Done when
 
 - Verify printed its facts, and scope and lint were asked once
 - Pack skills and contract went only to the chosen scopes; stale copies were updated
 - Only pack-marked files were overwritten; others only got a pointer; no harness home was created
+- Only the two [old install](#clean-up-old-installs) files were deleted, and only when they matched
 - Lint files, packages, and scripts exist only if they said yes to lint
 - The report lists every file with its action and reason

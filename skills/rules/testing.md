@@ -14,4 +14,4 @@ Write a test only when the user has accepted that lock:
 
 Then write it by following `/create-test`. Do not start `/create-test` without one of those acceptances. If the target is trivial, say so and stop.
 
-This binds every skill, including `/task` build slices and `/design`.
+This binds every skill, including `/task` build slices.

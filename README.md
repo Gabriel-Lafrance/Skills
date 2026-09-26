@@ -23,7 +23,7 @@ npx skills@latest update -g -y
 
 `--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
 
-The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md).
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md).
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
@@ -59,7 +59,7 @@ Six kinds. **Guide** informs; everything else moves work forward.
 | **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route, plus examples and audits for the always-on rules |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
-| **Build**         | `/task`, `/design`                                       | Implement end-to-end; UI rules |
+| **Build**         | `/task`                                                  | Implement end-to-end  |
 | **Review & ship** | `/review`, `/create-test` | Review, accepted tests, and PRs. Branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier are opt-in |
 
@@ -82,7 +82,7 @@ flowchart LR
 - Understand a problem → `/write-ticket` Research (grills before it saves)
 - One-shot build spec → `/write-ticket` Plan, then `/task`
 - Build now → `/task`
-- Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
+- Build a screen → `/task` (applies [`user-experience.md`](./skills/rules/user-experience.md) and `docs/design.md`)
 - Lint/format, or this pack on a new machine → `/setup-toolkit`
 - Ship a PR → [`skills/rules/shipping.md`](./skills/rules/shipping.md) (any agent, including a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change

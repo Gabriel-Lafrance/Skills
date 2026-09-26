@@ -11,7 +11,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- User-facing UI and `docs/design.md`: `/design`
+- UI and UX rules and `docs/design.md`: [user-experience.md](../rules/user-experience.md)
 - Review disposition: `/review`
 - Test file contents: `/create-test`, and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
@@ -36,21 +36,21 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 | Need | Call |
 | --- | --- |
-| Ticket context | `/trackers` (read only) when ticket/PR |
+| Ticket context | [Read the ticket or PR](#ticket-context) when there is one |
 | Grill | `/grill-me` |
 | Style contract | **`/taste` always** (grill + before every implement slice) |
 | Structure | **`/architecture` always** (grill + before every implement slice). For a typo or pure rename, load it and keep the existing structure |
-| UX source of truth | **`/design`** when the slice is user-facing UI. Run Initialization first if `docs/design.md` is missing |
+| UX source of truth | [user-experience.md](../rules/user-experience.md) and `docs/design.md` when the slice is user-facing UI. Write `docs/design.md` first if it is missing (`design:initialization`) |
 | Split | [Slice split](reference.md#slice-split) when multiple slices help |
 | Plan contract | Issue [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Judge | `/analyze` for how, impact, and risk |
-| Build | `/design` for user-facing UI; this loop builds non-UI slices itself ([Implement](reference.md#phase-1-plan-and-build)) |
+| Build | This loop builds every slice itself; user-facing slices apply [user-experience.md](../rules/user-experience.md) ([Implement](reference.md#phase-1-plan-and-build)) |
 | Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow `/create-test` |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -58,11 +58,11 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 | Skill | Required? | Notes |
 | --- | --- | --- |
-| `/trackers` | If ticket | Read only |
+| Ticket or PR read | If ticket | [Read only](#ticket-context) |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
 | `/taste` | **Yes** | During grill and before/during every implement slice |
 | `/architecture` | **Yes** | During grill and before/during every implement slice. Prefer loading even for a one-file fix |
-| `/design` | If UI | User-facing slices. Initialization if `docs/design.md` is missing |
+| User experience | If UI | Apply [user-experience.md](../rules/user-experience.md). Write `docs/design.md` first if it is missing |
 | Slice split | If multi-slice | Announce inline slices ([reference.md](reference.md#slice-split)) |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | Non-UI slices | If non-UI | Built by this loop; update **Current slices** after each |
@@ -76,7 +76,15 @@ Track these rows in the in-chat execution context or a concise progress message.
 
 **Skip grill only if all are true:** the ticket or user already has a binary Done when; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` / `skip grill`, or the work is an obvious single-file fix. Capture explicit behavioral rules as rules that must stay true even when skipping.
 
-For ticket-driven tasks, fetch `/trackers` first (read only), then grill open decisions. Never write to the tracker unless the user separately asks.
+For ticket-driven tasks, read the ticket or PR first, then grill open decisions.
+
+### Ticket context
+
+Read a ticket or PR as plain context. Do not change status, comment, assign, or close unless the user asks in that turn. Closing is the user's job (by hand or on merge).
+
+- **Detect:** `IN-1234` style ids and `linear.app` URLs are Linear. `#123`, `owner/repo#123`, and `github.com/.../issues/N` or `/pull/N` are GitHub. A bare number is ambiguous: ask once.
+- **Read:** GitHub with the harness GitHub tool or `gh issue view` / `gh pr view`. Linear with its read tool or API. Keep the title, ask, Done when, constraints, and non-goals in the execution context. Link the source instead of pasting the body again.
+- **No tool or not signed in:** say so, and ask the user to connect it or paste the body once. Never invent a ticket from its id.
 
 ### Behavior locks
 

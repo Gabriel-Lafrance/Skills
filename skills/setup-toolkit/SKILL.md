@@ -42,11 +42,10 @@ until the user says yes.
    [reference.md](reference.md#install-agentsmd)).
 4. Phase two, only if they said yes to lint: copy lint, format, and editor
    templates.
-5. If they said yes to lint and `docs/design.md` is missing at the workspace
-   root, run `/design` Initialization. Do not write a fake design file from
-   this skill.
-6. Report every file written, refreshed, appended, symlinked, copied, or
-   skipped, with the reason ([reference.md](reference.md#report)).
+5. Delete the two old pack leftovers when they match, and nothing else
+   ([reference.md](reference.md#clean-up-old-installs)).
+6. Report every file written, refreshed, appended, symlinked, copied,
+   deleted, or skipped, with the reason ([reference.md](reference.md#report)).
 
 ## Anti-patterns
 

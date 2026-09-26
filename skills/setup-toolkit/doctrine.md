@@ -6,7 +6,7 @@ Put this pack and the `AGENTS.md` contract onto the machine. Phase one verifies 
 
 ## Owns
 
-Verifying current installs, installing or updating the rest of this pack with `npx skills`, installing `AGENTS.md` and the harness pointer lines, which lint templates to copy, what not to overwrite, Convex plugin detection, the smoke check, and whether to start `/design` Initialization when `docs/design.md` is missing after they opted into lint.
+Verifying current installs, installing or updating the rest of this pack with `npx skills`, installing `AGENTS.md` and the harness pointer lines, which lint templates to copy, what not to overwrite, Convex plugin detection, the smoke check, and deleting the two old pack leftovers ([reference.md](reference.md#clean-up-old-installs)).
 
 ## Does not own
 
@@ -15,7 +15,7 @@ Verifying current installs, installing or updating the rest of this pack with `n
 - Writing `.cursor/rules` or any `.mdc` file (Cursor reads `AGENTS.md`)
 - Creating a harness home the user does not have
 - Behavior-lock tests (`/create-test`)
-- The design file contents or code-derived route inventory: [`../design/doctrine.md`](../design/doctrine.md)
+- `docs/design.md` (the agent doing UI work writes it when missing)
 - Detect and choose details: [`reference.md`](reference.md)
 
 ## Cite keys
@@ -44,7 +44,8 @@ For the scopes they chose:
 - A pointer line in `CLAUDE.md`, `GEMINI.md`, or the matching file for each harness in use
 - User level: existing harness homes pointed at the installed template, or reported skipped. Cursor has no user-level file; the repo install covers it
 - No new harness home folder
-- A report of every file written, refreshed, appended, symlinked, copied, or skipped, with the reason
+- The old pack leftovers `~/.claude/gabriel-skills/AGENTS.md` (with its `CLAUDE.md` import) and `gabriel-skills/follow-agents.mdc` deleted when they match, or reported skipped
+- A report of every file written, refreshed, appended, symlinked, copied, deleted, or skipped, with the reason
 
 If they said yes to lint, the app has:
 
@@ -55,7 +56,6 @@ If they said yes to lint, the app has:
 - `.vscode/settings.json` for format-on-save and ESLint **or** the existing settings left untouched
 - `package.json` scripts `lint`, `lint:fix`, `format`, and `format:check` when those names are free
 - Dev dependencies installed with the repo's package manager
-- `/design` Initialization started when `docs/design.md` was missing (or reported skipped)
 
 ## Apply
 
@@ -68,8 +68,9 @@ If the repo already has a working lint and format setup, fill only missing piece
 - Overwriting an `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` that lacks `gabriel-skills-agents`
 - Creating `~/.claude`, `~/.cursor`, `~/.codex`, or `~/.gemini` when that harness is not installed
 - Copying the contract into each harness home instead of pointing at the installed template
-- Writing a Cursor `.mdc` rule or `.cursor/rules` copy of the contract
-- Overwriting a working ESLint or Prettier config, or an existing `docs/design.md`
+- Writing a Cursor `.mdc` rule, `.cursor/rules` copy, or `.cursor/hooks.json`
+- Deleting any Cursor rule or hook other than `gabriel-skills/follow-agents.mdc`, or a file without `gabriel-skills-agents`
+- Overwriting a working ESLint or Prettier config
 - Ritual-linting or reformatting the whole tree as setup
 - Asking the user facts the repo already answers
 - Writing tests as setup

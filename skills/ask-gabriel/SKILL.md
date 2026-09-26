@@ -29,14 +29,13 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 | Linear ticket → build | `/task` with the ticket. Ship with those same rules |
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main, or an open GitHub PR | `/review` |
-| Capture or update the app UX source of truth | `/design` |
-| Build a screen / frontend | `/task` (it runs `/design`) |
+| Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Standalone `/create-test` when you ask, including after `/review` recommends a lock the task did not offer |
-| ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in; starts `/design` Initialization only if you opted into lint and `docs/design.md` is missing) |
+| ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in) |
 
 Prefer `/analyze` then `/task` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
-Internals (`/trackers` and `/design`) are inner steps `/task` runs; `/task` splits the work and builds non-UI slices itself. `/design` is also a user start for capturing `docs/design.md`. A test is written only when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests.
+`/task` splits the work and builds every slice itself. A test is written only when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests.
 
 ## Process
 

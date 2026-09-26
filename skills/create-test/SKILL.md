@@ -22,7 +22,7 @@ so and stop.
 The user starts this skill. `/task` may continue it only after the user
 accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
 That answer is the start for those briefs. Each task brief cites a grilled
-rule. `/task` build slices, `/design`, and other build steps do not start this
+rule. `/task` build slices and other build steps do not start this
 skill. Silence, and a parent taking `recommended`, are not a start.
 
 `/review` may still recommend a lock the task did not offer. The user starts

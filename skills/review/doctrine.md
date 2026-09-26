@@ -12,7 +12,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
-- UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md) (applied while building, not as a review axis)
+- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) (applied while building, not as a review axis)
 - Fix-now remediation analysis: [`../analyze/doctrine.md`](../analyze/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
@@ -40,7 +40,7 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX bars (`design:*`) apply in `/design` while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
+UX rules (`design:*` in [user-experience.md](../rules/user-experience.md)) apply while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, never hypothetical failures or a defect manufactured to look thorough.
 

@@ -32,8 +32,8 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
    → implement → acceptance evidence → `/review` → Fix mode as needed.
    - Write a test only for a lock the user accepted, following `/create-test`.
    - Apply code-quality.md and code-structure.md during grill and before
-     every implement slice. Load `/design` before every user-facing implement
-     slice.
+     every implement slice. Apply user-experience.md before every user-facing
+     implement slice.
    - The behavior-lock suggestion waits for the user, who can refuse every test.
 3. Announce completion.
 

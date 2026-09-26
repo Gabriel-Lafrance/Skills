@@ -68,7 +68,7 @@ decisions, rules that must stay true, current slice, and lane, reuse that contex
 ### If a parent already owns the next step
 
 Record the structure decision in the parent inline context and plan
-contracts, then `/design` for user-facing UI; `/task` builds non-UI slices itself. Return needed corrections to the parent.
+contracts. Return needed corrections to the parent.
 
 ### If this is a user one-off
 

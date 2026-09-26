@@ -74,9 +74,9 @@ Do not infer a user decision, waiver, invariant, or promotion from repository fa
 - **Folder map:** <owning folder this slice must create or use; no mixed-parent dump>
 - **Scalability:** <stored-on-write | none for this slice>
 
-## Design
-- **File:** `docs/design.md` present | missing (Initialization first)
-- **Build:** `/design` (user-facing) | `/task` (non-UI) | split
+## User experience
+- **User-facing:** yes (apply [user-experience.md](../rules/user-experience.md)) | no
+- **File:** `docs/design.md` present | missing (write it first from the routes in code)
 
 ## Rules that must stay true
 | ID | Role | How we enforce it | How we check it |
@@ -228,7 +228,7 @@ Numbered process for `/task`. Rules stay in [doctrine.md](doctrine.md). Nested v
 
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and applicable project rules as needed; state them in the in-chat execution context.
 2. State the outcome, Done when, non-goals, lane, phase, and next action. Carry forward only user decisions already settled in this chat or an explicitly supplied artifact.
-3. Unless the skip rule applies, run `/grill-me` fully. It applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also pulls in `/design` and the current `docs/design.md`.
+3. Unless the skip rule applies, run `/grill-me` fully. It applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run ([standards.md](../pack-shared/standards.md)). For user-facing work it also applies [user-experience.md](../rules/user-experience.md) and the current `docs/design.md`.
 4. Record Locked decisions and rules that must stay true in chat. Every locked behavioral answer becomes a numbered rule (Rule 1, Rule 2) with authoritative enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) has to be specific. A fuzzy rule cannot become a test later.
 5. Announce the non-goals, intended slice split, and shared-understanding summary. Ask only real open questions in the same batch.
 6. Do not suggest tests in this phase.
@@ -237,13 +237,13 @@ On a Locked correction or unanswered real question, revise or wait. Never infer 
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Find the relevant paths and snippets. Run `/analyze` when how, impact, or risk needs judging. Confirm Taste and Architecture decisions against the grill ([code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) must already be applied this turn), and keep the locked structure excerpt in the plan contracts. For UI, also confirm `/design` and `docs/design.md` (Initialization first if the file is missing).
+**Explore and shape.** Find the relevant paths and snippets. Run `/analyze` when how, impact, or risk needs judging. Confirm Taste and Architecture decisions against the grill ([code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) must already be applied this turn), and keep the locked structure excerpt in the plan contracts. For UI, also confirm the choices against [user-experience.md](../rules/user-experience.md) and `docs/design.md` (write the file first if it is missing).
 
 **Split and plan.** Prefer small, ordered slices that meet the [slice split](#slice-split) bar; a what can be one function. Announce the split in the grill's Locked message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) for each slice. The contract states **what** and need-to-know, not how. If the split changes, re-announce the new Locked split before implementation. Do not write an INDEX, plan path, or other runtime file.
 
 **Suggest behavior locks.** Run [Behavior-lock suggestion](#behavior-lock-suggestion). Phase is `locks` while the question is open. If the user corrects a rule, return to grill for that rule before implementing. If they accept or refuse without correcting the rule, record it and continue. If nothing qualifies, record none and continue.
 
-**Implement.** Build ready frontier slices one at a time, in dependency order. User-facing UI (screens, components, styling, visible copy) always goes through `/design` and `docs/design.md`; the agent running `/task` builds non-UI slices itself. For each slice:
+**Implement.** Build ready frontier slices one at a time, in dependency order. User-facing slices (screens, components, styling, visible copy) apply [user-experience.md](../rules/user-experience.md) and `docs/design.md`. For each slice:
 
 1. Stay in the slice's lane and follow its plan contract and the locked structure excerpt. Create the owning folder from the folder map before its files. Do a required behavior-preserving move before feature code and show the old behavior still holds.
 2. Reuse existing services and one-job helpers. If the slice seems to need a new shared API, service, or lane, mark it `blocked` and name the smallest option instead of inventing one.
