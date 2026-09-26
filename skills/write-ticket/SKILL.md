@@ -15,7 +15,7 @@ Create or promote one tracker ticket. User start only; `/task` reads tickets ([t
 ## Read when
 
 - Before analyzing or drafting: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) (stage gate, topic lists, work kind, promotion).
-- Before sending a batch (steps 2 and 5): [asking.md](../pack-shared/asking.md) and the matching batch in [reference.md](reference.md).
+- Before sending a batch (steps 2 and 5): [Asking the user](../rules/writing-style.md#asking-the-user) and the matching batch in [reference.md](reference.md).
 - Drafting the body (steps 3 and 5): the stage body in [reference.md](reference.md).
 
 ## Process

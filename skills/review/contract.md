@@ -6,14 +6,15 @@ Shared review evidence and output for `/review` (local branch diff or GitHub PR)
 
 ## Owns
 
-Inputs, modes, evidence bar, finding record, the review output fence (with PR extras), the Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Inputs, modes, evidence bar, finding record, the review output fence (with PR extras), the Correctness hunt, baseline defects, severity mapping, and when to recommend a behavior-lock test.
 
 ## Does not own
 
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md)
-- Blocker vs follow-up judgment, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
-- Pass A/B and posting: [`../review/reference.md`](../review/reference.md)
+- Blocker vs follow-up judgment, naming alignment, PR extras: [`doctrine.md`](doctrine.md)
+- Pass A/B and posting: [`reference.md`](reference.md)
+- How an accepted test is written: [`../rules/testing.md`](../rules/testing.md)
 
 ## Inputs
 
@@ -81,7 +82,7 @@ Fold sites with the same root cause and fix shape into one record; different roo
 
 **Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
 
-Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field; never acronym-only, never plain-only. User-facing notes are ordinary sentences ([plain-language.md](plain-language.md)).
+Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field; never acronym-only, never plain-only. User-facing notes are ordinary sentences ([Plain language](../rules/writing-style.md#plain-language)).
 
 **Spec pass**: one Spec matrix row per Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
 
@@ -188,4 +189,4 @@ No `important` middle severity. A GitHub PR review posts only `Blocking` or `Nit
 
 ## Behavior-lock recommendation
 
-After an `initial` or `full-rescan` review, recommend `/create-test` only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user; do not invoke `/create-test` or write tests. Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.
+After an `initial` or `full-rescan` review, recommend a behavior-lock test only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user; do not write tests. If the user says yes, the test is written by following [testing.md](../rules/testing.md). Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.

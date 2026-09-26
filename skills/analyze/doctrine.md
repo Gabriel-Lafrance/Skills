@@ -20,7 +20,7 @@ none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+**Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user)
 
 Facts come from live repository, ticket, PR, and diff evidence. User decisions, waivers, invariants, and promotions come only from the visible execution context or a new user answer.
 
@@ -47,7 +47,7 @@ Review-remediation mode: use only after the user selected named **Fix now** rows
 
 Post the memo in chat; keep it current in the execution context rather than in an agent-owned file. Lead with a high-level Mermaid diagram so a reader can see the path before the prose.
 
-The memo diagram follows the Change diagram section of [ship.md](../pack-shared/ship.md): one diagram for new work, Before/After for rework. Plans use Before/After instead ([planning.md](../rules/planning.md)). On top of ship.md:
+The memo diagram follows the [Change diagram](../rules/shipping-templates.md#change-diagram) section of shipping-templates.md: one diagram for new work, Before/After for rework. Plans use Before/After instead ([planning.md](../rules/planning.md)). On top of that section:
 
 - **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the failing interleave, plus the expected order when it is known.
 - Name real modules/services/routes from the evidence. Do not invent a shape the repo does not support.
@@ -152,7 +152,7 @@ Reply like: 1a
 
 A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo. Do not start the ticket write or the grill from this skill.
 
-Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
+Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
 On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
 

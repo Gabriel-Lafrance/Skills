@@ -16,10 +16,11 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 ## Read when
 
 - Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
-- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution-context contract](../pack-shared/execution-context.md).
+- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
 - At the step that names a section: [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
-- Before asking the user anything: [asking.md](../pack-shared/asking.md).
-- Only when this chat will open a PR: [pr-ship.md](../pack-shared/pr-ship.md).
+- Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user).
+- Before writing an accepted test: [testing.md](../rules/testing.md).
+- Only when this chat will open a PR: [shipping.md](../rules/shipping.md).
 
 ## Process
 
@@ -30,7 +31,7 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
    → implement → acceptance evidence → `/review` → Fix mode as needed.
-   - Write a test only for a lock the user accepted, following `/create-test`.
+   - Write a test only for a lock the user accepted, following [testing.md](../rules/testing.md).
    - Apply code-quality.md and code-structure.md during grill and before
      every implement slice. Apply user-experience.md before every user-facing
      implement slice.
@@ -48,7 +49,7 @@ Return a completion summary plus evidence envelope to the parent.
 
 Offer ship Questions only after all gates pass
 ([reference.md](reference.md#ship-questions)). Do not commit or open a PR
-unless the user answers yes. If they ask to open a PR, follow pr-ship.md. Do
+unless the user answers yes. If they ask to open a PR, follow shipping.md. Do
 not invent a parent.
 
 ## Anti-patterns

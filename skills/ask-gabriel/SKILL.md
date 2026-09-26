@@ -12,7 +12,7 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 ## Read when
 
 - Nothing up front. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) already apply; the next skill loads them. Do not restate or paste them here.
-- Before replying: [plain-language.md](../pack-shared/plain-language.md) and the Unslop section of [writing-style.md](../rules/writing-style.md#unslop).
+- Before replying: the [Plain language](../rules/writing-style.md#plain-language) and Unslop sections of [writing-style.md](../rules/writing-style.md#unslop).
 
 ## On-ramps
 
@@ -30,12 +30,12 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
-| Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Standalone `/create-test` when you ask, including after `/review` recommends a lock the task did not offer |
+| Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Ask for a test directly, or say yes when `/review` recommends a lock the task did not offer. Either way the agent follows [testing.md](../rules/testing.md) |
 | ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in) |
 
 Prefer `/analyze` then `/task` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
-`/task` splits the work and builds every slice itself. A test is written only when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests.
+`/task` splits the work and builds every slice itself. A test is written only when the user asked for it or accepted a `/task` behavior-lock brief or a `/review` recommendation ([testing.md](../rules/testing.md)). Ordinary edits do not get tests.
 
 ## Process
 

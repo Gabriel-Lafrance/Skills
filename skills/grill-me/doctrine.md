@@ -2,7 +2,7 @@
 
 ## Job
 
-Interview until the user and agent share a buildable understanding. Keep the result in the visible [execution context](../pack-shared/execution-context.md), not in automatic logs, registries, or hidden artifacts.
+Interview until the user and agent share a buildable understanding. Keep the result in the visible [execution context](../rules/planning.md#execution-context), not in automatic logs, registries, or hidden artifacts.
 
 ## Owns
 
@@ -72,7 +72,7 @@ Save a durable record only when the user asks and approves its destination.
 
 ## Apply
 
-**Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
+**Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user)
 
 After Locked closure:
 

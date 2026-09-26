@@ -2,7 +2,7 @@
 
 PR mode only. Use this after review triage; on follow-ups, complete Pass A
 first. Shared review requirements are in
-[review-contract.md](../pack-shared/review-contract.md); PR decisions are in
+[contract.md](contract.md); PR decisions are in
 [doctrine.md](doctrine.md).
 
 GitHub reads and writes use the harness pull-request / GitHub tool when the

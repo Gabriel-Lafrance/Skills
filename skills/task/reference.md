@@ -4,7 +4,7 @@ Load when establishing or recovering a task, issuing a plan or slice contract, p
 
 ## Execution context
 
-Keep the [execution context](../pack-shared/execution-context.md#context-in-chat) in chat, with only the fields that matter to current work. It is the only automatic state. Plans, slices, grill outcomes, progress, and review findings stay in chat. Write an analysis, plan, or summary only when the user asks and supplies or approves the destination; it never becomes hidden state or a requirement for recovery.
+Keep the [execution context](../rules/planning.md#context-in-chat) in chat, with only the fields that matter to current work. It is the only automatic state. Plans, slices, grill outcomes, progress, and review findings stay in chat. Write an analysis, plan, or summary only when the user asks and supplies or approves the destination; it never becomes hidden state or a requirement for recovery.
 
 Do not infer a user decision, waiver, invariant, or promotion from repository facts. Re-announce settled decisions when they matter to a later phase.
 
@@ -69,7 +69,7 @@ Announce the split in chat, blockers first:
 
 ## New-chat recovery
 
-Do not search for a task directory, status file, archive, or resume tree. Follow the [authority order](../pack-shared/execution-context.md#authority), then state the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions. Do not re-grill a decision the request, ticket/PR, approved artifact, or repository rules already carry.
+Do not search for a task directory, status file, archive, or resume tree. Follow the [authority order](../rules/planning.md#authority), then state the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions. Do not re-grill a decision the request, ticket/PR, approved artifact, or repository rules already carry.
 
 ## Progress and pause
 
@@ -123,13 +123,13 @@ Reply like: 1b
    - b) no: leave the changes uncommitted ← recommended
 ```
 
-Wait. On yes, follow the Process in [ship.md](../pack-shared/ship.md) from its first step. Under a parent that owns shipping, return the completion evidence to the parent instead.
+Wait. On yes, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. Under a parent that owns shipping, return the completion evidence to the parent instead.
 
 ## Behavior-lock suggestion
 
 Run after grill Locked closing, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Never during an open grill, a trivial skip, or Fix mode.
 
-1. Walk each rule that must stay true. Offer a brief only when it passes the `/create-test` bar.
+1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar.
 2. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. No public entry, no brief.
 3. If no brief qualifies, record `Behavior locks: none` and continue without asking.
 4. Otherwise send one Questions-only message and wait. It is a hard stop: silence is not yes, and implementation does not start while it is open.
@@ -148,7 +148,7 @@ Reply like: 1a 2b
 
 - **Correction** ("that is not the behavior"): update the rule, discard its briefs, suggest again from the corrected rule.
 - **No:** no test; the rule still stands. Record the refusal.
-- **Yes:** add a test slice after the product slice that creates the public entry. Follow `/create-test` with the accepted Why / What / How, the rule id, and the public entry. Acceptance evidence includes the [lock handoff](../create-test/reference.md#handoff).
+- **Yes:** add a test slice after the product slice that creates the public entry. Follow [testing.md](../rules/testing.md) with the accepted Why / What / How, the rule id, and the public entry. Acceptance evidence includes the [lock handoff](../rules/testing.md#handoff).
 
 ## Lifecycle
 
@@ -174,7 +174,7 @@ On a Locked correction or unanswered question, revise or wait.
 1. Stay in its lane and follow its contract and structure excerpt. Create the owning folder before its files. Do a required behavior-preserving move before feature code and show the old behavior still holds.
 2. Reuse existing services and one-job helpers. If the slice seems to need a new shared API, service, or lane, mark it `blocked` and name the smallest option.
 3. Gather slice-local evidence only: existing terminal output first, then one narrow command if needed.
-4. No tests in a product slice. Each accepted lock is its own `/create-test` slice after the public entry exists.
+4. No tests in a product slice. Each accepted lock is its own test slice ([testing.md](../rules/testing.md)) after the public entry exists.
 5. Update **Current slices** with status, evidence, findings, and changed interfaces. Missing acceptance, dependency, or structural decision: mark `blocked` and name the smallest decision needed.
 
 Enter acceptance evidence only when every slice is done, blocked, or explicitly waived.
@@ -184,7 +184,7 @@ Enter acceptance evidence only when every slice is done, blocked, or explicitly 
 1. Confirm **Done when** (task and slice) and rules that must stay true, including cross-slice seams, with path walks and terminal output. Include the lock handoff and focused test result for each accepted lock. No browser validation or screenshots. Record pass / fail / blocked per criterion; an unperformed check is not a pass.
 2. Always run **`/review`** next. Put each finding in the **Fix backlog** as `fix now`, `follow-up`, or `waived`.
 3. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the correction, and enter Fix mode only after explicit user promotion. A declined fix blocks completion until it is fixed or waived by name.
-4. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the review contract, and the user starts `/create-test` for it.
+4. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the [review contract](../review/contract.md), and a test is written only if the user says yes to it ([testing.md](../rules/testing.md)).
 
 ### Fix mode (review remediation only)
 

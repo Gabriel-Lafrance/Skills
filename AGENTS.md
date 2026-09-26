@@ -29,13 +29,13 @@ Read each file once per session unless it is already in context.
 | Code quality | Before non-trivial code (new behavior, refactors, structural edits, more than a typo), and on every pack skill run except `/ask-gabriel` | `rules/code-quality.md` |
 | Code structure | Same as code quality | `rules/code-structure.md` |
 | Shape examples | Judging a concrete shape | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
-| Planning | Any turn that will produce a plan for non-trivial work, including a harness plan tool | `rules/planning.md`, `pack-shared/asking.md`, `pack-shared/plain-language.md`, `grill-me/doctrine.md` |
+| Planning | Any turn that will produce a plan for non-trivial work, including a harness plan tool, or keeping context across phases | `rules/planning.md`, `grill-me/doctrine.md` |
 | User experience | Frontend or user-facing work, or a UX complaint | `rules/user-experience.md`, `docs/design.md` (workspace root) |
-| Testing | Before writing or extending a test | `rules/testing.md` |
-| Shipping | Cutting a branch or opening a pull request | `rules/shipping.md`, `pack-shared/ship.md`, `pack-shared/pr-ship.md` |
+| Testing | Before writing or extending a test, including when the user asks for one | `rules/testing.md` |
+| Shipping | Cutting a branch or opening or updating a pull request | `rules/shipping.md`, `rules/shipping-templates.md` |
 | Tooling | Lint, format, CI, editor settings, verifying a change (terminals first) | `rules/tooling.md` |
 | Env vars | Before adding, renaming, requesting, or reading a new environment variable | `rules/code-quality.md` (Reuse env vars) |
-| Writing style | Any chat reply | `rules/writing-style.md`, `pack-shared/plain-language.md` |
+| Writing style | Any chat reply, and before asking the user anything | `rules/writing-style.md` |
 
 ## Hard rules
 
