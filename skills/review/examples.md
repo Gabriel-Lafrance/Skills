@@ -75,7 +75,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. A GitHub PR review also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). The Spec pass adds the Spec matrix. A GitHub PR review also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. A Standards result is incomplete if it omits those tables, or that marks every row `clear` without having inspected the diff.
 
 ## Honest names / stale path after rename
 
@@ -88,7 +88,7 @@ This is the **review output** fence (findings + Principles + Architecture + Corr
   - **Fix:** Rename file + primary export/locals to the payment-intent names and update imports in the same change.
 ```
 
-This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later wave. Remediation is not clear until both path and symbols match.
+This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later pass. Remediation is not clear until both path and symbols match.
 
 ## New files dumped in a mixed parent
 

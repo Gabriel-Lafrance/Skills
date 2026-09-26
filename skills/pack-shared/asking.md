@@ -34,7 +34,7 @@ requests a durable artifact and approves its destination.
 
 ## Batch template (Questions)
 
-When asking the user, use this shape only — no Locked-in heading:
+When asking the user, use this shape only (no Locked-in heading):
 
 ```markdown
 ## Questions
@@ -43,7 +43,7 @@ Reply like: 1a 2c
 1. <open choice>?
    - a) <recommended> recommended
    - b) <alternative>
-   - c) Other — say what you want
+   - c) Other: say what you want
 ```
 
 Yes/no choices use the same shape; freeform items keep a number but omit
@@ -59,7 +59,7 @@ pure announce such as branch/type/split with nothing left to ask):
 **Out of scope:** …
 **Plans:** 1. … · 2. …
 **What we agreed:** …
-**Rules that must stay true:** Rule 1 — … · Rule 2 — … (or none)
+**Rules that must stay true:** Rule 1: … · Rule 2: … (or none)
 ```
 
 Omit Locked-in when nothing is announced. Omit Questions when every remaining item

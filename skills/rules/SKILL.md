@@ -3,7 +3,7 @@ name: rules
 description: >-
   Rule files for Gabriel Lafrance Skills that the always-on AGENTS.md index
   points to: code quality, code structure, planning, user experience,
-  writing style, delegation, testing, shipping, and tooling. Not
+  writing style, testing, shipping, and tooling. Not
   user-invoked. Other skills and AGENTS.md link here so the rules install
   with npx skills (skill folders only).
 disable-model-invocation: true
@@ -22,7 +22,6 @@ The Read when table in `AGENTS.md` is the source for when to open each file:
 - [planning.md](planning.md): reads before planning, grill first, the Before/After change diagram
 - [user-experience.md](user-experience.md): `docs/design.md` as the app UX source of truth and the `design:*` must-dos
 - [writing-style.md](writing-style.md): no em dash, and the Unslop rules for chat replies
-- [delegation.md](delegation.md): when the main agent dispatches specialists and which role owns which job
 - [testing.md](testing.md): no drive-by tests; write a test only after the user accepts that lock
 - [shipping.md](shipping.md): branch names and hard rules for branches and pull requests
-- [tooling.md](tooling.md): lint, format, quality gates, and the CI mirror before a push
+- [tooling.md](tooling.md): lint, format, and the CI mirror before a push

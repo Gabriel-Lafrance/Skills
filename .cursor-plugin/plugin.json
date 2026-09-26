@@ -11,7 +11,6 @@
   "keywords": [
     "skills",
     "commands",
-    "agents",
     "eslint",
     "prettier",
     "toolkit",
@@ -22,6 +21,5 @@
     "review"
   ],
   "skills": "./skills",
-  "agents": "./agents",
   "commands": "./commands"
 }

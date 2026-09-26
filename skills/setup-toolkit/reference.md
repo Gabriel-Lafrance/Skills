@@ -2,38 +2,29 @@
 
 Load with [SKILL.md](SKILL.md). Copy files from [templates/](templates/). Do not rewrite them from memory.
 
-## Resolve the pack root
+## Resolve the skill root
 
-Templates are at `<pack-root>/skills/setup-toolkit/templates/`.
+The skill root is the folder that holds `setup-toolkit/`. Use the same order as the "Find the pack" section of `AGENTS.md`: `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then this repository's `skills/` when the workspace **is** the Skills pack. Templates are at `<skill-root>/setup-toolkit/templates/`.
 
-Find `<pack-root>` from the same skill-root order as `AGENTS.md`:
+This workspace is the Skills pack when a parent directory holds both an `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`.
 
-1. Parent of `setup-toolkit` under `~/.agents/skills/`
-2. Parent of `setup-toolkit` under `~/.claude/skills/`
-3. Parent of `setup-toolkit` under `~/.cursor/skills/`
-4. This repository when the workspace **is** the Skills pack (`skills/setup-toolkit/templates/`)
-
-If templates are missing, stop. Tell the user:
+If templates are missing, stop and tell the user:
 
 ```bash
 npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
 ```
 
-Then run this skill again.
-
 ## Verify
 
-Read the disk. Print a short list. Do not ask the user for these facts.
+Read the disk and print a short list. Do not ask the user for these facts.
 
 | Fact | How to see it |
 | --- | --- |
-| User skills | `pack-shared` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
-| Repo skills | `pack-shared` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore this when the workspace **is** the Skills pack) |
-| Repo contract | workspace-root `AGENTS.md` missing, pack copy (`gabriel-skills-agents`), or a different file |
-| User contract | each harness row in [Install AGENTS.md](#install-agentsmd): home exists or not, pack copy or different |
-| App | workspace `package.json` present or not; ESLint / Prettier already present or not |
-
-This workspace is the Skills pack when a parent directory contains both `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`.
+| User skills | `rules/code-quality.md` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
+| Repo skills | `rules/code-quality.md` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore when the workspace is the Skills pack) |
+| Repo contract | workspace-root `AGENTS.md`: missing, pack copy (has `gabriel-skills-agents`), or someone else's file |
+| Harnesses in use | each folder in [Harness files](#harness-files) that exists, plus any harness the user named |
+| App | workspace `package.json`; ESLint or Prettier already present |
 
 ## Questions
 
@@ -44,236 +35,141 @@ After Verify, one batch. Wait. Do not install until they reply. Shape: [asking.m
 Reply like: 1a 2a
 
 1. Where should this pack and AGENTS.md go?
-   - a) User data (every harness already on this machine) recommended
-   - b) This repo
-   - c) Both
-2. Add ESLint, Prettier, and quality gates to this app?
+   - a) This repo recommended
+   - b) This repo and user-level (every repo on this machine)
+   - c) User-level only
+2. Add ESLint and Prettier to this app?
    - a) no recommended
    - b) yes
 ```
 
-Omit item 2 when there is no `package.json`. Cursor reads the repo `AGENTS.md`. If they pick user data only, say that Cursor in this app will not see the contract until they add a repo file or pick both.
-
-Do not ask which ESLint template. Detect that.
+Omit item 2 when there is no `package.json`. If they pick c, say that Cursor has no user-level file, so Cursor in this repo will not see the rules.
 
 ## Pack skills
 
-`npx skills add gabriel-lafrance/skills@setup-toolkit` copies **this folder**. It does not copy `task`, `pack-shared`, or the rest. This step fills them for the destinations they chose.
+`npx skills add gabriel-lafrance/skills@setup-toolkit` copies only this skill. This step lands the rest of the pack for each chosen scope. Skip it when the workspace is the Skills pack.
 
-Skip a destination when:
-
-- This workspace is the Skills pack (do not reinstall the pack into itself).
-- **User data:** `pack-shared` and `rules/code-quality.md` already sit in `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/`.
-- **This repo:** `pack-shared` and `rules/code-quality.md` already sit in the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/`.
-
-A copy that has `pack-shared` but no `rules/code-quality.md` is stale. Do not skip it: run the matching command to update it.
-
-Otherwise run the matching command:
+A scope is current when `rules/code-quality.md` exists in it. A scope with pack skills but no `rules/code-quality.md` is stale: update it, do not skip it.
 
 ```bash
-# User data
-npx skills@latest add Gabriel-Lafrance/Skills --all -g
+# User-level (b or c)
+npx skills@latest add gabriel-lafrance/skills --all -g
 
-# This repo (project skill home, no -g)
-npx skills@latest add Gabriel-Lafrance/Skills --all
+# This repo (a or b)
+npx skills@latest add gabriel-lafrance/skills --all
+
+# Stale copy
+npx skills@latest update
 ```
 
-`--all` is every skill in this repo, into every harness the CLI already sees, with no prompt. `-g` is the user-level skill home. Omit `-g` for the current repo.
-
-If that command fails (no network, old Node), say so and continue with `AGENTS.md` from [templates/AGENTS.md](templates/AGENTS.md). Do not invent skill folders by hand.
-
-Do not pass `--skill setup-toolkit` on this second add. The point of phase one is to land the whole pack after the one skills.sh install.
-
-## Detect the app root
-
-Prefer the workspace root `package.json`. If the only `package.json` lives in a subdirectory the user named (for example `apps/web`), use that. If several apps could be the target, ask once with lettered options.
-
-## Detect the package manager
-
-From lockfiles in the app root, first match wins:
-
-| File | Command |
-| --- | --- |
-| `pnpm-lock.yaml` | `pnpm add -D` |
-| `yarn.lock` | `yarn add -D` |
-| `bun.lock` / `bun.lockb` | `bun add -d` |
-| `package-lock.json` or none | `npm install -D` |
-
-## Pick templates
-
-| Condition | ESLint template | Stryker template | Dev packages |
-| --- | --- | --- | --- |
-| `tsconfig.json` exists, or `typescript` is a dependency | `eslint.config.mjs` | `stryker.conf.with-ts.json` (write as `stryker.conf.json`) | `eslint`, `@eslint/js`, `typescript-eslint`, `eslint-config-prettier`, `prettier`, `knip`, `@stryker-mutator/core`, `@stryker-mutator/typescript-checker` |
-| Same, and `convex/` exists or `@convex-dev/eslint-plugin` is already a dependency | `eslint.config.with-convex.mjs` (write as `eslint.config.mjs`) | `stryker.conf.with-ts.json` (write as `stryker.conf.json`) | plus `@convex-dev/eslint-plugin` |
-| JavaScript only | `eslint.config.js-only.mjs` (write as `eslint.config.mjs`) | `stryker.conf.json` | `eslint`, `@eslint/js`, `eslint-config-prettier`, `prettier`, `knip`, `@stryker-mutator/core` |
-
-Prettier is always `prettier.config.mjs` + `prettierignore` (written as `.prettierignore`).
-
-Knip config is always `knip.json`.
-
-Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs` when you write that config. Always copy these next to the app `package.json` when missing (never overwrite): `cyclomatic-cap.mjs`, `complexity.test.mjs`, `principle-gate.test.mjs`, `principle-scan.mjs`, `knip.json`, `knip.test.mjs`, `stryker.conf.json`. If ESLint already exists, still copy the plugin file and the quality-gate files when missing, then print the import to add (do not edit their config):
-
-```js
-import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
-import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
-// include noEmdashConfig in the exported config array / tseslint.config(...)
-// rules: { complexity: ["error", maxCyclomaticComplexity] }
-```
-
-Treat any of these as “ESLint already present”: `eslint.config.js`, `eslint.config.mjs`, `eslint.config.cjs`, `eslint.config.ts`, `.eslintrc`, `.eslintrc.js`, `.eslintrc.cjs`, `.eslintrc.json`, or `package.json` `"eslintConfig"`.
-
-Treat any of these as “Prettier already present”: `prettier.config.*`, `.prettierrc`, `.prettierrc.*`, or `package.json` `"prettier"`.
-
-## Write `package.json` scripts
-
-Add only keys that are missing:
-
-```json
-{
-  "lint": "eslint .",
-  "lint:fix": "eslint . --fix",
-  "format": "prettier --write .",
-  "format:check": "prettier --check .",
-  "test:quality": "node --test complexity.test.mjs principle-gate.test.mjs knip.test.mjs",
-  "test:mutants": "stryker run"
-}
-```
-
-Do not change an existing script with the same name. If `test` is missing, also add:
-
-```json
-{
-  "test": "node --test complexity.test.mjs principle-gate.test.mjs knip.test.mjs"
-}
-```
-
-Do not append the quality gates onto an existing `test` script. Do not include `test:mutants` in `test` or `test:quality`: mutants are a deliberate hardening run, not an every-save gate. Do not add a new `test:complexity` script; `test:quality` is the one agent command. If `test:complexity` already exists from an older setup, leave it and still add `test:quality` when that name is free.
-
-## Quality gates
-
-`test:quality` runs three fast Node tests. `test:mutants` is the slow mutant check (Stryker) and runs separately. Failure lines are `file:line` plus **plain (Classic)** plus what to do. Convex-only checks skip when there is no `convex/` directory. JavaScript-only apps (no `tsconfig.json`) skip TypeScript `any`; they still scan Convex `v.any` when that call appears. The Knip gate skips when its config or binary is missing.
-
-| Gate | Check |
-| --- | --- |
-| Cyclomatic complexity (McCabe) | `complexity.test.mjs` (cap 5) |
-| Types tell the truth (make illegal states unrepresentable) | `any`, Convex `v.any` |
-| Fail fast (Fail Fast) | empty `catch`, `{ success: true/false }` Result bags |
-| Trust the server (never trust the client) | public Convex `mutation` / `action` with no identity helper (`requireUser`, `getUserIdentity`, `getAuthUserId`, `auth.getUserId`). Skips `internalMutation`, `internalAction`, queries, `http.ts`, `httpActions.ts`, `crons.ts` |
-| Deterministic queries (no clock in queries) | `Date.now`, `new Date`, `Math.random`, `crypto.randomUUID` inside `query` / `internalQuery` |
-| No dead code (Knip) | `knip.test.mjs`: unused files, exports, and dependencies |
-| Kill the mutants (Mutation testing) | `test:mutants` (Stryker): flipped operators and negated booleans must fail the suite. Deliberate run, not part of `test:quality` |
-
-Keep jobs apart (SoC), one altitude (SLAP), read or write, not both (CQS), no surprises (PoLA), and don’t repeat yourself (DRY) stay review, as does the rest of leave it cleaner (Boy Scout Rule) beyond dead code. Do not invent a denylist to fake them.
-
-### No dead code (Knip)
-
-Knip walks the import graph from package entries, framework plugins, and scripts. It reports unused files, unused exports, unused dependencies, and imports missing from `package.json`. The template `knip.json` is intentionally empty: Knip discovers entries itself. Narrow `entry` and `project` in that file only when Knip prints configuration hints for this repo.
-
-- If `test:quality` could not be added because the name is taken, the gate files are unreferenced: append them to `ignore` in the copied `knip.json` so Knip does not flag its own runner files, and tell the user where the gates run instead.
-- Never delete `knip.json` or add broad ignores to go green. Remove the dead code.
-
-### Kill the mutants (Mutation testing)
-
-Stryker flips operators (`>` to `>=`), negates booleans, and changes signs, one mutant at a time, then runs the behavior suite. A surviving mutant means the suite is decoration: green checkmarks that assert almost nothing. The break threshold fails the run when the score drops, so the rule lives in the build instead of in a prompt.
-
-- **Deliberate, not every save.** Run `test:mutants` after `/create-test` locks land, before shipping a risky slice, or nightly in CI. Never add it to `test:quality` or `test`. Mutation runs are CPU-heavy and run unattended.
-- **Configure after copying.** Set `packageManager` to the detected manager (`npm`, `pnpm`, or `yarn`; `bun` projects use `npm`). Keep `commandRunner.command` on `npm test` unless the behavior suite needs a different command. Never point Stryker at `test:quality`: static scanners cannot kill runtime mutants. When no behavior suite exists yet, tell the user mutants will fail until locks exist.
-- **Thresholds.** `break` 60 fails the run below 60. Raise it toward 80 as locks land. Never lower `break` (or set it to `null`) to go green. Add locks until mutants die.
-- **Faster runs.** The template omits `testRunner`: Stryker's default is the command runner, and naming it makes Knip demand a `@stryker-mutator/command-runner` package that does not exist. Apps on Vitest, Jest, or Mocha can set `testRunner` to that Stryker plugin with `coverageAnalysis: perTest` so each mutant runs only its covering tests. The command runner works everywhere but runs the whole suite per mutant. Keep `incremental` off: with the command runner Stryker reuses stale scores after test-only changes.
-- **TypeScript 7.** Stryker 10 does not support TypeScript 7 yet (its sandbox crashes reading the config). On `typescript@7`, still install the config, and tell the user `test:mutants` waits on upstream Stryker support. TypeScript 5 and JavaScript work today.
-
-## Cursor / VS Code workspace files
-
-Copy from `templates/vscode/` into the app’s `.vscode/`:
-
-| File | If missing | If present |
-| --- | --- | --- |
-| `extensions.json` | Write the template | Merge: keep existing `recommendations`, append `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` when absent |
-| `settings.json` | Write the template | Leave it. Report that format-on-save / ESLint settings were skipped |
-
-Do not invent a `.cursor/extensions.json`. Cursor reads `.vscode/extensions.json` and `.vscode/settings.json` the same way VS Code does.
-
-## Install
-
-Run the package manager add command once with the chosen packages. Do not pin versions unless the repo already pins with exact versions everywhere.
-
-## Smoke check
-
-After install, run **one** of:
-
-```bash
-npx eslint --version
-npx prettier --version
-```
-
-(or the same binaries via the detected package manager). Report versions. Do not run a full-repo lint, format, `test:quality`, or `test:mutants` unless the user asked.
-
-## Design file
-
-After lint/format work, check workspace-root `docs/design.md` only (no other path).
-
-| State | Action |
-| --- | --- |
-| File missing | Run `/design` Initialization. That skill inventories every route from code and writes a short Do / Don't list. |
-| File present | Leave it. Do not overwrite. |
-
-Skip Initialization when they said no to lint, or when this workspace is not an app.
+`--all` installs every skill into every harness the CLI sees, with no prompt. If a command fails (no network, old Node), say so and continue with the contract from the source below. Do not build skill folders by hand.
 
 ## Install AGENTS.md
 
-The pack stays harness-agnostic. This skill is what installs the contract. Do this in phase one, only for the destinations they chose, even when the workspace has no `package.json`. Do not write the repo file if they picked user data only. Do not write harness homes if they picked this repo only.
+Do this even when there is no `package.json`. Touch only the scopes they chose.
 
-### Source file
+**Source:** the pack root `AGENTS.md` when the workspace is the Skills pack, otherwise `<skill-root>/setup-toolkit/templates/AGENTS.md`. It must contain `gabriel-skills-agents`. If it does not, say so and skip this section.
 
-Use the first file that contains `gabriel-skills-agents`:
-
-1. Walk up from this skill until a directory contains both `AGENTS.md` and `skills/setup-toolkit/`. That is the pack root.
-2. Otherwise use [templates/AGENTS.md](templates/AGENTS.md) in this skill (`npx skills` ships the skill folder, not the pack root).
-
-If neither file has the marker, say so and skip this section. Do not invent the text.
-
-Copy that source. The same bytes go to every **chosen** destination below. Do not rewrite them.
+**Never overwrite someone else's instructions file.** A file is the pack's only when it contains `gabriel-skills-agents`. Every other file only ever gets a line appended.
 
 ### Repo
 
-Run this block only when they chose this repo or both.
+1. Workspace-root `AGENTS.md` missing: copy the source there.
+2. It has the marker: overwrite it with the source (refresh).
+3. It exists without the marker: append this section, then say so.
 
-Every harness that reads a workspace `AGENTS.md` gets this file. That includes Claude Code, Cursor, Codex, Amp, Factory, Aider, Gemini CLI (once its settings point at `AGENTS.md`), goose, OpenCode, Roo, Windsurf, Zed, and Warp. Cursor uses this file. Do not also write `.cursor/rules` or a `.mdc` pointer.
+```markdown
 
-1. If workspace-root `AGENTS.md` is missing, copy the source there.
-2. If it exists and contains `gabriel-skills-agents`, overwrite it with the source.
-3. If it exists and does not contain that marker, leave it and say so.
+## Gabriel skills
 
-Do not add a `CLAUDE.md` in the pack or the app. A project `CLAUDE.md` makes Claude Code skip `AGENTS.md` unless that file imports it.
+Also follow the Gabriel skills contract: `<skill-root>/setup-toolkit/templates/AGENTS.md`.
+```
 
-### User and harness homes
+Use the real path: workspace-relative when the pack is installed in this repo, absolute otherwise. Skip the append when the file already mentions `setup-toolkit/templates/AGENTS.md`.
 
-Run this block only when they chose user data or both.
+Then apply [Harness files](#harness-files) at the repo level.
 
-Install a row only when that harness home **already exists** on the machine, or the user named that harness. Do not create `~/.claude`, `~/.codex`, or `~/.gemini` for a harness that is not installed. Report each row as written or skipped. Cursor has no row: the repo `AGENTS.md` is its install.
+### Harness files
 
-Refresh a pack-owned `AGENTS.md` only when it is missing or already contains `gabriel-skills-agents`. A different file stays put. Do not destroy unrelated user text.
+Most harnesses read a workspace `AGENTS.md` on their own (Cursor, Codex, GitHub Copilot, Windsurf, Zed, Amp, OpenCode, goose, and others). A harness that reads a different filename gets a one-line pointer to `AGENTS.md`.
 
-| Harness | Home exists | What to write |
+The rule, for every row whose harness is in use (its project or home folder exists, or the user named it):
+
+- The file is missing: create it with only the pointer line.
+- The file exists without the pointer line: append the pointer line on its own line.
+- The file already has the pointer line: leave it.
+
+| Harness | In use when this exists | Repo file | Pointer line |
+| --- | --- | --- | --- |
+| Claude Code | `.claude/` or `~/.claude/` | `CLAUDE.md` | `@AGENTS.md` |
+| Gemini CLI | `.gemini/` or `~/.gemini/` | `GEMINI.md` | `@AGENTS.md` |
+| Aider | `.aider.conf.yml` | `.aider.conf.yml` (edit only, never create) | `read: AGENTS.md`, or append `AGENTS.md` to an existing `read` list |
+
+A new harness needs one row. When a tool has no import syntax, the pointer line is the plain sentence `Follow AGENTS.md.`. Do not write `.cursor/rules` or an `.mdc` file: Cursor reads `AGENTS.md`.
+
+### User level
+
+Run only for b or c. Point each harness at the installed template. Do not copy its bytes, so `npx skills update` refreshes every harness at once. `<template>` is the absolute path of `<skill-root>/setup-toolkit/templates/AGENTS.md` in the **user** skill root.
+
+Only touch a harness whose home already exists. Never create a home folder for a harness that is not installed.
+
+| Harness | Home | What to do |
 | --- | --- | --- |
-| Claude Code | `~/.claude/` | Copy the source to `~/.claude/gabriel-skills/AGENTS.md`. If `~/.claude/CLAUDE.md` is missing, create it with one line and no backticks: `@~/.claude/gabriel-skills/AGENTS.md`. If it exists and does not already mention `gabriel-skills/AGENTS.md`, append that same line. Do not replace the rest. |
-| Codex | `~/.codex/`, or `$CODEX_HOME` when that directory exists | Copy the source to `AGENTS.md` in that home. Do not write `AGENTS.override.md`. |
-| Gemini CLI | `~/.gemini/` or workspace `.gemini/` | Do not create `GEMINI.md`. If `settings.json` exists and `context.fileName` is absent, set it to `AGENTS.md` and leave every other key. If `GEMINI.md` exists and does not mention `AGENTS.md`, append one line: `Also follow AGENTS.md.` |
-| Aider | workspace `.aider.conf.yml` | If `read` is missing, add `read: AGENTS.md`. If `read` is a list, append `AGENTS.md` when it is absent. If `read` is some other string, leave it and say so. Do not create the file. |
+| Claude Code | `~/.claude/` | Pointer line `@<template>` in `~/.claude/CLAUDE.md`, by the rule in [Harness files](#harness-files) |
+| Gemini CLI | `~/.gemini/` | Pointer line `@<template>` in `~/.gemini/GEMINI.md`, same rule |
+| Codex | `$CODEX_HOME` when set, else `~/.codex/` | `AGENTS.md` missing or a pack copy: symlink it to `<template>`. If the symlink fails, copy the file and say it will not refresh on update. Someone else's file: append `Follow <template>.` |
+| Cursor | none | No user-level file. Say the repo install covers Cursor |
 
-Project adapters, only when that path already exists in the target repo:
+## Report
 
-- `CLAUDE.md` or `.claude/CLAUDE.md`: if it does not already import `AGENTS.md`, append a line with no backticks: `@AGENTS.md`. Do not replace the rest. Do not create either file.
+End with one line per file: path, then **written**, **refreshed**, **appended**, **symlinked**, **copied**, or **skipped**, and the reason (for example "skipped: foreign AGENTS.md, pointer appended instead" or "skipped: `~/.gemini` not installed").
+
+## Detect the app
+
+**App root:** the workspace root `package.json`, else the folder the user named (for example `apps/web`). If several apps could be the target, ask once with lettered options.
+
+**Package manager**, from lockfiles in the app root, first match wins: `pnpm-lock.yaml` is `pnpm add -D`; `yarn.lock` is `yarn add -D`; `bun.lock` or `bun.lockb` is `bun add -d`; otherwise `npm install -D`.
+
+## Pick templates
+
+| Condition | ESLint template (write as `eslint.config.mjs`) | Dev packages |
+| --- | --- | --- |
+| `tsconfig.json` exists, or `typescript` is a dependency | `eslint.config.mjs` | `eslint`, `@eslint/js`, `typescript-eslint`, `globals`, `eslint-config-prettier`, `prettier` |
+| Same, and `convex/` exists or `@convex-dev/eslint-plugin` is a dependency | `eslint.config.with-convex.mjs` | the row above plus `@convex-dev/eslint-plugin` |
+| JavaScript only | `eslint.config.js-only.mjs` | `eslint`, `@eslint/js`, `globals`, `eslint-config-prettier`, `prettier` |
+
+Prettier is always `prettier.config.mjs` plus `prettierignore` (written as `.prettierignore`). Always copy `eslint-plugin-no-emdash.mjs` next to `eslint.config.mjs`.
+
+ESLint is already present when any of these exist: `eslint.config.{js,mjs,cjs,ts}`, `.eslintrc`, `.eslintrc.{js,cjs,json}`, or `package.json` `"eslintConfig"`. Then leave their config, copy only the plugin file, and print the line to add:
+
+```js
+import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
+// add noEmdashConfig to the exported config array
+```
+
+Prettier is already present when `prettier.config.*`, `.prettierrc`, `.prettierrc.*`, or `package.json` `"prettier"` exists. Then leave it.
+
+**Scripts:** add only missing keys in `package.json`, never change an existing one: `"lint": "eslint ."`, `"lint:fix": "eslint . --fix"`, `"format": "prettier --write ."`, `"format:check": "prettier --check ."`.
+
+## Editor files
+
+Copy from `templates/vscode/` into the app's `.vscode/`. Cursor reads `.vscode/` the same way VS Code does; do not add `.cursor/extensions.json`.
+
+| File | If missing | If present |
+| --- | --- | --- |
+| `extensions.json` | Write the template | Keep existing `recommendations`, append `dbaeumer.vscode-eslint` and `esbenp.prettier-vscode` when absent |
+| `settings.json` | Write the template | Leave it and report it skipped |
+
+## Install and smoke check
+
+Run the package manager add command once with the chosen packages. Do not pin versions unless the repo already pins exact versions everywhere. Then run `npx eslint --version` (or through the detected manager) and report the version. Do not lint or format the whole repo unless the user asked.
+
+**Design file:** after the lint phase, check workspace-root `docs/design.md` only. Missing: run `/design` Initialization. Present: leave it. Skip when they said no to lint.
 
 ## Done when
 
-- Verify printed skill roots, `AGENTS.md` state, and whether an app `package.json` exists
-- Destination and lint were asked once and they replied (lint omitted when there is no `package.json`)
-- Pack skills and `AGENTS.md` were written only to the destinations they chose
-- Destinations they did not choose were left untouched
-- Harness homes that do not exist were not created
-- No project `CLAUDE.md` was created. An existing one was left intact, with `@AGENTS.md` appended only when they chose the repo and that import was missing
-- No `.cursor/rules` file and no `.mdc` file was written
-- ESLint, Prettier, quality gates, editor files, packages, scripts, and the lint smoke check ran only if they said yes to lint
-- `test:quality` and `test:mutants` were **not** run as setup smoke
-- `/design` Initialization ran only if they said yes to lint and `docs/design.md` was missing
+- Verify printed its facts, and scope and lint were asked once
+- Pack skills and contract went only to the chosen scopes; stale copies were updated
+- Only pack-marked files were overwritten; others only got a pointer; no harness home was created
+- Lint files, packages, and scripts exist only if they said yes to lint
+- The report lists every file with its action and reason

@@ -17,9 +17,9 @@ Resolve context in this order:
 Repository facts are rediscovered when needed. Do not infer a user decision,
 waiver, invariant, or promotion from code alone.
 
-## Parent context
+## Context in chat
 
-Before dispatching work or crossing a lifecycle phase, the parent keeps the
+Before starting a slice or crossing a lifecycle phase, the agent keeps the
 relevant context visible in chat:
 
 ```markdown
@@ -50,44 +50,12 @@ relevant context visible in chat:
 | 01 | ready | … | … |
 
 ### Fix backlog
-- `finding-id` — fix now | follow-up | waived
+- `finding-id`: fix now | follow-up | waived
 ```
 
 Include only fields that matter to the current work. A new chat derives what it
 can from the authority order, then re-announces or asks only about missing
 user-owned decisions.
-
-## Worker handoff
-
-For when to spawn Tasks, Worker Brief shape, and after-wave integration, Read
-[subagents.md](subagents.md).
-
-The parent is the context compiler. Every Task prompt is **what** plus
-**need-to-know**: outcome, Done when, non-goals, rules that must stay true,
-lane, current slice, explorer hits, locked structure excerpt, and the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) in **Read first**
-([standards.md](standards.md)). Do not send a how-recipe. Do not make a
-worker reconstruct intent from hidden files or a plan path. Do not grep the
-tree on the parent.
-
-Omit Task `model` unless the user explicitly requested one. The parent owns
-integration, acceptance evidence, and `/review`; implementation workers do
-not run those gates.
-
-Every worker ends with:
-
-```markdown
-## Completion
-**Status:** done | blocked
-**Scope:** …
-**Evidence:** …
-**Taste / architecture:** applied | skipped
-**Findings:** none | <finding IDs and summaries>
-**Handoff:** <changed interface, decision, or blocker>
-```
-
-Skip on the taste/architecture mark is a fail. The parent rejects and relaunches.
-
-Skill-specific artifacts may follow this envelope when they add useful detail.
 
 ## Optional persistence
 

@@ -16,9 +16,9 @@ This author almost always has **frontend localhost** and **`npx convex dev`** al
 
 - Call **Convex MCP** (`status`, `data`, `tables`, `logs`, `run`, `runOneoffQuery`, `insights`, `functionSpec`, env tools, and similar) just to verify
 - Re-run `npx convex …`, deploy, or codegen after every slice when `convex dev` is already watching
-- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts **while coding a slice**. **Do** run the CI mirror in [pr-ship.md](../pack-shared/pr-ship.md) **once, immediately before a push that opens a PR or a commit or push on an open PR**. Do not run it on a commit you are not pushing. Skip `test:mutants` unless the pull_request workflow runs it.
+- Run `eslint`, `tsc --noEmit`, `npm run lint`, full suites, or just-to-be-sure scripts **while coding a slice**. **Do** run the CI mirror in [pr-ship.md](../pack-shared/pr-ship.md) **once, immediately before a push that opens a PR or a commit or push on an open PR**. Do not run it on a commit you are not pushing.
 - Start a second frontend/Convex process when one is already up
-- Dispatch a subagent whose only job is MCP verification
+- Run a separate pass whose only job is MCP verification
 
 **Do use Convex MCP / deeper checks only when:**
 

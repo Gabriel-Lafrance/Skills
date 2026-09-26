@@ -1,7 +1,7 @@
 ---
 name: design
 description: >-
-  Designer and customer-experience worker for user-facing UI. Owns
+  Designer and customer-experience step for user-facing UI. Owns
   docs/design.md (the app UX source of truth), captures the app from code,
   and implements screens, components, and visible copy to a
   finished professional bar in one pass. Use when building frontend,
@@ -20,7 +20,6 @@ Own `docs/design.md` and ship user-facing UI to a finished professional bar in o
 - Before capturing UX or writing UI: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
 - At the step that names a section (identity, route inventory, heading skeleton, craft detail): [reference.md](reference.md).
 - Judging a concrete screen or copy choice: [examples.md](examples.md).
-- Before dispatching the route inventory Task: [subagents.md](../pack-shared/subagents.md).
 - Talking to the user: [plain-language.md](../pack-shared/plain-language.md). Asking anything: [asking.md](../pack-shared/asking.md).
 
 ## Bars
@@ -41,8 +40,8 @@ turn (`design:professional-craft`). Meet `design:smallest-details` and
 `design:quality-floor`. `docs/design.md` is a short UI/UX **Do** /
 **Don't** list.
 
-This skill implements **user-facing** code. `/implement` stays for non-UI
-slices. There is no `/design-review` skill and no Design axis in
+This skill implements **user-facing** code. `/task` builds non-UI
+slices itself. There is no `/design-review` skill and no Design axis in
 `/review`. These bars apply here, while building.
 
 ## Process
@@ -53,10 +52,10 @@ slices. There is no `/design-review` skill and no Design axis in
    (`design:blend-edits`). Distill a screen or component catalog to Do /
    Don't the next time you touch the file.
 3. Do the job in this turn:
-   - **Capture / refresh:** inventory every app route from code in a Task
-     subagent. Observe repeating UI/UX rules. Write or distill
+   - **Capture / refresh:** inventory every app route from code. Observe
+     repeating UI/UX rules. Write or distill
      `docs/design.md` to a short UI/UX **Do** / **Don't** list.
-   - **Implement UI:** stay in the write allowlist. Resolve identity
+   - **Implement UI:** stay in the slice's lane. Resolve identity
      ([reference.md](reference.md#identity)). Nest new UI files in the
      owning feature or route folder from the structure card
      (`architecture:folders`) before writing them, not as mixed siblings of
@@ -71,10 +70,10 @@ slices. There is no `/design-review` skill and no Design axis in
 
 ### Initialization
 
-Code-derived. No browser, no login, no screenshots. Workers do not talk to the user.
+Code-derived. No browser, no login, no screenshots.
 
 1. Discover **every** route from the app router in code.
-2. Dispatch a Task to inventory each one. Observe repeating UI/UX rules.
+2. Inventory each one. Observe repeating UI/UX rules.
    Details: [reference.md](reference.md).
 3. Write `docs/design.md` as a short **Do** / **Don't** list
    ([reference.md](reference.md#heading-skeleton)). No screen catalog. No
@@ -87,13 +86,13 @@ file exists, skip init and work from it.
 
 ### If a parent already owns the next step
 
-`/task` sent a Worker Brief for a user-facing slice. Stay in
-the allowlist. Follow `docs/design.md` and the Bars above (spoken locale:
-job first, then speaker terms). Return only the Completion envelope. The parent owns acceptance evidence and
-`/review`. If `docs/design.md` is missing, return `blocked` with
-Initialization as the next parent step (the parent may already be running
-it). If identity cannot be resolved (no look bullets, no theme tokens, no
-user-stated look), return `blocked` and say the parent must ask.
+`/task` reached a user-facing slice. Stay in the slice's lane. Follow
+`docs/design.md` and the Bars above (spoken locale: job first, then speaker
+terms). Update **Current slices** in the execution context when the slice is
+done. Acceptance evidence and `/review` are later `/task` phases. If
+`docs/design.md` is missing, run Initialization first. If identity cannot be
+resolved (no look bullets, no theme tokens, no user-stated look), mark the
+slice `blocked` and ask the user.
 
 ### If this is a user one-off
 
@@ -101,4 +100,4 @@ Run Initialization when the file is missing. If identity is missing, ask the
 user. Otherwise capture, advise, or implement
 the named screen to the professional-craft bar. Larger product scope that needs
 a grill and a Done-when still goes through `/task`; this skill remains the UI
-worker inside that loop.
+step inside that loop.

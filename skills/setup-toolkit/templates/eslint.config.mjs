@@ -1,8 +1,8 @@
 import js from "@eslint/js";
 import prettier from "eslint-config-prettier";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
-import { maxCyclomaticComplexity } from "./cyclomatic-cap.mjs";
 import { noEmdashConfig } from "./eslint-plugin-no-emdash.mjs";
 
 export default tseslint.config(
@@ -21,8 +21,11 @@ export default tseslint.config(
   prettier,
   noEmdashConfig,
   {
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
     rules: {
-      complexity: ["error", maxCyclomaticComplexity],
+      complexity: ["error", 5],
       "no-empty": ["error", { allowEmptyCatch: false }],
     },
   },

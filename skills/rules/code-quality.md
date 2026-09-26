@@ -44,9 +44,7 @@ In chat, cite each as **plain (Classic)** ([plain-language.md](../pack-shared/pl
 | **Trust the server** | Never trust the client | Auth, ownership, money, permissions enforced on the write path | Could a caller skip the UI and still write? |
 | **Types tell the truth** | Make illegal states unrepresentable | No `any`, no optional that is required, validators at the boundary | Would a lying type let bad data through? |
 
-**SOLID** is guidance in [reference.md](../taste/reference.md), not a gate.
-
-**Quality gates.** `test:quality` and the deliberate `test:mutants` (both from `/setup-toolkit`) check only: `any` and Convex `v.any`, empty `catch` and Result bags, public Convex writes with no identity helper, clock or randomness in a query, dead code (Knip), and surviving mutants (Stryker). Keep jobs apart, one altitude, read or write, no surprises, don't repeat yourself, and the rest of leave it cleaner stay review. No keep-jobs-apart import denylist. Never raise, skip or delete a gate, or lower the mutant break threshold, to go green.
+**SOLID** is guidance in [reference.md](../taste/reference.md), not a hard rule.
 
 **Check:** does the touched lane clearly break a row?
 
@@ -55,11 +53,10 @@ In chat, cite each as **plain (Classic)** ([plain-language.md](../pack-shared/pl
 | Rule | Classic | Meaning |
 | --- | --- | --- |
 | **Never-nest** | Guard clauses | Early returns, no `if` / `try` pyramids. Not about folders |
-| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | At most **5** paths per function; each `if`, loop, `catch`, `case`, ternary, and / or adds one. Extract a named helper (`test:quality`) |
+| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | At most **5** paths per function; each `if`, loop, `catch`, `case`, ternary, and / or adds one. Extract a named helper. Never raise the cap. How to check: [static-checks.md](../review/static-checks.md#cyclomatic-complexity-cap-of-5) |
 | **Don't repeat yourself** | DRY | One concept, one place |
 | **Reuse env vars** | none | See [Reuse env vars](#reuse-env-vars) |
-| **No dead code** | Knip | No unused files, exports or dependencies (`test:quality`). Delete, do not ignore |
-| **Kill the mutants** | Mutation testing | Behavior locks fail when Stryker flips an operator, boolean or sign (`test:mutants`, not in `test:quality`) |
+| **No dead code** | none | No unused files, exports or dependencies. Delete, do not ignore. How to check: [static-checks.md](../review/static-checks.md#knip-no-dead-code) |
 | **Throw at boundaries** | Exceptions at boundaries | Catch only to recover, translate, add context or clean up. No `{ success: false }` / Result bags. No wrapping just because code could throw |
 | **One export per file** | none | One component or main export |
 | **Static imports** | none | No dynamic `import()` |
@@ -102,7 +99,7 @@ Before acceptance evidence and `/review` (a failed box is fixed first):
 
 - [ ] `taste:keep-it-simple`: nothing beyond done when and the rules that must stay true
 - [ ] Named principles: no clear violation in the touched lane
-- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:reuse-env` · `taste:no-dead-code` · `taste:kill-the-mutants` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
+- [ ] `taste:never-nest` · `taste:cyclomatic-cap` · `taste:dont-repeat-yourself` · `taste:reuse-env` · `taste:no-dead-code` · `taste:throw-at-boundaries` · `taste:one-export-per-file` · `taste:static-imports` · `taste:oop-depth-cap` · `taste:naming-files`
 - [ ] `taste:cite-a-sibling`: good sibling, greenfield, or correcting debt
 - [ ] `taste:plain-language` in chat
 - [ ] `taste:verify-terminals-first` ([reference.md](../taste/reference.md#verify-terminals-first))

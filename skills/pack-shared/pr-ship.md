@@ -77,15 +77,14 @@ again before the push.
 3. If a workflow path filter would skip the job for this diff, skip it here
    too. A docs-only change does not get a full build the workflow would not
    run.
-4. If there is no such workflow, run `lint` and `test` (`test:quality` when
-   that is the test script) when those scripts exist.
-5. Skip `test:mutants` unless the pull_request workflow itself runs it.
-6. Do not wipe and reinstall dependencies when the lockfile is unchanged and
+4. If there is no such workflow, run `lint` and `test` when those scripts
+   exist.
+5. Do not wipe and reinstall dependencies when the lockfile is unchanged and
    the install is already present.
-7. If a command fails, fix it and rerun that command. Then push once.
-8. If there is no workflow and no `lint` or `test` script, say so and
+6. If a command fails, fix it and rerun that command. Then push once.
+7. If there is no workflow and no `lint` or `test` script, say so and
    continue. Do not invent a suite.
-9. Never `git commit --no-verify` or `git push --no-verify` unless the user
+8. Never `git commit --no-verify` or `git push --no-verify` unless the user
    asked.
 
 **Do not**

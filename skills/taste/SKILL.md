@@ -34,14 +34,14 @@ or when tightening a messy file before or after a small change.
    (`taste:leave-it-cleaner` / `taste:keep-it-simple`: no speculative rewrite).
 4. If the user asks to fix, apply only behavior-preserving edits in that lane.
    Larger product scope → recommend `/analyze` or `/task`.
-5. Do not invent a parent wave, write tests, or start `/create-test`.
+5. Do not invent a parent lifecycle, write tests, or start `/create-test`.
 
 Hand-offs: structure / folders / services → `/architecture`. Build end-to-end
 → `/task`. Research first → `/analyze`.
 
 ### If this skill is already loaded inside a build
 
-Parents (`/task`, `/analyze`, `/grill-me`, `/implement`, `/design`) apply
+Parents (`/task`, `/analyze`, `/grill-me`, `/design`) apply
 code-quality.md and code-structure.md before planning or writing code.
 
 1. Apply both files before grill close, plan contracts, or implement briefs.

@@ -30,13 +30,13 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Capture or update the app UX source of truth | `/design` |
-| Build a screen / frontend | `/task` (it dispatches `/design`) |
+| Build a screen / frontend | `/task` (it runs `/design`) |
 | Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Standalone `/create-test` when you ask, including after `/review` recommends a lock the task did not offer |
-| ESLint / Prettier / lint, format, dead code, mutants, quality gates, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in; starts `/design` Initialization only if you opted into lint and `docs/design.md` is missing) |
+| ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in; starts `/design` Initialization only if you opted into lint and `docs/design.md` is missing) |
 
 Prefer `/analyze` then `/task` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
-Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task`. `/design` is also a user start for capturing `docs/design.md`. Task workers follow [subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
+Internals (`/trackers` and `/design`) are inner steps `/task` runs; `/task` splits the work and builds non-UI slices itself. `/design` is also a user start for capturing `docs/design.md`. A test is written only when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests.
 
 ## Process
 
@@ -44,7 +44,7 @@ Internals (`/implement`, `/design`, and the other worker steps) are looked up by
 2. Recommend **one** next skill and the next one or two steps.
 3. Do **not** run that skill unless the user says to (or said “just pick and go”).
 4. Talk in ordinary words. Do not use unexplained abbreviations. Skip chatbot closings and puffery.
-5. When recommending `/task` or `/analyze`, say they apply code-quality.md and code-structure.md, and that they pick specialists from the catalog. The main agent does not grep or write tests.
+5. When recommending `/task` or `/analyze`, say they apply code-quality.md and code-structure.md.
 
 ## Anti-patterns
 

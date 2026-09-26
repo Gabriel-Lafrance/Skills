@@ -17,20 +17,17 @@ Audit structure and draft the Structure card. The rules live in `rules/` and app
 
 - Before drafting a structure card: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), and the shared [execution context](../pack-shared/execution-context.md).
 - Judging a concrete shape: [examples.md](examples.md).
-- Before dispatching explorers: [subagents.md](../pack-shared/subagents.md).
 - Before asking the user anything: [asking.md](../pack-shared/asking.md).
 
 If a parent already supplied outcome, Done when, non-goals, locked
-decisions, rules that must stay true, current slice, and lane, reuse that brief.
+decisions, rules that must stay true, current slice, and lane, reuse that context.
 
 ## Process
 
-1. **Explore.** Non-trivial sibling, service, or folder search uses
-   `explorer` Tasks (main does not grep); independent lanes run in parallel
-   (one Task per lane, no cap of two). Skip Tasks only for greenfield-trivial
-   structure with no repo to explore. There is no architect worker. Review
-   the hits, write the structure card from them, and inject the excerpt into
-   later briefs. Flag wrong shape in the lane rather than copying it. Note:
+1. **Explore.** Search siblings, services, and folders in the lane. Skip only
+   for greenfield-trivial structure with no repo to explore. Write the
+   structure card from the hits, and keep the excerpt in the plan contracts.
+   Flag wrong shape in the lane rather than copying it. Note:
    - Existing services for the same concern (billing, auth): reuse/extend first
    - Existing primitives inside those services / deep modules: reuse when they
      already answer that specific job; do not fork
@@ -70,8 +67,8 @@ decisions, rules that must stay true, current slice, and lane, reuse that brief.
 
 ### If a parent already owns the next step
 
-Hand the structure decision into the parent inline context and Worker Brief,
-then `/design` for user-facing UI or `/implement` for non-UI. Return needed corrections to the parent.
+Record the structure decision in the parent inline context and plan
+contracts, then `/design` for user-facing UI; `/task` builds non-UI slices itself. Return needed corrections to the parent.
 
 ### If this is a user one-off
 

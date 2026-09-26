@@ -17,14 +17,12 @@ so and stop.
 - Every run, so locks sit on the public surface, not internals: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
 - Drafting the approval brief, test comment, or handoff: [reference.md](reference.md).
 - Asking the Why / What / How question: [asking.md](../pack-shared/asking.md).
-- Summoning the tester: [subagents.md](../pack-shared/subagents.md).
-
 ## Who starts it
 
 The user starts this skill. `/task` may continue it only after the user
 accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
 That answer is the start for those briefs. Each task brief cites a grilled
-rule. `/implement`, `/design`, and other build workers do not start this
+rule. `/task` build slices, `/design`, and other build steps do not start this
 skill. Silence, and a parent taking `recommended`, are not a start.
 
 `/review` may still recommend a lock the task did not offer. The user starts
@@ -32,7 +30,6 @@ this skill for that recommendation. Nothing writes tests on its own.
 
 ## Process
 
-The parent owns the Why / What / How question. **Tester** is the go-to writer
-of tests and must always be summoned for that labor. Feed **what** to lock
-and need-to-know (approved brief, public entry, paths). Tester owns **how**.
-Review the Completion. Never write tests on the main agent.
+Ask the Why / What / How question first. Write tests only after each brief is
+approved, through the public entry the brief names. Steps live in
+[reference.md](reference.md#process).

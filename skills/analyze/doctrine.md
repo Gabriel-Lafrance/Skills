@@ -38,7 +38,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 
 - Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
 - Rediscover the relevant code and sibling patterns. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
-- Noisy search **must** use `explorer` Tasks per [subagents.md](../pack-shared/subagents.md). The main agent does not grep the tree. When independent find-whats exist, spawn parallel explorers in the same turn (no cap of two). Pick `analyzer` to judge how, impact, risk, and files touched. Do not follow a fixed spawn order. Give each the applicable brief and wait for all results; never sleep or poll for them. Trivial single-path lookups may stay on the main agent.
+- Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
 - Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
@@ -179,6 +179,5 @@ Reply like: 1a
 - Promoting a remediation without first showing its complete stable-finding analysis
 - Replacing evidence with an implementation-level design
 - Offering one-off hand-off Questions when a parent owns the next step
-- Grepping the tree on the main agent, or using an analyzer as a search bot
-- Returning an explorer hit list instead of the `/analyze` memo
-- Inventing a parallel layout instead of using the injected structure excerpt
+- Returning a raw search hit list instead of the `/analyze` memo
+- Inventing a parallel layout instead of using the locked structure excerpt

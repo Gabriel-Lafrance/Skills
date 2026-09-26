@@ -14,7 +14,6 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 ## Read when
 
 - Before researching, even when the ask looks like a single file: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) and [execution-context.md](../pack-shared/execution-context.md).
-- Before dispatching a worker: [subagents.md](../pack-shared/subagents.md).
 - Before asking the user anything: [asking.md](../pack-shared/asking.md).
 
 ## Contract
@@ -29,9 +28,8 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 1. Establish or refresh the relevant execution context and normalize the ask.
    Do not re-grill product intent when a parent already locked Done when and
    rules that must stay true.
-2. Investigate via Task workers. Pick the specialist that owns the job, not
-   a fixed spawn order: `explorer` to find, `analyzer` to judge how, impact,
-   and risk. Review Completions. A `/write-ticket` Research or Plan seed
+2. Investigate: find the relevant code first, then judge how, impact, and
+   risk from those facts. A `/write-ticket` Research or Plan seed
    still gets the complete standard memo: Research memos gather the problem,
    Plan memos gather the code that would change.
 3. Post the doctrine memo (standard or review-remediation). Lead with a
@@ -66,6 +64,6 @@ the user already named the next step.
 - Offering hand-off Questions when a parent owns the next step
 - Stubbing the memo because a `/write-ticket` Research or Plan seed is short
 - Returning a memo with no diagram when the path can be drawn
-- Grepping the tree on the main agent, or using an analyzer as a search bot
+- Returning a raw search hit list instead of the memo
 - Broadening into product discovery during review remediation
 - Creating tickets, implementing code, or writing tests

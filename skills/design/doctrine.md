@@ -10,7 +10,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 
 ## Does not own
 
-- Non-UI slices: [`../implement/SKILL.md`](../implement/SKILL.md)
+- Non-UI slices: `/task` builds them ([`../task/reference.md`](../task/reference.md#phase-1-plan-and-build))
 - Review and GitHub posting: [`../review/doctrine.md`](../review/doctrine.md) (Standards and Spec only; no Design axis)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Numbered how-to: [`SKILL.md`](SKILL.md)
@@ -98,7 +98,7 @@ A "none yet" screen that headlines "No API key" (or "Nothing here") next to Crea
 
 Ship finished UI in the same turn. The first implementation should look like a designer completed it, not a draft to restyle later.
 
-Identity comes from look bullets in `docs/design.md`, the repo's tokens and theme, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask (worker: return `blocked`). How to execute: [`reference.md`](reference.md#professional-craft).
+Identity comes from look bullets in `docs/design.md`, the repo's tokens and theme, or the user this turn. Do not invent a palette, type pairing, or "signature" look. If none of those sources exist, stop and ask. How to execute: [`reference.md`](reference.md#professional-craft).
 
 When the user states a new identity, avoid the current AI-default looks (cream + terracotta serif, near-black + acid green, purple-on-white gradients, Inter/Roboto-only stacks). When the app already looks a certain way, match it, including if that way is quiet.
 
@@ -154,17 +154,17 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 ### User-facing work
 
-User-facing means screens, components, styling, visible copy, and client interaction. `/task` dispatches this skill for those slices, not `/implement`. This skill still applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) for any supporting files in the allowlist. It does not own backend-only work.
+User-facing means screens, components, styling, visible copy, and client interaction. `/task` uses this skill for those slices and builds the rest itself. This skill still applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) for any supporting files in the lane. It does not own backend-only work.
 
 These bars apply while building. `/review` does not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 
 ## Output
 
-`docs/design.md` (create or patch). Implement slices also return the Completion envelope from [subagents.md](../pack-shared/subagents.md).
+`docs/design.md` (create or patch). Implement slices also update **Current slices** in the [execution context](../pack-shared/execution-context.md).
 
 ## Apply
 
-Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, whenever the user states a UX preference, and whenever writing or translating strings a person reads (including locale files). Apply `design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. `/implement` that receives an allowlist of screens must return `blocked` and point here.
+Load this doctrine whenever the work is user-visible UI, whenever `docs/design.md` is missing in an app, whenever the user states a UX preference, and whenever writing or translating strings a person reads (including locale files). Apply `design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, and `design:quality-floor` on every implement slice. For a typo in a non-UI file, this skill does not apply. A `/task` slice of screens always comes here.
 
 ## Anti-patterns
 
@@ -173,7 +173,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Inventing pixels, palettes, or flows that the app, `docs/design.md`, and the user did not supply
 - Shipping a first-pass "fine" screen that still needs a restyle to look professional
 - Skipping the quality floor because `docs/design.md` did not mention contrast or focus
-- Implementing user-facing UI through `/implement`
+- Implementing user-facing UI without this skill
 - Shipping a `/design-review` skill or a Design review axis inside `/review`
 - Putting every action and advanced setting on the first surface instead of one level down
 - Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen

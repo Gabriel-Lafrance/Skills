@@ -2,74 +2,64 @@
 
 ## Job
 
-Shared review evidence and worker output for `/review` (local branch diff or GitHub PR). `/review` owns remediation and posting behavior. There is no Design-review skill and no Design axis.
+Shared review evidence and output for `/review` (local branch diff or GitHub PR). `/review` owns remediation and posting. There is no Design-review skill and no Design axis.
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including PR extras on a GitHub PR), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Inputs, modes, evidence bar, finding record, the review output fence (with PR extras), the Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md)
-- Blocker vs follow-up judgment table, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
+- Blocker vs follow-up judgment, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
 - Pass A/B and posting: [`../review/reference.md`](../review/reference.md)
 
 ## Inputs
 
-Pin a fixed point and inspect the diff. Resolve specification from the current
-user request, ticket, PR body, committed repository documentation, and relevant
-execution context supplied by a parent. Do not depend on hidden review files.
+Pin a fixed point and inspect the diff. Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied. Do not depend on hidden review files.
 
 ## Modes
 
 | Mode | Scope | Required work |
 | --- | --- | --- |
-| `initial` | Full shipped diff and available spec | Standards + Spec in parallel |
-| `remediation` | Named findings, fix diff, touched paths, and direct callers | Verify named findings, regressions, and correctness in the changed surface |
-| `full-rescan` | Full diff after meaningful change or user request | Run `initial` depth again and adjudicate prior PR threads when present |
+| `initial` | Full shipped diff and available spec | Standards pass + Spec pass |
+| `remediation` | Named findings, fix diff, touched paths, direct callers | Verify named findings, regressions, and correctness in the changed code |
+| `full-rescan` | Full diff after meaningful change or user request | `initial` depth again; adjudicate prior PR threads when present |
 
 ### Follow-up partition (PR)
 
 On a GitHub PR follow-up, after historical Pass A:
 
 1. Partition `previousReviewedHead..currentHead`.
-2. Apply `remediation` to the addressed-findings surface inside that range.
-3. Apply `initial` depth to **newly introduced** files/hunks in that range that
-   are outside the remediation set.
+2. Apply `remediation` to the addressed-findings code in that range.
+3. Apply `initial` depth to **newly introduced** files/hunks in that range outside the remediation set.
 4. Use `full-rescan` only on explicit user request or material scope expansion.
 
-Do not run a broad architecture hunt during remediation of named findings. Do
-not silently turn a follow-up into a full rescan of the entire PR. Do not let
-new commits outside the remediation set skip review.
+No broad architecture hunt during remediation. No silent full rescan. New commits outside the remediation set still get reviewed.
 
 ## Evidence bar
 
-A blocker about a runtime failure, guard, concurrency, error path, retry, queue,
-lock, or hardening need requires all of:
+A blocker about a runtime failure, guard, concurrency, error path, retry, queue, lock, or hardening need requires all of:
 
 1. A reachable trigger.
-2. Concrete evidence from the diff, a path walk, a violated rule, a signal, or
-   a directly provable exploit.
+2. Concrete evidence: the diff, a path walk, a violated rule, a signal, or a directly provable exploit.
 3. Material correctness, security, data, availability, or acceptance impact.
 4. The smallest authoritative fix.
 
-These **are** reachable triggers. Do not dismiss them as theoretical:
+These **are** reachable triggers, not theory:
 
-- A public write in the diff that touches user data with no identity check
+- A public write touching user data with no identity check
 - A patch/delete/read of another row with no ownership or tenant check
-- A UI-only guard (disabled button, hidden route, client `if`) while the public
-  write still runs
+- A UI-only guard (disabled button, hidden route, client `if`) while the public write still runs
 - A webhook, payment, or insert that can duplicate on replay
 - `Date.now()` / randomness inside a query
-- An un-awaited write (`ctx.db.patch` / `insert` / `scheduler.runAfter` without
-  `await`)
+- An un-awaited write (`ctx.db.patch` / `insert` / `scheduler.runAfter` without `await`)
 - Unbounded `collect()` or `.filter` scan on a growing table
 - A `catch` that swallows or logs-and-continues at a boundary that should fail
 - A secret, token, or private key in the shipped diff
 
-Do not report imaginary futures or recommend extra coordination machinery
-without evidence that a direct guard is insufficient.
+Do not report imaginary futures or recommend coordination machinery without evidence that a direct guard is insufficient.
 
 ## Finding record
 
@@ -85,42 +75,19 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
   - **Fix:** <smallest authoritative direction>
 ```
 
-Fold recurring sites with the same root cause and fix shape into one record.
-Different root causes get different records. Drop duplicates by finding id. On a
-PR, include the id in the final comment as `**Finding:** \`<id>\``. The
-GitHub finding thread and that visible id are the durable record.
+Fold sites with the same root cause and fix shape into one record; different root causes get separate records. Drop duplicates by id. On a PR, the final comment carries `**Finding:** \`<id>\``; the GitHub thread and that id are the durable record.
 
 ## Output
 
-Standards workers **must** apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
-principles) using **plain (Classic)** (`keep jobs apart (SoC)`) and cite those
-keys in finding **Rule** fields when violated. Never acronym-only (`SoC
-violation`) and never the paraphrase without the classic name. User-facing
-notes must be ordinary sentences ([plain-language.md](plain-language.md)). On
-`initial` / `full-rescan`, also run the `review:naming-alignment` pass, the
-Architecture sweep, the Correctness hunt, and the Baseline defects scan. The
-parent rejects Standards output that lacks the Principles, Architecture, or
-Correctness tables, or that skipped either section.
+**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn ([standards.md](standards.md)). Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
 
-Spec workers fill the **Spec matrix** with every Done-when row, every rule that
-must stay true, each user-visible state the diff touches (enabled, disabled,
-loading, empty, error), and named unchanged behavior. Do not invent rows when
-no specification exists; say so, and still let Standards run the Correctness
-hunt (bugs are not "the ticket forgot to mention them").
+Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field; never acronym-only, never plain-only. User-facing notes are ordinary sentences ([plain-language.md](plain-language.md)).
 
-UX bars live in `/design` while building. Do not dispatch a Design worker,
-return a Design matrix, or run an Experience or Craft floor.
+**Spec pass**: one Spec matrix row per Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
 
-The parent provides the fixed-point diff, relevant spec, rules that must stay true, and
-format below. It dispatches Standards and Spec as parallel Tasks (plus extra
-Tasks when the diff has independent surfaces), reviews Completions, and
-rejects and relaunches a narrative-only response once.
+No Design pass, Design matrix, or Experience/Craft floor: UX bars live in `/design` while building.
 
-Workers report no finding explicitly when their axis is clean. Mark each sweep
-row `clear`, `finding` (with finding id), or `none` when that check has no
-surface in the diff (for example cheap-reads on a copy-only change). The parent
-controls the dispatch and follows the [execution context](execution-context.md)
-contract for models and completion reporting.
+Cover every independent part of the diff. Narrative-only output is incomplete. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect (for example cheap reads on a copy-only change). One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
 
 ### Review output
 
@@ -144,7 +111,7 @@ contract for models and completion reporting.
 | Honest names (intention-revealing names) | clear \| finding | … |
 | Trust the server (never trust the client) | clear \| finding \| none | … |
 | Types tell the truth (make illegal states unrepresentable) | clear \| finding \| none | … |
-| Don’t repeat yourself (DRY) | clear \| finding \| none | … |
+| Don't repeat yourself (DRY) | clear \| finding \| none | … |
 
 ## Architecture sweep
 | Check | Status | Note |
@@ -190,38 +157,24 @@ contract for models and completion reporting.
 | Breaking public API | clear \| finding \| none | … |
 ```
 
-One review pass. Return Standards findings, Principles, Architecture,
-Correctness hunt, and the Spec matrix. A GitHub PR review also returns the four PR
-extras rows in this same fence. Secrets stay in the Correctness hunt, not in
-PR extras. There is no Design axis, no second adversarial wave, and no hunt
-re-inspect.
-
 ### Baseline defects (Standards, after the tables)
 
-If the shipped diff introduces any of these, it is a finding. Cite the matching
-key (`taste:never-nest`, `taste:cyclomatic-cap`, `taste:dont-repeat-yourself`,
-`taste:reuse-env`, `taste:no-dead-code`, `taste:throw-at-boundaries`, `taste:one-export-per-file`,
-`taste:static-imports`, `taste:oop-depth-cap`, `architecture:folders`) or `taste:keep-it-simple`.
-Findings still speak **plain (Classic)**. Mechanical cores below are also
-`test:quality` (or `test:mutants`) hits when a runner exists, except folder
-placement (review-only, `architecture:folders`). Do not raise, skip, or delete
-a gate to go green:
+Each of these in the shipped diff is a finding, cited by key and spoken **plain (Classic)**. Identity on public writes and clock/randomness in queries are covered by the Correctness hunt and Architecture sweep above.
 
-- Nested control-flow pyramids
-- New related files added as mixed siblings with no owning folder
-- A function with more than five independent paths (cyclomatic complexity (McCabe))
-- Copy-paste twins of a concept already in-repo
-- A new environment variable whose job an existing var already does (`FRONTEND_URL` while `SITE_URL` exists)
-- `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast))
-- `any` or Convex `v.any` on a public surface (types tell the truth (make illegal states unrepresentable))
-- A public Convex write with no identity helper (trust the server (never trust the client))
-- Clock or randomness inside a query (deterministic queries)
-- Unused files, exports, or dependencies in the diff (no dead code (Knip))
-- Dynamic `import()`
-- New file with more than one main export
-- Class or interface chain deeper than two
-- Magic policy numbers at a call site that should be a named invariant
-- Raising, skipping, or deleting `test:quality` (or lowering the `test:mutants` break threshold) to go green
+| Defect | Key |
+| --- | --- |
+| Nested control-flow pyramids | `taste:never-nest` |
+| New related files as mixed siblings with no owning folder | `architecture:folders` |
+| A function with more than five independent paths (cyclomatic complexity (McCabe)) | `taste:cyclomatic-cap` |
+| Copy-paste twin of a concept already in the repo | `taste:dont-repeat-yourself` |
+| New env var whose job an existing var does (`FRONTEND_URL` while `SITE_URL` exists) | `taste:reuse-env` |
+| `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast)) | `taste:throw-at-boundaries` |
+| `any` or Convex `v.any` on a public surface | types tell the truth (make illegal states unrepresentable) |
+| Unused files, exports, or dependencies in the diff | `taste:no-dead-code` |
+| Dynamic `import()` | `taste:static-imports` |
+| New file with more than one main export | `taste:one-export-per-file` |
+| Class or interface chain deeper than two | `taste:oop-depth-cap` |
+| Magic policy number at a call site that should be a named invariant | `taste:keep-it-simple` |
 
 ## Severity mapping
 
@@ -231,16 +184,8 @@ a gate to go green:
 | `follow-up` | Follow-up | Chat-only by default; `Nit` only when a PR comment is useful |
 | `nit` | Optional nit | `Nit` only when useful |
 
-There is no unmapped `important` middle severity. A GitHub PR review posts only
-`Blocking` or `Nit`. Adapters do not re-explain this map.
+No `important` middle severity. A GitHub PR review posts only `Blocking` or `Nit`. Adapters do not re-explain this map.
 
 ## Behavior-lock recommendation
 
-After an initial or full-rescan review, recommend `/create-test` only for a
-complex architectural boundary with externally observable behavior and no
-durable lock, especially authorization, ownership, and safe-to-retry writes.
-Tell the user; do not invoke `/create-test` or write tests. Skip a claim the
-user already accepted in the current `/task` lock batch, and skip a claim they
-refused there, unless the shipped public contract differs from that brief.
-After locks land, `test:mutants` proves they bite: surviving mutants mean the
-lock is decoration.
+After an `initial` or `full-rescan` review, recommend `/create-test` only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user; do not invoke `/create-test` or write tests. Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.

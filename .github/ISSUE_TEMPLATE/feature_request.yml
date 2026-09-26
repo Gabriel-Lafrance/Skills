@@ -32,7 +32,7 @@ body:
         - Build (/task)
         - Review and ship (/review, /create-test, AGENTS.md ship rules)
         - Pack shared / docs / rules
-        - Toolkit (plugin rules, commands, agents, ESLint, Prettier)
+        - Toolkit (plugin rules, commands, ESLint, Prettier)
         - Other
     validations:
       required: true

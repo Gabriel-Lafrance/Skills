@@ -15,9 +15,9 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 
 ## Read when
 
+- Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
 - Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) and the [execution-context contract](../pack-shared/execution-context.md).
 - At the step that names a section: [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
-- Before dispatching a worker: [subagents.md](../pack-shared/subagents.md).
 - Before asking the user anything: [asking.md](../pack-shared/asking.md).
 - Only when this chat will open a PR: [pr-ship.md](../pack-shared/pr-ship.md).
 
@@ -30,12 +30,10 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
    → implement → acceptance evidence → `/review` → Fix mode as needed.
-   - Orchestrate only: pick specialists from the subagents catalog (not a
-     fixed spawn order) and review their Completions. Main does not solo
-     non-trivial labor, grep the tree, or write tests.
+   - Write a test only for a lock the user accepted, following `/create-test`.
    - Apply code-quality.md and code-structure.md during grill and before
-     every implement wave. Load `/design` before every user-facing implement
-     wave.
+     every implement slice. Load `/design` before every user-facing implement
+     slice.
    - The behavior-lock suggestion waits for the user, who can refuse every test.
 3. Announce completion.
 

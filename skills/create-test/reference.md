@@ -3,7 +3,7 @@
 ## Approval batch
 
 ```markdown
-## Lock brief — <symbol>
+## Lock brief: <symbol>
 - Why: <risk if behavior changes>
 - What: <observable contract or invariant>
 - How: <public entry, setup, and assertion>
@@ -13,7 +13,7 @@ Reply like: 1a
 
 1. Approve this lock brief?
    - a) yes ← recommended
-   - b) no — say what to change
+   - b) no, say what to change
 ```
 
 Batch all known main claims in the same first message. Do not write tests until
@@ -41,7 +41,7 @@ approved lines.
 ## Behavior locks
 - **Claim:** <approved Why / What / How>
 - **Files:** <changed test files>
-- **Verification:** `<command>` — pass | fail
+- **Verification:** `<command>`: pass | fail
 - **Break signal:** <outside edit that makes this test fail>
 ```
 
@@ -51,22 +51,19 @@ green without a user request.
 
 ## Process
 
-1. Name the behavior to lock and what outside change it should catch. If the
-   public export or nearby tests need a noisy hunt, pick `explorer`. Do not
-   grep the tree on the main agent.
+1. Name the behavior to lock and what outside change it should catch. Find the
+   public export and nearby tests.
 2. Draft every needed Why / What / How brief, batch them for approval, and wait.
    Do not write tests until each brief is approved. When `/task` already
    collected that approval, do not ask again. Require the grilled rule id on
    each of those briefs. If the user corrected the rule after approval, stop
    and return the brief to `/task`.
-3. **Tester** always writes the tests. Dispatch `tester` per
-   [../pack-shared/subagents.md](../pack-shared/subagents.md) with the approved
-   Why / What / How, public entry, and paths — **what**, not a recipe of
-   assertions. Tester owns **how**. Review the Completion against the approved
-   claim. Never write tests on the main agent.
-4. When the repo has `test:mutants`, run it after the locks land: surviving
-   mutants mean the lock is decoration.
-5. Report the approved claim, files changed, command result, and one sentence
+3. Write the tests from the approved Why / What / How through the named public
+   entry. Keep the set small: core outcome, critical guard, meaningful edge,
+   and the known regression when the brief named one. Put the approved
+   three-line comment on each main test. Run the focused test, not the whole
+   suite. Check the result against the approved claim.
+4. Report the approved claim, files changed, command result, and one sentence
    about what would turn the test red.
 
-Never auto-start this skill. A `/task` suggestion is not a start until the user accepts the brief. Never skip `tester` when tests are the job.
+Never auto-start this skill. A `/task` suggestion is not a start until the user accepts the brief.

@@ -34,7 +34,7 @@ Distinguish facts from user-owned decisions. Rediscover facts from the repositor
 
 ### Rules that must stay true
 
-In a `/task` run, each behavioral answer becomes a numbered rule (Rule 1, Rule 2) unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or worker. A rule is a behavior that must remain true, not a request for a new abstraction.
+In a `/task` run, each behavioral answer becomes a numbered rule (Rule 1, Rule 2) unless the user explicitly calls it a preference, example, or non-binding idea. Record its enforcement and verification in the execution context, then pass it to the relevant plan or slice. A rule is a behavior that must remain true, not a request for a new abstraction.
 
 Record the observable outcome in the rule: who acts, what they do, what stays true afterward, and what a repeat or a bypass does. `/task` may later offer a test only from these rules, and only after Locked closing. A fuzzy rule is not a test. This skill does not draft tests.
 

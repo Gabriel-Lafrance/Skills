@@ -66,7 +66,7 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## Initialization
 
-**Good:** A Task inventories every route from the app router in code, then writes a short Do / Don't list (look from theme tokens, invite prefill, overflow for extra actions, landing hooks vs docs explain). No Screens heading. No component dump.
+**Good:** The agent inventories every route from the app router in code, then writes a short Do / Don't list (look from theme tokens, invite prefill, overflow for extra actions, landing hooks vs docs explain). No Screens heading. No component dump.
 
 **Bad:** One subsection per route, hover/disabled/loading on every component, and a 400-line file.
 
@@ -126,4 +126,4 @@ The user deletes a "use toast for every save" bullet and adds "inline confirmati
 
 ## User-facing UI without `/design`
 
-Worker shipped a settings page under `/implement`. Parent did not dispatch `/design`. **Wrong.** Route the UI through `/design`. `/implement` stays on the non-UI slice.
+A settings page shipped as a plain `/task` non-UI slice without `/design`. **Wrong.** Route the UI through `/design`. Only the non-UI slice skips it.

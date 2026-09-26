@@ -1,220 +1,105 @@
 # Taste examples
 
-Concrete good vs bad. Prefer matching **good**.
+Good vs bad. Match **good**.
 
-## KISS — Keep It Stupid Simple
+## KISS (Keep It Stupid Simple)
 
-**Bad — ceremony for one local rule** — helper file + pattern for a single call site:
+**Bad:** a helper file for one call site.
 
 ```typescript
 // order-guards.ts
-export function assertCanCheckout(user: User) {
-  if (!user.canOrder) throw new Error("Cannot order");
-}
-
-// place-order.ts
-import { assertCanCheckout } from "./order-guards";
-assertCanCheckout(user);
+export function assertCanCheckout(user: User) { if (!user.canOrder) throw new Error("Cannot order"); }
 ```
 
-**Good — stupid simple** — guard stays with the one caller until it earns a home:
+**Good:** the guard stays with its one caller.
 
 ```typescript
-async function placeOrder(input: Input) {
-  const user = await requireUser(input.userId);
-  if (!user.canOrder) throw new Error("Cannot order");
-  return await charge(user, input);
-}
+const user = await requireUser(input.userId);
+if (!user.canOrder) throw new Error("Cannot order");
 ```
 
-**Bad — speculative futureproofing on tiny glue:**
-
-```typescript
-interface NotifierStrategy { send(msg: string): Promise<void> }
-abstract class BaseNotifier implements NotifierStrategy { /* empty */ }
-class ConsoleNotifier extends BaseNotifier {
-  async send(msg: string) { console.log(msg); }
-}
-```
-
-**Good — KISS until growth is real** (big features still get one named seam + one impl; see [reference.md](reference.md#futureproofing)):
-
-```typescript
-async function notifyUser(msg: string) {
-  console.log(msg);
-}
-```
+**Bad:** `interface NotifierStrategy` + empty `abstract class BaseNotifier` + `ConsoleNotifier` for one `console.log`.
+**Good:** `async function notifyUser(msg: string) { console.log(msg); }`. Big features still get one seam + one impl ([reference.md](reference.md#futureproofing)).
 
 ## Named principles (spot checks)
 
-**Keep jobs apart — bad:** React component talks to Stripe and formats receipts.  
-**Keep jobs apart — good:** component calls `billing.makeUserPay`; billing owns Stripe.
+| Principle | Bad | Good |
+| --- | --- | --- |
+| Keep jobs apart | React component calls Stripe and formats receipts | Component calls `billing.makeUserPay`; billing owns Stripe |
+| One altitude | `placeOrder` validates, parses a CSV attachment, and charges | `placeOrder` coordinates `parseOrderAttachment`, then `charge` |
+| Read or write, not both | `getCart()` also writes a "last seen" row | `getCart()` reads; `touchCartSeen()` writes |
+| Fail fast | Invalid `userId` found after creating a payment intent | `requireUser` throws at the entry, before side effects |
+| Leave it cleaner | Copy a known-wrong sibling "to match" | Move the Stripe call into `billing` while in the lane (same behavior) |
+| Related together | Feature imports `billing-stripe-internal` | Feature imports only `billing.makeUserPay` |
+| Safe to retry | Webhook inserts an order on every delivery | Key by event id; second delivery is a no-op |
+| Say what happens / no surprises | `save()` sometimes returns null, sometimes throws, sometimes writes a global | `save()` throws on failure, returns the id, no hidden writes |
+| Honest names | Scope became "payment intent" but code stays `createCheckoutTotal` in `checkout-total.ts` | Rename to `create-payment-intent.ts` / `createPaymentIntent` and callers in the same change |
+| Trust the server | Pay button disabled in React; mutation charges any client `userId` | Mutation calls `requireUser` and checks cart ownership; button is feedback |
+| Types tell the truth | `args: { data: v.any() }`, or `userId?: string` when every caller passes one | `args: { userId: v.id("users"), cents: v.number() }` |
 
-**One altitude — bad:** `placeOrder` validates input, parses a CSV attachment, and charges.  
-**One altitude — good:** `placeOrder` coordinates `parseOrderAttachment` → `charge`.
+## Deep vs shallow module
 
-**Read or write, not both — bad:** `getCart()` also writes a “last seen” row.  
-**Read or write, not both — good:** `getCart()` reads; `touchCartSeen()` writes.
-
-**Fail fast — bad:** invalid `userId` discovered after creating a payment intent.  
-**Fail fast — good:** `requireUser` throws at the entry before side effects.
-
-**Leave it cleaner — bad:** copy a known-wrong sibling “to match.”  
-**Leave it cleaner — good:** while touching the lane, move the Stripe call into `billing` (same behavior).
-
-**Related together — bad:** `feature` imports `billing-stripe-internal`.  
-**Related together — good:** `feature` imports only `billing.makeUserPay`.
-
-**Safe to retry — bad:** webhook handler inserts an order on every delivery.  
-**Safe to retry — good:** key by event id; second delivery is a no-op.
-
-**Say what happens / no surprises — bad:** `save()` sometimes returns null, sometimes throws, sometimes writes a global.  
-**Say what happens / no surprises — good:** `save()` throws on failure; success returns the saved id; no hidden writes.
-
-**Honest names — bad:** scope becomes “payment intent,” but keep writing `createCheckoutTotal` in `checkout-total.ts`.  
-**Honest names — good:** rename to `create-payment-intent.ts` / `createPaymentIntent` (and update callers) in the same change.
-
-**Trust the server — bad:** disable the Pay button in React; the mutation still charges any `userId` the client sends.  
-**Trust the server — good:** the mutation `requireUser`s, then checks the user owns the cart; the disabled button is only feedback.
-
-**Types tell the truth — bad:** `args: { data: v.any() }` or `userId?: string` when every caller must pass a user.  
-**Types tell the truth — good:** `args: { userId: v.id("users"), cents: v.number() }`; required stays required.
-
-## Deep vs shallow module (entry point vs leaked helpers)
-
-**Bad — shallow module** — call site orchestrates internals (high complexity at every caller):
+**Bad:** the caller orchestrates internals.
 
 ```typescript
-import { loadCart } from "./cart-load";
-import { applyTax } from "./cart-tax";
-import { CartStore } from "./cart-store";
-
-const store = new CartStore();
 const items = await loadCart(userId);
-store.setItems(applyTax(items));
+new CartStore().setItems(applyTax(items));
 ```
 
-**Good — deep module** — simple surface, rich behind it:
-
-```typescript
-import { useCart } from "./use-cart";
-
-const cart = useCart(userId);
-```
+**Good:** `const cart = useCart(userId);`
 
 ## Entropy / broken window
 
-**Bad** — copy a known-wrong sibling so the new feature "matches" debt (entropy spreads):
-
-```typescript
-// features/upgrade/upgrade.ts — Stripe wired here because checkout did it that way
-await stripe.checkout.sessions.create({ … });
-```
-
-**Good** — behavior-preserving move into the right service; cite the good shape (`architecture:prior-mistakes`):
-
-```typescript
-// services/billing/billing.ts — makeUserPay owns Stripe
-// features/upgrade/use-upgrade.ts
-await makeUserPay({ userId, cents, reason: "upgrade" });
-```
+**Bad:** `features/upgrade/upgrade.ts` calls `stripe.checkout.sessions.create(...)` because checkout did.
+**Good:** move Stripe into `services/billing/billing.ts`; upgrade calls `makeUserPay({ userId, cents, reason: "upgrade" })` (`architecture:prior-mistakes`).
 
 ## Never-nest
 
-Flatten **control flow**, not the folder tree. Deep `if` / `try` pyramids are the defect. Related files still nest in an owning folder (`architecture:folders`).
+Flatten control flow, not the folder tree (`architecture:folders`).
 
 **Bad:**
 
 ```typescript
-async function placeOrder(input: Input) {
-  if (input.userId) {
-    const user = await getUser(input.userId);
-    if (user) {
-      if (user.canOrder) {
-        try {
-          return await charge(user, input);
-        } catch (e) {
-          if (isRetryable(e)) {
-            return await charge(user, input);
-          }
-        }
-      }
-    }
-  }
-  return null;
+if (input.userId) {
+  const user = await getUser(input.userId);
+  if (user) { if (user.canOrder) { try { return await charge(user, input); } catch (e) { /* retry */ } } }
 }
+return null;
 ```
 
 **Good:**
 
 ```typescript
-async function placeOrder(input: Input) {
-  const user = await requireUser(input.userId);
-  user.assertCanOrder();
-  return await chargeWithRetry(user, input);
-}
+const user = await requireUser(input.userId);
+user.assertCanOrder();
+return await chargeWithRetry(user, input);
 ```
 
 ## Cyclomatic cap
 
-**Bad** — one function owns many paths (the quality-gate test fails):
+**Bad:** one `priceOrder` with an empty check, a loop, an `if / else if` on item kind, a coupon `if`, and a ternary floor.
+**Good:** each function stays at five paths or fewer.
 
 ```typescript
 function priceOrder(order: Order): number {
-  if (!order.items.length) return 0;
-  let total = 0;
-  for (const item of order.items) {
-    if (item.kind === "sale") total += item.cents;
-    else if (item.kind === "bundle" && item.cents > 0) total += item.cents * 0.9;
-    else total += item.cents;
-  }
-  if (order.coupon) total = applyCoupon(total, order.coupon);
-  return total < 0 ? 0 : total;
+  return floorAtZero(applyCoupon(sumItemPrices(order.items), order.coupon));
 }
 ```
-
-**Good** — each function stays at or under five paths:
-
-```typescript
-function priceOrder(order: Order): number {
-  const itemsTotal = sumItemPrices(order.items);
-  const afterCoupon = applyCoupon(itemsTotal, order.coupon);
-  return floorAtZero(afterCoupon);
-}
-```
-
-Do not lock `1 + 1 = 2` or UI chrome with a test. `test:quality` is a principle check, not a behavior catalog.
 
 ## Reuse env vars
 
-**Bad** — `SITE_URL` already holds the public site URL; the agent adds a synonym:
-
-```bash
-npx convex env set FRONTEND_URL https://example.com
-# or: echo "https://example.com" | vercel env add FRONTEND_URL production
-```
-
-```typescript
-const origin = process.env.FRONTEND_URL;
-```
-
-**Good** — inventory first, then read the name that already has that job:
-
-```typescript
-const origin = process.env.SITE_URL;
-```
-
-A client bundle that requires a prefix uses `NEXT_PUBLIC_SITE_URL` (the existing name plus the required prefix), not `NEXT_PUBLIC_FRONTEND_URL`. A library that wants `FRONTEND_URL` maps in code: `process.env.SITE_URL`. Do not store the same URL twice.
+**Bad:** `SITE_URL` exists; the agent runs `npx convex env set FRONTEND_URL ...` and reads `process.env.FRONTEND_URL`.
+**Good:** `const origin = process.env.SITE_URL;`. A client prefix uses `NEXT_PUBLIC_SITE_URL`, not `NEXT_PUBLIC_FRONTEND_URL`. A library that wants `FRONTEND_URL` gets it mapped in code.
 
 ## Dead code
 
-**Bad - dead export ships:** `export function formatLegacyReceipt()` with no callers survives refactors and confuses readers. `knip.test.mjs` fails: no dead code (Knip).
-**Good:** delete it. If a future feature needs it, version control remembers.
+**Bad:** `export function formatLegacyReceipt()` with no callers survives refactors.
+**Good:** delete it. Version control remembers.
 
-## Mutants
+## Decoration lock
 
-**Bad - decoration lock:** a test calls `charge(card)` and asserts nothing. The suite is green; Stryker flips `>` to `>=` and nothing fails. Surviving mutant: kill the mutants (Mutation testing).
-**Good:** assert the observable contract (`assert.equal(receipt.cents, 500)`). The flipped operator fails. Mutant killed.
+**Bad:** a test calls `charge(card)` and asserts nothing; `>` becoming `>=` in pricing stays green.
+**Good:** `assert.equal(receipt.cents, 500)`. The broken operator fails.
 
 ## Errors
 
@@ -223,8 +108,6 @@ A client bundle that requires a prefix uses `NEXT_PUBLIC_SITE_URL` (the existing
 ```typescript
 function parseConfig(raw: string): { ok: true; value: Config } | { ok: false; error: string } {
   if (!raw) return { ok: false, error: "empty" };
-  return { ok: true, value: JSON.parse(raw) };
-}
 ```
 
 **Good:**
@@ -232,71 +115,48 @@ function parseConfig(raw: string): { ok: true; value: Config } | { ok: false; er
 ```typescript
 function parseConfig(raw: string): Config {
   if (!raw) throw new Error("Config is empty");
-  return JSON.parse(raw) as Config;
-}
 ```
 
 ## Naming
 
-**App UI — good:** `features/orders/components/order-summary.tsx`, `features/checkout/hooks/use-checkout.ts`  
-**App UI — bad:** `OrderSummary.tsx` next to five unrelated siblings with no folder (`architecture:folders`)  
-
-**Convex names — good:** `convex/orders.ts`, `convex/orderActions.ts`  
-**Convex names — bad:** `convex/order-actions.ts`, `convex/order_actions.ts`  
-**Convex folders — good:** a second billing file lives in `convex/billing/`  
-**Convex folders — bad:** `convex/billingStripe.ts` as a mixed sibling of `convex/billing.ts`
+| Area | Good | Bad |
+| --- | --- | --- |
+| App UI | `features/orders/components/order-summary.tsx` | `OrderSummary.tsx` beside five unrelated siblings |
+| Convex names | `convex/orders.ts`, `convex/orderActions.ts` | `convex/order-actions.ts`, `convex/order_actions.ts` |
+| Convex folders | Second billing file goes in `convex/billing/` | `convex/billingStripe.ts` beside `convex/billing.ts` |
 
 ## Speculative ceremony (tiny work)
 
-**Bad** — `IFmt`, `FmtImpl`, `FmtFactory` for a one-line string helper  
-**Good** — a plain function
+**Bad:** `IFmt`, `FmtImpl`, `FmtFactory` for a one-line string helper.
+**Good:** a plain function.
 
 ## Foundation first (big features)
 
-**Bad** — hardcode `StripeOnly` into every call site; rip everything open when PayPal arrives  
-**Good** — day one: `PaymentMethod` seam + `StripePayment` behind a stable `charge()` entry; next provider is a new collaborator, not a rewrite
+**Bad:** `StripeOnly` hardcoded at every call site; PayPal forces a rewrite.
+**Good:** day one, a `PaymentMethod` seam + `StripePayment` behind a stable `charge()`. The next provider is a new collaborator.
 
 ## Smart responsibility
 
-**Bad** — logger also notifies Slack and writes analytics:
-
-```typescript
-class Logger {
-  log(message: string) {
-    console.log(message);
-    void fetch("/slack", { body: message });
-    analytics.track("log", message);
-  }
-}
-```
-
-**Good** — logger only logs; others subscribe or get called by the orchestrator:
-
-```typescript
-class Logger {
-  log(message: string) {
-    console.log(message);
-  }
-}
-```
+**Bad:** `Logger.log` also posts to Slack and calls `analytics.track`.
+**Good:** `Logger.log` only logs; the orchestrator calls Slack and analytics.
 
 ## OOP depth
 
-**Bad** — `AbstractPayment` → `BaseCardPayment` → `StripeCardPayment` → `StripeCardPaymentV2`  
-**Good** — `PaymentMethod` ← `StripeCardPayment`, or compose `StripeClient` inside one payment class
+**Bad:** `AbstractPayment` > `BaseCardPayment` > `StripeCardPayment` > `StripeCardPaymentV2`.
+**Good:** `PaymentMethod` <- `StripeCardPayment`, or compose `StripeClient` inside one class.
 
 ## Futureproof extension seam
 
-**Bad** — every new channel edits `notify()` with another `if (channel === …)`  
-**Good** — stable `Notifier.notify(event)`; `Channel` strategy in place from the start with the first channel implemented
+**Bad:** every new channel adds `if (channel === ...)` to `notify()`.
+**Good:** stable `Notifier.notify(event)` with a `Channel` strategy from the start, first channel implemented.
 
 ## SOLID theater vs foundation
 
-**Bad** — `IUserRepo`, `UserRepoImpl`, `UserRepoFactory`, `IUserRepoFactory` for a trivial one-off script  
-**Good (big domain)** — `UserRepository` contract (or interface) + one real store behind the feature entry on day one, so a second store does not force callers to change  
-**Also bad** — delaying that contract “until we have two stores,” then rewriting half the feature
+**Bad:** `IUserRepo`, `UserRepoImpl`, `UserRepoFactory`, `IUserRepoFactory` for a one-off script.
+**Good (big domain):** a `UserRepository` contract + one real store on day one, so a second store does not change callers.
+**Also bad:** delaying that contract "until we have two stores," then rewriting half the feature.
 
 ## Verify
 
-**Bad** — after every edit: `npm run lint && tsc --noEmit && npm test`  
-**Good** — read the already-running frontend + `convex dev` terminals; only dig deeper if those show errors
+**Bad:** `npm run lint && tsc --noEmit && npm test` after every edit.
+**Good:** read the running frontend and `convex dev` terminals; dig deeper only if they show errors.

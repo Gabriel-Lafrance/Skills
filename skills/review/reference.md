@@ -39,10 +39,8 @@ After Pass A completes on a follow-up:
 3. Separately run `initial`-depth review (Standards + Spec) over **newly
    introduced** files and hunks in that partition that are outside the
    remediation set, with the same principles checklist, Architecture sweep, and
-   Correctness hunt. Non-trivial Pass A adjudication and new-surface review
-   **must** dispatch via Task workers per
-   [subagents.md](../pack-shared/subagents.md) (one Task per independent
-   surface, no cap of two). New unrelated commits must not escape review.
+   Correctness hunt. Cover every independent new surface. New unrelated commits
+   must not escape review.
 4. Promote the whole follow-up to `full-rescan` only when the user explicitly
    requests it or materially expands the review scope.
 

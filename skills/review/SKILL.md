@@ -2,8 +2,8 @@
 name: review
 description: >-
   Review a local branch diff, or an open GitHub PR given by number or link.
-  Standards (taste, architecture, correctness hunt) and Spec run in parallel
-  with evidence-backed findings. Local findings stay in chat with a bounded fix
+  Checks Standards (taste, architecture, correctness hunt) and Spec with
+  evidence-backed findings. Local findings stay in chat with a bounded fix
   path; PR findings become drafted comments behind one publish decision. User
   must invoke (not auto).
 disable-model-invocation: true
@@ -15,14 +15,16 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 
 ## Read when
 
+- Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
 - Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
 - Every run: [doctrine.md](doctrine.md) and the [review contract](../pack-shared/review-contract.md).
+- Unsure how to check Knip or the cyclomatic cap: [static-checks.md](static-checks.md).
 - A parent supplied the handoff: the [execution context](../pack-shared/execution-context.md).
 - Unsure whether a finding meets the evidence bar or how to word it: [examples.md](examples.md).
 - Writing user-facing findings: [plain-language.md](../pack-shared/plain-language.md).
 - GitHub PR only: [reference.md](reference.md) and [asking.md](../pack-shared/asking.md).
 
-Worker output uses the review-contract **review output** fence (Principles,
+Each pass reports in the review-contract **review output** fence (Principles,
 Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
 
 ## Pick the target
@@ -36,8 +38,8 @@ Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
 
 Select the shared review mode deliberately:
 
-- `initial` reviews the complete shipped diff with Standards and Spec in
-  parallel.
+- `initial` reviews the complete shipped diff with a Standards pass and a
+  Spec pass.
 - `remediation` receives named finding IDs, the fix diff, touched direct paths,
   and direct callers only. Verify those findings and regressions in that
   surface only.
@@ -62,17 +64,15 @@ bar. On a GitHub PR, also apply the `review:*` PR extras.
    inventing requirements. Cite a rule that must stay true only when it is actually
    violated; otherwise cite the relevant Done when item or state that no
    rule applies.
-3. Dispatch `reviewer` Tasks per
-   [subagents.md](../pack-shared/subagents.md). Standards and
-   Spec **must** be parallel Tasks; add extra Tasks when the diff has
-   independent surfaces.
+3. Run the Standards pass, then the Spec pass, over the whole diff. Keep them
+   as separate passes so each axis gets its own evidence.
 4. Report stable finding IDs and the Fix now / Follow-up / Optional nit
    disposition in chat. Keep all findings, decisions, and remediation memos in
    chat.
 
-The parent (this chat, or `/task` when nested) owns fixed-point setup, worker
-dispatch, reviewing Completions, acceptance evidence, and review gates.
-Implementation workers do not run those gates or broaden a remediation review.
+The parent (this chat, or `/task` when nested) owns fixed-point setup,
+acceptance evidence, and review gates. A remediation review stays inside its
+named findings.
 
 ### If a parent already owns the next step
 
@@ -83,7 +83,7 @@ findings and the supplied current slices.
 
 ### If this is a user one-off
 
-Report the disposition in chat. Do not invent a parent wave or promote fixes
+Report the disposition in chat. Do not invent a parent lifecycle or promote fixes
 unless the user asked for that next step.
 
 ## GitHub PR
@@ -93,11 +93,8 @@ unless the user asked for that next step.
    and every prior review page. Record `previousReviewedHead` from the last
    review this skill completed on this PR when available (from chat or the
    latest review commit association).
-2. Dispatch `reviewer` Tasks per
-   [subagents.md](../pack-shared/subagents.md), telling each
-   worker this is an open GitHub PR. Feed the what (PR, injected plan, bars).
-   The worker owns how to hunt. The parent reviews Completions and owns the
-   publish question.
+2. Run the Standards and Spec passes against the PR, its plan, and the bars,
+   including the PR extras. This chat owns the publish question.
 3. With no prior finding thread, run the shared contract's `initial` review.
 4. On every follow-up, complete **Pass A** first, then **Pass B**
    ([reference.md](reference.md#follow-up-passes)). Use `full-rescan` only
@@ -110,4 +107,4 @@ unless the user asked for that next step.
 - Nesting GitHub PR mode under `/task`
 - Reopening a broad review in `remediation` mode
 - Reconstructing intent from hidden files when a parent supplied the handoff
-- Soloing non-trivial PR review labor on the main agent
+- Merging the Standards and Spec passes into one unstructured read

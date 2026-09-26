@@ -10,9 +10,9 @@ Orchestrator skills (`/task`, `/ask-gabriel`, and the rest) stay **optional** to
 
 ## Find the pack
 
-**Skill root:** the first that exists of `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Paths below are relative to that root.
+**Skill root:** the first that exists of workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/` (project install), then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Paths below are relative to that root.
 
-**This contract:** the first `AGENTS.md` that contains `gabriel-skills-agents`, in order: workspace root; `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`; `~/.claude/gabriel-skills/AGENTS.md`; beside `skills/` when this repository is the open workspace; beside the installed plugin's `skills/` folder.
+**This contract:** the first `AGENTS.md` that contains `gabriel-skills-agents`, in order: workspace root; `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`; `setup-toolkit/templates/AGENTS.md` under the skill root; beside `skills/` when this repository is the open workspace; beside the installed plugin's `skills/` folder.
 
 If required files are missing from all roots, say the pack is not installed. Do **not** invent weaker standards or a private checklist. Point at:
 
@@ -32,10 +32,9 @@ Read each file once per session unless it is already in context.
 | Verify and UI detail | Verifying or touching UI | `taste/reference.md` |
 | Planning | Any turn that will produce a plan for non-trivial work, including a harness plan tool | `rules/planning.md`, `pack-shared/asking.md`, `pack-shared/plain-language.md`, `grill-me/doctrine.md` |
 | User experience | Frontend or user-facing work, or a UX complaint | `rules/user-experience.md`, `design/doctrine.md`, `docs/design.md` (workspace root) |
-| Delegation | Splitting work or spawning specialists; any non-trivial find, analyze, implement, or review | `rules/delegation.md`, `pack-shared/subagents.md` |
 | Testing | Before writing or extending a test | `rules/testing.md` |
 | Shipping | Cutting a branch or opening a pull request | `rules/shipping.md`, `pack-shared/ship.md`, `pack-shared/pr-ship.md` |
-| Tooling | Lint, format, CI, quality gates, editor settings | `rules/tooling.md` |
+| Tooling | Lint, format, CI, editor settings | `rules/tooling.md` |
 | Env vars | Before adding, renaming, requesting, or reading a new environment variable | `rules/code-quality.md` (Reuse env vars) |
 | Writing style | Any chat reply | `rules/writing-style.md`, `pack-shared/plain-language.md` |
 
@@ -49,11 +48,10 @@ These hold even when no file above is open.
 4. The server enforces identity, ownership, money, and permissions. UI checks are only feedback.
 5. Reuse existing env vars by job: read `SITE_URL`, never invent `FRONTEND_URL`.
 6. No tests unless the user accepted that test.
-7. Never raise, skip, or delete a quality gate to go green.
-8. No em dash, en dash, or horizontal bar in chat or files.
-9. Cite principles as plain (Classic), for example keep jobs apart (SoC).
-10. When the harness can spawn specialists, the main agent delegates non-trivial find, implement, and review work to them.
-11. A UX complaint updates `docs/design.md` in the same turn.
+7. No em dash, en dash, or horizontal bar in chat or files.
+8. Cite principles as plain (Classic), for example keep jobs apart (SoC).
+9. Stay in your smart zone: keep decisions, talk with the user, and judging results in the main context, and hand dumb or context-bloating work to a subagent (searching the codebase, reading large files, digging through noisy logs or long command output, bulk mechanical edits). Ask it for a short result (paths, snippets, a summary), not a dump.
+10. A UX complaint updates `docs/design.md` in the same turn.
 
 ## Conflict
 

@@ -67,7 +67,7 @@ relevant memo and decisions.
 
 ## Anti-patterns
 
-- Giving workers a hidden path instead of the parent context
+- Handing off a hidden path instead of the inline context
 - Writing plans before Locked closure
 - Treating a user decision as recoverable from code alone
 - Creating automatic artifacts to hold language, choices, rules, or progress

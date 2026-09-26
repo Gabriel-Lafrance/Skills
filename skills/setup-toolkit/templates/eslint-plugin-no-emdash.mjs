@@ -2,7 +2,7 @@
 
 const forbiddenPattern = /[\u2013\u2014\u2015]/g;
 
-export const noEmdashPlugin = {
+const noEmdashPlugin = {
   meta: {
     name: "no-emdash",
     version: "1.0.0",

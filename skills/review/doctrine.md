@@ -6,7 +6,7 @@ Review a shipped diff (a local branch or an open GitHub PR) for quality and whet
 
 ## Owns
 
-Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, PR extras, the local remediation/promotion boundary, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
+Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, the local remediation/promotion boundary, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
 
 ## Does not own
 
@@ -15,7 +15,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 - UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md) (applied while building, not as a review axis)
 - Fix-now remediation analysis: [`../analyze/doctrine.md`](../analyze/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
-- Numbered parent dispatch: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
+- Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
 
 ## Cite keys
 
@@ -87,7 +87,7 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched lane changed meaning.
 4. **Half-moves:** a move/rename that updates content but keeps the old path (or the reverse) is a defect, not a style preference.
 
-Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later wave. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
+Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later pass. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
 ### Folder placement
 
@@ -109,6 +109,10 @@ On every `initial` or `full-rescan` Standards pass, walk **new environment varia
 3. Mapping in code from the existing name is correct. Duplicating the value under a synonym is not. A required platform prefix must use the existing name (`NEXT_PUBLIC_SITE_URL`), not a third synonym.
 
 A shipped-diff synonym is **Fix now**. Untouched historical aliases left in files the diff did not add are Follow-up unless the goal or a named finding requires a move.
+
+### Static checks
+
+On every `initial` or `full-rescan` Standards pass, make sure Knip is clean (no unused files, exports, or dependencies) and no function has cyclomatic complexity above 5. If you do not know how to check those, see [static-checks.md](static-checks.md). Cite `taste:no-dead-code` and `taste:cyclomatic-cap`. A finding the diff introduced is **Fix now**; a pre-existing one is Follow-up.
 
 ### PR extras
 
@@ -136,7 +140,7 @@ Return the review output fence from the [review contract](../pack-shared/review-
 
 After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
-For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not dispatch a Design review Task.
+For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not run a Design review pass.
 
 **Local branch diff:**
 
@@ -157,9 +161,8 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 ## Anti-patterns
 
 - Merging Standards and Spec into one undifferentiated ranking
-- Soloing Standards, Spec, Pass A, or new-surface review on the main agent instead of parallel Task workers
-- Capping review dispatch at two Tasks when the diff has independent surfaces
-- Running a second adversarial review or hunt re-inspect after the parallel pass
+- Skipping the Spec pass, Pass A, or new-surface review because the Standards pass looked clean
+- Running a second adversarial review or hunt re-inspect after the Standards and Spec passes
 - Inventing a `/design-review` skill or a Design review axis
 - Skipping [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) because the diff or PR looks small
 - Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
@@ -168,7 +171,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Treating a new `FRONTEND_URL` (or other synonym) as Optional nit when `SITE_URL` already holds that job
 - Treating a public write without identity/ownership as Optional nit
 - Soft-pedaling `taste:keep-jobs-apart`, `taste:fail-fast`, `taste:safe-to-retry`, or `taste:trust-the-server` as Nit when they introduce or extend a correctness or security risk
-- Capping findings, accepting unstructured worker output, or reporting speculation
+- Capping findings, reporting without the review output fence, or reporting speculation
 - Running a broad rescan during remediation
 - Fixing before remediation analysis and explicit promotion
 - Treating Follow-ups or Optional nits as default fix scope

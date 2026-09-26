@@ -11,7 +11,7 @@ Skills under [`skills/`](../skills/). The always-on contract is
 [`AGENTS.md`](../AGENTS.md) for every harness, including Cursor: a short index
 that points at the rule files in [`skills/rules/`](../skills/rules/SKILL.md). There is no
 Cursor rules copy. An optional Cursor plugin ships the same skills, plus
-[`agents/`](../agents/) and [`commands/`](../commands/).
+[`commands/`](../commands/).
 Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
 for how agents should work live in
 [`skills/rules/code-quality.md`](../skills/rules/code-quality.md) and
@@ -27,7 +27,7 @@ installs the contract into an app and into harness homes that already exist.
    and PRs so we do not duplicate work.
 2. For larger changes, open an issue first and describe the problem and
    proposed approach.
-3. Keep changes focused — one concern per PR when practical.
+3. Keep changes focused: one concern per PR when practical.
 
 ## Local setup
 
@@ -62,7 +62,7 @@ this markdown pack.
   point there.
 - Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
-- Teach principles in prose — avoid steering agents with a catalog of concrete
+- Teach principles in prose; avoid steering agents with a catalog of concrete
   product examples when the skill should stay principle-first.
 
 See [`how-to.md`](../how-to.md) for folder layout, frontmatter, and publish notes.
@@ -98,8 +98,8 @@ take `dev`'s protection. Steps live in
 Before a push that opens a PR, or a commit or push on a branch that already
 has an open PR, run that repo's CI in your environment and fix failures
 first. A red push spends CI for nothing. This pack itself has no lint or
-test CI; app repos that use `/setup-toolkit` do (`lint`, `test` or
-`test:quality`), and the check is the mirror in
+test CI; app repos that use `/setup-toolkit` do (`lint`, `test`), and the
+check is the mirror in
 [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md). Do not
 run that suite on a commit you are not pushing. Never skip hooks
 (`--no-verify`) unless you were asked to.

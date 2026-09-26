@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 # Trackers
 
-Read a Linear or GitHub ticket or PR via **MCP** or **`gh`** and return a compact ticket brief in the parent's inline [execution context](../pack-shared/execution-context.md). A worker step for `/task`, not a typical user start. Do not persist the brief in agent-owned state. Cursor Cloud Agent linking is separate.
+Read a Linear or GitHub ticket or PR via **MCP** or **`gh`** and return a compact ticket brief in the parent's inline [execution context](../pack-shared/execution-context.md). An inner step for `/task`, not a typical user start. Do not persist the brief in agent-owned state. Cursor Cloud Agent linking is separate.
 
 ## Read when
 
@@ -59,14 +59,14 @@ Before calling anything:
 
 ### Linear
 
-Prefer MCP read tools matching: `get_issue`, `list_comments`, `list_issue_statuses` (exact names from discovery — statuses are for labeling the brief, not for writing).
+Prefer MCP read tools matching: `get_issue`, `list_comments`, `list_issue_statuses` (exact names from discovery; statuses are for labeling the brief, not for writing).
 
 Pass the identifier as given (`IN-1234`). Pull:
 
 - Title, description, status, priority, labels, assignee
 - Done when checks (acceptance or QA checklists) in the description
 - Comments that add constraints (ignore pure chatter)
-- Linked PRs / git branch if present — then fetch PR title/body/review comments when available (read only)
+- Linked PRs / git branch if present, then fetch PR title/body/review comments when available (read only)
 
 ### GitHub
 
@@ -80,7 +80,7 @@ gh issue view owner/repo#N --json number,title,body,labels,assignees,state,url,c
 gh pr view <N> --json number,title,body,url,comments,reviews,commits
 ```
 
-If `gh` is missing or unauthenticated, say so and stop — do not invent the ticket/PR body.
+If `gh` is missing or unauthenticated, say so and stop. Do not invent the ticket/PR body.
 
 ## Normalize into a ticket brief
 
@@ -112,7 +112,7 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 - **Review notes worth keeping:** …
 
 # Source
-<ticket or PR URL only — do not paste the full body into every later prompt>
+<ticket or PR URL only; do not paste the full body into every later prompt>
 ```
 
 Missing Done when → ask **one** question or derive binary Done when from the Ask (and show it for approval). Do not write that back to the tracker.
