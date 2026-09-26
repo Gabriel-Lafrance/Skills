@@ -45,7 +45,7 @@ Prompt: `Plan adding team invites.`
 - [ ] Waits for the answer, then sends Locked in as a separate message.
 - [ ] The plan has a Mermaid change diagram with both Before and After.
 
-Rules it needs: `rules/planning.md`, `pack-shared/asking.md`, `grill-me/doctrine.md`.
+Rules it needs: `rules/planning.md`, `rules/writing-style.md` (Asking the user), `grill-me/doctrine.md`.
 
 ### 4. Review the branch
 

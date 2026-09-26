@@ -23,7 +23,7 @@ none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
-**Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Templates:** [reference.md](reference.md)
+**Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user) · **Templates:** [reference.md](reference.md)
 
 Three stages. The user can start at any stage. A later stage replaces the description of the **same** ticket. The previous body becomes a comment.
 

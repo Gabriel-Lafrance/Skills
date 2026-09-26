@@ -17,14 +17,15 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 
 - Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
 - Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
-- Every run: [doctrine.md](doctrine.md) and the [review contract](../pack-shared/review-contract.md).
+- Every run: [doctrine.md](doctrine.md) and the [review contract](contract.md).
 - Unsure how to check Knip or the cyclomatic cap: [static-checks.md](static-checks.md).
-- A parent supplied the handoff: the [execution context](../pack-shared/execution-context.md).
+- A parent supplied the handoff: the [execution context](../rules/planning.md#execution-context).
 - Unsure whether a finding meets the evidence bar or how to word it: [examples.md](examples.md).
-- Writing user-facing findings: [plain-language.md](../pack-shared/plain-language.md).
-- GitHub PR only: [reference.md](reference.md) and [asking.md](../pack-shared/asking.md).
+- Writing user-facing findings: [Plain language](../rules/writing-style.md#plain-language).
+- GitHub PR only: [reference.md](reference.md) and [Asking the user](../rules/writing-style.md#asking-the-user).
+- Recommending a behavior-lock test: [testing.md](../rules/testing.md).
 
-Each pass reports in the review-contract **review output** fence (Principles,
+Each pass reports in the review contract **review output** fence (Principles,
 Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
 
 ## Pick the target
@@ -47,7 +48,7 @@ Select the shared review mode deliberately:
   re-open full-review depth after a meaningful change.
 
 Apply `review:axes`, `review:blocker-vs-follow-up`, `review:naming-alignment`,
-`review:folder-placement`, `review:env-reuse`, and the review-contract evidence
+`review:folder-placement`, `review:env-reuse`, and the review contract evidence
 bar. On a GitHub PR, also apply the `review:*` PR extras.
 
 ## Local branch diff

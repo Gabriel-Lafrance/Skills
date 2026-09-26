@@ -27,7 +27,7 @@ Pick the simplest shape that meets the outcome and the rules that must stay true
 
 ## Named principles
 
-In chat, cite each as **plain (Classic)** ([plain-language.md](../pack-shared/plain-language.md)): `We need to keep this simple (KISS).` Never acronym-only or plain-only. Placement rules live in [code-structure.md](code-structure.md).
+In chat, cite each as **plain (Classic)** ([Plain language](writing-style.md#plain-language)): `We need to keep this simple (KISS).` Never acronym-only or plain-only. Placement rules live in [code-structure.md](code-structure.md).
 
 | Principle | Classic | Meaning | Test |
 | --- | --- | --- | --- |

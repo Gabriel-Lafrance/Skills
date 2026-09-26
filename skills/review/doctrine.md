@@ -10,11 +10,11 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 
 ## Does not own
 
-- Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
+- Evidence bar, modes, finding record, review output fence, severity map: [`contract.md`](contract.md)
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) (applied while building, not as a review axis)
 - Fix-now remediation analysis: [`../analyze/doctrine.md`](../analyze/doctrine.md)
-- Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
+- Test writing: [`../rules/testing.md`](../rules/testing.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
 
 ## Cite keys
@@ -56,7 +56,7 @@ Treat the first two sources as **hard** unless repository rules conflict. Reject
 
 ### Blocker vs follow-up
 
-For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([plain-language.md](../pack-shared/plain-language.md)).
+For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([Plain language](../rules/writing-style.md#plain-language)).
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
@@ -126,11 +126,11 @@ On a GitHub PR, the shared hunt already covers secrets. The review **must** also
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
 | **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Never a blocker |
 
-Add the first four rows to the review output fence on a PR (review-contract PR extras table). How to QA is that chat note, not a hunt-table row.
+Add the first four rows to the review output fence on a PR (review contract PR extras table). How to QA is that chat note, not a hunt-table row.
 
 ## Output
 
-Return the review output fence from the [review contract](../pack-shared/review-contract.md#output), including the four PR extras rows on a GitHub PR. Use the shared finding record; IDs remain stable across follow-up discussion. Map shared severity with the contract table; do not re-explain it.
+Return the review output fence from the [review contract](contract.md#output), including the four PR extras rows on a GitHub PR. Use the shared finding record; IDs remain stable across follow-up discussion. Map shared severity with the contract table; do not re-explain it.
 
 **Local branch diff:** show Fix now, Follow-up, and Optional nit in chat after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
 
@@ -138,7 +138,7 @@ Return the review output fence from the [review contract](../pack-shared/review-
 
 ## Apply
 
-After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never invoke `/create-test`, write tests, or edit test files from this skill.
+After an initial review or full rescan, recommend a behavior-lock test only per the [review contract](contract.md#behavior-lock-recommendation) rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never write tests or edit test files from this skill. If the user says yes, the test is written by following [testing.md](../rules/testing.md).
 
 For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not run a Design review pass.
 
@@ -152,7 +152,7 @@ For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) a
 
 - This mode is a user start. Do not nest it under `/task`, and do not automatically start a local fix or `/task` lifecycle after publishing.
 - Review is stateless. Re-run the shared hunts on the GitHub diff even when a local review already judged the branch.
-- Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Follow the shared [execution context](../pack-shared/execution-context.md): rediscover facts from the PR and repository instead of depending on local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
+- Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Follow the shared [execution context](../rules/planning.md#execution-context): rediscover facts from the PR and repository instead of depending on local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
 - A linked GitHub issue or Linear ticket is **read-only** context. Post only on the PR, never on the ticket or Linear.
 - Use the harness pull-request / GitHub tool for GitHub reads and writes when the harness has one; otherwise use `gh` or `gh api`.
 - Do not create helper scripts or repository files to prepare or publish a review.
@@ -176,7 +176,7 @@ For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) a
 - Fixing before remediation analysis and explicit promotion
 - Treating Follow-ups or Optional nits as default fix scope
 - Persisting hidden review state instead of keeping decisions and findings in chat (local) or the GitHub thread (PR)
-- Auto-running `/create-test` or writing test files
+- Writing test files, or starting a test the user did not accept
 - On a PR: approving or commenting without the review output fence or PR extras
 - On a PR: skipping PR extras (body vs diff, historical threads, migration, breaking API)
 - On a PR: posting a summary comment instead of one-topic findings

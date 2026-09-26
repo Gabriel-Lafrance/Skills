@@ -30,8 +30,8 @@ body:
         - Clarify (/grill-me, /analyze)
         - Specify (/write-ticket)
         - Build (/task)
-        - Review and ship (/review, /create-test, AGENTS.md ship rules)
-        - Pack shared / docs / rules
+        - Review and ship (/review, testing and shipping rules)
+        - Rules / docs
         - Toolkit (plugin rules, commands, ESLint, Prettier)
         - Other
     validations:

@@ -39,7 +39,7 @@ A symlink to the installed template is always current. A file without the prefix
 
 ## Questions
 
-After Verify, one batch. Wait. Do not install until they reply. Shape: [asking.md](../pack-shared/asking.md).
+After Verify, one batch. Wait. Do not install until they reply. Shape: [Asking the user](../rules/writing-style.md#asking-the-user).
 
 ```markdown
 ## Questions
@@ -133,10 +133,11 @@ Only touch a harness whose home already exists. Never create a home folder for a
 
 ## Clean up old installs
 
-Older versions of this pack left two files that nothing reads now. Delete only these, only in the scopes they chose:
+Older versions of this pack left files that nothing reads now. Delete only these, only in the scopes they chose:
 
 - **Old Claude copy** (b or c): if `~/.claude/gabriel-skills/AGENTS.md` contains `gabriel-skills-agents`, delete it, and remove the `@~/.claude/gabriel-skills/AGENTS.md` line from `~/.claude/CLAUDE.md` when present. Remove `~/.claude/gabriel-skills/` only if it is then empty. A file there without the marker stays.
 - **Old Cursor pointer:** delete `gabriel-skills/follow-agents.mdc` under `~/.cursor/rules` (b or c) or the app `.cursor/rules` (a or b) when it exists. Leave every other Cursor rule and hook.
+- **Retired skill folders:** in each skill root this run installs into, delete a folder named `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, or `just-do-it` only when its `SKILL.md` links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). A folder with one of those names that does not link to the pack is the user's own skill and stays.
 
 Setup never writes `.cursor/rules`, an `.mdc` file, or `.cursor/hooks.json`.
 
@@ -189,6 +190,6 @@ Run the package manager add command once with the chosen packages. Do not pin ve
 - Verify printed its facts, and scope and lint were asked once
 - Pack skills and contract went only to the chosen scopes; stale copies were updated
 - Only pack-marked files were overwritten; others only got a pointer; no harness home was created
-- Only the two [old install](#clean-up-old-installs) files were deleted, and only when they matched
+- Only the [old install](#clean-up-old-installs) files and retired pack skill folders were deleted, and only when they matched
 - Lint files, packages, and scripts exist only if they said yes to lint
 - The report lists every file with its action and reason

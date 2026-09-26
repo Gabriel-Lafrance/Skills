@@ -59,8 +59,10 @@ this markdown pack.
 - Numbered how-to lives in `SKILL.md`. Put durable rules in `doctrine.md` and
   detail in `reference.md` / `examples.md` ([Skill file layout](#skill-file-layout)).
   Always-on rules live in `skills/rules/`, not in a skill doctrine.
-- Shared contracts (`asking`, execution context) live under
-  `skills/pack-shared/` so `npx skills` installs them.
+- The pack holds rules (how things are done, in `skills/rules/`) and skills
+  (procedures the user starts). Asking, plain language, execution context,
+  testing, and shipping are rules in `skills/rules/` so `npx skills` installs
+  them. A contract only one skill uses lives in that skill's folder.
 - Teach principles in prose; avoid steering agents with a catalog of concrete
   product examples when the skill should stay principle-first.
 
@@ -69,8 +71,8 @@ See [`how-to.md`](../how-to.md) for folder layout, frontmatter, and publish note
 ### Skill file layout
 
 Every `skills/*/doctrine.md` uses these H2s, in this order, with these names.
-Rule files in `skills/rules/` and contracts in `skills/pack-shared/` are not
-doctrine; a contract that defines a return shape still keeps Job, Owns, and
+Rule files in `skills/rules/` and contracts such as `skills/review/contract.md`
+are not doctrine; a contract that defines a return shape still keeps Job, Owns, and
 Output.
 
 | Order | H2 | What goes here |
@@ -120,14 +122,14 @@ then `git switch -c <name>` (or `git switch --no-track -c`). Do not let it
 track `dev`, `main`, or `master`. Push `HEAD:refs/heads/<name>`. A branch cut
 from `dev` is its own ref: the push does not update `dev`, so it does not
 take `dev`'s protection. Steps live in
-[`skills/pack-shared/ship.md`](../skills/pack-shared/ship.md).
+[`skills/rules/shipping.md`](../skills/rules/shipping.md#process).
 
 Before a push that opens a PR, or a commit or push on a branch that already
 has an open PR, run that repo's CI in your environment and fix failures
 first. A red push spends CI for nothing. This pack itself has no lint or
 test CI; app repos that use `/setup-toolkit` do (`lint`, `test`), and the
 check is the mirror in
-[`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md). Do not
+[`skills/rules/shipping.md`](../skills/rules/shipping.md#ci-mirror). Do not
 run that suite on a commit you are not pushing. Never skip hooks
 (`--no-verify`) unless you were asked to.
 
@@ -137,7 +139,7 @@ Open a PR against `main` using the pull request template:
 - **Change diagram** (Mermaid; Before/After for rework)
 - **How to QA**
 
-Agents that open the PR follow [`skills/rules/shipping.md`](../skills/rules/shipping.md) and [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).
+Agents that open the PR follow [`skills/rules/shipping.md`](../skills/rules/shipping.md).
 
 ## Security
 

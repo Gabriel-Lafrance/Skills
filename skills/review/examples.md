@@ -157,8 +157,8 @@ same ID.
 ## Behavior lock
 
 ```markdown
-## Needs /create-test
+## Needs a behavior-lock test
 - `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable lock.
 ```
 
-Recommend the lock to the user; do not invoke `/create-test` or write test files. If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.
+Recommend the lock to the user; do not write test files. If the user says yes, the test follows [testing.md](../rules/testing.md). If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.

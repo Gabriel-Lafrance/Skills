@@ -14,7 +14,7 @@ Discover product, behavioral, code quality, and code structure decisions through
 ## Read when
 
 - Before recommending answers: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
-- Every run: [doctrine.md](doctrine.md), [execution-context.md](../pack-shared/execution-context.md), [asking.md](../pack-shared/asking.md), and [plain-language.md](../pack-shared/plain-language.md).
+- Every run: [doctrine.md](doctrine.md), the [execution context](../rules/planning.md#execution-context), and the [Asking the user](../rules/writing-style.md#asking-the-user) and [Plain language](../rules/writing-style.md#plain-language) sections of writing-style.md.
 
 ## Process
 
@@ -47,7 +47,7 @@ Discover product, behavioral, code quality, and code structure decisions through
 Do not create automatic files for language, choices, rules, or progress. If
 the user wants a durable artifact, ask for or honor an approved destination
 under the shared
-[optional-persistence rule](../pack-shared/execution-context.md#optional-persistence).
+[optional-persistence rule](../rules/planning.md#optional-persistence).
 
 ### If a parent already owns the next step
 

@@ -55,7 +55,7 @@ Wrong existing layout (wrong folder, duplicated domain logic, feature-forked ser
 
 - Do not copy it. Cite a good sibling or create the correct shape.
 - Move only when the goal or a named finding requires it: relocate, extract the public API, rewire callers, delete the dead path. Otherwise record a follow-up.
-- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted `/create-test` brief (a `/task` suggestion after grill Locked, or a `/review` recommendation).
+- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after grill Locked, or a `/review` recommendation) and follows [testing.md](testing.md).
 - Not sure the move preserves behavior? Ask in the next `/grill-me` Questions batch.
 - Record it under **Moves / corrections** on the Structure card before coding; mid-implement, patch the plan first.
 - Never recommend "leave it where it is" when a clear move preserves behavior. Apply this while building, not only at `/review`.
@@ -188,7 +188,7 @@ Present before writing code, and in the plan contract under `/task`:
 **Extension seam:** how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
 ```
 
-Put every open structure question (service boundary, public API, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([asking.md](../pack-shared/asking.md)). New findings go in a new batch.
+Put every open structure question (service boundary, public API, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). New findings go in a new batch.
 
 Self-check before done:
 

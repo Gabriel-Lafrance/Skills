@@ -13,7 +13,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - UI and UX rules and `docs/design.md`: [user-experience.md](../rules/user-experience.md)
 - Review disposition: `/review`
-- Test file contents: `/create-test`, and only for briefs the user accepted
+- How tests are written: [testing.md](../rules/testing.md), and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Cite keys
@@ -22,7 +22,7 @@ none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
-Use the shared [execution context](../pack-shared/execution-context.md) as the source of truth for this task. Keep the outcome, Done when, non-goals, rules that must stay true, current slices, Fix backlog, phase, and next action visible in chat.
+Use the shared [execution context](../rules/planning.md#execution-context) as the source of truth for this task. Keep the outcome, Done when, non-goals, rules that must stay true, current slices, Fix backlog, phase, and next action visible in chat.
 
 Follow the shared stateless default: inline plan and slice contracts are normal; save an artifact only when the user asks and supplies or approves its destination.
 
@@ -45,7 +45,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Plan contract | Issue [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Judge | `/analyze` for how, impact, and risk |
 | Build | This loop builds every slice itself; user-facing slices apply [user-experience.md](../rules/user-experience.md) ([Implement](reference.md#phase-1-plan-and-build)) |
-| Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow `/create-test` |
+| Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow [testing.md](../rules/testing.md) |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/review`** |
@@ -88,16 +88,16 @@ Read a ticket or PR as plain context. Do not change status, comment, assign, or 
 
 ### Behavior locks
 
-Suggest tests only from grilled rules that must stay true, using the `/create-test` bar for what is worth locking. Detail and the question template live in [reference.md](reference.md#behavior-lock-suggestion).
+Suggest tests only from grilled rules that must stay true, using the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar for what is worth locking. Detail and the question template live in [reference.md](reference.md#behavior-lock-suggestion).
 
 | Rule | Meaning |
 | --- | --- |
 | After the grill is locked | No brief until Locked closing, and until the plan names the public entry. A typo, rename, or other trivial skip offers nothing. When skip-grill applies because the rules are already specific, suggest from those rules |
 | Cite a grilled rule | Why and What come from that rule's observable outcome. A brief with no rule is invalid |
-| Same bar as `/create-test` | Offer a complex public surface that can silently drift: authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, and tautology |
+| Same bar as [testing.md](../rules/testing.md#when-a-test-is-worth-writing) | Offer a complex public surface that can silently drift: authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, and tautology |
 | The user chooses | One Questions batch. Every brief has a no. Silence is not yes. A parent does not take `recommended` |
 | A correction reopens the rule | "That is not the behavior" updates the rule and discards briefs that cited it. Do not build from the old rule |
-| Written through `/create-test` | An accepted brief is a `/create-test` slice after the public entry exists |
+| Written by testing.md | An accepted brief is a test slice after the public entry exists, written by following [testing.md](../rules/testing.md) |
 | A refusal sticks | `/review` does not re-offer that same claim unless the shipped public contract differs |
 
 ## Output
@@ -106,7 +106,7 @@ Suggest tests only from grilled rules that must stay true, using the `/create-te
 
 **Pause:** stop work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
-In a new chat, recover by following the [execution context authority order](../pack-shared/execution-context.md#authority): re-derive Git, ticket/PR, and repository facts, re-announce what is known, and ask only for missing user-owned decisions. Do not look for or recreate a resume tree.
+In a new chat, recover by following the [execution context authority order](../rules/planning.md#authority): re-derive Git, ticket/PR, and repository facts, re-announce what is known, and ask only for missing user-owned decisions. Do not look for or recreate a resume tree.
 
 ## Apply
 
@@ -122,7 +122,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
-- Opening a PR without [shipping.md](../rules/shipping.md) and [pr-ship.md](../pack-shared/pr-ship.md)
+- Opening a PR without [shipping.md](../rules/shipping.md)
 - Writing or editing a test the user did not accept
 - Suggesting a lock before grill Locked closing, or for behavior the grill did not record
 - Treating silence, a refused brief, or a parent `recommended` default as acceptance

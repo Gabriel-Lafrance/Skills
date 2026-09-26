@@ -6,14 +6,14 @@ Do **not** paste a style guide into chat. If this repo already has ESLint or Pre
 - The toolkit ESLint baseline includes `no-emdash/no-emdash` (em dash, en dash, horizontal bar) and the `complexity` cap of 5. Keep both on. Do not disable the dash rule to "make the prose look fancy," and do not raise the cap: split the function.
 - Editor workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Do not add a parallel `.cursor/extensions.json`.
 - Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user's running terminals own that loop ([Verify terminals first](#verify-terminals-first)).
-- **Before a push that opens or updates a PR:** run the CI mirror in `pack-shared/pr-ship.md` in this environment, then push once. A local commit with no open PR and no push does not run that suite. If there is no workflow and no lint or test script, say so. Never `git commit --no-verify` unless the user asked.
+- **Before a push that opens or updates a PR:** run the [CI mirror](shipping.md#ci-mirror) in this environment, then push once. A local commit with no open PR and no push does not run that suite. If there is no workflow and no lint or test script, say so. Never `git commit --no-verify` unless the user asked.
 - Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.
 - Do not reformat the whole tree as a drive-by. Format only files you already had to touch, unless the user asked for a repo-wide format.
 - Never overwrite an existing `eslint.config.*`, Prettier config, or `.vscode/settings.json` without asking.
 
 ## Verify terminals first
 
-`quality:verify-terminals-first`. The frontend dev server and `npx convex dev` are usually already running. While coding, read those terminals. The suite runs once before a push that opens or updates a PR ([pr-ship.md](../pack-shared/pr-ship.md)).
+`quality:verify-terminals-first`. The frontend dev server and `npx convex dev` are usually already running. While coding, read those terminals. The suite runs once before a push that opens or updates a PR ([CI mirror](shipping.md#ci-mirror)).
 
 In order:
 

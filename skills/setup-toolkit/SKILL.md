@@ -17,7 +17,7 @@ Install this pack and `AGENTS.md`, then optionally ESLint and Prettier. User sta
 
 - Every run: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md).
 - At the step that links a section: [reference.md](reference.md).
-- Talking to or asking the user: [plain-language.md](../pack-shared/plain-language.md) and [asking.md](../pack-shared/asking.md).
+- Talking to or asking the user: the [Plain language](../rules/writing-style.md#plain-language) and [Asking the user](../rules/writing-style.md#asking-the-user) sections of writing-style.md.
 
 Phase one verifies what is on disk, then installs the pack and `AGENTS.md` into
 **this repo** (recommended), **user level**, or both. ESLint, Prettier, and
@@ -40,7 +40,7 @@ until the user says yes.
    [reference.md](reference.md#install-agentsmd)).
 4. Phase two, only if they said yes to lint: copy lint, format, and editor
    templates.
-5. Delete the two old pack leftovers when they match, and nothing else
+5. Delete old pack leftovers and retired pack skill folders when they match, and nothing else
    ([reference.md](reference.md#clean-up-old-installs)).
 6. Report every file written, refreshed, appended, symlinked, copied,
    deleted, or skipped, with the reason ([reference.md](reference.md#report)).

@@ -6,7 +6,7 @@ Put this pack and the `AGENTS.md` contract onto the machine. Phase one verifies 
 
 ## Owns
 
-Verifying current installs, installing or updating the rest of this pack with `npx skills`, installing `AGENTS.md` and the harness pointer lines, which lint templates to copy, what not to overwrite, Convex plugin detection, the smoke check, and deleting the two old pack leftovers ([reference.md](reference.md#clean-up-old-installs)).
+Verifying current installs, installing or updating the rest of this pack with `npx skills`, installing `AGENTS.md` and the harness pointer lines, which lint templates to copy, what not to overwrite, Convex plugin detection, the smoke check, and deleting old pack leftovers and retired pack skill folders ([reference.md](reference.md#clean-up-old-installs)).
 
 ## Does not own
 
@@ -14,7 +14,7 @@ Verifying current installs, installing or updating the rest of this pack with `n
 - Reformatting the repo as part of setup
 - Writing `.cursor/rules` or any `.mdc` file (Cursor reads `AGENTS.md`)
 - Creating a harness home the user does not have
-- Behavior-lock tests (`/create-test`)
+- Behavior-lock tests ([testing.md](../rules/testing.md))
 - `docs/design.md` (the agent doing UI work writes it when missing)
 - Detect and choose details: [`reference.md`](reference.md)
 
@@ -24,7 +24,7 @@ none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
-1. **Verify, then ask, then install.** Look up skill roots, `AGENTS.md`, and harnesses in use first. Print those facts. Then one Questions batch: scope (this repo, this repo and user level, or user level only) and, when a `package.json` exists, whether to add ESLint and Prettier. Wait. Follow [asking.md](../pack-shared/asking.md).
+1. **Verify, then ask, then install.** Look up skill roots, `AGENTS.md`, and harnesses in use first. Print those facts. Then one Questions batch: scope (this repo, this repo and user level, or user level only) and, when a `package.json` exists, whether to add ESLint and Prettier. Wait. Follow [Asking the user](../rules/writing-style.md#asking-the-user).
 2. **Pack first.** For each chosen scope, install the pack when `rules/code-quality.md` is missing, and update a stale copy (pack skills present, `rules/code-quality.md` missing) with the commands in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack.
 3. **One contract, pointers elsewhere.** The repo gets `AGENTS.md`. A harness that reads another filename gets one pointer line ([reference.md](reference.md#harness-files)). User level points each installed harness at the installed template instead of copying it ([reference.md](reference.md#user-level)).
 4. **Never overwrite someone else's instructions file.** A file is the pack's only when it contains the `gabriel-skills-agents` marker prefix (with or without a version). Every other `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` only gets a line or short section appended. Report it.
@@ -45,7 +45,7 @@ For the scopes they chose:
 - A pointer line in `CLAUDE.md`, `GEMINI.md`, or the matching file for each harness in use
 - User level: existing harness homes pointed at the installed template, or reported skipped. Cursor has no user-level file; the repo install covers it
 - No new harness home folder
-- The old pack leftovers `~/.claude/gabriel-skills/AGENTS.md` (with its `CLAUDE.md` import) and `gabriel-skills/follow-agents.mdc` deleted when they match, or reported skipped
+- The old pack leftovers `~/.claude/gabriel-skills/AGENTS.md` (with its `CLAUDE.md` import) and `gabriel-skills/follow-agents.mdc`, plus retired pack skill folders, deleted when they match, or reported skipped
 - A report of every file written, refreshed, appended, symlinked, copied, deleted, or skipped, with the reason
 
 If they said yes to lint, the app has:

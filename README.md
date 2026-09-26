@@ -23,7 +23,7 @@ npx skills@latest update -g -y
 
 `--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
 
-The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/taste` and `/architecture` were removed: their examples live in [`skills/rules/`](./skills/rules/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md).
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/taste` and `/architecture` were removed: their examples live in [`skills/rules/`](./skills/rules/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md). `/create-test` was removed: how tests are written lives in [`testing.md`](./skills/rules/testing.md). The old `pack-shared` folder was folded into [`skills/rules/`](./skills/rules/SKILL.md) (asking and plain language in `writing-style.md`, execution context in `planning.md`, ship steps in `shipping.md`); the review contract moved into `/review`.
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
@@ -31,7 +31,7 @@ Team admins can also import this repo from **Cursor Dashboard → Plugins → Ad
 
 `npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract. It asks whether that file goes in the repo, in your harness homes, or both. It does not copy ESLint or Prettier until you say yes.
 
-[`AGENTS.md`](./AGENTS.md) is the always-on index. The rules it points to live in [`skills/rules/`](./skills/rules/SKILL.md); [`code-quality.md`](./skills/rules/code-quality.md) and [`code-structure.md`](./skills/rules/code-structure.md) always apply, with good and bad snippets in [`code-quality-examples.md`](./skills/rules/code-quality-examples.md) and [`code-structure-examples.md`](./skills/rules/code-structure-examples.md). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow [`writing-style.md`](./skills/rules/writing-style.md). `/ask-gabriel` stays a thin router and does not restate those rules.
+[`AGENTS.md`](./AGENTS.md) is the always-on index. The rules it points to live in [`skills/rules/`](./skills/rules/SKILL.md); [`code-quality.md`](./skills/rules/code-quality.md) and [`code-structure.md`](./skills/rules/code-structure.md) always apply, with good and bad snippets in [`code-quality-examples.md`](./skills/rules/code-quality-examples.md) and [`code-structure-examples.md`](./skills/rules/code-structure-examples.md). Agents talk to you in ordinary words, and chat replies follow [`writing-style.md`](./skills/rules/writing-style.md). `/ask-gabriel` stays a thin router and does not restate those rules.
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
@@ -60,7 +60,7 @@ Six kinds. **Guide** informs; everything else moves work forward.
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task`                                                  | Implement end-to-end  |
-| **Review & ship** | `/review`, `/create-test` | Review, accepted tests, and PRs. Branch and PR rules are in `skills/rules/shipping.md` |
+| **Review & ship** | `/review`                                                 | Review and PRs. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier are opt-in |
 
 ```mermaid
