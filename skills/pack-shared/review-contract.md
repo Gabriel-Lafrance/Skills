@@ -2,18 +2,18 @@
 
 ## Job
 
-Shared review evidence and worker output for `/code-review` and `/pr-review`. Each skill owns its own remediation or posting behavior. There is no Design-review skill and no Design axis.
+Shared review evidence and worker output for `/review` (local branch diff or GitHub PR). `/review` owns remediation and posting behavior. There is no Design-review skill and no Design axis.
 
 ## Owns
 
-Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including PR extras on `/pr-review`), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
+Fixed-point inputs, modes, evidence bar, finding record, one review output fence (including PR extras on a GitHub PR), one Correctness hunt, baseline defects, severity mapping, and when to recommend `/create-test`.
 
 ## Does not own
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - UX bars and `docs/design.md`: [`../design/doctrine.md`](../design/doctrine.md)
-- Blocker vs follow-up judgment table and naming alignment: [`../code-review/doctrine.md`](../code-review/doctrine.md)
-- PR extras, Pass A/B, posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
+- Blocker vs follow-up judgment table, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
+- Pass A/B and posting: [`../review/reference.md`](../review/reference.md)
 
 ## Inputs
 
@@ -31,7 +31,7 @@ execution context supplied by a parent. Do not depend on hidden review files.
 
 ### Follow-up partition (PR)
 
-On a `/pr-review` follow-up, after historical Pass A:
+On a GitHub PR follow-up, after historical Pass A:
 
 1. Partition `previousReviewedHead..currentHead`.
 2. Apply `remediation` to the addressed-findings surface inside that range.
@@ -92,12 +92,12 @@ GitHub finding thread and that visible id are the durable record.
 
 ## Output
 
-Standards workers **must** apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
+Standards workers **must** apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn ([standards.md](standards.md)). They **must** run taste Cite keys (Named
 principles) using **plain (Classic)** (`keep jobs apart (SoC)`) and cite those
 keys in finding **Rule** fields when violated. Never acronym-only (`SoC
 violation`) and never the paraphrase without the classic name. User-facing
 notes must be ordinary sentences ([plain-language.md](plain-language.md)). On
-`initial` / `full-rescan`, also run the code-review naming alignment pass, the
+`initial` / `full-rescan`, also run the `review:naming-alignment` pass, the
 Architecture sweep, the Correctness hunt, and the Baseline defects scan. The
 parent rejects Standards output that lacks the Principles, Architecture, or
 Correctness tables, or that skipped either section.
@@ -181,7 +181,7 @@ contract for models and completion reporting.
 | --- | --- | --- |
 | <Done when / rule / state / unchanged> | met \| gap \| none | … |
 
-## PR extras (`/pr-review` only)
+## PR extras (GitHub PR only)
 | Extra | Status | Note |
 | --- | --- | --- |
 | Body vs diff | clear \| finding \| none | … |
@@ -191,7 +191,7 @@ contract for models and completion reporting.
 ```
 
 One review pass. Return Standards findings, Principles, Architecture,
-Correctness hunt, and the Spec matrix. `/pr-review` also returns the four PR
+Correctness hunt, and the Spec matrix. A GitHub PR review also returns the four PR
 extras rows in this same fence. Secrets stay in the Correctness hunt, not in
 PR extras. There is no Design axis, no second adversarial wave, and no hunt
 re-inspect.
@@ -225,13 +225,13 @@ a gate to go green:
 
 ## Severity mapping
 
-| Canonical severity | `/code-review` | `/pr-review` |
+| Canonical severity | Local branch | GitHub PR |
 | --- | --- | --- |
 | `blocker` | Fix now | `Blocking` |
 | `follow-up` | Follow-up | Chat-only by default; `Nit` only when a PR comment is useful |
 | `nit` | Optional nit | `Nit` only when useful |
 
-There is no unmapped `important` middle severity. `/pr-review` posts only
+There is no unmapped `important` middle severity. A GitHub PR review posts only
 `Blocking` or `Nit`. Adapters do not re-explain this map.
 
 ## Behavior-lock recommendation

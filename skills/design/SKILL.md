@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 # Design
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before capturing UX or writing UI. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before capturing UX or writing UI. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Subagents:** [../pack-shared/subagents.md](../pack-shared/subagents.md)
 
@@ -37,7 +37,7 @@ done, add a bullet.
 
 This skill implements **user-facing** code. `/implement` stays for non-UI
 slices. There is no `/design-review` skill and no Design axis in
-`/code-review` or `/pr-review`. These bars apply here, while building.
+`/review`. These bars apply here, while building.
 
 ## Process
 
@@ -91,7 +91,7 @@ experience, first glance, don't tell the obvious, copy that fits the
 surface, spoken locale (job first, then speaker terms), professional craft,
 and the quality floor. Return only the
 Completion envelope. The parent owns acceptance evidence and
-`/code-review`. If `docs/design.md` is missing, return `blocked` with
+`/review`. If `docs/design.md` is missing, return `blocked` with
 Initialization as the next parent step (the parent may already be running
 it). If identity cannot be resolved (no look bullets, no theme tokens, no
 user-stated look), return `blocked` and say the parent must ask.

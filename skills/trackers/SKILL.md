@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 # Trackers
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so ticket AC and constraints are not dropped. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn so ticket AC and constraints are not dropped. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -122,7 +122,7 @@ Missing acceptance criteria → ask **one** question or derive binary Done when 
 
 ## How callers use the brief
 
-- Spec source for the parent brief, acceptance evidence, and `/code-review`
+- Spec source for the parent brief, acceptance evidence, and `/review`
 - Keep the Ticket / PR reference and relevant acceptance criteria in chat; the
   parent combines them with Git and repository evidence
 - Do not create a workspace, status, plan, register, or tracker update

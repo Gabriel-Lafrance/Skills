@@ -30,7 +30,7 @@ Read the disk. Print a short list. Do not ask the user for these facts.
 | User skills | `pack-shared` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
 | Repo skills | `pack-shared` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore this when the workspace **is** the Skills pack) |
 | Repo contract | workspace-root `AGENTS.md` missing, pack copy (`gabriel-skills-agents`), or a different file |
-| User contract | each harness row in [Install AGENTS.md](#install-agents-md): home exists or not, pack copy or different |
+| User contract | each harness row in [Install AGENTS.md](#install-agentsmd): home exists or not, pack copy or different |
 | App | workspace `package.json` present or not; ESLint / Prettier already present or not |
 
 This workspace is the Skills pack when a parent directory contains both `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-toolkit/`.
@@ -63,8 +63,10 @@ Do not ask which ESLint template. Detect that.
 Skip a destination when:
 
 - This workspace is the Skills pack (do not reinstall the pack into itself).
-- **User data:** `pack-shared` already sits in `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/`.
-- **This repo:** `pack-shared` already sits in the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/`.
+- **User data:** `pack-shared` and `rules/code-quality.md` already sit in `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/`.
+- **This repo:** `pack-shared` and `rules/code-quality.md` already sit in the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/`.
+
+A copy that has `pack-shared` but no `rules/code-quality.md` is stale. Do not skip it: run the matching command to update it.
 
 Otherwise run the matching command:
 

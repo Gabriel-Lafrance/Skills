@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 # Setup toolkit
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Do not skip.
 
 This skill is a user start. Do not nest it under `/task`.
 
@@ -42,7 +42,7 @@ inventory. Do not write a fake design file from this skill.
    is no `package.json`.
 3. Phase one: install pack skills and `AGENTS.md` only for the chosen
    destination ([reference.md](reference.md#pack-skills),
-   [reference.md](reference.md#install-agents-md)).
+   [reference.md](reference.md#install-agentsmd)).
 4. Phase two, only if they said yes to lint: copy lint, format, editor, and
    quality-gate templates.
 5. If they said yes to lint and `docs/design.md` is missing, run `/design`

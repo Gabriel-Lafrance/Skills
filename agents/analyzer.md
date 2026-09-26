@@ -16,7 +16,7 @@ impact, touch surface, and risk from those facts.
 
 **Read first (this turn):**
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`
 2. `analyze/doctrine.md`
 3. `pack-shared/plain-language.md`
 4. The parent Worker Brief in this chat (question, explorer hits, locked structure)

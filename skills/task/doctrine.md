@@ -12,7 +12,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - User-facing UI and `docs/design.md`: `/design`
-- Review disposition: `/code-review`
+- Review disposition: `/review`
 - Test file contents: `/create-test` via `tester`, and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
@@ -30,7 +30,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 **Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each Active Rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
 
-**Quality bar:** Parent-owned acceptance evidence (Done when + Active Rules + cross-slice seams) and `/code-review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
+**Quality bar:** Parent-owned acceptance evidence (Done when + Active Rules + cross-slice seams) and `/review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
 
 ### Lookup
 
@@ -50,9 +50,9 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs go to `/create-test` via `tester`. Main never writes tests |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
-| Gate out | Acceptance evidence then **`/code-review`** |
+| Gate out | Acceptance evidence then **`/review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/code-review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/design`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -71,7 +71,7 @@ Track these rows in the in-chat execution context or a concise progress message.
 | `/implement` | If non-UI | Frontier slices that are not user-facing |
 | Acceptance evidence | Yes | Path walk, terminals. Parent owned |
 | Behavior locks | When a complex public rule exists | After the plan names the public entry. Wait. Refusing every test is complete |
-| `/code-review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
+| `/review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
 
 ### Suitability and skip grill
 
@@ -93,11 +93,11 @@ Suggest tests only from grilled Active Rules, using the `/create-test` bar for w
 | The user chooses | One Questions batch. Every brief has a no. Silence is not yes. A parent does not take `recommended` |
 | A correction reopens the rule | "That is not the behavior" updates the rule and discards briefs that cited it. Do not build from the old rule |
 | `tester` writes | An accepted brief is a `/create-test` slice after the public entry exists. The main agent does not write the file |
-| A refusal sticks | `/code-review` and `/pr-review` do not re-offer that same claim unless the shipped public contract differs |
+| A refusal sticks | `/review` does not re-offer that same claim unless the shipped public contract differs |
 
 ## Output
 
-**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/task` runs under a parent that owns shipping, return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/task` runs under a parent that owns shipping, return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -109,7 +109,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 
 ## Anti-patterns
 
-- Declaring completion without acceptance evidence then `/code-review`
+- Declaring completion without acceptance evidence then `/review`
 - Creating automatic runtime state instead of using the shared execution context
 - Planning before Locked grill closing or omitting a locked behavioral rule from Active Rules
 - Sending workers a plan path or hidden state instead of the applicable in-chat context
@@ -119,7 +119,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
-- Opening a PR without the Ship work rules and [pr-ship.md](../pack-shared/pr-ship.md)
+- Opening a PR without [shipping.md](../rules/shipping.md) and [pr-ship.md](../pack-shared/pr-ship.md)
 - Writing or editing test files on this skill
 - Suggesting a lock before grill Locked closing, or for behavior the grill did not record
 - Treating silence, a refused brief, or a parent `recommended` default as acceptance

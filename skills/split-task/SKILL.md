@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 # Split Task
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before splitting lanes or folders. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before splitting lanes or folders. Do not skip.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 

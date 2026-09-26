@@ -11,13 +11,13 @@ disable-model-invocation: true
 
 # Task
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before grilling, planning, or implementing. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before grilling, planning, or implementing. Do not skip.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Read:** [doctrine.md](doctrine.md) · [reference.md](reference.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **PR ship:** [../pack-shared/pr-ship.md](../pack-shared/pr-ship.md) when this chat opens a PR
 
 Orchestrator only. Dispatch Task workers per
 [../pack-shared/subagents.md](../pack-shared/subagents.md) and review their
-Completions; do not solo non-trivial labor or grep the tree. Always apply the **Taste** and **Architecture** sections of `AGENTS.md` during grill and before every implement wave.
+Completions; do not solo non-trivial labor or grep the tree. Always apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) during grill and before every implement wave.
 Load `/design` before every user-facing implement wave.
 
 `/task` follows the stateless
@@ -33,11 +33,11 @@ destination.
    ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
-   → implement → acceptance evidence → `/code-review` → Fix mode as needed.
+   → implement → acceptance evidence → `/review` → Fix mode as needed.
    The suggestion waits. The user can refuse every test. Pick Task specialists
    per [subagents.md](../pack-shared/subagents.md): the catalog, not a fixed
    spawn order. Main does not grep or write tests. Always
-   apply the **Taste** and **Architecture** sections of `AGENTS.md` during grill and before every implement
+   apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) during grill and before every implement
    wave. Load `/design` before every user-facing implement wave.
 3. Announce completion.
 

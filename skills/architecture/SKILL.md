@@ -1,7 +1,7 @@
 ---
 name: architecture
 description: >-
-  Examples and a structure audit for the Architecture rules in AGENTS.md.
+  Examples and a structure audit for the architecture rules in rules/code-structure.md.
   Those rules are always on. Use this skill to draft a structure card or
   see good and bad shapes, not as the source of the rules. Triggers:
   folders, services, data reads, SITE_URL, auth on writes, Date.now in
@@ -11,12 +11,12 @@ disable-model-invocation: true
 
 # Architecture
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). The rules are the **Taste** and **Architecture** sections of `AGENTS.md`. This skill holds the audit steps and the examples. Do not skip the rules because this skill was not invoked.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). The rules are in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). This skill holds the audit steps and the examples. Do not skip the rules because this skill was not invoked.
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-Apply the **Taste** and **Architecture** sections of `AGENTS.md` before drafting a structure
-card. Cite keys are the headings in those sections. Use the shared
+Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before drafting a structure
+card. Cite keys are the headings in those files. Use the shared
 [execution context](../pack-shared/execution-context.md).
 
 Find via Task subagents per
@@ -50,7 +50,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
      helper; do not invent a parallel auth path)
    - Whether list/query paths are indexed and paginated, and whether queries
      stay deterministic
-2. **Draft** the **Structure** card from the Architecture section in chat (always / if
+2. **Draft** the **Structure** card from [code-structure.md](../rules/code-structure.md) in chat (always / if
    writes / if lists / if big feature). A required behavior-preserving move is
    listed before feature code begins.
 3. Carry the applicable card in the inline execution context. Do not create
@@ -71,7 +71,7 @@ decisions, Active Rules, current slice, and lane, reuse that brief.
    Active Rules, or a named finding require it; otherwise retain the smallest
    direct shape in the **owning folder** and record a follow-up in chat. About
    to add a mixed sibling? Nest it. That is not extra ceremony.
-6. Run the self-check in the Architecture section before done.
+6. Run the self-check in [code-structure.md](../rules/code-structure.md) before done.
 
 ### If a parent already owns the next step
 
@@ -84,4 +84,4 @@ then `/design` for user-facing UI or `/implement` for non-UI. Return needed corr
 - Scale, duplicated-service, forked-primitive, missed-move, mixed-parent
   file dump, env synonym (`FRONTEND_URL` while `SITE_URL` exists), or missing
   write-path authority → acceptance evidence /
-  `/code-review`
+  `/review`

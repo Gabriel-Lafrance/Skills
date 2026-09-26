@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Create Test
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn so locks sit on the public surface, not internals. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn so locks sit on the public surface, not internals. Do not skip.
 
 The user starts this skill. `/task` may continue it only after the user
 accepts that task's [behavior-lock briefs](../task/reference.md#behavior-lock-suggestion).
@@ -17,7 +17,7 @@ That answer is the start for those briefs. Each task brief cites a grilled
 rule. `/implement`, `/design`, and other build workers do not start this
 skill. Silence, and a parent taking `recommended`, are not a start.
 
-`/code-review` and `/pr-review` may still recommend a lock the task did not
+`/review` may still recommend a lock the task did not
 offer. The user starts this skill for that recommendation. Nothing writes
 tests on its own.
 

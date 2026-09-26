@@ -1,4 +1,4 @@
-# Code Review Examples
+# Review examples
 
 Findings stay in chat and retain stable IDs across review and remediation. List every evidenced defect on an initial review or full rescan; disposition prevents optional cleanup from becoming default fix scope.
 
@@ -75,7 +75,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. `/pr-review` also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
+This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). Spec worker adds the Spec matrix. A GitHub PR review also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. Reject a Standards worker result that omits those tables, or that marks every row `clear` without having inspected the diff.
 
 ## Honest names / stale path after rename
 
@@ -158,7 +158,7 @@ same ID.
 
 ```markdown
 ## Needs /create-test
-- `billing.makeUserPay` — its externally observable authorization and idempotency behavior lacks a durable lock.
+- `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable lock.
 ```
 
 Recommend the lock to the user; do not invoke `/create-test` or write test files. If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.

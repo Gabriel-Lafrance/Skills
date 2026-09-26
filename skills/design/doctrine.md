@@ -11,8 +11,7 @@ Own the app's UX source of truth and implement user-facing UI as a designer and 
 ## Does not own
 
 - Non-UI slices: [`../implement/SKILL.md`](../implement/SKILL.md)
-- Review: [`../code-review/doctrine.md`](../code-review/doctrine.md) · [`../pr-review/doctrine.md`](../pr-review/doctrine.md) (Standards and Spec only; no Design axis)
-- GitHub posting: [`../pr-review/doctrine.md`](../pr-review/doctrine.md)
+- Review and GitHub posting: [`../review/doctrine.md`](../review/doctrine.md) (Standards and Spec only; no Design axis)
 - Taste and architecture bars: cite `taste:*` and `architecture:*`
 - Numbered how-to: [`SKILL.md`](SKILL.md)
 
@@ -155,9 +154,9 @@ When the user says the UX is bad, too many clicks, too much typing, or they want
 
 ### User-facing work
 
-User-facing means screens, components, styling, visible copy, and client interaction. `/task` dispatches this skill for those slices, not `/implement`. This skill still applies the **Taste** and **Architecture** sections of `AGENTS.md` for any supporting files in the allowlist. It does not own backend-only work.
+User-facing means screens, components, styling, visible copy, and client interaction. `/task` dispatches this skill for those slices, not `/implement`. This skill still applies the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) for any supporting files in the allowlist. It does not own backend-only work.
 
-These bars apply while building. `/code-review` and `/pr-review` do not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
+These bars apply while building. `/review` does not run a Design axis or a `/design-review` skill. If the UI contradicts `docs/design.md`, make the UI match the file in this turn. Pack bars (`design:experience`, `design:first-glance`, `design:no-obvious`, `design:professional-craft`, `design:ui-copy`, `design:spoken-locale`, `design:quality-floor`) apply even when the file is silent. The file changes when the user wants a different design.
 
 ## Output
 
@@ -175,7 +174,7 @@ Load this doctrine whenever the work is user-visible UI, whenever `docs/design.m
 - Shipping a first-pass "fine" screen that still needs a restyle to look professional
 - Skipping the quality floor because `docs/design.md` did not mention contrast or focus
 - Implementing user-facing UI through `/implement`
-- Shipping a `/design-review` skill or a Design review axis inside `/code-review` or `/pr-review`
+- Shipping a `/design-review` skill or a Design review axis inside `/review`
 - Putting every action and advanced setting on the first surface instead of one level down
 - Captioning an empty list ("No API key", "Nothing here") when Create or Invite is already on the screen
 - Shipping frontend copy that does not fit the surface (landing that explains, docs that sell, app chrome that markets) or filler that could sit on any other product

@@ -1,6 +1,6 @@
 {
   "name": "gabriel-skills",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "description": "Engineering toolkit: agent skills, an AGENTS.md contract, and ESLint/Prettier templates.",
   "author": {
     "name": "Gabriel Lafrance"

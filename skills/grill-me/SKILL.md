@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Grill Me
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before recommending answers. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before recommending answers. Do not skip.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md) · **Plain language:** [../pack-shared/plain-language.md](../pack-shared/plain-language.md)
 
@@ -31,7 +31,7 @@ record only when the user requests it and approves its destination.
    plan count and file lane so the first batch is complete. When the parent
    is `/write-ticket`, interview only the topic list it supplied (Research
    or Plan). Skip implementation plan count and file lane.
-3. Apply the **Taste** and **Architecture** sections of `AGENTS.md` before recommending answers:
+3. Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before recommending answers:
 
    | When | Include in the batch |
    | --- | --- |

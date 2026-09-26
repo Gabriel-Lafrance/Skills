@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Analyze
 
-**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the **Taste** and **Architecture** sections of `AGENTS.md` this turn before researching or posting the memo. Do not skip.
+**Must read:** [../pack-shared/standards.md](../pack-shared/standards.md). Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn before researching or posting the memo. Do not skip.
 
 **Execution context:** [../pack-shared/execution-context.md](../pack-shared/execution-context.md) · **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
@@ -22,7 +22,7 @@ disable-model-invocation: true
 - Return the analysis memo in chat. Do not create automatic runtime artifacts or hidden paths.
 - Save a memo only when the user explicitly requests it and approves the destination.
 
-**Read:** [doctrine.md](doctrine.md). **Always** apply the **Taste** and **Architecture** sections of `AGENTS.md` (see [standards.md](../pack-shared/standards.md)). Do not skip
+**Read:** [doctrine.md](doctrine.md). **Always** apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) (see [standards.md](../pack-shared/standards.md)). Do not skip
 Architecture because the ask looks like a single file.
 
 ## Process
@@ -43,7 +43,7 @@ Architecture because the ask looks like a single file.
 
 ### Review remediation
 
-Use this mode only for named Fix-now rows from `/code-review`.
+Use this mode only for named Fix-now rows from `/review`.
 Present every selected stable-finding analysis before any promotion choice.
 Do not add findings, reopen product discovery, or analyze Follow-up items
 and nits.

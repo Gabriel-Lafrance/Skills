@@ -42,7 +42,7 @@ Approval brief, required test comment, and handoff live in [`reference.md`](refe
 
 Use this skill for a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and tautological checks (`expect(add(1, 2)).toBe(3)`). Quality gates such as cyclomatic complexity (McCabe), fail fast (Fail Fast), no dead code (Knip), and kill the mutants (Mutation testing) are installed by `/setup-toolkit`, not written here.
 
-The user starts this skill. `/task` may continue it only for briefs the user accepted after grill Locked, and each of those briefs cites the grilled rule. `/code-review` and `/pr-review` may recommend a lock the task did not offer; the user starts this skill for that recommendation. Ordinary edits do not get tests. When tests are the job, **tester** writes them; the main agent never does.
+The user starts this skill. `/task` may continue it only for briefs the user accepted after grill Locked, and each of those briefs cites the grilled rule. `/review` may recommend a lock the task did not offer; the user starts this skill for that recommendation. Ordinary edits do not get tests. When tests are the job, **tester** writes them; the main agent never does.
 
 ## Anti-patterns
 

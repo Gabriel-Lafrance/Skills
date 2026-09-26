@@ -1,6 +1,6 @@
 # Taste reference
 
-Load when verifying, touching UI, or naming an extension seam. The rules are the **Taste** section of `AGENTS.md`. Snippets stay in [examples.md](examples.md).
+Load when verifying, touching UI, or naming an extension seam. The rules are in [code-quality.md](../rules/code-quality.md). Snippets stay in [examples.md](examples.md).
 
 ## Verify (terminals first)
 

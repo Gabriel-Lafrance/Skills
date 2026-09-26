@@ -20,7 +20,7 @@ always do that labor.
 
 **Read first (this turn):**
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`
 2. `create-test/doctrine.md`
 3. `pack-shared/plain-language.md`
 4. The parent Worker Brief (approved Why / What / How, public entry, paths)

@@ -1,6 +1,6 @@
 # Doctrine schema
 
-`skills/taste/doctrine.md` and `skills/architecture/doctrine.md` are pointers. The rules live in the **Taste** and **Architecture** sections of `AGENTS.md`. Those two files do not use the list below.
+`skills/taste/doctrine.md` and `skills/architecture/doctrine.md` are pointers. The rules live in [`../rules/code-quality.md`](../rules/code-quality.md) and [`../rules/code-structure.md`](../rules/code-structure.md). Those two files do not use the list below.
 
 Every other `skills/*/doctrine.md` uses **these H2s, in this order, with these names**.
 Do not invent `## Ownership`, `## Core rules`, or `## Process` in doctrine.

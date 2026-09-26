@@ -16,7 +16,7 @@ Maps to `/implement`. Follow `implement/SKILL.md` and `pack-shared/subagents.md`
 
 **Read first (this turn):**
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`
 2. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
 3. `pack-shared/plain-language.md`
 4. The parent Worker Brief in this chat (what, allowlist, injected context)
@@ -46,7 +46,7 @@ Fail the job if you skip taste or architecture bars.
 ## Must not
 
 - Chat with the user, grill, or expand the what
-- Run acceptance evidence or `/code-review` (parent owns gates)
+- Run acceptance evidence or `/review` (parent owns gates)
 - Write or edit tests (that is `tester` via `/create-test`, after the user starts it or accepts a `/task` brief)
 - Implement user-facing UI (return blocked; parent should dispatch **designer** / `/design`)
 - Update tickets, registries, or agent bookkeeping

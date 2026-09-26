@@ -1,6 +1,6 @@
 # Ship
 
-Templates and steps for a branch and a pull request. The name pattern and the hard rules are in the Ship work section of `AGENTS.md`. Follow [pr-ship.md](pr-ship.md) for the create tool and the CI mirror.
+Templates and steps for a branch and a pull request. The name pattern and the hard rules are in [shipping.md](../rules/shipping.md). Follow [pr-ship.md](pr-ship.md) for the create tool and the CI mirror.
 
 ## Change types and branch names
 
@@ -308,7 +308,7 @@ flowchart LR
 
 ## Process
 
-Numbered steps. The hard rules stay in the Ship work section of `AGENTS.md`.
+Numbered steps. The hard rules stay in [shipping.md](../rules/shipping.md).
 
 ### 1. Inspect git
 

@@ -64,13 +64,13 @@ For when to spawn Tasks, Worker Brief shape, and after-wave integration, Read
 
 The parent is the context compiler. Every Task prompt is **what** plus
 **need-to-know**: outcome, Done when, non-goals, rules that must stay true,
-lane, current slice, explorer hits, locked structure excerpt, and the **Taste** and **Architecture** sections of `AGENTS.md` in **Read first**
+lane, current slice, explorer hits, locked structure excerpt, and the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) in **Read first**
 ([standards.md](standards.md)). Do not send a how-recipe. Do not make a
 worker reconstruct intent from hidden files or a plan path. Do not grep the
 tree on the parent.
 
 Omit Task `model` unless the user explicitly requested one. The parent owns
-integration, acceptance evidence, and `/code-review`; implementation workers do
+integration, acceptance evidence, and `/review`; implementation workers do
 not run those gates.
 
 Every worker ends with:

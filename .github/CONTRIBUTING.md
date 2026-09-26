@@ -8,14 +8,16 @@ By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 ## What this repo is
 
 Skills under [`skills/`](../skills/). The always-on contract is
-[`AGENTS.md`](../AGENTS.md) for every harness, including Cursor. There is no
+[`AGENTS.md`](../AGENTS.md) for every harness, including Cursor: a short index
+that points at the rule files in [`skills/rules/`](../skills/rules/SKILL.md). There is no
 Cursor rules copy. An optional Cursor plugin ships the same skills, plus
 [`agents/`](../agents/) and [`commands/`](../commands/).
 Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
-for how agents should work live in the Taste and Architecture sections of
-[`AGENTS.md`](../AGENTS.md). [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md)
-tells every skill to apply those sections. Chat
-replies follow the Unslop section of `AGENTS.md`. Do not paste that file into a
+for how agents should work live in
+[`skills/rules/code-quality.md`](../skills/rules/code-quality.md) and
+[`skills/rules/code-structure.md`](../skills/rules/code-structure.md). [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md)
+tells every skill to apply those files. Chat
+replies follow [`skills/rules/writing-style.md`](../skills/rules/writing-style.md). Do not paste `AGENTS.md` into a
 User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
 installs the contract into an app and into harness homes that already exist.
 
@@ -45,7 +47,7 @@ Cursor plugin is optional and does not add a separate ruleset. People install
 this pack from skills.sh with
 `npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then
 `/setup-toolkit`. That skill asks where skills and `AGENTS.md` go. Installed
-skills must apply the Taste and Architecture sections of `AGENTS.md`. ESLint
+skills must apply `rules/code-quality.md` and `rules/code-structure.md`. ESLint
 and Prettier templates live in
 [`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
 copied into **app** repos only when the user says yes. They are not run from
@@ -56,7 +58,7 @@ this markdown pack.
 - Prefer improving an existing skill over adding a new one.
 - Numbered how-to lives in `SKILL.md`. Put durable rules in `doctrine.md` and
   detail in `reference.md` / `examples.md`. Taste and Architecture are the
-  exception: those rules live in `AGENTS.md`, and their doctrine files only
+  exception: those rules live in `skills/rules/`, and their doctrine files only
   point there.
 - Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
@@ -65,9 +67,22 @@ this markdown pack.
 
 See [`how-to.md`](../how-to.md) for folder layout, frontmatter, and publish notes.
 
+### Change a rule
+
+1. Edit the rule in its file under [`skills/rules/`](../skills/rules/SKILL.md).
+   Keep cite keys and headings stable so `taste:*` and `architecture:*` links
+   still resolve.
+2. If the **Read when** index or the hard rules change, edit root
+   [`AGENTS.md`](../AGENTS.md), then copy it to
+   [`skills/setup-toolkit/templates/AGENTS.md`](../skills/setup-toolkit/templates/AGENTS.md)
+   so the two files stay identical.
+3. Bump the version in
+   [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json) and
+   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json).
+
 ## Branch and PR
 
-Use the branch name from the Ship work section of `AGENTS.md`:
+Use the branch name from [`skills/rules/shipping.md`](../skills/rules/shipping.md):
 
 ```text
 feature|tweak|bug|refactor|chore/<ticket-or-no-ticket>-<slug>
@@ -95,7 +110,7 @@ Open a PR against `main` using the pull request template:
 - **Change diagram** (Mermaid; Before/After for rework)
 - **How to QA**
 
-Agents that open the PR follow the Ship work section of `AGENTS.md` and [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).
+Agents that open the PR follow [`skills/rules/shipping.md`](../skills/rules/shipping.md) and [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).
 
 ## Security
 

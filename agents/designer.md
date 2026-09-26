@@ -16,7 +16,7 @@ Maps to `/design`. Follow `design/SKILL.md` and `pack-shared/subagents.md`.
 
 **Read first (this turn):**
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`
 2. `design/doctrine.md`
 3. `docs/design.md` when it exists
 4. `pack-shared/subagents.md` (Worker Brief + Completion envelope)
@@ -37,7 +37,7 @@ Fail the job if you skip taste or architecture bars.
 ## Must not
 
 - Chat with the user, grill, or expand scope
-- Run acceptance evidence or `/code-review` (parent owns gates)
+- Run acceptance evidence or `/review` (parent owns gates)
 - Write or edit tests (that is `tester` via `/create-test`, after the user starts it or accepts a `/task` brief)
 - Implement through `/implement` patterns that ignore `docs/design.md`
 - Dump screens, components, or routes into `docs/design.md`

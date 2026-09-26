@@ -15,7 +15,7 @@ files stay in this context. The parent must receive only the hits that matter.
 
 **Read first (this turn):**
 
-1. The **Taste** and **Architecture** sections of `AGENTS.md`
+1. `rules/code-quality.md` and `rules/code-structure.md`
 2. `pack-shared/plain-language.md`
 3. The parent Worker Brief in this chat (find-what, injected context)
 

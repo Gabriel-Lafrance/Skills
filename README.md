@@ -23,7 +23,7 @@ npx skills@latest update -g -y
 
 `--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
 
-The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md).
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md).
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
@@ -31,7 +31,7 @@ Team admins can also import this repo from **Cursor Dashboard → Plugins → Ad
 
 `npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract. It asks whether that file goes in the repo, in your harness homes, or both. It does not copy ESLint or quality gates until you say yes.
 
-The **Taste** and **Architecture** sections of [`AGENTS.md`](./AGENTS.md) are always-on rules ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow the Unslop section of [`AGENTS.md`](./AGENTS.md). `/ask-gabriel` stays a thin router and does not restate those sections.
+[`AGENTS.md`](./AGENTS.md) is the always-on index. The rules it points to live in [`skills/rules/`](./skills/rules/SKILL.md); [`code-quality.md`](./skills/rules/code-quality.md) (taste) and [`code-structure.md`](./skills/rules/code-structure.md) (architecture) always apply ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow [`writing-style.md`](./skills/rules/writing-style.md). `/ask-gabriel` stays a thin router and does not restate those rules.
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
@@ -43,7 +43,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 | Piece | Where | What it does |
 | --- | --- | --- |
-| **Contract** | `AGENTS.md` | Always-on bars for every harness, including Cursor. `/setup-toolkit` copies this file into the repo, user harness homes, or both after you choose |
+| **Contract** | `AGENTS.md` | Always-on index for every harness, including Cursor. It points to the rule files in `skills/rules/`. `/setup-toolkit` copies this file into the repo, user harness homes, or both after you choose |
 | **Skills** | `skills/` | Workflows you invoke (`/task`, `/grill-me`, `/setup-toolkit`, …) |
 | **Specialists** | `agents/` | Same roles every harness uses. Cursor can spawn them as custom agents. Other harnesses use their specialist tool, or a separate pass |
 | **Setup command** | `commands/setup-toolkit.md` | Cursor slash entry for the same `/setup-toolkit` skill |
@@ -61,8 +61,7 @@ The parent feeds **what** to do and **need-to-know**; each specialist owns **how
 | [`analyzer`](./agents/analyzer.md) | How / impact / risk memo | `/analyze` |
 | [`implementer`](./agents/implementer.md) | One tiny non-UI code what | `/implement` |
 | [`designer`](./agents/designer.md) | User-facing UI and `docs/design.md` | `/design` |
-| [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what | `/code-review` |
-| [`pr-reviewer`](./agents/pr-reviewer.md) | Open GitHub PR comments | `/pr-review` |
+| [`reviewer`](./agents/reviewer.md) | Local branch diff vs the what, or open GitHub PR comments | `/review` |
 | [`tester`](./agents/tester.md) | Behavior lock the user accepted | `/create-test` (user start, or `/task` after the user accepts the briefs) |
 
 ## Skills
@@ -75,7 +74,7 @@ Five kinds. **Guide** informs; everything else moves work forward.
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task`, `/design`                                       | Implement end-to-end; UI worker |
-| **Review & ship** | `/code-review`, `/pr-review`, `/create-test` | Quality gates and PRs. Branch and PR rules are in `AGENTS.md` |
+| **Review & ship** | `/review`, `/create-test` | Quality gates and PRs. Branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier / quality gates are opt-in |
 
 ```mermaid
@@ -99,10 +98,10 @@ flowchart LR
 - Build now → `/task`
 - Capture app UX / build a screen → `/design` (also used inside `/task` for frontend)
 - Lint/format/quality gates, or this pack on a new machine → `/setup-toolkit`
-- Ship a PR → the Ship work section of `AGENTS.md` (any agent, including a cloud agent). Every path that
+- Ship a PR → [`skills/rules/shipping.md`](./skills/rules/shipping.md) (any agent, including a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
-- Review a PR → `/pr-review`
+- Review a branch or a PR → `/review`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

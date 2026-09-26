@@ -1,7 +1,7 @@
 # Opening a pull request
 
 Every agent that **creates or updates a GitHub PR** while this pack is
-installed follows this contract. The name pattern and hard rules are in the Ship work section of `AGENTS.md`.
+installed follows this contract. The name pattern and hard rules are in [shipping.md](../rules/shipping.md).
 
 This applies to `/task` when this chat owns shipping and the user asked to open a PR, and to any cloud or freeform agent that ships a branch as a PR.
 
@@ -24,12 +24,12 @@ open a browser, capture screenshots, or produce a canvas to ship a PR.
 | --- | --- |
 | Standalone `/task` after "open a PR?" = yes | Yes |
 | Any agent opening a PR | Yes |
-| `/pr-review` (comments only) | No. Does not create the PR |
+| `/review` on a GitHub PR (comments only) | No. Does not create the PR |
 | Nested `/task` when a parent owns shipping | No. The parent ships |
 
 ## Create tool
 
-Show the complete title and body in chat before creating. Wait for approval. The Ship work section of `AGENTS.md` is the rule.
+Show the complete title and body in chat before creating. Wait for approval. [shipping.md](../rules/shipping.md) is the rule.
 
 Then pick **one** write path:
 
