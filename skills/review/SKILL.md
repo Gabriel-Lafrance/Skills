@@ -2,7 +2,7 @@
 name: review
 description: >-
   Review a local branch diff, or an open GitHub PR given by number or link.
-  Checks Standards (taste, architecture, correctness hunt) and Spec with
+  Checks Standards (code quality, code structure, correctness hunt) and Spec with
   evidence-backed findings. Local findings stay in chat with a bounded fix
   path; PR findings become drafted comments behind one publish decision. User
   must invoke (not auto).
@@ -16,7 +16,7 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 ## Read when
 
 - Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
-- Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
+- Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
 - Every run: [doctrine.md](doctrine.md) and the [review contract](../pack-shared/review-contract.md).
 - Unsure how to check Knip or the cyclomatic cap: [static-checks.md](static-checks.md).
 - A parent supplied the handoff: the [execution context](../pack-shared/execution-context.md).

@@ -13,7 +13,7 @@ Whenever a non-trivial plan is about to be written, whether or not the harness c
 
 1. **Do not** emit the final plan until material decisions are settled. If the harness has a plan tool, do not call it yet.
 2. **Grill first.** Look up repository facts, then send **one batched Questions-only** message using the asking contract (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
-3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, taste/architecture/structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
+3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, code quality and code structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
 4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message. Never mix Locked and Questions.
 5. After Locked closure, **then** produce the plan. Use the harness plan tool when it has one. Otherwise write the plan in chat. New unknowns later mean a **new** Questions-only batch.
 

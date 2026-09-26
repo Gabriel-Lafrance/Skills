@@ -1,4 +1,4 @@
-# Architecture examples
+# Code structure examples
 
 Good vs bad. Match **good**.
 
@@ -22,7 +22,7 @@ features/upgrade/       # same call, reason: "upgrade"
 ## Reuse env vars
 
 **Bad:** `process.env.FRONTEND_URL` when `SITE_URL` already holds the site URL.
-**Good:** `process.env.SITE_URL` (`taste:reuse-env`).
+**Good:** `process.env.SITE_URL` (`quality:reuse-env`).
 
 ## Deep vs shallow service API
 

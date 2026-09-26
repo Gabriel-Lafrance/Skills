@@ -2,7 +2,7 @@
 
 Humans must understand every message. Named principles use a **plain name plus the classic name** so people can read them and models still retrieve KISS, SoC, and Boy Scout.
 
-This contract is for **what the user reads**. Internal notes may keep cite keys (`taste:keep-it-simple`). If the user will see a line, write it in ordinary words, then the classic name in parentheses.
+This contract is for **what the user reads**. Internal notes may keep cite keys (`quality:keep-it-simple`). If the user will see a line, write it in ordinary words, then the classic name in parentheses.
 
 ## Rules
 
@@ -10,10 +10,10 @@ This contract is for **what the user reads**. Internal notes may keep cite keys 
 2. Prefer short common words. One idea per sentence.
 3. Cite a named principle as **plain (Classic)** in the same sentence. Example: `We need to keep this simple (KISS).` Never acronym-only. Never plain-only for a named principle.
 4. Other abbreviations (API, PR, URL, Git, ID, UI) are fine. Do not use a bare rule number (Rule 1) or pack nicknames without the plain sentence.
-5. Do not teach pack cite keys (`taste:keep-jobs-apart`) as the user-facing name.
+5. Do not teach pack cite keys (`quality:keep-jobs-apart`) as the user-facing name.
 6. Skill names like `/task` are fine when recommending a next step.
 7. A finding ID or rule ID may appear for tracking. The same bullet must still include the plain (Classic) sentence of what is wrong and what to do.
-8. When the user writes in a language, reply in that language. Product, UI, and locale strings follow [`design:spoken-locale`](../rules/user-experience.md#spoken-locale): words speakers actually use for that job, not a word-for-word swap.
+8. When the user writes in a language, reply in that language. Product, UI, and locale strings follow [`ux:spoken-locale`](../rules/user-experience.md#spoken-locale): words speakers actually use for that job, not a word-for-word swap.
 
 The canonical map lives in [code-quality.md](../rules/code-quality.md) (named principles and mechanical rules).
 
@@ -26,7 +26,7 @@ The canonical map lives in [code-quality.md](../rules/code-quality.md) (named pr
 | `Boy Scout` alone / `leave it cleaner` alone | Leave it cleaner (Boy Scout Rule) |
 | entropy | Don’t copy the old messy layout |
 | primitive | Reuse the existing one-job helper |
-| hard-apply / Hard apply | Must follow taste and architecture |
+| hard-apply / Hard apply | Must follow the code quality and code structure rules |
 | Rule 1 (alone) | Rule 1: payments must not charge twice |
 | n/a | none / does not apply |
 | AC / DoD / acceptance criteria | done when |

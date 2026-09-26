@@ -1,11 +1,10 @@
 ---
 name: write-ticket
 description: >-
-  Create or promote one Linear or GitHub ticket as Memo, Research, or Plan.
-  Memo saves an idea with no grill. Research records the need and the problem
-  after /grill-me. Plan records how to solve it in code after a second
-  /grill-me, detailed enough to implement in one pass. Use for a new ticket,
-  a promotion, or a don't-forget note. Never inside /task.
+  Create or promote one Linear or GitHub ticket: Memo (idea, no grill),
+  Research (the need, after /grill-me), or Plan (how to build it in one
+  pass, after a second grill). Use for a new ticket, a promotion, or a
+  don't-forget note. Never inside /task.
 disable-model-invocation: true
 ---
 
@@ -15,7 +14,7 @@ Create or promote one tracker ticket. User start only; `/task` reads tickets ([t
 
 ## Read when
 
-- Before analyzing or drafting: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) (stage gate, topic lists, work kind, promotion).
+- Before analyzing or drafting: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) (stage gate, topic lists, work kind, promotion).
 - Before sending a batch (steps 2 and 5): [asking.md](../pack-shared/asking.md) and the matching batch in [reference.md](reference.md).
 - Drafting the body (steps 3 and 5): the stage body in [reference.md](reference.md).
 

@@ -21,7 +21,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ```markdown
 - **standards-keep-jobs-apart-checkout-stripe** · **standards** · **blocker**
   - **Where:** `features/checkout/use-checkout.ts` (`placeOrder`)
-  - **Rule:** `taste:keep-jobs-apart` · `taste:related-together` · `taste:trust-the-server`
+  - **Rule:** `quality:keep-jobs-apart` · `quality:related-together` · `quality:trust-the-server`
   - **Trigger:** Checkout feature calls Stripe directly on submit.
   - **Evidence:** Diff adds `stripe.checkout.sessions.create` inside the feature; `billing.makeUserPay` already owns Stripe.
   - **Impact:** Checkout now talks to Stripe instead of billing; the billing safety checks are skipped.
@@ -82,7 +82,7 @@ This is the **review output** fence (findings + Principles + Architecture + Corr
 ```markdown
 - **standards-honest-names-payment-intent-path** · **standards** · **blocker**
   - **Where:** `features/checkout/checkout-total.ts` (`createCheckoutTotal`)
-  - **Rule:** `taste:honest-names`
+  - **Rule:** `quality:honest-names`
   - **Evidence:** Diff repurposes the module to create payment intents (new Stripe PaymentIntent calls, ticket language, symbol comments) but keeps the `checkout-total` path and `createCheckoutTotal` export; callers still import the old name.
   - **Impact:** Readers look in the wrong file; further edits keep landing under a lie.
   - **Fix:** Rename file + primary export/locals to the payment-intent names and update imports in the same change.
@@ -95,20 +95,20 @@ This is **Fix now**. The Standards pass must run naming alignment; skipping it i
 ```markdown
 - **standards-folders-orders-src-dump** · **standards** · **blocker**
   - **Where:** `src/useOrders.ts`, `src/OrderCard.tsx`
-  - **Rule:** `architecture:folders`
+  - **Rule:** `structure:folders`
   - **Evidence:** Diff adds order hook and card as siblings of `src/page.tsx` with no owning folder. Structure card called for `src/orders/`.
   - **Impact:** The tree is already a mixed dump; the next order file will land in the same mess.
   - **Fix:** Create `src/orders/` (and `src/orders/components/` for the card); move the new files; do not leave mixed siblings in `src/`.
 ```
 
-This is **Fix now**. `taste:never-nest` and `taste:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
+This is **Fix now**. `quality:never-nest` and `quality:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
 
 ## New env synonym for an existing job
 
 ```markdown
 - **standards-reuse-env-frontend-url** · **standards** · **blocker**
   - **Where:** `.env.example` (`FRONTEND_URL`)
-  - **Rule:** `taste:reuse-env`
+  - **Rule:** `quality:reuse-env`
   - **Evidence:** Diff adds `FRONTEND_URL` and `process.env.FRONTEND_URL`. `.env.example` already has `SITE_URL` for the public site URL.
   - **Impact:** Two names hold the same job; the next agent will keep inventing more.
   - **Fix:** Read `SITE_URL`. Delete `FRONTEND_URL`. If a library wants another name, map in code from `SITE_URL`.
@@ -121,7 +121,7 @@ This is **Fix now**. Matching is by job and value, not by the name the agent fir
 ```markdown
 - **standards-trust-the-server-charge-cart** · **standards** · **blocker**
   - **Where:** `convex/carts.ts` (`chargeCart`)
-  - **Rule:** `taste:trust-the-server` · `architecture:authority`
+  - **Rule:** `quality:trust-the-server` · `structure:authority`
   - **Trigger:** Any client can call `chargeCart` with another user's `userId`.
   - **Evidence:** Diff adds a public mutation that inserts `payments` from `args.userId` with no `requireUser` or ownership check. The UI disables Pay for other users; the mutation does not.
   - **Impact:** A caller can charge or write another user's cart.

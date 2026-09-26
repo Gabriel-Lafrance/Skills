@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents -->
+<!-- gabriel-skills-agents v2.0.0 -->
 
 # Gabriel skills
 
@@ -12,7 +12,7 @@ Orchestrator skills (`/task`, `/ask-gabriel`, and the rest) stay **optional** to
 
 **Skill root:** the first that exists of workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/` (project install), then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Paths below are relative to that root.
 
-**This contract:** the first `AGENTS.md` that contains `gabriel-skills-agents`, in order: workspace root; `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`; `setup-toolkit/templates/AGENTS.md` under the skill root; beside `skills/` when this repository is the open workspace; beside the installed plugin's `skills/` folder.
+**This contract:** the first `AGENTS.md` that contains the marker prefix `gabriel-skills-agents` (any version), in order: workspace root; `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`; `setup-toolkit/templates/AGENTS.md` under the skill root; beside `skills/` when this repository is the open workspace; beside the installed plugin's `skills/` folder.
 
 If required files are missing from all roots, say the pack is not installed. Do **not** invent weaker standards or a private checklist. Point at:
 
@@ -28,13 +28,12 @@ Read each file once per session unless it is already in context.
 | --- | --- | --- |
 | Code quality | Before non-trivial code (new behavior, refactors, structural edits, more than a typo), and on every pack skill run except `/ask-gabriel` | `rules/code-quality.md` |
 | Code structure | Same as code quality | `rules/code-structure.md` |
-| Shape examples | Judging a concrete shape | `taste/examples.md`, `architecture/examples.md` |
-| Verify and UI detail | Verifying or touching UI | `taste/reference.md` |
+| Shape examples | Judging a concrete shape | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
 | Planning | Any turn that will produce a plan for non-trivial work, including a harness plan tool | `rules/planning.md`, `pack-shared/asking.md`, `pack-shared/plain-language.md`, `grill-me/doctrine.md` |
 | User experience | Frontend or user-facing work, or a UX complaint | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Testing | Before writing or extending a test | `rules/testing.md` |
 | Shipping | Cutting a branch or opening a pull request | `rules/shipping.md`, `pack-shared/ship.md`, `pack-shared/pr-ship.md` |
-| Tooling | Lint, format, CI, editor settings | `rules/tooling.md` |
+| Tooling | Lint, format, CI, editor settings, verifying a change (terminals first) | `rules/tooling.md` |
 | Env vars | Before adding, renaming, requesting, or reading a new environment variable | `rules/code-quality.md` (Reuse env vars) |
 | Writing style | Any chat reply | `rules/writing-style.md`, `pack-shared/plain-language.md` |
 

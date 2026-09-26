@@ -22,7 +22,7 @@ must make sense without this pack’s nicknames.
 9. After material Questions are settled (or when the turn is announce-only),
    announce agent-owned conclusions in a separate
    **Locked in (tell me if this is wrong)** message. Ask only open product, UX,
-   architecture, taste, or policy choices.
+   code structure, code quality, or policy choices.
 
 ## Locked decisions
 

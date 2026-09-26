@@ -15,8 +15,8 @@ Cursor rules copy. An optional Cursor plugin ships the same skills, plus
 Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
 for how agents should work live in
 [`skills/rules/code-quality.md`](../skills/rules/code-quality.md) and
-[`skills/rules/code-structure.md`](../skills/rules/code-structure.md). [`skills/pack-shared/standards.md`](../skills/pack-shared/standards.md)
-tells every skill to apply those files. Chat
+[`skills/rules/code-structure.md`](../skills/rules/code-structure.md), with
+examples beside them. Every skill links both files. Chat
 replies follow [`skills/rules/writing-style.md`](../skills/rules/writing-style.md). Do not paste `AGENTS.md` into a
 User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
 installs the contract into an app and into harness homes that already exist.
@@ -57,9 +57,8 @@ this markdown pack.
 
 - Prefer improving an existing skill over adding a new one.
 - Numbered how-to lives in `SKILL.md`. Put durable rules in `doctrine.md` and
-  detail in `reference.md` / `examples.md`. Taste and Architecture are the
-  exception: those rules live in `skills/rules/`, and their doctrine files only
-  point there.
+  detail in `reference.md` / `examples.md` ([Skill file layout](#skill-file-layout)).
+  Always-on rules live in `skills/rules/`, not in a skill doctrine.
 - Shared contracts (`asking`, execution context) live under
   `skills/pack-shared/` so `npx skills` installs them.
 - Teach principles in prose; avoid steering agents with a catalog of concrete
@@ -67,18 +66,46 @@ this markdown pack.
 
 See [`how-to.md`](../how-to.md) for folder layout, frontmatter, and publish notes.
 
+### Skill file layout
+
+Every `skills/*/doctrine.md` uses these H2s, in this order, with these names.
+Rule files in `skills/rules/` and contracts in `skills/pack-shared/` are not
+doctrine; a contract that defines a return shape still keeps Job, Owns, and
+Output.
+
+| Order | H2 | What goes here |
+| --- | --- | --- |
+| 1 | **Job** | One sentence. What this file is for. |
+| 2 | **Owns** | What this skill decides. |
+| 3 | **Does not own** | What it must not decide, plus a link to the file that does. |
+| 4 | **Cite keys** | `skill:slug` to heading. If none: `none (uses quality:* and structure:*)`. |
+| 5 | **Bars** | Canonical definitions only. Tables. No numbered how-to. |
+| 6 | **Output** | Artifact to emit, or `none (see SKILL.md)`. |
+| 7 | **Apply** | When this changes the work, and when to keep the existing shape. |
+| 8 | **Anti-patterns** | What this skill must not do. |
+
+- Extra detail goes under **Bars** as `###` subheads, or in `examples.md` / `reference.md`.
+- Numbered process steps belong in `SKILL.md`, not doctrine.
+- Do not restate another skill's Bars. Cite the key (`quality:keep-jobs-apart`).
+- Omit a section only with an explicit `none` line, so a reader does not think the file was cut off.
+
 ### Change a rule
 
 1. Edit the rule in its file under [`skills/rules/`](../skills/rules/SKILL.md).
-   Keep cite keys and headings stable so `taste:*` and `architecture:*` links
-   still resolve.
+   Keep cite keys and headings stable so `quality:*`, `structure:*`, and
+   `ux:*` links still resolve.
 2. If the **Read when** index or the hard rules change, edit root
    [`AGENTS.md`](../AGENTS.md), then copy it to
    [`skills/setup-toolkit/templates/AGENTS.md`](../skills/setup-toolkit/templates/AGENTS.md)
    so the two files stay identical.
 3. Bump the version in
-   [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json) and
-   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json).
+   [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json),
+   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json), and
+   the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.0.0 -->`)
+   together, then copy `AGENTS.md` to the template again. `/setup-toolkit`
+   uses that marker to refresh out-of-date installs.
+4. There is no changelog file. The PR description is the changelog: say what
+   changed and why, so a user sent to the merged PRs can follow it.
 
 ## Branch and PR
 

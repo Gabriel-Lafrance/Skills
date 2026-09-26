@@ -11,7 +11,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 ## Does not own
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`../pack-shared/review-contract.md`](../pack-shared/review-contract.md)
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) (applied while building, not as a review axis)
 - Fix-now remediation analysis: [`../analyze/doctrine.md`](../analyze/doctrine.md)
 - Test writing: [`../create-test/doctrine.md`](../create-test/doctrine.md)
@@ -40,7 +40,7 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX rules (`design:*` in [user-experience.md](../rules/user-experience.md)) apply while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
+UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) apply while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, never hypothetical failures or a defect manufactured to look thorough.
 
@@ -56,7 +56,7 @@ Treat the first two sources as **hard** unless repository rules conflict. Reject
 
 ### Blocker vs follow-up
 
-For the shipped diff, check each taste named principle. Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([plain-language.md](../pack-shared/plain-language.md)).
+For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([plain-language.md](../pack-shared/plain-language.md)).
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
@@ -74,7 +74,7 @@ For the shipped diff, check each taste named principle. Cite the principle as **
 | **Trust the server (never trust the client)** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
 | **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, or marks required data optional | Local private helper loosely typed but not on a boundary |
 
-Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a blocker candidate (especially `taste:fail-fast`, `taste:safe-to-retry`, `taste:trust-the-server`, `taste:related-together` through internals, `taste:honest-names` after a rename, and `taste:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up** unless it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
+Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up** unless it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
 
 Prefer a direct guard at the state-owning boundary over extra coordination. Request an `if` only for a reachable invalid state or a missing authoritative invariant. Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up. Request retries only for an evidenced transient external failure with an idempotent, bounded operation. Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior. Do not turn "might fail someday" into a finding.
 
@@ -87,32 +87,32 @@ On every `initial` or `full-rescan` Standards pass, after the principles checkli
 3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched lane changed meaning.
 4. **Half-moves:** a move/rename that updates content but keeps the old path (or the reverse) is a defect, not a style preference.
 
-Cite `taste:honest-names` on findings. Naming alignment is part of the Standards pass, not a later pass. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
+Cite `quality:honest-names` on findings. Naming alignment is part of the Standards pass, not a later pass. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
 
 ### Folder placement
 
-On every `initial` or `full-rescan` Standards pass, walk **new files** in the shipped diff against `architecture:folders`:
+On every `initial` or `full-rescan` Standards pass, walk **new files** in the shipped diff against `structure:folders`:
 
 1. Related new files must sit in a named owning folder, not as mixed siblings of unrelated code in `src/`, `app/`, `convex/`, or a route folder that already holds a different slice.
 2. A new concern gets a folder even for the first file. Do not wait for five siblings.
-3. `taste:never-nest` and `taste:keep-it-simple` are not a defense. Never-nest is control flow.
-4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`architecture:prior-mistakes`).
+3. `quality:never-nest` and `quality:keep-it-simple` are not a defense. Never-nest is control flow.
+4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`structure:prior-mistakes`).
 
-Cite `architecture:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
+Cite `structure:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
 
 ### Env reuse
 
-On every `initial` or `full-rescan` Standards pass, walk **new environment variables** in the shipped diff against `taste:reuse-env`:
+On every `initial` or `full-rescan` Standards pass, walk **new environment variables** in the shipped diff against `quality:reuse-env`:
 
 1. Inventory names already in `.env.example`, committed `.env*` templates, and `process.env` / `import.meta.env` usages in the repo (and the platform env list when the diff sets dashboard/CLI vars).
-2. A new name whose **job or value** an existing var already holds (`FRONTEND_URL` while `SITE_URL` exists) is a finding. Cite `taste:reuse-env`.
+2. A new name whose **job or value** an existing var already holds (`FRONTEND_URL` while `SITE_URL` exists) is a finding. Cite `quality:reuse-env`.
 3. Mapping in code from the existing name is correct. Duplicating the value under a synonym is not. A required platform prefix must use the existing name (`NEXT_PUBLIC_SITE_URL`), not a third synonym.
 
 A shipped-diff synonym is **Fix now**. Untouched historical aliases left in files the diff did not add are Follow-up unless the goal or a named finding requires a move.
 
 ### Static checks
 
-On every `initial` or `full-rescan` Standards pass, make sure Knip is clean (no unused files, exports, or dependencies) and no function has cyclomatic complexity above 5. If you do not know how to check those, see [static-checks.md](static-checks.md). Cite `taste:no-dead-code` and `taste:cyclomatic-cap`. A finding the diff introduced is **Fix now**; a pre-existing one is Follow-up.
+On every `initial` or `full-rescan` Standards pass, make sure Knip is clean (no unused files, exports, or dependencies) and no function has cyclomatic complexity above 5. If you do not know how to check those, see [static-checks.md](static-checks.md). Cite `quality:no-dead-code` and `quality:cyclomatic-cap`. A finding the diff introduced is **Fix now**; a pre-existing one is Follow-up.
 
 ### PR extras
 
@@ -140,7 +140,7 @@ Return the review output fence from the [review contract](../pack-shared/review-
 
 After an initial review or full rescan, recommend `/create-test` only per the review-contract behavior-lock rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never invoke `/create-test`, write tests, or edit test files from this skill.
 
-For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](../taste/reference.md)) and `docs/design.md` (`design:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not run a Design review pass.
+For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not run a Design review pass.
 
 **Local branch diff:**
 
@@ -170,7 +170,7 @@ For UI changes, apply `/taste` React and UI guidance ([`../taste/reference.md`](
 - Treating a mixed-parent file dump in the shipped diff as Optional nit or as "keep it simple"
 - Treating a new `FRONTEND_URL` (or other synonym) as Optional nit when `SITE_URL` already holds that job
 - Treating a public write without identity/ownership as Optional nit
-- Soft-pedaling `taste:keep-jobs-apart`, `taste:fail-fast`, `taste:safe-to-retry`, or `taste:trust-the-server` as Nit when they introduce or extend a correctness or security risk
+- Soft-pedaling `quality:keep-jobs-apart`, `quality:fail-fast`, `quality:safe-to-retry`, or `quality:trust-the-server` as Nit when they introduce or extend a correctness or security risk
 - Capping findings, reporting without the review output fence, or reporting speculation
 - Running a broad rescan during remediation
 - Fixing before remediation analysis and explicit promotion

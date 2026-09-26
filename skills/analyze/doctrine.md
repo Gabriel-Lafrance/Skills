@@ -11,12 +11,12 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 ## Does not own
 
 - Implementation, ticket writes, or `/task` promotion unless the user (or an explicit parent instruction) chooses it
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - Numbered process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
@@ -39,7 +39,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
 - Rediscover the relevant code and sibling patterns. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
-- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
+- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer good siblings and behavior-preserving moves. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 
@@ -73,12 +73,12 @@ flowchart LR
 - `path`: why
 
 ### Recommended direction
-<smallest coherent approach and why. Cite Taste and Architecture cite keys when they drive the shape>
+<smallest coherent approach and why. Cite `quality:*` and `structure:*` keys when they drive the shape>
 
 ### Interface / ownership sketch
 **Shape:** <hook | class | service/facade | function(s)>
 **Owner:** <existing or proposed deep boundary>
-**Architecture notes:** <`taste:keep-jobs-apart` / `taste:related-together` / `taste:safe-to-retry` / `taste:trust-the-server` if relevant | none>
+**Architecture notes:** <`quality:keep-jobs-apart` / `quality:related-together` / `quality:safe-to-retry` / `quality:trust-the-server` if relevant | none>
 **Not prescribed:** implementation details
 
 ### Touch surface and constraints

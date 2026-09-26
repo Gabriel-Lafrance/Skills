@@ -20,20 +20,21 @@ Verifying current installs, installing or updating the rest of this pack with `n
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
 1. **Verify, then ask, then install.** Look up skill roots, `AGENTS.md`, and harnesses in use first. Print those facts. Then one Questions batch: scope (this repo, this repo and user level, or user level only) and, when a `package.json` exists, whether to add ESLint and Prettier. Wait. Follow [asking.md](../pack-shared/asking.md).
 2. **Pack first.** For each chosen scope, install the pack when `rules/code-quality.md` is missing, and update a stale copy (pack skills present, `rules/code-quality.md` missing) with the commands in [reference.md](reference.md#pack-skills). Skip when this workspace is the Skills pack.
 3. **One contract, pointers elsewhere.** The repo gets `AGENTS.md`. A harness that reads another filename gets one pointer line ([reference.md](reference.md#harness-files)). User level points each installed harness at the installed template instead of copying it ([reference.md](reference.md#user-level)).
-4. **Never overwrite someone else's instructions file.** A file is the pack's only when it contains `gabriel-skills-agents`. Every other `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` only gets a line or short section appended. Report it.
-5. **Never create a harness home** (`~/.claude`, `~/.codex`, `~/.gemini`, and the rest) for a harness that is not installed.
-6. **Fail fast on lint setup** if they said yes to lint and there is no `package.json` at the workspace root (or the app root the user named). Phase one still stands.
-7. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
-8. **One stack.** Templates in [templates/](templates/) only: ESLint with the no-emdash plugin (plus Convex when detected), Prettier, and `.vscode/`. Detect which ESLint template fits; do not ask the user facts the repo already answers.
-9. **No ritual lint or reformat.** One smoke command after install (`npx eslint --version`). Full `lint` or `format` only if the user asked.
-10. Talk in ordinary words. Cite principles as **plain (Classic)**, for example `fail fast (Fail Fast)` (`taste:plain-language`).
+4. **Never overwrite someone else's instructions file.** A file is the pack's only when it contains the `gabriel-skills-agents` marker prefix (with or without a version). Every other `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` only gets a line or short section appended. Report it.
+5. **Keep the contract current.** During Verify, compare the version in an installed pack `AGENTS.md` marker with the source marker. Older or missing: refresh it, say it was out of date, and link merged PRs and commits on GitHub for what changed ([reference.md](reference.md#contract-version)). There is no changelog file.
+6. **Never create a harness home** (`~/.claude`, `~/.codex`, `~/.gemini`, and the rest) for a harness that is not installed.
+7. **Fail fast on lint setup** if they said yes to lint and there is no `package.json` at the workspace root (or the app root the user named). Phase one still stands.
+8. **Never overwrite** an existing ESLint or Prettier config, ignore file, `.vscode/settings.json`, or a script that already exists. Report what you skipped. `.vscode/extensions.json` may be merged (add missing recommendation IDs only).
+9. **One stack.** Templates in [templates/](templates/) only: ESLint with the no-emdash plugin (plus Convex when detected), Prettier, and `.vscode/`. Detect which ESLint template fits; do not ask the user facts the repo already answers.
+10. **No ritual lint or reformat.** One smoke command after install (`npx eslint --version`). Full `lint` or `format` only if the user asked.
+11. Talk in ordinary words. Cite principles as **plain (Classic)**, for example `fail fast (Fail Fast)` (`quality:plain-language`).
 
 ## Output
 

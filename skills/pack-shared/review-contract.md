@@ -10,7 +10,7 @@ Inputs, modes, evidence bar, finding record, the review output fence (with PR ex
 
 ## Does not own
 
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md)
 - Blocker vs follow-up judgment, naming alignment, PR extras: [`../review/doctrine.md`](../review/doctrine.md)
 - Pass A/B and posting: [`../review/reference.md`](../review/reference.md)
@@ -79,7 +79,7 @@ Fold sites with the same root cause and fix shape into one record; different roo
 
 ## Output
 
-**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn ([standards.md](standards.md)). Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
+**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
 
 Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field; never acronym-only, never plain-only. User-facing notes are ordinary sentences ([plain-language.md](plain-language.md)).
 
@@ -163,18 +163,18 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 
 | Defect | Key |
 | --- | --- |
-| Nested control-flow pyramids | `taste:never-nest` |
-| New related files as mixed siblings with no owning folder | `architecture:folders` |
-| A function with more than five independent paths (cyclomatic complexity (McCabe)) | `taste:cyclomatic-cap` |
-| Copy-paste twin of a concept already in the repo | `taste:dont-repeat-yourself` |
-| New env var whose job an existing var does (`FRONTEND_URL` while `SITE_URL` exists) | `taste:reuse-env` |
-| `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast)) | `taste:throw-at-boundaries` |
+| Nested control-flow pyramids | `quality:never-nest` |
+| New related files as mixed siblings with no owning folder | `structure:folders` |
+| A function with more than five independent paths (cyclomatic complexity (McCabe)) | `quality:cyclomatic-cap` |
+| Copy-paste twin of a concept already in the repo | `quality:dont-repeat-yourself` |
+| New env var whose job an existing var does (`FRONTEND_URL` while `SITE_URL` exists) | `quality:reuse-env` |
+| `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast)) | `quality:throw-at-boundaries` |
 | `any` or Convex `v.any` on a public surface | types tell the truth (make illegal states unrepresentable) |
-| Unused files, exports, or dependencies in the diff | `taste:no-dead-code` |
-| Dynamic `import()` | `taste:static-imports` |
-| New file with more than one main export | `taste:one-export-per-file` |
-| Class or interface chain deeper than two | `taste:oop-depth-cap` |
-| Magic policy number at a call site that should be a named invariant | `taste:keep-it-simple` |
+| Unused files, exports, or dependencies in the diff | `quality:no-dead-code` |
+| Dynamic `import()` | `quality:static-imports` |
+| New file with more than one main export | `quality:one-export-per-file` |
+| Class or interface chain deeper than two | `quality:oop-depth-cap` |
+| Magic policy number at a call site that should be a named invariant | `quality:keep-it-simple` |
 
 ## Severity mapping
 

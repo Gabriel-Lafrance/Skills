@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Checks the pack's own rules. Run from anywhere inside the repo.
-# Uses only bash, git, grep, awk, tr, cmp, and jq (all on ubuntu-latest).
+# Uses only bash, git, grep, awk, sed, tr, wc, cmp, and jq (all on ubuntu-latest).
 set -euo pipefail
 
 export LC_ALL=C.UTF-8
@@ -32,10 +32,55 @@ check_agents_size() {
 }
 
 check_agents_marker() {
-  local first
+  local first plugin_version pattern='^<!-- gabriel-skills-agents v([0-9]+\.[0-9]+\.[0-9]+) -->$'
   first=$(head -n 1 AGENTS.md)
-  [[ "$first" == "<!-- gabriel-skills-agents -->" ]] ||
-    fail "AGENTS.md first line is not <!-- gabriel-skills-agents -->"
+  [[ "$first" =~ $pattern ]] ||
+    { fail "AGENTS.md first line '$first' is not <!-- gabriel-skills-agents vX.Y.Z -->"; return 0; }
+  plugin_version=$(jq -r '.version' .cursor-plugin/plugin.json)
+  [[ "${BASH_REMATCH[1]}" == "$plugin_version" ]] ||
+    fail "AGENTS.md marker version ${BASH_REMATCH[1]} is not plugin.json version $plugin_version"
+}
+
+# Prints each backticked .md path in the File column of the AGENTS.md Read when table.
+read_when_paths() {
+  awk '
+    /^## Read when[ \t]*$/ { inside = 1; next }
+    inside && /^## / { exit }
+    inside && /^\|/ {
+      n = split($0, cells, "|")
+      file = cells[n - 1]
+      while (match(file, /`[^`]+`/)) {
+        print substr(file, RSTART + 1, RLENGTH - 2)
+        file = substr(file, RSTART + RLENGTH)
+      }
+    }
+  ' AGENTS.md | grep '\.md$' | grep -vxF 'docs/design.md' || true
+}
+
+check_read_when_files() {
+  local path
+  while IFS= read -r path; do
+    [[ -f "skills/$path" ]] || fail "AGENTS.md Read when table names skills/$path, which does not exist"
+  done < <(read_when_paths)
+}
+
+# Prints the frontmatter description text, plain or as a folded or literal block.
+frontmatter_description() {
+  awk '
+    NR > 1 && $0 == "---" { exit }
+    in_block && /^[ \t]+[^ \t]/ { print; next }
+    { in_block = 0 }
+    /^description:[ \t]*[>|][-+]?[ \t]*$/ { in_block = 1; next }
+    /^description:/ { sub(/^description:[ \t]*/, ""); print }
+  ' "$1"
+}
+
+check_description_length() {
+  local file words
+  for file in skills/*/SKILL.md; do
+    words=$(frontmatter_description "$file" | wc -w)
+    ((words <= 60)) || fail "$file: description is $words words (limit: 60)"
+  done
 }
 
 check_no_dashes() {
@@ -152,8 +197,9 @@ check_plugin_versions() {
 
 main() {
   local check
-  for check in check_agents_copy check_agents_size check_agents_marker check_no_dashes \
-    check_skill_frontmatter check_links check_plugin_versions; do
+  for check in check_agents_copy check_agents_size check_agents_marker check_read_when_files \
+    check_no_dashes check_skill_frontmatter check_description_length check_links \
+    check_plugin_versions; do
     echo "== $check"
     "$check"
   done

@@ -10,7 +10,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 
 ## Does not own
 
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - UI and UX rules and `docs/design.md`: [user-experience.md](../rules/user-experience.md)
 - Review disposition: `/review`
 - Test file contents: `/create-test`, and only for briefs the user accepted
@@ -18,7 +18,7 @@ The orchestrator loop: execution context, grill-before-plans, behavior-lock sugg
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
@@ -38,9 +38,9 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | --- | --- |
 | Ticket context | [Read the ticket or PR](#ticket-context) when there is one |
 | Grill | `/grill-me` |
-| Style contract | **`/taste` always** (grill + before every implement slice) |
-| Structure | **`/architecture` always** (grill + before every implement slice). For a typo or pure rename, load it and keep the existing structure |
-| UX source of truth | [user-experience.md](../rules/user-experience.md) and `docs/design.md` when the slice is user-facing UI. Write `docs/design.md` first if it is missing (`design:initialization`) |
+| Code quality | **[code-quality.md](../rules/code-quality.md) always** (grill + before every implement slice) |
+| Structure | **[code-structure.md](../rules/code-structure.md) always** (grill + before every implement slice). For a typo or pure rename, apply it and keep the existing structure |
+| UX source of truth | [user-experience.md](../rules/user-experience.md) and `docs/design.md` when the slice is user-facing UI. Write `docs/design.md` first if it is missing (`ux:initialization`) |
 | Split | [Slice split](reference.md#slice-split) when multiple slices help |
 | Plan contract | Issue [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Judge | `/analyze` for how, impact, and risk |
@@ -50,7 +50,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Review remediation | `/analyze` before Fix mode |
 | Gate out | Acceptance evidence then **`/review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/taste`, `/architecture`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -60,8 +60,8 @@ Track these rows in the in-chat execution context or a concise progress message.
 | --- | --- | --- |
 | Ticket or PR read | If ticket | [Read only](#ticket-context) |
 | `/grill-me` | Yes* | *Unless skip-grill rule |
-| `/taste` | **Yes** | During grill and before/during every implement slice |
-| `/architecture` | **Yes** | During grill and before/during every implement slice. Prefer loading even for a one-file fix |
+| Code quality rules | **Yes** | During grill and before/during every implement slice |
+| Code structure rules | **Yes** | During grill and before/during every implement slice. Apply even for a one-file fix |
 | User experience | If UI | Apply [user-experience.md](../rules/user-experience.md). Write `docs/design.md` first if it is missing |
 | Slice split | If multi-slice | Announce inline slices ([reference.md](reference.md#slice-split)) |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |

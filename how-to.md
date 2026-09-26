@@ -13,22 +13,22 @@ commands/                # Slash commands (setup-toolkit)
 skills/
   rules/                 # rule files AGENTS.md points to (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
-    code-quality.md      # taste rules (taste:* cite keys)
-    code-structure.md    # architecture rules (architecture:* cite keys)
+    code-quality.md      # code quality rules (quality:* cite keys), SOLID, futureproofing
+    code-quality-examples.md   # good vs bad snippets for code-quality.md
+    code-structure.md    # code structure rules (structure:* cite keys)
+    code-structure-examples.md # good vs bad shapes for code-structure.md
     planning.md          # grill first, Before/After change diagram
-    user-experience.md   # every UI and UX rule (design:*), docs/design.md contract
+    user-experience.md   # every UI and UX rule (ux:*), React and UI, docs/design.md contract
     writing-style.md     # no em dash, Unslop
     testing.md           # no drive-by tests
     shipping.md          # branch names and PR hard rules
-    tooling.md           # lint, format, CI
+    tooling.md           # lint, format, CI, verify terminals first
   pack-shared/           # installable shared contracts (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
     asking.md            # how to ask the user (batch Questions)
-    standards.md         # must follow taste + architecture on every skill run
     plain-language.md    # talk to humans in ordinary words
     execution-context.md # in-chat execution context
     review-contract.md   # shared review evidence and finding rules
-    doctrine-schema.md   # H2 order every skills/*/doctrine.md must use
     ship.md              # branch and PR templates and steps
     pr-ship.md           # every agent that opens a PR (create tool, standalone branch, green before push)
   review/                # /review: a local branch diff or an open GitHub PR
@@ -76,7 +76,7 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 
 - **Plain language:** every skill that talks to the user links [`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md). Chat uses ordinary words. Named principles use **plain (Classic)**, for example `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (a bare Rule 1) stays banned.
 - **Unslop:** chat replies follow the **Unslop** section of [`skills/rules/writing-style.md`](./skills/rules/writing-style.md#unslop). Not a user skill. Do not add `/unslop`. `/setup-toolkit` copies `AGENTS.md`.
-- **Standards:** every pack skill except `/ask-gabriel` links [`pack-shared/standards.md`](./skills/pack-shared/standards.md) and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
+- **Standards:** every pack skill except `/ask-gabriel` links and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
 - **Asking:** every skill that needs decisions links [`pack-shared/asking.md`](./skills/pack-shared/asking.md): batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link [`execution-context.md`](./skills/pack-shared/execution-context.md), keep outcome, decisions, rules that must stay true, scope, and handoff visible in chat. Do not create agent-owned runtime trees.
@@ -92,8 +92,8 @@ This pack does not use Cursor's Browser, review canvas, screenshots, or videos. 
 ## Add a skill
 
 1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Inner steps say they are not a typical user start. User starts that must not nest under `/task` say so in `SKILL.md`. `/create-test` is the exception in the skill-folders section: `/task` continues it only after the user accepts the lock briefs.
-2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` except taste and architecture follows [`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Taste and Architecture rules live in [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md). Their `doctrine.md` files only point there. Convex verify, landing UI, SOLID, and futureproofing detail live in [`skills/taste/reference.md`](./skills/taste/reference.md).
-3. Link `asking.md` if the skill asks the user anything. Link `standards.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
+2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows the [skill file layout](./.github/CONTRIBUTING.md#skill-file-layout): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Code quality and code structure rules live in [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md), not in a skill doctrine.
+3. Link `asking.md` if the skill asks the user anything. Link `rules/code-quality.md` and `rules/code-structure.md` on every skill except `/ask-gabriel`. Link `plain-language.md` if the skill talks to the user.
 4. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
    - Inner step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).
@@ -107,19 +107,19 @@ npx skills@latest add . --list
 
 Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on index is [`AGENTS.md`](./AGENTS.md) for every harness, including Cursor; the rule text lives in `skills/rules/`. Do not add a `CLAUDE.md` in the pack or an app.
 - **Command:** `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-toolkit` only).
-- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files **only when the user said yes**. Missing `docs/design.md` is written from the routes in code before UI work ([`design:initialization`](./skills/rules/user-experience.md#initialization)), not by copying a stub from this pack. `/setup-toolkit` does not write that file.
+- **Templates an agent must copy into an app**: live inside that skill’s folder so `npx skills` installs them. `/setup-toolkit` copies ESLint, Prettier, `eslint-plugin-no-emdash.mjs`, and `.vscode/` workspace files **only when the user said yes**. Missing `docs/design.md` is written from the routes in code before UI work ([`ux:initialization`](./skills/rules/user-experience.md#initialization)), not by copying a stub from this pack. `/setup-toolkit` does not write that file.
 
 ## Conventions
 
 - One skill = one job. Prefer new skill over bloating an existing one.
-- Doctrine files share one schema ([`pack-shared/doctrine-schema.md`](./skills/pack-shared/doctrine-schema.md)), except `skills/taste/doctrine.md` and `skills/architecture/doctrine.md`, which point at the rules in `skills/rules/`. Cite another skill's keys instead of restating its Bars.
+- Doctrine files share one layout ([skill file layout](./.github/CONTRIBUTING.md#skill-file-layout)). Cite another skill's keys instead of restating its Bars.
 - Harness tools: use the plan tool after the grill when the harness has one, otherwise write the plan in chat. Open a pull request with the harness tool when it has one, otherwise `gh` (`pack-shared/pr-ship.md`). Acceptance evidence stays path walks and terminal output.
 - Teach in ordinary words, no explainer-video links in skill bodies. Do not make agents dump acronyms at the user (`pack-shared/plain-language.md`).
 - No secrets in skills.
-- New long-running orchestrators should reuse `pack-shared/standards.md`, `pack-shared/asking.md`, `pack-shared/execution-context.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private ship recipe into that skill.
+- New long-running orchestrators should reuse `pack-shared/asking.md`, `pack-shared/execution-context.md`, and `pack-shared/pr-ship.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `pr-ship.md`; do not fork a private ship recipe into that skill.
 - Never create `.agents/temp`, status/registry files, or hidden process artifacts by default. Persist only an artifact the user explicitly requested at a user-approved destination.
 - Do not list `/pack-shared` or `/rules` in the README catalog. They are install vehicles, not on-ramps.
-- Do not add Cursor-only rules. The Taste and Architecture rules live in `skills/rules/code-quality.md` and `skills/rules/code-structure.md`. Do not keep a second copy in the skill doctrines. `/taste` and `/architecture` stay as the examples and the audit.
+- Do not add Cursor-only rules. The code quality and code structure rules live in `skills/rules/code-quality.md` and `skills/rules/code-structure.md`, with their examples beside them. Do not keep a second copy in a skill doctrine.
 - Do not add ESLint or Prettier to **this** markdown repo; they belong in consumer apps via `/setup-toolkit`.
 - When you change pack-root `AGENTS.md`, copy the same file to `skills/setup-toolkit/templates/AGENTS.md` in that change. Setup uses the root file when the pack is on disk, and the template when only the skill was installed.
 
@@ -162,12 +162,12 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 ### Contract
 
-[`AGENTS.md`](./AGENTS.md) is the always-on index for every harness, including Cursor and including chats that never invoke a skill. It tells agents which file in [`skills/rules/`](./skills/rules/SKILL.md) to open for which job. [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) are the taste and architecture rules. Skills apply them via [`pack-shared/standards.md`](./skills/pack-shared/standards.md). `/taste` and `/architecture` are the examples and the audit.
+[`AGENTS.md`](./AGENTS.md) is the always-on index for every harness, including Cursor and including chats that never invoke a skill. It tells agents which file in [`skills/rules/`](./skills/rules/SKILL.md) to open for which job. [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) are the code quality and code structure rules. Every skill except `/ask-gabriel` links them in its Read when list.
 
 - Do **not** add a root `rules/` folder, a `.mdc` file, or a `.cursor/rules` copy. Rule text lives only in `skills/rules/`.
 - Do **not** paste `AGENTS.md` into a User Rules box.
 - Rule text lives in `skills/rules/`, one file per topic. `AGENTS.md` is only the index: a short intro, how to find the pack, the **Read when** table, the hard rules that hold with no file open, and the Conflict line. Change a rule in its `skills/rules/` file. Do not grow `AGENTS.md` back into the full rulebook, and keep it under 8,192 bytes.
-- Do **not** copy the Taste or Architecture rules into `skills/taste/doctrine.md` or `skills/architecture/doctrine.md`. Those files point at `skills/rules/code-quality.md` and `skills/rules/code-structure.md`. The Unslop catalog lives in `skills/rules/writing-style.md` because it is not a user skill.
+- Do **not** copy the code quality or code structure rules into a skill doctrine. The Unslop catalog lives in `skills/rules/writing-style.md` because it is not a user skill.
 - When the index or the hard rules change, edit root `AGENTS.md` and copy it to `skills/setup-toolkit/templates/AGENTS.md` in the same change so the two stay identical.
 - Do **not** add a `CLAUDE.md` in the pack or the app.
-- `npx skills` does not install root `AGENTS.md`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the destinations the user chose: the app, existing harness homes, or both. Refresh only when the app file is missing or already the pack copy (marker `gabriel-skills-agents`). A different app `AGENTS.md` stays put. Cursor is the repo file. It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`. ESLint and Prettier wait for a yes.
+- `npx skills` does not install root `AGENTS.md`. The setup skill ships `templates/AGENTS.md` (keep it identical to the pack-root file). `/setup-toolkit` copies that contract into the destinations the user chose: the app, existing harness homes, or both. Refresh only when the app file is missing or already the pack copy (marker prefix `gabriel-skills-agents`); an older or unversioned pack copy is refreshed and reported as out of date. A different app `AGENTS.md` stays put. Cursor is the repo file. It does not create a harness directory the user does not have, and it does not add a project `CLAUDE.md`. ESLint and Prettier wait for a yes.

@@ -16,7 +16,7 @@ The Why / What / How approval gate, writing the approved tests, and the lock rep
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
@@ -30,7 +30,7 @@ none (uses `taste:*` and `architecture:*`)
 | High-conviction set | A few scenarios over combinatorial or snapshot theater |
 | Reuse the repo | Runner, layout, fixtures, helpers. Do not add a framework |
 | Focused run | Only the focused test file or filter unless that is inconclusive or the user asks otherwise |
-| Taste and architecture | Helpers throw on setup failure (`taste:throw-at-boundaries`); comments summarize the approved lock (`taste:comments`); exercise the service or deep-module public API, not internals (`architecture:deep-public-surface`) |
+| Code quality and structure | Helpers throw on setup failure (`quality:throw-at-boundaries`); comments summarize the approved lock (`quality:comments`); exercise the service or deep-module public API, not internals (`structure:deep-public-surface`) |
 
 ## Output
 

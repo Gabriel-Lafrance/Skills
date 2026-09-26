@@ -14,7 +14,7 @@ so and stop.
 
 ## Read when
 
-- Every run, so locks sit on the public surface, not internals: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md).
+- Every run, so locks sit on the public surface, not internals: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md).
 - Drafting the approval brief, test comment, or handoff: [reference.md](reference.md).
 - Asking the Why / What / How question: [asking.md](../pack-shared/asking.md).
 ## Who starts it

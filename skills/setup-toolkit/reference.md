@@ -22,9 +22,20 @@ Read the disk and print a short list. Do not ask the user for these facts.
 | --- | --- |
 | User skills | `rules/code-quality.md` under `~/.agents/skills/`, `~/.claude/skills/`, or `~/.cursor/skills/` |
 | Repo skills | `rules/code-quality.md` under the workspace `.agents/skills/`, `.claude/skills/`, or `.cursor/skills/` (ignore when the workspace is the Skills pack) |
-| Repo contract | workspace-root `AGENTS.md`: missing, pack copy (has `gabriel-skills-agents`), or someone else's file |
+| Repo contract | workspace-root `AGENTS.md`: missing, pack copy (has `gabriel-skills-agents`), or someone else's file. For a pack copy, its [contract version](#contract-version) |
 | Harnesses in use | each folder in [Harness files](#harness-files) that exists, plus any harness the user named |
 | App | workspace `package.json`; ESLint or Prettier already present |
+
+### Contract version
+
+The marker is the first line: `<!-- gabriel-skills-agents v2.0.0 -->`. Detect a pack copy by the prefix `gabriel-skills-agents` alone, so a copy with an old version or no version still counts as the pack's.
+
+Compare each installed pack copy (the repo `AGENTS.md`, and a copied Codex `AGENTS.md`) with the [source](#install-agentsmd) marker. When the installed version is older, or the marker has no version, the copy is out of date:
+
+1. Refresh it with the source now. It is the pack's own file, so no question is needed.
+2. Tell the user it was out of date (old version, new version) and where to see what changed: [merged pull requests](https://github.com/Gabriel-Lafrance/Skills/pulls?q=is%3Apr+is%3Amerged) and [commits on main](https://github.com/Gabriel-Lafrance/Skills/commits/main).
+
+A symlink to the installed template is always current. A file without the prefix is someone else's: never refresh it.
 
 ## Questions
 
@@ -131,7 +142,7 @@ Setup never writes `.cursor/rules`, an `.mdc` file, or `.cursor/hooks.json`.
 
 ## Report
 
-End with one line per file: path, then **written**, **refreshed**, **appended**, **symlinked**, **copied**, **deleted**, or **skipped**, and the reason (for example "skipped: foreign AGENTS.md, pointer appended instead", "skipped: `~/.gemini` not installed", or "deleted: old pack copy"). List each [cleanup](#clean-up-old-installs) path that existed as deleted, or skipped with the reason (for example "skipped: no `gabriel-skills-agents` marker").
+End with one line per file: path, then **written**, **refreshed** (say "out of date" and the versions when [Contract version](#contract-version) triggered it), **appended**, **symlinked**, **copied**, **deleted**, or **skipped**, and the reason (for example "skipped: foreign AGENTS.md, pointer appended instead", "skipped: `~/.gemini` not installed", or "deleted: old pack copy"). List each [cleanup](#clean-up-old-installs) path that existed as deleted, or skipped with the reason (for example "skipped: no `gabriel-skills-agents` marker").
 
 ## Detect the app
 

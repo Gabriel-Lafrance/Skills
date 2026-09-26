@@ -10,13 +10,13 @@ What to discover, rules that must stay true, interview rules, and the Locked clo
 
 ## Does not own
 
-- Taste and architecture bars: cite `taste:*` and `architecture:*`
+- Code quality and structure bars: cite `quality:*` and `structure:*`
 - Plans and implementation: `/task`
 - Numbered parent process: [`SKILL.md`](SKILL.md)
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 
@@ -28,7 +28,7 @@ Research repository facts yourself, then batch every material user decision that
 - actor, trigger, expected outcome, and enabled, disabled, loading, and empty states for each user-visible or stateful behavior;
 - transitions, forbidden states, invalid input, errors, retries, timing, duplicate actions, concurrency, writes, side effects, feedback, boundaries, and unchanged behavior;
 - domain language, named events, packages, vendors, storage, roles, and standing policies;
-- **Always** taste and architecture Cite keys: owner, public boundary, folders (owning folder, not a mixed parent), write path, who may act, what a caller can skip, where the write is rejected, and whether a behavior-preserving move is required. For a typo or pure rename, lock “keep the existing structure.” If the slice needs config, lock reuse of an existing env var that already holds that job (`taste:reuse-env`); do not ask the user to invent `FRONTEND_URL` when `SITE_URL` exists.
+- **Always** code quality and code structure cite keys: owner, public boundary, folders (owning folder, not a mixed parent), write path, who may act, what a caller can skip, where the write is rejected, and whether a behavior-preserving move is required. For a typo or pure rename, lock “keep the existing structure.” If the slice needs config, lock reuse of an existing env var that already holds that job (`quality:reuse-env`); do not ask the user to invent `FRONTEND_URL` when `SITE_URL` exists.
 
 Distinguish facts from user-owned decisions. Rediscover facts from the repository, ticket, PR, and diff; place decisions, waivers, non-goals, and rules in the execution context.
 
@@ -46,7 +46,7 @@ When `/write-ticket` is the parent, its topic list replaces the sweep above. Do 
 
 1. Follow decision dependencies. If a later answer depends on an earlier one, cover both paths in one batch or defer the dependent choice.
 2. Use the shared asking contract: batch known questions, give discrete options a recommendation, and do not re-ask settled decisions.
-3. Prefer recommendations grounded in good sibling patterns and applicable `/taste` and `/architecture` Cite keys. When a behavior-preserving move clearly reduces entropy, recommend it over copying existing debt.
+3. Prefer recommendations grounded in good sibling patterns and applicable `quality:*` and `structure:*` cite keys. When a behavior-preserving move clearly reduces entropy, recommend it over copying existing debt.
 4. Ask about behavior and ownership, not implementation ceremony. Never invent repository facts or make a user decide a fact that research can answer.
 5. Do not create plans or implement while material questions remain open.
 
@@ -77,7 +77,7 @@ Save a durable record only when the user asks and approves its destination.
 After Locked closure:
 
 - Parent is `/write-ticket` → return the locked context to it. Do not start `/task`.
-- Structure still needs a decision → `/architecture`, then `/task`.
+- Structure still needs a decision → `/analyze`, then `/task`.
 - Ready to build → `/task`, carrying the inline execution context.
 
 ## Anti-patterns

@@ -1,4 +1,4 @@
-# Taste examples
+# Code quality examples
 
 Good vs bad. Match **good**.
 
@@ -19,7 +19,7 @@ if (!user.canOrder) throw new Error("Cannot order");
 ```
 
 **Bad:** `interface NotifierStrategy` + empty `abstract class BaseNotifier` + `ConsoleNotifier` for one `console.log`.
-**Good:** `async function notifyUser(msg: string) { console.log(msg); }`. Big features still get one seam + one impl ([reference.md](reference.md#futureproofing)).
+**Good:** `async function notifyUser(msg: string) { console.log(msg); }`. Big features still get one seam + one impl ([reference.md](code-quality.md#futureproofing)).
 
 ## Named principles (spot checks)
 
@@ -51,11 +51,11 @@ new CartStore().setItems(applyTax(items));
 ## Entropy / broken window
 
 **Bad:** `features/upgrade/upgrade.ts` calls `stripe.checkout.sessions.create(...)` because checkout did.
-**Good:** move Stripe into `services/billing/billing.ts`; upgrade calls `makeUserPay({ userId, cents, reason: "upgrade" })` (`architecture:prior-mistakes`).
+**Good:** move Stripe into `services/billing/billing.ts`; upgrade calls `makeUserPay({ userId, cents, reason: "upgrade" })` (`structure:prior-mistakes`).
 
 ## Never-nest
 
-Flatten control flow, not the folder tree (`architecture:folders`).
+Flatten control flow, not the folder tree (`structure:folders`).
 
 **Bad:**
 

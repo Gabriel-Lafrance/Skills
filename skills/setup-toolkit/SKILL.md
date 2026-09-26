@@ -1,14 +1,10 @@
 ---
 name: setup-toolkit
 description: >-
-  Gabriel Lafrance Skills on-ramp (setup-toolkit) from skills.sh. Verifies
-  what is installed, then installs this pack and AGENTS.md into the repo
-  (default), user level, or both, with one-line pointers for harnesses
-  that read another file (CLAUDE.md, GEMINI.md). ESLint and Prettier are
-  opt-in. Use when the user wants npx skills, skills.sh, this pack,
-  AGENTS.md, linting, formatting, or to set up the rules across Claude,
-  Cursor, Codex, Gemini, and other harnesses. Not for rewriting an
-  existing lint stack.
+  Verify, then install this pack and AGENTS.md in the repo, user level, or
+  both, with pointer lines for other harnesses. Lint and format are opt-in.
+  Use when the user wants npx skills, skills.sh, this pack, AGENTS.md, or
+  linting set up. Not for rewriting an existing lint stack.
 disable-model-invocation: true
 ---
 
@@ -32,7 +28,9 @@ until the user says yes.
 
 1. Verify. Look up skill roots, `AGENTS.md`, harnesses in use, and whether this
    app has a `package.json`. Print those facts. Do not ask the user for them
-   ([reference.md](reference.md#verify)).
+   ([reference.md](reference.md#verify)). Refresh a pack `AGENTS.md` whose
+   marker version is older or missing, and tell the user it was out of date
+   with links to what changed ([reference.md](reference.md#contract-version)).
 2. Ask once ([reference.md](reference.md#questions)). Wait. Scope is this repo,
    this repo and user level, or user level only. Lint is yes or no. Skip the
    lint item when there is no `package.json`.

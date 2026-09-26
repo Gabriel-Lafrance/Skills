@@ -23,7 +23,7 @@ npx skills@latest update -g -y
 
 `--all` is every skill, every harness the CLI already sees. Use `-a claude` or `-a cursor` alone when you only want one.
 
-The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md).
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`) from older installs. Those folders are gone. `/goal` is [`/task`](./skills/task/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/taste` and `/architecture` were removed: their examples live in [`skills/rules/`](./skills/rules/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md).
 
 **Cursor plugin (optional).** Install **gabriel-skills** from **Customize → Marketplace** (public listing or your team marketplace) to get the skills in Cursor. Cursor follows [`AGENTS.md`](./AGENTS.md), the same contract as every other harness. There is no Cursor rules copy.
 
@@ -31,7 +31,7 @@ Team admins can also import this repo from **Cursor Dashboard → Plugins → Ad
 
 `npx skills` copies skill folders. It does not copy root `AGENTS.md`. `/setup-toolkit` ships a copy of the contract. It asks whether that file goes in the repo, in your harness homes, or both. It does not copy ESLint or Prettier until you say yes.
 
-[`AGENTS.md`](./AGENTS.md) is the always-on index. The rules it points to live in [`skills/rules/`](./skills/rules/SKILL.md); [`code-quality.md`](./skills/rules/code-quality.md) (taste) and [`code-structure.md`](./skills/rules/code-structure.md) (architecture) always apply ([`pack-shared/standards.md`](./skills/pack-shared/standards.md)). [`/taste`](./skills/taste/SKILL.md) and [`/architecture`](./skills/architecture/SKILL.md) are the examples and the audit. They are not the source of the rules. Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow [`writing-style.md`](./skills/rules/writing-style.md). `/ask-gabriel` stays a thin router and does not restate those rules.
+[`AGENTS.md`](./AGENTS.md) is the always-on index. The rules it points to live in [`skills/rules/`](./skills/rules/SKILL.md); [`code-quality.md`](./skills/rules/code-quality.md) and [`code-structure.md`](./skills/rules/code-structure.md) always apply, with good and bad snippets in [`code-quality-examples.md`](./skills/rules/code-quality-examples.md) and [`code-structure-examples.md`](./skills/rules/code-structure-examples.md). Agents talk to you in ordinary words ([`pack-shared/plain-language.md`](./skills/pack-shared/plain-language.md)). Chat replies follow [`writing-style.md`](./skills/rules/writing-style.md). `/ask-gabriel` stays a thin router and does not restate those rules.
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
@@ -56,7 +56,7 @@ Six kinds. **Guide** informs; everything else moves work forward.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
-| **Guide**         | `/ask-gabriel`, `/taste`, `/architecture`                | Route, plus examples and audits for the always-on rules |
+| **Guide**         | `/ask-gabriel`                                           | Route to the next skill |
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task`                                                  | Implement end-to-end  |

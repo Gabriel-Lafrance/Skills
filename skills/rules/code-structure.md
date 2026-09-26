@@ -1,8 +1,8 @@
 # Code structure
 
-Cite keys use the `architecture:` prefix.
+Cite keys use the `structure:` prefix. Each key is a heading in this file.
 
-These rules apply on every non-trivial change, whether or not anyone invoked `/architecture`. Examples: `architecture/examples.md`.
+These rules apply on every non-trivial change. Examples: [code-structure-examples.md](code-structure-examples.md).
 
 ## Services
 
@@ -70,7 +70,7 @@ Propose the folder map, then create the owning folder before the files, even for
 2. `services/<concern>/` (or repo equivalent) for shared domain APIs; feature folders for UI and orchestration that call them.
 3. No convention fits: create a feature or domain folder.
 4. Colocate what changes together; nest non-entry collaborators one level down (`components/`, `hooks/`). Separate what changes for different reasons.
-5. Name files per `taste:naming-files`.
+5. Name files per `quality:naming-files`.
 6. No `utils.ts` / `helpers.ts`. Name the concept (often a service, or a primitive inside one).
 7. **Convex:** a one-file concern may stay `convex/billing.ts` if that is the repo pattern. A second file moves the cluster into `convex/billing/` (no root `billingStripe.ts`). Never both `convex/billing.ts` and `convex/billing/`.
 8. **App Router:** `page.tsx`, `layout.tsx`, `route.ts` stay in the route folder; other slice files nest there or in a feature folder.
@@ -94,7 +94,7 @@ features/checkout/      # UI + orchestration. Calls makeUserPay
     checkout-form.tsx
 ```
 
-Convex uses taste naming (`billing.ts`, not `billing-actions.ts`), nests under `convex/<concern>/` past one file, and exposes a small set of queries, mutations and actions. No other Convex file duplicates Stripe or auth logic.
+Convex uses the file naming in [code-quality.md](code-quality.md#naming-and-files) (`billing.ts`, not `billing-actions.ts`), nests under `convex/<concern>/` past one file, and exposes a small set of queries, mutations and actions. No other Convex file duplicates Stripe or auth logic.
 
 **Check:** entry, collaborators, one leaf, nothing deeper?
 
@@ -169,10 +169,10 @@ Present before writing code, and in the plan contract under `/task`:
 - `features/<slice>/`       # calls services
   - entry + UI…
 **Fits existing pattern:** yes (cite good service / feature) | correcting debt (what) | new (why)
-**Taste:** `taste:naming-files`, `taste:keep-it-simple`, `taste:oop-depth-cap`
+**Quality:** `quality:naming-files`, `quality:keep-it-simple`, `quality:oop-depth-cap`
 
 **If writes**
-**Authority:** identity helper; ownership/tenant check; client cannot bypass; retry key (`architecture:authority`, `taste:safe-to-retry`)
+**Authority:** identity helper; ownership/tenant check; client cannot bypass; retry key (`structure:authority`, `quality:safe-to-retry`)
 
 **If lists / dashboards / counts**
 **Scalability:**
@@ -181,8 +181,8 @@ Present before writing code, and in the plan contract under `/task`:
 - Indexes: <index names / fields>
 - Pagination: <cursor / none because bounded>
 - Explicitly NOT recomputed on render/read: <metrics>
-- Queries are deterministic (`architecture:deterministic-queries`)
-- Public args validated: `taste:types-tell-the-truth` | n/a
+- Queries are deterministic (`structure:deterministic-queries`)
+- Public args validated: `quality:types-tell-the-truth` | n/a
 
 **If big feature / service**
 **Extension seam:** how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
@@ -192,16 +192,16 @@ Put every open structure question (service boundary, public API, primitives, fol
 
 Self-check before done:
 
-- [ ] `architecture:services` · `architecture:primitives` · `architecture:deep-public-surface`
-- [ ] `architecture:prior-mistakes`: required moves done, optional ones recorded
-- [ ] `architecture:folders` / `architecture:collaborating-parts`
-- [ ] `architecture:authority` when the slice writes
-- [ ] `architecture:cheap-reads` · `architecture:deterministic-queries` when the slice reads lists or counts
-- [ ] Taste cite keys respected; old behavior holds after any move
+- [ ] `structure:services` · `structure:primitives` · `structure:deep-public-surface`
+- [ ] `structure:prior-mistakes`: required moves done, optional ones recorded
+- [ ] `structure:folders` / `structure:collaborating-parts`
+- [ ] `structure:authority` when the slice writes
+- [ ] `structure:cheap-reads` · `structure:deterministic-queries` when the slice reads lists or counts
+- [ ] `quality:*` cite keys respected; old behavior holds after any move
 
 ## When this applies
 
-Always. For a typo or pure rename, applying it means keeping the structure. Process: explore, Structure card, implement, self-check. Audit steps: `architecture/SKILL.md`.
+Always. For a typo or pure rename, applying it means keeping the structure. Process: explore, Structure card, implement, self-check.
 
 Triggers: new feature; shared domain (payments, auth, email); copying provider logic; required move; extracting from a large file; React state bloating a component; new file, mixed sibling, or file without an owning folder; lists, counts or stats; parent query scanning children; public write, webhook or admin path; clock or unindexed filter in a query.
 

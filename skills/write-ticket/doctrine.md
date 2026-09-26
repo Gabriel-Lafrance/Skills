@@ -19,7 +19,7 @@ Stage selection, the two `/grill-me` gates, body shapes, promotion on the same t
 
 ## Cite keys
 
-none (uses `taste:*` and `architecture:*`)
+none (uses `quality:*` and `structure:*`)
 
 ## Bars
 

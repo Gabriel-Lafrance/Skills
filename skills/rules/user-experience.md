@@ -1,16 +1,16 @@
 # User experience
 
-Cite keys use the `design:` prefix. Each key below is a heading in this file.
+Cite keys use the `ux:` prefix. Each key below is a heading in this file.
 
 ## User-facing work
 
-`design:user-facing`. These rules apply to user-facing work: screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files). They apply even when `docs/design.md` is silent. Supporting non-UI files in the same lane still follow [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md). A typo in a non-UI file is out of scope.
+`ux:user-facing`. These rules apply to user-facing work: screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files). They apply even when `docs/design.md` is silent. Supporting non-UI files in the same lane still follow [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md). A typo in a non-UI file is out of scope.
 
 Put yourself in a designer and customer-experience seat. Apply these rules while building. `/review` stays Standards and Spec: there is no `/design-review` skill and no Design axis. If the UI contradicts `docs/design.md`, make the UI match the file in this turn.
 
 ## Source of truth
 
-`design:source-of-truth`. The only path is **`docs/design.md`** at the workspace root. It is a short **Do** / **Don't** list for this product's UI and UX. No screen catalog, no component encyclopedia, no architecture, no data model, no API notes, no per-route happy path, no second design file.
+`ux:source-of-truth`. The only path is **`docs/design.md`** at the workspace root. It is a short **Do** / **Don't** list for this product's UI and UX. No screen catalog, no component encyclopedia, no architecture, no data model, no API notes, no per-route happy path, no second design file.
 
 One bullet is one UI/UX rule, with a short why when it is not obvious. Identity, exceptions, and patterns are bullets, not headings. Merge duplicates. Do not copy the rules of this file into it. If the file is already a catalog, distill it to Do / Don't the next time you touch it: keep the user's likes and dislikes, delete agent dumps.
 
@@ -37,7 +37,7 @@ UI and UX do / don't for this product.
 
 ## Initialization
 
-`design:initialization`. If `docs/design.md` is missing when you start UI work, write it first, then continue. `/setup-toolkit` does not write it.
+`ux:initialization`. If `docs/design.md` is missing when you start UI work, write it first, then continue. `/setup-toolkit` does not write it.
 
 1. Discover **every** route from the app router in code. No browser, no login, no screenshots.
 2. Read those routes and the existing UI. Look for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).
@@ -55,7 +55,7 @@ Never overwrite an existing `docs/design.md` with a blank template. A partial ro
 
 ## Blend edits
 
-`design:blend-edits`. The user may add or remove Do / Don't bullets. The next run treats those bullets as truth. Do not restore deleted bullets or keep a private shadow copy.
+`ux:blend-edits`. The user may add or remove Do / Don't bullets. The next run treats those bullets as truth. Do not restore deleted bullets or keep a private shadow copy.
 
 When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet in `docs/design.md` in that turn, then match the UI if this turn also implements. The same holds when they want to change how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Do not only change the component. A written Do or Don't that asks for a slower or denser path is not a defect.
 
@@ -63,7 +63,7 @@ Add or tighten a bullet only when this turn observed a new UI/UX rule, the user 
 
 ## Smallest details
 
-`design:smallest-details`. Excellence is usually a small, specific thing: the control that is ready when needed, the label that matches the job, the state that does not strand the person, the extra click that should not exist. Judge and build at that grain. "Fine" is not done while a smaller friction remains.
+`ux:smallest-details`. Excellence is usually a small, specific thing: the control that is ready when needed, the label that matches the job, the state that does not strand the person, the extra click that should not exist. Judge and build at that grain. "Fine" is not done while a smaller friction remains.
 
 ## Identity
 
@@ -77,7 +77,7 @@ If none exist, ask the user and name the gap. Do not pick a palette "to get star
 
 ## Experience
 
-`design:experience`. Product exceptions (slower money flow, extra confirm) live as Do / Don't bullets.
+`ux:experience`. Product exceptions (slower money flow, extra confirm) live as Do / Don't bullets.
 
 | Rule | Meaning | Fix now |
 | --- | --- | --- |
@@ -88,13 +88,13 @@ If none exist, ask the user and name the gap. Do not pick a palette "to get star
 | **Respect time** | No fake waits, no full-page block for a fast save, no ceremony on a reversible action | Full-page spinner for a 200ms patch |
 | **Brain-off** | A person not thinking hard finishes the happy path | Picking among equivalent actions or remembering a hidden rule |
 
-Obvious help is not a surprise (`taste:no-surprises`). A guess is. Signed in as `maya@acme.com`, the invite form prefills `@acme.com`. On public signup as `maya@gmail.com`, leave the domain blank. "Delete workspace" still confirms, even if skipping it saves a click.
+Obvious help is not a surprise (`quality:no-surprises`). A guess is. Signed in as `maya@acme.com`, the invite form prefills `@acme.com`. On public signup as `maya@gmail.com`, leave the domain blank. "Delete workspace" still confirms, even if skipping it saves a click.
 
 Power shortcuts, command palettes, and optimistic polish are Follow-up, not Fix now.
 
 ## First glance
 
-`design:first-glance`. Show only what every user needs at first glance. Put the rest one level down on the same screen. This is the UI version of a deep public surface (`architecture:deep-public-surface`).
+`ux:first-glance`. Show only what every user needs at first glance. Put the rest one level down on the same screen. This is the UI version of a deep public surface (`structure:deep-public-surface`).
 
 | Rule | Meaning |
 | --- | --- |
@@ -107,7 +107,7 @@ Fix now: a toolbar of equal-weight buttons, or settings that list every expert t
 
 ## Don't tell the obvious
 
-`design:no-obvious`. Do not narrate what the screen already shows.
+`ux:no-obvious`. Do not narrate what the screen already shows.
 
 With no API keys, show the create action. No "No API key", "You haven't created a key yet", or "Get started by creating your first key." The blank list plus the button is the message. The same holds for drafts, teammates, and any "none yet".
 
@@ -115,7 +115,7 @@ Still say what is not obvious: an error, a permission wall, a search or filter w
 
 ## Professional craft
 
-`design:professional-craft`. Ship finished UI in the same turn. The first pass looks like a designer completed it, not a draft to restyle later. Do the design work in thinking, then ship once:
+`ux:professional-craft`. Ship finished UI in the same turn. The first pass looks like a designer completed it, not a draft to restyle later. Do the design work in thinking, then ship once:
 
 1. Name the screen's single job, the identity source ([Identity](#identity)), and what the words are for ([UI copy](#ui-copy)).
 2. List the color, type, density, and motion roles that identity already uses. New UI reuses them. No second system.
@@ -123,11 +123,11 @@ Still say what is not obvious: an error, a permission wall, a search or filter w
 4. Name the first glance and what sits one level down.
 5. Cut decoration that does not serve the job. One restrained motion beat when motion exists, no scattered entrance animations.
 
-When the app already has a look, match it, even if it is quiet (navy and a serif stays navy and a serif). When the user states a new identity, avoid AI-default looks: cream and terracotta serif, near-black and acid green, purple-on-white gradients, Inter or Roboto-only stacks. Landing first viewport follows [React and UI](../taste/reference.md#react-and-ui).
+When the app already has a look, match it, even if it is quiet (navy and a serif stays navy and a serif). When the user states a new identity, avoid AI-default looks: cream and terracotta serif, near-black and acid green, purple-on-white gradients, Inter or Roboto-only stacks. Landing first viewport follows [React and UI](#react-and-ui).
 
 ## UI copy
 
-`design:ui-copy`. Interface words are design material. Name the surface before you write.
+`ux:ui-copy`. Interface words are design material. Name the surface before you write.
 
 | Surface | Job of the words |
 | --- | --- |
@@ -145,7 +145,7 @@ Chat unslop covers discussion text only: a landing that sells is correct. Docs t
 
 ## Spoken locale
 
-`design:spoken-locale`. User-visible words in a language sound like a speaker of that language named the job. Translate the job, not the source words. Applies to app UI, locale files, landing, docs, and emails. Code identifiers stay on `taste:naming-files`.
+`ux:spoken-locale`. User-visible words in a language sound like a speaker of that language named the job. Translate the job, not the source words. Applies to app UI, locale files, landing, docs, and emails. Code identifiers stay on `quality:naming-files`.
 
 1. Name the job in one ordinary sentence ("the person removes a photo's background"). Drop the source phrasing.
 2. Reuse the repo's locale term for that job if one exists. Otherwise use what real products in that locale print.
@@ -156,7 +156,7 @@ English "Background remover" is not French "Suppresseur de fond": that glues dic
 
 ## Quality floor
 
-`design:quality-floor`. Every user-facing slice meets these, even when `docs/design.md` never mentions them.
+`ux:quality-floor`. Every user-facing slice meets these, even when `docs/design.md` never mentions them.
 
 | Check | Fix now when | Follow-up when |
 | --- | --- | --- |
@@ -167,6 +167,15 @@ English "Background remover" is not French "Suppresseur de fond": that glues dic
 | Primary action not hover-only | The only way to act requires hover | Extra hover hint on a clickable control |
 | `prefers-reduced-motion` | New motion with no reduced alternative | Existing motion outside this change |
 | Icons are SVG, not emoji | New UI uses emoji as a control icon | Emoji in user-generated content |
+
+## React and UI
+
+`ux:react-and-ui`.
+
+- **Mobile first**, then widen.
+- One component per file (`quality:one-export-per-file`). Keep components thin: complexity lives in a hook or class behind the entry.
+- Marketing and landing UI avoid AI-default looks: purple-on-white gradients, cream and terracotta serif, flat single-color voids, card-heavy heroes, pill clusters, emoji decoration.
+- Landing first viewport: brand, one headline, one line, CTA, one dominant image. Nothing else.
 
 ## Anti-patterns
 

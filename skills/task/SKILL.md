@@ -16,7 +16,7 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 ## Read when
 
 - Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
-- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) and the [execution-context contract](../pack-shared/execution-context.md).
+- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution-context contract](../pack-shared/execution-context.md).
 - At the step that names a section: [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
 - Before asking the user anything: [asking.md](../pack-shared/asking.md).
 - Only when this chat will open a PR: [pr-ship.md](../pack-shared/pr-ship.md).

@@ -13,7 +13,7 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 
 ## Read when
 
-- Before researching, even when the ask looks like a single file: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)), plus [doctrine.md](doctrine.md) and [execution-context.md](../pack-shared/execution-context.md).
+- Before researching, even when the ask looks like a single file: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and [execution-context.md](../pack-shared/execution-context.md).
 - Before asking the user anything: [asking.md](../pack-shared/asking.md).
 
 ## Contract

@@ -9,11 +9,11 @@ disable-model-invocation: true
 
 # Grill Me
 
-Discover product, behavioral, taste, and architecture decisions through batched Questions, and keep locked decisions and rules that must stay true visible in the execution context.
+Discover product, behavioral, code quality, and code structure decisions through batched Questions, and keep locked decisions and rules that must stay true visible in the execution context.
 
 ## Read when
 
-- Before recommending answers: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) ([standards.md](../pack-shared/standards.md)).
+- Before recommending answers: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
 - Every run: [doctrine.md](doctrine.md), [execution-context.md](../pack-shared/execution-context.md), [asking.md](../pack-shared/asking.md), and [plain-language.md](../pack-shared/plain-language.md).
 
 ## Process
@@ -31,8 +31,8 @@ Discover product, behavioral, taste, and architecture decisions through batched 
 
    | When | Include in the batch |
    | --- | --- |
-   | Always | `/taste` Cite keys (`taste:keep-it-simple` and Named principles). If the slice needs config, lock reuse of existing env vars (`taste:reuse-env`); do not ask whether to add `FRONTEND_URL` when `SITE_URL` already holds that job. |
-   | Always | `/architecture` Cite keys: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
+   | Always | [code-quality.md](../rules/code-quality.md) cite keys (`quality:keep-it-simple` and Named principles). If the slice needs config, lock reuse of existing env vars (`quality:reuse-env`); do not ask whether to add `FRONTEND_URL` when `SITE_URL` already holds that job. |
+   | Always | [code-structure.md](../rules/code-structure.md) cite keys: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
    heading in that message). Wait for the reply.
@@ -62,7 +62,7 @@ Stop after shared understanding unless the user explicitly asks for the next
 step. `/task` receives the inline context; `/write-ticket` may receive the
 relevant memo and decisions.
 
-- Structure needed → `/architecture`, then `/task`.
+- Structure needed → `/analyze`, then `/task`.
 - Ready to build → `/task`.
 
 ## Anti-patterns

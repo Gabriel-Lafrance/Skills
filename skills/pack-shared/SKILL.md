@@ -17,8 +17,6 @@ Not a user skill. Do not recommend `/pack-shared`. This folder exists so `npx sk
 
 Other skills link the file they need at the step that needs it:
 
-- [standards.md](standards.md): who applies `rules/code-quality.md` and `rules/code-structure.md`, and when
-- [doctrine-schema.md](doctrine-schema.md): writing a skill doctrine (H2 order). Taste and architecture doctrine files point at the rules files and do not use that schema
 - [plain-language.md](plain-language.md): talking to humans in ordinary words
 - [asking.md](asking.md): asking the user anything
 - [execution-context.md](execution-context.md): keeping in-chat context across phases

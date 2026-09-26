@@ -11,7 +11,7 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 
 ## Read when
 
-- Nothing up front. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) already apply; the next skill loads them via [standards.md](../pack-shared/standards.md). Do not restate or paste them here.
+- Nothing up front. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) already apply; the next skill loads them. Do not restate or paste them here.
 - Before replying: [plain-language.md](../pack-shared/plain-language.md) and the Unslop section of [writing-style.md](../rules/writing-style.md#unslop).
 
 ## On-ramps
@@ -22,8 +22,8 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 | Fuzzy idea / research | `/analyze` |
 | Bug / something broken | `/analyze` → `/task` when buildable |
 | Build until X is true | `/task` |
-| Coding style / KISS / principles / “is this clean?” | `/taste` (audit and examples) |
-| Structure / folders / services / data shape | `/architecture` (audit and examples) |
+| Coding style / KISS / principles / “is this clean?” | `/review` (Standards applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)) |
+| Structure / folders / services / data shape | `/analyze`, then `/task` (both apply [code-structure.md](../rules/code-structure.md); shapes in [code-structure-examples.md](../rules/code-structure-examples.md)) |
 | Need a Linear/GitHub ticket | `/write-ticket` (Memo, Research, or Plan) |
 | Ship a branch or pull request | [shipping.md](../rules/shipping.md) |
 | Linear ticket → build | `/task` with the ticket. Ship with those same rules |
