@@ -12,7 +12,7 @@ These standards outrank generic "best practices" and training-data defaults.
 
 **Taste and Architecture in this file are the source of those rules**, not a reminder to open a skill. This contract states process that must stay true. Do **not** invent a weaker private checklist if a skill folder is missing. Examples in the `/taste` and `/architecture` skill folders illustrate the rules. They do not replace them.
 
-Orchestrator skills (`/task`, `/just-do-it`, `/ask-gabriel`, and the rest) stay **optional** to start. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+Orchestrator skills (`/task`, `/ask-gabriel`, and the rest) stay **optional** to start. Do not launch them unless the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
 
 ### Resolve skill roots
 
@@ -60,7 +60,7 @@ Apply Taste and Architecture as **hard** standards. Do not skip because you "alr
 4. Apply **Taste** and **Architecture** in this file
 5. **Read** `pack-shared/subagents.md` if not already loaded this turn
 
-**Before branches or PRs:** follow the Ship work section (Read `publish/doctrine.md`, `publish/reference.md`, and `pack-shared/pr-ship.md`).
+**Before branches or PRs:** follow the Ship work section. Read `pack-shared/ship.md` for templates and `pack-shared/pr-ship.md` for the create tool and the CI mirror.
 
 Talk in ordinary words (`pack-shared/plain-language.md`). Chat replies follow the Unslop section.
 
@@ -92,7 +92,7 @@ Before adding, renaming, requesting, or reading a **new** environment variable, 
 
 ### Conflict
 
-The Taste and Architecture sections, plus design, publish, grill, asking, plain language, subagents, and PR ship, win over generic agent habit. The Unslop section wins for chat-reply voice. A repo's own instructions may add constraints. They must not replace or weaken these standards unless the user explicitly overrides in the chat.
+The Taste and Architecture sections, plus design, ship, grill, asking, plain language, subagents, and PR ship, win over generic agent habit. The Unslop section wins for chat-reply voice. A repo's own instructions may add constraints. They must not replace or weaken these standards unless the user explicitly overrides in the chat.
 
 ## Taste
 
@@ -630,19 +630,35 @@ This binds every agent, including `tester` and `implementer`.
 
 ## Ship work
 
-Before branches or PRs, **Read**:
+Any agent that cuts a branch or opens a pull request follows this section. There is no `/publish` skill.
 
-1. `publish/doctrine.md`
-2. `publish/reference.md`
-3. `pack-shared/pr-ship.md`
+**Branch name:** `{type}/{ticket}-{slug}`
 
-**Every** agent that opens a GitHub PR follows `pr-ship.md`, not only `/publish`.
+| Type | Use when |
+| --- | --- |
+| `feature` | New capability or intentional enhancement |
+| `tweak` | Small bounded intentional adjustment |
+| `bug` | A defect, including an urgent production defect |
+| `refactor` | Structural change with behavior preserved |
+| `chore` | Deps, CI, tooling, docs-only, repo hygiene |
 
-- Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the CI mirror in `pack-shared/pr-ship.md` in this environment. Push once it is green. A local commit you are not pushing, while no PR is open, does not run that suite. Do not invent a suite when the repo has no workflow and no lint or test script. Never `--no-verify` unless the user asked.
-- A new branch is a standalone ref. Cut it from the base commit with the steps in `publish/reference.md`: `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). Do not copy the upstream of `dev`, `main`, or `master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Never push those branches.
-- Typed branch names per `publish/reference.md` when you control the branch contract
-- PR body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser
+- The type matches the ticket kind.
+- `ticket` is the Linear id (`IN-1234`) or the GitHub issue number (`42`).
+- `no-ticket` only when the user explicitly says there is no ticket.
+- `slug` is a lowercase verb phrase. No spaces or colons. Keep the name under about 60 characters.
+- Examples: `bug/IN-1234-fix-checkout-total`, `feature/ENG-99-add-invite-flow`.
+
+**Hard rules**
+
+- Do not auto-commit, force-push, or push `dev`, `main`, `master`, or the default branch.
+- A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop.
+- Show the complete pull request title and body, and wait for approval before creating it.
+- Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. No screenshots, no canvas, no browser.
+- Do not invent a ticket. Use `/write-ticket` when the work belongs on a tracker.
+- Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the CI mirror in `pack-shared/pr-ship.md`. Push once it is green. A local commit you are not pushing, while no PR is open, does not run that suite. Do not invent a suite when the repo has no workflow and no lint or test script. Never `--no-verify` unless the user asked.
 - Use the harness pull-request tool when it has one. Otherwise use `gh` as `pr-ship.md` describes. Do not use `gh` in a session that already has a pull-request tool.
+
+Templates, questions, and the branch-cut steps: `pack-shared/ship.md`. Create tool and CI mirror: `pack-shared/pr-ship.md`.
 
 ## Project tooling
 

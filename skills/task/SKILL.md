@@ -4,8 +4,8 @@ description: >-
   Stateless end-to-end build loop: grill, plan, suggest behavior-lock tests
   the user can refuse, implement, gather acceptance evidence, and review one
   verifiable outcome using in-chat execution context. Use when the user wants
-  a feature or outcome built end to end. Nested under /just-do-it when that
-  parent owns shipping.
+  a feature or outcome built end to end. When a parent owns shipping, return
+  evidence to that parent.
 disable-model-invocation: true
 ---
 

@@ -97,7 +97,7 @@ Suggest tests only from grilled Active Rules, using the `/create-test` bar for w
 
 ## Output
 
-**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/task` runs under `/just-do-it` (or another parent), return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
+**Complete only when:** the applicable checklist is done, acceptance evidence is recorded (no open fails; blocked criteria stated), `/code-review` has run, and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). When `/task` runs under a parent that owns shipping, return the completion evidence to it and skip ship Questions; otherwise offer ship Questions. Do not commit, open a PR, archive anything, or write a summary artifact unless the user asks.
 
 **Pause:** stop dispatching work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context; do not delete a user-requested artifact unless the user explicitly asks.
 
@@ -119,7 +119,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Writing to a tracker, committing, or opening a PR without a separate user request (this chat owns shipping) or parent ownership (nested)
-- Opening a PR without [pr-ship.md](../pack-shared/pr-ship.md) (create tool) because this skill is not `/publish`
+- Opening a PR without the Ship work rules and [pr-ship.md](../pack-shared/pr-ship.md)
 - Writing or editing test files on this skill
 - Suggesting a lock before grill Locked closing, or for behavior the grill did not record
 - Treating silence, a refused brief, or a parent `recommended` default as acceptance

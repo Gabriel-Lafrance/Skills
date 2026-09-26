@@ -12,14 +12,16 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task`, not a typical user start.
 
 This pack talks to trackers via **MCP** and **`gh`**. Return a compact ticket
 brief in the parent's inline [execution context](../pack-shared/execution-context.md);
 do not persist it in agent-owned state. Cursor Cloud Agent linking is separate.
 
 Keep taste/architecture acceptance criteria and constraints from the ticket in
-the brief. Do not drop them.
+the brief. Do not drop them. A Plan also keeps its rules, structure, files,
+snippets, done-when, tests, and already-decided lines. Research keeps the
+need, the problem, and what the grill settled.
 
 ## Hard rule: read only
 
@@ -91,6 +93,8 @@ If `gh` is missing or unauthenticated, say so and stop — do not invent the tic
 - **Tracker:** Linear | GitHub
 - **URL:** …
 - **Title:** …
+- **Stage:** Memo | Research | Plan | unknown
+- **Kind:** Feature | Tweak | Bug | Refactor | Chore | unset
 
 # Ask
 <what the ticket wants, user perspective>

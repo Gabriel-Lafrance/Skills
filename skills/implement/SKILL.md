@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 **Ask style:** [../pack-shared/asking.md](../pack-shared/asking.md)
 
-This skill is a worker step for `/task` or `/just-do-it`, not a typical user start.
+This skill is a worker step for `/task`, not a typical user start.
 You own **how**. The parent sends **what** and need-to-know, not a recipe.
 
 User-facing UI is `/design`. If this brief's write allowlist is screens,

@@ -67,10 +67,10 @@ See [`how-to.md`](../how-to.md) for folder layout, frontmatter, and publish note
 
 ## Branch and PR
 
-Use typed branches when possible (same contract as `/publish`):
+Use the branch name from the Ship work section of `AGENTS.md`:
 
 ```text
-feature|tweak|bug|refactor|chore|hotfix/<ticket-or-no-ticket>-<slug>
+feature|tweak|bug|refactor|chore/<ticket-or-no-ticket>-<slug>
 ```
 
 Create that branch from the base commit with `git switch --detach <base-sha>`,
@@ -78,7 +78,7 @@ then `git switch -c <name>` (or `git switch --no-track -c`). Do not let it
 track `dev`, `main`, or `master`. Push `HEAD:refs/heads/<name>`. A branch cut
 from `dev` is its own ref: the push does not update `dev`, so it does not
 take `dev`'s protection. Steps live in
-[`skills/publish/reference.md`](../skills/publish/reference.md).
+[`skills/pack-shared/ship.md`](../skills/pack-shared/ship.md).
 
 Before a push that opens a PR, or a commit or push on a branch that already
 has an open PR, run that repo's CI in your environment and fix failures
@@ -95,8 +95,7 @@ Open a PR against `main` using the pull request template:
 - **Change diagram** (Mermaid; Before/After for rework)
 - **How to QA**
 
-Agents that open the PR — `/publish`, `/just-do-it`, `/task` ship, or a cloud
-agent — follow [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).
+Agents that open the PR follow the Ship work section of `AGENTS.md` and [`skills/pack-shared/pr-ship.md`](../skills/pack-shared/pr-ship.md).
 
 ## Security
 

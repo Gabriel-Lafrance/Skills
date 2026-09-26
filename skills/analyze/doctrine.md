@@ -31,8 +31,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` seed | Nested: full standard memo even if the seed is ungrilled or a “don’t forget this” note; return to that parent. Do not stub. |
-| `/just-do-it` parent brief | Nested: research then return (parent may instruct promote + start) |
+| `/write-ticket` seed | Nested: full standard memo for Research (the problem) or Plan (the code that would change). Return to that parent. Do not stub. A Memo does not call this skill. |
 | Named review Fix-now rows | Nested: review-remediation mode only for those rows |
 
 ### Research rules
@@ -42,7 +41,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Noisy search **must** use `explorer` Tasks per [subagents.md](../pack-shared/subagents.md). The main agent does not grep the tree. When independent find-whats exist, spawn parallel explorers in the same turn (no cap of two). Pick `analyzer` to judge how, impact, risk, and files touched. Do not follow a fixed spawn order. Give each the applicable brief and wait for all results; never sleep or poll for them. Trivial single-path lookups may stay on the main agent.
 - Apply the **Taste** and **Architecture** sections of `AGENTS.md` on every run ([standards.md](../pack-shared/standards.md)). Prefer good siblings and behavior-preserving moves. Do not skip the Architecture section because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
-Review-remediation mode: use only after the user selected named **Fix now** rows from a review, or a `/just-do-it` parent explicitly forwarded named rows under its autonomy policy. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
+Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 
 ## Output
 
@@ -52,7 +51,7 @@ Diagram rules:
 
 - Prefer modules, actors, and request/data flow, not every file or function.
 - **New or additive work:** one diagram of the recommended path.
-- **Rework** (bug, hotfix, refactor, or a flow that changes): Before and After under Diagram, keeping the same node ids where possible.
+- **Rework** (bug, refactor, or a flow that changes): Before and After under Diagram, keeping the same node ids where possible.
 - **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the failing interleave, plus the expected order when it is known.
 - Use `flowchart`, `sequenceDiagram`, or `graph`. Pick the clearest form.
 - Name real modules/services/routes from the evidence. Do not invent a shape the repo does not support.
@@ -133,8 +132,6 @@ Return one section for every selected stable finding ID before asking for promot
 **Active Rules:** <preserved and newly locked rules>
 ```
 
-When an explicit `/just-do-it` parent requested this remediation, apply `a)` after showing the complete memo; do not wait for the Questions batch.
-
 ## Apply
 
 For one-off analysis, if the user did not already name the next step, offer one batch:
@@ -159,7 +156,7 @@ Reply like: 1a
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
 | e) Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
 
-Parents (`/write-ticket`, `/just-do-it`) own the next step. See [SKILL.md](SKILL.md). `/just-do-it` may explicitly instruct the `promote + start` handoff under its autonomy policy after the memo is shown.
+A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo. Do not start the ticket write or the grill from this skill.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../pack-shared/execution-context.md#optional-persistence).
 
@@ -180,7 +177,7 @@ Reply like: 1a
 ## Anti-patterns
 
 - Treating a memo as implementation or ticket-write approval
-- Stubbing nested analysis because a `/write-ticket` seed is short
+- Stubbing nested analysis because a `/write-ticket` Research or Plan seed is short
 - Posting a memo with no diagram when the path can be drawn
 - Drawing every file instead of modules, actors, and flow
 - Creating hidden state to resume analysis

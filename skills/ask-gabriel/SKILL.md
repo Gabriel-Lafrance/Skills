@@ -27,9 +27,9 @@ skill applies them via [standards.md](../pack-shared/standards.md). `/taste` and
 | Build until X is true | `/task` (must apply the **Taste** and **Architecture** sections of `AGENTS.md`) |
 | Coding style / KISS / principles / “is this clean?” | `/taste` |
 | Structure / folders / services / data shape | `/architecture` |
-| Need a Linear/GitHub ticket | `/write-ticket` — one prompt, detailed ticket |
-| Ship branch + optional PR | `/publish` (same ship contract as `/just-do-it` or a cloud agent) |
-| Linear ticket → opened PR (autonomous) | `/just-do-it IN-1234` |
+| Need a Linear/GitHub ticket | `/write-ticket` (Memo, Research, or Plan) |
+| Ship a branch or pull request | The Ship work section of `AGENTS.md` |
+| Linear ticket → build | `/task` with the ticket. Ship with those same rules |
 | Sharpen intent | `/grill-me` |
 | Review local branch vs main | `/code-review` |
 | Review open GitHub PR | `/pr-review` |
@@ -40,7 +40,7 @@ skill applies them via [standards.md](../pack-shared/standards.md). `/taste` and
 
 **Bias:** Before non-trivial coding, the Taste and Architecture sections already apply. Prefer `/analyze` then `/task` for a build. Recommend `/taste` or `/architecture` when the ask is an audit of style or structure. Do not paste those sections into this router.
 
-Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task` or `/just-do-it`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
+Internals (`/implement`, `/design`, and the other worker steps) are looked up by `/task`. `/design` is also a user start for capturing `docs/design.md`. `/taste` and `/architecture` are the audit and the examples. The rules stay in `AGENTS.md`. Task workers follow [../pack-shared/subagents.md](../pack-shared/subagents.md): pick the specialist that owns the job. Tester writes a lock when the user started `/create-test` or accepted a `/task` behavior-lock brief. Ordinary edits do not get tests. There is no architect worker and no fixed spawn order.
 
 ## How to answer
 

@@ -65,7 +65,7 @@ not reopen a broad review.
 
 ## Handoff
 
-The parent (this chat, or `/task` / `/just-do-it` when nested) owns
+The parent (this chat, or `/task` when nested) owns
 fixed-point setup, worker dispatch, reviewing Completions, acceptance
 evidence, and review gates. Standards and Spec **must** be parallel Tasks;
 add extra Tasks when the diff has independent surfaces. There is no Design
@@ -77,8 +77,7 @@ Fix now / Follow-up / Optional nit disposition in chat.
 
 Before any fix work, send selected Fix now findings to `/analyze` in
 review-remediation mode. Its memo stays keyed to the stable finding IDs,
-then requires explicit promotion (or the documented `/just-do-it`
-exception). The promoted lane remains bounded to those findings and the
+then requires explicit promotion. The promoted lane remains bounded to those findings and the
 supplied current slices.
 
 ### If this is a user one-off

@@ -85,7 +85,7 @@ file exists, skip init and work from it.
 
 ### If a parent already owns the next step
 
-`/task` or `/just-do-it` sent a Worker Brief for a user-facing slice. Stay in
+`/task` sent a Worker Brief for a user-facing slice. Stay in
 the allowlist. Follow taste, architecture, and `docs/design.md`. Apply
 experience, first glance, don't tell the obvious, copy that fits the
 surface, spoken locale (job first, then speaker terms), professional craft,
