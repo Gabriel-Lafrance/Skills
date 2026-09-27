@@ -102,9 +102,11 @@ Cover every independent part of the diff. Narrative-only output is incomplete. M
 | Keep it simple (KISS) | clear \| finding | … |
 | Keep jobs apart (SoC) | clear \| finding | … |
 | One altitude (SLAP) | clear \| finding | … |
+| Light to read (Minimize reader load) | clear \| finding | … |
 | Read or write, not both (CQS) | clear \| finding | … |
 | Fail fast (Fail Fast) | clear \| finding | … |
 | Leave it cleaner (Boy Scout Rule) | clear \| finding | … |
+| Subtract first (Subtract before you add) | clear \| finding | … |
 | Related together (Cohesion / Law of Demeter) | clear \| finding | … |
 | Safe to retry (Idempotency) | clear \| finding \| none | … |
 | Say what happens (explicit over implicit) | clear \| finding | … |

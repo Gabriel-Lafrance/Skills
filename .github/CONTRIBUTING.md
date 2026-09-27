@@ -18,8 +18,8 @@ for how agents should work live in
 [`skills/rules/code-structure.md`](../skills/rules/code-structure.md), with
 examples beside them. Every skill links both files. Chat
 replies follow [`skills/rules/writing-style.md`](../skills/rules/writing-style.md). Do not paste `AGENTS.md` into a
-User Rules box, and do not add a project `CLAUDE.md`. `/setup-toolkit` is what
-installs the contract into an app and into harness homes that already exist.
+User Rules box, and do not add a project `CLAUDE.md`. `/setup-gabriel-skills`
+installs the other skills and places `AGENTS.md` where the harness reads it. It does not write ESLint or Prettier.
 
 ## Before you start
 
@@ -45,13 +45,10 @@ npx skills@latest add . --list
 `npx skills` can target Claude, Cursor, or both (`-a claude`, `-a cursor`). The
 Cursor plugin is optional and does not add a separate ruleset. People install
 this pack from skills.sh with
-`npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y`, then
-`/setup-toolkit`. That skill asks where skills and `AGENTS.md` go. Installed
-skills must apply `rules/code-quality.md` and `rules/code-structure.md`. ESLint
-and Prettier templates live in
-[`skills/setup-toolkit/templates/`](../skills/setup-toolkit/templates/) and are
-copied into **app** repos only when the user says yes. They are not run from
-this markdown pack.
+`npx skills@latest add gabriel-lafrance/skills@setup-gabriel-skills -g -y`, then
+`/setup-gabriel-skills`. That skill asks where the skills and `AGENTS.md` go. It does not write
+`AGENTS.md` from memory, ESLint, or Prettier. Installed skills must apply
+`rules/code-quality.md` and `rules/code-structure.md`.
 
 ## How to change skills
 
@@ -96,16 +93,16 @@ Output.
 1. Edit the rule in its file under [`skills/rules/`](../skills/rules/SKILL.md).
    Keep cite keys and headings stable so `quality:*`, `structure:*`, and
    `ux:*` links still resolve.
-2. If the **Read when** index or the hard rules change, edit root
-   [`AGENTS.md`](../AGENTS.md), then copy it to
-   [`skills/setup-toolkit/templates/AGENTS.md`](../skills/setup-toolkit/templates/AGENTS.md)
-   so the two files stay identical.
+2. If the **Read when** index or the Rules section changes, edit root
+   [`AGENTS.md`](../AGENTS.md). There is no second copy.
 3. Bump the version in
    [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json),
-   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json), and
-   the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.0.0 -->`)
-   together, then copy `AGENTS.md` to the template again. `/setup-toolkit`
-   uses that marker to refresh out-of-date installs.
+   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json),
+   [`.claude-plugin/plugin.json`](../.claude-plugin/plugin.json),
+   [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json),
+   [`.agents/plugins/marketplace.json`](../.agents/plugins/marketplace.json),
+   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.1.0 -->`)
+   together.
 4. There is no changelog file. The PR description is the changelog: say what
    changed and why, so a user sent to the merged PRs can follow it.
 
@@ -127,7 +124,7 @@ take `dev`'s protection. Steps live in
 Before a push that opens a PR, or a commit or push on a branch that already
 has an open PR, run that repo's CI in your environment and fix failures
 first. A red push spends CI for nothing. This pack itself has no lint or
-test CI; app repos that use `/setup-toolkit` do (`lint`, `test`), and the
+test CI; app repos that have their own lint and test scripts do, and the
 check is the mirror in
 [`skills/rules/shipping.md`](../skills/rules/shipping.md#ci-mirror). Do not
 run that suite on a commit you are not pushing. Never skip hooks

@@ -27,15 +27,17 @@ if (!user.canOrder) throw new Error("Cannot order");
 | --- | --- | --- |
 | Keep jobs apart | React component calls Stripe and formats receipts | Component calls `billing.makeUserPay`; billing owns Stripe |
 | One altitude | `placeOrder` validates, parses a CSV attachment, and charges | `placeOrder` coordinates `parseOrderAttachment`, then `charge` |
+| Light to read | `formatUser` calls `formatUserInner` calls `formatUserImpl`, one caller each | One `formatUser`. A deep `makeUserPay` that hides Stripe is fine |
 | Read or write, not both | `getCart()` also writes a "last seen" row | `getCart()` reads; `touchCartSeen()` writes |
-| Fail fast | Invalid `userId` found after creating a payment intent | `requireUser` throws at the entry, before side effects |
+| Fail fast | `charge()` imports Stripe types and checks `userId` again after `requireUser` already parsed it | The request boundary parses `UserId` and throws. `priceOrder(user)` is pure and trusts `UserId` |
 | Leave it cleaner | Copy a known-wrong sibling "to match" | Move the Stripe call into `billing` while in the lane (same behavior) |
+| Subtract first | Add `makeUserPay` and leave `createStripeSession` as a stub | Delete `createStripeSession` and its callers, then add `makeUserPay` |
 | Related together | Feature imports `billing-stripe-internal` | Feature imports only `billing.makeUserPay` |
-| Safe to retry | Webhook inserts an order on every delivery | Key by event id; second delivery is a no-op |
+| Safe to retry | A retry after a crash inserts a second charge because the first write already landed | Record the idempotency key before the side effect. A second run, or a resume, sees the key and no-ops or finishes |
 | Say what happens / no surprises | `save()` sometimes returns null, sometimes throws, sometimes writes a global | `save()` throws on failure, returns the id, no hidden writes |
 | Honest names | Scope became "payment intent" but code stays `createCheckoutTotal` in `checkout-total.ts` | Rename to `create-payment-intent.ts` / `createPaymentIntent` and callers in the same change |
 | Trust the server | Pay button disabled in React; mutation charges any client `userId` | Mutation calls `requireUser` and checks cart ownership; button is feedback |
-| Types tell the truth | `args: { data: v.any() }`, or `userId?: string` when every caller passes one | `args: { userId: v.id("users"), cents: v.number() }` |
+| Types tell the truth | `{ completed: boolean; completedAt?: Date }` so `completed: true` can lack a time. Or `as UserId` on an order id | `{ kind: "open" } \| { kind: "done"; at: Date }`. Brand `UserId` and `OrderId`. Parse JSON at the boundary |
 
 ## Deep vs shallow module
 
@@ -149,6 +151,21 @@ function parseConfig(raw: string): Config {
 
 **Bad:** every new channel adds `if (channel === ...)` to `notify()`.
 **Good:** stable `Notifier.notify(event)` with a `Channel` strategy from the start, first channel implemented.
+
+## Small leaks
+
+**Bad:** `getUser()` returns the raw database row, and three features read `row.stripe_customer_id` directly. Renaming the column now touches every feature.
+**Good:** `getUser()` returns a `User` with `billingCustomerId`. The column name stays inside the service.
+
+## Observed usage only
+
+**Bad:** the first webhook handler validates twelve event types "in case", with retry-on-startup and a schema migration for events nobody sends yet.
+**Good:** handle the two events the product uses today. An unknown event is logged and ignored.
+
+## A seam nobody confirmed
+
+**Bad:** the Research said "Currency: no", and the Plan still adds a `CurrencyConverter` interface with one CAD implementation.
+**Good:** CAD stays a plain value. If USD arrives later, a Refactor adds the seam first ([journey](journeys/follow-up-needs-a-seam.md)).
 
 ## SOLID theater vs foundation
 

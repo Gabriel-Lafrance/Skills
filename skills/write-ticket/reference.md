@@ -61,6 +61,7 @@ No Questions in this message. If the user does not correct it, write this draft.
 **Done when:** …                (Plan)
 **Tests:** none | behavior lock | end-to-end | both   (Plan)
 **Out of scope:** … | _none_
+**Rejected:** … | _none_ only for a typo or pure rename
 **Start here:** `path` - `symbol` | _unknown_   (Plan)
 ```
 
@@ -106,8 +107,13 @@ Feature
 ## What we found
 <evidence from the product and the repo about the problem>
 
+## Areas of modularity
+- <what varies or multiplies>: yes | no, <evidence> | _none: Tweak, Bug, or Chore_
+
 ## Settled in the grill
 - <decision>
+- Rejected: <the rival explanation this research refuses>
+- Wrong if: <what would make this the wrong problem>
 
 ## Out of scope
 - … | _none_
@@ -150,10 +156,15 @@ flowchart LR
 ## Structure
 - Folders: …
 - Public API: …
-- Design pattern: … | _none_
 - Abstraction: … | _none_
 - One-job helpers: … | _none_
 - Deep module: … | _none_
+
+## Foundation
+- <area of modularity> → <seam and pattern> + <first real implementation> | _none: Tweak, Bug, or Chore_
+- <area the Research answered no> → no seam
+- Extends existing seam: <seam> | _none_
+- Next change this makes small: <request> → <one new file + one registration>
 
 ## Files
 - `path/to/file` - `symbol` - <what changes>
@@ -176,10 +187,12 @@ end-to-end: <what the test proves>
 or `none`
 
 ## Already decided
+- Rejected: <the rival this plan refuses> | _none_ only for a typo or pure rename
 - <answer the implementer must not ask again>
 ````
 
-- `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file.
+- `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
+- `## Already decided`: a non-trivial plan names the rejected alternative. A typo or pure rename may say `_none`.
 - `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.
 - `## Tests`: `none`, behavior lock, end-to-end, or both. Name what each lock proves.
 

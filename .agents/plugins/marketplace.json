@@ -1,0 +1,22 @@
+{
+  "name": "gabriel-skills",
+  "interface": {
+    "displayName": "Gabriel Lafrance Skills"
+  },
+  "plugins": [
+    {
+      "name": "gabriel-skills",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "description": "Engineering toolkit: agent skills and an AGENTS.md contract.",
+      "version": "2.1.0"
+    }
+  ]
+}

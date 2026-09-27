@@ -33,9 +33,11 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Keep it simple (KISS) | clear | |
 | Keep jobs apart (SoC) | finding | `standards-keep-jobs-apart-checkout-stripe` |
 | One altitude (SLAP) | clear | |
+| Light to read (Minimize reader load) | clear | |
 | Read or write, not both (CQS) | clear | |
 | Fail fast (Fail Fast) | clear | |
 | Leave it cleaner (Boy Scout Rule) | finding | same as keep-jobs-apart: copied wrong sibling |
+| Subtract first (Subtract before you add) | clear | |
 | Related together (Cohesion / Law of Demeter) | finding | reaches Stripe instead of billing API |
 | Safe to retry (Idempotency) | finding | bypasses billing retry safety |
 | Say what happens (explicit over implicit) | clear | |

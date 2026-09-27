@@ -4,9 +4,7 @@
 
 Never write an em dash (Unicode U+2014), en dash (U+2013), or horizontal bar (U+2015) in chat or in files you create or edit.
 
-Use a comma, colon, period, parentheses, or a hyphen instead.
-
-This pack's ESLint template flags those characters in JS/TS. Follow that rule. Do not sweep unrelated files just to strip existing dashes.
+Use a comma, colon, period, parentheses, or a hyphen instead. If the repository's own lint flags those characters, follow it. Do not sweep unrelated files just to strip existing dashes.
 
 ## Plain language
 
@@ -16,7 +14,7 @@ This section is for **what the user reads**. Internal notes may keep cite keys (
 
 1. Write like a teammate explaining the work, not like a spec.
 2. Prefer short common words. One idea per sentence.
-3. Cite a named principle as **plain (Classic)** in the same sentence. Example: `We need to keep this simple (KISS).` Never acronym-only. Never plain-only for a named principle.
+3. Cite a named principle as **plain (Classic)** in the same sentence. Example: `We need to keep jobs apart (SoC).` Never acronym-only (`SoC violation`). Never plain-only for a named principle.
 4. Other abbreviations (API, PR, URL, Git, ID, UI) are fine. Do not use a bare rule number (Rule 1) or pack nicknames without the plain sentence.
 5. Do not teach pack cite keys (`quality:keep-jobs-apart`) as the user-facing name.
 6. Skill names like `/task` are fine when recommending a next step.
@@ -30,7 +28,12 @@ The canonical map of principles lives in [code-quality.md](code-quality.md) (nam
 | Do not say to the user | Say |
 | --- | --- |
 | `SoC violation` / `keep jobs apart` alone | Keep jobs apart (SoC) |
-| `KISS` alone / `keep it simple` alone | Keep this simple (KISS) |
+| `KISS` alone / `keep it simple` alone / `laziness protocol` | Keep this simple (KISS) |
+| `subtract first` alone / `subtract before you add` alone | Subtract first (Subtract before you add) |
+| `light to read` alone / `minimize reader load` alone | Light to read (Minimize reader load) |
+| `boundary discipline` alone | Fail fast (Fail Fast) |
+| `make operations idempotent` alone | Safe to retry (Idempotency) |
+| `type system discipline` alone | Types tell the truth (make illegal states unrepresentable) |
 | `Boy Scout` alone / `leave it cleaner` alone | Leave it cleaner (Boy Scout Rule) |
 | entropy | Don't copy the old messy layout |
 | primitive | Reuse the existing one-job helper |
@@ -90,6 +93,7 @@ Use only when there are **no** Questions in the message (grill closed, or a pure
 **Out of scope:** …
 **Plans:** 1. … · 2. …
 **What we agreed:** …
+**Rejected:** … (or none, only for a typo or pure rename)
 **Rules that must stay true:** Rule 1: … · Rule 2: … (or none)
 ```
 

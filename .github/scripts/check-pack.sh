@@ -20,11 +20,6 @@ repo_files() {
   done
 }
 
-check_agents_copy() {
-  local copy=skills/setup-toolkit/templates/AGENTS.md
-  cmp -s AGENTS.md "$copy" || fail "AGENTS.md and $copy differ"
-}
-
 check_agents_size() {
   local size
   size=$(wc -c <AGENTS.md)
@@ -62,6 +57,30 @@ check_read_when_files() {
   while IFS= read -r path; do
     [[ -f "skills/$path" ]] || fail "AGENTS.md Read when table names skills/$path, which does not exist"
   done < <(read_when_paths)
+}
+
+# Prints each backticked folder/file.md path in one AGENTS.md section. $1 is the heading text.
+section_paths() {
+  awk -v heading="## $1" '
+    $0 == heading { inside = 1; next }
+    inside && /^## / { exit }
+    inside {
+      line = $0
+      while (match(line, /`[^` ]+\/[^` ]+\.md`/)) {
+        print substr(line, RSTART + 1, RLENGTH - 2)
+        line = substr(line, RSTART + RLENGTH)
+      }
+    }
+  ' AGENTS.md
+}
+
+check_section_files() {
+  local section path
+  for section in Skills Rules; do
+    while IFS= read -r path; do
+      [[ -f "skills/$path" ]] || fail "AGENTS.md $section section names skills/$path, which does not exist"
+    done < <(section_paths "$section")
+  done
 }
 
 # Prints the frontmatter description text, plain or as a folded or literal block.
@@ -197,7 +216,7 @@ check_plugin_versions() {
 
 main() {
   local check
-  for check in check_agents_copy check_agents_size check_agents_marker check_read_when_files \
+  for check in check_agents_size check_agents_marker check_read_when_files check_section_files \
     check_no_dashes check_skill_frontmatter check_description_length check_links \
     check_plugin_versions; do
     echo "== $check"

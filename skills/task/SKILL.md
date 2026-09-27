@@ -1,12 +1,7 @@
 ---
 name: task
-description: >-
-  Stateless end-to-end build loop: grill, plan, suggest behavior-lock tests
-  the user can refuse, implement, gather acceptance evidence, and review one
-  verifiable outcome using in-chat execution context. Use when the user wants
-  a feature or outcome built end to end. When a parent owns shipping, return
-  evidence to that parent.
-disable-model-invocation: true
+description: Stateless end-to-end build loop for one verifiable outcome, with no tests-first phase. Use only when the user types /task or asks to build without tests. Any other build request goes to /task-with-tests.
+category: Code
 ---
 
 # Task
@@ -15,12 +10,13 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 
 ## Read when
 
-- Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
-- Before grilling: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
-- At the step that names a section: [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
-- Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user).
-- Before writing an accepted test: [testing.md](../rules/testing.md).
-- Only when this chat will open a PR: [shipping.md](../rules/shipping.md).
+- About to search the codebase, read a large file, or wade through long output? Open [smart-zone.md](../rules/smart-zone.md). Skip it and noise fills your context for the rest of the task.
+- About to grill? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), [doctrine.md](doctrine.md), and the [execution context](../rules/planning.md#execution-context). Skip them and you recommend a shape the rules forbid.
+- About to grill or plan a Feature? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and the first provider is hardcoded into every caller, so the next ticket is a rewrite.
+- At a step that names a section? Open [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions). Skip it and you improvise the lifecycle.
+- About to ask the user anything? Open [Asking the user](../rules/writing-style.md#asking-the-user). Skip it and you send questions with no options and no recommendation.
+- About to write a test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md), then [testing.md](../rules/testing.md). Skip them and you write a test nobody accepted, or one that restates the code.
+- About to commit, push, or open a PR from this chat? Open [shipping.md](../rules/shipping.md). Skip it and you push to `main`, open a PR nobody approved, or track `origin/main`.
 
 ## Process
 

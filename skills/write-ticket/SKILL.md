@@ -1,11 +1,7 @@
 ---
 name: write-ticket
-description: >-
-  Create or promote one Linear or GitHub ticket: Memo (idea, no grill),
-  Research (the need, after /grill-me), or Plan (how to build it in one
-  pass, after a second grill). Use for a new ticket, a promotion, or a
-  don't-forget note. Never inside /task.
-disable-model-invocation: true
+description: Create or promote one Linear or GitHub ticket as a Memo, Research, or Plan. Use when the user asks to write, file, open, or draft a ticket or issue, or to note something so it is not forgotten. Never inside /task.
+category: Documents
 ---
 
 # Write Ticket
@@ -14,9 +10,10 @@ Create or promote one tracker ticket. User start only; `/task` reads tickets ([t
 
 ## Read when
 
-- Before analyzing or drafting: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) (stage gate, topic lists, work kind, promotion).
-- Before sending a batch (steps 2 and 5): [Asking the user](../rules/writing-style.md#asking-the-user) and the matching batch in [reference.md](reference.md).
-- Drafting the body (steps 3 and 5): the stage body in [reference.md](reference.md).
+- About to analyze or draft? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [doctrine.md](doctrine.md) (stage gate, topic lists, work kind, promotion). Skip them and the ticket plans a shape the rules reject.
+- About to grill or draft a Research or Plan ticket for a Feature? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and the Plan has no seams, so the next ticket rebuilds the feature instead of adding one adapter.
+- About to send a batch (steps 2 and 5)? Open [Asking the user](../rules/writing-style.md#asking-the-user) and the matching batch in [reference.md](reference.md). Skip them and you ask for metadata the tracker already has.
+- About to draft the body (steps 3 and 5)? Open the stage body in [reference.md](reference.md). Skip it and the ticket misses the sections its stage needs.
 
 ## Process
 

@@ -1,10 +1,7 @@
 ---
 name: grill-me
-description: >-
-  Relentless stateless interview that sharpens intent through batched questions
-  and a Locked closure in chat. Keeps decisions and rules that must stay true in shared
-  execution context. User must invoke (not auto).
-disable-model-invocation: true
+description: Stateless interview that pressures each decision that would change the plan, then locks the result in chat. Use when the user asks to be grilled, to challenge or stress-test an idea, or to settle decisions before a plan.
+category: General
 ---
 
 # Grill Me
@@ -13,8 +10,8 @@ Discover product, behavioral, code quality, and code structure decisions through
 
 ## Read when
 
-- Before recommending answers: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
-- Every run: [doctrine.md](doctrine.md), the [execution context](../rules/planning.md#execution-context), and the [Asking the user](../rules/writing-style.md#asking-the-user) and [Plain language](../rules/writing-style.md#plain-language) sections of writing-style.md.
+- About to recommend an answer? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you recommend the option the rules forbid.
+- Every run: open [doctrine.md](doctrine.md), the [execution context](../rules/planning.md#execution-context), and the [Asking the user](../rules/writing-style.md#asking-the-user) and [Plain language](../rules/writing-style.md#plain-language) sections of writing-style.md. Skip them and you mix Questions with Locked in, or ask what the repo already answers.
 
 ## Process
 
@@ -23,26 +20,34 @@ Discover product, behavioral, code quality, and code structure decisions through
    supplied an outcome, current slice, non-goals, lane, and ticket/PR, reuse
    that brief. Re-announce only facts or user decisions that changed or were
    missing.
-2. Batch every unsettled topic from the doctrine's behavior sweep. Include
-   plan count and file lane so the first batch is complete. When the parent
-   is `/write-ticket`, interview only the topic list it supplied (Research
-   or Plan). Skip implementation plan count and file lane.
+2. Apply the doctrine attack bar before sending. Batch every unsettled
+   load-bearing claim first, in the doctrine's batch order, then the rest of
+   the sweep. Include plan count and file lane in that first batch. When the
+   parent is `/write-ticket`, interview only the topic list it supplied
+   (Research or Plan). The attack bar still applies to every load-bearing
+   claim in that list. Skip implementation plan count and file lane.
 3. Include the code-quality.md and code-structure.md topics in that batch:
 
    | When | Include in the batch |
    | --- | --- |
    | Always | [code-quality.md](../rules/code-quality.md) cite keys (`quality:keep-it-simple` and Named principles). If the slice needs config, lock reuse of existing env vars (`quality:reuse-env`); do not ask whether to add `FRONTEND_URL` when `SITE_URL` already holds that job. |
-   | Always | [code-structure.md](../rules/code-structure.md) cite keys: who owns this job, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. For a typo or pure rename, recommend “keep the existing structure.” |
+   | Always | [code-structure.md](../rules/code-structure.md) cite keys: who owns this job, the existing path, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. "Keep the existing structure" names that path and why a new folder would be a second owner. For a typo or pure rename, the path is the current file. |
 
 4. Send a **Questions-only** batch for every real open decision (no Locked
-   heading in that message). Wait for the reply.
+   heading in that message). Each load-bearing question states the claim, the
+   failure, one real rival, and why one option is recommended. Wait for the reply.
 5. Put answers, rules that must stay true, corrections, and revised lanes directly in the
-   execution context. If a correction exposes a new material unknown, send a
-   new Questions-only batch.
+   execution context. On a non-trivial grill, if the rejected alternative, what
+   would make the decision wrong, or the owner path is still unnamed, send
+   another Questions-only batch. Do the same when a correction exposes a new
+   material unknown. Do not lock on that reply while any of those three are open.
 6. When material Questions are settled, announce **Locked in (tell me if this is wrong)**
    for non-goals, split, and shared understanding in a **separate**
-   announce-only message. Do not issue plans until that Locked closure stands
-   and every relevant rule has an enforcement and verification owner.
+   announce-only message. On a non-trivial grill, the rejected alternative,
+   what would make the decision wrong, and the owner path are already named,
+   and the message includes the rejected alternative. Do not issue plans until
+   that Locked closure stands and every relevant rule has an enforcement and
+   verification owner.
 
 Do not create automatic files for language, choices, rules, or progress. If
 the user wants a durable artifact, ask for or honor an approved destination
@@ -71,3 +76,5 @@ relevant memo and decisions.
 - Writing plans before Locked closure
 - Treating a user decision as recoverable from code alone
 - Creating automatic artifacts to hold language, choices, rules, or progress
+- Locking a non-trivial grill while the rejected alternative, what would make the decision wrong, or the owner path is unnamed
+- A structure question that does not name the existing path

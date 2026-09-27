@@ -37,9 +37,9 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 ### Research rules
 
 - Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
-- Rediscover the relevant code and sibling patterns. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
+- Rediscover the relevant code, and which parts match a pack example and which are debt. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
-- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer good siblings and behavior-preserving moves. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
+- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer the pack's examples over the app's existing shapes, and behavior-preserving moves over copying debt. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
 

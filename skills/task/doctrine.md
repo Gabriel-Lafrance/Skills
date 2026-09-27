@@ -28,7 +28,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 **Rules that must stay true:** Every behavioral rule locked during the grill becomes a numbered rule (Rule 1, Rule 2) in the in-chat execution context with its enforcement and verification. A user can explicitly mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
+**Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, shared-understanding summary, and the rejected alternative (`none` only for a typo or pure rename) unless the skip rule applies. Assign each rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
 
 **Quality bar:** Acceptance evidence (Done when + rules that must stay true + cross-slice seams) and `/review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
 

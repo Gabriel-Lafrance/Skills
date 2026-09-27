@@ -26,6 +26,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 | `review:naming-alignment` | Naming alignment |
 | `review:folder-placement` | Folder placement |
 | `review:env-reuse` | Env reuse |
+| `review:foundation` | Foundation |
 | `review:body-vs-diff` | PR extras |
 | `review:historical-thread` | PR extras |
 | `review:migration-backfill` | PR extras |
@@ -60,19 +61,21 @@ For the shipped diff, check each named principle in [code-quality.md](../rules/c
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
-| **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true | Slightly overbuilt but still correct |
+| **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true. A seam on a named area of modularity is evidence | Slightly overbuilt but still correct |
 | **Keep jobs apart (SoC)** | UI/feature owns Stripe, JWT, email, or mixed jobs in one unit | Mild mixing with a clear later split |
 | **One altitude (SLAP)** | One function both coordinates and does low-level detail in a way that hides bugs | Long but still readable |
+| **Light to read (Minimize reader load)** | New one-caller wrapper, pass-through layer, or hidden state a reader must hold to say where a value comes from | A deep entry that hides real work |
 | **Read or write, not both (CQS)** | A read also writes, or a command hides writes behind a "get" | Mild naming oddity on an otherwise correct command/query |
-| **Fail fast (Fail Fast)** | Invalid input accepted past the boundary into partial side effects | Late check that still prevents bad writes |
+| **Fail fast (Fail Fast)** | Invalid input accepted past the boundary into partial side effects, or a re-check inside after the boundary already parsed | Late check that still prevents bad writes |
 | **Leave it cleaner (Boy Scout Rule)** | Diff copies or extends a known-wrong shape in the touched lane | Cleanup opportunity not required for this change |
+| **Subtract first (Subtract before you add)** | The diff adds a path beside code this change should have deleted, or leaves a stub with no new content | Dead code outside the path this change extends |
 | **Related together (Cohesion / Law of Demeter)** | Callers reach service internals; unrelated jobs jammed into one module | Coupling that works but should tighten |
-| **Safe to retry (Idempotency)** | Replay/double-submit can duplicate charges, rows, or side effects | Missing key where risk is low |
+| **Safe to retry (Idempotency)** | Replay, double-submit, or a resume after a crash can duplicate charges, rows, or side effects, or the end state depends on leftover partial state | Missing key where risk is low |
 | **Say what happens (explicit over implicit)** | Hidden globals, surprise side effects, or control flow a reader cannot see | Minor magic with local clarity |
 | **No surprises (PoLA)** | Surprising API/UI behavior vs name or docs | Slightly awkward but documented behavior |
 | **Honest names (intention-revealing names)** | Diff changes the job but leaves a stale **file path**, **export**, **type**, or **widely used symbol** | Local helper mildly stale but still navigable |
 | **Trust the server (never trust the client)** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
-| **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, or marks required data optional | Local private helper loosely typed but not on a boundary |
+| **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, marks required data optional, allows a contradictory field bag, mixes branded ids, casts to silence the checker, or matches a variant in a way that still compiles when a case is added | Local private helper loosely typed but not on a boundary |
 
 Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up** unless it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
 
@@ -109,6 +112,18 @@ On every `initial` or `full-rescan` Standards pass, walk **new environment varia
 3. Mapping in code from the existing name is correct. Duplicating the value under a synonym is not. A required platform prefix must use the existing name (`NEXT_PUBLIC_SITE_URL`), not a third synonym.
 
 A shipped-diff synonym is **Fix now**. Untouched historical aliases left in files the diff did not add are Follow-up unless the goal or a named finding requires a move.
+
+### Foundation
+
+On every `initial` or `full-rescan` Standards pass on a Feature diff, check it against `quality:strong-foundation` ([strong-foundation.md](../rules/strong-foundation.md)):
+
+1. Take the areas of modularity from the spec: the Plan ticket's `## Foundation`, the Research ticket's `## Areas of modularity`, the Structure card, or the grill's Locked message.
+2. An area the spec named that ships hardcoded (no seam, the first provider inlined at callers, an `if` or `switch` on the variant) is a **blocker**.
+3. A seam on an area nobody named is a keep it simple (KISS) finding, not foundation.
+4. An obvious area nobody named (a domain that usually multiplies, a second variant already in the repo) is a **follow-up** note that asks whether it should have been named. It never blocks.
+5. A diff that extends an existing seam must add a collaborator and its registration, not a special case in the foundation.
+
+Cite `quality:strong-foundation`. A Tweak, Bug, or Chore diff with no named area skips this check.
 
 ### Static checks
 

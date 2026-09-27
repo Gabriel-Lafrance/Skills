@@ -1,0 +1,44 @@
+# Journey: a bug
+
+Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)).
+
+**The user says:** "A customer got charged twice at checkout."
+**Comes after:** [a new Feature on a strong foundation](new-feature.md), whose Rule 1 says a retry with the same key never charges twice.
+
+```mermaid
+flowchart LR
+  ask[User reports a double charge] --> analyze[analyze]
+  analyze --> handoff[Promote and start]
+  handoff --> build[task-with-tests]
+  build --> review[review]
+  review --> ship[shipping.md]
+```
+
+## 1. Route
+
+The user reports a problem and asks for no fix yet. "Investigate a bug" matches the Skills table: open `analyze/SKILL.md`. A report that says "fix it" would go straight to `task-with-tests`.
+
+## 2. Analyze
+
+`/analyze` finds the code first, then judges it. The memo leads with a diagram of the failing path:
+
+- `billing.makeUserPay` honors a retry key, and its accepted test is green.
+- `use-checkout.ts` creates a new retry key on every click, so a double click sends two keys. The rule holds at the service, and the caller defeats it.
+
+The memo ends with a `/task` seed and the hand-off choices. The user picks Promote + start.
+
+## 3. Build
+
+`task-with-tests` runs with the memo as context.
+
+1. **Grill.** Kind is Bug, so no new seam and no areas of modularity question ([Scale to the work](../strong-foundation.md#scale-to-the-work)). The fix belongs where the key is made: one key per order, created when the order is created. The rejected rival is disabling the Pay button, which is only UI feedback ([Authority](../code-structure.md#authority)).
+2. **Tests prompt.** One test: two `makeUserPay` calls for one order from `useCheckout` create one charge. The user accepts it. It fails first, then passes after the fix.
+
+## 4. Review and ship
+
+`/review` checks safe to retry (Idempotency): a double submit must not duplicate the charge. That is a blocker if missing. The ship question defaults to no. On yes: branch `bug/IN-61-fix-double-charge`, then the PR title and body for approval.
+
+## If a step is skipped
+
+- No analyze: the agent disables the button, and a slow network still double-charges.
+- A new seam for a bug: ceremony with no area of modularity behind it.

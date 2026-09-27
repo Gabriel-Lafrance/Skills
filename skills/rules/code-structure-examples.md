@@ -130,6 +130,51 @@ services/billing/
 
 The next provider is a new file behind the seam.
 
+## Foundation patterns (folder trees)
+
+One tree per pattern [strong-foundation.md](strong-foundation.md#build-it) names. Each ships with one real implementation. Pick the pattern that matches the area of modularity; do not stack them.
+
+**Adapter:** an outside vendor varies (payment, email, storage provider). Each adapter turns one vendor's API into the app's interface.
+
+```text
+services/email/
+  email.ts               # public: sendReceipt, sendInvite
+  email-sender.ts        # seam: interface EmailSender { send(message) }
+  resend-sender.ts       # adapter for the first vendor
+```
+
+**Strategy:** a rule or algorithm varies (pricing, tax, ranking). Same inputs, different decision.
+
+```text
+services/pricing/
+  pricing.ts             # public: priceFor(order)
+  pricing-rule.ts        # seam: interface PricingRule { apply(order) }
+  flat-rate-rule.ts      # first strategy
+```
+
+**Registry:** several variants live side by side and the caller picks one by key (providers, channels, export formats).
+
+```text
+services/exports/
+  exports.ts             # public: exportReport(report, format)
+  exporter.ts            # seam: interface Exporter
+  exporters.ts           # registry: { csv: csvExporter }
+  csv-exporter.ts        # first variant
+```
+
+Adding a format is one file plus one registry line. `exports.ts` never grows an `if (format === ...)`.
+
+**State machine:** an entity moves through phases and some moves are forbidden (orders, subscriptions, invites).
+
+```text
+services/orders/
+  orders.ts              # public: placeOrder, cancelOrder, refundOrder
+  order-states.ts        # seam: states and allowed transitions in one table
+```
+
+**Bad:** `isPaid`, `isCancelled`, and `isRefunded` booleans that must stay in sync, checked in five files.
+**Good:** one `status` field and one transition table. A new state is a row, and an illegal move fails in one place.
+
 ## OOP depth
 
 **Bad:** `AbstractPayment` > `BaseCard` > `StripeCard` > `StripeCardV2`.

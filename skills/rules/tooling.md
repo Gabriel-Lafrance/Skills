@@ -1,9 +1,9 @@
 # Tooling
 
-Do **not** paste a style guide into chat. If this repo already has ESLint or Prettier, **follow those configs**.
+Do **not** paste a style guide into chat. If this repo already has ESLint or Prettier, **follow those configs**. This pack does not install them.
 
-- Add or change lint/format tooling with `/setup-toolkit` after the user says yes to that phase. Do not invent a parallel config.
-- The toolkit ESLint baseline includes `no-emdash/no-emdash` (em dash, en dash, horizontal bar) and the `complexity` cap of 5. Keep both on. Do not disable the dash rule to "make the prose look fancy," and do not raise the cap: split the function.
+- Do not add ESLint, Prettier, or editor files from this pack.
+- If the repo's ESLint config already bans the em dash, en dash, and horizontal bar, keep that rule on. If it caps cyclomatic complexity at 5, do not raise the cap: split the function.
 - Editor workspace files live in `.vscode/extensions.json` and `.vscode/settings.json`. Do not add a parallel `.cursor/extensions.json`.
 - Do **not** ritual-run `eslint`, `tsc`, or full suites after every slice. CI and the user's running terminals own that loop ([Verify terminals first](#verify-terminals-first)).
 - **Before a push that opens or updates a PR:** run the [CI mirror](shipping.md#ci-mirror) in this environment, then push once. A local commit with no open PR and no push does not run that suite. If there is no workflow and no lint or test script, say so. Never `git commit --no-verify` unless the user asked.
