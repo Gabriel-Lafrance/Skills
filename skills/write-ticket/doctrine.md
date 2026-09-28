@@ -53,9 +53,9 @@ Do not ask "write this?". Do not ask status (default **Todo** on create; keep th
 
 This skill is the parent. Start `/grill-me` with the topic list for the target stage. Tell it to skip implementation plan count and file lane, and to return here. Do not start `/task` from that session.
 
-**Research topics:** the need, the issue, the problem, who is affected and when, what happens today, what this research is not trying to cover, and the work kind only when it is still unknowable.
+**Research topics:** the need, the issue, the problem, who is affected and when, what happens today, the rival explanation of the problem this research rejects, what would make this the wrong problem, what this research is not trying to cover, the work kind only when it is still unknowable, and for a Feature the areas of modularity: what will vary or multiply (providers, channels, rules, roles, formats), each as one yes or no question with a recommended answer from the evidence ([strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity)). Research records the fact ("more than one payment provider"), never the pattern.
 
-**Plan topics:** rules that must stay true, edges and states of the solution, binary done-when, out of scope, where the change lives, the structure (design pattern, abstraction, one-job helpers, deep module, folders, public API) when the change needs them, short snippets of the hard parts, and tests (none, a behavior lock, end-to-end, or both, including what each lock proves).
+**Plan topics:** the decision and the rival this plan rejects, what the change refuses to own, what would make that decision wrong, rules that must stay true, edges and states of the solution, binary done-when, out of scope, where the change lives, who owns the job (the existing path, the public entry, who calls it, where the write is rejected, one-job helpers, folders), the foundation (a seam for each area of modularity the Research confirmed, or the existing seam this extends, and the next change it makes small, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work)), short snippets of the hard parts, and tests (none, a behavior lock, end-to-end, or both, including what each lock proves).
 
 A Memo never starts `/grill-me`.
 
@@ -107,6 +107,7 @@ Do not open a second ticket for the next stage. If the tracker cannot comment, s
 | Ticket not found | Stop and confirm ID, team, or repository. |
 | User corrects the draft | Update the draft and write that version. |
 | Required Research or Plan section still empty after `/grill-me` | One asking-contract batch for the gaps, then write. Do not save a Plan with an empty done-when, rules, or tests section. |
+| Non-trivial grill returned without a rejected alternative, what would make the decision wrong, or the owner path | Send it back to `/grill-me`. Do not write the ticket. |
 | Analysis absent or stubby on Research or Plan | Run or refresh full `/analyze` before `/grill-me`. |
 | Tracker label missing | The `## Stage` heading is still required. Do not invent a label ID. |
 | Comment API unavailable on promotion | Stop. Do not replace the description. |
@@ -129,4 +130,5 @@ Show the complete draft in chat, then create or update through the tracker capab
 - Defaulting a new ticket to Backlog instead of Todo
 - Writing the full implementation into the Plan
 - A snippet-free Plan that still leaves a hard decision for the implementer to guess
+- A non-trivial Plan that does not name the rejected alternative
 - Inventing tracker IDs

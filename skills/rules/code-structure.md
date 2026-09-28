@@ -32,7 +32,7 @@ Hide orchestration behind one deep entry: a simple interface over rich behavior.
 | Class | Stateful domain behavior, shared lifecycle (often the service) |
 | Narrow function | Pure transform, clear input and output |
 
-The signature is obvious at a glance (not necessarily a TypeScript `interface`). Callers never see helpers, parsers, adapters or edge-case branches; push those down into collaborators. One main export per file when practical. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating.
+The signature is obvious at a glance (not necessarily a TypeScript `interface`). Callers never see helpers, parsers, adapters or edge-case branches; push those down into collaborators. One main export per file when practical. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating. A deep entry is not a pass-through chain ([`quality:light-to-read`](code-quality.md#light-to-read)).
 
 **Check:** can a caller use it without knowing call order or edge cases?
 
@@ -53,7 +53,7 @@ Anti-patterns: wrappers that only rename; helpers that answer many questions.
 
 Wrong existing layout (wrong folder, duplicated domain logic, feature-forked service, rule-breaking sibling) is debt, not a template.
 
-- Do not copy it. Cite a good sibling or create the correct shape.
+- Do not copy it. Build from the matching example ([code-structure-examples.md](code-structure-examples.md)), or a sibling that already matches one ([`quality:cite-a-sibling`](code-quality.md#mechanical-rules)). Most existing code does not.
 - Move only when the goal or a named finding requires it: relocate, extract the public API, rewire callers, delete the dead path. Otherwise record a follow-up.
 - Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after grill Locked, or a `/review` recommendation) and follows [testing.md](testing.md).
 - Not sure the move preserves behavior? Ask in the next `/grill-me` Questions batch.
@@ -66,8 +66,8 @@ Wrong existing layout (wrong folder, duplicated domain logic, feature-forked ser
 
 Propose the folder map, then create the owning folder before the files, even for the first file of a new concern. Never-nest and keep it simple are about code, not a reason for a flat folder.
 
-1. Mirror existing conventions. A good nested sibling beats a nearby flat dump.
-2. `services/<concern>/` (or repo equivalent) for shared domain APIs; feature folders for UI and orchestration that call them.
+1. Follow the examples' layout. Mirror an app folder only when it matches an example; a nearby flat dump is not a convention.
+2. `services/<concern>/` for shared domain APIs; feature folders for UI and orchestration that call them.
 3. No convention fits: create a feature or domain folder.
 4. Colocate what changes together; nest non-entry collaborators one level down (`components/`, `hooks/`). Separate what changes for different reasons.
 5. Name files per `quality:naming-files`.
@@ -129,7 +129,7 @@ Public queries, mutations and actions declare argument and return validators tha
 
 ## Authority
 
-A disabled button is feedback, not a lock. Lock the service write (mutation, action, server handler).
+The server enforces identity, ownership, money, and permissions. UI checks are only feedback. A disabled button is feedback, not a lock. Lock the service write (mutation, action, server handler).
 
 | Check | Rule |
 | --- | --- |
@@ -168,7 +168,7 @@ Present before writing code, and in the plan contract under `/task`:
   - `components/` or other one-level leaf when needed
 - `features/<slice>/`       # calls services
   - entry + UI…
-**Fits existing pattern:** yes (cite good service / feature) | correcting debt (what) | new (why)
+**Matches example:** <example heading> (plus the app sibling that matches it, if any) | correcting debt (what)
 **Quality:** `quality:naming-files`, `quality:keep-it-simple`, `quality:oop-depth-cap`
 
 **If writes**
@@ -184,11 +184,14 @@ Present before writing code, and in the plan contract under `/task`:
 - Queries are deterministic (`structure:deterministic-queries`)
 - Public args validated: `quality:types-tell-the-truth` | n/a
 
-**If big feature / service**
-**Extension seam:** how the next provider/variant plugs in without breaking the public API (ship seam + first impl together)
+**If Feature** ([`quality:strong-foundation`](strong-foundation.md))
+**Foundation:**
+- Areas of modularity: <area> → <seam> + <first real implementation> | _none: Tweak, Bug, or Chore with no area named_
+- Extends existing seam: <seam> | _none_
+- Next change this makes small: <request> → <one new file + one registration>
 ```
 
-Put every open structure question (service boundary, public API, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). New findings go in a new batch.
+Put every open structure question (service boundary, public API, areas of modularity, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). Each question names the existing path that already does the job and one rival shape. A folder question without that path does not count. New findings go in a new batch.
 
 Self-check before done:
 

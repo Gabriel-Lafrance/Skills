@@ -1,10 +1,7 @@
 ---
 name: analyze
-description: >-
-  Stateless task analysis returned in chat. One-off research with
-  promote-to-task handoffs, or nested under a parent (write-ticket, review
-  remediation). Does not write tickets or automatic artifacts.
-disable-model-invocation: true
+description: Stateless analysis returned in chat. Use when the user asks to look into, investigate, research, or explain a bug, an idea, or a question before anything is built, or nested under write-ticket or review remediation. Does not write tickets or code.
+category: Documents
 ---
 
 # Analyze
@@ -13,8 +10,9 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 
 ## Read when
 
-- Before researching, even when the ask looks like a single file: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
-- Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user).
+- About to research, even when the ask looks like a single file? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), [doctrine.md](doctrine.md), and the [execution context](../rules/planning.md#execution-context). Skip them and the memo recommends a fix the rules reject.
+- About to search widely or read large files? Open [smart-zone.md](../rules/smart-zone.md). Skip it and raw search output buries the analysis.
+- About to ask the user anything? Open [Asking the user](../rules/writing-style.md#asking-the-user). Skip it and you ask what the repo already answers.
 
 ## Contract
 

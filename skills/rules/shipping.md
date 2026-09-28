@@ -29,11 +29,11 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 - `slug` is a lowercase verb phrase in kebab case. No spaces or colons. Keep the name under about 60 characters.
 - Examples: `bug/IN-1234-fix-checkout-total`, `tweak/IN-1234-adjust-empty-state-copy`, `feature/ENG-99-add-invite-flow`, `refactor/42-extract-billing-service`, `chore/IN-55-bump-eslint`.
 
-## Hard rules
+## Shipping rules
 
-- Do not auto-commit, force-push, or push `dev`, `main`, `master`, or the default branch.
-- A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Steps: [Branch and push](#3-branch-and-push).
+- Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Work on a new branch.
 - Show the complete pull request title and body, and wait for approval before creating it.
+- A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Steps: [Branch and push](#3-branch-and-push).
 - Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes. Shipping itself does not open a browser or capture screens.
 - Do not invent a ticket. Use `/write-ticket` when the work belongs on a tracker.
 - Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the [CI mirror](#ci-mirror). Push once it is green. Never `--no-verify` unless the user asked.

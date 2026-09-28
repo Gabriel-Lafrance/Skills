@@ -22,7 +22,7 @@ One per slice, in chat, after Locked grill closing. It is not a file.
 
 ## Code quality and structure
 - **Keep it simple (KISS) / principles:** held | name the violation to fix in this slice
-- **Sibling cited:** <good path | greenfield | correcting debt>
+- **Example matched:** <example heading, plus the app sibling that matches it, if any | correcting debt>
 - **Service / public API:** <owns or calls>
 - **Primitives:** <reuse | new inside which module | none>
 - **Folder map:** <owning folder this slice must create or use; no mixed-parent dump>
@@ -157,7 +157,7 @@ Numbered process for `/task`. Nested vs one-off shipping lives in [SKILL.md](SKI
 ### Phase 0: establish context and grill
 
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and project rules as needed. State outcome, Done when, non-goals, lane, phase, and next action in the execution context. Carry forward only user decisions settled in this chat or an explicitly supplied artifact.
-2. Unless skip-grill applies, run `/grill-me` fully. It applies [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [user-experience.md](../rules/user-experience.md) and `docs/design.md` for user-facing work.
+2. Unless skip-grill applies, run `/grill-me` fully. It applies [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [user-experience.md](../rules/user-experience.md) and `docs/design.md` for user-facing work. For a Feature it confirms the areas of modularity and the foundation from [strong-foundation.md](../rules/strong-foundation.md), scaled to what the ticket already settled: a Plan ticket's `## Foundation` needs no new question; a bare chat request gets one or two.
 3. Every locked behavioral answer becomes a numbered rule (Rule 1, Rule 2) with enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) must be specific, or it cannot become a test later.
 4. Announce non-goals, intended slice split, and the shared-understanding summary. Ask only real open questions in the same batch. Do not suggest tests yet.
 

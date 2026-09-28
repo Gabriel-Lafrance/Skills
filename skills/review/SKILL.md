@@ -1,12 +1,7 @@
 ---
 name: review
-description: >-
-  Review a local branch diff, or an open GitHub PR given by number or link.
-  Checks Standards (code quality, code structure, correctness hunt) and Spec with
-  evidence-backed findings. Local findings stay in chat with a bounded fix
-  path; PR findings become drafted comments behind one publish decision. User
-  must invoke (not auto).
-disable-model-invocation: true
+description: Review a local branch diff or an open GitHub pull request against the pack standards and the spec, with evidence-backed findings. Use when the user asks to review, check, or audit a branch, a diff, or a PR.
+category: Code
 ---
 
 # Review
@@ -15,15 +10,16 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 
 ## Read when
 
-- Throughout: stay in your smart zone (hard rule 9 in `AGENTS.md`).
-- Before adjudicating Standards on every `initial` or `full-rescan`, and on newly introduced PR follow-up surface, however small the diff: [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md).
-- Every run: [doctrine.md](doctrine.md) and the [review contract](contract.md).
-- Unsure how to check Knip or the cyclomatic cap: [static-checks.md](static-checks.md).
-- A parent supplied the handoff: the [execution context](../rules/planning.md#execution-context).
-- Unsure whether a finding meets the evidence bar or how to word it: [examples.md](examples.md).
-- Writing user-facing findings: [Plain language](../rules/writing-style.md#plain-language).
-- GitHub PR only: [reference.md](reference.md) and [Asking the user](../rules/writing-style.md#asking-the-user).
-- Recommending a behavior-lock test: [testing.md](../rules/testing.md).
+- About to read a large diff, search the codebase, or wade through long output? Open [smart-zone.md](../rules/smart-zone.md). Skip it and noise crowds out your judgment of the findings.
+- About to judge Standards on any `initial` or `full-rescan`, or on new PR follow-up surface, however small the diff? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you pass code the rules reject.
+- Reviewing a Feature diff? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and you pass a Feature that hardcodes what the plan said would vary.
+- Every run: open [doctrine.md](doctrine.md) and the [review contract](contract.md). Skip them and the output fence and axes come out wrong.
+- Unsure how to check Knip or the cyclomatic cap? Open [static-checks.md](static-checks.md). Skip it and you guess at a number.
+- A parent supplied the handoff? Open the [execution context](../rules/planning.md#execution-context). Skip it and you re-ask settled decisions.
+- Unsure whether a finding meets the evidence bar or how to word it? Open [examples.md](examples.md). Skip it and you ship a finding with no evidence.
+- About to write a user-facing finding? Open [Plain language](../rules/writing-style.md#plain-language). Skip it and the author gets a rule slug instead of a fix.
+- Reviewing a GitHub PR? Open [reference.md](reference.md) and [Asking the user](../rules/writing-style.md#asking-the-user). Skip them and you post comments nobody approved.
+- About to recommend a behavior-lock test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md) and [testing.md](../rules/testing.md). Skip them and you treat your recommendation as acceptance.
 
 Each pass reports in the review contract **review output** fence (Principles,
 Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).

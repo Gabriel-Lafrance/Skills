@@ -8,17 +8,19 @@
 
 ## Plans: grill first
 
-Whenever a non-trivial plan is about to be written, whether or not the harness calls that a plan mode:
+Before a non-trivial plan, grill first: a Questions-only message, then a separate Locked in message. Every plan has a Before/After Mermaid diagram. Whenever a non-trivial plan is about to be written, whether or not the harness calls that a plan mode:
 
 1. **Do not** emit the final plan until material decisions are settled. If the harness has a plan tool, do not call it yet.
-2. **Grill first.** Look up repository facts, then send **one batched Questions-only** message using the [asking rules](writing-style.md#asking-the-user) (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). Do **not** include a Locked-in section in that message.
-3. Sweep open topics before planning: outcome, out of scope, users/edges, plan split, file lane, code quality and code structure choices, and any product or policy forks that would change the plan. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
-4. After the user answers (or when nothing remains to ask), announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message. Never mix Locked and Questions.
+2. **Grill first.** Look up repository facts, then send **one batched Questions-only** message using the [asking rules](writing-style.md#asking-the-user) (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). That batch attacks each load-bearing claim in [grill-me/doctrine.md](../grill-me/doctrine.md): the claim, the failure, one real rival, and why one is recommended. Do **not** include a Locked-in section in that message.
+3. Sweep open topics in that doctrine's batch order: decision and rejected rival, what this refuses to own, what would make the decision wrong, and the owner path, then outcome, out of scope, users/edges, plan split, file lane, and the remaining code quality and code structure choices. Behavior edges wait until those four are in the batch or already answered. Prefer recommending behavior-preserving moves and deep modules over leaving debt.
+4. After the user answers, if the rejected alternative, what would make the decision wrong, or the owner path is still unnamed, send another Questions-only batch. Do not lock on that reply while any of those three are open. When they are named, announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message that repeats the rejected alternative. Never mix Locked and Questions. A typo or pure rename skips this check.
 5. After Locked closure, **then** produce the plan. Use the harness plan tool when it has one. Otherwise write the plan in chat. New unknowns later mean a **new** Questions-only batch.
 
-Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling / plan immediately).
+Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling or plan immediately).
 
 Every non-trivial plan **must** include a high-level Mermaid **Change diagram** with **both** `### Before` and `### After`. Prefer modules, actors, and request/data flow. Keep the same node ids across Before/After when possible. A plan without Before/After is incomplete. PR bodies and `/analyze` memos use the [PR change diagram](shipping-templates.md#change-diagram) rule instead (one diagram for new work, Before/After for rework).
+
+**Check:** did a Questions-only message go out and get answered, then a separate Locked in message, and does the plan carry Before and After diagrams?
 
 ## Execution context
 

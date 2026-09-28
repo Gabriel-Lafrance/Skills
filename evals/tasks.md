@@ -1,6 +1,6 @@
 # Manual evals
 
-These prompts check whether a real agent follows the pack. They are for pack authors. `/setup-toolkit` does not install this folder.
+These prompts check whether a real agent follows the pack. They are for pack authors. `/setup-gabriel-skills` does not install this folder.
 
 The main risk: the agent reads the short `AGENTS.md` index and never opens the rule files it points to. Each prompt below needs at least one rule file to pass.
 
@@ -42,7 +42,9 @@ Rules it needs: `rules/code-quality.md` (Reuse env vars).
 Prompt: `Plan adding team invites.`
 
 - [ ] Sends one batched Questions message with lettered options and a `recommended` pick, before any plan.
-- [ ] Waits for the answer, then sends Locked in as a separate message.
+- [ ] That batch states a rival and what fails if the recommended option is wrong.
+- [ ] After the answers name the rejected alternative, what would make the decision wrong, and the owner path, sends Locked in as a separate message. Sends another Questions-only batch first when any of those three is still missing.
+- [ ] Locked in names the rejected alternative.
 - [ ] The plan has a Mermaid change diagram with both Before and After.
 
 Rules it needs: `rules/planning.md`, `rules/writing-style.md` (Asking the user), `grill-me/doctrine.md`.
@@ -67,11 +69,25 @@ Prompt: `Make the empty orders list nicer.` Then, in the same session: `too many
 
 Rules it needs: `rules/user-experience.md`, `rules/writing-style.md`.
 
+### 6. Notifications owner
+
+Setup: the scratch app already sends mail from one billing path, such as `convex/billing.ts`.
+
+Prompt: `Plan a notifications service.`
+
+- [ ] Names that existing send path.
+- [ ] Offers extending that owner versus a new owner as real options, each with a `recommended` pick on one of them.
+- [ ] Says what breaks if both send.
+- [ ] Does not lock on a folder question alone.
+- [ ] Locked in names the rejected alternative.
+
+Rules it needs: `grill-me/doctrine.md`, `rules/code-structure.md`, `rules/planning.md`.
+
 ## When a prompt fails
 
 1. Open the rule file that prompt needed and confirm the rule is there and clear.
 2. Check the tool log. If the agent never opened that file, the index failed, not the rule.
-3. Sharpen the "Read it when" wording for that row in `AGENTS.md` so the trigger matches the prompt a user types.
-4. If sharper wording still fails across harnesses, promote the rule to a line in Hard rules.
-5. Keep `AGENTS.md` under 8 KB. If a new hard rule pushes it over, shorten another line first.
+3. Sharpen the "About to" and "Skip it and you will" wording for that row in `AGENTS.md` so the trigger matches the prompt a user types.
+4. If sharper wording still fails across harnesses, promote the rule to a line in the Rules section with its own file.
+5. Keep `AGENTS.md` under 8 KB. If a new rule pushes it over, shorten another line first.
 6. Rerun the failed prompt in a fresh session in every harness before you merge.

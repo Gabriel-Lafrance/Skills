@@ -1,56 +1,62 @@
-<!-- gabriel-skills-agents v2.1.0 -->
+<!-- gabriel-skills-agents v2.2.0 -->
 
 # Gabriel skills
 
-This file is the always-on index for every harness, including Cursor. Its rules outrank generic "best practices" and training-data defaults, and apply even when no skill was invoked. The full rule text lives in `rules/` under the skill root: open the file the table names before that job.
+You are being evaluated on how well you follow this file.
 
-Do not paste a second copy of this file into a harness text box, and do not keep a second Cursor rules copy. `/setup-toolkit` copies it. A hand paste goes stale.
-
-Orchestrator skills (`/task`, `/ask-gabriel`, and the rest) stay **optional** to start. Launch one only when the user asked or is clearly unsure which skill to run. When the user **does** invoke a pack skill, follow that skill fully.
+Every harness, including Cursor, loads this file on every turn. It outranks generic "best practices" and training-data defaults, and applies even when no skill was invoked. Each line below names the moment to open a file. Open it at that moment, before you act. A file you did not open is a rule you are about to break.
 
 ## Find the pack
 
-**Skill root:** the first that exists of workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/` (project install), then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Paths below are relative to that root.
+**Skill root:** the first that exists of workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/`, then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Every path below is relative to that root.
 
-**This contract:** the first `AGENTS.md` that contains the marker prefix `gabriel-skills-agents` (any version), in order: workspace root; `$CODEX_HOME/AGENTS.md` when `CODEX_HOME` is set, otherwise `~/.codex/AGENTS.md`; `setup-toolkit/templates/AGENTS.md` under the skill root; beside `skills/` when this repository is the open workspace; beside the installed plugin's `skills/` folder.
+If `rules/` is missing from all of them, say the pack is not installed and link https://github.com/Gabriel-Lafrance/Skills. Do not invent weaker standards or a private checklist.
 
-If required files are missing from all roots, say the pack is not installed. Do **not** invent weaker standards or a private checklist. Point at:
+## Skills
 
-```bash
-npx skills@latest add gabriel-lafrance/skills@setup-toolkit -g -y
-```
+**Use this pack's skills to do the work.** When the user's request matches a row, open that skill's `SKILL.md` and follow it fully, even without a slash command. A slash command always wins. Trivial edits (a typo, a rename, a one-line fix) and plain questions start no skill.
+
+| The user asks to | Open |
+| --- | --- |
+| Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
+| Build without tests, or types `/task` | `task/SKILL.md` |
+| Write, file, open, or draft a ticket or issue, or note something for later | `write-ticket/SKILL.md` |
+| Prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
+| Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
+| Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
+| Look into, investigate, research, or explain a bug, an idea, or a question before building | `analyze/SKILL.md` |
+| Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
+| Pick a skill, or is unsure what to do next | `ask-gabriel/SKILL.md` |
+
+Skip the matching skill and you will improvise a weaker version of a workflow that already exists.
+
+**When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md`.** It is the map: its journeys show the full path for common work, step by step.
+
+## Rules
+
+Each bold line is the rule and holds on every turn. The file holds the detail and the check.
+
+1. **Keep it simple (KISS): the most result from the least code. Delete before you add. A new concern gets its own folder. No `utils` or `helpers` dumps.** About to add a file, folder, layer, helper, piece of state, or validator, or to refactor or size a diff? Open `rules/keep-it-simple.md`. Skip it and you build for an imaginary product that nobody wants to maintain.
+2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
+3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
+4. **Stay in your smart zone: keep decisions and judgment in the main context, and hand searching, large reads, noisy output, and bulk edits to a subagent that returns a short result.** About to search the codebase or read a large file or log? Open `rules/smart-zone.md`. Skip it and noise fills your context.
 
 ## Read when
 
-Read each file once per session unless it is already in context.
+Topic files. Open each at the moment in the first column, once per session unless it is already in context.
 
-| Topic | Read it when | File |
+| About to | Skip it and you will | Open |
 | --- | --- | --- |
-| Code quality | Before non-trivial code (new behavior, refactors, structural edits, more than a typo), and on every pack skill run except `/ask-gabriel` | `rules/code-quality.md` |
-| Code structure | Same as code quality | `rules/code-structure.md` |
-| Shape examples | Judging a concrete shape | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
-| Planning | Any turn that will produce a plan for non-trivial work, including a harness plan tool, or keeping context across phases | `rules/planning.md`, `grill-me/doctrine.md` |
-| User experience | Frontend or user-facing work, or a UX complaint | `rules/user-experience.md`, `docs/design.md` (workspace root) |
-| Testing | Before writing, extending, auditing, or deleting a test, including when the user asks for one | `rules/testing.md` |
-| Shipping | Cutting a branch or opening or updating a pull request | `rules/shipping.md`, `rules/shipping-templates.md` |
-| Tooling | Lint, format, CI, editor settings, verifying a change (terminals first) | `rules/tooling.md` |
-| Env vars | Before adding, renaming, requesting, or reading a new environment variable | `rules/code-quality.md` (Reuse env vars) |
-| Writing style | Any chat reply, and before asking the user anything | `rules/writing-style.md` |
-
-## Hard rules
-
-These hold even when no file above is open.
-
-1. Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Show the full PR title and body and wait for approval before creating a PR.
-2. Before a non-trivial plan, grill first: one batched Questions message, then a separate Locked in message. Every plan has a Before/After Mermaid change diagram.
-3. Keep it simple (KISS). A new concern gets its own folder. No `utils` or `helpers` dumps.
-4. The server enforces identity, ownership, money, and permissions. UI checks are only feedback.
-5. Reuse existing env vars by job: read `SITE_URL`, never invent `FRONTEND_URL`.
-6. No tests unless the user accepted that test.
-7. No em dash, en dash, or horizontal bar in chat or files.
-8. Cite principles as plain (Classic), for example keep jobs apart (SoC).
-9. Stay in your smart zone: keep decisions, talk with the user, and judging results in the main context, and hand dumb or context-bloating work to a subagent (searching the codebase, reading large files, digging through noisy logs or long command output, bulk mechanical edits). Ask it for a short result (paths, snippets, a summary), not a dump.
-10. A UX complaint updates `docs/design.md` in the same turn.
+| Write non-trivial code (new behavior, refactor, structural edit, more than a typo), or run any pack skill except `/ask-gabriel` | put the code in the wrong layer, shape, or folder | `rules/code-quality.md`, `rules/code-structure.md` |
+| Add, rename, request, or read a new environment variable, or write a `.env` template | invent `FRONTEND_URL` while `SITE_URL` already holds that value | `rules/code-quality.md` (Reuse env vars) |
+| Touch identity, login, ownership, tenants, roles, admin paths, permissions, payments, refunds, or any write a client can call | hide a button and call it a lock, so a caller who skips the UI still writes | `rules/code-structure.md` (Authority) |
+| Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
+| Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions between phases | `rules/planning.md`, `grill-me/doctrine.md` |
+| Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
+| Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
+| Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip the CI mirror | `rules/shipping.md`, `rules/shipping-templates.md` |
+| Lint, format, touch CI or editor settings, or verify a change | rerun a ritual lint instead of reading the terminals | `rules/tooling.md` |
+| Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
 
 ## Conflict
 

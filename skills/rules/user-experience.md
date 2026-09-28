@@ -37,7 +37,7 @@ UI and UX do / don't for this product.
 
 ## Initialization
 
-`ux:initialization`. If `docs/design.md` is missing when you start UI work, write it first, then continue. `/setup-toolkit` does not write it.
+`ux:initialization`. If `docs/design.md` is missing when you start UI work, write it first, then continue. `/setup-gabriel-skills` does not write it.
 
 1. Discover **every** route from the app router in code. No browser, no login, no screenshots.
 2. Read those routes and the existing UI. Look for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).
@@ -57,7 +57,7 @@ Never overwrite an existing `docs/design.md` with a blank template. A partial ro
 
 `ux:blend-edits`. The user may add or remove Do / Don't bullets. The next run treats those bullets as truth. Do not restore deleted bullets or keep a private shadow copy.
 
-When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet in `docs/design.md` in that turn, then match the UI if this turn also implements. The same holds when they want to change how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Do not only change the component. A written Do or Don't that asks for a slower or denser path is not a defect.
+A UX complaint updates `docs/design.md` in the same turn. When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet in `docs/design.md` in that turn, then match the UI if this turn also implements. The same holds when they want to change how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Do not only change the component. A written Do or Don't that asks for a slower or denser path is not a defect.
 
 Add or tighten a bullet only when this turn observed a new UI/UX rule, the user stated a preference, or the user changed how design is done.
 
