@@ -20,16 +20,16 @@ Lock a complex hook, domain rule, facade, stateful class, or a real regression w
 
 ## Authoring gate
 
-An accepted test still passes this gate before it lands. Answer four questions. A missing answer means do not write it yet:
+An accepted test still passes this gate before it lands. Answer four questions, and write the test only once all four have answers:
 
 1. What observable behavior, invariant, or independent contract does it protect?
 2. What credible regression makes it fail?
 3. Why does existing coverage not already catch that failure? Each contract has one primary test owner at the strongest boundary. Another layer needs its own risk the owner cannot reach, such as a transport or lifecycle failure. Extend a table-driven case or shared fixture instead of adding a near-duplicate test, and fold duplicated setup in the same change.
-4. Does it need a production seam (export, flag, wrapper, injection hook) that no production caller needs? If yes, test at the real boundary instead.
+4. Does it need production code that only the test uses (export, flag, wrapper, injection hook)? If yes, test at the real boundary instead.
 
 Then check it against every [junk pattern](#junk-patterns). A match fails the gate unless the [retention bar](#retention-bar) names the contract it independently guards. A test that breaks under a behavior-preserving refactor asserts implementation, not behavior. Rewrite it at the owning boundary before it lands.
 
-A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A regression test that never failed proves the mock, not the fix. One regression at the owner covers the bug. Do not replay the same scenario at every layer it crosses.
+A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A regression test that never failed proves the mock, not the fix. One regression at the owner covers the bug, not a replay at every layer the scenario crosses.
 
 ## Junk patterns
 
@@ -72,13 +72,13 @@ Static or slow is not a reason to delete. A test that looks like implementation 
 | Approve first | Before writing, the user approves concise **Why**, **What**, and **How** statements for each main claim. A `/task` brief or `/task-with-tests` prompt item is already approved when the user answered yes on that line |
 | Cite the grilled rule | A lock that came from `/task` names the rule that must stay true it locks (Rule N). No rule, no test |
 | Small set | Core outcome, critical guard, meaningful edge, and the known regression when the brief named one. A few scenarios over combinatorial or snapshot theater |
-| Reuse the repo | Runner, layout, fixtures, helpers. Do not add a framework |
-| Focused run | Only the focused test file or filter unless that is inconclusive or the user asks otherwise |
+| Reuse the repo | Use its runner, layout, fixtures, and helpers instead of a new framework |
+| Focused run | Run the focused test file or filter. Widen only when that is inconclusive or the user asks |
 | Code quality and structure | Helpers throw on setup failure (`quality:throw-at-boundaries`); comments summarize the approved lock (`quality:comments`); exercise the service or deep-module public API, not internals (`structure:deep-public-surface`) |
 
 ## Lock brief
 
-Batch every known main claim in one message ([Asking the user](writing-style.md#asking-the-user)) and wait. Every brief has a no. Do not write tests until each brief is approved.
+Batch every known main claim in one message ([Asking the user](writing-style.md#asking-the-user)) and wait. Every brief has a no. Write tests once each brief is approved.
 
 ```markdown
 ## Lock brief: <symbol>
@@ -111,11 +111,15 @@ it("states the locked behavior", () => {
 
 ## Process
 
-1. Name the behavior to lock and what outside change it should catch. Find the public export and nearby tests. Run the [authoring gate](#authoring-gate). If the runner or layout is unclear, ask once.
-2. Draft every needed Why / What / How brief, batch them for approval, and wait. When `/task` or `/task-with-tests` already collected that approval, do not ask again. Require the grilled rule id on each of those briefs. If the user corrected the rule after approval, stop and return the brief to the skill that collected it.
-3. Write the tests from the approved Why / What / How through the named public entry. Keep the set small and put the approved comment on each main test. Run the focused test, not the whole suite. Check the result against the approved claim.
-4. If the focused test fails on existing behavior, stop and report it; do not change production code to make it green without a user request. Under `/task-with-tests` the tests come before the code, so a failure is the expected [red baseline](../task-with-tests/reference.md#red-baseline): record it, and the build turns it green.
-5. Report with the handoff below.
+1. Name the behavior to lock and the outside change it should catch.
+2. Find the public export and nearby tests. If the runner or layout is unclear, ask once.
+3. Run the [authoring gate](#authoring-gate).
+4. Draft every needed Why / What / How brief, batch them for approval, and wait.
+5. If `/task` or `/task-with-tests` already collected that approval, reuse it. Require the grilled rule id on each of those briefs. If the user corrected the rule after approval, stop and return the brief to the skill that collected it.
+6. Write the tests from the approved Why / What / How through the named public entry. Keep the set small, put the approved comment on each main test, and leave refactoring out of the change.
+7. Run the focused test, not the whole suite. Check the result against the approved claim.
+8. If the focused test fails on existing behavior, stop and report it. Change production code only at a user request. Under `/task-with-tests` the tests come before the code, so a failure is the expected [red baseline](../task-with-tests/reference.md#red-baseline): record it, and the build turns it green.
+9. Report with the handoff below.
 
 ### Handoff
 
@@ -126,11 +130,3 @@ it("states the locked behavior", () => {
 - **Verification:** `<command>`: pass | fail
 - **Break signal:** <outside edit that makes this test fail>
 ```
-
-## Do not
-
-- Modify production code just to make a test convenient unless the user explicitly asks
-- Expand into refactoring, or write tests before approval
-- Write a test from a `/task` brief or `/task-with-tests` prompt item the user did not accept, or one that does not cite a grilled rule
-- Write tautological tests (recompute the same arithmetic as the code, assert UI chrome exists) or chase coverage
-- Add a test because the code changed, including a small tweak, copy change, rename, or one-line fix

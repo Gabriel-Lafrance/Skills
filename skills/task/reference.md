@@ -6,11 +6,11 @@ Load when establishing or recovering a task, issuing a plan or slice contract, p
 
 Keep the [execution context](../rules/planning.md#context-in-chat) in chat, with only the fields that matter to current work. It is the only automatic state. Plans, slices, grill outcomes, progress, and review findings stay in chat. Write an analysis, plan, or summary only when the user asks and supplies or approves the destination; it never becomes hidden state or a requirement for recovery.
 
-Do not infer a user decision, waiver, invariant, or promotion from repository facts. Re-announce settled decisions when they matter to a later phase.
+Take user decisions, waivers, invariants, and promotions only from what the user said, never from repository facts. Re-announce settled decisions when they matter to a later phase.
 
 ## Inline plan contract
 
-One per slice, in chat, after Locked grill closing. It is not a file.
+One per slice, in chat, after the Locked in message. It is not a file.
 
 ```markdown
 # Plan: <title>
@@ -69,7 +69,7 @@ Announce the split in chat, blockers first:
 
 ## New-chat recovery
 
-Do not search for a task directory, status file, archive, or resume tree. Follow the [authority order](../rules/planning.md#authority), then state the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions. Do not re-grill a decision the request, ticket/PR, approved artifact, or repository rules already carry.
+Recover from the [authority order](../rules/planning.md#authority), then state the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions. Treat a decision the request, ticket/PR, approved artifact, or repository rules already carry as settled.
 
 ## Progress and pause
 
@@ -83,7 +83,7 @@ For a pause, state the phase, completed slices, blocker, and next action.
 
 ## Completion summary
 
-After acceptance evidence and `/review`, report the outcome without archiving anything:
+After both gate handoffs are in, report the outcome in chat:
 
 ```markdown
 # ✅ Task complete: <short title>
@@ -127,7 +127,7 @@ Wait. On yes, follow the [Process in shipping.md](../rules/shipping.md#process) 
 
 ## Behavior-lock suggestion
 
-Run after grill Locked closing, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Never during an open grill, a trivial skip, or Fix mode.
+Run after the Locked in message, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Skip it during an open grill, for a trivial change, and in Fix mode.
 
 1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar.
 2. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. No public entry, no brief.
@@ -159,7 +159,7 @@ Numbered process for `/task`. Nested vs one-off shipping lives in [SKILL.md](SKI
 1. Re-derive the ticket/PR, Git fixed point, repository facts, and project rules as needed. State outcome, Done when, non-goals, lane, phase, and next action in the execution context. Carry forward only user decisions settled in this chat or an explicitly supplied artifact.
 2. Unless skip-grill applies, run `/grill-me` fully. It applies [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [user-experience.md](../rules/user-experience.md) and `docs/design.md` for user-facing work. For a Feature it confirms the areas of modularity and the foundation from [strong-foundation.md](../rules/strong-foundation.md), scaled to what the ticket already settled: a Plan ticket's `## Foundation` needs no new question; a bare chat request gets one or two.
 3. Every locked behavioral answer becomes a numbered rule (Rule 1, Rule 2) with enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) must be specific, or it cannot become a test later.
-4. Announce non-goals, intended slice split, and the shared-understanding summary. Ask only real open questions in the same batch. Do not suggest tests yet.
+4. Announce non-goals, intended slice split, and the shared-understanding summary. Ask only real open questions in the same batch. Save test suggestions for after the Locked in message.
 
 On a Locked correction or unanswered question, revise or wait.
 
@@ -167,7 +167,7 @@ On a Locked correction or unanswered question, revise or wait.
 
 **Explore and shape.** Find the relevant paths. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (write it first if missing).
 
-**Split and plan.** Announce a [slice split](#slice-split) in the grill's Locked message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating **what** and need-to-know, not how. If the split changes, re-announce it before implementing. No INDEX, plan path, or runtime file. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to grill before implementing.
+**Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating **what** and need-to-know, not how. If the split changes, re-announce it before implementing. Keep plans in chat. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to the grill before implementing.
 
 **Implement.** Build ready frontier slices one at a time, in dependency order. User-facing slices (screens, components, styling, visible copy) apply user-experience.md and `docs/design.md`. For each slice:
 
@@ -177,14 +177,20 @@ On a Locked correction or unanswered question, revise or wait.
 4. No tests in a product slice. Each accepted lock is its own test slice ([testing.md](../rules/testing.md)) after the public entry exists.
 5. Update **Current slices** with status, evidence, findings, and changed interfaces. Missing acceptance, dependency, or structural decision: mark `blocked` and name the smallest decision needed.
 
-Enter acceptance evidence only when every slice is done, blocked, or explicitly waived.
+Start the gate when every slice is done, blocked, or explicitly waived.
 
-**Acceptance evidence and review.**
+**Verification and review gate.**
 
-1. Start **`/verification`** in a subagent with Done when (task and slice), rules that must stay true, cross-slice seams, the slices, and the diff. It verifies only what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)). Run **`/review`** in this context at the same time. The verification handoff is the acceptance evidence. Include the lock handoff and focused test result for each accepted lock. Record verified / failed / inconclusive per criterion; an unperformed check is not a pass.
-2. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
-3. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the correction, and enter Fix mode only after explicit user promotion. A declined fix blocks completion until it is fixed or waived by name.
-4. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the [review contract](../review/contract.md), and a test is written only if the user says yes to it ([testing.md](../rules/testing.md)).
+1. Launch two subagents in one step so they run at the same time:
+   - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It verifies only what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)).
+   - `/review`: give it the same handoff. It reviews the diff for Standards and Spec.
+
+   If the harness has no subagent, run `/verification`, then `/review`, in this context.
+2. Ask each subagent for its handoff, not raw output. Read the evidence in the handoffs before you accept a verdict.
+3. Use the verification handoff as the acceptance evidence. Add the lock handoff and the focused test result for each accepted lock. Mark each criterion verified, failed, or inconclusive. An unperformed check is not a pass.
+4. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
+5. For selected `fix now` findings, run `/analyze` in review-remediation mode and present the correction. Enter Fix mode after the user explicitly promotes it. A declined fix blocks completion until it is fixed or waived by name.
+6. Leave behavior-lock suggestions closed here. A lock the review still wants follows the [review contract](../review/contract.md), and a test is written only if the user says yes to it ([testing.md](../rules/testing.md)).
 
 ### Fix mode (review remediation only)
 

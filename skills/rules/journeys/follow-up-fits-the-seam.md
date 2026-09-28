@@ -1,6 +1,6 @@
 # Journey: a follow-up that fits the seam
 
-Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)).
+Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)). A seam is a named extension point where a new variant plugs in.
 
 **The user says:** "Add PayPal as a payment option." No ticket, just the chat message.
 **Comes after:** [a new Feature on a strong foundation](new-feature.md). **If it does not fit:** [a follow-up that needs a seam first](follow-up-needs-a-seam.md).
@@ -19,7 +19,7 @@ flowchart LR
 
 ## 2. Grill, scaled to thin context
 
-The agent finds the sibling first: `services/billing/providers.ts` already has a registry, and `stripe-provider.ts` implements `PaymentProvider`. Both match the Adapter and registry trees in [Foundation patterns](../code-structure-examples.md#foundation-patterns-folder-trees), so this sibling may be copied, and the agent says which tree it matches. That makes this a Feature that fits an existing seam ([Scale to the work](../strong-foundation.md#scale-to-the-work)): extend it, no new foundation, and no areas of modularity question.
+The agent finds the sibling first: `services/billing/providers.ts` already has a registry, and `stripe-provider.ts` implements `PaymentProvider`. Both match the Adapter and registry trees in [Foundation patterns](../code-structure-examples.md#foundation-patterns-folder-trees), so this sibling may be copied, and the agent says which tree it matches. That makes this a Feature that fits an existing seam ([Scale to the work](../strong-foundation.md#scale-to-the-work)). Extend it. Add no new foundation and ask no areas of modularity question.
 
 Only real product questions remain:
 
@@ -32,7 +32,7 @@ Reply like: 1a
    - b) only customers who choose it in settings
 ```
 
-The Locked message says which seam this extends and names the public entry: `billing.makeUserPay` with `provider: "paypal"`.
+The Locked in message says which seam this extends and names the public entry: `billing.makeUserPay` with `provider: "paypal"`.
 
 ## 3. Tests and build
 

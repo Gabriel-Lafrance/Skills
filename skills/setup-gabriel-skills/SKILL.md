@@ -7,7 +7,7 @@ disable-model-invocation: true
 
 # Setup Gabriel skills
 
-Install this pack's skills, including `rules/`, and place `AGENTS.md` where the harness already reads it. User start only; do not nest it under `/task`. Install this skill with
+Install this pack's skills, including `rules/`, and place `AGENTS.md` where the harness already reads it. User start only, never nested under `/task`. Install this skill with
 `npx skills@latest add gabriel-lafrance/skills@setup-gabriel-skills -g -y`, then run it.
 
 This skill does not install ESLint, Prettier, or editor files.
@@ -20,7 +20,7 @@ This skill does not install ESLint, Prettier, or editor files.
 
 ## Process
 
-1. Verify. Look up skill roots and which harness homes exist. Print those facts. Do not ask the user for them
+1. Verify. Look up skill roots and which harness homes exist, and print those facts instead of asking the user
    ([reference.md](reference.md#verify)).
 2. Ask once where the skills and `AGENTS.md` should go ([reference.md](reference.md#questions)). Wait.
 3. Install or update pack skills for the chosen scopes
@@ -36,9 +36,4 @@ This skill does not install ESLint, Prettier, or editor files.
 
 ## Anti-patterns
 
-- Offering a manual install before the install has failed
-- Treating a declined manual install as success
-- Overwriting an instructions file that lacks `gabriel-skills-agents`
-- Creating a home folder for a harness that is not installed
 - Writing a `.cursor/rules` or `.mdc` copy
-- Writing ESLint, Prettier, or `.vscode` files

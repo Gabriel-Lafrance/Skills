@@ -16,17 +16,6 @@ How far to verify for a given change, the proof standards, safe targets, outcome
 - Fixing what fails: the parent's Fix mode, or the user
 - Numbered steps: [SKILL.md](SKILL.md)
 
-## Cite keys
-
-| Key | Heading |
-| --- | --- |
-| `verification:scope` | [Scope to the change](#scope-to-the-change) |
-| `verification:proof` | [Proof standards](#proof-standards) |
-| `verification:safe-targets` | [Safe targets](#safe-targets) |
-| `verification:outcomes` | [Outcomes](#outcomes) |
-| `verification:evidence` | [Evidence](#evidence) |
-| `verification:recipe` | [Recipe](#recipe) |
-
 ## Bars
 
 ### Scope to the change
@@ -46,16 +35,16 @@ Every change gets verified. The work decides how much.
 - Check side effects next to what is visible: rows written, jobs enqueued, emails or messages sent, files written.
 - Check the full chain: input, server, storage, and back to what the user sees after a reload.
 - Mock only where a production boundary already isolates the external system (payment provider sandbox, email catcher).
-- A dry-run or test mode: observe what it actually skips (network, files, git refs). Do not trust its name.
+- For a dry-run or test mode, observe what it actually skips (network, files, git refs) and ignore its name.
 - A bug fix gets a control: show the old failure on the base commit or with the fix reverted when that is cheap, then the pass on the change.
 - When a check fails, suspect the observation first (wrong port, stale build, cached page), then the product.
-- The drive runs in a fresh subagent. The coordinator reads its evidence, never only its verdict.
+- The subagent that drives did not write the change. The coordinator reads its evidence before accepting its verdict.
 
 ### Safe targets
 
-- Local, dev, or preview environments only. Never production. Never a shared staging database without the user's yes.
+- Use local, dev, or preview environments. Production is off limits. A shared staging database needs the user's yes.
 - A check that writes, deletes, or migrates data runs only on local or disposable data.
-- Reuse running processes first. Kill only what this run started, by process id, never by name.
+- Reuse running processes first. Kill only what this run started, by process id.
 - Two instances side by side need separate ports and data. If the app cannot isolate, drive the one instance serially.
 
 ### Outcomes
@@ -72,7 +61,7 @@ The run is `verified` only when every check is. An unperformed check is never a 
 
 - Report evidence inline: commands and their output, HTTP status and body excerpts, row counts, log lines, console errors, measured layout-shift scores.
 - Screenshots, traces, and videos are allowed when they prove a UI check. Write them to the OS temp directory or the harness's own artifact folder, never the repo. Report their paths.
-- Never commit evidence or scratch drive scripts.
+- Keep evidence and scratch drive scripts out of commits.
 
 ### Recipe
 
@@ -84,7 +73,7 @@ The [handoff](reference.md#handoff) in chat.
 
 ## Apply
 
-Run on user start, or every time `/task` reaches its gate out, in parallel with `/review`. Size the run to the change ([scope](#scope-to-the-change)).
+Run on user start, or every time `/task` reaches its gate out, as its own subagent launched together with the `/review` subagent. Size the run to the change ([scope](#scope-to-the-change)).
 
 ## Anti-patterns
 

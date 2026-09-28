@@ -19,7 +19,7 @@ commands/                # Slash command (setup-gabriel-skills)
 skills/
   rules/                 # rule files AGENTS.md points to (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
-    keep-it-simple.md, strong-foundation.md, no-unrequested-tests.md, smart-zone.md
+    keep-it-simple.md, strong-foundation.md, no-unrequested-tests.md, main-context.md
                          # one file per rule in the AGENTS.md Rules section
     journeys/            # one piece of work followed through skills and rules; /ask-gabriel is the map
     code-quality.md      # code quality rules (quality:* cite keys), named principles, mechanical rules
@@ -94,13 +94,13 @@ Every workflow skill triggers from what the user asks, so its `description` must
 
 ## Runtime and visual checks
 
-Only [`/verification`](./skills/verification/SKILL.md) opens a browser, captures screenshots or traces, or drives migrations, endpoints, and jobs. It verifies every change, but only the layers that change touched ([scope](./skills/verification/doctrine.md#scope-to-the-change)), so a small UI tweak gets a quick look, not a full backend pass. `/task` and `/task-with-tests` run it in a subagent next to `/review`. Every other skill stays on the diff, path walks, and terminal output. Evidence files live outside the repo and are never committed. PR bodies stay text and may summarize the verification handoff.
+Only [`/verification`](./skills/verification/SKILL.md) opens a browser, captures screenshots or traces, or drives migrations, endpoints, and jobs. It verifies every change, but only the layers that change touched ([scope](./skills/verification/doctrine.md#scope-to-the-change)), so a small UI tweak gets a quick look, not a full backend pass. `/task` and `/task-with-tests` launch it in its own subagent together with a `/review` subagent, so both run at the same time. Every other skill stays on the diff, path walks, and terminal output. Evidence files live outside the repo and are never committed. PR bodies stay text and may summarize the verification handoff.
 
 ## Add a skill
 
 1. Create `skills/<skill-name>/SKILL.md` with frontmatter above. Put numbered how-to in that file. If nested vs one-off differs (who ships, who asks the next question), put that fork in `SKILL.md`. Inner steps say they are not a typical user start. User starts that must not nest under `/task` say so in `SKILL.md`. If the steps are really a preference that applies whenever a topic comes up (how tests look, how PRs are shipped), write a rule in `skills/rules/` instead of a skill.
-2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows the [skill file layout](./.github/CONTRIBUTING.md#skill-file-layout): Job, Owns, Does not own, Cite keys, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Code quality and code structure rules live in [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md), not in a skill doctrine.
-3. Link the Asking the user section of `rules/writing-style.md` if the skill asks the user anything. Link `rules/code-quality.md` and `rules/code-structure.md` on every skill except `/ask-gabriel`. Link the Plain language section of `rules/writing-style.md` if the skill talks to the user.
+2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows the [skill file layout](./.github/CONTRIBUTING.md#skill-file-layout): Job, Owns, Does not own, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Code quality and code structure rules live in [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md), not in a skill doctrine.
+3. Link the Asking the user section of `rules/writing-style.md` if the skill asks the user anything. Link `rules/code-quality.md` and `rules/code-structure.md` in the Read when list of any skill that writes or judges code. Link the Plain language section of `rules/writing-style.md` if the skill talks to the user.
 4. Wire discovery:
    - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
    - Inner step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).

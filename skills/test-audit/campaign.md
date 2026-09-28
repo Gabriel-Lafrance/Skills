@@ -1,6 +1,6 @@
 # Test-pruning campaign
 
-Campaign mode prunes one subsystem's whole test surface in one PR: one package, plugin, integration, or core area. The value bar, candidate evidence, edit shape, and validation in [SKILL.md](SKILL.md) apply to every lane. This file adds the order of work. Each step ends on its done-when line. Do not start the next step early.
+Campaign mode prunes one subsystem's whole test surface in one PR: one package, plugin, integration, or core area. The value bar, candidate evidence, edit shape, and validation in [SKILL.md](SKILL.md) apply to every area (step 2 defines it). This file adds the order of work. Each step ends on its done-when line. Start the next step only after that line holds.
 
 ## 1. Baseline
 
@@ -8,15 +8,15 @@ Pin a base commit. Record the subsystem's test and test-support line counts and 
 
 Done when every in-scope test file has a recorded baseline result.
 
-## 2. Lanes and inventory
+## 2. Areas and inventory
 
-Split the surface into **lanes** along production owner boundaries, not file prefixes (for example accounts, commands, inbound, outbound, persistence, transport, shared harness, and end-to-end scenarios). Include the subsystem's cases in shared core suites and its end-to-end or live-proof harness tests.
+Split the surface into **areas** along production owner boundaries, not file prefixes (for example accounts, commands, inbound, outbound, persistence, transport, shared harness, and end-to-end scenarios). Include the subsystem's cases in shared core suites and its end-to-end or live-proof harness tests.
 
-Done when every test file and scenario the subsystem owns belongs to exactly one lane.
+Done when every test file and scenario the subsystem owns belongs to exactly one area.
 
-## 3. Read-only ledger per lane
+## 3. Read-only ledger per area
 
-Give each lane to its own read-only subagent. It reads every assigned test in full, including parameter tables, plus the production owners and their entry points, callers, history, and CI routing. Each test declaration goes into a written **ledger** with one mark. A table-driven test is one declaration unless its rows need different marks; then mark each row.
+Give each area to its own read-only subagent. It reads every assigned test in full, including parameter tables, plus the production owners and their entry points, callers, history, and CI routing. Each test declaration goes into a written **ledger** with one mark. A table-driven test is one declaration unless its rows need different marks; then mark each row.
 
 | Mark | Meaning | Must name |
 | --- | --- | --- |
@@ -27,23 +27,23 @@ Give each lane to its own read-only subagent. It reads every assigned test in fu
 
 Judge a test by its assertions, not its name.
 
-Done when every declaration in the lane has a mark and an evidence line.
+Done when every declaration in the area has a mark and an evidence line.
 
-## 4. Layer plan per lane
+## 4. Layer plan per area
 
 The ledger is input, not the edit list. A second read-only pass looks for the redundant **layer**: several suites replaying the same shared logic through one mocked collaborator, next to a stronger real-boundary suite. Name the **keeper** suite for each contract. Prefer the real transport boundary with a fake network over a mocked collaborator. Correct any ledger errors this pass finds.
 
-Post the lane plans and one Questions batch ([Asking the user](../rules/writing-style.md#asking-the-user)). Wait for approval before step 5.
+Post the area plans and one Questions batch ([Asking the user](../rules/writing-style.md#asking-the-user)). Wait for approval before step 5.
 
-Done when each lane plan names its retired files, its keeper per contract, the assertions to carry into keepers, and the test-only production seams it unlocks, and the user approved the plans.
+Done when each area plan names its retired files, its keeper per contract, the assertions to carry into keepers, and the test-only production hooks it unlocks, and the user approved the plans.
 
 ## 5. Cutover
 
-Edit lane by lane. Serialize changes to shared harnesses and support files through one owner. With each lane, remove the test-only production seams it unlocks: injection parameters, getters, reset exports, and indirection layers. Register moved suites in CI routing and test inventories. Update any shrink-only line-cap baselines.
+Edit area by area. Serialize changes to shared harnesses and support files through one owner. With each area, remove the test-only production hooks it unlocks: injection parameters, getters, reset exports, and indirection layers. Register moved suites in CI routing and test inventories. Update any shrink-only line-cap baselines.
 
 If the campaign found a mistake worth a durable test-ownership rule, propose the line for the subsystem's `AGENTS.md`. Write it only when the user says yes.
 
-Done when every approved lane plan is applied and each lane's keepers pass.
+Done when every approved area plan is applied and each area's keepers pass.
 
 ## 6. Preservation review
 
@@ -68,6 +68,6 @@ Review tooling may show a truncated file list on a diff this large. Record decis
 Hand off with the [SKILL.md handoff](SKILL.md#handoff), plus:
 
 - Baseline and final test and support line counts, with production counted separately
-- Lanes, retired layers, and keepers
+- Areas, retired layers, and keepers
 - Preservation gaps found and the mutation that caught each
 - Product defects, with control and candidate proof for each fix

@@ -20,7 +20,7 @@ Mark exactly one stage as recommended: Memo for a reminder, Research when promot
 
 ## Metadata batch
 
-Use when the stage is known but priority, assignee, or tracker is still unknown after the draft. Do not ask status. Do not ask "write this?".
+Use when the stage is known but priority, assignee, or tracker is still unknown after the draft. Take status from the default below and write without asking "write this?".
 
 ```markdown
 ## Questions
@@ -47,9 +47,9 @@ Reply like: 1c 2a
 
 Discover real options first: Linear priorities and members from its capability, GitHub labels and collaborators. Status is **Todo** on create (the tracker's Todo state; GitHub stays open). On promote or refine, keep the current status unless the prompt names another.
 
-## Locked draft
+## Locked in message
 
-No Questions in this message. If the user does not correct it, write this draft. Memo uses only **Stage** and **Note**.
+Send the draft with no Questions. If the user does not correct it, write this draft. Memo uses only **Stage** and **Note**.
 
 ```markdown
 ## Locked in (tell me if this is wrong)
@@ -67,7 +67,7 @@ No Questions in this message. If the user does not correct it, write this draft.
 
 ## Bodies
 
-Do not rename these headings. Use `_none` or `_unknown` only where the template allows it.
+Keep these headings as written. Use `_none` or `_unknown` only where the template allows it.
 
 ### Memo
 
@@ -191,6 +191,7 @@ or `none`
 - <answer the implementer must not ask again>
 ````
 
+- `## Foundation`: a seam is a named extension point where a new variant plugs in.
 - `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
 - `## Already decided`: a non-trivial plan names the rejected alternative. A typo or pure rename may say `_none`.
 - `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.

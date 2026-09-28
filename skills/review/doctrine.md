@@ -17,22 +17,9 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 - Test writing: [`../rules/testing.md`](../rules/testing.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
 
-## Cite keys
-
-| Key | Heading |
-| --- | --- |
-| `review:axes` | Axes |
-| `review:blocker-vs-follow-up` | Blocker vs follow-up |
-| `review:naming-alignment` | Naming alignment |
-| `review:folder-placement` | Folder placement |
-| `review:env-reuse` | Env reuse |
-| `review:foundation` | Foundation |
-| `review:body-vs-diff` | PR extras |
-| `review:historical-thread` | PR extras |
-| `review:migration-backfill` | PR extras |
-| `review:breaking-public-api` | PR extras |
-
 ## Bars
+
+Each review key names the section below with the same title (`review:axes`, `review:blocker-vs-follow-up`, `review:naming-alignment`, `review:folder-placement`, `review:env-reuse`, `review:foundation`), except the last four (`review:body-vs-diff`, `review:historical-thread`, `review:migration-backfill`, `review:breaking-public-api`), which are sections of "PR extras".
 
 ### Axes
 
@@ -41,33 +28,33 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) apply while building. Do not add a Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
+UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) apply while building; review has no Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
 
-Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, never hypothetical failures or a defect manufactured to look thorough.
+Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, and only defects the evidence shows.
 
 Resolve Standards in this order:
 
-1. [code-quality.md](../rules/code-quality.md) (Cite keys)
-2. [code-structure.md](../rules/code-structure.md) (Cite keys)
+1. [code-quality.md](../rules/code-quality.md) (`quality:*` rules)
+2. [code-structure.md](../rules/code-structure.md) (`structure:*` rules)
 3. Repository rules and committed project documentation (these win on conflict)
-4. Optional project standards when present; do not require a particular standards file
+4. Optional project standards when present (no particular standards file is required)
 5. Baseline defects in the review contract
 
-Treat the first two sources as **hard** unless repository rules conflict. Reject Standards output that skipped either section.
+Treat the first two sources as **hard** unless repository rules conflict. Redo Standards output that skipped either section.
 
 ### Blocker vs follow-up
 
-For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Never acronym-only and never the paraphrase without the classic name. The user-facing sentence must still explain the problem in ordinary words ([Plain language](../rules/writing-style.md#plain-language)).
+For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Always pair the plain phrase with the classic name. The user-facing sentence must still explain the problem in ordinary words ([Plain language](../rules/writing-style.md#plain-language)).
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
-| **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true. A seam on a named area of modularity is evidence | Slightly overbuilt but still correct |
+| **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true. A seam (a named extension point where a new variant plugs in) on a named area of modularity is evidence | Slightly overbuilt but still correct |
 | **Keep jobs apart (SoC)** | UI/feature owns Stripe, JWT, email, or mixed jobs in one unit | Mild mixing with a clear later split |
 | **One altitude (SLAP)** | One function both coordinates and does low-level detail in a way that hides bugs | Long but still readable |
 | **Light to read (Minimize reader load)** | New one-caller wrapper, pass-through layer, or hidden state a reader must hold to say where a value comes from | A deep entry that hides real work |
 | **Read or write, not both (CQS)** | A read also writes, or a command hides writes behind a "get" | Mild naming oddity on an otherwise correct command/query |
 | **Fail fast (Fail Fast)** | Invalid input accepted past the boundary into partial side effects, or a re-check inside after the boundary already parsed | Late check that still prevents bad writes |
-| **Leave it cleaner (Boy Scout Rule)** | Diff copies or extends a known-wrong shape in the touched lane | Cleanup opportunity not required for this change |
+| **Leave it cleaner (Boy Scout Rule)** | Diff copies or extends a known-wrong shape in the touched area | Cleanup opportunity not required for this change |
 | **Subtract first (Subtract before you add)** | The diff adds a path beside code this change should have deleted, or leaves a stub with no new content | Dead code outside the path this change extends |
 | **Related together (Cohesion / Law of Demeter)** | Callers reach service internals; unrelated jobs jammed into one module | Coupling that works but should tighten |
 | **Safe to retry (Idempotency)** | Replay, double-submit, or a resume after a crash can duplicate charges, rows, or side effects, or the end state depends on leftover partial state | Missing key where risk is low |
@@ -77,17 +64,17 @@ For the shipped diff, check each named principle in [code-quality.md](../rules/c
 | **Trust the server (never trust the client)** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
 | **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, marks required data optional, allows a contradictory field bag, mixes branded ids, casts to silence the checker, or matches a variant in a way that still compiles when a case is added | Local private helper loosely typed but not on a boundary |
 
-Treat a concrete hard-standard or named-principle violation introduced or extended in the touched lane as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up** unless it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
+Treat a concrete hard-standard or named-principle violation introduced or extended in the touched area as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up**. That changes only when it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
 
-Prefer a direct guard at the state-owning boundary over extra coordination. Request an `if` only for a reachable invalid state or a missing authoritative invariant. Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up. Request retries only for an evidenced transient external failure with an idempotent, bounded operation. Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior. Do not turn "might fail someday" into a finding.
+Prefer a direct guard at the state-owning boundary over extra coordination. Request an `if` only for a reachable invalid state or a missing authoritative invariant. Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up. Request retries only for an evidenced transient external failure with an idempotent, bounded operation. Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior. Report a failure only with evidence, not because it "might fail someday".
 
 ### Naming alignment
 
 On every `initial` or `full-rescan` Standards pass, after the principles checklist, walk the shipped diff for **stale names after rename/scope change**:
 
-1. **File paths:** if responsibility moved (new domain word in symbols, comments, ticket, or hunks), the filename/folder must match; do not leave `checkout-total.ts` owning payment-intent logic.
+1. **File paths:** if responsibility moved (new domain word in symbols, comments, ticket, or hunks), the filename/folder must match (rename `checkout-total.ts` once it owns payment-intent logic).
 2. **Exports and primary symbols:** exported functions, classes, types, React components, and Convex handlers must match the current job; rename in the same change as the scope shift.
-3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched lane changed meaning.
+3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched area changed meaning.
 4. **Half-moves:** a move/rename that updates content but keeps the old path (or the reverse) is a defect, not a style preference.
 
 Cite `quality:honest-names` on findings. Naming alignment is part of the Standards pass, not a later pass. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
@@ -97,8 +84,8 @@ Cite `quality:honest-names` on findings. Naming alignment is part of the Standar
 On every `initial` or `full-rescan` Standards pass, walk **new files** in the shipped diff against `structure:folders`:
 
 1. Related new files must sit in a named owning folder, not as mixed siblings of unrelated code in `src/`, `app/`, `convex/`, or a route folder that already holds a different slice.
-2. A new concern gets a folder even for the first file. Do not wait for five siblings.
-3. `quality:never-nest` and `quality:keep-it-simple` are not a defense. Never-nest is control flow.
+2. A new concern gets a folder even for the first file, before five siblings exist.
+3. Reject `quality:never-nest` and `quality:keep-it-simple` as defenses. Never-nest is control flow.
 4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`structure:prior-mistakes`).
 
 Cite `structure:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
@@ -117,7 +104,7 @@ A shipped-diff synonym is **Fix now**. Untouched historical aliases left in file
 
 On every `initial` or `full-rescan` Standards pass on a Feature diff, check it against `quality:strong-foundation` ([strong-foundation.md](../rules/strong-foundation.md)):
 
-1. Take the areas of modularity from the spec: the Plan ticket's `## Foundation`, the Research ticket's `## Areas of modularity`, the Structure card, or the grill's Locked message.
+1. Take the areas of modularity from the spec: the Plan ticket's `## Foundation`, the Research ticket's `## Areas of modularity`, the Structure card, or the grill's Locked in message.
 2. An area the spec named that ships hardcoded (no seam, the first provider inlined at callers, an `if` or `switch` on the variant) is a **blocker**.
 3. A seam on an area nobody named is a keep it simple (KISS) finding, not foundation.
 4. An obvious area nobody named (a domain that usually multiplies, a second variant already in the repo) is a **follow-up** note that asks whether it should have been named. It never blocks.
@@ -145,53 +132,36 @@ Add the first four rows to the review output fence on a PR (review contract PR e
 
 ## Output
 
-Return the review output fence from the [review contract](contract.md#output), including the four PR extras rows on a GitHub PR. Use the shared finding record; IDs remain stable across follow-up discussion. Map shared severity with the contract table; do not re-explain it.
+Return the review output fence from the [review contract](contract.md#output), including the four PR extras rows on a GitHub PR. Use the shared finding record; IDs remain stable across follow-up discussion. Map shared severity with the contract table, without re-explaining it.
 
 **Local branch diff:** show Fix now, Follow-up, and Optional nit in chat after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
 
-**GitHub PR:** show every full new draft in chat before posting, then ask exactly one publish question for the batch. With no drafts and no unresolved blocker, ask once whether to approve. A `blocker` becomes **Blocking**; a `follow-up` or `nit` becomes **Nit** only when a public comment is useful, otherwise it stays in chat. Public comment severities are **Blocking** and **Nit** only. Never post a summary, announcement, index, or pass-status comment. One root-cause topic gets one comment. On a follow-up, Pass A precedes new review work, then Pass B; the stale-head guard runs before any publish. Steps and comment shape: [reference.md](reference.md).
+**GitHub PR:** show every full new draft in chat before posting, then ask exactly one publish question for the batch. With no drafts and no unresolved blocker, ask once whether to approve. A `blocker` becomes **Blocking**; a `follow-up` or `nit` becomes **Nit** only when a public comment is useful, otherwise it stays in chat. Public comment severities are **Blocking** and **Nit** only. Post findings only, one comment per root-cause topic, with no summary, announcement, index, or pass-status comment. On a follow-up, Pass A precedes new review work, then Pass B; the stale-head guard runs before any publish. Steps and comment shape: [reference.md](reference.md).
 
 ## Apply
 
-After an initial review or full rescan, recommend a behavior-lock test only per the [review contract](contract.md#behavior-lock-recommendation) rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never write tests or edit test files from this skill. If the user says yes, the test is written by following [testing.md](../rules/testing.md).
+After an initial review or full rescan, recommend a behavior-lock test only per the [review contract](contract.md#behavior-lock-recommendation) rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. This skill recommends only; if the user says yes, the test is written by following [testing.md](../rules/testing.md).
 
-For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Running the app is [`/verification`](../verification/SKILL.md); when its handoff exists, cite its evidence in Spec matrix rows. Do not run a Design review pass.
+For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output. Running the app, a browser, or screenshots is [`/verification`](../verification/SKILL.md); when its handoff exists, cite its evidence in Spec matrix rows.
 
 **Local branch diff:**
 
-- Remediation is never a broad architecture hunt and never reopens the full initial review. Do not silently upgrade a remediation pass to a full rescan.
+- Remediation stays narrow: it is not a broad architecture hunt and does not reopen the full initial review. Upgrade it to a full rescan only on an explicit request or material scope expansion.
 - Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
 - If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates in this mode.
 
 **GitHub PR:**
 
-- This mode is a user start. Do not nest it under `/task`, and do not automatically start a local fix or `/task` lifecycle after publishing.
+- This mode is a user start, outside `/task`. After publishing, start a local fix or `/task` lifecycle only when the user asks.
 - Review is stateless. Re-run the shared hunts on the GitHub diff even when a local review already judged the branch.
 - Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Follow the shared [execution context](../rules/planning.md#execution-context): rediscover facts from the PR and repository instead of depending on local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
 - A linked GitHub issue or Linear ticket is **read-only** context. Post only on the PR, never on the ticket or Linear.
 - Use the harness pull-request / GitHub tool for GitHub reads and writes when the harness has one; otherwise use `gh` or `gh api`.
-- Do not create helper scripts or repository files to prepare or publish a review.
-- Keep the shared finding ID internally and reuse the matching GitHub thread for an existing issue. Do not duplicate an open finding as a new comment.
+- Prepare and publish the review from chat and tool calls alone, with no helper scripts or repository files.
+- Keep the shared finding ID internally and reuse the matching GitHub thread for an existing issue, instead of duplicating an open finding as a new comment.
 
 ## Anti-patterns
 
-- Merging Standards and Spec into one undifferentiated ranking
 - Skipping the Spec pass, Pass A, or new-surface review because the Standards pass looked clean
-- Running a second adversarial review or hunt re-inspect after the Standards and Spec passes
-- Inventing a `/design-review` skill or a Design review axis
-- Skipping [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) because the diff or PR looks small
-- Skipping Cite-key sweeps or accepting Standards output without Principles, Architecture, or Correctness tables
-- Skipping naming alignment or treating stale file/symbol names after a rename as Optional nits
-- Treating a mixed-parent file dump in the shipped diff as Optional nit or as "keep it simple"
-- Treating a new `FRONTEND_URL` (or other synonym) as Optional nit when `SITE_URL` already holds that job
-- Treating a public write without identity/ownership as Optional nit
-- Soft-pedaling `quality:keep-jobs-apart`, `quality:fail-fast`, `quality:safe-to-retry`, or `quality:trust-the-server` as Nit when they introduce or extend a correctness or security risk
-- Capping findings, reporting without the review output fence, or reporting speculation
-- Running a broad rescan during remediation
-- Fixing before remediation analysis and explicit promotion
 - Treating Follow-ups or Optional nits as default fix scope
-- Persisting hidden review state instead of keeping decisions and findings in chat (local) or the GitHub thread (PR)
-- Writing test files, or starting a test the user did not accept
-- On a PR: approving or commenting without the review output fence or PR extras
-- On a PR: skipping PR extras (body vs diff, historical threads, migration, breaking API)
-- On a PR: posting a summary comment instead of one-topic findings
+- Adding a second adversarial review or hunt re-inspect after the Standards and Spec passes

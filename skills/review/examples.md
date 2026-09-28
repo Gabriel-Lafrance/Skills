@@ -100,7 +100,7 @@ This is **Fix now**. The Standards pass must run naming alignment; skipping it i
   - **Rule:** `structure:folders`
   - **Evidence:** Diff adds order hook and card as siblings of `src/page.tsx` with no owning folder. Structure card called for `src/orders/`.
   - **Impact:** The tree is already a mixed dump; the next order file will land in the same mess.
-  - **Fix:** Create `src/orders/` (and `src/orders/components/` for the card); move the new files; do not leave mixed siblings in `src/`.
+  - **Fix:** Create `src/orders/` (and `src/orders/components/` for the card); move the new files so no mixed siblings remain in `src/`.
 ```
 
 This is **Fix now**. `quality:never-nest` and `quality:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
@@ -130,7 +130,7 @@ This is **Fix now**. Matching is by job and value, not by the name the agent fir
   - **Fix:** `requireUser` in the mutation; load the cart; reject if `cart.userId !== user._id`; take amount from stored cart state.
 ```
 
-This meets the evidence bar: a public write with no identity check is a reachable trigger. Do not mark it Optional nit.
+This meets the evidence bar: a public write with no identity check is a reachable trigger. Mark it a blocker, not an Optional nit.
 
 ## Evidence versus speculation
 
@@ -163,4 +163,4 @@ same ID.
 - `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable lock.
 ```
 
-Recommend the lock to the user; do not write test files. If the user says yes, the test follows [testing.md](../rules/testing.md). If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.
+Recommend the lock to the user and write no test files. If the user says yes, the test follows [testing.md](../rules/testing.md). If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.

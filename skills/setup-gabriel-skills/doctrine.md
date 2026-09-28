@@ -18,17 +18,13 @@ Verifying current installs, installing or updating the rest of this pack with `n
 - `docs/design.md` (the agent doing UI work writes it when missing)
 - Detect and choose details: [`reference.md`](reference.md)
 
-## Cite keys
-
-none (uses `quality:*` and `structure:*`)
-
 ## Bars
 
 1. **Verify, then ask, then install.** Look up skill roots and harness homes first. Print those facts. Then one Questions batch: where the skills and `AGENTS.md` go (this repo, this repo and user level, or user level only). Wait. Follow [Asking the user](../rules/writing-style.md#asking-the-user).
 2. **Skills and rules together.** For each chosen scope, install the pack when `rules/code-quality.md` is missing, and update a stale copy with the commands in [reference.md](reference.md#pack-skills). Skip the skills command when this workspace is the Skills pack. `rules/` is one of those skill folders.
-3. **Place the contract, do not invent it.** Copy `AGENTS.md` from the pack root when this workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. It must contain `gabriel-skills-agents`. A file with that marker may be refreshed. Every other instructions file only gets a pointer line. Details: [reference.md](reference.md#place-agentsmd).
-4. **Manual install is the way out, not the first path.** Offer it only after the skills command or the `AGENTS.md` place could not be done. One question. Yes: link [the repo](https://github.com/Gabriel-Lafrance/Skills) and list destinations for the harnesses in use. No: say setup failed and stop. Do not undo files that already landed.
-5. **Never create a harness home** (`~/.claude`, `~/.codex`, `~/.gemini`, and the rest) for a harness that is not installed.
+3. **Place the contract from its source.** Copy `AGENTS.md` from the pack root when this workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. It must contain `gabriel-skills-agents`. A file with that marker may be refreshed. Every other instructions file only gets a pointer line. Details: [reference.md](reference.md#place-agentsmd).
+4. **Manual install is the way out, not the first path.** Offer it only after the skills command or the `AGENTS.md` place could not be done. One question. Yes: link [the repo](https://github.com/Gabriel-Lafrance/Skills) and list destinations for the harnesses in use. No: say setup failed and stop. Leave files that already landed in place.
+5. **Use only harness homes that exist** (`~/.claude`, `~/.codex`, `~/.gemini`, and the rest). Skip a harness that is not installed.
 6. Talk in ordinary words. Cite principles as **plain (Classic)**, for example `fail fast (Fail Fast)` (`quality:plain-language`).
 
 ## Output
@@ -50,14 +46,7 @@ Verify first ([reference.md](reference.md#verify)). Ask scope ([reference.md](re
 
 ## Anti-patterns
 
-- Offering the manual copy before trying `npx skills` and the `AGENTS.md` place
-- Calling setup done after they decline the manual copy
-- Overwriting an `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` that lacks `gabriel-skills-agents`
-- Rewriting `AGENTS.md` from memory
-- Creating `~/.claude`, `~/.cursor`, `~/.codex`, or `~/.gemini` when that harness is not installed
 - Writing a Cursor `.mdc` rule, `.cursor/rules` copy, or `.cursor/hooks.json`
 - Deleting any Cursor rule or hook other than `gabriel-skills/follow-agents.mdc`, or a file without `gabriel-skills-agents`
-- Asking the user facts the repo already answers
 - Writing tests as setup
-- Writing to a scope they did not choose
 - Telling the user to hunt the skills.sh leaderboard instead of `npx skills add gabriel-lafrance/skills@setup-gabriel-skills`

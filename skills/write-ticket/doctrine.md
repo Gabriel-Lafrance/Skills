@@ -4,7 +4,7 @@
 
 Write or promote one Linear or GitHub ticket. Memo captures an idea. Research records the need and the problem. Plan records how to solve that problem in code, in enough detail that a later `/task` can implement it.
 
-This skill is a user start. It never implements the ticket.
+This skill is a user start and only writes the ticket.
 
 ## Owns
 
@@ -17,10 +17,6 @@ Stage selection, the two `/grill-me` gates, body shapes, promotion on the same t
 - Numbered how-to: [`SKILL.md`](SKILL.md)
 - Section templates: [`reference.md`](reference.md)
 
-## Cite keys
-
-none (uses `quality:*` and `structure:*`)
-
 ## Bars
 
 **Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user) · **Templates:** [reference.md](reference.md)
@@ -29,7 +25,7 @@ Three stages. The user can start at any stage. A later stage replaces the descri
 
 | Stage | Job | Before save |
 | --- | --- | --- |
-| Memo | Keep the idea. A title and a few sentences. | Write. No `/analyze`. No `/grill-me`. |
+| Memo | Keep the idea. A title and a few sentences. | Write, skipping `/analyze` and `/grill-me`. |
 | Research | Understand the need, the issue, and the problem. | Full `/analyze`, then `/grill-me` on the Research topics, then write. |
 | Plan | Say how to solve that problem in code. | Full `/analyze`, then `/grill-me` on the Plan topics, then write. |
 
@@ -47,23 +43,23 @@ Allowed asking batches, besides the `/grill-me` session this skill starts:
 | Stage known, metadata still missing | One metadata batch after the draft is shown |
 | Research evidence still cannot pick a work kind | One kind question inside the Research `/grill-me`, not a separate batch |
 
-Do not ask "write this?". Do not ask status (default **Todo** on create; keep the current status on promote or refine unless the prompt names one). Do not ask the Research or Plan topics yourself. `/grill-me` asks those.
+Write without asking "write this?". Take status from the default (**Todo** on create; keep the current status on promote or refine unless the prompt names one) instead of asking. Leave the Research and Plan topics to `/grill-me`.
 
 ### Grill
 
-This skill is the parent. Start `/grill-me` with the topic list for the target stage. Tell it to skip implementation plan count and file lane, and to return here. Do not start `/task` from that session.
+This skill is the parent. Start `/grill-me` with the topic list for the target stage. Tell it to skip implementation plan count and file area, and to return here. The session hands control back and leaves `/task` unstarted.
 
-**Research topics:** the need, the issue, the problem, who is affected and when, what happens today, the rival explanation of the problem this research rejects, what would make this the wrong problem, what this research is not trying to cover, the work kind only when it is still unknowable, and for a Feature the areas of modularity: what will vary or multiply (providers, channels, rules, roles, formats), each as one yes or no question with a recommended answer from the evidence ([strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity)). Research records the fact ("more than one payment provider"), never the pattern.
+**Research topics:** the need, the issue, the problem, who is affected and when, what happens today, the rival explanation of the problem this research rejects, what would make this the wrong problem, what this research is not trying to cover, the work kind only when it is still unknowable, and for a Feature the areas of modularity: what will vary or multiply (providers, channels, rules, roles, formats), each as one yes or no question with a recommended answer from the evidence ([strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity)). Research records the fact ("more than one payment provider") and names no pattern.
 
-**Plan topics:** the decision and the rival this plan rejects, what the change refuses to own, what would make that decision wrong, rules that must stay true, edges and states of the solution, binary done-when, out of scope, where the change lives, who owns the job (the existing path, the public entry, who calls it, where the write is rejected, one-job helpers, folders), the foundation (a seam for each area of modularity the Research confirmed, or the existing seam this extends, and the next change it makes small, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work)), short snippets of the hard parts, and tests (none, a behavior lock, end-to-end, or both, including what each lock proves).
+**Plan topics:** the decision and the rival this plan rejects, what the change refuses to own, what would make that decision wrong, rules that must stay true, edges and states of the solution, binary done-when, out of scope, where the change lives, who owns the job (the existing path, the public entry, who calls it, where the write is rejected, one-job helpers, folders), the foundation (a seam, a named extension point where a new variant plugs in, for each area of modularity the Research confirmed, or the existing seam this extends, and the next change it makes small, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work)), short snippets of the hard parts, and tests (none, a behavior lock, end-to-end, or both, including what each lock proves).
 
-A Memo never starts `/grill-me`.
+A Memo skips `/grill-me`.
 
 ### Analyze
 
-Run `/analyze` to full memo depth before the Research grill and before the Plan grill. Tell it the stage. Research memos gather evidence about the problem. Plan memos gather evidence about the code that would change. Return the memo here. Do not accept a stub.
+Run `/analyze` to full memo depth before the Research grill and before the Plan grill. Tell it the stage. Research memos gather evidence about the problem. Plan memos gather evidence about the code that would change. Return the memo here, and require the full memo, not a stub.
 
-A Memo does not run `/analyze`.
+A Memo skips `/analyze`.
 
 ### Work kind
 
@@ -86,7 +82,7 @@ Memo to Research, and Research to Plan, update the same ticket.
 3. Replace the description with the new body.
 4. Set the stage label (`Memo`, `Research`, or `Plan`) and the kind label when the tracker has one.
 
-Do not open a second ticket for the next stage. If the tracker cannot comment, stop and say so. Do not drop the previous body.
+Use the same ticket for the next stage. If the tracker cannot comment, stop and say so, so the previous body is never lost.
 
 ### Inputs
 
@@ -102,14 +98,14 @@ Do not open a second ticket for the next stage. If the tracker cannot comment, s
 
 | Problem | Action |
 | --- | --- |
-| No Linear capability | Explain the limitation. Do not fake a ticket. |
+| No Linear capability | Explain the limitation and report that no ticket was created. |
 | GitHub tooling unavailable | Ask for install or auth inside the metadata batch, or allow one pasted body for refine only. |
 | Ticket not found | Stop and confirm ID, team, or repository. |
 | User corrects the draft | Update the draft and write that version. |
-| Required Research or Plan section still empty after `/grill-me` | One asking-contract batch for the gaps, then write. Do not save a Plan with an empty done-when, rules, or tests section. |
-| Non-trivial grill returned without a rejected alternative, what would make the decision wrong, or the owner path | Send it back to `/grill-me`. Do not write the ticket. |
+| Required Research or Plan section still empty after `/grill-me` | One asking-contract batch for the gaps, then write. A saved Plan has a filled done-when, rules, and tests section. |
+| Non-trivial grill returned without a rejected alternative, what would make the decision wrong, or the owner path | Send it back to `/grill-me` and write the ticket after it returns those. |
 | Analysis absent or stubby on Research or Plan | Run or refresh full `/analyze` before `/grill-me`. |
-| Tracker label missing | The `## Stage` heading is still required. Do not invent a label ID. |
+| Tracker label missing | The `## Stage` heading is still required. Use only real label IDs. |
 | Comment API unavailable on promotion | Stop. Do not replace the description. |
 
 ## Apply
@@ -118,17 +114,6 @@ Show the complete draft in chat, then create or update through the tracker capab
 
 ## Anti-patterns
 
-- Running inside `/task`, or starting `/task` from the grill
-- Saving a Research or Plan ticket before that stage's `/grill-me` answers
-- Grilling a Memo, or running `/analyze` for a Memo
-- Putting the code solution in Research
 - A Plan that only restates the problem, or that depends on the comment thread
-- Opening a new ticket for the next stage
-- Replacing a description without commenting the previous body
-- Hotfix as a kind
-- Asking "write this?" or status when a default exists
-- Defaulting a new ticket to Backlog instead of Todo
 - Writing the full implementation into the Plan
-- A snippet-free Plan that still leaves a hard decision for the implementer to guess
-- A non-trivial Plan that does not name the rejected alternative
-- Inventing tracker IDs
+- Using a tracker ID the tracker did not return

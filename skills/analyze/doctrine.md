@@ -14,10 +14,6 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - Numbered process: [`SKILL.md`](SKILL.md)
 
-## Cite keys
-
-none (uses `quality:*` and `structure:*`)
-
 ## Bars
 
 **Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user)
@@ -31,17 +27,19 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` seed | Nested: full standard memo for Research (the problem) or Plan (the code that would change). Return to that parent. Do not stub. A Memo does not call this skill. |
+| `/write-ticket` seed | Nested: full standard memo for Research (the problem) or Plan (the code that would change). Return to that parent. Write the full memo, however short the seed. A Memo does not call this skill. |
 | Named review Fix-now rows | Nested: review-remediation mode only for those rows |
 
 ### Research rules
 
-- Refresh the applicable execution context: ask, outcome, non-goals, lane, ticket/PR, fixed point, and any settled rules.
+- Refresh the applicable execution context: ask, outcome, non-goals, area, ticket/PR, fixed point, and any settled rules.
 - Rediscover the relevant code, and which parts match a pack example and which are debt. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
-- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer the pack's examples over the app's existing shapes, and behavior-preserving moves over copying debt. Do not skip [code-structure.md](../rules/code-structure.md) because the ask looks like a single file. Apply “keep the existing structure” when that is the smallest correct answer. Do not invent a parallel layout.
+- Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer the pack's examples over the app's existing shapes, and behavior-preserving moves over copying debt.
+- Read [code-structure.md](../rules/code-structure.md) even when the ask looks like a single file.
+- Apply “keep the existing structure” when that is the smallest correct answer, and stay in that layout instead of inventing a parallel one.
 
-Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Do not add findings, reopen product discovery, or analyze Follow-up items and nits.
+Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Analyze only those rows: add no findings, no product discovery, and skip Follow-up items and nits.
 
 ## Output
 
@@ -50,7 +48,7 @@ Post the memo in chat; keep it current in the execution context rather than in a
 The memo diagram follows the [Change diagram](../rules/shipping-templates.md#change-diagram) section of shipping-templates.md: one diagram for new work, Before/After for rework. Plans use Before/After instead ([planning.md](../rules/planning.md)). On top of that section:
 
 - **Race, ordering, double-submit, concurrency:** a `sequenceDiagram` of the failing interleave, plus the expected order when it is known.
-- Name real modules/services/routes from the evidence. Do not invent a shape the repo does not support.
+- Name real modules/services/routes from the evidence, and only shapes the repo supports.
 - If you omit it (typo, copy, one-line chore), say why under Diagram.
 
 ````markdown
@@ -147,14 +145,14 @@ Reply like: 1a
 | a) Done | Leave the memo and execution context visible; stop. |
 | b) Sharpen | Research only the open point, then revise the memo. |
 | c) Promote | Explicitly carry the inline seed and locked decisions into `/task`. |
-| d) Write ticket | Hand the in-chat memo to `/write-ticket`; do not require a saved artifact. |
+| d) Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
 | e) Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
 
-A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo. Do not start the ticket write or the grill from this skill.
+A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo; the parent starts the grill and the ticket write.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
-On promotion of remediation, carry only the selected finding IDs, their lane, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
+On promotion of remediation, carry only the selected finding IDs, their area, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
 
 One-off hand-off Questions for remediation:
 
@@ -171,13 +169,5 @@ Reply like: 1a
 ## Anti-patterns
 
 - Treating a memo as implementation or ticket-write approval
-- Stubbing nested analysis because a `/write-ticket` Research or Plan seed is short
-- Posting a memo with no diagram when the path can be drawn
 - Drawing every file instead of modules, actors, and flow
-- Creating hidden state to resume analysis
-- Asking the user for repository or tracker facts that can be rediscovered
-- Promoting a remediation without first showing its complete stable-finding analysis
 - Replacing evidence with an implementation-level design
-- Offering one-off hand-off Questions when a parent owns the next step
-- Returning a raw search hit list instead of the `/analyze` memo
-- Inventing a parallel layout instead of using the locked structure excerpt
