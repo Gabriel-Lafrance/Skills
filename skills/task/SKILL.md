@@ -30,7 +30,8 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
    not re-derive ticket or branch ownership the parent holds.
 2. Run the [lifecycle](reference.md#lifecycle): grill (unless skip-grill
    applies) → plan → [behavior-lock suggestion](reference.md#behavior-lock-suggestion)
-   → implement → acceptance evidence → `/review` → Fix mode as needed.
+   → implement → `/verification` and `/review` in parallel → Fix mode as
+   needed.
    - Write a test only for a lock the user accepted, following [testing.md](../rules/testing.md).
    - Apply code-quality.md and code-structure.md during grill and before
      every implement slice. Apply user-experience.md before every user-facing

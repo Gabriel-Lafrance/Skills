@@ -92,7 +92,7 @@ After acceptance evidence and `/review`, report the outcome without archiving an
 - …
 
 ## Evidence
-- Acceptance: <Done when / rules that must stay true / seams: path walk, terminal>
+- `/verification`: <verified | failed | inconclusive, per Done when / rule / seam>
 - `/review`: …
 
 ## Decisions and rules
@@ -181,8 +181,8 @@ Enter acceptance evidence only when every slice is done, blocked, or explicitly 
 
 **Acceptance evidence and review.**
 
-1. Confirm **Done when** (task and slice) and rules that must stay true, including cross-slice seams, with path walks and terminal output. Include the lock handoff and focused test result for each accepted lock. No browser validation or screenshots. Record pass / fail / blocked per criterion; an unperformed check is not a pass.
-2. Always run **`/review`** next. Put each finding in the **Fix backlog** as `fix now`, `follow-up`, or `waived`.
+1. Start **`/verification`** in a subagent with Done when (task and slice), rules that must stay true, cross-slice seams, the slices, and the diff. It verifies only what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)). Run **`/review`** in this context at the same time. The verification handoff is the acceptance evidence. Include the lock handoff and focused test result for each accepted lock. Record verified / failed / inconclusive per criterion; an unperformed check is not a pass.
+2. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
 3. For selected `fix now` findings, run `/analyze` in review-remediation mode, present the correction, and enter Fix mode only after explicit user promotion. A declined fix blocks completion until it is fixed or waived by name.
 4. Do not open a new behavior-lock suggestion here. A lock the review still wants follows the [review contract](../review/contract.md), and a test is written only if the user says yes to it ([testing.md](../rules/testing.md)).
 
@@ -193,4 +193,4 @@ One bounded slice of the current task, not fresh product discovery:
 1. Carry only explicitly promoted findings. Each cites its review finding, violated rule that must stay true, Done when item, correctness/security issue, or regression.
 2. Grill only the enforcement, footprint, and observable behavior needed to clear them. Keep existing rules; add one only when the finding exposes an unrecorded behavioral rule. No new test suggestion.
 3. Prefer the smallest authoritative correction. No queues, retries, wrappers, new services, feature scope, optional cleanup, or structure move unless the named finding requires it.
-4. Re-check the findings and rules with acceptance evidence, then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
+4. Re-check the findings and rules with acceptance evidence (re-run the failed `/verification` checks when the backlog came from them), then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.

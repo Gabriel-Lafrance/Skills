@@ -31,6 +31,8 @@ Recommend the next skill. Stay **thin**: do **not** load other skills' bodies un
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | During `/task`, it suggests locks after the grill and you can refuse every test. Ask for a test directly, or say yes when `/review` recommends a lock the task did not offer. Either way the agent follows [testing.md](../rules/testing.md) |
+| Does it actually work? QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` already runs it next to `/review`, sized to what changed) |
+| Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
 | ESLint / Prettier / lint, format, or install this pack from skills.sh | `/setup-toolkit` (asks where skills and `AGENTS.md` go; lint is opt-in) |
 
 Prefer `/analyze` then `/task` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.

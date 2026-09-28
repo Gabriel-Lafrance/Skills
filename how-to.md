@@ -79,11 +79,11 @@ disable-model-invocation: true   # required on every skill except ask-gabriel
 - **Review:** `/review` keeps its [contract](./skills/review/contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR ship:** every agent that creates a GitHub PR follows [`skills/rules/shipping.md`](./skills/rules/shipping.md): the harness pull-request tool when it has one, otherwise `gh`, a standalone branch that does not track `dev`, and the CI mirror in this environment before a push that opens or updates a PR.
 - **Do not** put shared rules at `skills/*.md`: they will not install.
-- **Tests:** there is no test skill. The agent writes a test only when the user asked for it, accepted a `/task` behavior-lock brief, or said yes to a `/review` recommendation, and then follows [`skills/rules/testing.md`](./skills/rules/testing.md). Ordinary edits do not get tests. `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/review`](./skills/review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never write it unasked). `/task` build slices, `/analyze`, and `/write-ticket` do not write tests.
+- **Tests:** no skill writes new tests. [`/test-audit`](./skills/test-audit/SKILL.md) only prunes and repairs existing tests after the user approves the evidence. The agent writes a test only when the user asked for it, accepted a `/task` behavior-lock brief, or said yes to a `/review` recommendation, and then follows [`skills/rules/testing.md`](./skills/rules/testing.md). Ordinary edits do not get tests. `/task` suggests locks after grill Locked and waits; the user can refuse every test. [`/review`](./skills/review/SKILL.md) may still recommend a lock the task did not offer (tell the user, never write it unasked). `/task` build slices, `/analyze`, and `/write-ticket` do not write tests.
 
-## No visual tooling
+## Runtime and visual checks
 
-This pack does not use Cursor's Browser, review canvas, screenshots, or videos. Acceptance evidence is path walks and terminal output. PR bodies are text (type, ticket, what changed, Change diagram, How to QA, Notes). Do not add skills or contracts that open a browser, capture screens, or produce canvases.
+Only [`/verification`](./skills/verification/SKILL.md) opens a browser, captures screenshots or traces, or drives migrations, endpoints, and jobs. It verifies every change, but only the layers that change touched ([scope](./skills/verification/doctrine.md#scope-to-the-change)), so a small UI tweak gets a quick look, not a full backend pass. `/task` runs it in a subagent next to `/review`. Every other skill stays on the diff, path walks, and terminal output. Evidence files live outside the repo and are never committed. PR bodies stay text and may summarize the verification handoff.
 
 ## Add a skill
 
@@ -109,7 +109,7 @@ Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on inde
 
 - One skill = one job. Prefer new skill over bloating an existing one.
 - Doctrine files share one layout ([skill file layout](./.github/CONTRIBUTING.md#skill-file-layout)). Cite another skill's keys instead of restating its Bars.
-- Harness tools: use the plan tool after the grill when the harness has one, otherwise write the plan in chat. Open a pull request with the harness tool when it has one, otherwise `gh` (`rules/shipping.md`). Acceptance evidence stays path walks and terminal output.
+- Harness tools: use the plan tool after the grill when the harness has one, otherwise write the plan in chat. Open a pull request with the harness tool when it has one, otherwise `gh` (`rules/shipping.md`). Acceptance evidence is the `/verification` handoff.
 - Teach in ordinary words, no explainer-video links in skill bodies. Do not make agents dump acronyms at the user (`rules/writing-style.md`, Plain language).
 - No secrets in skills.
 - New long-running orchestrators should reuse `rules/writing-style.md` (asking), `rules/planning.md` (execution context), and `rules/shipping.md` without editing those files for skill-specific names. Any orchestrator that opens a PR must follow `shipping.md`; do not fork a private ship recipe into that skill.

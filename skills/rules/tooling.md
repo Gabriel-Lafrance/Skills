@@ -28,6 +28,6 @@ Do not, by default:
 - Run `eslint`, `tsc --noEmit`, `npm run lint`, or full suites while coding a slice. Run the CI mirror once, right before a push that opens a PR or updates an open one.
 - Start a second frontend or Convex process when one is already up, or run a pass whose only job is MCP verification.
 
-Use Convex MCP or deeper checks only when terminals show an error you cannot diagnose from the log, the user asked for a one-off data read or explicit MCP, dashboard, or CLI verification, or no Convex terminal exists and you said so first.
+Use Convex MCP or deeper checks only when terminals show an error you cannot diagnose from the log, the user asked for a one-off data read or explicit MCP, dashboard, or CLI verification, a [`/verification`](../verification/SKILL.md) run needs them, or no Convex terminal exists and you said so first.
 
 Cite evidence as `terminals/3.txt: convex push ok` (terminal file, then what it showed), not a fresh MCP round-trip.

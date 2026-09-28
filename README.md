@@ -60,7 +60,7 @@ Six kinds. **Guide** informs; everything else moves work forward.
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task`                                                  | Implement end-to-end  |
-| **Review & ship** | `/review`                                                 | Review and PRs. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
+| **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-toolkit`                                         | Verify, then install this pack and `AGENTS.md` into the repo or user data. ESLint / Prettier are opt-in |
 
 ```mermaid
@@ -88,6 +88,8 @@ flowchart LR
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
+- Prove a change works in the running app (UI flow, migration, endpoint, job) → `/verification`
+- Prune low-value or duplicate tests → `/test-audit`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 
