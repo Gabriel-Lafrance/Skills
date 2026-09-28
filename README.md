@@ -86,7 +86,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task-with-tests`, `/task`                              | Implement end-to-end. `/task-with-tests` is the default and writes the accepted tests before the code; `/task` skips tests |
-| **Review & ship** | `/review`                                                 | Review and PRs. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
+| **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 
 ```mermaid
@@ -115,6 +115,8 @@ flowchart LR
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
+- Prove a change works in the running app (UI flow, migration, endpoint, job) → `/verification`
+- Prune low-value or duplicate tests → `/test-audit`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

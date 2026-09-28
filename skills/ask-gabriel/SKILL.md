@@ -46,6 +46,8 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
+| Does it actually work? QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` and `/task-with-tests` already run it next to `/review`, sized to what changed) |
+| Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
 | Install this pack from skills.sh | `/setup-gabriel-skills` (asks where the skills and `AGENTS.md` go; manual copy only if install fails) |
 
 Prefer `/analyze` then `/task-with-tests` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.

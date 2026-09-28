@@ -22,7 +22,7 @@ Same loop as [`/task`](../task/SKILL.md), with one change: the tests come first.
 4. If the user refused every test, say the work continues as plain `/task` and follow its lifecycle from the plan.
 5. Write the accepted tests as the first slice, following [testing.md](../rules/testing.md). Run them and record the [red baseline](reference.md#red-baseline).
 6. Plan and build with the [`/task` Phase 1](../task/reference.md#phase-1-plan-and-build) steps. Each plan contract's Done when names the tests that must turn green. During the build, follow the [cage rules](reference.md#cage-rules).
-7. Acceptance evidence: the `/task` evidence, plus the focused run showing every accepted test green and the [cage check](reference.md#cage-check). Then `/review`, and Fix mode as needed, as in `/task`.
+7. Acceptance evidence: the `/task` gate (`/verification` in parallel with `/review`), plus the focused run showing every accepted test green and the [cage check](reference.md#cage-check). Fix mode as in `/task`.
 8. Announce completion with the `/task` [completion summary](../task/reference.md#completion-summary).
 
 ### If a parent already owns the ticket, branch, and PR

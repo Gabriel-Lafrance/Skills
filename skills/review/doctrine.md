@@ -155,7 +155,7 @@ Return the review output fence from the [review contract](contract.md#output), i
 
 After an initial review or full rescan, recommend a behavior-lock test only per the [review contract](contract.md#behavior-lock-recommendation) rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. Never write tests or edit test files from this skill. If the user says yes, the test is written by following [testing.md](../rules/testing.md).
 
-For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Do not run a Design review pass.
+For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output; do not open a browser or capture screenshots. Running the app is [`/verification`](../verification/SKILL.md); when its handoff exists, cite its evidence in Spec matrix rows. Do not run a Design review pass.
 
 **Local branch diff:**
 

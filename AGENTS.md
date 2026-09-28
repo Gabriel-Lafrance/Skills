@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.1.0 -->
+<!-- gabriel-skills-agents v2.2.0 -->
 
 # Gabriel skills
 
@@ -21,6 +21,8 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
 | Write, file, open, or draft a ticket or issue, or note something for later | `write-ticket/SKILL.md` |
+| Prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
+| Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Look into, investigate, research, or explain a bug, an idea, or a question before building | `analyze/SKILL.md` |
 | Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
@@ -51,7 +53,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
 | Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions between phases | `rules/planning.md`, `grill-me/doctrine.md` |
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
-| Write a test the user accepted | write a test that restates the code | `rules/testing.md` |
+| Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip the CI mirror | `rules/shipping.md`, `rules/shipping-templates.md` |
 | Lint, format, touch CI or editor settings, or verify a change | rerun a ritual lint instead of reading the terminals | `rules/tooling.md` |
 | Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
