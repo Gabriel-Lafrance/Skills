@@ -30,7 +30,7 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 
 **Grill before plans.** Do not issue a plan or slice contract until `/grill-me` announces Locked closing: non-goals, intended split, and shared-understanding summary (correct if wrong) unless the skip rule applies. Assign each rule to an intended slice or `all`. Behavior-lock briefs come after that closing, never during the grill. A fuzzy rule is not a test: the observable outcome has to be specific before a brief can cite it.
 
-**Quality bar:** Acceptance evidence (Done when + rules that must stay true + cross-slice seams) and `/review` are mandatory, in that order, before declaring completion. There is no `/validate` skill.
+**Quality bar:** Acceptance evidence (Done when + rules that must stay true + cross-slice seams) and `/review` are mandatory before declaring completion. Acceptance evidence is a `/verification` run in a subagent, in parallel with `/review`, sized to what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)). There is no `/validate` skill.
 
 ### Lookup
 
@@ -48,9 +48,9 @@ Follow the shared stateless default: inline plan and slice contracts are normal;
 | Tests | After Locked grill, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow [testing.md](../rules/testing.md) |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | `/analyze` before Fix mode |
-| Gate out | Acceptance evidence then **`/review`** |
+| Gate out | **`/verification`** in parallel with **`/review`** |
 
-Inside this loop, call child skills (`/grill-me`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
+Inside this loop, call child skills (`/grill-me`, `/review`, `/verification`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
 ### Mandatory skill checklist
 
@@ -66,9 +66,10 @@ Track these rows in the in-chat execution context or a concise progress message.
 | Slice split | If multi-slice | Announce inline slices ([reference.md](reference.md#slice-split)) |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | Non-UI slices | If non-UI | Built by this loop; update **Current slices** after each |
-| Acceptance evidence | Yes | Path walk, terminals |
+| Acceptance evidence | Yes | The `/verification` handoff |
 | Behavior locks | When a complex public rule exists | After the plan names the public entry. Wait. Refusing every test is complete |
-| `/review` | Yes | Runs after acceptance evidence. Standards and Spec. No Design axis |
+| `/verification` | Yes | Subagent verifies only what the work changed, in parallel with `/review` |
+| `/review` | Yes | Standards and Spec. No Design axis. Parallel with `/verification` |
 
 ### Suitability and skip grill
 
@@ -114,7 +115,8 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 
 ## Anti-patterns
 
-- Declaring completion without acceptance evidence then `/review`
+- Declaring completion without acceptance evidence and `/review`
+- Skipping `/verification`, or asking it to exercise layers the work did not touch
 - Creating automatic runtime state instead of using the shared execution context
 - Planning before Locked grill closing or omitting a locked behavioral rule from the rules that must stay true
 - Implementing from a plan path or hidden state instead of the applicable in-chat context

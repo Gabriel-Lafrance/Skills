@@ -34,7 +34,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 - Do not auto-commit, force-push, or push `dev`, `main`, `master`, or the default branch.
 - A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Steps: [Branch and push](#3-branch-and-push).
 - Show the complete pull request title and body, and wait for approval before creating it.
-- Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text: no screenshots, no canvas, no videos, no browser.
+- Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes. Shipping itself does not open a browser or capture screens.
 - Do not invent a ticket. Use `/write-ticket` when the work belongs on a tracker.
 - Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the [CI mirror](#ci-mirror). Push once it is green. Never `--no-verify` unless the user asked.
 - Use the harness pull-request tool when it has one. Otherwise use `gh` ([Create or update the PR](#create-or-update-the-pr)). Do not use `gh` in a session that already has a pull-request tool.
@@ -153,6 +153,6 @@ On approval only, create or update the PR with the [write path](#create-or-updat
 - Push red so GitHub Actions is the first time the suite runs, or push red and wait for CI
 - Run the CI mirror on a commit that will not be pushed, after every slice while coding, or as a full build the workflow would skip
 - Create the PR with `gh` when this harness has a pull-request tool
-- Open a browser, capture screenshots, or produce a review canvas to ship a PR
+- Open a browser, capture screenshots, or produce a review canvas to ship a PR (that is `/verification`, before shipping)
 - Commit binaries into the repo to "attach" a demo
 - Record a walkthrough or check every UI state at ship time
