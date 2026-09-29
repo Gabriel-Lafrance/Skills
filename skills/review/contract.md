@@ -18,7 +18,7 @@ Inputs, modes, evidence bar, finding record, the review output fence (with PR ex
 
 ## Inputs
 
-Pin a fixed point and inspect the diff. Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied. Do not depend on hidden review files.
+Pin a fixed point and inspect the diff. Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied. Hidden review files are never a source.
 
 ## Modes
 
@@ -37,7 +37,7 @@ On a GitHub PR follow-up, after historical Pass A:
 3. Apply `initial` depth to **newly introduced** files/hunks in that range outside the remediation set.
 4. Use `full-rescan` only on explicit user request or material scope expansion.
 
-No broad architecture hunt during remediation. No silent full rescan. New commits outside the remediation set still get reviewed.
+Remediation stays narrow, with no broad architecture hunt. New commits outside the remediation set still get reviewed.
 
 ## Evidence bar
 
@@ -60,7 +60,7 @@ These **are** reachable triggers, not theory:
 - A `catch` that swallows or logs-and-continues at a boundary that should fail
 - A secret, token, or private key in the shipped diff
 
-Do not report imaginary futures or recommend coordination machinery without evidence that a direct guard is insufficient.
+Report only evidenced failures, and recommend coordination machinery only with evidence that a direct guard is insufficient.
 
 ## Finding record
 
@@ -82,11 +82,9 @@ Fold sites with the same root cause and fix shape into one record; different roo
 
 **Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
 
-Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field; never acronym-only, never plain-only. User-facing notes are ordinary sentences ([Plain language](../rules/writing-style.md#plain-language)).
+Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field, always with both names. User-facing notes are ordinary sentences ([Plain language](../rules/writing-style.md#plain-language)).
 
 **Spec pass**: one Spec matrix row per Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
-
-No Design pass, Design matrix, or Experience/Craft floor: UX rules in [user-experience.md](../rules/user-experience.md) apply while building.
 
 Cover every independent part of the diff. Narrative-only output is incomplete. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect (for example cheap reads on a copy-only change). One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
 
@@ -187,8 +185,8 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 | `follow-up` | Follow-up | Chat-only by default; `Nit` only when a PR comment is useful |
 | `nit` | Optional nit | `Nit` only when useful |
 
-No `important` middle severity. A GitHub PR review posts only `Blocking` or `Nit`. Adapters do not re-explain this map.
+Severity has only these three levels, with no `important` middle. A GitHub PR review posts only `Blocking` or `Nit`. Adapters use this map without re-explaining it.
 
 ## Behavior-lock recommendation
 
-After an `initial` or `full-rescan` review, recommend a behavior-lock test only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user; do not write tests. If the user says yes, the test is written by following [testing.md](../rules/testing.md). Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.
+After an `initial` or `full-rescan` review, recommend a behavior-lock test only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user, and write no tests. If the user says yes, the test is written by following [testing.md](../rules/testing.md). Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.

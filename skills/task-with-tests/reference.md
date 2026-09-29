@@ -4,10 +4,12 @@ Load at the tests prompt, when writing the accepted tests, and during the build.
 
 ## Tests prompt
 
-Send it right after grill Locked, before any plan. It replaces the `/task` [behavior-lock suggestion](../task/reference.md#behavior-lock-suggestion).
+Send it right after the Locked in message, before any plan. It replaces the `/task` [behavior-lock suggestion](../task/reference.md#behavior-lock-suggestion).
+
+Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once, then write each child's accepted tests before its product code.
 
 1. Walk each rule that must stay true. Offer one test per rule that has an observable outcome. Skip tautologies (`expect(add(1, 2)).toBe(3)`), UI chrome, formatters, generated code, and types-only code. This bar is looser than the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) default on purpose: the tests are the agent's pass or fail signal.
-2. Every test cites one rule and the public entry the grill named. No entry, no test.
+2. Tie every test to one rule and to the public entry the grill named. A rule with no public entry gets no test.
 3. Send one Questions-only message and wait. Every item has a no.
 
 ```markdown
@@ -32,20 +34,20 @@ Reply like: 1a 2a
 After writing the accepted tests, run only those tests and record the result in the execution context.
 
 - Each test should fail because the entry is missing or the behavior is not built yet.
-- A failure from a broken setup (bad import path, missing fixture) is fixed now, before the plan.
-- A test that already passes cages nothing new. Tell the user and keep it as a guard for existing behavior.
-- Once the only failures are the expected ones, stage the test files (`git add <test files>`, no commit). The staged copy is the baseline the cage check compares against.
+- If a test fails from a broken setup (bad import path, missing fixture), fix the setup now, before the plan.
+- If a test already passes, it guards existing behavior and proves nothing new. Tell the user and keep it.
+- Once the only failures are the expected ones, stage the test files (`git add <test files>`, no commit). The staged copy is the baseline the [fixed-test check](#fixed-test-check) compares against.
 
-## Cage rules
+## Test rules
 
-- Product slices do not create test files.
-- The agent may fix test setup only: imports, fixtures, paths, and the runner config the test needs.
-- Changing an assertion, an expected value, or a test's scenario, or deleting or skipping a test, reopens that rule. Stop and ask the user.
-- If a test seems wrong while building, say which rule it contradicts and wait. Do not bend the code or the test to get green.
+- Create test files only in the test slice. Product slices leave them alone.
+- Fix test setup only: imports, fixtures, paths, and the runner config the test needs.
+- If a change touches an assertion, an expected value, a test's scenario, or deletes or skips a test, it reopens that rule. Stop and ask the user.
+- If a test seems wrong while building, name the rule it contradicts and wait for the user. Bend neither the code nor the test to get green.
 
-## Cage check
+## Fixed-test check
 
-Part of acceptance evidence:
+Part of the acceptance evidence:
 
 - The focused run of every accepted test passes.
 - `git diff -- <test files>` (unstaged changes since the staged red baseline) shows setup fixes only.

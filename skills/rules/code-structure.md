@@ -2,86 +2,85 @@
 
 Cite keys use the `structure:` prefix. Each key is a heading in this file.
 
-These rules apply on every non-trivial change. Examples: [code-structure-examples.md](code-structure-examples.md).
+These rules apply on every non-trivial change. For a typo or pure rename, applying them means keeping the structure. Process: explore, Structure card, implement, check. Examples: [code-structure-examples.md](code-structure-examples.md).
+
+## Checklist
+
+This checklist is enough for a small change. Open a section below only when a row applies.
+
+Before done:
+
+- [ ] `structure:services`: no feature copies or reaches inside another service's domain
+- [ ] `structure:deep-public-surface`: a caller needs no call order or edge-case knowledge
+- [ ] `structure:primitives`: an existing primitive was checked before writing a new one
+- [ ] `structure:prior-mistakes`: required moves done, optional ones recorded, no known-wrong shape extended
+- [ ] `structure:folders` / `structure:collaborating-parts`: every new file sits in a folder that owns its concern; entry, collaborators, one leaf, nothing deeper
+- [ ] `structure:authority` when the slice writes: a caller cannot skip the UI and still write
+- [ ] `structure:cheap-reads`, `structure:deterministic-queries` when the slice reads lists or counts: no hot read scans children for a parent question, and the same data gives the same answer tomorrow
+- [ ] `quality:*` cite keys respected; old behavior holds after any move
 
 ## Services
 
-A **service** owns one domain concern (auth, billing, notifications, search) behind a small public API. Features call it; they never reimplement its domain.
+A **service** owns one domain concern (auth, billing, notifications, search) behind a small public API. Features call it and leave its domain to it.
 
 | Do | Don't |
 | --- | --- |
 | Extend an existing service's public API | Build a parallel one |
 | Product verbs (`makeUserPay`, `requireUser`, `sendReceipt`) | `runStripeCheckoutSessionHelper` |
 | Features import only the public API; SDK, Stripe, DB helpers stay inside | Features importing internals (`billing-stripe`), or a `utils/payments.ts` with no contract |
-| Throw at the service boundary | `{ success: false }` bags |
-| Public entry plus collaborators in the service folder | One giant file |
-| Identity and ownership checked in the service write ([Authority](#authority)) | A lock that lives only in feature UI |
 
 Create a service when the concern is an independent domain or the goal plans growth. For bounded local behavior, keep the direct shape until it has its own owner, real duplication, or a locked rule that needs a boundary. Anti-pattern: checkout, upgrade and invoices each with their own Stripe path.
 
-**Check:** does a feature copy or reach inside another service's domain?
-
 ## Deep public surface
 
-Hide orchestration behind one deep entry: a simple interface over rich behavior. For a domain concern it is the service's public API; for UI, usually a hook that calls services.
+Hide orchestration behind one deep entry: a simple interface over rich behavior.
 
 | Shape | When |
 | --- | --- |
-| **Service** (module / class / facade) | Domain capability shared across features (default for auth, billing) |
-| React hook (`useX`) | UI state, effects, subscriptions; delegates domain work |
+| **Service** (module / class / facade) | Domain capability shared across features (default for auth, billing); its public API is the entry |
+| React hook (`useX`) | UI state, effects, subscriptions; the usual UI entry, delegating domain work to services |
 | Class | Stateful domain behavior, shared lifecycle (often the service) |
 | Narrow function | Pure transform, clear input and output |
 
-The signature is obvious at a glance (not necessarily a TypeScript `interface`). Callers never see helpers, parsers, adapters or edge-case branches; push those down into collaborators. One main export per file when practical. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating. A deep entry is not a pass-through chain ([`quality:light-to-read`](code-quality.md#light-to-read)).
-
-**Check:** can a caller use it without knowing call order or edge cases?
+The signature is obvious at a glance (not necessarily a TypeScript `interface`). Push helpers, parsers, adapters and edge-case branches down into collaborators so callers never see them. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating. A deep entry is not a pass-through chain ([`quality:light-to-read`](code-quality.md#light-to-read)).
 
 ## Primitives
 
 A **primitive** is small code with one specific job, strong enough that callers never redo it, composable without brittle coupling, and reusable on its own. Primitives live inside services and deep modules, never as a rival top-level layer.
 
-1. Build with primitives instead of repeating their job at call sites.
-2. Explore **this** repo first and reuse what exists. Do not invent a catalog from training data.
+1. Explore **this** repo first and reuse what exists, rather than a catalog from training data.
+2. Call a primitive wherever its job recurs; a fork at a call site, in a feature, or in a sibling helper duplicates it.
 3. Place a new one inside the owning service or deep module (or a shared layer they compose), not a `utils` bag.
-4. Never fork a primitive's job in a feature or sibling helper.
 
 Anti-patterns: wrappers that only rename; helpers that answer many questions.
-
-**Check:** does an existing primitive already answer this?
 
 ## Prior mistakes
 
 Wrong existing layout (wrong folder, duplicated domain logic, feature-forked service, rule-breaking sibling) is debt, not a template.
 
-- Do not copy it. Build from the matching example ([code-structure-examples.md](code-structure-examples.md)), or a sibling that already matches one ([`quality:cite-a-sibling`](code-quality.md#mechanical-rules)). Most existing code does not.
-- Move only when the goal or a named finding requires it: relocate, extract the public API, rewire callers, delete the dead path. Otherwise record a follow-up.
-- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after grill Locked, or a `/review` recommendation) and follows [testing.md](testing.md).
-- Not sure the move preserves behavior? Ask in the next `/grill-me` Questions batch.
-- Record it under **Moves / corrections** on the Structure card before coding; mid-implement, patch the plan first.
-- Never recommend "leave it where it is" when a clear move preserves behavior. Apply this while building, not only at `/review`.
-
-**Check:** am I extending a shape I know is wrong?
+- Build from the matching example ([code-structure-examples.md](code-structure-examples.md)), or a sibling that already matches one ([`quality:cite-a-sibling`](code-quality.md#mechanical-rules)). Most existing code does not match.
+- Move only when the goal or a named finding requires it (relocate, extract the public API, rewire callers, delete the dead path). Otherwise record a follow-up.
+- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after the grill's Locked in message, or a `/review` recommendation) and follows [testing.md](testing.md).
+- Unsure the move preserves behavior? Ask in the next `/grill-me` Questions batch.
+- Record the move under **Moves / corrections** on the Structure card before coding; mid-implement, patch the plan first.
+- When a clear move preserves behavior, recommend it over "leave it where it is", while building as well as at `/review`.
 
 ## Folders
 
-Propose the folder map, then create the owning folder before the files, even for the first file of a new concern. Never-nest and keep it simple are about code, not a reason for a flat folder.
+Propose the folder map, then create the owning folder before the files, even for the first file of a new concern. Never-nest and keep it simple govern code only, so the owning folder stays.
 
 1. Follow the examples' layout. Mirror an app folder only when it matches an example; a nearby flat dump is not a convention.
-2. `services/<concern>/` for shared domain APIs; feature folders for UI and orchestration that call them.
-3. No convention fits: create a feature or domain folder.
-4. Colocate what changes together; nest non-entry collaborators one level down (`components/`, `hooks/`). Separate what changes for different reasons.
-5. Name files per `quality:naming-files`.
-6. No `utils.ts` / `helpers.ts`. Name the concept (often a service, or a primitive inside one).
-7. **Convex:** a one-file concern may stay `convex/billing.ts` if that is the repo pattern. A second file moves the cluster into `convex/billing/` (no root `billingStripe.ts`). Never both `convex/billing.ts` and `convex/billing/`.
-8. **App Router:** `page.tsx`, `layout.tsx`, `route.ts` stay in the route folder; other slice files nest there or in a feature folder.
+2. `services/<concern>/` for shared domain APIs; feature folders for UI and orchestration that call them. If no convention fits, create a feature or domain folder.
+3. Colocate what changes together; nest non-entry collaborators one level down (`components/`, `hooks/`). Separate what changes for different reasons.
+4. Name files per `quality:naming-files`, and name the concept (often a service, or a primitive inside one) instead of `utils.ts` / `helpers.ts`.
+5. **Convex:** a one-file concern may stay `convex/billing.ts` if that is the repo pattern. A second file moves the cluster into `convex/billing/` (no root `billingStripe.ts`), and `convex/billing.ts` and `convex/billing/` never coexist.
+6. **App Router:** `page.tsx`, `layout.tsx`, `route.ts` stay in the route folder; other slice files nest there or in a feature folder.
 
 Only root files at the root (`package.json`, `tsconfig.json`, `docs/design.md`). Patching a file already in the right folder needs no new folder.
 
-**Check:** does every new file sit in a folder that owns its concern?
-
 ## Collaborating parts
 
-Inside the owning folder: public entry, then collaborators, then at most one leaf folder. That nesting is required; adjust names to the repo. No empty layers (`services/billing/stripe/v2/internal/`).
+Inside the owning folder: public entry, then collaborators, then at most one leaf folder. That nesting is required; adjust names to the repo. Nest only layers that hold files (bad: `services/billing/stripe/v2/internal/`).
 
 ```text
 services/billing/
@@ -94,9 +93,7 @@ features/checkout/      # UI + orchestration. Calls makeUserPay
     checkout-form.tsx
 ```
 
-Convex uses the file naming in [code-quality.md](code-quality.md#naming-and-files) (`billing.ts`, not `billing-actions.ts`), nests under `convex/<concern>/` past one file, and exposes a small set of queries, mutations and actions. No other Convex file duplicates Stripe or auth logic.
-
-**Check:** entry, collaborators, one leaf, nothing deeper?
+Convex uses the file naming in [code-quality.md](code-quality.md#naming-and-files) (`billing.ts`, not `billing-actions.ts`), and exposes a small set of queries, mutations and actions. Only the owning Convex file holds Stripe or auth logic.
 
 ## Cheap reads
 
@@ -112,8 +109,6 @@ Compute on write, store the result, read the stored value.
 
 Update the aggregate **in the same mutation** that inserts, patches or deletes the child (an order insert also bumps `users.orderCount`). Recompute on read only for provably tiny, bounded data. A one-off admin script may full-scan if it says so, never in product paths.
 
-**Check:** does a hot read scan children to answer a parent question?
-
 ## Deterministic queries
 
 A query or reactive read returns the same result for the same data: no clock, randomness or network.
@@ -123,13 +118,11 @@ A query or reactive read returns the same result for the same data: no clock, ra
 | `Date.now()` in a query to expire rows | Store `status` on write or in a scheduled mutation; `now` only for display, never authorization |
 | A query that calls an external API | An action fetches, a mutation writes, the query reads |
 
-Public queries, mutations and actions declare argument and return validators that match the real contract. No `v.any()`.
-
-**Check:** would this query answer differently tomorrow on the same data?
+Public queries, mutations and actions declare argument and return validators that match the real contract, with specific types instead of `v.any()`.
 
 ## Authority
 
-The server enforces identity, ownership, money, and permissions. UI checks are only feedback. A disabled button is feedback, not a lock. Lock the service write (mutation, action, server handler).
+The server enforces identity, ownership, money, and permissions. UI checks, such as a disabled button, are only feedback. Lock the service write (mutation, action, server handler).
 
 | Check | Rule |
 | --- | --- |
@@ -137,10 +130,6 @@ The server enforces identity, ownership, money, and permissions. UI checks are o
 | **Ownership / tenant** | Prove the user owns the row or belongs to the tenant before patch, delete or read. Never trust a client-sent `userId` / `orgId` |
 | **Same-write invariants** | Facts that stay true together (row and aggregate, status and timestamp, ledger and side effect) change in **one** mutation |
 | **Money / permissions** | Charge, refund, role and admin paths go through the owning service, never with an unauthorized client-supplied amount |
-
-Anti-patterns: a hidden button as the only admin gate; the aggregate updated in a later optimistic UI call; a feature `if (!session)` while the mutation still runs. Name identity, ownership and retry keys on the Structure card.
-
-**Check:** could a caller skip the UI and still write?
 
 ## Structure card
 
@@ -186,36 +175,11 @@ Present before writing code, and in the plan contract under `/task`:
 
 **If Feature** ([`quality:strong-foundation`](strong-foundation.md))
 **Foundation:**
-- Areas of modularity: <area> → <seam> + <first real implementation> | _none: Tweak, Bug, or Chore with no area named_
+- Areas of modularity: <area> → <seam: the named extension point where a new variant plugs in> + <first real implementation> | _none: Tweak, Bug, or Chore with no area named_
 - Extends existing seam: <seam> | _none_
 - Next change this makes small: <request> → <one new file + one registration>
 ```
 
-Put every open structure question (service boundary, public API, areas of modularity, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). Each question names the existing path that already does the job and one rival shape. A folder question without that path does not count. New findings go in a new batch.
-
-Self-check before done:
-
-- [ ] `structure:services` · `structure:primitives` · `structure:deep-public-surface`
-- [ ] `structure:prior-mistakes`: required moves done, optional ones recorded
-- [ ] `structure:folders` / `structure:collaborating-parts`
-- [ ] `structure:authority` when the slice writes
-- [ ] `structure:cheap-reads` · `structure:deterministic-queries` when the slice reads lists or counts
-- [ ] `quality:*` cite keys respected; old behavior holds after any move
-
-## When this applies
-
-Always. For a typo or pure rename, applying it means keeping the structure. Process: explore, Structure card, implement, self-check.
-
-Triggers: new feature; shared domain (payments, auth, email); copying provider logic; required move; extracting from a large file; React state bloating a component; new file, mixed sibling, or file without an owning folder; lists, counts or stats; parent query scanning children; public write, webhook or admin path; clock or unindexed filter in a query.
+Put every open structure question (service boundary, public API, areas of modularity, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). Each question names the existing path that already does the job and one rival shape; a folder question without that path does not count. New findings go in a new batch.
 
 Hand off: Structure card, then `/task`. `/review` fails scale anti-patterns, duplicated services, mixed-parent dumps and missing write authority.
-
-## Architecture: do not
-
-- Fork Stripe, JWT or email logic into a feature
-- Ship a shallow public API, or fork a primitive
-- Copy a known-wrong shape
-- Dump files in a mixed parent folder, or cite never-nest or keep it simple to skip the owning folder
-- Compute metrics on read in hot paths, or use `Date.now()` in a query
-- Rely on a UI-only guard as the write lock
-- Skip this file because the slice looks small

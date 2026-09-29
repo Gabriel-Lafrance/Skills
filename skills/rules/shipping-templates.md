@@ -24,7 +24,7 @@ Reply like: 1a 2a
    - c) no-ticket (you said there is none)
 ```
 
-Branch announcement:
+Branch announcement (sent as a Locked in message):
 
 ```markdown
 ## Locked in (tell me if this is wrong)
@@ -71,7 +71,7 @@ Every PR body has a **high-level** Mermaid diagram of what changed: modules, act
 
 - Omit the section only when the diff is truly diagram-hostile (typo-only) and say why in Notes.
 - Keep node labels short. Use `flowchart`, `sequenceDiagram`, or `graph`, whichever is clearest.
-- Name real modules, services, or routes from the diff; do not invent architecture that is not in the change.
+- Name real modules, services, or routes from the diff, and only those.
 - For Before/After, keep the same node ids so the delta is obvious.
 - Put the diagram after **What changed** and before **How to QA**.
 

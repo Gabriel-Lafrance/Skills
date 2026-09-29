@@ -1,6 +1,6 @@
 # Setup Gabriel skills reference
 
-Load with [SKILL.md](SKILL.md). Install skills with `npx skills`. Place `AGENTS.md` from the pack file or the raw GitHub URL. Do not rewrite it from memory. Do not invent lint files.
+Load with [SKILL.md](SKILL.md). Install skills with `npx skills`. Place `AGENTS.md` verbatim from the pack file or the raw GitHub URL, and write no lint files.
 
 ## Resolve the skill root
 
@@ -10,7 +10,7 @@ This workspace is the Skills pack when a parent directory holds both an `AGENTS.
 
 ## Verify
 
-Read the disk and print a short list. Do not ask the user for these facts.
+Read the disk and print a short list.
 
 | Fact | How to see it |
 | --- | --- |
@@ -21,7 +21,7 @@ Read the disk and print a short list. Do not ask the user for these facts.
 
 ## Questions
 
-After Verify, one batch. Wait. Do not install until they reply. Shape: [Asking the user](../rules/writing-style.md#asking-the-user).
+After Verify, one batch. Wait, and install after they reply. Shape: [Asking the user](../rules/writing-style.md#asking-the-user).
 
 ```markdown
 ## Questions
@@ -39,7 +39,7 @@ If they pick c, say that Cursor has no user-level `AGENTS.md`, so Cursor in this
 
 `npx skills add gabriel-lafrance/skills@setup-gabriel-skills` copies only this skill. This step lands the rest of the pack, including `rules/`, for each chosen scope. Skip it when the workspace is the Skills pack. That skip is success, not a failure.
 
-A scope is current when `rules/code-quality.md` exists in it. A scope with pack skills but no `rules/code-quality.md` is stale: update it, do not skip it.
+A scope is current when `rules/code-quality.md` exists in it. A scope with pack skills but no `rules/code-quality.md` is stale: update it.
 
 ```bash
 # User-level (b or c)
@@ -52,13 +52,13 @@ npx skills@latest add gabriel-lafrance/skills --all
 npx skills@latest update
 ```
 
-`--all` installs every skill into every harness the CLI sees, with no prompt. If a command fails (no network, old Node, permission), record the failure and continue to [Place AGENTS.md](#place-agentsmd). Do not build skill folders by hand. Do not offer the manual copy until both this step and the `AGENTS.md` place have been tried.
+`--all` installs every skill into every harness the CLI sees, with no prompt. If a command fails (no network, old Node, permission), record the failure and continue to [Place AGENTS.md](#place-agentsmd). Land skill folders only through the command. Offer the manual copy only after both this step and the `AGENTS.md` place have been tried.
 
 ## Place AGENTS.md
 
 Do this for the scopes they chose. Touch only harnesses in use.
 
-**Source:** the pack root `AGENTS.md` when the workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. The bytes must contain `gabriel-skills-agents`. If the fetch fails or the marker is missing, record a failure. Do not write a substitute from memory.
+**Source:** the pack root `AGENTS.md` when the workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. The bytes must contain `gabriel-skills-agents`. If the fetch fails or the marker is missing, record a failure and write no substitute from memory.
 
 **Never overwrite someone else's instructions file.** A file is the pack's only when it contains `gabriel-skills-agents`. A pack file may be refreshed. Every other file only gets a pointer line.
 
@@ -66,7 +66,7 @@ Do this for the scopes they chose. Touch only harnesses in use.
 
 1. Workspace-root `AGENTS.md` missing: write the source there.
 2. It has the marker: overwrite it with the source.
-3. It exists without the marker: append the pointer below, then say so. Do not replace their text.
+3. It exists without the marker: append the pointer below, then say so. Keep their text.
 
 ```markdown
 
@@ -100,7 +100,7 @@ Only touch a home that already exists. Never create one.
 
 ## Manual install
 
-Run this section only when the skills command failed or `AGENTS.md` could not be placed. Do not run it when the Skills-pack skip was the only reason a command did not run.
+Run this section only when the skills command failed or `AGENTS.md` could not be placed. The Skills-pack skip alone does not qualify.
 
 Ask once. Wait.
 
@@ -113,7 +113,7 @@ Reply like: 1a
    - b) no
 ```
 
-**No:** say setup failed. List what already landed. Stop. Do not delete those files.
+**No:** say setup failed. List what already landed. Stop. Keep those files.
 
 **Yes:** link https://github.com/Gabriel-Lafrance/Skills and give only the rows for the harnesses in use and the scopes they chose.
 
@@ -138,7 +138,7 @@ Skills, including `rules/`, are the `skills/` folders in that repo. Copy each sk
 | User level | Codex | `$CODEX_HOME/AGENTS.md` or `~/.codex/AGENTS.md` |
 | User level | Cursor | no user-level file; Cursor reads the repo `AGENTS.md` |
 
-Tell them not to replace an `AGENTS.md` that is not this pack's. After they confirm the files are in place, re-check the paths and report what you can see. If the files are still missing, setup failed.
+Tell them to keep any `AGENTS.md` that is not this pack's. After they confirm the files are in place, re-check the paths and report what you can see. If the files are still missing, setup failed.
 
 ## Clean up old installs
 

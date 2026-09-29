@@ -76,17 +76,16 @@ Output.
 | --- | --- | --- |
 | 1 | **Job** | One sentence. What this file is for. |
 | 2 | **Owns** | What this skill decides. |
-| 3 | **Does not own** | What it must not decide, plus a link to the file that does. |
-| 4 | **Cite keys** | `skill:slug` to heading. If none: `none (uses quality:* and structure:*)`. |
-| 5 | **Bars** | Canonical definitions only. Tables. No numbered how-to. |
-| 6 | **Output** | Artifact to emit, or `none (see SKILL.md)`. |
-| 7 | **Apply** | When this changes the work, and when to keep the existing shape. |
-| 8 | **Anti-patterns** | What this skill must not do. |
+| 3 | **Does not own** | What it leaves to others, plus a link to the file that owns it. |
+| 4 | **Bars** | Canonical definitions only. Tables. No numbered how-to. |
+| 5 | **Output** | Artifact to emit, or `none (see SKILL.md)`. |
+| 6 | **Apply** | When this changes the work, and when to keep the existing shape. |
+| 7 | **Anti-patterns** | Patterns to avoid, one line each. |
 
 - Extra detail goes under **Bars** as `###` subheads, or in `examples.md` / `reference.md`.
 - Numbered process steps belong in `SKILL.md`, not doctrine.
-- Do not restate another skill's Bars. Cite the key (`quality:keep-jobs-apart`).
-- Omit a section only with an explicit `none` line, so a reader does not think the file was cut off.
+- Link another skill's Bars instead of restating them, and name the rule key inline where it helps (`quality:keep-jobs-apart`).
+- When a section has nothing to say, write an explicit `none` line so a reader knows the file was not cut off.
 
 ### Change a rule
 
@@ -101,7 +100,7 @@ Output.
    [`.claude-plugin/plugin.json`](../.claude-plugin/plugin.json),
    [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json),
    [`.agents/plugins/marketplace.json`](../.agents/plugins/marketplace.json),
-   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.2.0 -->`)
+   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.2.1 -->`)
    together.
 4. There is no changelog file. The PR description is the changelog: say what
    changed and why, so a user sent to the merged PRs can follow it.

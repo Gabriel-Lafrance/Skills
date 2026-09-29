@@ -39,18 +39,18 @@ After Pass A completes on a follow-up:
 3. Separately run `initial`-depth review (Standards + Spec) over **newly
    introduced** files and hunks in that partition that are outside the
    remediation set, with the same principles checklist, Architecture sweep, and
-   Correctness hunt. Cover every independent new surface. New unrelated commits
-   must not escape review.
+   Correctness hunt. Cover every independent new surface, including new
+   unrelated commits.
 4. Promote the whole follow-up to `full-rescan` only when the user explicitly
    requests it or materially expands the review scope.
 
-Do not treat "new commits alone" as a reason to skip either the remediation
-pass or the new-surface pass.
+Run both the remediation pass and the new-surface pass, even when the
+follow-up is only new commits.
 
 ## Final comment shape
 
 Each draft and posted comment covers one topic. Fold its equivalent sites under
-**Where**; never combine unrelated findings.
+**Where**, and give unrelated findings separate comments.
 
 ```text
 Blocking: | Nit:
@@ -94,7 +94,7 @@ Reply like: 1a
    - b) no: leave no review event
 ```
 
-If a Blocking prior remains, do not offer approval. Otherwise, when drafts
+If a Blocking prior remains, offer no approval option. Otherwise, when drafts
 exist, ask exactly once:
 
 ```markdown
@@ -115,15 +115,15 @@ After explicit approval:
 
 0. **Stale-head guard:** immediately before posting comments or submitting
    approve/request-changes, re-fetch the PR head SHA. If it differs from the
-   pinned `currentHead` / `headSha`, abort publish: do not post. Re-pin,
+   pinned `currentHead` / `headSha`, abort publish and post nothing. Re-pin,
    re-partition as needed, redraft, and re-ask the single publish question.
 1. Publish one comment object per draft/topic. Prefer inline placement; if it
    cannot be posted inline, use one PR conversation comment for that finding
    and report the fallback in chat.
 2. Submit **Request changes** if any published comment is Blocking; otherwise
    submit a **Comment** review. For a clean approval, submit **Approve** with
-   no finding comments. Keep the review body empty or minimal, never a list or
+   no finding comments. Keep the review body empty or minimal, with no list or
    summary of findings.
-3. Do not add a summary, announcement, or pass-status PR comment. Report what
-   posted in chat only. Record the published head as `previousReviewedHead`
+3. Report what posted in chat only, with no summary, announcement, or
+   pass-status PR comment. Record the published head as `previousReviewedHead`
    for the next follow-up.

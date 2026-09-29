@@ -31,7 +31,7 @@ The memo ends with a `/task` seed and the hand-off choices. The user picks Promo
 
 `task-with-tests` runs with the memo as context.
 
-1. **Grill.** Kind is Bug, so no new seam and no areas of modularity question ([Scale to the work](../strong-foundation.md#scale-to-the-work)). The fix belongs where the key is made: one key per order, created when the order is created. The rejected rival is disabling the Pay button, which is only UI feedback ([Authority](../code-structure.md#authority)).
+1. **Grill.** Kind is Bug, so no new seam (a named extension point where a new variant plugs in) and no areas of modularity question ([Scale to the work](../strong-foundation.md#scale-to-the-work)). The fix belongs where the key is made: one key per order, created when the order is created. The rejected rival is disabling the Pay button, which is only UI feedback ([Authority](../code-structure.md#authority)).
 2. **Tests prompt.** One test: two `makeUserPay` calls for one order from `useCheckout` create one charge. The user accepts it. It fails first, then passes after the fix.
 
 ## 4. Review and ship

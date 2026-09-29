@@ -17,7 +17,7 @@ flowchart LR
 
 ## 2. Memo
 
-A Memo runs no `/analyze` and no `/grill-me`. The agent drafts the short note, shows it in a Locked message, and asks one metadata batch only if the tracker, priority, or assignee is missing. Then it writes the ticket. Status is Todo.
+A Memo runs no `/analyze` and no `/grill-me`. The agent drafts the short note, shows it in a Locked in message, and asks one metadata batch only if the tracker, priority, or assignee is missing. Then it writes the ticket. Status is Todo.
 
 ```markdown
 ## Stage

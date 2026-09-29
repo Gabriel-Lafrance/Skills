@@ -1,6 +1,6 @@
 # Journey: a follow-up that needs a seam first
 
-Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)).
+Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)). A seam is a named extension point where a new variant plugs in.
 
 **The user says:** "US customers should pay in USD."
 **Comes after:** [a new Feature on a strong foundation](new-feature.md), whose Research answered "Currency: no".
@@ -29,7 +29,7 @@ Reply like: 1a
    - b) add a USD branch inside `billing.ts`
 ```
 
-Option b bolts a special case onto the foundation, and the third currency repeats the same edit. The Locked message repeats that rejected option.
+Option b bolts a special case onto the foundation, and the third currency repeats the same edit. The Locked in message repeats that rejected option.
 
 ## 3. Two builds, in order
 

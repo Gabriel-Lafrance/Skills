@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.2.0 -->
+<!-- gabriel-skills-agents v2.2.1 -->
 
 # Gabriel skills
 
@@ -20,8 +20,8 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | --- | --- |
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
-| Write, file, open, or draft a ticket or issue, or note something for later | `write-ticket/SKILL.md` |
-| Prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
+| Write, file, open, draft, or split tickets or issues, or note something for later | `write-ticket/SKILL.md` |
+| Run all repository tests and prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Look into, investigate, research, or explain a bug, an idea, or a question before building | `analyze/SKILL.md` |
@@ -39,7 +39,7 @@ Each bold line is the rule and holds on every turn. The file holds the detail an
 1. **Keep it simple (KISS): the most result from the least code. Delete before you add. A new concern gets its own folder. No `utils` or `helpers` dumps.** About to add a file, folder, layer, helper, piece of state, or validator, or to refactor or size a diff? Open `rules/keep-it-simple.md`. Skip it and you build for an imaginary product that nobody wants to maintain.
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
 3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
-4. **Stay in your smart zone: keep decisions and judgment in the main context, and hand searching, large reads, noisy output, and bulk edits to a subagent that returns a short result.** About to search the codebase or read a large file or log? Open `rules/smart-zone.md`. Skip it and noise fills your context.
+4. **Keep judgment in the main context: hand searching, large reads, noisy output, and bulk edits to a subagent that returns a short result.** About to search the codebase or read a large file or log? Open `rules/main-context.md`. Skip it and noise fills your context.
 
 ## Read when
 
@@ -47,7 +47,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 
 | About to | Skip it and you will | Open |
 | --- | --- | --- |
-| Write non-trivial code (new behavior, refactor, structural edit, more than a typo), or run any pack skill except `/ask-gabriel` | put the code in the wrong layer, shape, or folder | `rules/code-quality.md`, `rules/code-structure.md` |
+| Write non-trivial code (new behavior, refactor, structural edit, more than a typo); each pack skill names these files where it needs them | put the code in the wrong layer, shape, or folder | `rules/code-quality.md`, `rules/code-structure.md` |
 | Add, rename, request, or read a new environment variable, or write a `.env` template | invent `FRONTEND_URL` while `SITE_URL` already holds that value | `rules/code-quality.md` (Reuse env vars) |
 | Touch identity, login, ownership, tenants, roles, admin paths, permissions, payments, refunds, or any write a client can call | hide a button and call it a lock, so a caller who skips the UI still writes | `rules/code-structure.md` (Authority) |
 | Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |

@@ -50,7 +50,7 @@ Feature
 
 On the same ticket, `/analyze` writes a Plan memo about the code that would change, and `/grill-me` runs the Plan topics. The decision and its rival:
 
-- Chosen: a `billing` service with a `PaymentProvider` seam, Stripe as the one real implementation.
+- Chosen: a `billing` service with a `PaymentProvider` seam (a named extension point where a new variant plugs in), Stripe as the one real implementation.
 - Rejected: Stripe calls inside the checkout feature. PayPal would then mean editing every caller.
 
 Rules that must stay true come out of the grill: Rule 1, a retry with the same key never charges twice. Rule 2, only the order's owner can pay for it ([Authority](../code-structure.md#authority)).
@@ -66,7 +66,7 @@ Rules that must stay true come out of the grill: Rule 1, a retry with the same k
 
 The user says "build IN-42". "Build" matches the Skills table: open `task-with-tests/SKILL.md`.
 
-1. **Grill.** The Plan ticket already settled the foundation, so no new areas question. The Locked message names the public entry: `billing.makeUserPay`.
+1. **Grill.** The Plan ticket already settled the foundation, so no new areas question. The Locked in message names the public entry: `billing.makeUserPay`.
 2. **Tests prompt.** One test per rule, each with a no. The user accepts both. They are written first and fail (the red baseline).
 3. **Plan and slices.** Slice 1 builds the service and the seam. Slice 2 wires checkout to `makeUserPay`. Before each slice the agent opens [keep-it-simple.md](../keep-it-simple.md): one registry object, no provider factory, no currency seam.
 

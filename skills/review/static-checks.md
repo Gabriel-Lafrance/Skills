@@ -16,7 +16,7 @@ Knip groups its output by kind:
 - **Unlisted dependencies:** imports of packages missing from `package.json`. Add them.
 - **Unused exports / types:** exported names no other file imports. Drop the `export` or delete the code.
 
-A finding is **Fix now** when the diff introduced it (a new file, export, or dependency, or an edit that orphaned one). A finding in code the diff did not touch is a Follow-up. Do not add an ignore entry to go green.
+A finding is **Fix now** when the diff introduced it (a new file, export, or dependency, or an edit that orphaned one). A finding in code the diff did not touch is a Follow-up. Fix the finding instead of adding an ignore entry to go green.
 
 ## Cyclomatic complexity (cap of 5)
 

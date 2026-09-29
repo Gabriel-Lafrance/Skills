@@ -6,11 +6,11 @@ category: General
 
 # Ask Gabriel
 
-The map of this pack. Recommend the next skill, or point to the journey that shows the whole path. Stay **thin**: do **not** load other skills' bodies until the path is chosen.
+The map of this pack. Recommend the next skill, or point to the journey that shows the whole path. Stay **thin**: load another skill's body only after the path is chosen.
 
 ## Read when
 
-- Nothing up front. The rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) already apply; the next skill loads them. Do not restate or paste them here.
+- Nothing up front. Keep the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) out of this router: they already apply, and the next skill loads them.
 - About to reply? Open the [Plain language](../rules/writing-style.md#plain-language) and Unslop sections of [writing-style.md](../rules/writing-style.md#unslop). Skip them and the recommendation reads like pack jargon.
 - Unsure what the whole path looks like? Open the matching journey below. Skip it and you take the first step right and the third one wrong.
 
@@ -21,7 +21,7 @@ Each journey follows one piece of work through the skills and rules, step by ste
 | The work | Journey |
 | --- | --- |
 | A new Feature, from ticket to ship, built on a strong foundation | [new-feature.md](../rules/journeys/new-feature.md) |
-| A follow-up that fits an existing seam ("add PayPal") | [follow-up-fits-the-seam.md](../rules/journeys/follow-up-fits-the-seam.md) |
+| A follow-up that fits an existing seam, a named extension point where a new variant plugs in ("add PayPal") | [follow-up-fits-the-seam.md](../rules/journeys/follow-up-fits-the-seam.md) |
 | A follow-up that needs a seam first (Refactor, then Feature) | [follow-up-needs-a-seam.md](../rules/journeys/follow-up-needs-a-seam.md) |
 | A bug report, from investigation to fix | [bug.md](../rules/journeys/bug.md) |
 | A quick note to keep for later | [quick-note.md](../rules/journeys/quick-note.md) |
@@ -46,11 +46,11 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
-| Does it actually work? QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` and `/task-with-tests` already run it next to `/review`, sized to what changed) |
+| Run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` and `/task-with-tests` already run it next to `/review`; live checks are sized to what changed) |
 | Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
 | Install this pack from skills.sh | `/setup-gabriel-skills` (asks where the skills and `AGENTS.md` go; manual copy only if install fails) |
 
-Prefer `/analyze` then `/task-with-tests` for a build. Never recommend `*-flow` skill names; nested vs one-off is a fork inside that skill’s `SKILL.md`.
+Prefer `/analyze` then `/task-with-tests` for a build. Recommend only the skill names in this map; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
 `/task` splits the work and builds every slice itself. A test is written only when the user asked for it or accepted a `/task` behavior-lock brief or a `/review` recommendation ([testing.md](../rules/testing.md)). Ordinary edits do not get tests.
 
@@ -60,8 +60,8 @@ Prefer `/analyze` then `/task-with-tests` for a build. Never recommend `*-flow` 
 
 1. If the ask is unclear, ask for one sentence of intent.
 2. Recommend **one** next skill and the next one or two steps. Link the matching journey when there is one.
-3. Do **not** run that skill unless the user says to (or said “just pick and go”).
-4. Talk in ordinary words. Do not use unexplained abbreviations. Skip chatbot closings and puffery.
+3. Run that skill only when the user says to (or said “just pick and go”).
+4. Talk in ordinary words and spell out abbreviations. Skip chatbot closings and puffery.
 5. When recommending `/task`, `/task-with-tests`, or `/analyze`, say they apply code-quality.md and code-structure.md.
 
 ### The agent is unsure mid-work
@@ -72,7 +72,4 @@ Prefer `/analyze` then `/task-with-tests` for a build. Never recommend `*-flow` 
 
 ## Anti-patterns
 
-- Dumping doctrine or other SKILL bodies into this turn
-- Pasting the rules into this router
-- Copying the app's existing shape because it is nearby, when it matches no example
 - Copying billing vendor names into an app that does not use them

@@ -10,7 +10,7 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 
 ## Read when
 
-- About to read a large diff, search the codebase, or wade through long output? Open [smart-zone.md](../rules/smart-zone.md). Skip it and noise crowds out your judgment of the findings.
+- About to read a large diff, search the codebase, or wade through long output? Open [main-context.md](../rules/main-context.md). Skip it and noise crowds out your judgment of the findings.
 - About to judge Standards on any `initial` or `full-rescan`, or on new PR follow-up surface, however small the diff? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you pass code the rules reject.
 - Reviewing a Feature diff? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and you pass a Feature that hardcodes what the plan said would vary.
 - Every run: open [doctrine.md](doctrine.md) and the [review contract](contract.md). Skip them and the output fence and axes come out wrong.
@@ -27,7 +27,9 @@ Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
 ## Pick the target
 
 - **Local branch diff** (default): the user or a parent names a branch, ref, or
-  the current work. Results stay in chat. `/task` may nest this mode.
+  the current work. Results stay in chat. `/task` runs this mode as its own
+  subagent, launched together with the `/verification` subagent, and takes back
+  the review output fence.
 - **GitHub PR**: the user gives a PR number or link. Drafts comments and asks
   one publish question. User start only.
 
@@ -51,7 +53,7 @@ bar. On a GitHub PR, also apply the `review:*` PR extras.
 
 1. Pin the requested fixed point and inspect its shipped diff.
 2. If a parent already supplied outcome, done-when, non-goals, ticket or PR,
-   fixed point, lane, phase, rules that must stay true, current slices, and fix backlog,
+   fixed point, area, phase, rules that must stay true, current slices, and fix backlog,
    treat that chat context as the binding handoff. Otherwise derive the Spec axis from, in order:
    1. The user's stated outcome and Done when
    2. A named PR, ticket, and their available discussion
@@ -75,13 +77,13 @@ named findings.
 
 Before any fix work, send selected Fix now findings to `/analyze` in
 review-remediation mode. Its memo stays keyed to the stable finding IDs, then
-requires explicit promotion. The promoted lane remains bounded to those
+requires explicit promotion. The promoted work remains bounded to those
 findings and the supplied current slices.
 
 ### If this is a user one-off
 
-Report the disposition in chat. Do not invent a parent lifecycle or promote fixes
-unless the user asked for that next step.
+Report the disposition in chat and stop. Promote fixes only when the user asked
+for that next step.
 
 ## GitHub PR
 
@@ -98,10 +100,3 @@ unless the user asked for that next step.
    under the condition in Modes.
 5. Show drafts, ask one publish question, apply the stale-head guard, then post
    only after approval ([reference.md](reference.md)).
-
-## Anti-patterns
-
-- Nesting GitHub PR mode under `/task`
-- Reopening a broad review in `remediation` mode
-- Reconstructing intent from hidden files when a parent supplied the handoff
-- Merging the Standards and Spec passes into one unstructured read

@@ -7,7 +7,7 @@ Cite key: `quality:strong-foundation`.
 
 ## Rule
 
-Code evolves and the first version is rarely final. Build the first iteration strong enough that the next change request adds a piece instead of rebuilding. For a Feature, that means a domain model, a service with a stable public API, and a **seam** on each **area of modularity**: a part of the feature that will vary or multiply (providers, channels, rules, roles, formats, tenants, states).
+Build the first iteration strong enough that the next change request adds a piece instead of rebuilding. For a Feature, that means a domain model, a service with a stable public API, and a **seam** (a named extension point where a new variant plugs in) on each **area of modularity**: a part of the feature that will vary or multiply (providers, channels, rules, roles, formats, tenants, states).
 
 Structural decisions protect future options. The code inside each piece stays simple ([keep-it-simple.md](keep-it-simple.md)). The two do not conflict: keep it simple (KISS) governs how each piece is written, and this file governs the feature's shape.
 
@@ -20,10 +20,10 @@ Pick the row from the work kind (Feature, Tweak, Bug, Refactor, Chore), whether 
 | Work | Foundation |
 | --- | --- |
 | Feature with its own domain concept or screen | Full foundation: domain model, service public API, a seam on each area of modularity, one real implementation behind each seam |
-| Feature that fits an existing seam | Extend that seam: one new collaborator and its registration. No new foundation. Say which seam it extends |
-| Feature that fits no seam where one should exist | Split: a Refactor that adds the seam first (behavior preserved), then the Feature on top. Do not bolt a special case onto the foundation |
+| Feature that fits an existing seam | Extend that seam: one new collaborator and its registration. Say which seam it extends |
+| Feature that fits no seam where one should exist | Split: a Refactor that adds the seam first (behavior preserved), then the Feature on top, so no special case gets bolted onto the foundation |
 | Refactor | May add a seam that a named later change needs |
-| Tweak, Bug, Chore | No new seam unless the grill named an area of modularity. Keep the existing shape |
+| Tweak, Bug, Chore | Keep the existing shape. Add a seam only if the grill named an area of modularity |
 
 ## Find the areas of modularity
 
@@ -35,16 +35,16 @@ Use the best source you have, in this order. Stop at the first one that answers.
 
 Then confirm each candidate with the user in the grill: one yes or no question per area, with a recommended answer from the evidence. Example: "Will there be more than one payment provider? a) yes, Stripe now and more later recommended b) no, Stripe only." A well-written ticket that already settled it needs no question. A Tweak, Bug, or Chore skips the question. With no ticket and a one-line request, ask only about the one or two strongest candidates.
 
-An area the user says no to gets no seam. An area nobody named gets no seam.
+A seam goes only on an area someone named and the user did not reject.
 
 ## Build it
 
-- **Seam first:** an interface, a strategy slot, an adapter, a registry, or a state machine goes in the first design for each confirmed area. Do not wait for the second implementation.
+- **Seam first:** an interface, a strategy slot, an adapter, a registry, or a state machine goes in the first design for each confirmed area, before a second implementation exists.
 - **One real implementation** ships behind each seam on day one. The seam is the foundation, not dead code.
 - **Model the domain in a structure,** not in scattered conditionals: a state machine instead of synced booleans, a registry or discriminated union instead of an `if` chain that grows by one branch per variant.
 - **Open to extension, closed to breaking edits:** new behavior lands in new collaborators; entry-point signatures stay stable.
-- **Named patterns** (Strategy, Adapter, Facade, Observer, State) are welcome when they fit a confirmed area. SOLID is guidance for keeping the foundation extendable, not scripture.
-- **No interface theater:** factories of factories, empty base classes, one-line impl files with no behavior, class trees deeper than two, or a seam on an area nobody confirmed.
+- **Named patterns** (Strategy, Adapter, Facade, Observer, State) are welcome when they fit a confirmed area. SOLID is guidance for keeping the foundation extendable.
+- **Skip interface theater** (abstractions with no behavior): factories of factories, empty base classes, one-line impl files, class trees deeper than two, or a seam on an area nobody confirmed.
 
 Plans and Structure cards name each seam and the next change it makes small. Examples: [Foundation first](code-quality-examples.md#foundation-first-big-features), [Futureproof extension seam](code-quality-examples.md#futureproof-extension-seam), [SOLID theater vs foundation](code-quality-examples.md#solid-theater-vs-foundation), [Foundation seam](code-structure-examples.md#foundation-seam-big-service), [Foundation patterns](code-structure-examples.md#foundation-patterns-folder-trees). The whole path from ticket to follow-up: [journeys/new-feature.md](journeys/new-feature.md).
 
@@ -52,4 +52,3 @@ Plans and Structure cards name each seam and the next change it makes small. Exa
 
 - Does every confirmed area of modularity have a seam with one real implementation?
 - Is there a seam on an area nobody confirmed? Remove it.
-- Name the next likely change request: is it one new file plus one registration?

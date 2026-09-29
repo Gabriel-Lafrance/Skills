@@ -7,20 +7,20 @@
 
 No tests unless the user accepted that test. Changing code is not a reason to add a test.
 
-Do not create or extend a test for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Do not add a test to chase coverage, to restate the implementation (`expect(add(1, 2)).toBe(3)`), or because the suite should cover this.
+Leave test files unchanged for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Skip a test that chases coverage, restates the implementation (`expect(add(1, 2)).toBe(3)`), or exists because the suite should cover this.
 
-Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie. Do not add a new case next to it.
+Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie, and add no new case beside it.
 
 ## Accepted means
 
 Write a test only when the user has accepted that lock:
 
 - they explicitly asked for it, or
-- they answered yes on a `/task` [behavior-lock brief](../task/reference.md#behavior-lock-suggestion) after grill Locked (each brief cites a grilled rule; every brief has a no; silence and a parent taking `recommended` are not acceptance), or
-- they answered yes on a `/task-with-tests` [tests prompt](../task-with-tests/reference.md#tests-prompt) after grill Locked (same rules as a `/task` brief), or
+- they answered yes on a `/task` [behavior-lock brief](../task/reference.md#behavior-lock-suggestion) after the grill's Locked in message (each brief cites a grilled rule; every brief has a no; silence and a parent taking `recommended` are not acceptance), or
+- they answered yes on a `/task-with-tests` [tests prompt](../task-with-tests/reference.md#tests-prompt) after the grill's Locked in message (same rules as a `/task` brief), or
 - they said yes after `/review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift).
 
-Nothing writes tests on its own. A `/task` suggestion or a `/review` recommendation is not acceptance until the user answers. `/task` build slices and other build steps do not write test files. This binds every skill.
+Only an accepted lock writes tests. A `/task` suggestion or a `/review` recommendation becomes acceptance when the user answers. `/task` build slices and other build steps leave test files alone. This binds every skill.
 
 How to write an accepted test: [testing.md](testing.md).
 

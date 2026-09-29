@@ -26,26 +26,26 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 - The type matches the ticket kind.
 - `ticket` is the Linear id (`IN-1234`) or the GitHub issue number (`42`).
 - `no-ticket` only when the user explicitly says there is no ticket.
-- `slug` is a lowercase verb phrase in kebab case. No spaces or colons. Keep the name under about 60 characters.
+- `slug` is a lowercase verb phrase in kebab case (hyphens only, no spaces or colons). Keep the name under about 60 characters.
 - Examples: `bug/IN-1234-fix-checkout-total`, `tweak/IN-1234-adjust-empty-state-copy`, `feature/ENG-99-add-invite-flow`, `refactor/42-extract-billing-service`, `chore/IN-55-bump-eslint`.
 
 ## Shipping rules
 
 - Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Work on a new branch.
-- Show the complete pull request title and body, and wait for approval before creating it.
+- Show the complete pull request title and body, and wait for approval before creating it unless the user already authorized publishing the [whole stack](#stacked-pull-requests).
 - A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Steps: [Branch and push](#3-branch-and-push).
-- Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes. Shipping itself does not open a browser or capture screens.
-- Do not invent a ticket. Use `/write-ticket` when the work belongs on a tracker.
+- Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes.
+- Use only a real ticket. Use `/write-ticket` when the work belongs on a tracker.
 - Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the [CI mirror](#ci-mirror). Push once it is green. Never `--no-verify` unless the user asked.
-- Use the harness pull-request tool when it has one. Otherwise use `gh` ([Create or update the PR](#create-or-update-the-pr)). Do not use `gh` in a session that already has a pull-request tool.
+- Use the harness pull-request tool when it has one. Otherwise use `gh` ([Create or update the PR](#create-or-update-the-pr)).
 
 ## Create or update the PR
 
-Before create, cut and push the branch with [Branch and push](#3-branch-and-push), unless the user asked for local-only. Then pick **one** write path, only after the user approved the title and body:
+Before create, cut and push the branch with [Branch and push](#3-branch-and-push), unless the user asked for local-only. Then pick **one** write path after title/body approval or explicit whole-stack publishing authorization:
 
 | Session | How to create or update the PR |
 | --- | --- |
-| This harness has a pull-request tool | Use that tool. Do **not** use `gh pr create` or `gh pr edit` for that write |
+| This harness has a pull-request tool | Use that tool for the whole write, in place of `gh pr create` and `gh pr edit` |
 | No pull-request tool | Use the `gh` command below |
 
 ```bash
@@ -55,27 +55,37 @@ EOF
 )"
 ```
 
-If a PR is already open on the branch, update its body with the same tool choice; do not open a second PR.
+If a PR is already open on the branch, update its body with the same tool choice instead of opening a second PR.
+
+## Stacked pull requests
+
+A user request such as "implement all children and open stacked PRs" authorizes branches, scoped commits, pushes, and PR creation for that set. Show each finished title and body before publishing, then proceed without repeating the ship or publish questions. Default to draft PRs unless the user requested ready-for-review PRs. A ticket containing an example execution request is not itself publishing authorization. This authorization does not include merging PRs, force-pushing, unrelated work, or tracker status changes.
+
+- Use the child's ticket ID and kind for its branch and PR. The first PR targets the recorded integration branch; each dependent PR targets its predecessor's branch. Independent children can target the integration branch. Confirm that the selected base contains all of the child's prerequisites.
+- Cut a standalone branch from the selected base SHA using the existing branch safety rules. Git upstream tracking stays unset or points to that branch's own remote, never to the predecessor or integration branch.
+- Review and describe only the child's delta against its actual PR base. Run its CI mirror on the resulting tree. Link its child ticket, parent ticket, prerequisite PRs, and position in the stack in Notes. Each PR must pass its checks before later children are included.
+- Reuse existing child PRs on resume. If a predecessor changes, refresh affected descendants and recheck their diffs and gates before reporting completion. After an ancestor merges, confirm the descendant base and diff before retargeting; follow the existing prohibition on force-pushes.
+- Return a table of child tickets, PR URLs, branches, and bases. Leave PRs open for review. A blocked child blocks its dependents; report completed PRs and remaining work without calling the whole stack complete.
 
 ## CI mirror
 
-Remote CI confirms a tree that is already green here. A red push spends Actions minutes and a build for nothing. Run the check in the environment you are in: the local machine, or this cloud agent VM. Do not start GitHub Actions (`gh workflow run`, a push, or a rerun) to learn if the tree is green.
+Remote CI confirms a tree that is already green here. A red push spends Actions minutes and a build for nothing. Run the check in the environment you are in: the local machine, or this cloud agent VM. Learn whether the tree is green there, not by starting GitHub Actions (`gh workflow run`, a push, or a rerun).
 
 **When:** you are about to push a branch that will open a PR, or to commit or push on a branch that already has an open PR.
 
 **When not:** a local commit you are not pushing, while no PR is open on that branch.
 
-**Once:** if this exact tree already passed and nothing has changed, do not run it again before the push.
+**Once:** if this exact tree already passed and nothing has changed, skip the rerun before the push. Reuse `/verification` test suite results when the tree, command, and environment match; run any CI checks it did not cover.
 
 **What to run**
 
-1. Read `.github/workflows` for jobs that run on `pull_request`, and on `push` when that is what updates the open PR. Run those jobs' check commands here.
+1. Read `.github/workflows` for jobs that run on `pull_request`. Add jobs that run on `push` when a push is what updates the open PR. Run those jobs' check commands here.
 2. Skip deploy, publish, and jobs that need secrets you do not have. Say which jobs you skipped.
-3. If a workflow path filter would skip the job for this diff, skip it here too. A docs-only change does not get a full build the workflow would not run.
+3. If a workflow path filter would skip the job for this diff, skip it here too. A docs-only change gets no full build the workflow would not run.
 4. If there is no such workflow, run `lint` and `test` when those scripts exist.
-5. Do not wipe and reinstall dependencies when the lockfile is unchanged and the install is already present.
+5. Reuse the installed dependencies when the lockfile is unchanged.
 6. If a command fails, fix it and rerun that command. Then push once.
-7. If there is no workflow and no `lint` or `test` script, say so and continue. Do not invent a suite.
+7. If there is no workflow and no `lint` or `test` script, say so and continue without a suite.
 8. Never `git commit --no-verify` or `git push --no-verify` unless the user asked.
 
 ## Process
@@ -87,7 +97,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 | State | Action |
 | --- | --- |
 | No pull-request tool, and no `gh` or not authenticated | Cut and push the branch as usual. Stop before the publish step and say why |
-| Dirty tree | Ask commit first, stash, or abort; never auto-commit. If that commit will be pushed, or a PR is already open on the branch, run the [CI mirror](#ci-mirror) first and push only when it is green |
+| Dirty tree | If scoped commits are already authorized, commit only those changes; otherwise ask: commit first, stash, or abort. Preserve unrelated work. If that commit will be pushed, or a PR is already open on the branch, run the [CI mirror](#ci-mirror) first and push only when it is green |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create the standalone branch from that commit (step 3), then continue on it |
 
@@ -105,8 +115,8 @@ A new branch is a standalone ref. GitHub applies `dev`'s protection only when a 
 
 The same trap exists for `main` and `master`.
 
-1. Build `{type}/{ticket}-{slug}` from the locked values. The name is not `dev`, `main`, or `master`.
-2. Announce the branch with the [branch announcement](shipping-templates.md#questions-and-announcements) Locked block.
+1. Build `{type}/{ticket}-{slug}` from the locked values. Pick a name other than `dev`, `main`, or `master`.
+2. Announce the branch in a Locked in message using the [branch announcement](shipping-templates.md#questions-and-announcements) shape.
 3. Record the base SHA (`git rev-parse <base>`) and create the branch from that commit:
 
    ```bash
@@ -116,7 +126,7 @@ The same trap exists for `main` and `master`.
 
    Same result in one command: `git switch --no-track -c <new-branch> <base-sha>`.
 
-   Do not use `git switch -c` or `git checkout -b` from a remote ref without `--no-track`. Do not `git branch --set-upstream-to` `origin/dev`, `origin/main`, `origin/master`, or the default branch. End on the new branch: `git branch --show-current` prints `<new-branch>`.
+   From a remote ref, add `--no-track` to `git switch -c` or `git checkout -b`. Never `git branch --set-upstream-to` `origin/dev`, `origin/main`, `origin/master`, or the default branch. End on the new branch: `git branch --show-current` prints `<new-branch>`.
 
    Reuse a local branch only when it already holds the intended commits and its upstream is unset or `origin/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, run `git branch --unset-upstream` before any push. If the current branch is `dev`, `main`, or `master`, create the standalone branch before any commit. Rename only a disposable local branch that holds the intended commits, and only when upstream stays unset or `origin/<new-branch>`.
 4. Unless the user asked for local-only work, check that `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or `origin/master`, stop. Then push the new name only:
@@ -129,7 +139,7 @@ The same trap exists for `main` and `master`.
 
 ### 4. Ask whether to draft and publish
 
-After a successful push, ask the [draft and publish question](shipping-templates.md#questions-and-announcements) and wait:
+After a successful push, continue to the full draft when whole-stack publishing is already authorized. Otherwise ask the [draft and publish question](shipping-templates.md#questions-and-announcements) and wait:
 
 - Declined: return the branch and remote URL.
 - Draft only: show it in chat and stop.
@@ -137,22 +147,16 @@ After a successful push, ask the [draft and publish question](shipping-templates
 
 ### 5. Draft the PR
 
-Build the title and body from the commits, diff, ticket, and locked type with the [body template](shipping-templates.md#body-template) and [title shape](shipping-templates.md#pr-title-and-body). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes. Never ship empty QA steps.
+Build the title and body from the commits, diff, ticket, and locked type with the [body template](shipping-templates.md#body-template) and [title shape](shipping-templates.md#pr-title-and-body). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes in every step.
 
-Show the complete title and body, then ask the publish question. Never create a PR silently.
+Show the complete title and body, then ask the publish question unless whole-stack publishing is already authorized.
 
 ### 6. Publish
 
-On approval only, create or update the PR with the [write path](#create-or-update-the-pr). Return the PR URL. Do not write Linear comments or change ticket status.
+On approval or explicit whole-stack publishing authorization, create or update the PR with the [write path](#create-or-update-the-pr). Return the PR URL. Leave Linear comments and ticket status alone.
 
-## Do not
+## Out of scope for shipping
 
-- Invent a ticket, or use a branch type that does not match the ticket kind
-- Implement new product work in the same turn as shipping
-- Push a new branch onto `dev`, `main`, or `master`, or leave its upstream on those refs
-- Push red so GitHub Actions is the first time the suite runs, or push red and wait for CI
-- Run the CI mirror on a commit that will not be pushed, after every slice while coding, or as a full build the workflow would skip
-- Create the PR with `gh` when this harness has a pull-request tool
-- Open a browser, capture screenshots, or produce a review canvas to ship a PR (that is `/verification`, before shipping)
-- Commit binaries into the repo to "attach" a demo
-- Record a walkthrough or check every UI state at ship time
+- Implementing product work inside this shipping procedure. A whole-stack build may alternate its build lifecycle and shipping for successive children
+- Browser checks, screenshots, walkthrough recordings, review canvases, and per-state UI checks (that is `/verification`, before shipping)
+- Committing binaries into the repo to "attach" a demo
