@@ -25,8 +25,9 @@ Discover product, behavioral, code quality, and code structure decisions through
    the sweep.
 3. Include plan count and file area in that first batch.
 4. When the parent is `/write-ticket`, interview only the topic list it
-   supplied (Research or Plan) and skip implementation plan count and file
-   area. The attack bar still applies to every load-bearing claim in that list.
+   supplied (Research or Plan). Research leaves implementation split and files
+   open. Plan settles decisions affecting ticket and PR boundaries; the parent
+   derives child count, order, and file lanes. The attack bar still applies.
 5. Include the code-quality.md and code-structure.md topics in that batch:
 
    | When | Include in the batch |

@@ -18,7 +18,7 @@ Same loop as [`/task`](../task/SKILL.md), with one change: the tests come first.
 
 1. Establish the execution context and run [Phase 0 of the `/task` lifecycle](../task/reference.md#phase-0-establish-context-and-grill). In the Locked in message, name the public entry (function, hook, mutation, handler) that each rule that must stay true runs through.
 2. If no public entry can be named, say so, recommend plain `/task`, and stop.
-3. Send the [tests prompt](reference.md#tests-prompt) right after the Locked in message, before any plan. Wait. Silence is not yes. Send a corrected rule back to the grill.
+3. Send the [tests prompt](reference.md#tests-prompt) right after the Locked in message, before any plan. Carry forward explicit acceptances and refusals; ask only about unsettled tests, batching them across children in a [whole-stack run](../task/doctrine.md#whole-stack-ticket-handoff). Wait for those answers. Silence is not yes. Send a corrected rule back to the grill.
 4. If the user refused every test, say the work continues as plain `/task`, and follow its lifecycle from the plan.
 5. Write the accepted tests as the first slice, following [testing.md](../rules/testing.md). Run them and record the [red baseline](reference.md#red-baseline).
 6. Plan and build with the [`/task` Phase 1](../task/reference.md#phase-1-plan-and-build) steps. Each plan contract's Done when names the tests that must turn green. During the build, follow the [test rules](reference.md#test-rules).
@@ -27,11 +27,11 @@ Same loop as [`/task`](../task/SKILL.md), with one change: the tests come first.
 
 ### If a parent already owns the ticket, branch, and PR
 
-Same as `/task`: return the completion summary and evidence to the parent, which asks the ship Questions, commits, and opens the PR.
+Same as `/task`: return the completion summary and evidence to the parent, which handles shipping under the user's existing authorization.
 
 ### If this chat owns shipping
 
-Same as `/task`: offer [ship Questions](../task/reference.md#ship-questions) after all gates pass.
+Same as `/task`: after all gates pass, ship when already authorized; otherwise offer [ship Questions](../task/reference.md#ship-questions).
 
 ## Anti-patterns
 

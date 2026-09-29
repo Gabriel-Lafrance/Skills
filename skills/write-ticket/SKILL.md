@@ -1,12 +1,12 @@
 ---
 name: write-ticket
-description: Create or promote one Linear or GitHub ticket as a Memo, Research, or Plan. Use when the user asks to write, file, open, or draft a ticket or issue, or to note something so it is not forgotten. Never inside /task.
+description: Creates or promotes Linear or GitHub tickets as Memo, Research, or Plan. Larger Plans default to a parent with small, reviewable subissues ordered for stacked pull requests. Use when the user asks to write, file, draft, or split tickets, or save an idea for later. Never inside /task.
 category: Documents
 ---
 
 # Write Ticket
 
-Create or promote one tracker ticket. User start only; `/task` reads tickets ([ticket context](../task/doctrine.md#ticket-context)) and never promotes one. This skill never implements the ticket.
+Create or promote a tracker ticket, with linked subissues when a Plan needs multiple reviewable pull requests. User start only; `/task` reads tickets ([ticket context](../task/doctrine.md#ticket-context)) and never promotes one. This skill never implements the ticket.
 
 ## Read when
 
@@ -21,8 +21,8 @@ Create or promote one tracker ticket. User start only; `/task` reads tickets ([t
 2. If the target stage is missing, send **one** asking-contract batch for the stage. Include priority, assignee, and tracker in that same batch when those are also missing. Wait.
 3. **Memo.** Draft the short note and write it, skipping `/analyze` and `/grill-me`.
 4. **Research or Plan.** Run `/analyze` to full memo depth for that stage (this parent owns the next step). Then run `/grill-me` with the stage topic list in the doctrine. `/grill-me` returns here.
-5. Fill that stage's body from the reference. Assign the work kind during Research.
-6. Show the draft in a Locked in message with no Questions.
-7. If priority, assignee, or tracker is still missing, send one metadata batch, then write. If those were already known, write after the draft is visible.
-8. On a promotion, post the previous body as a comment, replace the description, and set the stage label. Keep it the same ticket.
+5. Fill that stage's body from the reference. Assign the work kind during Research or a direct start at Plan. For Plan, apply [PR-sized subissues](doctrine.md#pr-sized-subissues): default to a parent and children when the work has multiple reviewable outcomes. Fill the [stack handoff](reference.md#stack-handoff) and each child's Plan from the same locked context.
+6. Show the complete draft in a Locked in message with no Questions, including child bodies and stack order when split. The agent owns the split; ask only about unresolved decisions that change the work.
+7. If priority, assignee, or tracker is still missing, send one metadata batch, then write. If those were already known, write after the draft is visible. For a split Plan, create or reuse the parent and children, then link them with the real returned IDs using [Tracker write](reference.md#tracker-write).
+8. On a promotion, post the previous body as a comment, replace the description, and set the stage label. Keep the existing ticket as the parent when adding children.
 9. Status is **Todo** on create. On promote or refine, keep the current status unless the prompt names another.

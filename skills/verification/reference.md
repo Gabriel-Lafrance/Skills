@@ -6,14 +6,23 @@ Use what the harness and repo already have, in this order:
 
 1. The harness browser tool (for example Cursor's browser or a Chrome integration) for interactive UI checks.
 2. The repo's own end-to-end harness (Playwright, Cypress, a PTY or expect script, a seed command).
-3. A scratch Playwright script run with `npx` from the OS temp directory. Do not add a dependency to the app. If a browser download is needed, say so and ask once.
+3. A scratch Playwright script run with `npx` from the OS temp directory. Do not add a dependency to the app. Use the project's browser installation when available; if a required browser cannot be installed safely, report the check as inconclusive.
 4. `curl` or the framework CLI for endpoints, the database client for rows, the queue or scheduler CLI for jobs, and the process logs.
 
 Convex apps: drive functions with `npx convex run` against the dev deployment and read `npx convex logs`. Convex MCP is allowed during a `/verification` run ([Verify terminals first](../rules/tooling.md#verify-terminals-first) lists this exception).
 
+## Repository test suites
+
+Inventory tests before running them. Read `docs/verification.md`, repository and workspace manifests, CI jobs, runner configuration, and the README. Find all configured suites, including unit, integration, component, browser, and end-to-end tests across packages. If a standard runner finds test files but no script names them, use that runner's normal repository command. Do not count lint, type checks, or builds as test suites unless they actually execute tests.
+
+- Run the full command for each distinct suite, without a changed-file filter. Include every configured test project and browser. A root aggregate command can cover its child suites; check what it includes and run any omitted suites separately. Do not run the same suite twice merely because two scripts name it.
+- Use the repository's toolchain and documented setup. Reuse safe local services, create disposable test data when needed, and run suites that do not depend on a failed suite even if one exits nonzero. Never redirect a test command to production or shared staging.
+- Record each suite's working directory, exact command, exit code, test counts, skips, and a short failure excerpt or log path. A command that runs and fails is `failed`. A suite blocked by missing credentials, browser setup, data, or an unsafe target is `inconclusive`; name what is missing and the command attempted. Do not replace it with a narrower command and call the full suite passed.
+- If no tests or test commands exist after the inventory, record `no test suites found`. Do not add test files, install new test tooling, or change runner configuration during verification.
+
 ## Ways to verify
 
-This is a menu, not a checklist. Start from what the work actually did (the diff, the slices, the Done when items). For each thing you changed, pick the few moves below that would show it works, and skip the rest. Two added buttons get a UI pass on that view, not a migration or endpoint pass. Go one layer wider only where the change crosses a boundary: a new button that calls a new endpoint gets the click, the request, and the stored row.
+This is a menu for live checks, not a checklist. The full [repository test suites](#repository-test-suites) run separately. Start live checks from what the work actually did (the diff, the slices, the Done when items). For each thing you changed, pick the few moves below that would show it works, and skip the rest. Two added buttons get a UI pass on that view, not a migration or endpoint pass. Go one layer wider only where the change crosses a boundary: a new button that calls a new endpoint gets the click, the request, and the stored row.
 
 ### You added or changed UI
 
@@ -129,6 +138,9 @@ How an agent launches, drives, and checks this app.
 ## Doctor
 - One read-only check: process up, right build, port is ours, sign-in works
 
+## Tests
+- Commands for every distinct repository suite, working directories, required local services, and safe test data
+
 ## Drive
 - UI: <browser tool or harness, stable selectors (labels, test ids, routes)>
 - Backend: <curl base URL and auth, CLI commands, job triggers>
@@ -161,12 +173,16 @@ Reply like: 1a
 
 ```markdown
 ## Verification: <verified | failed | inconclusive>
-| What changed | How it was verified | Outcome | Evidence |
+| Live check | How it was verified | Outcome | Evidence |
 | --- | --- | --- | --- |
 | <Done when item, rule, or change> | <the move you picked> | verified \| failed \| inconclusive | <command and output, status, row count, log line, layout-shift score, artifact path> |
 
+| Test suite | Working directory and command | Outcome | Evidence |
+| --- | --- | --- | --- |
+| <unit / integration / end-to-end / other, or no test suites found> | <path and full command, or none> | verified \| failed \| inconclusive \| none | <exit code, passed / failed / skipped counts, failure excerpt or log path> |
+
 - **Environment:** <local or preview URL, build or commit>
-- **Not exercised:** <layers the change did not touch, in one line>
+- **Live layers not exercised:** <layers the change did not touch, in one line>
 - **Failed:** <each with the smallest repro, or none>
 - **Inconclusive:** <each with the missing prerequisite, or none>
 - **Recipe edits proposed:** <list, or none>

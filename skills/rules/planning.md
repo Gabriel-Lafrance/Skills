@@ -17,7 +17,7 @@ Grill first: a Questions-only message, then a separate Locked in message. Whenev
 5. Announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message that repeats the rejected alternative. Send Locked and Questions in separate messages.
 6. After the Locked in message, produce the plan. Use the harness plan tool when it has one. Otherwise write the plan in chat. New unknowns later mean a **new** Questions-only batch.
 
-Skip the grill only for trivial asks (typo, pure rename the user already specified, or the user explicitly said to skip grilling or plan immediately).
+Skip the grill for trivial asks (typo or pure rename), when the user explicitly said to skip grilling or plan immediately, or when a [whole-stack ticket handoff](../task/doctrine.md#whole-stack-ticket-handoff) already records every required decision. Reuse that lock; ask about newly discovered material gaps.
 
 Every non-trivial plan **must** include a high-level Mermaid **Change diagram** with **both** `### Before` and `### After`. Prefer modules, actors, and request/data flow. Keep the same node ids across Before/After when possible. A plan without Before/After is incomplete. PR bodies and `/analyze` memos use the [PR change diagram](shipping-templates.md#change-diagram) rule instead (one diagram for new work, Before/After for rework).
 

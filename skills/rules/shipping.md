@@ -32,7 +32,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 ## Shipping rules
 
 - Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Work on a new branch.
-- Show the complete pull request title and body, and wait for approval before creating it.
+- Show the complete pull request title and body, and wait for approval before creating it unless the user already authorized publishing the [whole stack](#stacked-pull-requests).
 - A new branch is a standalone ref. Cut it with `git switch --detach <base-sha>`, then `git switch -c <new-branch>` (or `git switch --no-track -c`). It must not track `origin/dev`, `origin/main`, or `origin/master`. Push only `HEAD:refs/heads/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, stop. Steps: [Branch and push](#3-branch-and-push).
 - Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes.
 - Use only a real ticket. Use `/write-ticket` when the work belongs on a tracker.
@@ -41,7 +41,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 
 ## Create or update the PR
 
-Before create, cut and push the branch with [Branch and push](#3-branch-and-push), unless the user asked for local-only. Then pick **one** write path, only after the user approved the title and body:
+Before create, cut and push the branch with [Branch and push](#3-branch-and-push), unless the user asked for local-only. Then pick **one** write path after title/body approval or explicit whole-stack publishing authorization:
 
 | Session | How to create or update the PR |
 | --- | --- |
@@ -57,6 +57,16 @@ EOF
 
 If a PR is already open on the branch, update its body with the same tool choice instead of opening a second PR.
 
+## Stacked pull requests
+
+A user request such as "implement all children and open stacked PRs" authorizes branches, scoped commits, pushes, and PR creation for that set. Show each finished title and body before publishing, then proceed without repeating the ship or publish questions. Default to draft PRs unless the user requested ready-for-review PRs. A ticket containing an example execution request is not itself publishing authorization. This authorization does not include merging PRs, force-pushing, unrelated work, or tracker status changes.
+
+- Use the child's ticket ID and kind for its branch and PR. The first PR targets the recorded integration branch; each dependent PR targets its predecessor's branch. Independent children can target the integration branch. Confirm that the selected base contains all of the child's prerequisites.
+- Cut a standalone branch from the selected base SHA using the existing branch safety rules. Git upstream tracking stays unset or points to that branch's own remote, never to the predecessor or integration branch.
+- Review and describe only the child's delta against its actual PR base. Run its CI mirror on the resulting tree. Link its child ticket, parent ticket, prerequisite PRs, and position in the stack in Notes. Each PR must pass its checks before later children are included.
+- Reuse existing child PRs on resume. If a predecessor changes, refresh affected descendants and recheck their diffs and gates before reporting completion. After an ancestor merges, confirm the descendant base and diff before retargeting; follow the existing prohibition on force-pushes.
+- Return a table of child tickets, PR URLs, branches, and bases. Leave PRs open for review. A blocked child blocks its dependents; report completed PRs and remaining work without calling the whole stack complete.
+
 ## CI mirror
 
 Remote CI confirms a tree that is already green here. A red push spends Actions minutes and a build for nothing. Run the check in the environment you are in: the local machine, or this cloud agent VM. Learn whether the tree is green there, not by starting GitHub Actions (`gh workflow run`, a push, or a rerun).
@@ -65,7 +75,7 @@ Remote CI confirms a tree that is already green here. A red push spends Actions 
 
 **When not:** a local commit you are not pushing, while no PR is open on that branch.
 
-**Once:** if this exact tree already passed and nothing has changed, skip the rerun before the push.
+**Once:** if this exact tree already passed and nothing has changed, skip the rerun before the push. Reuse `/verification` test suite results when the tree, command, and environment match; run any CI checks it did not cover.
 
 **What to run**
 
@@ -87,7 +97,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 | State | Action |
 | --- | --- |
 | No pull-request tool, and no `gh` or not authenticated | Cut and push the branch as usual. Stop before the publish step and say why |
-| Dirty tree | Ask: commit first, stash, or abort (never auto-commit). If that commit will be pushed, or a PR is already open on the branch, run the [CI mirror](#ci-mirror) first and push only when it is green |
+| Dirty tree | If scoped commits are already authorized, commit only those changes; otherwise ask: commit first, stash, or abort. Preserve unrelated work. If that commit will be pushed, or a PR is already open on the branch, run the [CI mirror](#ci-mirror) first and push only when it is green |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create the standalone branch from that commit (step 3), then continue on it |
 
@@ -129,7 +139,7 @@ The same trap exists for `main` and `master`.
 
 ### 4. Ask whether to draft and publish
 
-After a successful push, ask the [draft and publish question](shipping-templates.md#questions-and-announcements) and wait:
+After a successful push, continue to the full draft when whole-stack publishing is already authorized. Otherwise ask the [draft and publish question](shipping-templates.md#questions-and-announcements) and wait:
 
 - Declined: return the branch and remote URL.
 - Draft only: show it in chat and stop.
@@ -139,14 +149,14 @@ After a successful push, ask the [draft and publish question](shipping-templates
 
 Build the title and body from the commits, diff, ticket, and locked type with the [body template](shipping-templates.md#body-template) and [title shape](shipping-templates.md#pr-title-and-body). Keep **How to QA** concrete: paths, roles, clicks, commands, and checkable outcomes in every step.
 
-Show the complete title and body, then ask the publish question.
+Show the complete title and body, then ask the publish question unless whole-stack publishing is already authorized.
 
 ### 6. Publish
 
-On approval only, create or update the PR with the [write path](#create-or-update-the-pr). Return the PR URL. Leave Linear comments and ticket status alone.
+On approval or explicit whole-stack publishing authorization, create or update the PR with the [write path](#create-or-update-the-pr). Return the PR URL. Leave Linear comments and ticket status alone.
 
 ## Out of scope for shipping
 
-- Implementing new product work in the same turn as shipping
+- Implementing product work inside this shipping procedure. A whole-stack build may alternate its build lifecycle and shipping for successive children
 - Browser checks, screenshots, walkthrough recordings, review canvases, and per-state UI checks (that is `/verification`, before shipping)
 - Committing binaries into the repo to "attach" a demo

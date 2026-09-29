@@ -6,6 +6,8 @@ Load at the tests prompt, when writing the accepted tests, and during the build.
 
 Send it right after the Locked in message, before any plan. It replaces the `/task` [behavior-lock suggestion](../task/reference.md#behavior-lock-suggestion).
 
+Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once, then write each child's accepted tests before its product code.
+
 1. Walk each rule that must stay true. Offer one test per rule that has an observable outcome. Skip tautologies (`expect(add(1, 2)).toBe(3)`), UI chrome, formatters, generated code, and types-only code. This bar is looser than the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) default on purpose: the tests are the agent's pass or fail signal.
 2. Tie every test to one rule and to the public entry the grill named. A rule with no public entry gets no test.
 3. Send one Questions-only message and wait. Every item has a no.

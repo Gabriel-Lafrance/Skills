@@ -27,7 +27,7 @@ Use the shared [execution context](../rules/planning.md#execution-context) as th
 
 **Quality bar.** Two gates run before completion, in parallel, each in its own subagent:
 
-- `/verification` gives the acceptance evidence for Done when, the rules that must stay true, and cross-slice seams, sized to what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)).
+- `/verification` runs all configured repository test suites and gives live acceptance evidence for Done when, the rules that must stay true, and cross-slice seams. Live checks are sized to what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)).
 - `/review` gives the Standards and Spec findings.
 
 Launch both in one step so they run at the same time, then judge their handoffs here. If the harness has no subagent, run `/verification` and then `/review` in this context. There is no `/validate` skill.
@@ -74,9 +74,11 @@ Track these rows in the execution context or a short progress message. Declare c
 
 **Hard reject:** vague wishes or open-ended research with no binary done state. Give multiple unrelated outcomes separate `/task` contexts.
 
-**Skip the grill only if all are true:** the ticket or user already has a binary Done when; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` or `skip grill`, or the work is an obvious single-file fix. Record explicit behavioral rules as rules that must stay true even when skipping.
+**Outside the whole-stack exception below, skip the grill only if all are true:** the ticket or user already has a binary Done when; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` or `skip grill`, or the work is an obvious single-file fix. Record explicit behavioral rules as rules that must stay true even when skipping.
 
 For a ticket-driven task, read the ticket or PR first, then grill the open decisions.
+
+For a request to implement an entire parent Plan, apply the whole-stack handoff below. When that Plan and its children already settle the required decisions, reuse that lock and skip a fresh interview. Ask only about newly discovered material gaps; do not ask to start each child.
 
 ### Ticket context
 
@@ -85,6 +87,16 @@ Read a ticket or PR as plain context. Change its status, comment, assignee, or s
 - **Detect:** `IN-1234` style ids and `linear.app` URLs are Linear. `#123`, `owner/repo#123`, and `github.com/.../issues/N` or `/pull/N` are GitHub. A bare number is ambiguous: ask once.
 - **Read:** GitHub with the harness GitHub tool or `gh issue view` / `gh pr view`. Linear with its read tool or API. Keep the title, ask, Done when, constraints, and non-goals in the execution context. Link the source instead of pasting the body again.
 - **No tool or not signed in:** say so, and ask the user to connect it or paste the body once. Take the ticket content only from its source.
+
+### Whole-stack ticket handoff
+
+Applies to `/task` and `/task-with-tests` when the user asks to implement all children of a parent Plan. A request for one child stays scoped to that child and its prerequisite context.
+
+1. Read the parent and every child, their dependencies, existing branches/PRs, and recorded decisions. Carry the stack table into Current slices. Reuse completed work on resume. Resolve missing contracts or cycles before building affected children; the PR base must contain every prerequisite.
+2. Keep one branch and PR per child when shipping is requested, using the [stack shipping rules](../rules/shipping.md#stacked-pull-requests). Establish each child's branch from its recorded base before editing so sibling changes never accumulate into one PR. Implement ready children in dependency order; an unmerged predecessor branch is a valid base. Without shipping authorization, preserve the child boundaries in local work and ask once before committing or publishing.
+3. Apply the normal build lifecycle to each child. Carry forward explicit test acceptances and refusals with their decision source. Batch unresolved test choices across the stack once; a Plan's proposed tests or a request to build all children do not authorize new tests. `/task-with-tests` writes accepted tests first within each child and makes them green before that child's PR.
+4. Run `/verification` and `/review` for each child against its own base, retaining evidence for its checks. Fix failures before building dependent children. Continue through the authorized set without a new start or shipping question for each child. A genuine blocker pauses its dependents and is reported with the remaining work.
+5. Run the parent's final checks against a tree containing all required children and name the checked commit. Use a disposable local integration tree when independent branches need checking together. Report child ticket, branch, PR, base, and evidence for the whole stack. Complete only when every child and the parent checks are accounted for. Creating PRs does not mean they are merged or the parent ticket is closed.
 
 ### Behavior locks
 
@@ -102,7 +114,7 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Output
 
-**Complete when:** the checklist is done, both gate handoffs are in (no open fails; blocked criteria stated), and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise offer ship Questions. Commit, open a PR, archive, or write a summary artifact only when the user asks.
+**Complete when:** the checklist is done, both gate handoffs are in (no open fails; blocked criteria stated), and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise ship under existing authorization, or offer ship Questions when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
 
 **Pause:** stop work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context. Delete a user-requested artifact only when the user asks.
 
@@ -110,13 +122,13 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
+Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions only when shipping is not already authorized ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
 
 ## Anti-patterns
 
 - Declaring completion before both `/verification` and `/review` have returned
 - Running `/verification` and `/review` one after the other when the harness has subagents
-- Asking `/verification` to exercise layers the work did not touch
+- Asking `/verification` to drive unrelated live layers beyond its required full test run
 - Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding

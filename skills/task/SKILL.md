@@ -20,7 +20,7 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 
 ## Process
 
-1. Establish or refresh the in-chat execution context. If a parent already supplied ticket, lane, Done when, non-goals, rules that must stay true, fixed point, and slice bounds, accept that brief. The parent keeps ticket and branch ownership.
+1. Establish or refresh the in-chat execution context. If a parent already supplied ticket, lane, Done when, non-goals, rules that must stay true, fixed point, and slice bounds, accept that brief. The parent keeps ticket and branch ownership. For a request to implement a parent ticket's children, use the [whole-stack handoff](doctrine.md#whole-stack-ticket-handoff).
 2. Run the [lifecycle](reference.md#lifecycle) in this order:
    1. Grill, unless skip-grill applies.
    2. Plan.
@@ -35,11 +35,11 @@ Recovery, progress, lookup, and safety rules live in the doctrine and reference.
 
 ### If a parent already owns the ticket, branch, and PR
 
-Return a completion summary plus evidence envelope to the parent. The parent asks the ship Questions, commits, and opens the PR.
+Return a completion summary plus evidence envelope to the parent. The parent handles shipping under the user's existing authorization.
 
 ### If this chat owns shipping
 
-Offer ship Questions after all gates pass ([reference.md](reference.md#ship-questions)). Commit or open a PR only after the user answers yes, and follow [shipping.md](../rules/shipping.md).
+After all gates pass, follow [shipping.md](../rules/shipping.md) when the user already authorized shipping, including an explicit request for stacked PRs. Otherwise offer [ship Questions](reference.md#ship-questions) and wait for yes.
 
 ## Anti-patterns
 

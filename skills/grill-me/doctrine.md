@@ -62,7 +62,7 @@ Recommend the smallest authoritative guard: UI state for feedback plus a direct 
 
 ### Interview rules
 
-When `/write-ticket` is the parent, its topic list replaces the topic sweep above. The attack bar still applies to every load-bearing claim in that list. Leave out implementation plan count and file area. Return the locked context to `/write-ticket`.
+When `/write-ticket` is the parent, its topic list replaces the topic sweep above. The attack bar still applies to every load-bearing claim in that list. Research leaves implementation split and files open. For Plan, settle decisions affecting ticket and PR boundaries, dependency contracts, and ownership; `/write-ticket` derives the child count, order, and file lanes. Return the locked context to `/write-ticket`.
 
 1. Follow decision dependencies. If a later answer depends on an earlier one, cover both paths in one batch or defer the dependent choice.
 2. Use the shared asking contract: batch known questions, give discrete options a recommendation, and ask each decision once. The recommendation comes after the failure and the rival are in the question.

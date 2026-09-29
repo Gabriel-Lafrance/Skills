@@ -112,7 +112,7 @@ A Fix-now item blocks completion until remediation analysis, explicit promotion,
 
 ## Ship questions
 
-Ask once, after the completion summary, only when this chat owns shipping. Default is no unless the user already asked to ship:
+Use this section only when this chat owns shipping and shipping is not already authorized. If the user already asked to ship, including the whole stack, follow [shipping.md](../rules/shipping.md) without this question. Otherwise ask once after the completion summary; default is no:
 
 ```markdown
 ## Questions
@@ -128,6 +128,8 @@ Wait. On yes, follow the [Process in shipping.md](../rules/shipping.md#process) 
 ## Behavior-lock suggestion
 
 Run after the Locked in message, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Skip it during an open grill, for a trivial change, and in Fix mode.
+
+Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once.
 
 1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar.
 2. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. No public entry, no brief.
@@ -182,7 +184,7 @@ Start the gate when every slice is done, blocked, or explicitly waived.
 **Verification and review gate.**
 
 1. Launch two subagents in one step so they run at the same time:
-   - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It verifies only what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)).
+   - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It runs all repository test suites and drives only the affected live paths ([scope](../verification/doctrine.md#scope-to-the-change)).
    - `/review`: give it the same handoff. It reviews the diff for Standards and Spec.
 
    If the harness has no subagent, run `/verification`, then `/review`, in this context.
@@ -199,4 +201,4 @@ One bounded slice of the current task, not fresh product discovery:
 1. Carry only explicitly promoted findings. Each cites its review finding, violated rule that must stay true, Done when item, correctness/security issue, or regression.
 2. Grill only the enforcement, footprint, and observable behavior needed to clear them. Keep existing rules; add one only when the finding exposes an unrecorded behavioral rule. No new test suggestion.
 3. Prefer the smallest authoritative correction. No queues, retries, wrappers, new services, feature scope, optional cleanup, or structure move unless the named finding requires it.
-4. Re-check the findings and rules with acceptance evidence (re-run the failed `/verification` checks when the backlog came from them), then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
+4. Re-check the findings and rules with acceptance evidence (re-run `/verification` on the changed tree, including all test suites and the affected live checks, when its backlog drove the fix), then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
