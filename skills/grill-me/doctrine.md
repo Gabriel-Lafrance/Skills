@@ -40,39 +40,61 @@ message's shared understanding.
 
 ### What to discover
 
-Research repository facts yourself, then batch every material user decision that remains open.
+Research the affected behavior before deciding what to ask. Follow relevant
+inputs through transformations or state changes to writes, readers, and side
+effects. Inspect enough of that flow to explain the actual choices; this is
+not a compulsory whole-system audit or a universal checklist.
 
-A claim is load-bearing when a different answer changes the plan, the owner, or the files. On any grill that is not a typo or a pure rename, a Questions batch and a lock are both invalid unless every load-bearing claim in them has been attacked. A question attacks a claim only when it contains:
+Keep four things separate:
 
-- the claim, in one sentence;
-- the failure: the file, caller, write, or user that breaks if the claim is wrong;
-- one real rival, the other design that could win;
-- why one of them is recommended.
+- **Researched facts:** what code, callers, schemas, tests, and other evidence
+  establish. Resolve factual gaps independently when sources are available.
+- **Settled decisions:** the user's instructions and current parent decisions.
+  Reuse them. Reopen one only when new evidence creates a consequential conflict.
+- **Ordinary implementer choices:** details the agent can derive within the
+  agreed outcome and constraints. Choose them and explain relevant conclusions.
+- **Unresolved consequential tradeoffs:** choices whose plausible answers
+  change behavior, contracts, data meaning or integrity, authority,
+  compatibility, transition safety, scope, or cost. Ask the user when that
+  tradeoff needs their judgment and the existing decisions do not settle it.
 
-Batch order. A later item never replaces an earlier one:
+Materiality does not depend on changing different files. Two implementations
+in the same function can treat missing data differently, preserve different
+identities, allow different actors, or switch readers at different times.
+Those can be consequential choices. Conversely, different file layouts alone
+do not make a choice worth asking.
 
-1. The decision, and the rival this work would reject.
-2. What this refuses to own.
-3. What would make the decision wrong.
-4. Who owns the job, who calls it, and where the write is rejected. Name the existing path that already does this job.
-5. Behavior edges only after 1 through 4 are in that same batch or already answered.
+Each question names one concrete unresolved choice and includes:
 
-Sweep these topics unless they are already settled:
+- the evidence that exposes it, or the specific uncertainty still left;
+- realistic alternatives with their practical consequences;
+- the recommended option and the evidence-grounded reason for it.
 
-- exact outcome, non-goals, users, critical edges, plan split, and file area;
-- the decision, the rejected rival, what this refuses to own, and what would make the decision wrong;
-- actor, trigger, expected outcome, and enabled, disabled, loading, and empty states for each user-visible or stateful behavior;
-- transitions, forbidden states, invalid input, errors, retries, timing, duplicate actions, concurrency, writes, side effects, feedback, boundaries, and unchanged behavior;
-- domain language, named events, packages, vendors, storage, roles, and standing policies;
-- **For a Feature,** the areas of modularity: what will vary or multiply. Take them from the ticket first, then infer from the request and the repo, and ask one yes or no question per area with a recommended answer. Skip for a Tweak, Bug, or Chore unless the ask names one ([strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity));
-- **Always** code quality and code structure cite keys: owner, public boundary, folders (owning folder, not a mixed parent), write path, who may act, what a caller can skip, where the write is rejected, and whether a behavior-preserving move is required.
-  - A structure question is valid only when it names the existing path that already does this job.
-  - "Keep the existing structure" is valid only with that path and why a new folder would be a second owner of the same job. For a typo or pure rename, that path is the current file.
-  - If the slice needs config, lock reuse of an existing env var that already holds that job (`quality:reuse-env`). When `SITE_URL` exists, reuse it instead of asking the user to invent `FRONTEND_URL`.
+Do not invent a rival or failure scenario to fill a template. If only one
+viable option follows from the evidence and settled constraints, record the
+conclusion instead of asking. An unavailable fact is not automatically a user
+preference: research further, record a bounded uncertainty, or ask for missing
+information only when it blocks the consequential choice.
 
-A question does not count when both options lead to the same files, when it asks for a fact the repository can answer, when it bundles more than one decision, or when it asks about a loading, empty, or error state while the decision, the rejected alternative, or the owner path is still open.
+Consider relevant outcome, users, behavioral edges, state transitions, data
+shape, compatibility, ownership and authority, dependencies, and delivery
+boundaries. The affected flow determines which deserve attention and in what
+order. Follow decision dependencies; negative scope has no privileged place.
+Keep exclusions that prevent a credible implementation mistake, and derive
+obvious boundaries without asking the user to approve them.
 
-Distinguish facts from user-owned decisions. Rediscover facts from the repository, ticket, PR, and diff; place decisions, waivers, non-goals, and rules in the execution context. Which shape to refuse is a user decision, even when the repo already has a pattern.
+Apply the code quality and code structure rules to the choices you recommend.
+Name researched owner and public-entry paths when relevant to the decision.
+For a Feature, use [strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity)
+to identify areas that may vary or multiply. Reuse settled areas; ask about an
+unresolved area only when its answer changes a consequential design choice.
+If existing config already holds the needed value, reuse it rather than asking
+the user to invent another environment variable.
+
+Questions must not bundle independent decisions, ask what the repository can
+answer, reopen settled choices, or interview routine naming and formatting.
+Keep decisions, reasons, waivers, meaningful non-goals, and invariants in the
+execution context.
 
 ### Rules that must stay true
 
@@ -84,37 +106,58 @@ Recommend the smallest authoritative guard: UI state for feedback plus a direct 
 
 ### Interview rules
 
-When `/write-ticket` is the parent, its ticket-preparation topics replace the topic sweep above. The attack bar still applies to every load-bearing claim in that list. Settle open decisions affecting the outcome, ticket and PR boundaries, dependency contracts, and ownership; `/write-ticket` derives the child count, order, and file lanes. Return the locked context to `/write-ticket` for the final ticket.
+When `/write-ticket` is the parent, its ticket-preparation topics bound this
+research and interview. Apply the same materiality bar to that work. Settle
+open consequential decisions affecting the outcome, ticket and PR boundaries,
+dependency contracts, and authority; `/write-ticket` derives the child count,
+order, and file lanes. Return the context and per-decision reasons for its
+final ticket. Do not create intermediate Research or Memo artifacts.
 
-1. Follow decision dependencies. If a later answer depends on an earlier one, cover both paths in one batch or defer the dependent choice.
-2. Use the shared asking contract: batch known questions, give discrete options a recommendation, and ask each decision once. The recommendation comes after the failure and the rival are in the question.
-3. Ground recommendations in the pack's examples and applicable `quality:*` and `structure:*` cite keys. An app sibling counts only when it matches an example ([`quality:cite-a-sibling`](../rules/code-quality.md#mechanical-rules)). When a behavior-preserving move clearly reduces mess, recommend it over copying existing debt.
-4. Interview on the decision, the direction, and the rejected design, not naming, formatting, or framework trivia. Research repository facts instead of inventing them or asking the user.
+1. Follow decision dependencies. Batch independent known choices; defer a
+   dependent choice if its alternatives need an earlier answer.
+2. Use the shared asking contract. Ask each consequential choice once, with
+   evidence, uncertainty, realistic alternatives, recommendation, and consequences.
+3. Ground recommendations in the pack's examples and applicable `quality:*`
+   and `structure:*` cite keys. An app sibling counts only when it matches an
+   example ([`quality:cite-a-sibling`](../rules/code-quality.md#mechanical-rules)).
+   When a behavior-preserving move clearly reduces mess, recommend it over
+   copying existing debt.
+4. Research facts and make ordinary implementer choices independently. A
+   fully settled request needs no Questions batch or invented rejected design.
 5. Create plans and implement only after material questions are resolved.
-6. After the user answers, send another Questions-only batch when the rejected alternative, what would make the decision wrong, or the owner path is still unnamed. Lock on that reply only when none of those three is open. This second batch does not apply to a typo or pure rename.
+6. After a reply, ask again only for newly exposed consequential choices.
+   Missing rival, negative-scope, failure-condition, or owner categories alone
+   do not justify another batch. Research missing owner paths yourself.
 
 ## Output
 
 Once material questions are resolved, announce (do not ask) the following in a **separate** announce-only **Locked in (tell me if this is wrong)** message, the Locked in message, sent in a turn with no Questions batch:
 
-1. **Non-goals:** bounded exclusions.
-2. **Split / plan count:** intended small plan titles, or one bounded plan.
-3. **Shared understanding:** the corrected [intent restatement](#intent-restatement), line by line, with relevant key behavior, new language or standing decisions, recommended moves, and rules that must stay true.
-4. **Rejected:** the rival this work refuses. `none` only for a typo or pure rename. If you cannot name a rival, send another Questions-only batch instead of locking.
+1. **Non-goals:** exclusions that prevent credible mistakes, when relevant.
+2. **Split / plan count:** derived small plan titles, or one bounded plan.
+3. **Shared understanding:** the corrected [intent restatement](#intent-restatement),
+   line by line, with chosen behavior or shape, why each material choice fits
+   the affected flow, relevant evidence or uncertainty, and invariants.
+4. **Rejected:** real alternatives whose exclusion explains a current decision,
+   when useful. Omit when no such alternative matters; never invent one.
 
-Announce those items without a yes/no confirmation. Treat them as locked when announced. If the user corrects one, update only the affected execution context and re-announce the revised lock. Send a new Questions-only batch when the rejected alternative, what would make the decision wrong, or the owner path is still unnamed, or when a correction exposes a new material unknown.
+Announce without a yes/no confirmation. Treat these conclusions as locked when
+announced. Reuse an existing current lock. If the user corrects one, update
+only the affected context and re-announce the revision. Ask a new Questions-only
+batch only when a correction or new evidence exposes an unresolved
+consequential choice.
 
 ```markdown
 ## Locked in (tell me if this is wrong)
-**Out of scope:** …
-**Plans:** 1. … · 2. …
+**Out of scope:** <meaningful exclusions, when relevant>
+**Plans:** 1. ...
 **What we agreed:**
 
 - <one plain-English idea in your own words>
-- <next relevant idea, including the reason when it matters>
+- <chosen behavior or shape, why it fits, and relevant evidence or uncertainty>
 
-**Rejected:** … (or none, only for a typo or pure rename)
-**Rules that must stay true:** Rule 1: … · Rule 2: … (or none)
+**Rejected:** <real alternative and reason, when useful; otherwise omit>
+**Rules that must stay true:** Rule 1: ... (or none)
 ```
 
 Save a durable record only when the user asks and approves its destination.

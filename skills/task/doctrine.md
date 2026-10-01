@@ -23,7 +23,7 @@ Use the shared [execution context](../rules/planning.md#execution-context) as th
 
 **Rules that must stay true.** Every behavioral rule locked during the grill becomes a numbered rule (Rule 1, Rule 2) in the execution context, with its enforcement and verification. The user can mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Issue a plan or slice contract only after `/grill-me` sends the Locked in message: non-goals, intended split, shared-understanding summary, and the rejected alternative (`none` only for a typo or pure rename). The skip-grill rule below is the one exception. Assign each rule to a slice or `all`. Send behavior-lock briefs after the Locked in message, never during the grill. Make each rule's observable outcome specific, because a brief cannot cite a fuzzy rule.
+**Grill before plans.** Issue a plan or slice contract only after `/grill-me` sends the Locked in message: meaningful non-goals, intended split, shared-understanding summary, and material decisions with their reasons. Include real rejected alternatives when they explain the choice; do not invent one to close the grill. Settled work needs no redundant questions. The skip-grill rule below is the one exception to the Locked in gate. Assign each rule to a slice or `all`. Send behavior-lock briefs after the Locked in message, never during the grill. Make each rule's observable outcome specific, because a brief cannot cite a fuzzy rule.
 
 **Quality bar.** Two gates run before completion, in parallel, each in its own subagent:
 

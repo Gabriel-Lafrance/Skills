@@ -56,15 +56,15 @@ The canonical map of principles lives in [code-quality.md](code-quality.md) (nam
 
 Every pack skill that needs a decision follows this section. Link here instead of restating it inline. Question text and Locked-in text must make sense without this pack's nicknames ([Plain language](#plain-language)). Options describe the real choice, not an internal process name. Principle names in questions still use `plain (Classic)`.
 
-1. Batch every known decision into one message.
+1. Batch known independent unresolved consequential choices into one message. Follow decision dependencies; defer a dependent choice when its alternatives need an earlier answer.
 2. Number items and provide lettered options when the choice is discrete.
 3. Mark one recommended option with `recommended`.
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
 5. Wait for decisions before acting. Settled decisions stay settled.
 6. Look up repository and tool facts instead of asking the user for them.
-7. Ask only when an action or choice is needed; list settled facts outside Questions.
+7. Ask only for unresolved consequential user-owned choices. Research facts, reuse settled decisions, and own ordinary implementation details. Material choices affect behavior, contracts, data meaning or integrity, authority, compatibility, transition safety, scope, or cost, even within the same files. List settled facts outside Questions.
 8. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
-9. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message. Ask only open product, UX, code structure, code quality, or policy choices.
+9. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
 
 Keep out-of-scope items, plan split, shared understanding, rules that must stay true, and user overrides visible in the current [execution context](planning.md#execution-context), in chat. Save them to a file only when the user requests a durable artifact and approves its destination.
 
@@ -76,9 +76,9 @@ When asking the user, use this shape only (no Locked-in heading):
 ## Questions
 Reply like: 1a 2c
 
-1. <open choice>?
-   - a) <recommended> recommended
-   - b) <alternative>
+1. <concrete open choice, relevant evidence or uncertainty>?
+   - a) <option, consequence, and reason> recommended
+   - b) <realistic alternative and consequence>
    - c) Other: say what you want
 ```
 
@@ -93,7 +93,7 @@ Use only when there are **no** Questions in the message (grill closed, or a pure
 **Out of scope:** …
 **Plans:** 1. … · 2. …
 **What we agreed:** …
-**Rejected:** … (or none, only for a typo or pure rename)
+**Rejected:** <real alternative and reason, when useful; otherwise omit>
 **Rules that must stay true:** Rule 1: … · Rule 2: … (or none)
 ```
 

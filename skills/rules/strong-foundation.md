@@ -33,7 +33,7 @@ Use the best source you have, in this order. Stop at the first one that answers.
 2. The rest of the ticket, PR, or linked issue: named providers, "later we want", customer asks.
 3. The request and the repo: an existing provider folder, a sibling service with a strategy, a second caller, an `if` or `switch` on a type or provider name, a TODO, a domain that usually multiplies (payments, notifications, auth providers, storage, exports, pricing rules).
 
-Then confirm each candidate with the user in the grill: one yes or no question per area, with a recommended answer from the evidence. Example: "Will there be more than one payment provider? a) yes, Stripe now and more later recommended b) no, Stripe only." A well-written ticket that already settled it needs no question. A Tweak, Bug, or Chore skips the question. With no ticket and a one-line request, ask only about the one or two strongest candidates.
+Separate confirmed areas from candidates. Reuse settled ticket or parent decisions and research existing variants and callers. Ask only when an unresolved choice about an area would materially change behavior, contracts, scope, or cost. Explain the evidence, realistic options, recommendation, and consequences. Do not ask for a yes or no on every candidate or invent future variants. A well-written ticket that already settled it needs no question. A Tweak, Bug, or Chore adds no foundation interview.
 
 A seam goes only on an area someone named and the user did not reject.
 
