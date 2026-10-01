@@ -184,6 +184,36 @@ Prompt: `Turn this settled decision record into the final implementation ticket 
 - [ ] Preserves each material decision and its reason, including the test refusal source, without separate Research or Memo artifacts.
 - [ ] A fresh executor given only the body recovers the computation, rounding, limit, rejection timing, and rationale. If material ambiguity remains, the author settles it or explicitly delegates it rather than claiming readiness.
 
+### 10. Settled migration with dependent work
+
+Use the raw files from case 8. Supply this parent decision record with the prompt, without the scoring criteria:
+
+```text
+Product decision: receipts must use the customer's current email, including for
+old orders, because delivery must follow corrected contact details. We accept
+losing the purchase-time recipient snapshot. Keep the customer foreign key.
+Operations decision: use staged deployment because workers and web servers
+deploy independently. Switch receipt reads first while retaining the existing
+order email writes and column. Then stop writing that field, making it nullable
+before new writers omit it. Drop the column only after all deployed readers and
+writers that access it are retired. Wait out the documented 30-minute overlap
+after each relevant rollout; the deployment owner must confirm retirement.
+Keep this as one implementation ticket with ordered rollout steps. Ordinary
+local naming and exact migration filenames are the implementer's choice.
+User instruction: do not add or extend tests. Plan verification using existing
+checks and manual observations; do not execute the migration or rollout now.
+```
+
+Prompt: `Turn this decision record into the final implementation ticket in chat. Research the supplied code and deployment notes so another engineer can implement it.`
+
+- [ ] Reads the raw schema, callers, profile writer, and deployment notes. Keeps supplied product and operations decisions settled without redundant questions.
+- [ ] Presents multiple meaningful work items in dependency order, with explicit prerequisites where ordering matters. Items cover coherent behavior or rollout outcomes rather than individual lines, imports, or mechanical edits.
+- [ ] Every item locally states Do (specific change), Why (the reason for that item and approach), How (actionable code/data/transition detail), and Verify (an observable result). Broad ticket rationale or an unexplained link to global decisions alone does not satisfy an item's Why or How.
+- [ ] Connects receipt behavior to `receipt`, `customers.email`, and profile updates; connects omitted order writes to the current `NOT NULL` constraint; connects final removal to deployed-reader/writer retirement. Does not invent a migration framework, monitoring system, command, or historical rationale absent from the fixture.
+- [ ] Verification distinguishes the item outcomes: a corrected customer email reaches an old order's receipt; order creation works when the new writer omits the field; removal waits for retirement and leaves the active receipt/create flow working. These are future observable checks, not claims that work ran or permission to add tests.
+- [ ] Keeps shared invariants and the test refusal/source once, referring to them where useful rather than repeating the entire rationale, file list, and acceptance checklist for every item. Routine naming and filename choices remain delegated.
+- [ ] A second fresh executor receives only the final ticket, not this fixture decision record, and can explain each item's action, reason, approach, expected evidence, and dependencies without choosing a different data meaning or unsafe cutover.
+
 Rules these cases need: `analyze/doctrine.md`, `grill-me/doctrine.md`, `write-ticket/doctrine.md`, `write-ticket/reference.md`, `rules/writing-style.md`.
 
 ## When a prompt fails
