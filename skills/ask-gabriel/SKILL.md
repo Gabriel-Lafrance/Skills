@@ -32,6 +32,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 
 | Situation | Start with |
 | --- | --- |
+| A precise ticket with Gabriel's worker self-review and main-agent check loop | `/gabriel-mode` |
 | Unsure which skill | Stay here and answer below |
 | How something works, a walkthrough, ownership, or layering | `/how` |
 | Why it was built this way, or the design rationale | `/why` |

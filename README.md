@@ -61,7 +61,7 @@ The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `creat
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
-The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead.
+The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead. For an already precise ticket, [`/gabriel-mode`](./skills/gabriel-mode/SKILL.md) coordinates workers that implement and review their own slices, with the main agent checking each result and the combined change before verification. It stops at a ready-for-PR assessment.
 
 ## What ships
 
@@ -85,7 +85,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Guide**         | `/ask-gabriel`                                           | Route to the next skill |
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
-| **Build**         | `/task-with-tests`, `/task`                              | Implement end-to-end. `/task-with-tests` is the default and writes the accepted tests before the code; `/task` skips tests |
+| **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
 | **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, run all repository test suites, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 

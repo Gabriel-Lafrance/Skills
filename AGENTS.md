@@ -18,6 +18,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 
 | The user asks to | Open |
 | --- | --- |
+| Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
 | Write, file, open, draft, or split tickets or issues, or note something for later | `write-ticket/SKILL.md` |
