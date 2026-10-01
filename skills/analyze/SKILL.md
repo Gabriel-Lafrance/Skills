@@ -30,8 +30,8 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
 1. Establish or refresh the relevant execution context and normalize the ask.
    When a parent already locked Done when and rules that must stay true,
    reuse them without re-grilling product intent.
-2. Investigate: find the relevant code first, then judge how, impact, and
-   risk from those facts. For a `/write-ticket` parent, return the relevant
+2. Investigate the affected flow using the doctrine's [research rules](doctrine.md#research-rules). Derive consequential choices from actual inputs, state changes, writes, and consumers where relevant. Separate facts, settled decisions, ordinary implementer choices, and unresolved tradeoffs before recommending a design.
+   For a `/write-ticket` parent, return the relevant
    facts, conclusions, source pointers, and uncertainty directly into the
    developing ticket conversation. Reuse current evidence; no separate
    standard memo is required for this parent mode.

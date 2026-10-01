@@ -8,20 +8,41 @@
 
 ## Plans: grill first
 
-Grill first: a Questions-only message, then a separate Locked in message. Whenever a non-trivial plan is about to be written, whether or not the harness calls it a plan mode:
+Resolve consequential choices before planning. Whenever a non-trivial plan is
+about to be written, whether or not the harness calls it a plan mode:
 
-1. **Hold the final plan** until material decisions are settled. If the harness has a plan tool, call it only after step 6.
-2. **Grill first.** Look up repository facts, then send **one batched Questions-only** message (no Locked-in section) using the [asking rules](writing-style.md#asking-the-user) (`Reply like: 1a 2b`, lettered options, mark `recommended`, wait for the reply). That batch attacks each load-bearing claim in [grill-me/doctrine.md](../grill-me/doctrine.md): the claim, the failure, one real rival, and why one is recommended.
-3. Sweep open topics in that doctrine's batch order. First: decision and rejected rival, what this refuses to own, what would make the decision wrong, and the owner path. Then: outcome, out of scope, users/edges, plan split, files touched, and the remaining code quality and code structure choices. Ask behavior edges once those four are in the batch or already answered. Recommend behavior-preserving moves and deep modules over leaving debt.
-4. After the user answers, check the rejected alternative, what would make the decision wrong, and the owner path. If any is still unnamed, send another Questions-only batch and wait. Lock only when all three are named. A typo or pure rename skips this check.
-5. Announce agent-owned conclusions in a **separate** **Locked in (tell me if this is wrong)** message that repeats the rejected alternative. Send Locked and Questions in separate messages.
-6. After the Locked in message, produce the plan. Use the harness plan tool when it has one. Otherwise write the plan in chat. New unknowns later mean a **new** Questions-only batch.
+1. **Hold the final plan** until material decisions are settled. If the harness
+   has a plan tool, call it only after step 5.
+2. Look up repository facts and reuse settled decisions. Separate ordinary
+   implementer choices from unresolved consequential tradeoffs using
+   [grill-me/doctrine.md](../grill-me/doctrine.md#what-to-discover).
+   Materiality concerns behavior, contracts, data meaning or integrity,
+   authority, compatibility, transition safety, scope, or cost, regardless of
+   whether alternatives touch the same files.
+3. If such a user-owned choice remains, send a **Questions-only** batch using
+   the [asking rules](writing-style.md#asking-the-user), then wait. Give each
+   concrete choice its evidence or uncertainty, realistic alternatives,
+   practical consequences, recommendation, and reason. Follow dependencies,
+   with no fixed topic order or mandatory rival, exclusion, or owner question.
+   If no consequential choice remains, omit Questions.
+4. Incorporate the answers and their reasons. Ask again only for a new material
+   gap. Announce conclusions in a **separate** **Locked in (tell me if this is
+   wrong)** message, or reuse a current lock that already covers them. Preserve
+   the plain-English line-by-line intent restatement. Record useful exclusions
+   and real rejected alternatives without inventing them.
+5. After the Locked in message, produce the plan. Use the harness plan tool
+   when it has one. Otherwise write the plan in chat. New consequential choices
+   later require a new Questions-only batch; researched facts do not.
 
-Skip the grill for trivial asks (typo or pure rename), when the user explicitly said to skip grilling or plan immediately, or when a [whole-stack ticket handoff](../task/doctrine.md#whole-stack-ticket-handoff) already records every required decision. Reuse that lock; ask about newly discovered material gaps.
+Trivial asks (typo or pure rename) skip the grill. Honor an explicit request to
+skip grilling or plan immediately. Reuse decisions from this chat or a
+[whole-stack ticket handoff](../task/doctrine.md#whole-stack-ticket-handoff);
+ask only about newly discovered consequential gaps. A fully settled request
+needs no redundant Questions batch.
 
 Every non-trivial plan **must** include a high-level Mermaid **Change diagram** with **both** `### Before` and `### After`. Prefer modules, actors, and request/data flow. Keep the same node ids across Before/After when possible. A plan without Before/After is incomplete. PR bodies and `/analyze` memos use the [PR change diagram](shipping-templates.md#change-diagram) rule instead (one diagram for new work, Before/After for rework).
 
-**Check:** did a Questions-only message go out and get answered, then a separate Locked in message, and does the plan carry Before and After diagrams?
+**Check:** were facts researched, settled decisions reused, and only unresolved consequential choices asked and answered? Is the current lock explicit, and does the plan carry Before and After diagrams?
 
 ## Execution context
 

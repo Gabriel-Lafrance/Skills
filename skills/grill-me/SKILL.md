@@ -23,42 +23,32 @@ Discover product, behavioral, code quality, and code structure decisions through
    [intent restatement](doctrine.md#intent-restatement) in your own words,
    one short plain-English bullet per idea. Reuse a parent's current
    restatement when it already meets that bar.
-2. Apply the doctrine attack bar before sending: batch every unsettled
-   load-bearing claim first, in the doctrine's batch order, then the rest of
-   the sweep.
-3. Include plan count and file area in that first batch.
-4. When the parent is `/write-ticket`, interview only its ticket-preparation
-   topics. Settle open decisions affecting the outcome, ticket and PR
-   boundaries, dependencies, and ownership; the parent derives child count,
-   order, and file lanes. The attack bar still applies.
-5. Include the code-quality.md and code-structure.md topics in that batch:
-
-   | When | Include in the batch |
-   | --- | --- |
-   | Always | [code-quality.md](../rules/code-quality.md) cite keys (`quality:keep-it-simple` and Named principles). If the slice needs config, lock reuse of existing env vars (`quality:reuse-env`): when `SITE_URL` already holds that job, skip the question about adding `FRONTEND_URL`. |
-   | Always | [code-structure.md](../rules/code-structure.md) cite keys: who owns this job, the existing path, public entry, reuse versus a new one-job helper, folders, write path, who may act on that write, and whether to move old code. "Keep the existing structure" names that path and why a new folder would be a second owner. For a typo or pure rename, the path is the current file. |
-
-6. Send a **Questions-only** batch for every real open decision (no Locked
-   heading in that message). Each load-bearing question states the claim, the
-   failure, one real rival, and why one option is recommended. Wait for the reply.
-7. Put answers, rules that must stay true, corrections, and revised areas
-   directly in the execution context.
-8. On a non-trivial grill, if the rejected alternative, what would make the
-   decision wrong, or the owner path is still unnamed, send another
-   Questions-only batch.
-9. If a correction exposes a new material unknown, send another
-   Questions-only batch.
-10. On a non-trivial grill, lock on a reply only when the rejected alternative,
-    what would make the decision wrong, and the owner path are all named.
-11. When material Questions are settled, announce
-    **Locked in (tell me if this is wrong)** for non-goals, split, and shared
-    understanding in a **separate** announce-only message: the Locked in
-    message. Put the corrected line-by-line intent restatement in its shared
-    understanding, keeping current decisions and dropping superseded ones.
-12. On a non-trivial grill, include the rejected alternative in the Locked in
-    message.
-13. Issue plans only after the Locked in message stands and every relevant rule
-    has an enforcement and verification owner.
+2. Separate researched facts, settled decisions, ordinary implementer choices,
+   and unresolved consequential tradeoffs using the doctrine's materiality bar.
+   Research factual gaps and reuse the parent's decisions. Derive ordinary
+   implementation details from the evidence and applicable quality and
+   structure rules; do not turn them into an interview.
+3. When the parent is `/write-ticket`, focus on its ticket-preparation topics.
+   Surface consequential choices affecting behavior, data, contracts, delivery
+   boundaries, dependencies, and authority. The parent derives child count,
+   order, and file lanes from the settled choices.
+4. If consequential user-owned choices remain, send a **Questions-only** batch
+   (no Locked heading). Each question names one concrete choice, the relevant
+   evidence or uncertainty, realistic alternatives, a recommendation with its
+   reason, and practical consequences. Follow decision dependencies and ask
+   each choice once. Wait for the reply. If everything is settled, omit Questions.
+5. Put answers, their reasons, rules that must stay true, corrections, and
+   researched ownership paths directly in the execution context. Ask another
+   batch only if a reply or new evidence exposes an unresolved consequential
+   tradeoff. Missing template categories do not justify another interview.
+6. When material Questions are settled, announce
+   **Locked in (tell me if this is wrong)** in a **separate** announce-only
+   message. Include meaningful non-goals, derived split, and shared
+   understanding. Put the corrected line-by-line intent restatement there,
+   keeping current decisions and their reasons and dropping superseded ones.
+   Reuse a current parent lock that already covers these decisions.
+7. Issue plans only after the Locked in message stands and every relevant rule
+   has an enforcement and verification owner.
 
 Keep language, choices, rules, and progress in the chat. If the user wants a
 durable artifact, ask for or honor an approved destination under the shared

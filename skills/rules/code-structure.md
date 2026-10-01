@@ -61,7 +61,7 @@ Wrong existing layout (wrong folder, duplicated domain logic, feature-forked ser
 - Build from the matching example ([code-structure-examples.md](code-structure-examples.md)), or a sibling that already matches one ([`quality:cite-a-sibling`](code-quality.md#mechanical-rules)). Most existing code does not match.
 - Move only when the goal or a named finding requires it (relocate, extract the public API, rewire callers, delete the dead path). Otherwise record a follow-up.
 - Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after the grill's Locked in message, or a `/review` recommendation) and follows [testing.md](testing.md).
-- Unsure the move preserves behavior? Ask in the next `/grill-me` Questions batch.
+- Unsure the move preserves behavior? Research callers and observable behavior first. Ask in the next `/grill-me` Questions batch only if an unresolved consequential behavior choice remains.
 - Record the move under **Moves / corrections** on the Structure card before coding; mid-implement, patch the plan first.
 - When a clear move preserves behavior, recommend it over "leave it where it is", while building as well as at `/review`.
 
@@ -180,6 +180,6 @@ Present before writing code, and in the plan contract under `/task`:
 - Next change this makes small: <request> → <one new file + one registration>
 ```
 
-Put every open structure question (service boundary, public API, areas of modularity, primitives, folder, write vs read, authority, move vs leave) in **one** `/grill-me` Questions batch ([Asking the user](writing-style.md#asking-the-user)). Each question names the existing path that already does the job and one rival shape; a folder question without that path does not count. New findings go in a new batch.
+Research the existing owners, callers, and write boundaries before asking structure questions. Reuse settled decisions and make ordinary implementer choices directly. Batch the remaining consequential choices using `/grill-me` ([Asking the user](writing-style.md#asking-the-user)); give the evidence, realistic alternatives, recommendation, and practical consequences. Different behavior, data meaning, or authority in the same files is still a material choice. A folder preference alone does not justify a question. Ask a later batch only when new evidence exposes a material unresolved choice.
 
 Hand off: Structure card, then `/task`. `/review` fails scale anti-patterns, duplicated services, mixed-parent dumps and missing write authority.

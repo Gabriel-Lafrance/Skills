@@ -42,7 +42,7 @@ Send the complete draft with no Questions. For an authorized write, use this dra
 **Done when:** …
 **Tests:** <check and proposed | accepted | refused status, with decision source> | none
 **Out of scope:** … | _none_
-**Rejected:** … | _none_ only for a typo or pure rename
+**Rejected:** <live alternative or exclusion and reason, when useful> | _none_
 **Start here:** `path` - `symbol` | _unknown_
 **Delivery:** one PR | parent with <N> child PRs
 **Stack:** <ordered children and PR bases> | _none_
@@ -118,14 +118,15 @@ flowchart LR
 or `none: no tests specified`
 
 ## Already decided
-- Rejected: <the rival this plan refuses> | _none_ only for a typo or pure rename
-- <answer the implementer must not ask again>
+- Rejected: <live alternative or exclusion and reason, when useful> | _none_
+- <material decision: chosen behavior or shape, fit in the flow, reason, evidence or uncertainty, and constraints>
+- <explicitly delegated choice, its bounds, decision owner, and why discretion is acceptable> | _none_
 ````
 
 - `## Foundation`: a seam is a named extension point where a new variant plugs in.
 - `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
 - `## Outcome`: keep the outcome and reason on short separate lines. Include only the evidence needed to understand the current goal, with specific source pointers; do not copy the analysis memo.
-- `## Already decided`: a non-trivial plan names the rejected alternative. A typo or pure rename may say `_none`. Keep the relevant reason and source beside a decision when they prevent a wrong implementation; preserve uncertainty in historical inferences.
+- `## Already decided`: preserve the reason for each material decision and its relevant evidence or uncertainty. Keep a live rejected alternative only when it prevents a credible mistake; `_none` is allowed. Do not repeat decisions already explained in Structure, Rules, Files, or Done when. Across those sections, each material choice must explain what was chosen, how it fits the affected flow, and why. Preserve uncertainty in historical inferences. Explicit delegation names the choice, bounds, owner, and reason; an omitted decision is not delegated.
 - `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.
 - `## Tests`: use this authorization format for every Plan, including a single PR. Record each test's status and settled decision source; quote the relevant user instruction when no durable link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed.
 

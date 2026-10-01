@@ -23,19 +23,25 @@ There are no ticket stages or intermediate research deliverables. Analysis and g
 
 ### Grill
 
-This skill is the parent. Start /grill-me with the topics below and tell it to return here. Use its line-by-line intent restatement, then ask only unresolved user-owned decisions. This skill derives child count, file lanes, dependencies, and PR bases from the locked design. The conversation leaves /task unstarted.
+This skill is the parent. Start /grill-me with the researched context and unresolved consequential choices, and tell it to return here. Use its line-by-line intent restatement, then ask only unresolved user-owned decisions. When the request and evidence already settle the choices, proceed without a question batch. This skill derives child count, file lanes, dependencies, and PR bases from the locked design. The conversation leaves /task unstarted.
 
-Settle the need, who benefits and when, current behavior, intended outcome and why it matters, the decision and current rival, exclusions, what would make the decision wrong, rules that must stay true, behavior edges and states, and binary done-when. Research repository facts first: the existing owner path, public entry, callers, and write boundary. Grill only choices those facts do not settle.
+Understand the need, intended outcome and reason, affected behavior and states, constraints, and observable success from the prompt and research. Use /analyze to distinguish facts, settled decisions, ordinary implementer choices, and unresolved consequential tradeoffs. Materiality concerns behavior, contracts, data meaning or integrity, authority, compatibility, transition safety, scope, or cost, even when alternatives touch the same files. Research facts and choose ordinary details independently. Reuse parent decisions; do not manufacture questions to fill topic categories or impose a negative-scope-first order.
+
+For a consequential user choice that remains open, state the concrete decision, evidence or uncertainty, realistic alternatives, recommended choice and reason, and practical consequences. Order questions by their dependencies and impact on the design. Preserve exclusions or rejected alternatives only when they prevent a credible mistake; no invented rival, wrong-if statement, or owner question is required. Discover owners from code where possible.
 
 For a Feature, establish what will vary or multiply, then the seam for each confirmed area or the existing seam being extended, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work). Settle hard implementation choices and test decisions (none, behavior lock, end-to-end, or both, what each proves, and whether the user accepts it). Reuse decisions already made rather than interviewing once for the problem and again for the solution.
 
 ### Analyze
 
-Use /analyze for evidence about the problem, relevant code, impact, and risks. Reuse current analysis; refresh missing or stale evidence as the conversation develops. Its targeted /how and /why calls keep their own contracts and return conclusions here. They do not create intermediate tickets or start separate interviews.
+Use /analyze for evidence about the problem, affected flow, impact, risks, and consequential design choices. Reuse current analysis; refresh missing or stale evidence as the conversation develops. Its targeted /how and /why calls keep their own contracts and return conclusions here. They do not create intermediate tickets or start separate interviews. /analyze and this skill synthesize the proposed design; /how explains current mechanics and /why explains evidenced historical rationale.
 
 ### Fresh-executor handoff
 
 Before showing a Plan as complete or writing it, read it as an executor without the old chat. Can that reader understand who benefits, the outcome and reason, scope, constraints, relevant entry points and dependencies, observable success, and test decisions from the current body and its specific source pointers? Check each child too. Fill material gaps in the existing sections; do not paste the full memo, interview, or history into the ticket.
+
+Could two competent executors follow this body yet choose materially different behavior, data meaning, contracts, or cutover? If so, resolve the factual gap or consequential decision before calling the body ready. An explicit delegation can leave a choice to the executor only when the body names the choice, its constraints, who may decide, and why that discretion is acceptable. Preserve the user's authorization boundaries; recording a delegation does not create consent. Silence is not delegation. Ordinary implementation details may remain open within the stated contract.
+
+For each material decision, preserve the chosen behavior or shape, how it fits the affected flow, why it was chosen, and the relevant evidence, uncertainty, or invariant. Put these beside the decision in the existing Structure, Rules, Files, Done when, or Already decided sections. A broad outcome rationale does not replace the reasons for individual decisions. Source pointers support the body; they must not hide an unresolved choice in another document.
 
 Carry the relevant `/how` conclusions into the existing flow and ownership sections. Carry `/why` conclusions only when they explain a current constraint or decision, with a compact evidence pointer and their Found, Inferred, or Unknown status intact. Historical rationale is not the user's desired outcome. Keep only conclusions needed to understand or implement the current decision.
 
@@ -74,7 +80,7 @@ Every create or refine writes the description as the only version a reader needs
 
 Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough (`~~...~~`), "was X / now Y", and any narrative of how the decision changed. Do not leave them in the current body.
 
-Keep the single current rival in the `Rejected` line under Already decided. That line is the live refusal. One current rejected alternative. Remove older rivals that are no longer that refusal.
+Use the `Rejected` line under Already decided only for live exclusions or alternatives whose refusal prevents a credible implementation mistake, with the current reason. It may say `_none_`. Do not invent a rival or keep superseded alternatives as history. Preserve the reason for each current material decision even when no rejected alternative is useful.
 
 A refine rewrites the affected sections, or the whole body. Prefer replacing over appending. When the refine is material and the previous body would otherwise be lost with no trail, post that body unchanged as a comment once, then write the clean body. Never leave both old and new wording in the description. If the tracker cannot comment, stop and say so, so the previous body is never lost.
 
@@ -98,7 +104,7 @@ Trim fat and useless text. Chat and `/grill-me` hold the interview trail. The ti
 | Ticket not found | Confirm its ID, team, or repository. |
 | User corrects the draft | Rewrite affected sections into the current version; preserve draft-only versus write authorization. |
 | Material context missing | Research facts; return unresolved user decisions to /grill-me. Keep the incomplete draft in chat. |
-| Non-trivial grill lacks rejected alternative, what would make the decision wrong, or owner path | Resolve those gaps before finalizing. |
+| Two plausible implementations differ materially, or a material decision lacks its reason | Research facts, settle or explicitly delegate the choice, and carry its rationale into the body before finalizing. |
 | Analysis absent or shallow | Run or refresh /analyze before locking the affected decision. |
 | Tracker kind label missing | Use only real label IDs; keep the kind in the body. |
 | Comment API unavailable for a material update that would lose the prior body | Stop before replacement and report the blocker. |
