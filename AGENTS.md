@@ -21,7 +21,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
-| Write, file, open, draft, or split tickets or issues, or note something for later | `write-ticket/SKILL.md` |
+| Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
 | Run all repository tests and prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |

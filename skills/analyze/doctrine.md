@@ -29,7 +29,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 | Rough idea, title, or notes | Normalize the problem and investigate it |
 | Ticket or PR | Read its current body, comments, and relevant diff as evidence |
 | Existing in-chat memo | Refresh only the evidence or open questions that need it |
-| `/write-ticket` seed | Nested: full standard memo for Research (the problem) or Plan (the code that would change). Return to that parent. Write the full memo, however short the seed. A Memo does not call this skill. |
+| `/write-ticket` seed | Nested: investigate the problem and relevant code, then return needed facts, conclusions, source pointers, and uncertainty to the developing ticket in chat. No separate standard memo or saved intermediate artifact is required. |
 | Named review Fix-now rows | Nested: review-remediation mode only for those rows |
 
 ### Research rules
@@ -44,6 +44,8 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Analyze only those rows: add no findings, no product discovery, and skip Follow-up items and nits.
 
 ## Output
+
+For a `/write-ticket` parent, return the researched context described under Inputs directly to that conversation. The standard memo template below is not required in this mode. Standalone analysis and review remediation keep their existing outputs.
 
 Post the memo in chat; keep it current in the execution context rather than in an agent-owned file. Lead with a high-level Mermaid diagram so a reader can see the path before the prose.
 
@@ -150,7 +152,7 @@ Reply like: 1a
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
 | e) Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
 
-A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the memo; the parent starts the grill and the ticket write.
+A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the relevant researched context; the parent combines it with any useful `/how` or `/why` explanation and the grill's settled decisions into the final ticket. Analysis remains conversational preparation, not a required intermediate deliverable.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 

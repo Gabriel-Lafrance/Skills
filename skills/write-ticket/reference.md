@@ -1,26 +1,10 @@
 # Write Ticket reference
 
-Load when asking the stage or metadata batch, drafting a body, or writing the tracker. `/grill-me` owns the Research and Plan questions.
-
-## Stage batch
-
-Send only when the target stage is not already named. Drop any item the prompt, the ticket, or the repo already answers. Append the missing [metadata batch](#metadata-batch) items (priority, assignee, tracker, renumbered, without the "Keep current" options) so there is only one wait.
-
-```markdown
-## Questions
-Reply like: 1b 2c 3a
-
-1. Which stage should this ticket be?
-   - a) Memo: save the idea, no research
-   - b) Research: understand the need and the problem
-   - c) Plan: specify how to solve it in code
-```
-
-Mark exactly one stage as recommended: Memo for a reminder, Research when promoting a Memo, Plan when promoting Research or when the prompt is already a build. On an existing ticket, recommend the next stage.
+Load when drafting the final body, gathering missing tracker metadata, or writing. `/grill-me` owns the decisions. Preparation stays in chat.
 
 ## Metadata batch
 
-Use when the stage is known but priority, assignee, or tracker is still unknown after the draft. Take status from the default below and write without asking "write this?".
+Use only for an authorized tracker write when priority, assignee, or tracker is still unknown after the draft. Take status from the default below and write without asking "write this?".
 
 ```markdown
 ## Questions
@@ -32,12 +16,12 @@ Reply like: 1c 2a
    - c) Medium ← recommended unless urgency is clear
    - d) High
    - e) Urgent
-   - f) Keep current ← when refining or promoting
+   - f) Keep current ← when updating
 2. Assignee?
    - a) Unassigned ← recommended unless someone owns it
    - b) <current user if known>
    - c) <teammate from the tracker roster>
-   - d) Keep current ← when refining or promoting
+   - d) Keep current ← when updating
    - e) Other: say who
 3. Tracker?
    - a) <Linear or GitHub already used in this repo> ← recommended
@@ -45,95 +29,40 @@ Reply like: 1c 2a
    - c) Other: paste a team, repo, or URL
 ```
 
-Discover real options first: Linear priorities and members from its capability, GitHub labels and collaborators. Status is **Todo** on create (the tracker's Todo state; GitHub stays open). On promote or refine, keep the current status unless the prompt names another.
+Discover real options first: Linear priorities and members from its capability, GitHub labels and collaborators. Status is **Todo** on create (the tracker's Todo state; GitHub stays open). On update, keep the current status unless the prompt names another.
 
 ## Locked in message
 
-Send the draft with no Questions. If the user does not correct it, write this draft. Draft text must already be final-version clean. Memo uses only **Stage** and **Note**.
+Send the complete draft with no Questions. For an authorized write, use this draft after resolving missing metadata. Draft-only stays in chat. Draft text must already be final-version clean.
 
 ```markdown
 ## Locked in (tell me if this is wrong)
-**Stage:** Research | Plan
 **Kind:** Feature | Tweak | Bug | Refactor | Chore
-**Need:** …                     (Research)
-**Problem:** …                  (Research)
-**Outcome:** …                  (Plan)
-**Done when:** …                (Plan)
-**Tests:** none | behavior lock | end-to-end | both   (Plan)
+**Outcome:** …
+**Done when:** …
+**Tests:** <check and proposed | accepted | refused status, with decision source> | none
 **Out of scope:** … | _none_
 **Rejected:** … | _none_ only for a typo or pure rename
-**Start here:** `path` - `symbol` | _unknown_   (Plan)
-**Delivery:** one PR | parent with <N> child PRs   (Plan)
-**Stack:** <ordered children and PR bases> | _none_   (Plan)
+**Start here:** `path` - `symbol` | _unknown_
+**Delivery:** one PR | parent with <N> child PRs
+**Stack:** <ordered children and PR bases> | _none_
 ```
 
 ## Bodies
 
 Keep these headings as written. Use `_none` or `_unknown` only where the template allows it. Draft text must already be final-version clean before write ([Final-version description](doctrine.md#final-version-description)).
 
-### Memo
-
-No kind, no diagram.
-
-```markdown
-## Stage
-Memo
-
-## Note
-<the idea in a few sentences>
-```
-
-### Research
-
-Understanding only: no file map, no snippets, no design pattern. A Research ticket always has a kind.
-
-```markdown
-## Stage
-Research
-
-## Kind
-Feature
-
-## Need
-<what people need>
-
-## Problem
-<what is wrong or missing>
-
-## Who is affected
-<who hits it, and when>
-
-## What happens today
-<current behavior>
-
-## What we found
-<evidence from the product and the repo about the problem>
-
-## Areas of modularity
-- <what varies or multiplies>: yes | no, <evidence> | _none: Tweak, Bug, or Chore_
-
-## Settled in the grill
-- <decision>
-- Rejected: <the rival explanation this research refuses>
-- Wrong if: <what would make this the wrong problem>
-
-## Out of scope
-- … | _none_
-```
-
 ### Plan
 
 A coding agent can implement from this body alone. For split work, the parent uses this body for the shared design and overall outcome; each child uses it for its own bounded outcome. Add the [stack handoff](#stack-handoff) to the parent and the child coordination fields to each child.
 
 ````markdown
-## Stage
-Plan
-
 ## Kind
 Feature
 
 ## Outcome
-<one plain sentence>
+- <who benefits and the observable outcome>
+- <why this matters, grounded in the user's intent and relevant evidence>
 
 ## Diagram
 
@@ -164,7 +93,7 @@ flowchart LR
 
 ## Foundation
 - <area of modularity> → <seam and pattern> + <first real implementation> | _none: Tweak, Bug, or Chore_
-- <area the Research answered no> → no seam
+- <area the conversation ruled out> → no seam
 - Extends existing seam: <seam> | _none_
 - Next change this makes small: <request> → <one new file + one registration>
 
@@ -184,9 +113,9 @@ flowchart LR
 - `path/to/file` - `symbol`
 
 ## Tests
-behavior lock: <what the lock proves>
-end-to-end: <what the test proves>
-or `none`
+- <behavior lock or end-to-end; public entry and what it proves>: proposed | accepted | refused
+- Decision source: <user instruction or recorded decision link; required for accepted/refused>
+or `none: no tests specified`
 
 ## Already decided
 - Rejected: <the rival this plan refuses> | _none_ only for a typo or pure rename
@@ -195,9 +124,10 @@ or `none`
 
 - `## Foundation`: a seam is a named extension point where a new variant plugs in.
 - `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
-- `## Already decided`: a non-trivial plan names the rejected alternative. A typo or pure rename may say `_none`.
+- `## Outcome`: keep the outcome and reason on short separate lines. Include only the evidence needed to understand the current goal, with specific source pointers; do not copy the analysis memo.
+- `## Already decided`: a non-trivial plan names the rejected alternative. A typo or pure rename may say `_none`. Keep the relevant reason and source beside a decision when they prevent a wrong implementation; preserve uncertainty in historical inferences.
 - `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.
-- `## Tests`: `none`, behavior lock, end-to-end, or both. Name what each lock proves.
+- `## Tests`: use this authorization format for every Plan, including a single PR. Record each test's status and settled decision source; quote the relevant user instruction when no durable link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed.
 
 ## Stack handoff
 
@@ -230,13 +160,9 @@ Add this coordination block to each child's Plan:
 - PR base: <integration branch or predecessor branch>
 - Scope and exclusions: <owned paths/symbols; work left to siblings>
 - Safe intermediate state: <why this child works before later children land>
-
-## Test decisions
-- <test and public entry>: proposed | accepted | refused | none
-- Decision source: <user instruction or recorded decision link; required for accepted/refused>
 ```
 
-The child's existing `## Tests` section describes the check and what it proves; `## Test decisions` records its authorization. When splitting an existing Plan, do not infer acceptance from its test list. Keep any unresolved decisions visible in the parent handoff.
+Each child's `## Tests` uses the common Plan format above for the check and its authorization. When refining an older Plan with `## Test decisions`, carry those statuses and sources into `## Tests` instead of maintaining two copies. When splitting an existing Plan, do not infer acceptance from its test list. Keep any unresolved decisions visible in the parent handoff.
 
 Example: an export feature could have A add a working export service, B add the download endpoint on A, and C wire the UI on B. Each child has its own checks; the parent owns the final download flow. An unrelated settings cleanup stays outside this stack. Shared prerequisites precede their consumers; a PR base must already contain all code that child needs.
 
@@ -286,15 +212,15 @@ sequenceDiagram
 
 ## Tracker write
 
-Label the stage: `Memo`, `Research`, or `Plan`. On Research and Plan, also set the kind label when it exists. The `## Stage` heading is the contract even when a label cannot be set.
+Write only when the user requested a tracker create or update. Set the kind label when it exists; do not add stage headings or stage labels. Leave unrelated existing labels alone, including legacy stage labels unless the user requests their removal.
 
 The description you write is the final version a reader needs. Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough, and "was X / now Y". Do not patch that archaeology into the body.
 
-On promotion, post the previous description unchanged as a comment, then replace the description with the new stage body. On a material same-stage refine, comment the previous description once when it would otherwise be lost, then replace it. A smaller refine rewrites the affected sections. Never leave old and new wording in the description.
+On a material update, comment the previous description once when it would otherwise be lost, then replace it. A smaller refine rewrites the affected sections. Never leave old and new wording in the description.
 
 For a split Plan:
 
-1. Read existing children and dependency links first. Reuse matching children when refining or resuming; do not recreate them or reset their status. Preserve the existing parent ID and promotion history.
+1. Read existing children and dependency links first. Reuse matching children when refining or resuming; do not recreate them or reset their status. Preserve the existing parent ID and history.
 2. Create the parent if needed, then create missing child Plan tickets in dependency order. Inherit the parent priority unless the plan gives a reason to differ. Use a child's own work kind (for example, Refactor before Feature). Inherit an assignee only when that person owns the whole set; otherwise leave the child unassigned. New children start in Todo.
 3. Use the tracker's native parent/subissue and dependency relationships when available. Otherwise create real issues with explicit parent, child, and blocker links in their bodies and a linked checklist in the parent. Describe this fallback accurately; an inline checklist alone is not a set of created subissues.
 4. Replace draft keys with returned IDs and URLs, derive branch names from those child IDs, and update the parent stack table and child links. Check that there are no dependency cycles, that each PR base supplies its prerequisites, and that every parent done-when item has an owner.

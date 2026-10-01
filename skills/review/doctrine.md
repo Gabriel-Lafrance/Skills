@@ -104,7 +104,7 @@ A shipped-diff synonym is **Fix now**. Untouched historical aliases left in file
 
 On every `initial` or `full-rescan` Standards pass on a Feature diff, check it against `quality:strong-foundation` ([strong-foundation.md](../rules/strong-foundation.md)):
 
-1. Take the areas of modularity from the spec: the Plan ticket's `## Foundation`, the Research ticket's `## Areas of modularity`, the Structure card, or the grill's Locked in message.
+1. Take the areas of modularity from the spec: the ticket's `## Foundation`, `## Areas of modularity`, or settled decisions, the Structure card, or the grill's Locked in message.
 2. An area the spec named that ships hardcoded (no seam, the first provider inlined at callers, an `if` or `switch` on the variant) is a **blocker**.
 3. A seam on an area nobody named is a keep it simple (KISS) finding, not foundation.
 4. An obvious area nobody named (a domain that usually multiplies, a second variant already in the repo) is a **follow-up** note that asks whether it should have been named. It never blocks.

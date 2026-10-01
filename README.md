@@ -84,7 +84,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | ----------------- | -------------------------------------------------------- | --------------------- |
 | **Guide**         | `/ask-gabriel`                                           | Route to the next skill |
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
-| **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
+| **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
 | **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, run all repository test suites, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
@@ -106,10 +106,10 @@ flowchart LR
 - Why is it this way → `/why`
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
-- Idea to keep → `/write-ticket` Memo
-- Understand a problem → `/write-ticket` Research (grills before it saves)
-- One-shot build spec → `/write-ticket` Plan, then `/task-with-tests`
-- Big task with small PRs → `/write-ticket` Plan creates a parent with reviewable child Plans, dependencies, and PR bases. Then ask: "Implement all children of <parent URL> and open stacked draft PRs." One request covers the stack; each child keeps its own checks and review.
+- Idea to keep → capture it in chat; a rough note does not create a ticket
+- Understand a problem → `/analyze`; use `/how` for mechanics and `/why` for rationale
+- Implementation-ready ticket → `/write-ticket` researches, restates the intent, and settles decisions before writing the final ticket. Then use `/task-with-tests` or explicitly choose `/gabriel-mode` for its worker review loop
+- Big task with small PRs → `/write-ticket` creates a parent with reviewable child tickets, dependencies, and PR bases. Then ask: "Implement all children of <parent URL> and open stacked draft PRs." One request covers the stack; each child keeps its own checks and review.
 - Build now → `/task-with-tests` (the default build; refuse every test and it continues as `/task`)
 - Build with no tests at all → `/task`
 - Build a screen → `/task-with-tests` (applies [`user-experience.md`](./skills/rules/user-experience.md) and `docs/design.md`)

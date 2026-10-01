@@ -42,7 +42,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Build with no tests at all | `/task` |
 | Coding style / is this clean? | `/review` (it applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)). The steering list is [principles.md](../rules/principles.md), not a skill |
 | Structure / folders / services / data shape | `/analyze`, then `/task-with-tests` (both apply [code-structure.md](../rules/code-structure.md); shapes in [code-structure-examples.md](../rules/code-structure-examples.md)) |
-| Need a Linear/GitHub ticket | `/write-ticket` (Memo, Research, or Plan) |
+| Need a final implementation-ready Linear/GitHub ticket | `/write-ticket` |
 | Ship a branch or pull request | [shipping.md](../rules/shipping.md) |
 | Linear ticket → build | `/task-with-tests` with the ticket. Ship with those same rules |
 | Pressure a decision, direction, or structure | `/grill-me` |
