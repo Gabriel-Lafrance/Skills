@@ -97,6 +97,20 @@ Memo to Research, and Research to Plan, update the same ticket.
 
 Use the same ticket for the next stage. If the tracker cannot comment, stop and say so, so the previous body is never lost.
 
+### Final-version description
+
+Every create, promote, or refine writes the description as the only version a reader needs. It is the final current state, not a changelog.
+
+Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough (`~~...~~`), "was X / now Y", and any narrative of how the decision changed. Do not leave them in Need, Problem, Outcome, Out of scope, Settled in the grill, or Already decided.
+
+Keep the single current rival when the stage template requires it: the `Rejected` line under Settled in the grill or Already decided. That line is the live refusal. One current rejected alternative. Remove older rivals that are no longer that refusal.
+
+Stage promotion stays comment, then replace. See [Promotion](#promotion).
+
+A same-stage refine rewrites the affected sections, or the whole body. Prefer replacing over appending. When the refine is material and the previous body would otherwise be lost with no trail, post that body unchanged as a comment once, then write the clean body. Never leave both old and new wording in the description. If the tracker cannot comment, stop and say so, so the previous body is never lost.
+
+Trim fat and useless text. Chat and `/grill-me` hold the interview trail. The ticket body does not.
+
 ### Inputs
 
 | Input | Mode |
@@ -114,12 +128,12 @@ Use the same ticket for the next stage. If the tracker cannot comment, stop and 
 | No Linear capability | Explain the limitation and report that no ticket was created. |
 | GitHub tooling unavailable | Ask for install or auth inside the metadata batch, or allow one pasted body for refine only. |
 | Ticket not found | Stop and confirm ID, team, or repository. |
-| User corrects the draft | Update the draft and write that version. |
+| User corrects the draft | Scrub the correction into a clean body and write that version. Do not keep the old wording in the description. |
 | Required Research or Plan section still empty after `/grill-me` | One asking-contract batch for the gaps, then write. A saved Plan has a filled done-when, rules, and tests section. |
 | Non-trivial grill returned without a rejected alternative, what would make the decision wrong, or the owner path | Send it back to `/grill-me` and write the ticket after it returns those. |
 | Analysis absent or stubby on Research or Plan | Run or refresh full `/analyze` before `/grill-me`. |
 | Tracker label missing | The `## Stage` heading is still required. Use only real label IDs. |
-| Comment API unavailable on promotion | Stop. Do not replace the description. |
+| Comment API unavailable on promotion or a material same-stage refine | Stop. Do not replace the description. |
 
 ## Apply
 
@@ -133,3 +147,7 @@ Show the complete draft in chat, then create or update through the tracker capab
 - A large Plan with one implementation ticket when its outcomes could be reviewed separately
 - Child PRs that need later children to compile or pass their checks
 - A numbered checklist presented as linked subissues when no children were created
+- Strikethrough (`~~...~~`) left in the live description
+- A "was X / now Y" write-up, or a narrative of how the decision changed, left in the live body
+- Appending a correction instead of rewriting the affected sections
+- A canceled or demoted option kept beside the current choice

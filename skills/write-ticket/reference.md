@@ -49,7 +49,7 @@ Discover real options first: Linear priorities and members from its capability, 
 
 ## Locked in message
 
-Send the draft with no Questions. If the user does not correct it, write this draft. Memo uses only **Stage** and **Note**.
+Send the draft with no Questions. If the user does not correct it, write this draft. Draft text must already be final-version clean. Memo uses only **Stage** and **Note**.
 
 ```markdown
 ## Locked in (tell me if this is wrong)
@@ -69,7 +69,7 @@ Send the draft with no Questions. If the user does not correct it, write this dr
 
 ## Bodies
 
-Keep these headings as written. Use `_none` or `_unknown` only where the template allows it.
+Keep these headings as written. Use `_none` or `_unknown` only where the template allows it. Draft text must already be final-version clean before write ([Final-version description](doctrine.md#final-version-description)).
 
 ### Memo
 
@@ -288,7 +288,9 @@ sequenceDiagram
 
 Label the stage: `Memo`, `Research`, or `Plan`. On Research and Plan, also set the kind label when it exists. The `## Stage` heading is the contract even when a label cannot be set.
 
-On promotion, post the previous description unchanged as a comment, then update the description.
+The description you write is the final version a reader needs. Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough, and "was X / now Y". Do not patch that archaeology into the body.
+
+On promotion, post the previous description unchanged as a comment, then replace the description with the new stage body. On a material same-stage refine, comment the previous description once when it would otherwise be lost, then replace it. A smaller refine rewrites the affected sections. Never leave old and new wording in the description.
 
 For a split Plan:
 
