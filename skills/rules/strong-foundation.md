@@ -1,6 +1,6 @@
 # Strong foundation
 
-**Open this when:** you are about to grill, plan, or build a Feature, write a Research or Plan ticket, or review a Feature diff.
+**Open this when:** you are about to grill, plan, or build a Feature, prepare its implementation ticket, or review a Feature diff.
 **Skip it and you will:** hardcode the first provider into every caller, and the second one becomes a rewrite instead of one new file.
 
 Cite key: `quality:strong-foundation`.
@@ -29,7 +29,7 @@ Pick the row from the work kind (Feature, Tweak, Bug, Refactor, Chore), whether 
 
 Use the best source you have, in this order. Stop at the first one that answers.
 
-1. The ticket's `## Areas of modularity` (Research) or `## Foundation` (Plan) section.
+1. The ticket's `## Areas of modularity` or `## Foundation` section and its settled decisions.
 2. The rest of the ticket, PR, or linked issue: named providers, "later we want", customer asks.
 3. The request and the repo: an existing provider folder, a sibling service with a strategy, a second caller, an `if` or `switch` on a type or provider name, a TODO, a domain that usually multiplies (payments, notifications, auth providers, storage, exports, pricing rules).
 

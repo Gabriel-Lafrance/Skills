@@ -19,15 +19,18 @@ Discover product, behavioral, code quality, and code structure decisions through
    rediscovered repository, ticket, PR, or diff facts. If a parent already
    supplied an outcome, current slice, non-goals, area, and ticket/PR, reuse
    that brief. Re-announce only facts or user decisions that changed or were
-   missing.
+   missing. Before testing solution choices, show the doctrine's
+   [intent restatement](doctrine.md#intent-restatement) in your own words,
+   one short plain-English bullet per idea. Reuse a parent's current
+   restatement when it already meets that bar.
 2. Apply the doctrine attack bar before sending: batch every unsettled
    load-bearing claim first, in the doctrine's batch order, then the rest of
    the sweep.
 3. Include plan count and file area in that first batch.
-4. When the parent is `/write-ticket`, interview only the topic list it
-   supplied (Research or Plan). Research leaves implementation split and files
-   open. Plan settles decisions affecting ticket and PR boundaries; the parent
-   derives child count, order, and file lanes. The attack bar still applies.
+4. When the parent is `/write-ticket`, interview only its ticket-preparation
+   topics. Settle open decisions affecting the outcome, ticket and PR
+   boundaries, dependencies, and ownership; the parent derives child count,
+   order, and file lanes. The attack bar still applies.
 5. Include the code-quality.md and code-structure.md topics in that batch:
 
    | When | Include in the batch |
@@ -50,7 +53,8 @@ Discover product, behavioral, code quality, and code structure decisions through
 11. When material Questions are settled, announce
     **Locked in (tell me if this is wrong)** for non-goals, split, and shared
     understanding in a **separate** announce-only message: the Locked in
-    message.
+    message. Put the corrected line-by-line intent restatement in its shared
+    understanding, keeping current decisions and dropping superseded ones.
 12. On a non-trivial grill, include the rejected alternative in the Locked in
     message.
 13. Issue plans only after the Locked in message stands and every relevant rule
@@ -63,7 +67,7 @@ durable artifact, ask for or honor an approved destination under the shared
 ### If a parent already owns the next step
 
 Hand the inline context back to that parent. `/task` plans from it.
-`/write-ticket` writes or promotes the ticket from it. Continue into the
+`/write-ticket` writes the final ticket from it. Continue into the
 parent's next step without waiting for the user to pick a next skill. Under
 `/write-ticket`, the ticket step follows, not `/task`.
 

@@ -164,7 +164,7 @@ function parseConfig(raw: string): Config {
 
 ## A seam nobody confirmed
 
-**Bad:** the Research said "Currency: no", and the Plan still adds a `CurrencyConverter` interface with one CAD implementation.
+**Bad:** the settled decision said "Currency: no", and the plan still adds a `CurrencyConverter` interface with one CAD implementation.
 **Good:** CAD stays a plain value. If USD arrives later, a Refactor adds the seam first ([journey](journeys/follow-up-needs-a-seam.md)).
 
 ## SOLID theater vs foundation

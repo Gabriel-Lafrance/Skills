@@ -16,6 +16,28 @@ What to discover, rules that must stay true, interview rules, and the Locked in 
 
 ## Bars
 
+### Intent restatement
+
+Before challenging solution choices, explain in your own words what you think
+the user is trying to achieve. Use short plain-English bullets, one idea per
+line, rather than a dense paragraph or a copy of the request. Cover the parts
+that matter: who benefits, the intended outcome, why it matters, what changes,
+what must stay true, and what observable result would mean success. These are
+prompts, not six mandatory fields; a small ask needs only a few lines.
+
+Separate the user's intent and settled decisions from researched facts and
+your inferences. Mark material unknowns as unknown instead of inventing intent
+or promoting an inference to a decision. Look up factual gaps; bring only
+unsettled user-owned choices into the existing Questions batch. Do not reopen
+settled choices merely to fill the restatement.
+
+Show this preliminary understanding in an announce-only message before any
+Questions-only batch, without a Locked in heading or a confirmation request.
+It adds no approval gate. If a parent already supplied a current restatement
+that meets this bar, reuse it instead of repeating the interview. Correct it
+as answers arrive, and include its final form in the existing Locked in
+message's shared understanding.
+
 ### What to discover
 
 Research repository facts yourself, then batch every material user decision that remains open.
@@ -62,7 +84,7 @@ Recommend the smallest authoritative guard: UI state for feedback plus a direct 
 
 ### Interview rules
 
-When `/write-ticket` is the parent, its topic list replaces the topic sweep above. The attack bar still applies to every load-bearing claim in that list. Research leaves implementation split and files open. For Plan, settle decisions affecting ticket and PR boundaries, dependency contracts, and ownership; `/write-ticket` derives the child count, order, and file lanes. Return the locked context to `/write-ticket`.
+When `/write-ticket` is the parent, its ticket-preparation topics replace the topic sweep above. The attack bar still applies to every load-bearing claim in that list. Settle open decisions affecting the outcome, ticket and PR boundaries, dependency contracts, and ownership; `/write-ticket` derives the child count, order, and file lanes. Return the locked context to `/write-ticket` for the final ticket.
 
 1. Follow decision dependencies. If a later answer depends on an earlier one, cover both paths in one batch or defer the dependent choice.
 2. Use the shared asking contract: batch known questions, give discrete options a recommendation, and ask each decision once. The recommendation comes after the failure and the rival are in the question.
@@ -77,7 +99,7 @@ Once material questions are resolved, announce (do not ask) the following in a *
 
 1. **Non-goals:** bounded exclusions.
 2. **Split / plan count:** intended small plan titles, or one bounded plan.
-3. **Shared understanding:** outcome, key behavior, new language or standing decisions, recommended moves, and rules that must stay true.
+3. **Shared understanding:** the corrected [intent restatement](#intent-restatement), line by line, with relevant key behavior, new language or standing decisions, recommended moves, and rules that must stay true.
 4. **Rejected:** the rival this work refuses. `none` only for a typo or pure rename. If you cannot name a rival, send another Questions-only batch instead of locking.
 
 Announce those items without a yes/no confirmation. Treat them as locked when announced. If the user corrects one, update only the affected execution context and re-announce the revised lock. Send a new Questions-only batch when the rejected alternative, what would make the decision wrong, or the owner path is still unnamed, or when a correction exposes a new material unknown.
@@ -86,7 +108,11 @@ Announce those items without a yes/no confirmation. Treat them as locked when an
 ## Locked in (tell me if this is wrong)
 **Out of scope:** …
 **Plans:** 1. … · 2. …
-**What we agreed:** …
+**What we agreed:**
+
+- <one plain-English idea in your own words>
+- <next relevant idea, including the reason when it matters>
+
 **Rejected:** … (or none, only for a typo or pure rename)
 **Rules that must stay true:** Rule 1: … · Rule 2: … (or none)
 ```

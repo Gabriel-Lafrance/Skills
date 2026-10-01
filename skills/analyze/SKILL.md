@@ -31,10 +31,22 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
    When a parent already locked Done when and rules that must stay true,
    reuse them without re-grilling product intent.
 2. Investigate: find the relevant code first, then judge how, impact, and
-   risk from those facts. A `/write-ticket` Research or Plan seed
-   still gets the complete standard memo: Research memos gather the problem,
-   Plan memos gather the code that would change.
-3. Post the doctrine memo (standard or review-remediation). Lead with a
+   risk from those facts. For a `/write-ticket` parent, return the relevant
+   facts, conclusions, source pointers, and uncertainty directly into the
+   developing ticket conversation. Reuse current evidence; no separate
+   standard memo is required for this parent mode.
+   When understanding the existing mechanics would materially change the
+   analysis, use [`/how`](../how/SKILL.md) for that bounded flow or owner.
+   When a concrete historical design question could change the scope or
+   constraints, use [`/why`](../why/SKILL.md) with its full evidence contract.
+   Reuse current outputs instead of repeating those investigations. Carry
+   their relevant conclusions, source pointers, and uncertainty into the memo.
+   `/how` describes the existing system; it does not choose the new design.
+   `/why` explains evidenced rationale; the user's desired benefit still comes
+   from the user. Neither replaces this memo's impact and risk judgment or
+   starts another interview.
+3. Outside that `/write-ticket` parent mode, post the doctrine memo
+   (standard or review-remediation). Lead with a
    Mermaid diagram. Include an inline `/task` seed when the work is
    buildable, except when a parent will write the ticket itself.
 
@@ -50,7 +62,7 @@ Follow-up items and nits.
 Skip one-off hand-off Questions. Skip `/task` promotion unless the parent
 explicitly instructed `promote + start`. Return the memo to the parent.
 
-- `/write-ticket`: return the memo; the parent grills, then drafts and writes the ticket.
+- `/write-ticket`: return the researched context above; the parent develops the ticket in chat and writes only when requested.
 - Review remediation: parent shows the complete memo, then promotes under
   its rules.
 

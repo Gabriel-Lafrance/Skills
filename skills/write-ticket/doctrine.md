@@ -2,68 +2,50 @@
 
 ## Job
 
-Write or promote Linear or GitHub tickets. Memo captures an idea. Research records the need and the problem. Plan records how to solve that problem in code, in enough detail that a later build can implement it. Larger Plans use a parent for the complete outcome and child tickets for small pull requests.
-
-This skill is a user start and only writes the ticket.
+Develop an implementation-ready ticket through research and decisions in one conversation. The final body carries enough intent and context for a later executor without that chat. Write or update Linear or GitHub only when requested; draft-only requests stay in chat.
 
 ## Owns
 
-Stage selection, the two `/grill-me` gates, body shapes, promotion on the same parent ticket, work kind, PR-sized decomposition, dependency and stack handoffs, and tracker writes.
+The developing ticket, work kind, final body, PR-sized decomposition, dependency handoffs, and authorized tracker writes. /analyze owns facts and impact; /how owns mechanics, /why owns evidenced historical rationale, and /grill-me owns user decisions and the intent restatement.
 
 ## Does not own
 
 - Implementation, branching, or pull requests
-- Remaining build questions. `/task` owns those and reuses settled decisions in a [whole-stack handoff](../task/doctrine.md#whole-stack-ticket-handoff). It does not promote the ticket.
-- Numbered how-to: [`SKILL.md`](SKILL.md)
-- Section templates: [`reference.md`](reference.md)
+- Runtime build questions. Execution validates live facts and reuses settled decisions under its own contracts.
+- Numbered process: [SKILL.md](SKILL.md)
+- Body and tracker details: [reference.md](reference.md)
 
 ## Bars
 
-**Execution context:** [planning.md](../rules/planning.md#execution-context) · **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user) · **Templates:** [reference.md](reference.md)
+**Execution context:** [planning.md](../rules/planning.md#execution-context) | **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user) | **Body:** [reference.md](reference.md)
 
-Three stages. The user can start at any stage. A later stage replaces the description of the **same** ticket. The previous body becomes a comment.
-
-| Stage | Job | Before save |
-| --- | --- | --- |
-| Memo | Keep the idea. A title and a few sentences. | Write, skipping `/analyze` and `/grill-me`. |
-| Research | Understand the need, the issue, and the problem. | Full `/analyze`, then `/grill-me` on the Research topics, then write. |
-| Plan | Say how to solve that problem in code. | Full `/analyze`, then `/grill-me` on the Plan topics, then write. |
-
-Research does not specify the code. The Plan does. The Plan repeats the locked choices in implementation detail so a coding agent can work from the Plan alone. The comment thread is the trail.
-
-### Stage gate
-
-Ask the stage only when the prompt and the current ticket do not already name one. When an existing ticket is loaded and the user did not name a target, recommend the next stage: Memo to Research, Research to Plan. Plan has no next stage; refining a Plan stays a Plan.
-
-Allowed asking batches, besides the `/grill-me` session this skill starts:
-
-| When | What to ask |
-| --- | --- |
-| Target stage unknown | One batch: stage, plus priority, assignee, and tracker when those are also missing |
-| Stage known, metadata still missing | One metadata batch after the draft is shown |
-| Research evidence still cannot pick a work kind | One kind question inside the Research `/grill-me`, not a separate batch |
-
-Write without asking "write this?". Take status from the default (**Todo** on create; keep the current status on promote or refine unless the prompt names one) instead of asking. Leave the Research and Plan topics to `/grill-me`.
+There are no ticket stages or intermediate research deliverables. Analysis and grilling refine the final ticket in chat. Reuse current evidence and decisions; revisit only material gaps. An incomplete draft can stay in chat, but do not save it as implementation-ready while core decisions remain unresolved.
 
 ### Grill
 
-This skill is the parent. Start `/grill-me` with the topic list for the target stage and tell it to return here. Research leaves implementation split and files open. For Plan, this skill derives the child count, file lanes, dependencies, and PR bases from the locked design; grill only unresolved decisions that would change those boundaries. The session hands control back and leaves `/task` unstarted.
+This skill is the parent. Start /grill-me with the topics below and tell it to return here. Use its line-by-line intent restatement, then ask only unresolved user-owned decisions. This skill derives child count, file lanes, dependencies, and PR bases from the locked design. The conversation leaves /task unstarted.
 
-**Research topics:** the need, the issue, the problem, who is affected and when, what happens today, the rival explanation of the problem this research rejects, what would make this the wrong problem, what this research is not trying to cover, the work kind only when it is still unknowable, and for a Feature the areas of modularity: what will vary or multiply (providers, channels, rules, roles, formats), each as one yes or no question with a recommended answer from the evidence ([strong-foundation.md](../rules/strong-foundation.md#find-the-areas-of-modularity)). Research records the fact ("more than one payment provider") and names no pattern.
+Settle the need, who benefits and when, current behavior, intended outcome and why it matters, the decision and current rival, exclusions, what would make the decision wrong, rules that must stay true, behavior edges and states, and binary done-when. Research repository facts first: the existing owner path, public entry, callers, and write boundary. Grill only choices those facts do not settle.
 
-**Plan topics:** the decision and the rival this plan rejects, what the change refuses to own, what would make that decision wrong, rules that must stay true, edges and states of the solution, binary done-when, out of scope, where the change lives, who owns the job (the existing path, the public entry, who calls it, where the write is rejected, one-job helpers, folders), the foundation (a seam, a named extension point where a new variant plugs in, for each area of modularity the Research confirmed, or the existing seam this extends, and the next change it makes small, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work)), short snippets of the hard parts, and tests (none, a behavior lock, end-to-end, or both, including what each lock proves).
-
-A Memo skips `/grill-me`.
+For a Feature, establish what will vary or multiply, then the seam for each confirmed area or the existing seam being extended, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work). Settle hard implementation choices and test decisions (none, behavior lock, end-to-end, or both, what each proves, and whether the user accepts it). Reuse decisions already made rather than interviewing once for the problem and again for the solution.
 
 ### Analyze
 
-Run `/analyze` to full memo depth before the Research grill and before the Plan grill. Tell it the stage. Research memos gather evidence about the problem. Plan memos gather evidence about the code that would change. Return the memo here, and require the full memo, not a stub.
+Use /analyze for evidence about the problem, relevant code, impact, and risks. Reuse current analysis; refresh missing or stale evidence as the conversation develops. Its targeted /how and /why calls keep their own contracts and return conclusions here. They do not create intermediate tickets or start separate interviews.
 
-A Memo skips `/analyze`.
+### Fresh-executor handoff
+
+Before showing a Plan as complete or writing it, read it as an executor without the old chat. Can that reader understand who benefits, the outcome and reason, scope, constraints, relevant entry points and dependencies, observable success, and test decisions from the current body and its specific source pointers? Check each child too. Fill material gaps in the existing sections; do not paste the full memo, interview, or history into the ticket.
+
+Carry the relevant `/how` conclusions into the existing flow and ownership sections. Carry `/why` conclusions only when they explain a current constraint or decision, with a compact evidence pointer and their Found, Inferred, or Unknown status intact. Historical rationale is not the user's desired outcome. Keep only conclusions needed to understand or implement the current decision.
+
+Look up repository facts and missing evidence. Return only unresolved user-owned decisions to `/grill-me`; do not ask the user to research paths or reconfirm settled choices. Keep proposed tests distinct from accepted or refused tests, with the user's decision source for either settled status. `none` means no tests specified, not a refusal inferred from silence.
+
+The Plan must survive a new session, but it is not proof of live repository state. Point to facts the executor must revalidate, such as entry points and predecessor contracts. New facts warrant a user question only when they require a changed decision, scope, permission, or waiver.
 
 ### PR-sized subissues
 
-Prefer a parent Plan with child Plans when the work has more than one coherent outcome a reviewer can assess separately, spans changes that need different explanations, or would otherwise produce one large PR. Keep one ticket when one focused PR is enough. Do not split Memo or Research into implementation children before the design is settled.
+Use a parent Plan with child Plans when the work has more than one coherent outcome a reviewer can assess separately, spans changes that need different explanations, or would otherwise produce one large PR. Keep one ticket when one focused PR is enough. Derive the split only after the design is settled.
 
 - One child owns one reviewable outcome, its file lane, and 1 to 3 binary done-when checks. Prefer thin vertical slices. A prerequisite refactor can be its own child when it preserves behavior and makes the next change smaller. Avoid arbitrary line quotas, one-ticket-per-file splits, and empty scaffolding.
 - Each child must build and pass its checks on its declared base without later children. Keep tests and verification with the behavior they prove; do not leave every check to a final testing child. For migrations or refactors, use compatible expand, migrate, and contract steps. Keep an indivisible change together and explain why.
@@ -76,7 +58,7 @@ Writing tickets does not start the build or publish PRs. A later request to impl
 
 ### Work kind
 
-During Research, or when starting directly at Plan, assign exactly one kind and announce it on the draft: Feature, Tweak, Bug, Refactor, or Chore. There is no Hotfix. Use Bug for a defect, including an urgent one. Memo may leave kind unset. A promoted Plan carries the Research kind forward unless the user corrects it; children use the kind matching their own work.
+Assign one kind from the evidence and announce it on the draft: Feature, Tweak, Bug, Refactor, or Chore. There is no Hotfix. Use Bug for a defect, including an urgent one. Preserve an existing kind unless the scope or user corrects it; children use the kind matching their own work.
 
 | Kind | Use when |
 | --- | --- |
@@ -86,58 +68,44 @@ During Research, or when starting directly at Plan, assign exactly one kind and 
 | Refactor | Structural debt with preserved behavior |
 | Chore | Non-product maintenance: deps, CI, tooling, docs-only, repo hygiene |
 
-### Promotion
-
-Memo to Research, and Research to Plan, update the same ticket.
-
-1. Finish that stage's analyze and `/grill-me`.
-2. Post the current description as a comment.
-3. Replace the description with the new body.
-4. Set the stage label (`Memo`, `Research`, or `Plan`) and the kind label when the tracker has one.
-
-Use the same ticket for the next stage. If the tracker cannot comment, stop and say so, so the previous body is never lost.
-
 ### Final-version description
 
-Every create, promote, or refine writes the description as the only version a reader needs. It is the final current state, not a changelog.
+Every create or refine writes the description as the only version a reader needs. It is the final current state, not a changelog.
 
-Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough (`~~...~~`), "was X / now Y", and any narrative of how the decision changed. Do not leave them in Need, Problem, Outcome, Out of scope, Settled in the grill, or Already decided.
+Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough (`~~...~~`), "was X / now Y", and any narrative of how the decision changed. Do not leave them in the current body.
 
-Keep the single current rival when the stage template requires it: the `Rejected` line under Settled in the grill or Already decided. That line is the live refusal. One current rejected alternative. Remove older rivals that are no longer that refusal.
+Keep the single current rival in the `Rejected` line under Already decided. That line is the live refusal. One current rejected alternative. Remove older rivals that are no longer that refusal.
 
-Stage promotion stays comment, then replace. See [Promotion](#promotion).
-
-A same-stage refine rewrites the affected sections, or the whole body. Prefer replacing over appending. When the refine is material and the previous body would otherwise be lost with no trail, post that body unchanged as a comment once, then write the clean body. Never leave both old and new wording in the description. If the tracker cannot comment, stop and say so, so the previous body is never lost.
+A refine rewrites the affected sections, or the whole body. Prefer replacing over appending. When the refine is material and the previous body would otherwise be lost with no trail, post that body unchanged as a comment once, then write the clean body. Never leave both old and new wording in the description. If the tracker cannot comment, stop and say so, so the previous body is never lost.
 
 Trim fat and useless text. Chat and `/grill-me` hold the interview trail. The ticket body does not.
 
 ### Inputs
 
-| Input | Mode |
+| Input | Use |
 | --- | --- |
-| Linear ID or URL | Read it. Promote or refine that ticket. |
-| GitHub issue ID or URL | Read it. Promote or refine that issue. |
-| Idea or "don't forget" note | Create. Infer Linear versus GitHub from the repo and the prompt. |
-| In-chat analysis memo | Reuse it when it is already a full memo for this stage. Refresh it when it is shallow, stale, or for the other stage. |
-| Ambiguous number | Prefer the tracker this repo already uses. Ask only inside the stage or metadata batch. |
+| Linear or GitHub ID or URL | Read it as context. Update only when requested. |
+| Idea or rough notes | Develop the final ticket here; draft-only stays in chat. |
+| In-chat analysis or locked decisions | Reuse current evidence and answers; refresh material gaps. |
+| Legacy Memo, Research, or Plan ticket | Read useful context. Convert only that ticket when the user requests an update; no bulk migration. |
+| Ambiguous number | Discover the tracker used by the repo; ask only if still ambiguous. |
 
 ## Output
 
 | Problem | Action |
 | --- | --- |
-| No Linear capability | Explain the limitation and report that no ticket was created. |
-| GitHub tooling unavailable | Ask for install or auth inside the metadata batch, or allow one pasted body for refine only. |
-| Ticket not found | Stop and confirm ID, team, or repository. |
-| User corrects the draft | Scrub the correction into a clean body and write that version. Do not keep the old wording in the description. |
-| Required Research or Plan section still empty after `/grill-me` | One asking-contract batch for the gaps, then write. A saved Plan has a filled done-when, rules, and tests section. |
-| Non-trivial grill returned without a rejected alternative, what would make the decision wrong, or the owner path | Send it back to `/grill-me` and write the ticket after it returns those. |
-| Analysis absent or stubby on Research or Plan | Run or refresh full `/analyze` before `/grill-me`. |
-| Tracker label missing | The `## Stage` heading is still required. Use only real label IDs. |
-| Comment API unavailable on promotion or a material same-stage refine | Stop. Do not replace the description. |
+| Tracker capability unavailable | Explain the blocker; retain the draft in chat and report that no write occurred. |
+| Ticket not found | Confirm its ID, team, or repository. |
+| User corrects the draft | Rewrite affected sections into the current version; preserve draft-only versus write authorization. |
+| Material context missing | Research facts; return unresolved user decisions to /grill-me. Keep the incomplete draft in chat. |
+| Non-trivial grill lacks rejected alternative, what would make the decision wrong, or owner path | Resolve those gaps before finalizing. |
+| Analysis absent or shallow | Run or refresh /analyze before locking the affected decision. |
+| Tracker kind label missing | Use only real label IDs; keep the kind in the body. |
+| Comment API unavailable for a material update that would lose the prior body | Stop before replacement and report the blocker. |
 
 ## Apply
 
-Show the complete draft in chat, then create or update through the tracker capability or `gh`. Return the parent and child URLs, the stage, the kind when set, the applied metadata, and the stack order. For a split Plan, include the copyable whole-stack request from the reference.
+Show the complete draft in chat. If a tracker write was requested, create or update through its capability or gh without asking again for that authorization. Return actual parent and child URLs, kind, applied metadata, and stack order. Draft-only returns the body, not invented URLs. For split work, include the copyable whole-stack request from the reference; it is a future request, not current build or shipping permission.
 
 ## Anti-patterns
 
