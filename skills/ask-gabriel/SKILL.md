@@ -33,11 +33,13 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Situation | Start with |
 | --- | --- |
 | Unsure which skill | Stay here and answer below |
-| Fuzzy idea / research | `/analyze` |
+| How something works, a walkthrough, ownership, or layering | `/how` |
+| Why it was built this way, or the design rationale | `/why` |
+| Fuzzy idea / research before a build | `/analyze` |
 | Bug / something broken | `/analyze` → `/task-with-tests` when buildable |
 | Build until X is true | `/task-with-tests` (the default build; the user may refuse every test) |
 | Build with no tests at all | `/task` |
-| Coding style / KISS / principles / “is this clean?” | `/review` (Standards applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)) |
+| Coding style / is this clean? | `/review` (it applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)). The steering list is [principles.md](../rules/principles.md), not a skill |
 | Structure / folders / services / data shape | `/analyze`, then `/task-with-tests` (both apply [code-structure.md](../rules/code-structure.md); shapes in [code-structure-examples.md](../rules/code-structure-examples.md)) |
 | Need a Linear/GitHub ticket | `/write-ticket` (Memo, Research, or Plan) |
 | Ship a branch or pull request | [shipping.md](../rules/shipping.md) |
@@ -50,7 +52,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
 | Install this pack from skills.sh | `/setup-gabriel-skills` (asks where the skills and `AGENTS.md` go; manual copy only if install fails) |
 
-Prefer `/analyze` then `/task-with-tests` for a build. Recommend only the skill names in this map; nested vs one-off is a fork inside that skill’s `SKILL.md`.
+Prefer `/analyze` then `/task-with-tests` for a build. `/how` and `/why` stop after the mechanics or the rationale. Recommend only the skill names in this map; nested vs one-off is a fork inside that skill’s `SKILL.md`.
 
 `/task` splits the work and builds every slice itself. A test is written only when the user asked for it or accepted a `/task` behavior-lock brief or a `/review` recommendation ([testing.md](../rules/testing.md)). Ordinary edits do not get tests.
 
@@ -62,7 +64,7 @@ Prefer `/analyze` then `/task-with-tests` for a build. Recommend only the skill 
 2. Recommend **one** next skill and the next one or two steps. Link the matching journey when there is one.
 3. Run that skill only when the user says to (or said “just pick and go”).
 4. Talk in ordinary words and spell out abbreviations. Skip chatbot closings and puffery.
-5. When recommending `/task`, `/task-with-tests`, or `/analyze`, say they apply code-quality.md and code-structure.md.
+5. When recommending `/task`, `/task-with-tests`, `/analyze`, `/how`, or `/why`, say they apply code-quality.md and code-structure.md.
 
 ### The agent is unsure mid-work
 

@@ -28,6 +28,7 @@ Run it before acceptance evidence and `/review`; fix a failed box first. `/revie
 ## Named principles
 
 In chat, cite each as **plain (Classic)** ([Plain language](writing-style.md#plain-language)): `We need to keep this simple (KISS).`
+Design, verification, and delegation judgments open [principles.md](principles.md). That file points here for fail fast and types. It does not restate this table.
 Six checks (keep it simple, light to read, fail fast, subtract first, safe to retry, types tell the truth) adapt poteto's [pstack](https://github.com/backnotprop/pstack) principles (MIT).
 
 | Principle | Classic | Meaning | Test |

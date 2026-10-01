@@ -21,6 +21,10 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 - Return the analysis memo in chat only, and keep state in the execution context.
 - Save a memo only when the user explicitly requests it and approves the destination.
 
+## Mechanics or rationale only
+
+If the user only wants how something works (a walkthrough, who owns a layer, how layers fit), stop and follow [`/how`](../how/SKILL.md). If they only want why it is this way, stop and follow [`/why`](../why/SKILL.md). A bug, an idea, impact, or a build seed stays here.
+
 ## Process
 
 1. Establish or refresh the relevant execution context and normalize the ask.
@@ -60,4 +64,5 @@ step, and work without a parent brief.
 ## Anti-patterns
 
 - Returning a raw search hit list instead of the memo
+- Answering a pure how or why question with this memo
 - Creating tickets, implementing code, or writing tests

@@ -20,7 +20,7 @@ The user reports a problem and asks for no fix yet. "Investigate a bug" matches 
 
 ## 2. Analyze
 
-`/analyze` finds the code first, then judges it. The memo leads with a diagram of the failing path:
+`/analyze` finds the code first, then judges it. When the open question is only how the charge path works, use `/how`. When it is only why the retry key is created on the click, use `/why`. The memo still owns the diagram and the `/task` seed:
 
 - `billing.makeUserPay` honors a retry key, and its accepted test is green.
 - `use-checkout.ts` creates a new retry key on every click, so a double click sends two keys. The rule holds at the service, and the caller defeats it.
