@@ -35,13 +35,26 @@ For a Feature, establish what will vary or multiply, then the seam for each conf
 
 Use /analyze for evidence about the problem, affected flow, impact, risks, and consequential design choices. Reuse current analysis; refresh missing or stale evidence as the conversation develops. Its targeted /how and /why calls keep their own contracts and return conclusions here. They do not create intermediate tickets or start separate interviews. /analyze and this skill synthesize the proposed design; /how explains current mechanics and /why explains evidenced historical rationale.
 
+### Implementation items
+
+Make the implementation path explicit in `Work items`: numbered meaningful changes or outcomes, with prerequisites before consumers. Name real dependencies by item number and the contract or state they supply; mark independent work as independent. Numbering alone does not imply a dependency or create a PR boundary. A small change can have one compact item. Do not turn routine edits, individual files, or coding mechanics into separate items.
+
+Each item carries four local parts:
+
+- **Do:** the specific change and resulting behavior or outcome.
+- **Why:** why this change and approach are needed, including the reason for its consequential choices. Reuse settled decisions and their evidence; do not invent a justification or repeat the broad goal as every item's reason.
+- **How:** the concrete approach through relevant code, data, contracts, and constraints, with evidence pointers and material uncertainty where needed. Resolve consequential ambiguity before finalizing, while leaving ordinary coding choices to the executor.
+- **Verify:** an observable result and a suitable way to check this item's behavior or contract after implementation. Describe a future check, not a completed result. Refer to `Tests` for any proposed, accepted, or refused test and its decision source. This field neither authorizes new tests nor starts execution, migrations, deployment, or other planned work.
+
+Each item owns its local rationale and approach. Keep Structure and Foundation for shared design, Files as a path-to-item index, Already decided for shared decisions or bounded delegation, and Done when for overall acceptance. Reference those shared facts briefly where needed instead of copying them into every item. If an item is the only owner of a choice, explain it there once. Keep the ticket proportional; a short clause per part can be enough.
+
 ### Fresh-executor handoff
 
 Before showing a Plan as complete or writing it, read it as an executor without the old chat. Can that reader understand who benefits, the outcome and reason, scope, constraints, relevant entry points and dependencies, observable success, and test decisions from the current body and its specific source pointers? Check each child too. Fill material gaps in the existing sections; do not paste the full memo, interview, or history into the ticket.
 
 Could two competent executors follow this body yet choose materially different behavior, data meaning, contracts, or cutover? If so, resolve the factual gap or consequential decision before calling the body ready. An explicit delegation can leave a choice to the executor only when the body names the choice, its constraints, who may decide, and why that discretion is acceptable. Preserve the user's authorization boundaries; recording a delegation does not create consent. Silence is not delegation. Ordinary implementation details may remain open within the stated contract.
 
-For each material decision, preserve the chosen behavior or shape, how it fits the affected flow, why it was chosen, and the relevant evidence, uncertainty, or invariant. Put these beside the decision in the existing Structure, Rules, Files, Done when, or Already decided sections. A broad outcome rationale does not replace the reasons for individual decisions. Source pointers support the body; they must not hide an unresolved choice in another document.
+Check every meaningful implementation item: can the executor identify what to do, why that approach was chosen, how it fits the code or data flow, and what observable result will verify it? Are its prerequisites and the contracts they supply clear, with no consumer ordered before its dependency? A broad outcome rationale, file list, or global decision list does not replace those local explanations. Preserve relevant evidence, uncertainty, and invariants beside the choice, with short references to shared context when needed. Source pointers support the body; they must not hide an unresolved choice in another document.
 
 Carry the relevant `/how` conclusions into the existing flow and ownership sections. Carry `/why` conclusions only when they explain a current constraint or decision, with a compact evidence pointer and their Found, Inferred, or Unknown status intact. Historical rationale is not the user's desired outcome. Keep only conclusions needed to understand or implement the current decision.
 
@@ -105,6 +118,7 @@ Trim fat and useless text. Chat and `/grill-me` hold the interview trail. The ti
 | User corrects the draft | Rewrite affected sections into the current version; preserve draft-only versus write authorization. |
 | Material context missing | Research facts; return unresolved user decisions to /grill-me. Keep the incomplete draft in chat. |
 | Two plausible implementations differ materially, or a material decision lacks its reason | Research facts, settle or explicitly delegate the choice, and carry its rationale into the body before finalizing. |
+| An implementation item lacks actionable Do, Why, How, Verify, or a required dependency | Fill its local explanation from evidence and settled decisions before finalizing; do not invent facts or execute its checks. |
 | Analysis absent or shallow | Run or refresh /analyze before locking the affected decision. |
 | Tracker kind label missing | Use only real label IDs; keep the kind in the body. |
 | Comment API unavailable for a material update that would lose the prior body | Stop before replacement and report the blocker. |
@@ -116,6 +130,7 @@ Show the complete draft in chat. If a tracker write was requested, create or upd
 ## Anti-patterns
 
 - A Plan that only restates the problem, or that depends on the comment thread
+- A file checklist or broad rationale standing in for ordered, locally explained implementation items
 - Writing the full implementation into the Plan
 - Using a tracker ID the tracker did not return
 - A large Plan with one implementation ticket when its outcomes could be reviewed separately

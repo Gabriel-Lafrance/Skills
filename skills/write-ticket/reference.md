@@ -98,7 +98,21 @@ flowchart LR
 - Next change this makes small: <request> → <one new file + one registration>
 
 ## Files
-- `path/to/file` - `symbol` - <what changes>
+- `path/to/file` - `symbol` - <work item number>
+
+## Work items
+1. <meaningful change or outcome>
+   - Depends on: <item number and required contract/state> | independent
+   - Do: <specific change and resulting behavior>
+   - Why: <reason for this change and chosen approach, with relevant evidence>
+   - How: <concrete code/data/contract approach and constraints; cite shared context briefly>
+   - Verify: <observable expected result and planned check; reference Tests for test status>
+2. <next meaningful change or outcome, when needed>
+   - Depends on: <item number and required contract/state> | independent
+   - Do: .
+   - Why: .
+   - How: .
+   - Verify: .
 
 ## Snippets
 <short snippets only where a wrong guess would make the implementer ask>
@@ -119,16 +133,38 @@ or `none: no tests specified`
 
 ## Already decided
 - Rejected: <live alternative or exclusion and reason, when useful> | _none_
-- <material decision: chosen behavior or shape, fit in the flow, reason, evidence or uncertainty, and constraints>
+- <shared material decision: chosen behavior or shape, reason, evidence or uncertainty, and constraints; refer to item numbers for item-owned decisions>
 - <explicitly delegated choice, its bounds, decision owner, and why discretion is acceptable> | _none_
 ````
 
 - `## Foundation`: a seam is a named extension point where a new variant plugs in.
-- `## Structure`: `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
+- `## Structure`: shared design only; item-specific approaches belong in Work items. Use `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
 - `## Outcome`: keep the outcome and reason on short separate lines. Include only the evidence needed to understand the current goal, with specific source pointers; do not copy the analysis memo.
-- `## Already decided`: preserve the reason for each material decision and its relevant evidence or uncertainty. Keep a live rejected alternative only when it prevents a credible mistake; `_none` is allowed. Do not repeat decisions already explained in Structure, Rules, Files, or Done when. Across those sections, each material choice must explain what was chosen, how it fits the affected flow, and why. Preserve uncertainty in historical inferences. Explicit delegation names the choice, bounds, owner, and reason; an omitted decision is not delegated.
-- `## Snippets`: `_none` only when Rules, Structure, and Files already settle every hard choice.
+- `## Work items`: follow the [implementation-item contract](doctrine.md#implementation-items). Use as many items as meaningful outcomes require, including one for a small change. Order dependencies before consumers and identify the supplied contract or state. Each item needs local Do, Why, How, and Verify; brief references can carry shared context, but cannot replace an item's specific reason and approach. Leave routine coding choices open. These items are not linked subissues or permission to execute.
+- `## Files`: a compact path-to-item index, not a second implementation plan. `## Done when` states overall acceptance; each item's Verify states its local observable check without duplicating the whole acceptance list.
+- `## Already decided`: keep shared decisions, useful live exclusions, and bounded delegation here; item-owned decisions and reasons stay in their items. Preserve relevant evidence and uncertainty in historical inferences. A live rejected alternative belongs only when it prevents a credible mistake; `_none` is allowed. Explicit delegation names the choice, bounds, owner, and reason; an omitted decision is not delegated.
+- `## Snippets`: `_none` only when Rules, Structure, and Work items already settle every hard choice.
 - `## Tests`: use this authorization format for every Plan, including a single PR. Record each test's status and settled decision source; quote the relevant user instruction when no durable link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed.
+
+### Worked work items
+
+Illustrative excerpt, not repository facts: assume research found `ExportService.render` returns CSV bytes for an authorized account, `downloadReport` serves the existing report download route, and the report screen has a download action and error display. The user settled that this route will download those bytes; no new tests are authorized. The real ticket must use researched paths and preserve the actual test decision source in Tests.
+
+```markdown
+## Work items
+1. Return the CSV download from the existing route
+   - Depends on: independent; uses the existing authorized-account contract of ExportService.render.
+   - Do: Make downloadReport return the rendered CSV as an attachment.
+   - Why: The settled design reuses the existing download route, so callers keep the same entry point.
+   - How: In downloadReport, pass the account from the existing authorization boundary to ExportService.render; send its bytes with text/csv and an attachment filename. Preserve the route's current access-denial behavior.
+   - Verify: After implementation, check that an authorized download contains the service's CSV bytes and attachment headers, and denied access still returns the existing denial response. Use existing checks or a safe manual request; see Tests for the new-test constraint.
+2. Connect the report screen to the download
+   - Depends on: item 1 supplies the CSV attachment response at the existing route.
+   - Do: Make the report screen's download action request that route.
+   - Why: Users need the report from the screen where they select it; using the route preserves the settled authorization boundary.
+   - How: Point the screen's existing download action at downloadReport and use the existing error display when the request fails. Leave CSV rendering in ExportService.
+   - Verify: After implementation, activate the action for an authorized account and inspect the saved CSV; a failed request shows the existing error display. This is a planned manual check, not evidence that it has run.
+```
 
 ## Stack handoff
 
