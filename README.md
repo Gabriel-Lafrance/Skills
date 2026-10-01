@@ -78,12 +78,12 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Six kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/analyze` and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
+Six kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
 | **Guide**         | `/ask-gabriel`                                           | Route to the next skill |
-| **Clarify**       | `/grill-me`, `/analyze`                                  | Intent and research   |
+| **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Memo, Research, or Plan |
 | **Build**         | `/task-with-tests`, `/task`                              | Implement end-to-end. `/task-with-tests` is the default and writes the accepted tests before the code; `/task` skips tests |
 | **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, run all repository test suites, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
@@ -102,6 +102,8 @@ flowchart LR
 
 ## Common paths
 
+- How does this work → `/how`
+- Why is it this way → `/why`
 - Think / research → `/analyze`
 - Fuzzy intent → `/grill-me`
 - Idea to keep → `/write-ticket` Memo

@@ -35,3 +35,4 @@ Topic files, named in the Read when table:
 - [shipping.md](shipping.md): branch names, shipping rules, the create tool, the CI mirror, and the branch-and-push process
 - [shipping-templates.md](shipping-templates.md): ship questions and announcements, the PR Change diagram rule, and the PR title and body template
 - [tooling.md](tooling.md): lint, format, verify terminals first, and when to run the CI mirror
+- [principles.md](principles.md): steering vocabulary for a design, verification, or delegation judgment. One-line rule, when to open it, and a pointer to the file that owns the detail

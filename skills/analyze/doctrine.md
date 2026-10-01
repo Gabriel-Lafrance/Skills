@@ -11,6 +11,8 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 ## Does not own
 
 - Implementation, ticket writes, or `/task` promotion unless the user (or an explicit parent instruction) chooses it
+- A mechanics walkthrough: [`/how`](../how/SKILL.md)
+- Historical rationale with evidence tiers: [`/why`](../why/SKILL.md)
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - Numbered process: [`SKILL.md`](SKILL.md)
 
@@ -169,5 +171,6 @@ Reply like: 1a
 ## Anti-patterns
 
 - Treating a memo as implementation or ticket-write approval
+- Answering a pure how or why question with this memo
 - Drawing every file instead of modules, actors, and flow
 - Replacing evidence with an implementation-level design

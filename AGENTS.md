@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.2.1 -->
+<!-- gabriel-skills-agents v2.3.0 -->
 
 # Gabriel skills
 
@@ -24,13 +24,17 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Run all repository tests and prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
-| Look into, investigate, research, or explain a bug, an idea, or a question before building | `analyze/SKILL.md` |
+| Look into, investigate, or research a bug, an idea, or a question before building | `analyze/SKILL.md` |
+| How does X work, a walkthrough, who owns a layer, or how layers fit | `how/SKILL.md` |
+| Why was X built this way, or what is the design rationale | `why/SKILL.md` |
 | Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
 | Pick a skill, or is unsure what to do next | `ask-gabriel/SKILL.md` |
 
 Skip the matching skill and you will improvise a weaker version of a workflow that already exists.
 
 **When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md`.** It is the map: its journeys show the full path for common work, step by step.
+
+A how-does-it-work question opens `how/SKILL.md`. A why-was-it-built question opens `why/SKILL.md`. `analyze/SKILL.md` stays the broader memo.
 
 ## Rules
 
@@ -56,6 +60,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip the CI mirror | `rules/shipping.md`, `rules/shipping-templates.md` |
 | Lint, format, touch CI or editor settings, or verify a change | rerun a ritual lint instead of reading the terminals | `rules/tooling.md` |
+| Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
 | Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
 
 ## Conflict

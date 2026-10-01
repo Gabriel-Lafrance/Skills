@@ -21,6 +21,7 @@ skills/
     SKILL.md             # required so npx skills installs this folder
     keep-it-simple.md, strong-foundation.md, no-unrequested-tests.md, main-context.md
                          # one file per rule in the AGENTS.md Rules section
+    principles.md          # steering vocabulary; detail stays in the file that owns it
     journeys/            # one piece of work followed through skills and rules; /ask-gabriel is the map
     code-quality.md      # code quality rules (quality:* cite keys), named principles, mechanical rules
     code-quality-examples.md   # good vs bad snippets for code-quality.md
