@@ -36,7 +36,6 @@ skills/
     tooling.md           # lint, format, CI, verify terminals first
   review/                # /review: a local branch diff or an open GitHub PR
     contract.md          # review evidence, modes, finding record, output fence, severity
-  retro/                 # scoped workflow retrospective; recommendations by default
   setup-gabriel-skills/   # installs skills, including rules/, and places AGENTS.md
   <skill-name>/
     SKILL.md             # required: frontmatter + how-to
@@ -91,7 +90,6 @@ Every workflow skill triggers from what the user asks, so its `description` must
 - **Execution context:** parent orchestrators link the [Execution context](./skills/rules/planning.md#execution-context) section of `planning.md`, keep outcome, decisions, rules that must stay true, scope, and handoff visible in chat. Do not create agent-owned runtime trees.
 - **Execution handoffs:** reuse [execution.md](./skills/rules/execution.md) for ready-ticket preflight, evidence, remediation, recovery, and completion. The chosen build skill owns its execution sequence; the active orchestrator owns dispatch and acceptance. Nested capabilities follow [planning.md](./skills/rules/planning.md#nested-capabilities), returning bounded updates to their parent.
 - **Review:** `/review` keeps its [contract](./skills/review/contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
-- **Retrospectives:** [`/retro`](./skills/retro/SKILL.md) owns scoped evidence-backed workflow recommendations, including instruction removal. It does not create another standards owner or an automatic post-build loop.
 - **PR ship:** every agent that creates a GitHub PR follows [`skills/rules/shipping.md`](./skills/rules/shipping.md): the harness pull-request tool when it has one, otherwise `gh`, a standalone branch that does not track `dev`, and the CI mirror in this environment before a push that opens or updates a PR.
 - **Ticket stacks:** `/write-ticket` defaults larger work to a parent and PR-sized child tickets with dependencies and explicit PR bases. Use its [stack handoff](./skills/write-ticket/reference.md#stack-handoff) for a single request to implement all children; builds follow the [whole-stack handoff](./skills/task/doctrine.md#whole-stack-ticket-handoff) and [stack shipping rules](./skills/rules/shipping.md#stacked-pull-requests).
 - **Do not** put shared rules at `skills/*.md`: they will not install.

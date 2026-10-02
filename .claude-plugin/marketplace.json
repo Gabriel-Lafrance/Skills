@@ -5,14 +5,14 @@
   },
   "metadata": {
     "description": "Gabriel Lafrance engineering toolkit: skills and an AGENTS.md contract.",
-    "version": "2.4.0"
+    "version": "2.4.1"
   },
   "plugins": [
     {
       "name": "gabriel-skills",
       "source": ".",
       "description": "Engineering toolkit: agent skills and an AGENTS.md contract.",
-      "version": "2.4.0",
+      "version": "2.4.1",
       "homepage": "https://github.com/Gabriel-Lafrance/Skills",
       "repository": "https://github.com/Gabriel-Lafrance/Skills",
       "license": "MIT",

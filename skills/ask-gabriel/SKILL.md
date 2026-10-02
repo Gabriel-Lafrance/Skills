@@ -47,7 +47,6 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Linear ticket → build | `/task-with-tests` with the ticket. Ship with those same rules |
 | Pressure a decision, direction, or structure | `/grill-me` |
 | Review local branch vs main, or an open GitHub PR | `/review` |
-| Learn from corrections or wasted effort in a specific session, PR, or review | [`/retro`](../retro/SKILL.md), recommendations by default |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
 | Run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` and `/task-with-tests` already run it next to `/review`; live checks are sized to what changed) |
