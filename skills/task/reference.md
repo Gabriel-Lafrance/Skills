@@ -131,7 +131,7 @@ Run after the Locked in message, once the inline plan names the public entry. Th
 
 Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once.
 
-1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar.
+1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar and mandatory [No tautological tests](../rules/testing.md#no-tautological-tests) gate.
 2. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. No public entry, no brief.
 3. If no brief qualifies, record `Behavior locks: none` and continue without asking.
 4. Otherwise send one Questions-only message and wait. It is a hard stop: silence is not yes, and implementation does not start while it is open.
@@ -185,7 +185,7 @@ Start the gate when every slice is done, blocked, or explicitly waived.
 
 1. Launch two subagents in one step so they run at the same time:
    - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It runs all repository test suites and drives only the affected live paths ([scope](../verification/doctrine.md#scope-to-the-change)).
-   - `/review`: give it the same handoff. It reviews the diff for Standards and Spec.
+   - `/review`: use the [fresh combined-review context](../review/contract.md#fresh-combined-review-context), pinned to the same tree. It reviews the diff for Standards and Spec without the implementation conversation or a prewritten verdict.
 
    If the harness has no subagent, run `/verification`, then `/review`, in this context.
 2. Use the shared [handoff and evidence contract](../rules/execution.md#handoffs-and-evidence). Read the actual evidence before accepting a verdict.

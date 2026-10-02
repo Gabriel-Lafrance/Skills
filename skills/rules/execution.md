@@ -18,6 +18,8 @@ Use the existing [execution context](planning.md#execution-context) and [slice c
 
 Return the bounded contribution, stable finding IDs, checks and evidence IDs tied to acceptance IDs, actual checked revision/diff and environment, result, and concrete blockers. Reuse IDs across fixes so old and new evidence can be compared; do not rename an unresolved finding into a new success. This is an in-chat handoff, not a required registry.
 
+For the selected route's combined review, use the [fresh review context](../review/contract.md#fresh-combined-review-context). Preserve its existing gate order and implementer constraints; the focused reviewer does not add a per-slice gate or acquire remediation ownership.
+
 After a change, identify which claims depend on changed code, contracts, dependencies, fixtures or environment. Invalidate that evidence and recheck the affected claims and seams. Explain why any retained evidence still applies. A scoped remediation review covers named findings, touched paths and direct regressions; broaden it when the fix changes another contract or scope. Scoped re-review never replaces whole-result acceptance. Final verification must cover the final combined tree, including all configured suites and applicable real-path checks; an earlier pass cannot certify later edits.
 
 ## Remediation
@@ -27,6 +29,8 @@ Review owns stable findings and their evidence. The active orchestrator alone ad
 For an actionable finding set, the orchestrator requests `/analyze` review-remediation once when cause, impact or correction needs investigation, reusing an existing adequate analysis rather than triggering a second dispatch from review. Promote the selected set once for the current evidence and fix decision, explicitly naming finding IDs with their correction, touch surface, non-goals, acceptance and owner under the user's existing authorization. If that authorization does not cover fixes, ask before implementing. New scope, waivers and changed test assertions still need the user's decision.
 
 Fix mode is a bounded slice of the current outcome. Prefer the smallest authoritative correction; no new product discovery, optional cleanup or test suggestion. Return findings to their responsible worker where the selected route uses workers. Recheck under [Handoffs and evidence](#handoffs-and-evidence), then the route's gate order. Reanalyze only when new evidence or a failed approach changes the diagnosis. A blocked or declined required fix stays blocking unless the user explicitly waives it by name.
+
+Under existing authorization, deliver the corrected artifact with renewed evidence before handing the result to human review. A list of actionable comments is not completion of an authorized fix. Report findings outside authorization or blocked by a required decision explicitly; do not silently implement them or call them resolved.
 
 ## Recovery and completion
 

@@ -7,7 +7,7 @@
 
 No tests unless the user accepted that test. Changing code is not a reason to add a test.
 
-Leave test files unchanged for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Skip a test that chases coverage, restates the implementation (`expect(add(1, 2)).toBe(3)`), or exists because the suite should cover this.
+Leave test files unchanged for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Skip a test that chases coverage, violates [No tautological tests](testing.md#no-tautological-tests), or exists because the suite should cover this.
 
 Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie, and add no new case beside it.
 

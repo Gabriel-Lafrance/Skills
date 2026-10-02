@@ -65,6 +65,8 @@ The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pac
 
 All three build entry points share a [ready-ticket preflight](./skills/rules/execution.md#ready-ticket-preflight): check current code, reuse settled decisions and test consent, and reopen only new material gaps. `/write-ticket` checks nontrivial final drafts with a fresh reader before handoff. The active orchestrator owns remediation and final acceptance; research, review, and verification return bounded evidence.
 
+For meaningful boundary changes, ticket preparation checks what callers need to know and how public behavior will be verified before splitting the work. Combined review uses fresh standards context; the implementer still receives essential constraints.
+
 ## What ships
 
 The contract and the skills work in any harness. There is no Cursor-only ruleset. The Claude, Cursor, and Codex plugins ship the same skills. They do **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).

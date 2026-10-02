@@ -155,6 +155,12 @@ adjudicates and dispatches the bounded fix using the existing authorization.
 A standalone review with no requested fixes stops. A waiver remains a user
 decision tied to the same ID, never proof that the issue is fixed.
 
+## Green test with a hidden failure
+
+The ticket requires retrying `billing.makeUserPay(orderId)` without a second charge. The test calls that public entry twice, but its provider mock deduplicates on `orderId` even when the production caller omits the provider's idempotency key. The green assertion proves the mock's policy. Inspecting the caller and provider contract shows that production retries can charge twice.
+
+Report the missing key and the test's suppressed failure mode with path evidence under the existing finding record. A boundary fake that follows the real provider contract would expose that credible regression without asserting private helper calls. Return the finding to the orchestrator, which assigns the bounded fix to the responsible owner and renews invalidated evidence under existing consent. The reviewer neither edits the test nor launches another worker. Do not infer this defect solely from a mock's presence; a mock preserving the relevant provider semantics may be appropriate.
+
 ## Behavior lock
 
 ```markdown

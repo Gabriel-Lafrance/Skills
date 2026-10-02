@@ -22,7 +22,7 @@ Adapted from [openclaw test-audit](https://github.com/openclaw/openclaw/tree/mai
 
 ## Read when
 
-- Every run: [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [testing.md](../rules/testing.md). The [junk patterns](../rules/testing.md#junk-patterns) and [retention bar](../rules/testing.md#retention-bar) live there, not here.
+- Every run: [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [testing.md](../rules/testing.md). The mandatory [No tautological tests](../rules/testing.md#no-tautological-tests) rule, [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar) live there, not here.
 - Throughout: keep judgment in the main context and hand large reads to a subagent ([main-context.md](../rules/main-context.md)). Discovery and ledgers are subagent work.
 - Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user). Findings follow [Plain language](../rules/writing-style.md#plain-language).
 - Running checks: [tooling.md](../rules/tooling.md). Shipping: [shipping.md](../rules/shipping.md).

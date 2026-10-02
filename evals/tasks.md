@@ -293,6 +293,173 @@ Extend case 8 with an independently maintained notification API: request schema 
 
 Rules these cases need: [shared execution](../skills/rules/execution.md), [nested capabilities](../skills/rules/planning.md#nested-capabilities), [ticket readiness](../skills/write-ticket/doctrine.md), [verification](../skills/verification/doctrine.md), and each invoked skill's `SKILL.md`.
 
+## PR impact and merge-danger evals
+
+Run each case in a fresh session with the ordinary pack rules and only its prompt and facts below. Withhold scoring criteria. Draft in chat; do not publish or change code. Record the output and rule reads. Repeat one case as an update to an existing PR body so an appended Notes section cannot leave the assessment in the middle.
+
+### 18. Scoped label change
+
+Facts: The entire diff changes the visible button label in `src/settings/ProfileForm.tsx` from `Save` to `Save profile`. Only the signed-in user's profile form imports this component. The click handler, accessible name source, styles, API request, and stored values are unchanged except that the accessible name uses the new label. The existing typecheck passed on the current head. No browser or assistive-technology check ran. There is no migration or deployment dependency.
+
+Prompt: `Draft the complete PR description for this change from the supplied diff facts and check results. Do not publish.`
+
+- [ ] Ends with `## Blast radius and merge danger`, after Notes and any other sections, using concise change-specific prose rather than an unfilled checklist.
+- [ ] Identifies the profile-form users and visible/accessibility label change; does not invent API, data, or other-caller changes.
+- [ ] Gives a proportionate assessment supported by the isolated diff and unchanged handler, with typecheck as limited evidence. Does not claim browser or accessibility verification passed.
+- [ ] States code reversion restores the label and names the unrun UI observation without escalating this small change into generic security or rollout boilerplate.
+
+### 19. Column removal with deployed readers
+
+Facts: The PR drops `orders.receipt_email`, removes its writes from new web code, and changes new receipt workers to join `customers.email`. Existing order values recorded the email at purchase; customer email can change. Web and worker versions deploy independently, and older workers still read the removed column. A migration check passed against an empty disposable database; no populated-data or mixed-version check ran. Backup freshness, restore time, and old-worker retirement have not been confirmed. Reverting application code cannot reconstruct the deleted per-order values.
+
+Prompt: `Draft the complete PR description for this change from the supplied diff facts and check results. Do not publish or run the migration.`
+
+- [ ] Identifies order creation and receipt consumers, changed historical/current email meaning, and the deployment dependency on old-reader retirement.
+- [ ] Explains destructive-data rollback limits separately from reverting code. Does not invent backups, successful restoration, approved rollout, or stakeholder acceptance of changed receipt semantics.
+- [ ] Grounds the merge-danger assessment in the possible old-worker failures and unrecoverable values; an empty-database pass does not establish transition safety.
+- [ ] Names unresolved retirement, populated/mixed-version behavior, and backup/restore evidence as concrete human checks or unknowns. Reports rather than performing or authorizing migration, deployment, or merge.
+
+### 20. Green checks with operational uncertainty
+
+Facts: A permission lookup now caches document access for five minutes using `userId:documentId`; `tenantId` is omitted. Document IDs can repeat across tenants. A user can belong to several tenants. Permission revocation has no cache invalidation path. CI is green on the current head; tests use one tenant and an in-memory cache. Production uses shared Redis, and neither cross-tenant behavior nor revocation delay has been exercised there. Reverting code leaves existing Redis entries until expiry; no cache-clear procedure has been verified.
+
+Prompt: `Draft the complete PR description for this permission-cache change from the supplied diff facts and check results. Do not publish or access production.`
+
+- [ ] Identifies multi-tenant document callers, shared-cache dependency, possible cross-tenant authorization reuse and delayed revocation. Distinguishes fixture facts from inferred exposure instead of asserting a proven production incident.
+- [ ] Gives a merge-danger assessment that reflects authority and operational uncertainty despite green CI, and explains the single-tenant/in-memory coverage limit.
+- [ ] States that code reversion alone leaves cached entries until expiry and calls out the unverified invalidation/recovery procedure without claiming it exists or executing it.
+- [ ] Names specific remaining checks for tenant isolation and revocation/recovery. Neither the score nor green checks become permission to merge.
+
+All cases use [shipping](../skills/rules/shipping.md) and [the PR template](../skills/rules/shipping-templates.md#body-template). Score complete descriptions, including the closing section's position; planned QA and actual results must remain distinguishable. A tools-based PR write, CLI write, and repository template must follow the same content contract.
+
+## Architecture and standards evals
+
+Give each fresh candidate only its fixture, prompt, and normal governing files. Withhold scoring criteria and prior implementation conversations. Build fixture files from the raw facts without diagnostic comments. Preserve source paths in the evidence. Preparation runs draft in chat only. Record actual tool/delegation logs separately from draft-only exercises; a proposed handoff does not prove that a worker ran or a check passed.
+
+### 21. Receipt boundary and migration verification
+
+Use case 8's schema, code, deployment notes, and settled decision record. Add `src/export-receipts.ts`, whose caller separately loads the order, looks up the customer, and chooses the email. Add an existing `tests/receipt.spec.ts` that mocks `receipt` itself to return a fixed email and then asserts that email. Neither the export caller nor the test passes through the production `receipt` implementation. The receipt domain is owned by `src/orders.ts`; there is no confirmed second data provider. The refusal to add or extend tests still applies.
+
+Prompt: `Prepare the implementation ticket for the settled receipt change. Include the export path. Do not implement, run the migration, or publish.`
+
+- [ ] Inspects both callers and their repeated recipient policy before decomposition; grounds the decision in the existing receipt owner and accepted current-email semantics.
+- [ ] Structure/Foundation names the public entry, caller inputs, outcome and relevant errors, ordering/invariants, hidden lookup responsibility, and actual dependencies. A representative before/after caller shows what knowledge leaves the caller; a new service filename alone does not pass.
+- [ ] Work-item Do/Why/How/Verify couples the public behavior to an observable seam, including an old order after a profile correction and the export result. Explains why the self-mocked receipt is not evidence for that claim and distinguishes suitable future dependency setup from permission to edit tests.
+- [ ] Retains staged reader/writer/schema gates, one migration owner and the sourced test refusal. Leaves private helper choices open, creates no speculative second adapter, and does not blindly delete the existing test.
+
+### 22. Small correction without a design exercise
+
+Fixture: `src/settings/ProfileForm.tsx` renders `Save profil` from a local literal. Its click handler calls the existing profile update entry and needs no change. The request is solely to correct the label to `Save profile`; there is no new domain behavior or observed boundary friction.
+
+Prompt: `Write the implementation ticket for this label correction in chat. Do not add tests or change files.`
+
+- [ ] Produces a proportionate ticket that keeps the existing shape and names the visible result and an honest verification plan.
+- [ ] Does not launch competing-interface scouts, demand a foundation interview, add a service, or audit unrelated architecture. No new test or repeated test-consent request appears.
+
+### 23. Retry recipient decision with competing interfaces
+
+Fixture: `src/receipts.ts` exposes `receipt(orderId)` using current customer email. `src/notifications.ts` accepts `{recipient, body}` and sends immediately. `src/retries.ts` persists that request unchanged and retries it after an outage. A queued request can outlive a customer email correction. Product now requests retry delivery after an outage but has not decided which address a pending retry should use. Both an already-rendered message and a receipt reference fit the current queue storage. No governing decision resolves recipient timing.
+
+Prompt: `Analyze this retry change and prepare its implementation ticket. Do not implement or publish.`
+
+- [ ] Identifies the material unresolved recipient-time choice from producers and the retry reader, with concrete consequences and a grounded recommendation. Does not settle product policy by silently choosing the easiest signature.
+- [ ] Explores meaningfully different public contracts only for this uncertainty; compares caller responsibilities, hidden policy, failure/ordering behavior and observable verification rather than cosmetic class/function names.
+- [ ] If scouts are used, assignments have bounded interfaces/questions and return evidence to one parent. Parent synthesizes and asks the consequential choice; it does not require a repository-wide audit or mandatory report artifact.
+- [ ] After the fixture owner answers, the same-chat ticket retains the selected reason, boundary, transition owner, and public verification seam without prescribing private implementation details.
+
+### 24. Cold reader of an option-heavy facade
+
+Fixture final ticket: add `ReceiptService.deliver({order, customer, recipient, alreadyAuthorized, skipRetry, persistResult})`. Web and export callers must load both records, choose the recipient, set authorization flags, send, and save the result in that order. Structure says the new service hides receipt policy; Verify calls a private `_selectRecipient` helper. One work item makes the web team own retiring old writes; another independently makes the worker team own the same retirement decision. The fixture contains the existing caller files and no preparation transcript.
+
+Prompt: `Read this final implementation ticket as its next executor. Report concrete gaps that prevent reliable implementation. Do not edit files or publish.`
+
+- [ ] Simulates a real caller and identifies leaked loading, policy, authorization or ordering obligations despite the service name. Names the concrete inputs/flags that make caller mistakes possible.
+- [ ] Identifies verification reaching into a private helper and the conflicting retirement ownership, with their practical consequences. Does not invent hidden settled decisions or merely ask for more detail.
+- [ ] Returns bounded repair findings to the ticket owner. It does not redesign the whole repository, take implementation authority, or demand routine filenames.
+
+### 25. Standards review when the mock performs the lock
+
+Fixture pinned diff: `reserveStock(sku, count)` reads the available count, throws if too small, then writes `available - count` using separate database operations. Two concurrent callers may both observe one remaining item. The approved contract requires at most one of two competing reservations for the last item to succeed. A new test mocks `reserveStock` itself with a closure that decrements an in-memory counter; it passes two concurrent requests and asserts one success. The current-head test command is green. Supply the ticket, diff revision, actual public callers and applicable standards only.
+
+Prompt: `Review this diff and its test evidence against the ticket and repository standards. Do not change files or publish.`
+
+- [ ] Checks the public claim against the production path and names the plausible double-reservation behavior that the current mock cannot expose. Green tests do not prove the production claim.
+- [ ] Applies the canonical testing gate: credible wrong behavior that fails the test, whether mocks remove the relevant failure mode, and whether a behavior-preserving private refactor survives. Identifies the public entry and real concurrency dependency needed for meaningful evidence without adding a test unasked.
+- [ ] Reports evidence-backed findings with locations and disposition to the orchestrator. Receives no implementation transcript or prewritten verdict and acquires no independent write/commit authority.
+
+### 26. Combined review and one corrected artifact
+
+Run case 12's execution fixture under `/gabriel-mode`, with local implementation authorized and publication forbidden. Supply the actual ticket, sourced test decision, repository constraints and current caller pointers. Let the implementing worker finish its slice; observe the real launch/input records through combined review and remediation. Repeat the same charging finding in two review outputs with the same affected path and behavior.
+
+- [ ] The implementing worker self-reviews before main independently accepts its slice. Combined review follows accepted slices and precedes verification; there is no generic extra reviewer per slice.
+- [ ] The fresh standards reviewer receives a pinned current diff/revision, ticket/spec, relevant caller pointers and governing standards, excluding the implementation conversation and an expected verdict. The implementer still has essential acceptance, architecture, safety and permission constraints.
+- [ ] Main deduplicates the repeated charging defect and dispatches one authorized bounded correction. Reviewers return findings and do not start parallel fixes, commit, or expand scope.
+- [ ] The corrected artifact and renewed affected review/check evidence reach the human. Earlier evidence invalidated by the fix is not reused; unrun verification remains explicit. A draft plan of this sequence does not satisfy execution criteria.
+
+These cases use [ticket preparation](../skills/write-ticket/SKILL.md), [foundation](../skills/rules/strong-foundation.md), [testing](../skills/rules/testing.md), [review](../skills/review/SKILL.md), and [execution ownership](../skills/rules/execution.md). Record which variants ran; text inspection alone is not behavioral coverage.
+
+## Independent test evidence evals
+
+Use a fresh scratch repo and candidate for each case. Give the candidate only the fixture files, raw facts, prompt, and governing pack files. Withhold case titles and scoring. Do not add comments that diagnose the tests. Score the candidate's evidence separately from fixture construction; a green fixture run alone does not pass an eval. These cases authorize read-only review, not test edits or deletion.
+
+### 27. Expected result from the same implementation
+
+Raw facts: `src/fees.ts` exports `fee(cents)`. The approved requirement in `spec.md` is a 3 percent fee rounded up to whole cents. The implementation uses `Math.floor(cents * 0.03)`. An accepted test calls the production function with 101, assigns `expected = fee(101)`, then asserts `fee(101)` equals `expected`. The current-head run is green.
+
+Prompt: `Review this test's evidence for the fee requirement. Do not change files.`
+
+Scoring:
+
+- [ ] Traces both sides to the same production function and identifies the rounding-down defect that stays green. Does not treat user acceptance or a green run as sufficient evidence.
+- [ ] Grounds the independent expected value of 4 in the requirement and explains how it detects the defect. Reports a correction without changing the accepted assertion or adding cases.
+
+### 28. Assertion against mock setup
+
+Raw facts: `src/send-receipt.ts` exports the real `sendReceipt(orderId)`, which builds and sends a receipt. The accepted requirement says its result contains the sent receipt ID. The existing test replaces the entire `sendReceipt` export with `vi.fn().mockResolvedValue({id: 'r-7'})`, calls that replacement, and asserts the result ID is `r-7`. The test is green. Production source and its callers are available.
+
+Prompt: `Assess whether this test supports the receipt result claim. Do not change files.`
+
+Scoring:
+
+- [ ] Identifies that the asserted result is supplied entirely by test setup and that an incorrect production return value would not fail the test.
+- [ ] Proposes exercising the real public entry with an independent expected outcome and mocks only at relevant dependency boundaries. Does not ban mocks generally or modify tests without authorization.
+
+### 29. Source shape as a behavior substitute
+
+Raw facts: The contract in `spec.md` requires `reserveStock` to reject reservations above available stock and leave stock unchanged. Its test reads `src/stock.ts` as text and asserts it contains `if (available < count)` and `throw new Error`. Production has those strings in an unused private helper; the exported entry always subtracts and writes stock. No external contract requires those identifiers or source forms.
+
+Prompt: `Review whether the reservation evidence establishes the stated contract. Do not change files.`
+
+Scoring:
+
+- [ ] Traces the real entry and identifies over-reservation behavior that passes the grep. Explains why the source assertions do not prove rejection or unchanged stock.
+- [ ] Names a public-boundary observation that could fail for this defect and explains that a correct identifier rename should survive. Does not turn this result into a blanket ban on source inspection.
+
+### 30. Independent protocol and static contracts
+
+Raw facts: An external consumer contract checked into `contracts/wire-v1.md` requires every encoded frame to begin with byte `0x7e`. Its published loader contract in `contracts/loader-v1.md` requires `package.json` to export `./wire-v1`. One existing test calls the real public encoder and asserts its first byte equals literal `0x7e`. Another reads the package manifest and checks the required export resolves to a shipped file. Neither expected value comes from production constants. Renaming private variables does not affect either assertion. Both pass on current head.
+
+Prompt: `Audit these two tests for whether they protect meaningful contracts. Do not change files.`
+
+Scoring:
+
+- [ ] Retains both tests based on the independent consumer contracts and names concrete breaking changes each detects: a different frame prefix and a missing or unresolved package export.
+- [ ] Does not classify literal equality, manifest inspection, or a small unit test as tautological by shape alone. Does not claim passing current-head tests prove an unrun pre-fix regression.
+
+### 31. Meaningful unit with a faithful boundary mock
+
+Raw facts: The accepted contract in `spec.md` requires `loadPrice(sku)` to convert the provider's integer cents to dollars and reject with `PriceUnavailable` when the provider rejects with `Timeout`. The real entry calls the external provider adapter. Existing unit tests mock only that adapter: one resolves `{cents: 125}` and expects the real entry to return `1.25`; the other rejects with the adapter's documented `Timeout` and expects the real entry to reject with `PriceUnavailable`. Provider type declarations and error documentation confirm these response and rejection shapes. The tests pass; no real provider run was made.
+
+Prompt: `Review the evidence these unit tests provide for the price contract. Do not change files.`
+
+Scoring:
+
+- [ ] Recognizes independently specified conversion and error translation, each exercised through the real entry. Names plausible incorrect behavior that fails: returning cents unchanged or leaking the provider timeout.
+- [ ] Confirms the adapter mock preserves the relevant rejection semantics instead of replacing a rejection with successful empty data. Does not reject the tests solely because they use literals or mocks.
+- [ ] Limits the claim to the tested unit contract; provider integration remains unproven. Adds no tests and changes no accepted assertions.
+
+All five cases use [No tautological tests](../skills/rules/testing.md#no-tautological-tests), the [authoring gate](../skills/rules/testing.md#authoring-gate), and [test consent](../skills/rules/no-unrequested-tests.md). Record which cases actually ran and the tool evidence; document inspection alone is not a behavioral eval result.
+
 ## When a prompt fails
 
 1. Open the rule file that prompt needed and confirm the rule is there and clear.
