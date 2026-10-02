@@ -14,6 +14,8 @@ Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec
 - About to judge Standards on any `initial` or `full-rescan`, or on new PR follow-up surface, however small the diff? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you pass code the rules reject.
 - Reviewing a Feature diff? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and you pass a Feature that hardcodes what the plan said would vary.
 - Every run: open [doctrine.md](doctrine.md) and the [review contract](contract.md). Skip them and the output fence and axes come out wrong.
+- At a combined-result gate: use the [fresh review context](contract.md#fresh-combined-review-context). Keep the selected route's gate order and worker self-review intact.
+- Reviewing tests or using their results to support an important claim: apply [test claim review](doctrine.md#test-claim-review), including the canonical testing rules.
 - Unsure how to check Knip or the cyclomatic cap? Open [static-checks.md](static-checks.md). Skip it and you guess at a number.
 - A parent supplied the handoff? Open the [execution context](../rules/planning.md#execution-context). Skip it and you re-ask settled decisions.
 - Unsure whether a finding meets the evidence bar or how to word it? Open [examples.md](examples.md). Skip it and you ship a finding with no evidence.

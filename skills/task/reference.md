@@ -185,7 +185,7 @@ Start the gate when every slice is done, blocked, or explicitly waived.
 
 1. Launch two subagents in one step so they run at the same time:
    - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It runs all repository test suites and drives only the affected live paths ([scope](../verification/doctrine.md#scope-to-the-change)).
-   - `/review`: give it the same handoff. It reviews the diff for Standards and Spec.
+   - `/review`: use the [fresh combined-review context](../review/contract.md#fresh-combined-review-context), pinned to the same tree. It reviews the diff for Standards and Spec without the implementation conversation or a prewritten verdict.
 
    If the harness has no subagent, run `/verification`, then `/review`, in this context.
 2. Use the shared [handoff and evidence contract](../rules/execution.md#handoffs-and-evidence). Read the actual evidence before accepting a verdict.

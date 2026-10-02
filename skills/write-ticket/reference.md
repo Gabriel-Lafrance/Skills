@@ -85,6 +85,10 @@ flowchart LR
 - Rule 1: …
 
 ## Structure
+- Caller contract: <owner/public entry; inputs, outcomes/errors, observable ordering and invariants> | _unchanged_
+- Hidden work: <responsibilities/dependencies callers no longer coordinate; where changes stay local> | _unchanged_
+- Caller before/after: <representative usage or pointer to Snippets> | _unchanged_
+- Verification seam: <public behavior and dependency strategy; remaining integration evidence> | _unchanged_
 - Folders: …
 - Public API: …
 - Abstraction: … | _none_
@@ -145,6 +149,12 @@ or `none: no tests specified`
 - `## Already decided`: keep shared decisions, useful live exclusions, and bounded delegation here; item-owned decisions and reasons stay in their items. Preserve relevant evidence and uncertainty in historical inferences. A live rejected alternative belongs only when it prevents a credible mistake; `_none` is allowed. Explicit delegation names the choice, bounds, owner, and reason; an omitted decision is not delegated.
 - `## Snippets`: `_none` only when Rules, Structure, and Work items already settle every hard choice.
 - `## Tests`: use this authorization format for every Plan, including a single PR. Record each test's status and settled decision source; quote the relevant user instruction when no durable link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed.
+
+For a material public boundary, fill the caller and verification rows in Structure
+from [analysis](../analyze/doctrine.md#public-boundary-investigation); reference
+them from local How/Verify instead of copying. For a small change that preserves
+the contract, collapse those rows to `Boundary: unchanged` without an architecture
+exercise. Foundation continues to name only confirmed areas of modularity.
 
 ### Worked work items
 

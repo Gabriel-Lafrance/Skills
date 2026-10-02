@@ -112,6 +112,12 @@ On every `initial` or `full-rescan` Standards pass on a Feature diff, check it a
 
 Cite `quality:strong-foundation`. A Tweak, Bug, or Chore diff with no named area skips this check.
 
+### Test claim review
+
+When changed tests or existing tests support an important acceptance claim, apply the [authoring gate](../rules/testing.md#authoring-gate), [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar). For each such claim, inspect the real public entry and assertion: what plausible wrong behavior would fail this test, do its mocks suppress the relevant failure modes, and would a behavior-preserving refactor survive? Trace setup, dependencies and assertions instead of treating a green result as proof. Record the concrete answer and evidence limit in the relevant Spec matrix row; use the existing finding record for a defect.
+
+Judge mocks by which behavior they remove from observation, including policy, ordering, persistence and failures the owner must handle. A mock at a true external boundary can still hide the claimed behavior. Recommend the smallest correction at its owning boundary under the [test consent rules](../rules/no-unrequested-tests.md); review grants no permission to add a test, change an accepted assertion or delete an existing contract test. An unrun check or insufficient artifact is an evidence gap, not an invented defect. See the [mock example](examples.md#green-test-with-a-hidden-failure).
+
 ### Static checks
 
 On every `initial` or `full-rescan` Standards pass, make sure Knip is clean (no unused files, exports, or dependencies) and no function has cyclomatic complexity above 5. If you do not know how to check those, see [static-checks.md](static-checks.md). Cite `quality:no-dead-code` and `quality:cyclomatic-cap`. A finding the diff introduced is **Fix now**; a pre-existing one is Follow-up.

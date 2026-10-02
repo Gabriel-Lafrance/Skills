@@ -31,6 +31,7 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
    When a parent already locked Done when and rules that must stay true,
    reuse them without re-grilling product intent.
 2. Investigate the affected flow using the doctrine's [research rules](doctrine.md#research-rules). Derive consequential choices from actual inputs, state changes, writes, and consumers where relevant. Separate facts, settled decisions, ordinary implementer choices, and unresolved tradeoffs before recommending a design.
+   For meaningful feature or boundary changes, or observed architecture friction, apply [public boundary investigation](doctrine.md#public-boundary-investigation) before the parent decomposes the work. Small changes that keep the contract need no architecture exercise.
    For any parent, follow [nested capabilities](../rules/planning.md#nested-capabilities) and return the relevant
    facts, conclusions, source pointers, and uncertainty directly into the
    parent conversation. Use [bounded scouts](doctrine.md#bounded-research-scouts) only for independently uncertain boundaries. Reuse current evidence; no separate

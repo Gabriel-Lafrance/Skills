@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.3.4 -->
+<!-- gabriel-skills-agents v2.4.0 -->
 
 # Gabriel skills
 
@@ -25,6 +25,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Run all repository tests and prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
+| Learn from a scoped session, PR, or review to improve checks or workflow | `retro/SKILL.md` |
 | Look into, investigate, or research a bug, an idea, or a question before building | `analyze/SKILL.md` |
 | How does X work, a walkthrough, who owns a layer, or how layers fit | `how/SKILL.md` |
 | Why was X built this way, or what is the design rationale | `why/SKILL.md` |

@@ -100,7 +100,7 @@ Output.
    [`.claude-plugin/plugin.json`](../.claude-plugin/plugin.json),
    [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json),
    [`.agents/plugins/marketplace.json`](../.agents/plugins/marketplace.json),
-   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.3.4 -->`)
+   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.4.0 -->`)
    together.
 4. There is no changelog file. The PR description is the changelog: say what
    changed and why, so a user sent to the merged PRs can follow it.

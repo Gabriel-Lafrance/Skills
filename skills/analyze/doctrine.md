@@ -45,6 +45,59 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Read [code-structure.md](../rules/code-structure.md) even when the ask looks like a single file.
 - Apply “keep the existing structure” when that is the smallest correct answer, and stay in that layout instead of inventing a parallel one.
 
+### Public boundary investigation
+
+Use this on the requested flow when a meaningful feature or boundary change,
+or observed architecture friction, could affect the design. A copy edit or
+simple ticket that keeps the existing contract needs no extra investigation.
+Apply [deep public surface](../rules/code-structure.md#deep-public-surface),
+[strong foundation](../rules/strong-foundation.md), and
+[testing](../rules/testing.md); this is their preparation step, not a new
+architecture doctrine or a repository-wide audit.
+
+Read the relevant architecture decisions and domain language when present.
+Trace representative callers and their current tests. Look for ordering the
+caller must coordinate, repeated policy, pass-through abstractions, or tests
+that reach into private details. Name the observed burden and its sources;
+a new service file or an extra layer does not prove a deeper boundary.
+
+Recommend retaining the current shape, a small justified behavior-preserving
+prefactor, or a material boundary change. Show the proposed owner/public entry,
+inputs, outcomes, error behavior, observable ordering and invariants; which
+responsibilities and dependencies it hides; and a representative caller before
+and after. Explain what callers stop needing to know and where a later change
+would land. Preserve settled architecture decisions; surface a conflict only
+when concrete evidence makes revisiting it consequential. Leave private
+implementation choices open within the contract.
+
+Couple that proposal to its observable verification seam. Identify dependencies
+that need real integration evidence versus existing local stand-ins or mocks
+at true external boundaries, and the failure modes those substitutes cannot
+prove. Use the repository's available strategy, without inventing a test-only
+public API. A confirmed future variation follows the foundation rule with one
+real implementation; do not manufacture a second adapter. Proposed test work
+still needs [consent](../rules/no-unrequested-tests.md), and old tests stay
+unless the [retention bar](../rules/testing.md#retention-bar) justifies a change.
+
+Only when a material boundary remains uncertain, reuse the bounded scouts below
+to compare a small set of genuinely different interfaces. Give each the same
+outcome, constraints, domain terms, caller evidence and dependency facts, plus
+one distinct design question. Request a usage sketch, hidden responsibilities,
+verification approach and tradeoffs, not implementation or a preferred verdict.
+The parent compares caller burden, change locality and verification, recommends
+one, and returns only consequential user-owned decisions to the grill. Do not
+launch designers for an already settled interface or a routine private detail.
+
+Return the evidence and recommendation into the same developing ticket before
+decomposition, using its existing Structure, Foundation and Work items.
+Standalone analysis uses the existing memo. No additional report or saved
+artifact is required. Adapted from Matt Pocock's pinned
+[codebase design](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/codebase-design/SKILL.md),
+[deepening](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/codebase-design/DEEPENING.md),
+[interface alternatives](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/codebase-design/DESIGN-IT-TWICE.md), and
+[architecture investigation](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/improve-codebase-architecture/SKILL.md).
+The pack's canonical rules and authorization gates govern this adaptation.
+
 ### Bounded research scouts
 
 Delegate when independently uncertain data or API boundaries would otherwise

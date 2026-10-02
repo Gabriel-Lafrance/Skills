@@ -65,6 +65,8 @@ The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pac
 
 All three build entry points share a [ready-ticket preflight](./skills/rules/execution.md#ready-ticket-preflight): check current code, reuse settled decisions and test consent, and reopen only new material gaps. `/write-ticket` checks nontrivial final drafts with a fresh reader before handoff. The active orchestrator owns remediation and final acceptance; research, review, and verification return bounded evidence.
 
+For meaningful boundary changes, ticket preparation checks what callers need to know and how public behavior will be verified before splitting the work. Combined review uses fresh standards context; the implementer still receives essential constraints. [`/retro`](./skills/retro/SKILL.md) turns evidence from a named session, PR, or review into bounded improvements to existing checks, standards, navigation, and tools, including removing instruction bloat. It recommends by default and applies only authorized changes.
+
 ## What ships
 
 The contract and the skills work in any harness. There is no Cursor-only ruleset. The Claude, Cursor, and Codex plugins ship the same skills. They do **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).
@@ -80,7 +82,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Six kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
+Six kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, `/retro`, and `/setup-gabriel-skills` are General.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
@@ -89,7 +91,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
 | **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, run all repository test suites, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
-| **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
+| **Toolkit**       | `/setup-gabriel-skills`, `/retro`                        | Install the pack, or learn from a scoped session, PR, or review. `/retro` recommends improvements without automatic edits |
 
 ```mermaid
 flowchart LR

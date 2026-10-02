@@ -20,6 +20,14 @@ Inputs, modes, evidence bar, finding record, the review output fence (with PR ex
 
 Pin a fixed point and inspect the diff. Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied. Hidden review files are never a source.
 
+### Fresh combined review context
+
+The existing combined-result reviewer starts in fresh context. Give it the pinned base, current revision and working-diff boundary, ticket/spec and acceptance IDs, settled decisions, relevant caller pointers, applicable standards, test consent and safety/permission constraints. Include factual check results with their checked revision and limits. Do not forward the implementation conversation, worker self-review verdicts, or a prewritten conclusion. The reviewer reads the actual diff and callers and forms its own Standards and Spec findings.
+
+This focuses the existing combined review; it adds no reviewer to each slice and does not replace an implementing worker's self-review or the main agent's independent acceptance. Keep essential architecture, acceptance, safety and permission constraints available to implementers. Fresh context is a review boundary, not permission to withhold governing rules from workers.
+
+The reviewer returns findings to the active orchestrator. It gains no write, commit, fix-dispatch or shipping authority. Named remediation findings and their evidence remain valid inputs for a scoped re-review. If fresh context is unavailable, report that limit and follow the selected route's existing fallback without claiming an independent pass ran.
+
 ## Modes
 
 | Mode | Scope | Required work |
