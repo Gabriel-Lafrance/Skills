@@ -6,7 +6,7 @@ Load when establishing or recovering a task, issuing a plan or slice contract, p
 
 Keep the [execution context](../rules/planning.md#context-in-chat) in chat, with only the fields that matter to current work. It is the only automatic state. Plans, slices, grill outcomes, progress, and review findings stay in chat. Write an analysis, plan, or summary only when the user asks and supplies or approves the destination; it never becomes hidden state or a requirement for recovery.
 
-Take user decisions, waivers, invariants, and promotions only from what the user said, never from repository facts. Re-announce settled decisions when they matter to a later phase.
+Take user decisions, waivers and authority to promote fixes from the user, never from repository facts or a review verdict. The active orchestrator promotes bounded fixes under that authority. Re-announce settled decisions when they matter to a later phase.
 
 ## Inline plan contract
 
@@ -69,7 +69,7 @@ Announce the split in chat, blockers first:
 
 ## New-chat recovery
 
-Recover from the [authority order](../rules/planning.md#authority), then state the recovered outcome, lane, fixed point, known rules, and phase in chat. Ask only for missing user-owned decisions. Treat a decision the request, ticket/PR, approved artifact, or repository rules already carry as settled.
+Follow [recovery and completion](../rules/execution.md#recovery-and-completion), then state the recovered outcome, lane, fixed point, known rules and next action.
 
 ## Progress and pause
 
@@ -108,7 +108,7 @@ After both gate handoffs are in, report the outcome in chat:
 - <none | user action>
 ```
 
-A Fix-now item blocks completion until remediation analysis, explicit promotion, bounded Fix mode, re-checked acceptance evidence, and a `remediation` review, or a named user waiver.
+Apply the shared [remediation](../rules/execution.md#remediation) and [completion](../rules/execution.md#recovery-and-completion) contracts. Include stable acceptance, finding and evidence IDs and the checked revision/diff.
 
 ## Ship questions
 
@@ -158,10 +158,10 @@ Numbered process for `/task`. Nested vs one-off shipping lives in [SKILL.md](SKI
 
 ### Phase 0: establish context and grill
 
-1. Re-derive the ticket/PR, Git fixed point, repository facts, and project rules as needed. State outcome, Done when, non-goals, lane, phase, and next action in the execution context. Carry forward only user decisions settled in this chat or an explicitly supplied artifact.
-2. Unless skip-grill applies, run `/grill-me` fully. It applies [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md), plus [user-experience.md](../rules/user-experience.md) and `docs/design.md` for user-facing work. For a Feature it confirms the areas of modularity and the foundation from [strong-foundation.md](../rules/strong-foundation.md), scaled to what the ticket already settled: a Plan ticket's `## Foundation` needs no new question; a bare chat request gets one or two.
-3. Every locked behavioral answer becomes a numbered rule (Rule 1, Rule 2) with enforcement and verification. The observable outcome (who acts, what they do, what stays true, what a repeat or a bypass does) must be specific, or it cannot become a test later.
-4. Announce non-goals, intended slice split, and the shared-understanding summary. Ask only real open questions in the same batch. Save test suggestions for after the Locked in message.
+1. Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse settled ticket and parent decisions with sources.
+2. For remaining consequential gaps, call `/grill-me` within this context. Apply code quality, structure, and any Feature or UX rules while researching facts; a complete ticket needs no new interview.
+3. Keep each behavioral rule under its existing ID, with enforcement and observable verification. Add IDs only for genuinely new rules.
+4. Ask unresolved user choices in a Questions-only message. Once settled, separately announce or reuse the current Locked in message, including meaningful non-goals and shared understanding. Save test suggestions for after that lock.
 
 On a Locked correction or unanswered question, revise or wait.
 
@@ -169,7 +169,7 @@ On a Locked correction or unanswered question, revise or wait.
 
 **Explore and shape.** Find the relevant paths. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (write it first if missing).
 
-**Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating **what** and need-to-know, not how. If the split changes, re-announce it before implementing. Keep plans in chat. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to the grill before implementing.
+**Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating the outcome and the concrete approach needed to preserve settled choices; leave routine implementation details to the executor. If the split changes, re-announce it before implementing. Keep plans in chat. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to the grill before implementing.
 
 **Implement.** Build ready frontier slices one at a time, in dependency order. User-facing slices (screens, components, styling, visible copy) apply user-experience.md and `docs/design.md`. For each slice:
 
@@ -188,17 +188,12 @@ Start the gate when every slice is done, blocked, or explicitly waived.
    - `/review`: give it the same handoff. It reviews the diff for Standards and Spec.
 
    If the harness has no subagent, run `/verification`, then `/review`, in this context.
-2. Ask each subagent for its handoff, not raw output. Read the evidence in the handoffs before you accept a verdict.
+2. Use the shared [handoff and evidence contract](../rules/execution.md#handoffs-and-evidence). Read the actual evidence before accepting a verdict.
 3. Use the verification handoff as the acceptance evidence. Add the lock handoff and the focused test result for each accepted lock. Mark each criterion verified, failed, or inconclusive. An unperformed check is not a pass.
 4. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
-5. For selected `fix now` findings, run `/analyze` in review-remediation mode and present the correction. Enter Fix mode after the user explicitly promotes it. A declined fix blocks completion until it is fixed or waived by name.
+5. As active orchestrator, apply [remediation](../rules/execution.md#remediation) once for selected findings. Enter bounded Fix mode under existing user authorization, or ask if it does not cover those fixes.
 6. Leave behavior-lock suggestions closed here. A lock the review still wants follows the [review contract](../review/contract.md), and a test is written only if the user says yes to it ([testing.md](../rules/testing.md)).
 
 ### Fix mode (review remediation only)
 
-One bounded slice of the current task, not fresh product discovery:
-
-1. Carry only explicitly promoted findings. Each cites its review finding, violated rule that must stay true, Done when item, correctness/security issue, or regression.
-2. Grill only the enforcement, footprint, and observable behavior needed to clear them. Keep existing rules; add one only when the finding exposes an unrecorded behavioral rule. No new test suggestion.
-3. Prefer the smallest authoritative correction. No queues, retries, wrappers, new services, feature scope, optional cleanup, or structure move unless the named finding requires it.
-4. Re-check the findings and rules with acceptance evidence (re-run `/verification` on the changed tree, including all test suites and the affected live checks, when its backlog drove the fix), then run `/review` in `remediation` mode over the backlog, touched paths, direct regressions, correctness, and security.
+Follow shared [remediation](../rules/execution.md#remediation). Retain the current outcome and rules, promote only named bounded fixes, and preserve test consent. Recheck invalidated evidence and run `/review` in remediation mode; final whole-result verification still covers the changed tree, all configured suites and applicable live checks.

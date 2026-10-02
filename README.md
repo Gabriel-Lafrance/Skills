@@ -63,6 +63,8 @@ If you previously pasted gold standards into a harness text box, remove that pas
 
 The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead. For an already precise ticket, [`/gabriel-mode`](./skills/gabriel-mode/SKILL.md) coordinates workers that implement and review their own slices, with the main agent checking each result and the combined change before verification. It stops at a ready-for-PR assessment.
 
+All three build entry points share a [ready-ticket preflight](./skills/rules/execution.md#ready-ticket-preflight): check current code, reuse settled decisions and test consent, and reopen only new material gaps. `/write-ticket` checks nontrivial final drafts with a fresh reader before handoff. The active orchestrator owns remediation and final acceptance; research, review, and verification return bounded evidence.
+
 ## What ships
 
 The contract and the skills work in any harness. There is no Cursor-only ruleset. The Claude, Cursor, and Codex plugins ship the same skills. They do **not** ship MCP servers or hooks yet (hooks run scripts on every edit; that stays a later, explicit choice).

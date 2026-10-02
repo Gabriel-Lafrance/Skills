@@ -75,15 +75,17 @@ named findings.
 
 ### If a parent already owns the next step
 
-Before any fix work, send selected Fix now findings to `/analyze` in
-review-remediation mode. Its memo stays keyed to the stable finding IDs, then
-requires explicit promotion. The promoted work remains bounded to those
-findings and the supplied current slices.
+Return stable findings and evidence to the active orchestrator under
+[remediation](../rules/execution.md#remediation). It adjudicates, requests
+bounded analysis only as needed, and dispatches fixes once. Review does not
+invoke analysis, promote, or launch a second fix lifecycle.
 
 ### If this is a user one-off
 
-Report the disposition in chat and stop. Promote fixes only when the user asked
-for that next step.
+Report the disposition in chat and stop. If the user requested fixes, hand
+the findings and that authorization to an explicitly selected execution
+orchestrator using [AGENTS routing](../../AGENTS.md#skills); it owns the
+[remediation flow](../rules/execution.md#remediation).
 
 ## GitHub PR
 

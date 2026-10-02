@@ -50,7 +50,11 @@ Each item owns its local rationale and approach. Keep Structure and Foundation f
 
 ### Fresh-executor handoff
 
-Before showing a Plan as complete or writing it, read it as an executor without the old chat. Can that reader understand who benefits, the outcome and reason, scope, constraints, relevant entry points and dependencies, observable success, and test decisions from the current body and its specific source pointers? Check each child too. Fill material gaps in the existing sections; do not paste the full memo, interview, or history into the ticket.
+This is the canonical readiness bar, also used by the execution [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Before showing a Plan as complete or writing it, can an executor understand who benefits, the outcome and reason, scope, constraints, relevant entry points and dependencies, observable success, and test decisions from the current body and its specific source pointers? Check each child too. Fill material gaps in the existing sections; do not paste the full memo, interview, or history into the ticket.
+
+For a nontrivial completed draft, launch an actual read-only checker in fresh context, with no inherited conversation or prep-chat summary. Give it only the final parent and child bodies, explicit source pointers, governing rules, and repository access. Ask it to describe what it would implement item by item, identify where it must guess, and name two materially different implementations that fit any ambiguous wording. It returns concrete work-item blockers with evidence or the conflicting interpretations, not generic requests for more detail. It does not implement, write tests, interview the user, or start another preparation lifecycle. A trivial bounded edit can use the parent check alone. If fresh context is unavailable, report that limitation and leave a nontrivial draft unchecked rather than claiming independence.
+
+The parent owns the verdict. Research factual blockers and use /grill-me only for unresolved consequential user choices. Preserve settled choices and test acceptances or refusals. Repair the body, then recheck the affected items and dependencies in fresh context. Allow at most two repair/recheck rounds per completed draft; if material blockers remain, report them in chat and stop the readiness loop until new evidence or a user decision changes the draft. This needs no saved memo or extra ticket section.
 
 Could two competent executors follow this body yet choose materially different behavior, data meaning, contracts, or cutover? If so, resolve the factual gap or consequential decision before calling the body ready. An explicit delegation can leave a choice to the executor only when the body names the choice, its constraints, who may decide, and why that discretion is acceptable. Preserve the user's authorization boundaries; recording a delegation does not create consent. Silence is not delegation. Ordinary implementation details may remain open within the stated contract.
 
@@ -74,6 +78,10 @@ Use a parent Plan with child Plans when the work has more than one coherent outc
 - Reuse settled decisions across all children. Run analysis and grill for the whole outcome, then derive children from that context; do not restart the interview per child. Record tests as proposed, explicitly accepted, refused, or none, with the user's decision source when settled. Listing a test in a Plan is not acceptance to write it.
 
 Writing tickets does not start the build or publish PRs. A later request to implement all children and open stacked PRs activates the [whole-stack build handoff](../task/doctrine.md#whole-stack-ticket-handoff).
+
+#### Stack contract check
+
+Before declaring a split ready, check the actual dependency graph for cycles, consumers ordered before providers, PR bases missing required contracts, unsafe intermediate states, conflicting path or contract ownership, and parent done-when items with no owner. For a small linear stack, include this in the fresh-executor check. Use a separate fresh-context read-only stack checker only when branching or joining dependencies, shared migrations, or overlapping ownership make the graph materially harder to assess. Give it the same bounded final bodies and sources, not prep chat; require concrete child/contract blockers. The parent owns decomposition and resolves findings under the same bounded readiness loop. A clean planned graph does not replace execution-time validation of live predecessor contracts.
 
 ### Work kind
 

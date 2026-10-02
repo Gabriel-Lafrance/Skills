@@ -4,7 +4,7 @@ Load with [SKILL.md](SKILL.md). Install skills with `npx skills`. Place `AGENTS.
 
 ## Resolve the skill root
 
-The skill root is the folder that holds `setup-gabriel-skills/`. Use the same order as the "Find the pack" section of `AGENTS.md`: `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then this repository's `skills/` when the workspace **is** the Skills pack.
+Resolve the skill root using [AGENTS.md, Find the pack](../../AGENTS.md#find-the-pack), including workspace, user, pack-repository, and installed-plugin locations. That section owns the search order; do not substitute a home-only lookup. Use the resolved root for this skill's sibling rules and other skills.
 
 This workspace is the Skills pack when a parent directory holds both an `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-gabriel-skills/`.
 

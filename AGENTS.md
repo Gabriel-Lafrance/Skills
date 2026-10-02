@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.3.2 -->
+<!-- gabriel-skills-agents v2.3.3 -->
 
 # Gabriel skills
 
@@ -57,6 +57,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Touch identity, login, ownership, tenants, roles, admin paths, permissions, payments, refunds, or any write a client can call | hide a button and call it a lock, so a caller who skips the UI still writes | `rules/code-structure.md` (Authority) |
 | Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
 | Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions between phases | `rules/planning.md`, `grill-me/doctrine.md` |
+| Start or resume ticket execution, delegate a slice, or dispatch fixes | reopen settled decisions, dispatch the same fix twice, or trust stale evidence | `rules/execution.md` |
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip the CI mirror | `rules/shipping.md`, `rules/shipping-templates.md` |

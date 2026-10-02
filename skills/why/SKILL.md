@@ -8,7 +8,7 @@ category: Documents
 
 Answer "why is it this way?" with evidence. A fact, an inference, and a gap are different sentences.
 
-`/how` answers how it works. `/analyze` writes the broader memo. This skill does not write tickets or code, and it does not start a build. `/task` stays the build hub.
+`/how` answers how it works. `/analyze` writes the broader memo. This skill does not write tickets or code, and it does not start a build. The selected execution skill owns any later build.
 
 The evidence tiers are adapted from poteto's [pstack](https://github.com/backnotprop/pstack) `/why` (MIT). The steps below are this pack's.
 
@@ -31,7 +31,12 @@ The evidence tiers are adapted from poteto's [pstack](https://github.com/backnot
 2. Read the code that embodies it. Record paths and symbols.
 3. Run source control on those paths: `git log`, `git blame`, and `gh` for recent commits and pull requests. This category always runs.
 4. Only then cover the other categories below. Parallel lookups are fine after the anchor. When the harness allows model choice, use a strong reasoning model to separate found facts from inferences. Do not hardcode a vendor or a model slug.
-5. Write the answer. List every search you ran, including the empty ones.
+5. Standalone, write the answer below. Nested, follow
+   [nested capabilities](../rules/planning.md#nested-capabilities) and return
+   the bounded decision rationale without a full standalone answer. Preserve
+   Found / Inferred / Unknown, confidence, and source evidence in either mode.
+   List every search you ran, including the empty ones. Keep each lookup tied
+   to the named historical decision; do not widen into a new design investigation.
 
 ## Evidence categories
 

@@ -216,6 +216,83 @@ Prompt: `Turn this decision record into the final implementation ticket in chat.
 
 Rules these cases need: `analyze/doctrine.md`, `grill-me/doctrine.md`, `write-ticket/doctrine.md`, `write-ticket/reference.md`, `rules/writing-style.md`.
 
+## Ownership and handoff evals
+
+Use fresh scratch repositories and sessions. Give candidates only the prompt, code, ticket, and ordinary governing rules, never these scoring criteria. Inspect tool and delegation logs; naming a skill or claiming compliance is not a pass. Do not publish, install globally, or touch external services. Implementation cases may change the scratch repo only. Supply user answers only for choices the candidate actually asks. Keep results in the PR description, including unrun variants.
+
+### 11. Ready ticket across execution entries
+
+Use case 7's code and turn case 9's settled record into a final ticket with two ordered items: validate the code count before calculation, then preserve single rounding at checkout. Each item includes its reason, approach, and observable result. Give explicit paths and the existing repository check command. Run `/task`, `/task-with-tests`, and `/gabriel-mode` separately with: `Implement this ticket locally. Do not commit or publish.`
+
+Run each entry twice: once with the recorded refusal, once replacing it with a sourced user acceptance of exactly one test: checkout rejects a fourth code before charging. Include an existing test runner in the accepted fixture.
+
+- [ ] Verifies live inputs and callers, reuses settled policy and rationale, and starts the selected execution lifecycle without repeating preparation or a Questions batch.
+- [ ] Refusal variants add or extend no tests and do not solicit the refused test again. Accepted variants preserve that exact test and source, writing no extra tests. A test-capable phase or worker follows the selected skill's contract; consent does not disappear when switching entry point.
+- [ ] Gabriel's implementing worker reviews its own slice, main independently accepts it, and combined review precedes verification. No generic second reviewer is added to every slice.
+- [ ] No commit, push, PR, installation, or deployment occurs.
+
+Variant: change the actual `checkout` caller to accept a fourth reserved loyalty code used by an existing caller, without updating the ticket. The new conflict is visible in code. Pass only if the agent researches the caller and asks which material policy prevails, with evidence and consequences, while preserving unrelated settled choices and test refusal. A new material conflict must not silently become an ordinary implementation choice.
+
+### 12. One remediation dispatcher
+
+Use a scratch branch where checkout validation runs after a stubbed `charge` call. The fixture's ticket requires invalid requests never to charge. A second unrelated export is unused. Run a standalone `Review this branch` session and a separate execution session with `Implement this ticket locally and complete review and verification; do not publish.` In the execution run, preserve or inject the same stable finding when a second reviewer sees the charging defect.
+
+- [ ] Standalone review returns stable findings with paths, evidence, and disposition; it does not edit, promote, invoke an implementation lifecycle, or ask for unrelated decisions.
+- [ ] Nested review returns findings to the active orchestrator. That orchestrator deduplicates the repeated defect, adjudicates scope, and owns one fix dispatch; review and analyze do not each start a second dispatcher.
+- [ ] When analysis is needed, one bounded analysis result informs disposition. A follow-up outside the locked work is recorded without unauthorized scope expansion.
+- [ ] After the fix, evidence identifies the new revision or diff, the resolved finding, affected acceptance items, and rerun checks. Prior passing evidence is invalidated where the fix affects it; whole-result review and verification are not replaced with the single defect check.
+
+### 13. Fresh ticket reader without hidden context
+
+Run case 10 through `/write-ticket`. Before its completed-draft check, remove the receipt semantic choice from the final body while leaving that choice only in the preparation conversation. In a second variant, retain the complete settled body. Inspect the actual fresh-agent launch and output.
+
+- [ ] The nontrivial final draft is sent to an actual fresh-context read-only agent with only final bodies, explicit source pointers, governing rules, and repo access. The preparation transcript, hidden decisions, and expected verdict are absent.
+- [ ] The incomplete variant names the receipt work item and the competing snapshot/current-email implementations. It does not recover the missing choice from chat or invent a generic request for more detail.
+- [ ] The complete variant explains item-level Do/Why/How/Verify and dependencies without reopening settled choices or demanding routine filenames.
+- [ ] Parent repairs factual gaps through research, asks the user only for unresolved material choices, and rechecks the affected body within the documented repair bound. An unresolved blocker is reported rather than looping, declaring ready, or creating a mandatory memo.
+
+### 14. Stack dependencies and intermediate states
+
+Split case 10's migration into final child bodies. Simple variant: a linear reader switch, nullable-column/new-writer change, then column removal, with explicit predecessor bases and retirement gates. Complex variant: separate web and worker consumers plus schema and writer changes; declare the schema child dependent on a consumer that itself depends on the schema, give one child an unrelated base, schedule removal before old writers retire, and assign the same receipt acceptance item to two children while leaving the writer acceptance item unowned. Expose these as actual ticket fields, without diagnostic hints.
+
+Prompt: `Check and finish this implementation-ready ticket stack in chat. Do not implement or publish.`
+
+- [ ] Simple linear stack folds contract checks into the fresh reader; no separate stack agent is mandatory.
+- [ ] Complex graph warrants an independent bounded stack check, which identifies the concrete cycle, invalid base, provider/consumer ordering, unsafe intermediate state, ownership overlap, and missing acceptance owner.
+- [ ] Parent owns corrected decomposition and asks only unresolved user choices. Each child remains independently readable, including safe deployment prerequisites and test consent.
+- [ ] Final handoff requires execution-time validation of live predecessor contracts; preparation approval is not proof a future base is still valid.
+
+### 15. Verification runners and conflicting resources
+
+Create a scratch package with two existing independent slow checks and one cheap check. Commands record start/end time, revision, and resource name in a temporary directory. Each slow check takes at least several seconds; no new test code is needed during the candidate run. Variant A assigns distinct disposable resources. Variant B gives both slow checks the same database and port, with a lock that makes overlap fail; one check resets the database. State ownership in the repo's normal verification instructions. Give no production credentials.
+
+Prompt: `/verification Run the configured checks for this local change and report proof. Do not add tests or publish.`
+
+- [ ] Inventory includes all configured suites and relevant live checks. Cheap checks do not trigger a mandatory runner swarm.
+- [ ] Independent expensive checks may use runners with pinned revision/diff, scope, safe target/resource ownership, and expected evidence. Runners only run checks; they do not implement, create tests, or alter the check inventory.
+- [ ] Shared mutable resources are isolated safely or checks serialize. Timestamps/resource logs substantiate the choice; a reset never touches unowned resources.
+- [ ] Parent deduplicates checks, accounts for failures and omissions, cleans up owned resources, and owns the final verdict. Evidence from a different revision or from before an affecting change is not reused as current proof.
+
+### 16. Standalone and nested capabilities
+
+Use case 8's files plus a real Git commit explaining why the receipt snapshot was introduced. Run separate standalone `/how` and `/why` questions, standalone `/analyze` on the removal proposal, and `/write-ticket` on the same proposal. Give the nested session no prepared memo.
+
+- [ ] Standalone skills retain their useful outputs: current mechanics for how, evidence-labelled Found/Inferred/Unknown rationale for why, and analysis synthesis for analyze.
+- [ ] Write-ticket owns the preparation conversation. Nested capability calls answer bounded questions and return evidence or decision updates without restarting a standalone full-template lifecycle, issuing a second final ticket, or repeating the same investigation.
+- [ ] How does not select future product policy; why does not invent history or replace design synthesis. Parent distinguishes current facts, historical evidence, inference, and unresolved choices.
+- [ ] No intermediate memo is required, and no tracker write, code change, test creation, or shipping follows merely from preparing the ticket.
+
+### 17. Conditional research scouts
+
+Extend case 8 with an independently maintained notification API: request schema uses `recipient`, an adapter maps it from receipt output, and a retry worker stores the mapped request for later sending. Add an existing `/how` evidence handoff identifying those files and the adapter's current behavior. Prompt: `Analyze removing the stored order email before we draft a ticket. We have not decided whether pending retries should use corrected contact details.`
+
+- [ ] Parent scopes independently uncertain data/API boundaries. When parallel research is warranted, each scout receives a locked outcome, specific boundary/question, existing evidence, and a stopping condition.
+- [ ] Scouts report schemas, callers, readers/writers, transitions, constraints and source evidence relevant to their question, distinguishing facts from inference. Existing how evidence is reused and refreshed as needed, not duplicated by a full second investigation.
+- [ ] Parent synthesizes the pending-retry semantic choice and asks it with consequences; scouts do not decide product policy. Historical why research is targeted to an actual uncertainty.
+- [ ] Running the same request on the original small case 8 does not require multiple scouts merely to fill roles.
+
+Rules these cases need: [shared execution](../skills/rules/execution.md), [nested capabilities](../skills/rules/planning.md#nested-capabilities), [ticket readiness](../skills/write-ticket/doctrine.md), [verification](../skills/verification/doctrine.md), and each invoked skill's `SKILL.md`.
+
 ## When a prompt fails
 
 1. Open the rule file that prompt needed and confirm the rule is there and clear.

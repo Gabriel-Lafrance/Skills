@@ -168,7 +168,7 @@ Illustrative excerpt, not repository facts: assume research found `ExportService
 
 ## Stack handoff
 
-For a single PR, add `## Delivery` with `One PR` and the reason no split helps. For a split Plan, add the following to the parent. Use draft keys (`A`, `B`) until the tracker returns IDs, then replace them with real links throughout the parent and children.
+For a single PR, add `## Delivery` with `One PR` and the reason no split helps. For a split Plan, add the following to the parent and apply the [stack contract check](doctrine.md#stack-contract-check). Use draft keys (`A`, `B`) until the tracker returns IDs, then replace them with real links throughout the parent and children.
 
 ```markdown
 ## Delivery

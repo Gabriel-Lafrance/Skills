@@ -31,10 +31,10 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
    When a parent already locked Done when and rules that must stay true,
    reuse them without re-grilling product intent.
 2. Investigate the affected flow using the doctrine's [research rules](doctrine.md#research-rules). Derive consequential choices from actual inputs, state changes, writes, and consumers where relevant. Separate facts, settled decisions, ordinary implementer choices, and unresolved tradeoffs before recommending a design.
-   For a `/write-ticket` parent, return the relevant
+   For any parent, follow [nested capabilities](../rules/planning.md#nested-capabilities) and return the relevant
    facts, conclusions, source pointers, and uncertainty directly into the
-   developing ticket conversation. Reuse current evidence; no separate
-   standard memo is required for this parent mode.
+   parent conversation. Use [bounded scouts](doctrine.md#bounded-research-scouts) only for independently uncertain boundaries. Reuse current evidence; no separate
+   standard memo is required in nested mode.
    When understanding the existing mechanics would materially change the
    analysis, use [`/how`](../how/SKILL.md) for that bounded flow or owner.
    When a concrete historical design question could change the scope or
@@ -45,26 +45,23 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
    `/why` explains evidenced rationale; the user's desired benefit still comes
    from the user. Neither replaces this memo's impact and risk judgment or
    starts another interview.
-3. Outside that `/write-ticket` parent mode, post the doctrine memo
-   (standard or review-remediation). Lead with a
-   Mermaid diagram. Include an inline `/task` seed when the work is
-   buildable, except when a parent will write the ticket itself.
+3. Standalone, post the doctrine memo. Lead with a Mermaid diagram.
+   Include an inline execution seed when the work is buildable.
 
 ### Review remediation
 
-Use this mode only for named Fix-now rows from `/review`.
-Present every selected stable-finding analysis before any promotion choice.
-Analyze only those rows: add no findings, no product discovery, and skip
-Follow-up items and nits.
+Use this mode only when the active orchestrator requests analysis of named
+Fix-now rows under [remediation](../rules/execution.md#remediation). Return
+root cause, smallest fix, touch surface, uncertainty, and verification keyed
+to each stable finding ID. Add no findings, product discovery, or follow-ups.
+The orchestrator adjudicates and dispatches once; analysis does not promote
+or launch an implementation lifecycle.
 
 ### If a parent already owns the next step
 
-Skip one-off hand-off Questions. Skip `/task` promotion unless the parent
-explicitly instructed `promote + start`. Return the memo to the parent.
-
-- `/write-ticket`: return the researched context above; the parent develops the ticket in chat and writes only when requested.
-- Review remediation: parent shows the complete memo, then promotes under
-  its rules.
+Follow [nested capabilities](../rules/planning.md#nested-capabilities). Return
+bounded evidence and recommendations. The parent owns preparation, promotion,
+and any next step, including when it already has implementation authorization.
 
 ### If this is a user one-off
 

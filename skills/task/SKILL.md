@@ -20,9 +20,9 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 
 ## Process
 
-1. Establish or refresh the in-chat execution context. If a parent already supplied ticket, lane, Done when, non-goals, rules that must stay true, fixed point, and slice bounds, accept that brief. The parent keeps ticket and branch ownership. For a request to implement a parent ticket's children, use the [whole-stack handoff](doctrine.md#whole-stack-ticket-handoff).
+1. Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight), then establish or refresh the in-chat execution context. If a parent already supplied ticket, lane, Done when, non-goals, rules that must stay true, fixed point, and slice bounds, accept that brief. The parent keeps ticket and branch ownership. For a request to implement a parent ticket's children, use the [whole-stack handoff](doctrine.md#whole-stack-ticket-handoff).
 2. Run the [lifecycle](reference.md#lifecycle) in this order:
-   1. Grill, unless skip-grill applies.
+   1. Reuse the ready ticket lock; grill only unresolved consequential choices.
    2. Plan.
    3. [Behavior-lock suggestion](reference.md#behavior-lock-suggestion). It waits for the user, who can refuse every test.
    4. Implement. Apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before every slice, and [user-experience.md](../rules/user-experience.md) before every user-facing slice.
@@ -31,7 +31,7 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 3. Write a test only for a lock the user accepted, following [testing.md](../rules/testing.md).
 4. Announce completion.
 
-Recovery, progress, lookup, and safety rules live in the doctrine and reference.
+Shared [handoffs, remediation and recovery](../rules/execution.md) govern this loop. Progress, lookup, and route-specific steps live in the doctrine and reference.
 
 ### If a parent already owns the ticket, branch, and PR
 

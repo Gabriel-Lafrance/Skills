@@ -171,6 +171,8 @@ Reply like: 1a
 
 ## Handoff
 
+Use stable check IDs and acceptance mappings from [handoffs and evidence](../rules/execution.md#handoffs-and-evidence), including delegated runner results. The coordinator reconciles the complete inventory before sending this handoff.
+
 ```markdown
 ## Verification: <verified | failed | inconclusive>
 | Live check | How it was verified | Outcome | Evidence |
@@ -181,7 +183,9 @@ Reply like: 1a
 | --- | --- | --- | --- |
 | <unit / integration / end-to-end / other, or no test suites found> | <path and full command, or none> | verified \| failed \| inconclusive \| none | <exit code, passed / failed / skipped counts, failure excerpt or log path> |
 
-- **Environment:** <local or preview URL, build or commit>
+- **Target:** <pinned revision and diff identity; check IDs and acceptance mapping>
+- **Environment:** <local or preview URL, build identity>
+- **Resources and cleanup:** <owned processes/data, cleanup completed or remaining>
 - **Live layers not exercised:** <layers the change did not touch, in one line>
 - **Failed:** <each with the smallest repro, or none>
 - **Inconclusive:** <each with the missing prerequisite, or none>

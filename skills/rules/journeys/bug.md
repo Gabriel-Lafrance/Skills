@@ -20,12 +20,12 @@ The user reports a problem and asks for no fix yet. "Investigate a bug" matches 
 
 ## 2. Analyze
 
-`/analyze` finds the code first, then judges it. When the open question is only how the charge path works, use `/how`. When it is only why the retry key is created on the click, use `/why`. The memo still owns the diagram and the `/task` seed:
+`/analyze` finds the code first, then judges it. When the open question is only how the charge path works, use `/how`. When it is only why the retry key is created on the click, use `/why`. The memo still owns the diagram and the execution seed:
 
 - `billing.makeUserPay` honors a retry key, and its accepted test is green.
 - `use-checkout.ts` creates a new retry key on every click, so a double click sends two keys. The rule holds at the service, and the caller defeats it.
 
-The memo ends with a `/task` seed and the hand-off choices. The user picks Promote + start.
+The memo ends with an execution seed and the hand-off choices. The user picks Promote + start.
 
 ## 3. Build
 
