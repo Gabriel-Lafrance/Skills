@@ -98,6 +98,19 @@ flowchart LR
 ```
 ````
 
+### Blast radius and merge danger
+
+End every new or updated PR description with `## Blast radius and merge danger`, after Notes and any stack or verification details. Use it for every publication tool, the repository template, and each PR in a stack. Assess the actual delta against that PR's base and the current checked result; refresh the assessment when either changes.
+
+Adapted from the door and blast-radius framing in [Matt Pocock's pinned PR skill](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/pr/SKILL.md). Keep this pack's existing body, test-approval, verification, and shipping gates.
+
+- **Blast radius:** Name affected surfaces, users or callers, and meaningful dependencies. Explain relevant behavior, data, security, or rollout consequences. File count alone is not impact; do not invent unrelated hazards.
+- **Door:** Choose two-way, one-way, mixed, or unknown from the actual rollback path and its limits. A code revert does not necessarily restore deleted data, undo external effects, clear persistent state, or recover older consumers.
+- **Evidence and remaining checks:** State what was actually verified and its limits, referring to How to QA or Notes without copying logs. Identify residual unknowns and required rollout or human checks, with an owner when known. Planned checks are not passes.
+- **Merge danger:** Give a concise judgment with the evidence and conditions that justify it. Green CI alone does not establish low danger or operational readiness. Avoid unsupported safe/none boilerplate. This assessment never grants merge permission or replaces existing gates.
+
+Scale detail to the change. A scoped copy fix may need one short sentence per field; a destructive migration needs its actual compatibility, recovery, and rollout limits. When evidence is missing, say what is unknown instead of guessing.
+
 ### Body template
 
 Start from the base template, then apply the row for the locked type. A row's checkboxes replace the base `- [ ] Expected: …` line.
@@ -126,6 +139,12 @@ flowchart LR
 
 ## Notes
 - … (omit section if none)
+
+## Blast radius and merge danger
+- **Blast radius:** <affected surfaces, users/callers, dependencies, and relevant consequences>
+- **Door:** <two-way | one-way | mixed | unknown; actual rollback path and limits>
+- **Evidence and remaining checks:** <actual verification and limits; unknowns or required checks>
+- **Merge danger:** <grounded assessment, reasons, and conditions; never merge permission>
 ````
 
 | Type | What changed bullets | Change diagram | How to QA |

@@ -100,7 +100,7 @@ Output.
    [`.claude-plugin/plugin.json`](../.claude-plugin/plugin.json),
    [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json),
    [`.agents/plugins/marketplace.json`](../.agents/plugins/marketplace.json),
-   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.3.3 -->`)
+   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.3.4 -->`)
    together.
 4. There is no changelog file. The PR description is the changelog: say what
    changed and why, so a user sent to the merged PRs can follow it.
@@ -134,6 +134,7 @@ Open a PR against `main` using the pull request template:
 - **What changed**
 - **Change diagram** (Mermaid; Before/After for rework)
 - **How to QA**
+- **Blast radius and merge danger**, last after any Notes or other details; follow the [shared assessment guidance](../skills/rules/shipping-templates.md#blast-radius-and-merge-danger).
 
 Agents that open the PR follow [`skills/rules/shipping.md`](../skills/rules/shipping.md).
 

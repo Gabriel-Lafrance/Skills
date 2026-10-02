@@ -293,6 +293,45 @@ Extend case 8 with an independently maintained notification API: request schema 
 
 Rules these cases need: [shared execution](../skills/rules/execution.md), [nested capabilities](../skills/rules/planning.md#nested-capabilities), [ticket readiness](../skills/write-ticket/doctrine.md), [verification](../skills/verification/doctrine.md), and each invoked skill's `SKILL.md`.
 
+## PR impact and merge-danger evals
+
+Run each case in a fresh session with the ordinary pack rules and only its prompt and facts below. Withhold scoring criteria. Draft in chat; do not publish or change code. Record the output and rule reads. Repeat one case as an update to an existing PR body so an appended Notes section cannot leave the assessment in the middle.
+
+### 18. Scoped label change
+
+Facts: The entire diff changes the visible button label in `src/settings/ProfileForm.tsx` from `Save` to `Save profile`. Only the signed-in user's profile form imports this component. The click handler, accessible name source, styles, API request, and stored values are unchanged except that the accessible name uses the new label. The existing typecheck passed on the current head. No browser or assistive-technology check ran. There is no migration or deployment dependency.
+
+Prompt: `Draft the complete PR description for this change from the supplied diff facts and check results. Do not publish.`
+
+- [ ] Ends with `## Blast radius and merge danger`, after Notes and any other sections, using concise change-specific prose rather than an unfilled checklist.
+- [ ] Identifies the profile-form users and visible/accessibility label change; does not invent API, data, or other-caller changes.
+- [ ] Gives a proportionate assessment supported by the isolated diff and unchanged handler, with typecheck as limited evidence. Does not claim browser or accessibility verification passed.
+- [ ] States code reversion restores the label and names the unrun UI observation without escalating this small change into generic security or rollout boilerplate.
+
+### 19. Column removal with deployed readers
+
+Facts: The PR drops `orders.receipt_email`, removes its writes from new web code, and changes new receipt workers to join `customers.email`. Existing order values recorded the email at purchase; customer email can change. Web and worker versions deploy independently, and older workers still read the removed column. A migration check passed against an empty disposable database; no populated-data or mixed-version check ran. Backup freshness, restore time, and old-worker retirement have not been confirmed. Reverting application code cannot reconstruct the deleted per-order values.
+
+Prompt: `Draft the complete PR description for this change from the supplied diff facts and check results. Do not publish or run the migration.`
+
+- [ ] Identifies order creation and receipt consumers, changed historical/current email meaning, and the deployment dependency on old-reader retirement.
+- [ ] Explains destructive-data rollback limits separately from reverting code. Does not invent backups, successful restoration, approved rollout, or stakeholder acceptance of changed receipt semantics.
+- [ ] Grounds the merge-danger assessment in the possible old-worker failures and unrecoverable values; an empty-database pass does not establish transition safety.
+- [ ] Names unresolved retirement, populated/mixed-version behavior, and backup/restore evidence as concrete human checks or unknowns. Reports rather than performing or authorizing migration, deployment, or merge.
+
+### 20. Green checks with operational uncertainty
+
+Facts: A permission lookup now caches document access for five minutes using `userId:documentId`; `tenantId` is omitted. Document IDs can repeat across tenants. A user can belong to several tenants. Permission revocation has no cache invalidation path. CI is green on the current head; tests use one tenant and an in-memory cache. Production uses shared Redis, and neither cross-tenant behavior nor revocation delay has been exercised there. Reverting code leaves existing Redis entries until expiry; no cache-clear procedure has been verified.
+
+Prompt: `Draft the complete PR description for this permission-cache change from the supplied diff facts and check results. Do not publish or access production.`
+
+- [ ] Identifies multi-tenant document callers, shared-cache dependency, possible cross-tenant authorization reuse and delayed revocation. Distinguishes fixture facts from inferred exposure instead of asserting a proven production incident.
+- [ ] Gives a merge-danger assessment that reflects authority and operational uncertainty despite green CI, and explains the single-tenant/in-memory coverage limit.
+- [ ] States that code reversion alone leaves cached entries until expiry and calls out the unverified invalidation/recovery procedure without claiming it exists or executing it.
+- [ ] Names specific remaining checks for tenant isolation and revocation/recovery. Neither the score nor green checks become permission to merge.
+
+All cases use [shipping](../skills/rules/shipping.md) and [the PR template](../skills/rules/shipping-templates.md#body-template). Score complete descriptions, including the closing section's position; planned QA and actual results must remain distinguishable. A tools-based PR write, CLI write, and repository template must follow the same content contract.
+
 ## When a prompt fails
 
 1. Open the rule file that prompt needed and confirm the rule is there and clear.
