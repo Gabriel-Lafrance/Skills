@@ -6,13 +6,13 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 ## Owns
 
-The orchestrator loop: execution context, grill before plans, behavior-lock suggestion, lookup table, skill checklist, suitability, skip-grill, completion, pause, and recovery. The agent running `/task` builds every slice itself, one at a time.
+The no-tests-first build order, behavior-lock suggestion, lookup table and skill checklist. Common intake, handoffs, remediation and completion belong to [execution.md](../rules/execution.md). The agent running `/task` builds every slice itself, one at a time.
 
 ## Does not own
 
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - UI and UX rules and `docs/design.md`: [user-experience.md](../rules/user-experience.md)
-- Review disposition: `/review`
+- Review findings and evidence: `/review`; disposition and dispatch: the active orchestrator under [remediation](../rules/execution.md#remediation)
 - Verification method and scope: `/verification`
 - How tests are written: [testing.md](../rules/testing.md), and only for briefs the user accepted
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
@@ -23,7 +23,7 @@ Use the shared [execution context](../rules/planning.md#execution-context) as th
 
 **Rules that must stay true.** Every behavioral rule locked during the grill becomes a numbered rule (Rule 1, Rule 2) in the execution context, with its enforcement and verification. The user can mark a statement as a preference, example, or non-binding idea instead.
 
-**Grill before plans.** Issue a plan or slice contract only after `/grill-me` sends the Locked in message: meaningful non-goals, intended split, shared-understanding summary, and material decisions with their reasons. Include real rejected alternatives when they explain the choice; do not invent one to close the grill. Settled work needs no redundant questions. The skip-grill rule below is the one exception to the Locked in gate. Assign each rule to a slice or `all`. Send behavior-lock briefs after the Locked in message, never during the grill. Make each rule's observable outcome specific, because a brief cannot cite a fuzzy rule.
+**Lock before plans.** Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse a complete ticket lock; `/grill-me` settles only unresolved consequential choices. Assign each recorded rule to a slice or `all`, with its observable enforcement and verification. Send behavior-lock briefs only after that lock and the public entry are known.
 
 **Quality bar.** Two gates run before completion, in parallel, each in its own subagent:
 
@@ -47,7 +47,7 @@ Launch both in one step so they run at the same time, then judge their handoffs 
 | Build | This loop builds every slice itself; user-facing slices apply [user-experience.md](../rules/user-experience.md) ([Implement](reference.md#phase-1-plan-and-build)) |
 | Tests | After the Locked in message, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow [testing.md](../rules/testing.md) |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
-| Review remediation | `/analyze` before Fix mode |
+| Review remediation | Active orchestrator follows [remediation](../rules/execution.md#remediation) |
 | Gate out | **`/verification`** and **`/review`**, each in its own subagent, launched together |
 
 Inside this loop, call child skills (`/grill-me`, `/verification`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
@@ -59,7 +59,7 @@ Track these rows in the execution context or a short progress message. Declare c
 | Skill | Required? | Notes |
 | --- | --- | --- |
 | Ticket or PR read | If ticket | [Read only](#ticket-context) |
-| `/grill-me` | Yes* | *Unless the skip-grill rule applies |
+| `/grill-me` | For unresolved material choices | Reuse a ready ticket lock under the shared preflight |
 | Code quality rules | **Yes** | During the grill and every implement slice |
 | Code structure rules | **Yes** | During the grill and every implement slice, even for a one-file fix |
 | User experience | If UI | Apply [user-experience.md](../rules/user-experience.md). Write `docs/design.md` first if it is missing |
@@ -74,11 +74,7 @@ Track these rows in the execution context or a short progress message. Declare c
 
 **Hard reject:** vague wishes or open-ended research with no binary done state. Give multiple unrelated outcomes separate `/task` contexts.
 
-**Outside the whole-stack exception below, skip the grill only if all are true:** the ticket or user already has a binary Done when; no open product, UX, architecture, or design decision remains; no behavioral rule is unrecorded; and the user said `no grill` or `skip grill`, or the work is an obvious single-file fix. Record explicit behavioral rules as rules that must stay true even when skipping.
-
-For a ticket-driven task, read the ticket or PR first, then grill the open decisions.
-
-For a request to implement an entire parent Plan, apply the whole-stack handoff below. When that Plan and its children already settle the required decisions, reuse that lock and skip a fresh interview. Ask only about newly discovered material gaps; do not ask to start each child.
+Apply the [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight) for single tickets and whole stacks alike. No entry point requires another interview for settled work. Honor an explicit request to skip grilling; report any material blocker instead of guessing it.
 
 ### Ticket context
 
@@ -114,11 +110,11 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Output
 
-**Complete when:** the checklist is done, both gate handoffs are in (no open fails; blocked criteria stated), and every Fix-now finding is fixed after explicit promotion or waived by name. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise ship under existing authorization, or offer ship Questions when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
+**Complete when:** the checklist and [shared completion contract](../rules/execution.md#recovery-and-completion) pass, including both gate handoffs. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise ship under existing authorization, or offer ship Questions when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
 
 **Pause:** stop work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context. Delete a user-requested artifact only when the user asks.
 
-**Recover in a new chat** by following the [execution context authority order](../rules/planning.md#authority): re-derive Git, ticket/PR, and repository facts, re-announce what is known, and ask only for missing user-owned decisions.
+**Recover in a new chat** using [recovery and completion](../rules/execution.md#recovery-and-completion).
 
 ## Apply
 
@@ -129,7 +125,7 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 - Declaring completion before both `/verification` and `/review` have returned
 - Running `/verification` and `/review` one after the other when the harness has subagents
 - Asking `/verification` to drive unrelated live layers beyond its required full test run
-- Fixing review findings without remediation analysis, explicit promotion, and a bounded Fix mode
+- Fixing review findings outside the orchestrator-owned remediation and bounded promotion contract
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding
 - Suggesting a lock for behavior the grill did not record

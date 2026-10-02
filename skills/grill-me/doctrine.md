@@ -11,7 +11,7 @@ What to discover, rules that must stay true, interview rules, and the Locked in 
 ## Does not own
 
 - Code quality and structure bars: cite `quality:*` and `structure:*`
-- Plans and implementation: `/task`
+- Plans and implementation: the selected execution skill under [AGENTS routing](../../AGENTS.md#skills)
 - Numbered parent process: [`SKILL.md`](SKILL.md)
 
 ## Bars
@@ -166,11 +166,11 @@ Save a durable record only when the user asks and approves its destination.
 
 **Ask style:** [Asking the user](../rules/writing-style.md#asking-the-user)
 
-After the Locked in message:
+Follow [nested capabilities](../rules/planning.md#nested-capabilities). A standalone grill stops after shared understanding unless the user requested the next step. For an authorized next step after the Locked in message:
 
 - Parent is `/write-ticket` → return the locked context to it (`/task` stays unstarted).
 - Structure still needs a decision → `/analyze`, then `/task-with-tests`.
-- Ready to build → `/task-with-tests`, carrying the inline execution context. Plain `/task` only when the user asked to skip tests.
+- Ready to build → `/task-with-tests`, carrying the inline execution context. Plain `/task` for an explicit command or when the user asked to skip tests. Preserve prior test refusals in either route.
 
 ## Anti-patterns
 

@@ -8,7 +8,7 @@ category: Documents
 
 Answer "how does X work?" with the mental model a senior would give on day one. Not annotated source.
 
-`/why` answers why it is this way. `/analyze` writes the broader memo (a bug, an idea, impact, a `/task` seed). This skill does not write tickets or code, and it does not start a build. `/task` stays the build hub.
+`/why` answers why it is this way. `/analyze` writes the broader memo (a bug, an idea, impact, an execution seed). This skill does not write tickets or code, and it does not start a build. The selected execution skill owns any later build.
 
 The section shape is adapted from poteto's [pstack](https://github.com/backnotprop/pstack) `/how` (MIT). The steps below are this pack's.
 
@@ -31,7 +31,12 @@ The section shape is adapted from poteto's [pstack](https://github.com/backnotpr
 2. Judge simple or complex before reading widely.
    - **Simple:** one cohesive path, a few files, one owner. One readonly pass in this chat, with narrow reads. No explorer.
    - **Complex:** several layers, several owners, or a path you cannot hold in one pass. Launch 2 to 4 readonly explorers in parallel. Ask each for paths, symbols, and a short note. Synthesize here. When the harness has no subagent, do the same pass as narrow reads, one area at a time, then synthesize once.
-3. Write the sections below. Lead with the model. Do not paste source as the answer.
+3. Standalone, write the sections below. Lead with the model. Do not paste source as the answer.
+   Nested, follow [nested capabilities](../rules/planning.md#nested-capabilities):
+   return only the requested flow, owners, source pointers, and uncertainty.
+   Give explorers the parent's locked outcome, bounded question, existing
+   evidence, and stopping condition; reuse existing scouts instead of
+   duplicating the investigation. The parent owns design synthesis.
 
 ## Answer
 

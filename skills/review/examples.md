@@ -144,17 +144,16 @@ This meets the evidence bar: a public write with no identity check is a reachabl
 
 One review pass. Drop restatements of the same finding (`standards-keep-jobs-apart-checkout-stripe`). A new evidenced defect such as `standards-checkout-half-move` belongs in that same pass if the diff shows it.
 
-After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. A broader pass needs explicit `full-rescan`.
+After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. New surface receives initial-depth review; material scope expansion or an explicit request triggers `full-rescan`.
 
-## Remediation memo and promotion
+## Remediation handoff
 
-`/analyze` owns the canonical
-[review-remediation analysis](../analyze/doctrine.md#output).
-It keeps `standards-billing-authority-checkout` as the section and promotion
-ID, then explains the current behavior, root cause, smallest fix, touch
-surface, non-goals, and verification. Only explicit user promotion of that ID
-authorizes bounded fix work; a waiver is likewise a chat decision tied to the
-same ID.
+Review returns `standards-billing-authority-checkout` with evidence to the
+[active orchestrator](../rules/execution.md#remediation). If the cause or fix
+needs investigation, that owner invokes `/analyze` once for this ID, then
+adjudicates and dispatches the bounded fix using the existing authorization.
+A standalone review with no requested fixes stops. A waiver remains a user
+decision tied to the same ID, never proof that the issue is fixed.
 
 ## Behavior lock
 

@@ -56,16 +56,16 @@ durable artifact, ask for or honor an approved destination under the shared
 
 ### If a parent already owns the next step
 
-Hand the inline context back to that parent. `/task` plans from it.
-`/write-ticket` writes the final ticket from it. Continue into the
-parent's next step without waiting for the user to pick a next skill. Under
-`/write-ticket`, the ticket step follows, not `/task`.
+Follow [nested capabilities](../rules/planning.md#nested-capabilities). Return
+only changed decisions, their reasons, and remaining material gaps to the
+parent. It owns the next step; `/write-ticket` finishes the ticket, and the
+selected execution skill continues its current lifecycle.
 
 ### If this is a user one-off
 
 Stop after shared understanding unless the user explicitly asks for the next
-step. `/task` receives the inline context; `/write-ticket` may receive the
-relevant memo and decisions.
+step. For an authorized build use [AGENTS routing](../../AGENTS.md#skills):
 
-- Structure needed → `/analyze`, then `/task`.
-- Ready to build → `/task`.
+- Structure needed: `/analyze`, then the selected execution skill.
+- Ready to build: `/task-with-tests` by default; `/task` for an explicit
+  command or no-tests request. Carry settled decisions and test refusals.

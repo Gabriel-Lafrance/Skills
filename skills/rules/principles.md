@@ -21,7 +21,7 @@ Chat uses the cite form, plain name then the classic name in parentheses ([Plain
 | --- | --- | --- | --- |
 | **Prove it works** (real artifact) | Done is an artifact a user would trust. A compile or a typecheck is not that artifact. | About to call work done | [verification](../verification/SKILL.md) runs the real path. An accepted test follows [testing.md](testing.md). |
 | **Fix the root cause** (repro first) | Reproduce the failure, then fix the cause. A patch on the symptom comes back. | About to fix a bug, or the same failure returned | This row |
-| **Sequence the work** (verifiable units) | Split into units you can verify before the next one starts. `/task` stays the build hub. | About to plan more than one step | [Slice split](../task/reference.md#slice-split) |
+| **Sequence the work** (verifiable units) | Split into units you can verify before the next one starts. The active execution skill owns the build. | About to plan more than one step | [Slice split](../task/reference.md#slice-split) |
 | **Fail fast** (Fail Fast) | Reject bad input at the boundary. Inside, trust the type. | About to add a check, a cast, or a parse | [Fail fast](code-quality.md#fail-fast) |
 | **Types tell the truth** (make illegal states unrepresentable) | The type cannot hold an illegal combination. | About to add an optional, an `any`, or a cast | [Types tell the truth](code-quality.md#types-tell-the-truth) |
 | **Keep judgment in the main context** (main context) | Keep the decision in this chat. Hand the search, the large read, and the noisy log to a subagent. | About to search, read a large file, or bulk-edit | [main-context.md](main-context.md) |

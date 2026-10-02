@@ -6,14 +6,14 @@ Review a shipped diff (a local branch or an open GitHub PR) for quality and whet
 
 ## Owns
 
-Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, the local remediation/promotion boundary, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
+Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
 
 ## Does not own
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`contract.md`](contract.md)
 - Code quality and structure bars: cite `quality:*` and `structure:*`
 - UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) (applied while building, not as a review axis)
-- Fix-now remediation analysis: [`../analyze/doctrine.md`](../analyze/doctrine.md)
+- Remediation adjudication, analysis requests, and fix dispatch: [active orchestrator](../rules/execution.md#remediation)
 - Test writing: [`../rules/testing.md`](../rules/testing.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
 
@@ -32,15 +32,15 @@ UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) apply whi
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, and only defects the evidence shows.
 
-Resolve Standards in this order:
+Resolve instruction conflicts through [AGENTS.md](../../AGENTS.md#conflict). Review these Standards sources:
 
 1. [code-quality.md](../rules/code-quality.md) (`quality:*` rules)
 2. [code-structure.md](../rules/code-structure.md) (`structure:*` rules)
-3. Repository rules and committed project documentation (these win on conflict)
+3. Repository rules and committed project documentation (additional constraints)
 4. Optional project standards when present (no particular standards file is required)
 5. Baseline defects in the review contract
 
-Treat the first two sources as **hard** unless repository rules conflict. Redo Standards output that skipped either section.
+Treat the first two sources as **hard** unless explicitly overridden by the user. Repository rules cannot weaken them. Redo Standards output that skipped either section.
 
 ### Blocker vs follow-up
 
@@ -147,7 +147,7 @@ For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) a
 **Local branch diff:**
 
 - Remediation stays narrow: it is not a broad architecture hunt and does not reopen the full initial review. Upgrade it to a full rescan only on an explicit request or material scope expansion.
-- Before any fix work, send selected **Fix now** findings to `/analyze` in review-remediation mode. Its remediation analysis returns one section keyed to each stable finding ID. Then require explicit promotion of the selected finding IDs before implementation begins. Promotion bounds work to those findings, the stated touch surface, and stated non-goals.
+- Return findings to the [active orchestrator](../rules/execution.md#remediation), which owns adjudication, any bounded analysis, and fix dispatch. Review never promotes or dispatches fixes. A standalone review stops unless fixes were requested; then hand off explicitly under [SKILL.md](SKILL.md#if-this-is-a-user-one-off).
 - If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates in this mode.
 
 **GitHub PR:**

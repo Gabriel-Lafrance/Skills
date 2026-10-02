@@ -50,7 +50,9 @@ Pack skills are stateless by default. Keep run state in chat. Create `.agents/te
 
 ### Authority
 
-Resolve context in this order:
+For instruction conflicts, use [AGENTS.md](../../AGENTS.md#conflict). The order
+below resolves task context and evidence; it does not let ticket text or code
+override governing rules. Resolve context in this order:
 
 1. The current user request and settled decisions in this chat
 2. The named ticket, PR, and its comments
@@ -96,6 +98,28 @@ Before starting a slice or crossing a lifecycle phase, show the relevant context
 ```
 
 Include only fields that matter to the current work. A new chat derives what it can from the authority order, then re-announces or asks only about missing user-owned decisions.
+
+## Nested capabilities
+
+The active parent owns the session, user decisions, and next-step dispatch.
+`/write-ticket` owns preparation; the selected execution skill owns a build.
+Calls to `/analyze`, `/grill-me`, `/how`, `/why`, or `/review` do not transfer
+that ownership. Give the capability a bounded question, relevant settled
+decisions, evidence already gathered, and a stopping condition. Reuse current
+results rather than investigating the same boundary twice.
+
+Return only the evidence, decision updates, remaining material gaps, and source
+pointers needed by the parent. Do not start a standalone interview, next-skill
+menu, full answer template, or saved memo. Preserve each capability's evidence
+bar: `/why` still distinguishes Found, Inferred, and Unknown and reports its
+sources; `/review` still returns its review contract. `/grill-me` asks only
+unresolved user-owned choices and preserves Questions/Locked separation.
+Settled intent and accepted or refused tests survive every handoff.
+
+The parent reconciles conclusions and owns any further research or question.
+For execution inputs and evidence use [execution.md](execution.md#handoffs-and-evidence);
+for review fixes use its [single remediation owner](execution.md#remediation).
+Standalone invocations retain their own useful answer and stopping behavior.
 
 ### Optional persistence
 

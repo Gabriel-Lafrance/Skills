@@ -10,7 +10,7 @@ Inputs, research rules, the analysis memo, one-off hand-off Questions, and revie
 
 ## Does not own
 
-- Implementation, ticket writes, or `/task` promotion unless the user (or an explicit parent instruction) chooses it
+- Implementation, ticket writes, or nested promotion and dispatch
 - A mechanics walkthrough: [`/how`](../how/SKILL.md)
 - Historical rationale with evidence tiers: [`/why`](../why/SKILL.md)
 - Code quality and structure bars: cite `quality:*` and `structure:*`
@@ -45,11 +45,32 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Read [code-structure.md](../rules/code-structure.md) even when the ask looks like a single file.
 - Apply “keep the existing structure” when that is the smallest correct answer, and stay in that layout instead of inventing a parallel one.
 
-Review-remediation mode: use only after the user selected named **Fix now** rows from a review. Analyze only those rows: add no findings, no product discovery, and skip Follow-up items and nits.
+### Bounded research scouts
+
+Delegate when independently uncertain data or API boundaries would otherwise
+require large unrelated reads. A small cohesive path stays one narrow pass.
+Give each read-only scout the locked outcome and invariants, one question and
+boundary owner, existing evidence and source pointers, and a stopping condition
+(the named uncertainty resolved or the missing source identified). Scouts do
+not question the user, edit, or start another skill lifecycle.
+
+Return only relevant schemas/contracts, callers, readers/writers, transitions,
+constraints, and cited paths or symbols that answer the question. Separate
+observed facts from inferences and missing evidence. Stop at the boundary unless
+a dependency could change the answer. Reuse an existing `/how` explorer or its
+current results for mechanics rather than launching a duplicate investigation.
+Use `/why` only for a named historical question that affects the recommendation.
+The parent reconciles conflicting evidence, synthesizes the proposed design,
+and sends only consequential user choices to `/grill-me`. If delegation is
+unavailable, perform the same bounded reads serially and report that limitation.
+
+Review-remediation mode: accept named **Fix now** rows from the active
+orchestrator under [remediation](../rules/execution.md#remediation). Analyze
+only those rows: add no findings, product discovery, follow-ups, or nits.
 
 ## Output
 
-For a `/write-ticket` parent, return the researched context described under Inputs directly to that conversation. The standard memo template below is not required in this mode. Standalone analysis and review remediation keep their existing outputs.
+For any parent, follow [nested capabilities](../rules/planning.md#nested-capabilities). Return the researched context directly; no standard memo template is required. Remediation returns the relevant per-finding analysis below, without its own promotion menu. The full memo below is for standalone analysis.
 
 Post the memo in chat; keep it current in the execution context rather than in an agent-owned file. Lead with a high-level Mermaid diagram so a reader can see the path before the prose.
 
@@ -93,7 +114,7 @@ flowchart LR
 ### Risks / unknowns
 - …
 
-### Draft /task seed
+### Draft execution seed
 **Outcome:** …
 **Done when:** <binary checks>
 **Non-goals:** …
@@ -101,11 +122,11 @@ flowchart LR
 **Rules that must stay true:** <relevant Rule N rows or none>
 ````
 
-Include the draft `/task` seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
+Include the draft execution seed when the work is buildable. It is context for a possible next phase, not a promotion or implementation authorization.
 
 ### Review remediation analysis
 
-Return one section for every selected stable finding ID before asking for promotion:
+Return one section for every selected stable finding ID to the orchestrator:
 
 ```markdown
 ## Review remediation analysis
@@ -125,7 +146,7 @@ Return one section for every selected stable finding ID before asking for promot
 **Verification:** …
 **Non-goals:** …
 
-## Promotion candidate
+## Bounded fix recommendation
 **Outcome:** …
 **Done when:** <one binary row per selected finding ID>
 **Lane:** …
@@ -143,36 +164,29 @@ Reply like: 1a
 1. Next step for this analysis?
    - a) Done: keep the memo in chat ← recommended when no build is intended
    - b) Sharpen the memo
-   - c) Promote the inline seed to `/task`
+   - c) Promote the inline seed to `/task-with-tests`
    - d) Draft a ticket from this memo with `/write-ticket`
-   - e) Promote to `/task` and start building
+   - e) Promote to `/task-with-tests` and start building
 ```
 
 | Choice | Do |
 | --- | --- |
 | a) Done | Leave the memo and execution context visible; stop. |
 | b) Sharpen | Research only the open point, then revise the memo. |
-| c) Promote | Explicitly carry the inline seed and locked decisions into `/task`. |
+| c) Promote | Explicitly carry the inline seed and locked decisions into `/task-with-tests`. |
 | d) Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
-| e) Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
+| e) Promote + start | Carry the inline seed into `/task-with-tests`, then continue through its grill or pre-cleared path. |
 
 A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the relevant researched context; the parent combines it with any useful `/how` or `/why` explanation and the grill's settled decisions into the final ticket. Analysis remains conversational preparation, not a required intermediate deliverable.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
-On promotion of remediation, carry only the selected finding IDs, their area, rules, and verification into the current `/task` context or a new bounded `/task`. On the other choices, leave code unchanged.
-
-One-off hand-off Questions for remediation:
-
-```markdown
-## Questions
-Reply like: 1a
-
-1. What should happen with these proposed remediations?
-   - a) Promote selected finding IDs into bounded Fix mode ← recommended
-   - b) Sharpen a selected finding before deciding
-   - c) Keep the analysis only; do not implement
-```
+Use the [AGENTS routing](../../AGENTS.md#skills) on an authorized standalone
+promotion: `/task-with-tests` by default, `/task` for an explicit command or
+no-tests request. Carry settled decisions and test acceptance/refusal sources
+through the [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight).
+A promotion offer grants no implementation authority. Nested remediation
+dispatch belongs only to the [active orchestrator](../rules/execution.md#remediation).
 
 ## Anti-patterns
 

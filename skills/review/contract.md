@@ -2,7 +2,7 @@
 
 ## Job
 
-Shared review evidence and output for `/review` (local branch diff or GitHub PR). `/review` owns remediation and posting. There is no Design-review skill and no Design axis.
+Shared review evidence and output for `/review` (local branch diff or GitHub PR). `/review` owns findings and posting; the [active orchestrator](../rules/execution.md#remediation) owns remediation dispatch. There is no Design-review skill and no Design axis.
 
 ## Owns
 
@@ -37,7 +37,7 @@ On a GitHub PR follow-up, after historical Pass A:
 3. Apply `initial` depth to **newly introduced** files/hunks in that range outside the remediation set.
 4. Use `full-rescan` only on explicit user request or material scope expansion.
 
-Remediation stays narrow, with no broad architecture hunt. New commits outside the remediation set still get reviewed.
+Remediation stays narrow, with no broad architecture hunt. New commits outside the remediation set still get reviewed. Bind finding and acceptance evidence to the reviewed revision and scope under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence). A prior pass does not clear changed behavior or stale verification; report invalidated evidence to the parent, which owns whole-result completeness.
 
 ## Evidence bar
 

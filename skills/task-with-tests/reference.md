@@ -4,7 +4,7 @@ Load at the tests prompt, when writing the accepted tests, and during the build.
 
 ## Tests prompt
 
-Send it right after the Locked in message, before any plan. It replaces the `/task` [behavior-lock suggestion](../task/reference.md#behavior-lock-suggestion).
+Use it for unsettled tests after the current lock, before any product plan. The [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight) carries existing decisions without another prompt. It replaces the `/task` [behavior-lock suggestion](../task/reference.md#behavior-lock-suggestion).
 
 Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once, then write each child's accepted tests before its product code.
 

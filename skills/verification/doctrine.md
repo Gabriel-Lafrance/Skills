@@ -59,6 +59,16 @@ Every change gets the repository's full test run. The work decides how much live
 
 The run is `verified` only when every discovered test suite and required live check is verified. A suite that cannot run is `inconclusive`; a suite that runs and fails is `failed`. Report `no test suites found` when the repository defines none. An unperformed check is never a pass.
 
+### Isolated runners
+
+The verification coordinator owns the complete suite and live-check inventory, deduplication, cleanup, evidence reconciliation, and verdict. Delegate only independent expensive checks when separate runners save meaningful time. Small checks stay local; this adds no reviewer per implementation slice.
+
+Each runner receives the pinned revision and diff identity, assigned check IDs and acceptance mapping, exact command or live path, expected observation, safe target, resource owner, and required evidence. It runs checks only, without implementing fixes or authoring tests. It returns commands and working directories, exit codes/counts or observed behavior, target/build identity, evidence paths, failures or blockers, and cleanup status using [handoffs and evidence](../rules/execution.md#handoffs-and-evidence).
+
+Parallel runners need isolated ports, data, browser sessions, and other mutable resources. Declare ownership before launch. If checks share state or cannot isolate, serialize them; do not assume distinct commands are independent. Runners stop only resources assigned to and started by their run. The coordinator accounts for leftover resources and retains evidence before cleanup.
+
+Pin checks to the same result. If code, build, configuration, or relevant environment changes during a run, apply [recovery and completion](../rules/execution.md#recovery-and-completion) and rerun invalidated checks. Never combine stale observations into a current pass. Delegation does not narrow the full repository suite inventory or the required combined live outcome.
+
 ### Evidence
 
 - Report evidence inline: test commands, exit codes and counts, HTTP status and body excerpts, row counts, log lines, console errors, measured layout-shift scores.
@@ -75,7 +85,7 @@ The [handoff](reference.md#handoff) in chat.
 
 ## Apply
 
-Run on user start, or every time `/task` reaches its gate out, as its own subagent launched together with the `/review` subagent. Run all repository test suites and size live checks to the change ([scope](#scope-to-the-change)).
+Run on user start, or when the active execution skill reaches verification, as an independent subagent following that skill's ordering. Run all repository test suites and size live checks to the change ([scope](#scope-to-the-change)). Return failures to the active orchestrator, which alone owns remediation dispatch.
 
 ## Anti-patterns
 
