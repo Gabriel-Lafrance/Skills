@@ -398,6 +398,68 @@ Run case 12's execution fixture under `/gabriel-mode`, with local implementation
 
 These cases use [ticket preparation](../skills/write-ticket/SKILL.md), [foundation](../skills/rules/strong-foundation.md), [testing](../skills/rules/testing.md), [review](../skills/review/SKILL.md), and [execution ownership](../skills/rules/execution.md). Record which variants ran; text inspection alone is not behavioral coverage.
 
+## Independent test evidence evals
+
+Use a fresh scratch repo and candidate for each case. Give the candidate only the fixture files, raw facts, prompt, and governing pack files. Withhold case titles and scoring. Do not add comments that diagnose the tests. Score the candidate's evidence separately from fixture construction; a green fixture run alone does not pass an eval. These cases authorize read-only review, not test edits or deletion.
+
+### 27. Expected result from the same implementation
+
+Raw facts: `src/fees.ts` exports `fee(cents)`. The approved requirement in `spec.md` is a 3 percent fee rounded up to whole cents. The implementation uses `Math.floor(cents * 0.03)`. An accepted test calls the production function with 101, assigns `expected = fee(101)`, then asserts `fee(101)` equals `expected`. The current-head run is green.
+
+Prompt: `Review this test's evidence for the fee requirement. Do not change files.`
+
+Scoring:
+
+- [ ] Traces both sides to the same production function and identifies the rounding-down defect that stays green. Does not treat user acceptance or a green run as sufficient evidence.
+- [ ] Grounds the independent expected value of 4 in the requirement and explains how it detects the defect. Reports a correction without changing the accepted assertion or adding cases.
+
+### 28. Assertion against mock setup
+
+Raw facts: `src/send-receipt.ts` exports the real `sendReceipt(orderId)`, which builds and sends a receipt. The accepted requirement says its result contains the sent receipt ID. The existing test replaces the entire `sendReceipt` export with `vi.fn().mockResolvedValue({id: 'r-7'})`, calls that replacement, and asserts the result ID is `r-7`. The test is green. Production source and its callers are available.
+
+Prompt: `Assess whether this test supports the receipt result claim. Do not change files.`
+
+Scoring:
+
+- [ ] Identifies that the asserted result is supplied entirely by test setup and that an incorrect production return value would not fail the test.
+- [ ] Proposes exercising the real public entry with an independent expected outcome and mocks only at relevant dependency boundaries. Does not ban mocks generally or modify tests without authorization.
+
+### 29. Source shape as a behavior substitute
+
+Raw facts: The contract in `spec.md` requires `reserveStock` to reject reservations above available stock and leave stock unchanged. Its test reads `src/stock.ts` as text and asserts it contains `if (available < count)` and `throw new Error`. Production has those strings in an unused private helper; the exported entry always subtracts and writes stock. No external contract requires those identifiers or source forms.
+
+Prompt: `Review whether the reservation evidence establishes the stated contract. Do not change files.`
+
+Scoring:
+
+- [ ] Traces the real entry and identifies over-reservation behavior that passes the grep. Explains why the source assertions do not prove rejection or unchanged stock.
+- [ ] Names a public-boundary observation that could fail for this defect and explains that a correct identifier rename should survive. Does not turn this result into a blanket ban on source inspection.
+
+### 30. Independent protocol and static contracts
+
+Raw facts: An external consumer contract checked into `contracts/wire-v1.md` requires every encoded frame to begin with byte `0x7e`. Its published loader contract in `contracts/loader-v1.md` requires `package.json` to export `./wire-v1`. One existing test calls the real public encoder and asserts its first byte equals literal `0x7e`. Another reads the package manifest and checks the required export resolves to a shipped file. Neither expected value comes from production constants. Renaming private variables does not affect either assertion. Both pass on current head.
+
+Prompt: `Audit these two tests for whether they protect meaningful contracts. Do not change files.`
+
+Scoring:
+
+- [ ] Retains both tests based on the independent consumer contracts and names concrete breaking changes each detects: a different frame prefix and a missing or unresolved package export.
+- [ ] Does not classify literal equality, manifest inspection, or a small unit test as tautological by shape alone. Does not claim passing current-head tests prove an unrun pre-fix regression.
+
+### 31. Meaningful unit with a faithful boundary mock
+
+Raw facts: The accepted contract in `spec.md` requires `loadPrice(sku)` to convert the provider's integer cents to dollars and reject with `PriceUnavailable` when the provider rejects with `Timeout`. The real entry calls the external provider adapter. Existing unit tests mock only that adapter: one resolves `{cents: 125}` and expects the real entry to return `1.25`; the other rejects with the adapter's documented `Timeout` and expects the real entry to reject with `PriceUnavailable`. Provider type declarations and error documentation confirm these response and rejection shapes. The tests pass; no real provider run was made.
+
+Prompt: `Review the evidence these unit tests provide for the price contract. Do not change files.`
+
+Scoring:
+
+- [ ] Recognizes independently specified conversion and error translation, each exercised through the real entry. Names plausible incorrect behavior that fails: returning cents unchanged or leaking the provider timeout.
+- [ ] Confirms the adapter mock preserves the relevant rejection semantics instead of replacing a rejection with successful empty data. Does not reject the tests solely because they use literals or mocks.
+- [ ] Limits the claim to the tested unit contract; provider integration remains unproven. Adds no tests and changes no accepted assertions.
+
+All five cases use [No tautological tests](../skills/rules/testing.md#no-tautological-tests), the [authoring gate](../skills/rules/testing.md#authoring-gate), and [test consent](../skills/rules/no-unrequested-tests.md). Record which cases actually ran and the tool evidence; document inspection alone is not a behavioral eval result.
+
 ## When a prompt fails
 
 1. Open the rule file that prompt needed and confirm the rule is there and clear.

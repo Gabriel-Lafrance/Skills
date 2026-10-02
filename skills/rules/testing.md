@@ -14,22 +14,41 @@ Only after the user accepted it, as defined in [no-unrequested-tests.md](no-unre
 
 ## When a test is worth writing
 
-Lock a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and tautological checks (`expect(add(1, 2)).toBe(3)`). If the target is trivial, say so and stop.
+Lock a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and [tautological tests](#no-tautological-tests). If the target is trivial, say so and stop.
 
 `/task-with-tests` uses a looser bar: one test per grilled rule with an observable outcome, still skipping tautologies, UI chrome, formatters, generated code, and types-only code ([tests prompt](../task-with-tests/reference.md#tests-prompt)).
+
+## No tautological tests
+
+**Never write or extend a tautological test.** Test consent, a green run, or a coverage target does not relax this prohibition. Assert observable behavior at its real owning boundary against an expectation independently grounded in the accepted requirement or a public, external, or separately specified contract.
+
+Do not derive the expected result from the implementation under test, copy its current constants or logic as the specification, compare a value with itself, or assert behavior supplied entirely by the test's own mock setup. Do not grep private names, call shapes, or source structure as a substitute for executing the claimed behavior. Such checks can pass while that behavior is absent or wrong.
+
+Before writing, name a plausible incorrect behavior that the assertion would detect and explain why it would fail. Trace the actual production entry, setup and assertion: a mock must not suppress the failure mode the test claims to catch. Unit tests and faithful substitutes at true external boundaries remain useful; no rule bans mocks or literal expected values merely because of their form. An implementation-only refactor that preserves the contract should not break the test.
+
+An independently mandated static or source contract is not a tautology. For example, an external loader may require an exact public manifest key or a protocol may fix an emitted byte value. Cite that independent obligation, inspect the actual consumed artifact, and identify the consumer-breaking change the check catches. This enforces a real contract; calling private code shape an architecture contract does not make a self-derived expectation independent. Apply the [retention bar](#retention-bar), without using it to waive this prohibition.
+
+| Bad: the test supplies its own answer | Good: independent claim and observable result |
+| --- | --- |
+| Compare `quote(order)` with another call to `quote(order)`, or a copy of its current formula | Use a separately specified pricing example through the public quote entry; name a wrong rounding or omitted discount it catches |
+| Mock `reserveStock` to decrement a local counter, then assert that counter | Call the real reservation entry with competing requests for the last item and observe successes and stored stock; setup must allow the race being checked |
+| Grep for a private `authorize()` call and declare access denied | Invoke the real public operation as the prohibited caller and observe denial with no protected effect |
+| Copy a constant's current value into an assertion without another source of truth | Assert a real emitted protocol field equals the value required by the independently cited protocol; a wrong wire value fails even if private code is renamed |
+
+Finding an existing tautology is not permission to delete tests or change accepted assertions. Report it to the owning workflow and preserve [test consent](no-unrequested-tests.md) and its remediation gates.
 
 ## Authoring gate
 
 An accepted test still passes this gate before it lands. Answer four questions, and write the test only once all four have answers:
 
-1. What observable behavior, invariant, or independent contract does it protect?
-2. What credible regression makes it fail?
+1. What observable behavior, invariant, or independent contract does it protect, and what is the independent source of its expected outcome?
+2. What plausible incorrect behavior makes it fail, and do setup or mocks hide that failure mode? Apply [No tautological tests](#no-tautological-tests).
 3. Why does existing coverage not already catch that failure? Each contract has one primary test owner at the strongest boundary. Another layer needs its own risk the owner cannot reach, such as a transport or lifecycle failure. Extend a table-driven case or shared fixture instead of adding a near-duplicate test, and fold duplicated setup in the same change.
 4. Does it need production code that only the test uses (export, flag, wrapper, injection hook)? If yes, test at the real boundary instead.
 
-Then check it against every [junk pattern](#junk-patterns). A match fails the gate unless the [retention bar](#retention-bar) names the contract it independently guards. A test that breaks under a behavior-preserving refactor asserts implementation, not behavior. Rewrite it at the owning boundary before it lands.
+Then check it against every [junk pattern](#junk-patterns). A tautological test always fails the gate. Use the [retention bar](#retention-bar) to distinguish independently grounded contract checks from superficially similar implementation mirrors, not to excuse a tautology. A test that breaks under a behavior-preserving refactor asserts implementation, not behavior. Rewrite it at the owning boundary before it lands.
 
-A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A regression test that never failed proves the mock, not the fix. One regression at the owner covers the bug, not a replay at every layer the scenario crosses.
+A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A setup failure is not that red baseline. If the pre-fix run is unavailable, report the missing evidence; do not claim the test reproduced the bug. One regression at the owner covers the bug, not a replay at every layer the scenario crosses.
 
 ## Junk patterns
 

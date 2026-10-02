@@ -131,7 +131,7 @@ Run after the Locked in message, once the inline plan names the public entry. Th
 
 Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once.
 
-1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar.
+1. Walk each rule that must stay true. Offer a brief only when it passes the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar and mandatory [No tautological tests](../rules/testing.md#no-tautological-tests) gate.
 2. Every brief cites one grilled rule. Why and What come from that rule. How names the public entry in the plan. No public entry, no brief.
 3. If no brief qualifies, record `Behavior locks: none` and continue without asking.
 4. Otherwise send one Questions-only message and wait. It is a hard stop: silence is not yes, and implementation does not start while it is open.
