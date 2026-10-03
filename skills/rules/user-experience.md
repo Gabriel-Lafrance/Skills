@@ -12,22 +12,13 @@ Apply these rules while investigating, preparing tickets, building, and reviewin
 
 `ux:action-and-continuation`. Before choosing controls, name the user's goal, what the product already knows at the entry point, the primary action and why it belongs, its meaningful result, and the next useful step. Follow the touched path far enough to know whether the user can finish. A button that opens a dialog is not sufficient if that dialog loses the context needed to continue.
 
-- Keep an action with a distinct user purpose. Combine duplicates, defer actions until their state makes them useful, and remove controls that add no outcome. Preserve useful expert actions one level down; simplicity is not deleting supported capability.
+- Keep an action with a distinct user purpose. Combine duplicates, defer actions until their state makes them useful, and remove controls that add no outcome. Preserve useful expert actions one level down; simplicity is not deleting supported capability. Make a label interactive only when it performs a useful action; status alone is not a button.
 - Carry known company, selection, recommendation, filters, and draft data into the next step when relevant. Prefill known values for inspection and editing; do not make users re-enter them. Do not guess uncertain or consequential inputs.
 - Define the useful action in each relevant state, including loading, empty, error, cancel, and retry. Failed writes preserve edits and offer recovery. Cancel/back returns to a sensible prior context; deliberate discard follows the product's existing convention. Success tells the truth and prepares the continuation without performing an unauthorized action.
-- Inspect `docs/design.md` when present, existing tokens and components, and representative nearby pages before proposing a variant. Reuse the incumbent hierarchy, typography, spacing, density, labels, and interaction patterns. Name any needed departure and its reason. Read external guidance only for the unresolved concern; product conventions win over a style catalog.
+- Inspect `docs/design.md` when present, existing tokens and components, and representative nearby pages before proposing a variant. Reuse the incumbent hierarchy, typography, spacing, density, labels, and interaction patterns. Name any needed departure and its reason. Investigate only the unresolved interaction or visual concern. Prefer familiar operational patterns that fit the product over a new style.
 - Infer ordinary interaction details from the agreed outcome and current product. Ask only about consequential choices that evidence cannot settle, such as an uncertain recipient, irreversible action, or changed scope. Do not ask the user to design every control.
 
 For example, "Create from this recommendation" opens an editable draft seeded with the current company and recommendation. A failed save keeps edits; cancel returns to the recommendation in its prior state. A beautiful empty editor fails that contract.
-
-### Sources
-
-This integration is an original, selective synthesis, checked against these sources on 2026-10-03. No upstream skill, checklist, or implementation is vendored. Product conventions and the agreed outcome govern how the guidance applies.
-
-- [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/.claude/skills/ui-ux-pro-max/SKILL.md) and [UX guidelines](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/src/ui-ux-pro-max/data/ux-guidelines.csv): scoped retrieval, redundant entry, control semantics, and feedback. [MIT](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/LICENSE), copyright 2024 Next Level Builder.
-- [Impeccable references](https://github.com/pbakaus/impeccable/tree/e103efe779e2dd01274dabae83531fef00bf2563/skill/reference) (`distill`, `critique`, `operate`, `new-work`, `harden`): purposeful actions, familiar operational UI, reuse, and recovery. [Apache 2.0](https://github.com/pbakaus/impeccable/blob/e103efe779e2dd01274dabae83531fef00bf2563/LICENSE), copyright 2025 Paul Bakaus.
-- [Vercel Web Interface Guidelines](https://github.com/vercel-labs/web-interface-guidelines/blob/e3d624baaf29dc1fc645aff3e38f03e564d2d6b1/command.md): state, navigation, keyboard, and focus checks. [MIT](https://github.com/vercel-labs/web-interface-guidelines/blob/e3d624baaf29dc1fc645aff3e38f03e564d2d6b1/LICENSE), copyright 2025 Vercel Labs.
-- [Anthropic frontend-design](https://github.com/anthropics/skills/blob/8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4/skills/frontend-design/SKILL.md): brief, visual hierarchy, type, spacing, and rendered critique. [Apache 2.0](https://github.com/anthropics/skills/blob/8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4/skills/frontend-design/LICENSE.txt).
 
 ## Source of truth
 
