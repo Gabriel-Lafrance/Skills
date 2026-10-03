@@ -12,6 +12,8 @@ When the ticket is ready, announce or reuse its current lock and proceed in the 
 
 ## Handoffs and evidence
 
+For touched user flows, carry the settled [interaction contract](../write-ticket/reference.md#plan) into the relevant slice and handoff: entry context, carried data, result/continuation, recovery, and component reuse. Revalidate those facts under [action and continuation](user-experience.md#action-and-continuation). Completion evidence must cover the meaningful continuation, not merely a control opening. Backend-only work adds no UX ceremony.
+
 The active orchestrator owns the outcome, decomposition, acceptance and next action. A nested skill returns its requested evidence or decision update to that owner; it does not start another complete lifecycle, select a new route, ship, or demand a standalone output template.
 
 Use the existing [execution context](planning.md#execution-context) and [slice contract](../task/reference.md#inline-plan-contract). Each handoff carries only what its receiver needs: outcome and item/acceptance IDs, slice and owner, dependency contracts, allowed paths and exclusions, current decisions and test consent sources, governing rule paths, Done when, and the exact question or action. Pin the base, current revision and working-diff boundary, including pre-existing changes; a commit alone does not identify uncommitted work.

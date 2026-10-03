@@ -29,8 +29,8 @@ One per slice, in chat, after the Locked in message. It is not a file.
 - **Scalability:** <stored-on-write | none for this slice>
 
 ## User experience
-- **User-facing:** yes (apply [user-experience.md](../rules/user-experience.md)) | no
-- **File:** `docs/design.md` present | missing (write it first from the routes in code)
+- <For touched user flows only: carry the ticket's UX/UI contract or derive a compact one from [action and continuation](../rules/user-experience.md#action-and-continuation). Name entry/context, useful actions by state, carried inputs, result/next action, recovery, and existing component/hierarchy/responsive expectations.>
+- **File:** `docs/design.md` present | missing (write it first when implementing UI)
 
 ## Rules that must stay true
 | ID | Role | How we enforce it | How we check it |
@@ -47,6 +47,7 @@ One per slice, in chat, after the Locked in message. It is not a file.
 ```
 
 Keep the frontier and dependencies under **Current slices** in the execution context.
+Omit User experience for backend-only slices. Reuse settled interaction requirements; do not repeat design questions or copy the shared contract into every slice.
 
 ## Slice split
 

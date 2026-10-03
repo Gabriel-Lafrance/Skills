@@ -10,6 +10,7 @@ Discover product, behavioral, code quality, and code structure decisions through
 
 ## Read when
 
+- Settling a touched user flow or visible action? Open [user-experience.md](../rules/user-experience.md#action-and-continuation) before proposing choices. Infer routine details from the outcome and existing product; ask only material tradeoffs. Backend-only work skips this.
 - About to recommend an answer? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you recommend the option the rules forbid.
 - Every run: open [doctrine.md](doctrine.md), the [execution context](../rules/planning.md#execution-context), and the [Asking the user](../rules/writing-style.md#asking-the-user) and [Plain language](../rules/writing-style.md#plain-language) sections of writing-style.md. Skip them and you mix Questions with Locked in, or ask what the repo already answers.
 

@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.4.2 -->
+<!-- gabriel-skills-agents v2.5.0 -->
 
 # Gabriel skills
 
