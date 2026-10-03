@@ -6,7 +6,28 @@ Cite keys use the `ux:` prefix. Each key below is a heading in this file.
 
 `ux:user-facing`. These rules apply to user-facing work: screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files). They apply even when `docs/design.md` is silent. Supporting non-UI files in the same area still follow [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md). A typo in a non-UI file is out of scope.
 
-Put yourself in a designer and customer-experience seat. Apply these rules while building. `/review` stays Standards and Spec: there is no `/design-review` skill and no Design axis. If the UI contradicts `docs/design.md`, make the UI match the file in this turn.
+Apply these rules while investigating, preparing tickets, building, and reviewing touched user flows. `/review` checks them within Standards and Spec; there is no separate Design axis or skill. Backend-only work with no changed user interaction needs no UX section or design questions. If the UI contradicts `docs/design.md`, make the UI match the file when implementing.
+
+## Action and continuation
+
+`ux:action-and-continuation`. Before choosing controls, name the user's goal, what the product already knows at the entry point, the primary action and why it belongs, its meaningful result, and the next useful step. Follow the touched path far enough to know whether the user can finish. A button that opens a dialog is not sufficient if that dialog loses the context needed to continue.
+
+- Keep an action with a distinct user purpose. Combine duplicates, defer actions until their state makes them useful, and remove controls that add no outcome. Preserve useful expert actions one level down; simplicity is not deleting supported capability.
+- Carry known company, selection, recommendation, filters, and draft data into the next step when relevant. Prefill known values for inspection and editing; do not make users re-enter them. Do not guess uncertain or consequential inputs.
+- Define the useful action in each relevant state, including loading, empty, error, cancel, and retry. Failed writes preserve edits and offer recovery. Cancel/back returns to a sensible prior context; deliberate discard follows the product's existing convention. Success tells the truth and prepares the continuation without performing an unauthorized action.
+- Inspect `docs/design.md` when present, existing tokens and components, and representative nearby pages before proposing a variant. Reuse the incumbent hierarchy, typography, spacing, density, labels, and interaction patterns. Name any needed departure and its reason. Read external guidance only for the unresolved concern; product conventions win over a style catalog.
+- Infer ordinary interaction details from the agreed outcome and current product. Ask only about consequential choices that evidence cannot settle, such as an uncertain recipient, irreversible action, or changed scope. Do not ask the user to design every control.
+
+For example, "Create from this recommendation" opens an editable draft seeded with the current company and recommendation. A failed save keeps edits; cancel returns to the recommendation in its prior state. A beautiful empty editor fails that contract.
+
+### Sources
+
+This integration is an original, selective synthesis, checked against these sources on 2026-10-03. No upstream skill, checklist, or implementation is vendored. Product conventions and the agreed outcome govern how the guidance applies.
+
+- [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/.claude/skills/ui-ux-pro-max/SKILL.md) and [UX guidelines](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/src/ui-ux-pro-max/data/ux-guidelines.csv): scoped retrieval, redundant entry, control semantics, and feedback. [MIT](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/LICENSE), copyright 2024 Next Level Builder.
+- [Impeccable references](https://github.com/pbakaus/impeccable/tree/e103efe779e2dd01274dabae83531fef00bf2563/skill/reference) (`distill`, `critique`, `operate`, `new-work`, `harden`): purposeful actions, familiar operational UI, reuse, and recovery. [Apache 2.0](https://github.com/pbakaus/impeccable/blob/e103efe779e2dd01274dabae83531fef00bf2563/LICENSE), copyright 2025 Paul Bakaus.
+- [Vercel Web Interface Guidelines](https://github.com/vercel-labs/web-interface-guidelines/blob/e3d624baaf29dc1fc645aff3e38f03e564d2d6b1/command.md): state, navigation, keyboard, and focus checks. [MIT](https://github.com/vercel-labs/web-interface-guidelines/blob/e3d624baaf29dc1fc645aff3e38f03e564d2d6b1/LICENSE), copyright 2025 Vercel Labs.
+- [Anthropic frontend-design](https://github.com/anthropics/skills/blob/8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4/skills/frontend-design/SKILL.md): brief, visual hierarchy, type, spacing, and rendered critique. [Apache 2.0](https://github.com/anthropics/skills/blob/8a1541c4a3ffa5a20a5a91de0dcf3f0bab1d1ef4/skills/frontend-design/LICENSE.txt).
 
 ## Source of truth
 
@@ -37,7 +58,7 @@ UI and UX do / don't for this product.
 
 ## Initialization
 
-`ux:initialization`. If `docs/design.md` is missing when you start UI work, write it first, then continue. `/setup-gabriel-skills` does not write it.
+`ux:initialization`. If `docs/design.md` is missing when implementing UI, write it first, then continue. Read-only investigation, ticket preparation, and review inspect existing product evidence and name the missing file without writing it. `/setup-gabriel-skills` does not write it.
 
 1. Discover **every** route from the app router in code alone (no browser, login, or screenshots).
 2. Read those routes and the existing UI. Look for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).
@@ -57,7 +78,7 @@ Never overwrite an existing `docs/design.md` with a blank template. A partial ro
 
 `ux:blend-edits`. The user may add or remove Do / Don't bullets. The next run treats those bullets as truth. Deleted bullets stay deleted, and the file is the only copy.
 
-A UX complaint updates `docs/design.md` in the same turn. When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet in `docs/design.md` in that turn, then match the UI if this turn also implements. The same holds when they want to change how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Edit the bullet as well as the component. A written Do or Don't that asks for a slower or denser path is not a defect.
+When implementing a UX complaint, update `docs/design.md` in the same turn. When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet and match the UI. Read-only investigation, ticket preparation, and review carry the proposed bullet in their existing output for the implementer; they do not write the file. The same holds when the user changes how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Edit the bullet as well as the component when implementing. A written Do or Don't that asks for a slower or denser path is not a defect.
 
 Add or tighten a bullet only when this turn observed a new UI/UX rule, the user stated a preference, or the user changed how design is done.
 
@@ -179,7 +200,7 @@ English "Background remover" is not French "Suppresseur de fond": that glues dic
 
 ## Anti-patterns
 
-- Inventing pixels, palettes, or flows that the app, `docs/design.md`, and the user did not supply
+- Inventing a new product workflow or visual identity without evidence, or treating ordinary interaction details as permission to reopen settled decisions
 - Growing `docs/design.md` into hundreds of lines or a catalog when a short Do / Don't list would do
 - Asking whether a rule miss here is optional instead of applying it while building
 - Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain

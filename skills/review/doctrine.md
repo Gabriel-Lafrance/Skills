@@ -12,7 +12,7 @@ Two axes (Standards vs Spec), blocker vs follow-up judgment per principle, namin
 
 - Evidence bar, modes, finding record, review output fence, severity map: [`contract.md`](contract.md)
 - Code quality and structure bars: cite `quality:*` and `structure:*`
-- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) (applied while building, not as a review axis)
+- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) owns them; review applies them within Standards and Spec
 - Remediation adjudication, analysis requests, and fix dispatch: [active orchestrator](../rules/execution.md#remediation)
 - Test writing: [`../rules/testing.md`](../rules/testing.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, follow-up passes, and posting steps: [`reference.md`](reference.md)
@@ -28,7 +28,7 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) apply while building; review has no Design axis, Design matrix, Experience floor, Craft floor, or `/design-review` skill.
+UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) are Standards for touched user flows; the agreed interaction contract is Spec. Review has no separate Design axis, matrix, or skill.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, and only defects the evidence shows.
 
@@ -39,8 +39,15 @@ Resolve instruction conflicts through [AGENTS.md](../../AGENTS.md#conflict). Rev
 3. Repository rules and committed project documentation (additional constraints)
 4. Optional project standards when present (no particular standards file is required)
 5. Baseline defects in the review contract
+6. For touched user flows, [user-experience.md](../rules/user-experience.md) and the product's `docs/design.md` when present
 
 Treat the first two sources as **hard** unless explicitly overridden by the user. Repository rules cannot weaken them. Redo Standards output that skipped either section.
+
+### Interaction review
+
+For touched user flows, trace the real entry and known context through each changed action to its useful result and continuation. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Cite concrete redundant effort, required data re-entry, lost edits/state, unprepared continuation, or hierarchy/component reuse violations as defects under the existing finding and severity rules. Distinguish product conventions and accepted tradeoffs from personal aesthetic preferences. A working click or attractive screenshot alone does not prove the flow meets the contract.
+
+Use source and existing evidence for the path walk; cite `/verification` browser and screenshot evidence when available. Missing live evidence remains a named gap, not an invented pass or defect. Review does not start another design workflow or ask backend-only work for UI decisions.
 
 ### Blocker vs follow-up
 

@@ -104,6 +104,13 @@ flowchart LR
 ## Files
 - `path/to/file` - `symbol` - <work item number>
 
+## UX/UI
+- Entry and context: <user goal, starting route/state, and known data>
+- Actions by state: <primary action and purpose; keep/combine/defer/remove decisions where relevant>
+- Continuation: <prefilled/carried data, editable result, and next meaningful action>
+- Recovery: <relevant loading/empty/error/cancel/retry behavior and preserved edits/context>
+- Presentation: <existing component/token/page references; concrete hierarchy and relevant responsive/keyboard expectations>
+
 ## Work items
 1. <meaningful change or outcome>
    - Depends on: <item number and required contract/state> | independent
@@ -143,6 +150,7 @@ or `none: no tests specified`
 
 - `## Foundation`: a seam is a named extension point where a new variant plugs in.
 - `## Structure`: shared design only; item-specific approaches belong in Work items. Use `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
+- `## UX/UI`: include only for touched user flows; omit for backend-only work. Keep it compact and specific to the changed interaction, not a questionnaire or screen catalog. Omit irrelevant states. Keep each item's Do/Why/How/Verify local, referring to this shared contract instead of copying it. Apply [action and continuation](../rules/user-experience.md#action-and-continuation).
 - `## Outcome`: keep the outcome and reason on short separate lines. Include only the evidence needed to understand the current goal, with specific source pointers; do not copy the analysis memo.
 - `## Work items`: follow the [implementation-item contract](doctrine.md#implementation-items). Use as many items as meaningful outcomes require, including one for a small change. Order dependencies before consumers and identify the supplied contract or state. Each item needs local Do, Why, How, and Verify; brief references can carry shared context, but cannot replace an item's specific reason and approach. Leave routine coding choices open. These items are not linked subissues or permission to execute.
 - `## Files`: a compact path-to-item index, not a second implementation plan. `## Done when` states overall acceptance; each item's Verify states its local observable check without duplicating the whole acceptance list.
