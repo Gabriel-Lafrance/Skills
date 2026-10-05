@@ -19,7 +19,8 @@ Chat uses the cite form, plain name then the classic name in parentheses ([Plain
 
 | Cite in chat | One-line rule | Open when | Detail |
 | --- | --- | --- | --- |
-| **Prove it works** (real artifact) | Done is an artifact a user would trust. A compile or a typecheck is not that artifact. | About to call work done | [verification](../verification/SKILL.md) runs the real path. An accepted test follows [testing.md](testing.md). |
+| **Prove it works** (real artifact) | Evidence must prove the claimed outcome. A compile or typecheck alone does not prove changed runtime behavior. | About to call work done | [Verification scope](execution.md#verification-scope) selects applicable proof; [verification](../verification/SKILL.md) owns live paths. An accepted test follows [testing.md](testing.md). |
+| **Match proof to risk** (risk-based verification) | Check affected behavior and dependencies; broaden for shared risk, explicit requests, or mandatory repository requirements. A small diff is not evidence of low risk. | About to choose checks or reuse evidence | [Verification scope](execution.md#verification-scope); [Git sync only](execution.md#git-sync-only) stops after a clean operational sync. |
 | **Fix the root cause** (repro first) | Reproduce the failure, then fix the cause. A patch on the symptom comes back. | About to fix a bug, or the same failure returned | This row |
 | **Sequence the work** (verifiable units) | Split into units you can verify before the next one starts. The active execution skill owns the build. | About to plan more than one step | [Slice split](../task/reference.md#slice-split) |
 | **Fail fast** (Fail Fast) | Reject bad input at the boundary. Inside, trust the type. | About to add a check, a cast, or a parse | [Fail fast](code-quality.md#fail-fast) |

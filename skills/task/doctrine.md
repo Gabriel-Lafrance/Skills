@@ -25,12 +25,15 @@ Use the shared [execution context](../rules/planning.md#execution-context) as th
 
 **Lock before plans.** Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse a complete ticket lock; `/grill-me` settles only unresolved consequential choices. Assign each recorded rule to a slice or `all`, with its observable enforcement and verification. Send behavior-lock briefs only after that lock and the public entry are known.
 
-**Quality bar.** Two gates run before completion, in parallel, each in its own subagent:
+**Quality bar.** Apply [verification scope](../rules/execution.md#verification-scope)
+before selecting checks and orchestration. Review the actual changed diff and
+verify the bounded behavior. Focused low-risk work can run these checks here.
+Substantial/high-risk work uses two independent gates, in parallel when available:
 
-- `/verification` runs all configured repository test suites and gives live acceptance evidence for Done when, the rules that must stay true, and cross-slice seams. Live checks are sized to what the work changed ([scope](../verification/doctrine.md#scope-to-the-change)).
+- `/verification` runs selected applicable checks and gives acceptance evidence for Done when, invariants, and affected seams. Full suites follow risk or an explicit request ([scope](../verification/doctrine.md#scope-to-the-change)).
 - `/review` gives the Standards and Spec findings.
 
-Launch both in one step so they run at the same time, then judge their handoffs here. If the harness has no subagent, run `/verification` and then `/review` in this context. There is no `/validate` skill.
+When independent gates apply, launch both in one step and judge their handoffs here. If subagents are unavailable, run serially and disclose the independence limit. Preserve explicitly requested worker/independent workflows. Git-only sync never enters these gates. There is no `/validate` skill.
 
 ### Lookup
 
@@ -48,7 +51,7 @@ Launch both in one step so they run at the same time, then judge their handoffs 
 | Tests | After the Locked in message, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow [testing.md](../rules/testing.md) |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | Active orchestrator follows [remediation](../rules/execution.md#remediation) |
-| Gate out | **`/verification`** and **`/review`**, each in its own subagent, launched together |
+| Gate out | Scoped verification and review; independent subagents together when risk or the requested workflow calls for them |
 
 Inside this loop, call child skills (`/grill-me`, `/verification`, `/review`, `/analyze`). Each follows its [`SKILL.md`](SKILL.md); this parent already owns the next step.
 
@@ -67,8 +70,8 @@ Track these rows in the execution context or a short progress message. Declare c
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | Non-UI slices | If non-UI | Built by this loop; update **Current slices** after each |
 | Behavior locks | When a complex public rule exists | After the plan names the public entry. Wait for the answer. Refusing every test is a complete answer |
-| `/verification` | Yes | Own subagent, parallel with `/review`. Its handoff is the acceptance evidence |
-| `/review` | Yes | Own subagent, parallel with `/verification`. Standards and Spec, no Design axis |
+| `/verification` | Yes | Selected checks and acceptance evidence; independent subagent when the quality bar above applies |
+| `/review` | Yes | Standards and Spec, no Design axis; independent subagent when the quality bar above applies |
 
 ### Suitability and skip grill
 
@@ -122,9 +125,9 @@ Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer s
 
 ## Anti-patterns
 
-- Declaring completion before both `/verification` and `/review` have returned
-- Running `/verification` and `/review` one after the other when the harness has subagents
-- Asking `/verification` to drive unrelated live layers beyond its required full test run
+- Declaring completion before selected verification and review have established the bounded outcome
+- Forcing independent full gates on operational sync or routine low-risk work
+- Asking `/verification` to run unrelated suites/live layers without risk or requested scope to justify them
 - Fixing review findings outside the orchestrator-owned remediation and bounded promotion contract
 - Treating a review fix as a fresh architecture or product outcome
 - Asking yes/no for non-goals, plan split, or shared understanding

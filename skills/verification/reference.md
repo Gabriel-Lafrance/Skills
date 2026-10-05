@@ -13,16 +13,16 @@ Convex apps: drive functions with `npx convex run` against the dev deployment an
 
 ## Repository test suites
 
-Inventory tests before running them. Read `docs/verification.md`, repository and workspace manifests, CI jobs, runner configuration, and the README. Find all configured suites, including unit, integration, component, browser, and end-to-end tests across packages. If a standard runner finds test files but no script names them, use that runner's normal repository command. Do not count lint, type checks, or builds as test suites unless they actually execute tests.
+Select suites under [verification scope](../rules/execution.md#verification-scope). Inspect the relevant recipe, manifests, CI and runner configuration to identify affected tests and consumers. For broad/full verification, inventory all configured suites across packages. If a standard runner finds relevant tests but no script names them, use its documented command. Lint, type checks, and builds are not test suites unless they execute tests.
 
-- Run the full command for each distinct suite, without a changed-file filter. Include every configured test project and browser. A root aggregate command can cover its child suites; check what it includes and run any omitted suites separately. Do not run the same suite twice merely because two scripts name it.
+- Use supported package/path/project filters for bounded checks when dependency coverage remains adequate. Full verification uses every configured project/browser requested; a root aggregate may cover child suites. Check its coverage and run omitted required suites. Do not run the same suite twice merely because two scripts name it, or invent a filter that silently drops affected consumers.
 - Use the repository's toolchain and documented setup. Reuse safe local services, create disposable test data when needed, and run suites that do not depend on a failed suite even if one exits nonzero. Never redirect a test command to production or shared staging.
 - Record each suite's working directory, exact command, exit code, test counts, skips, and a short failure excerpt or log path. A command that runs and fails is `failed`. A suite blocked by missing credentials, browser setup, data, or an unsafe target is `inconclusive`; name what is missing and the command attempted. Do not replace it with a narrower command and call the full suite passed.
 - If no tests or test commands exist after the inventory, record `no test suites found`. Do not add test files, install new test tooling, or change runner configuration during verification.
 
 ## Ways to verify
 
-This is a menu for live checks, not a checklist. The full [repository test suites](#repository-test-suites) run separately. Start live checks from what the work actually did (the diff, the slices, the Done when items). For each thing you changed, pick the few moves below that would show it works, and skip the rest. Two added buttons get a UI pass on that view, not a migration or endpoint pass. Go one layer wider only where the change crosses a boundary: a new button that calls a new endpoint gets the click, the request, and the stored row.
+This is a menu, not a checklist. Select [repository test suites](#repository-test-suites) and live checks together from affected behavior and risk. Pick the moves that establish the bounded claim; unrelated layers stay unrun. Go wider for crossed boundaries or shared impact: a button using a changed endpoint may need the click, request, and stored row.
 
 ### You added or changed UI
 
@@ -173,7 +173,7 @@ Reply like: 1a
 
 ## Handoff
 
-Use stable check IDs and acceptance mappings from [handoffs and evidence](../rules/execution.md#handoffs-and-evidence), including delegated runner results. The coordinator reconciles the complete inventory before sending this handoff.
+Use stable check IDs and acceptance mappings from [handoffs and evidence](../rules/execution.md#handoffs-and-evidence), including delegated runner results. Reconcile the selected inventory before sending this handoff. Focused work can use a short scope, results, and gaps paragraph; use the tables for multiple checks or a full verification request.
 
 ```markdown
 ## Verification: <verified | failed | inconclusive>
@@ -183,9 +183,12 @@ Use stable check IDs and acceptance mappings from [handoffs and evidence](../rul
 
 | Test suite | Working directory and command | Outcome | Evidence |
 | --- | --- | --- | --- |
-| <unit / integration / end-to-end / other, or no test suites found> | <path and full command, or none> | verified \| failed \| inconclusive \| none | <exit code, passed / failed / skipped counts, failure excerpt or log path> |
+| <unit / integration / end-to-end / other, or no test suites found> | <path and exact selected command, or none> | verified \| failed \| inconclusive \| none | <exit code, passed / failed / skipped counts, failure excerpt or log path> |
 
+- **Scope and reason:** <affected behavior/dependencies/risk; focused or full request>
 - **Target:** <pinned revision and diff identity; check IDs and acceptance mapping>
+- **Reused evidence:** <check, relevant unchanged code/context and source, or none>
+- **Not run:** <unselected scope and why; never described as passing>
 - **Environment:** <local or preview URL, build identity>
 - **Resources and cleanup:** <owned processes/data, cleanup completed or remaining>
 - **Live layers not exercised:** <layers the change did not touch, in one line>

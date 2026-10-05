@@ -134,7 +134,7 @@ Judge mocks by which behavior they remove from observation, including policy, or
 
 ### Static checks
 
-On every `initial` or `full-rescan` Standards pass, make sure Knip is clean (no unused files, exports, or dependencies) and no function has cyclomatic complexity above 5. If you do not know how to check those, see [static-checks.md](static-checks.md). Cite `quality:no-dead-code` and `quality:cyclomatic-cap`. A finding the diff introduced is **Fix now**; a pre-existing one is Follow-up.
+On `initial` or `full-rescan`, assess dead code and the complexity cap on the changed surface and affected callers. Select existing static commands under [verification scope](../rules/execution.md#verification-scope); reuse valid evidence and run broad Knip only when required or justified by reachability/dependency changes. A local behavior fix need not install a checker or scan the whole repository. See [static-checks.md](static-checks.md), cite `quality:no-dead-code` and `quality:cyclomatic-cap`, and report evidence limits. Introduced defects are **Fix now**; untouched baseline defects are Follow-up. Operational Git sync does not automatically start this review.
 
 ### PR extras
 

@@ -88,13 +88,13 @@ Fold sites with the same root cause and fix shape into one record; different roo
 
 ## Output
 
-**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Standards also checks Knip and cyclomatic complexity: see [../review/static-checks.md](../review/static-checks.md). Run the Principles sweep, `review:naming-alignment`, the Architecture sweep, the Correctness hunt, and the Baseline defects scan. Missing tables or a skipped section means redo before reporting.
+**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Scope static checks under [static-checks.md](static-checks.md). Inspect the relevant Principles, naming, Architecture, Correctness, and Baseline concerns across the changed surface and affected consumers. A small diff does not excuse missing a consequential authorization or data-integrity concern.
 
 Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field, always with both names. User-facing notes are ordinary sentences ([Plain language](../rules/writing-style.md#plain-language)).
 
-**Spec pass**: one Spec matrix row per Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
+**Spec pass**: cover each Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. Use one Spec matrix row per item in the full output, or equivalent concise evidence in focused output. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
 
-Cover every independent part of the diff. Narrative-only output is incomplete. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect (for example cheap reads on a copy-only change). One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
+Cover every independent part of the diff. For focused low-risk work, report scope, findings, relevant checks, and evidence limits concisely; do not manufacture empty tables. Substantial/high-risk work or an explicitly requested full review uses the output below. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect. One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
 
 ### Review output
 

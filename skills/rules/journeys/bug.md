@@ -38,6 +38,8 @@ The memo ends with an execution seed and the hand-off choices. The user picks Pr
 
 `/review` checks safe to retry (Idempotency): a double submit must not duplicate the charge. That is a blocker if missing. The ship question defaults to no. On yes: branch `bug/IN-61-fix-double-charge`, then the PR title and body for approval.
 
+[Verification scope](../execution.md#verification-scope) starts with the reproduced double-submit path, the accepted regression, and relevant existing payment tests and lint/type checks. This touches money and retry behavior, so inspect shared callers and broaden to relevant integration checks where needed. A small patch does not make a duplicate-charge fix low risk. Report actual results and any unverified scope; required CI still applies.
+
 ## If a step is skipped
 
 - No analyze: the agent disables the button, and a slow network still double-charges.

@@ -185,11 +185,11 @@ Start the gate when every slice is done, blocked, or explicitly waived.
 
 **Verification and review gate.**
 
-1. Launch two subagents in one step so they run at the same time:
-   - `/verification`: give it Done when (task and slice), the rules that must stay true, cross-slice seams, the slices, and the diff. It runs all repository test suites and drives only the affected live paths ([scope](../verification/doctrine.md#scope-to-the-change)).
+1. Select check scope and orchestration under [verification scope](../rules/execution.md#verification-scope). Focused low-risk work can run relevant checks and diff review in this context. For substantial/high-risk work, launch two independent agents together when available:
+   - `/verification`: give it Done when, invariants, affected seams, slices, diff, selected scope, and valid prior evidence. It runs applicable tests/checks and relevant live paths ([scope](../verification/doctrine.md#scope-to-the-change)); full suites follow actual risk or an explicit request.
    - `/review`: use the [fresh combined-review context](../review/contract.md#fresh-combined-review-context), pinned to the same tree. It reviews the diff for Standards and Spec without the implementation conversation or a prewritten verdict.
 
-   If the harness has no subagent, run `/verification`, then `/review`, in this context.
+   If an independent gate applies but subagents are unavailable, run serially and disclose that limit. Preserve explicit independent/worker workflows. Clean operational Git sync bypasses this build gate.
 2. Use the shared [handoff and evidence contract](../rules/execution.md#handoffs-and-evidence). Read the actual evidence before accepting a verdict.
 3. Use the verification handoff as the acceptance evidence. Add the lock handoff and the focused test result for each accepted lock. Mark each criterion verified, failed, or inconclusive. An unperformed check is not a pass.
 4. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
@@ -198,4 +198,4 @@ Start the gate when every slice is done, blocked, or explicitly waived.
 
 ### Fix mode (review remediation only)
 
-Follow shared [remediation](../rules/execution.md#remediation). Retain the current outcome and rules, promote only named bounded fixes, and preserve test consent. Recheck invalidated evidence and run `/review` in remediation mode; final whole-result verification still covers the changed tree, all configured suites and applicable live checks.
+Follow shared [remediation](../rules/execution.md#remediation). Retain the outcome, promote only bounded fixes, and preserve test consent. Recheck invalidated evidence and review the remediation; final acceptance covers the combined result with selected applicable checks and valid retained evidence, not an automatic rerun of every suite.

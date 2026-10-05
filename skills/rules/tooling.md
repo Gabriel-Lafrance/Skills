@@ -4,15 +4,15 @@ Follow the repo's ESLint and Prettier configs when they exist. This pack install
 
 - If the repo's ESLint config already bans the em dash, en dash, and horizontal bar, keep that rule on. If it caps cyclomatic complexity at 5, keep the cap and split the function.
 - Put editor workspace files in `.vscode/extensions.json` and `.vscode/settings.json` only.
-- CI and the user's running terminals own the implementation slice check loop ([Verify terminals first](#verify-terminals-first)), so skip `eslint`, `tsc`, and full suites while building a slice. At the `/verification` gate, run every configured repository test suite.
-- **Before a push that opens or updates a PR:** run the [CI mirror](shipping.md#ci-mirror) in this environment, then push once. A local commit with no open PR and no push does not run that suite. If there is no workflow and no lint or test script, say so. Never `git commit --no-verify` unless the user asked.
+- Reuse current terminal evidence ([Verify terminals first](#verify-terminals-first)) and run focused existing tests/lint/type checks when they establish the changed behavior. Select scope under [verification scope](execution.md#verification-scope); broaden for shared/high-risk impact or an explicit full request.
+- **Before a push that opens or updates a PR:** apply [CI mirror](shipping.md#ci-mirror) for applicable scoped and mandatory local checks, then track required remote CI. Local commits and clean Git sync do not trigger full suites merely because a PR exists. Preserve hooks and required checks; report missing commands/evidence.
 - Run lint or format when the user asked, when a named review finding requires it, or when you just added the config and need one smoke check.
 - Format only files you already had to touch, unless the user asked for a repo-wide format.
 - Never overwrite an existing `eslint.config.*`, Prettier config, or `.vscode/settings.json` without asking.
 
 ## Verify terminals first
 
-`quality:verify-terminals-first`. The frontend dev server and `npx convex dev` are usually already running. While coding, read those terminals. The suite runs once before a push that opens or updates a PR ([CI mirror](shipping.md#ci-mirror)).
+`quality:verify-terminals-first`. The frontend dev server and `npx convex dev` may already be running. Read relevant terminals before starting duplicate processes or checks. Shipping uses [CI mirror](shipping.md#ci-mirror); pure Git sync uses [Git sync only](execution.md#git-sync-only).
 
 In order:
 
@@ -24,7 +24,7 @@ Read terminals instead of running these by default:
 
 - Convex MCP (`status`, `data`, `tables`, `logs`, `run`, `runOneoffQuery`, `insights`, `functionSpec`, env tools) just to verify.
 - `npx convex`, deploy, or codegen after every slice while `convex dev` is watching.
-- `eslint`, `tsc --noEmit`, `npm run lint`, or full suites while coding a slice. `/verification` runs full test suites after the build; run any remaining CI mirror commands before a push that opens or updates a PR.
+- Unrelated full lint/type/test runs after every slice. Relevant focused checks remain allowed; use a full command when impact, requested scope, or required repository gates justify it.
 - A second frontend or Convex process when one is already up, or a pass whose only job is MCP verification.
 
 Use Convex MCP or deeper checks only when:

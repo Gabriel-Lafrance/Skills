@@ -37,7 +37,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 - Body: type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes.
 - End every new or updated PR body with the [blast radius and merge danger assessment](shipping-templates.md#blast-radius-and-merge-danger), including each stacked PR. Apply it through every publication tool; keep stack and verification details above it. Refresh it against the current PR base, diff, and actual evidence before publication. It is reporting, never permission to merge.
 - Use only a real ticket. Use `/write-ticket` when the work belongs on a tracker.
-- Before a push that opens a PR, or a commit or push on a branch that already has an open PR, run the [CI mirror](#ci-mirror). Push once it is green. Never `--no-verify` unless the user asked.
+- Before a push that opens or updates a PR, apply the [CI mirror](#ci-mirror) policy: scoped verification and repository-required local checks, valid evidence reuse, and honest remote CI status. A local commit or clean Git sync does not itself trigger a full mirror because a PR exists. Never bypass required checks or hooks.
 - Use the harness pull-request tool when it has one. Otherwise use `gh` ([Create or update the PR](#create-or-update-the-pr)).
 
 ## Create or update the PR
@@ -70,24 +70,32 @@ A user request such as "implement all children and open stacked PRs" authorizes 
 
 ## CI mirror
 
-Remote CI confirms a tree that is already green here. A red push spends Actions minutes and a build for nothing. Run the check in the environment you are in: the local machine, or this cloud agent VM. Learn whether the tree is green there, not by starting GitHub Actions (`gh workflow run`, a push, or a rerun).
+This anchor owns applicable pre-push checks, not an unconditional local replica
+of every CI job. A local merge/commit alone follows [Git sync only](execution.md#git-sync-only)
+or its actual changed scope, even when the branch has an open PR.
 
-**When:** you are about to push a branch that will open a PR, or to commit or push on a branch that already has an open PR.
+Before shipping, inspect repository instructions, hooks, CI jobs/path filters,
+and known required checks. Run mandatory local commands and the checks selected
+by [verification scope](execution.md#verification-scope). A full local CI mirror
+is warranted when required by the repository, explicitly requested, or justified
+by cross-cutting impact/uncertainty. A bounded fix need not repeat unrelated
+full suites locally merely because remote CI includes them. Preserve the actual
+remote CI requirements and security controls; do not edit workflows or protection
+to avoid checks.
 
-**When not:** a local commit you are not pushing, while no PR is open on that branch.
+Reuse applicable passing evidence when relevant code/context remain unchanged;
+recheck invalidated claims. Use supported scoped commands and existing dependencies.
+If a selected local check fails, fix/recheck it before shipping or report the
+blocker. If required access/setup is unavailable, disclose the missing check;
+do not call it passed. Deployment/publishing jobs remain outside verification.
 
-**Once:** if this exact tree already passed and nothing has changed, skip the rerun before the push. Reuse `/verification` test suite results when the tree, command, and environment match; run any CI checks it did not cover.
-
-**What to run**
-
-1. Read `.github/workflows` for jobs that run on `pull_request`. Add jobs that run on `push` when a push is what updates the open PR. Run those jobs' check commands here.
-2. Skip deploy, publish, and jobs that need secrets you do not have. Say which jobs you skipped.
-3. If a workflow path filter would skip the job for this diff, skip it here too. A docs-only change gets no full build the workflow would not run.
-4. If there is no such workflow, run `lint` and `test` when those scripts exist.
-5. Reuse the installed dependencies when the lockfile is unchanged.
-6. If a command fails, fix it and rerun that command. Then push once.
-7. If there is no workflow and no `lint` or `test` script, say so and continue without a suite.
-8. Never `git commit --no-verify` or `git push --no-verify` unless the user asked.
+An authorized push may trigger configured remote CI after applicable local
+checks. Report remote checks as pending, passed, failed, or unavailable on the
+actual head; do not call shipping ready or mergeable while required CI is
+pending/failed. If the repository requires a gate before push, honor that gate.
+Do not start redundant workflow runs, bypass hooks, or change branch protection.
+The shipping handoff briefly states actual checks/results, retained evidence,
+and residual unverified scope. No workflow or test commands means no invented suite.
 
 ## Process
 
@@ -98,7 +106,7 @@ In parallel, inspect `git status`, current branch, remotes/default base, commits
 | State | Action |
 | --- | --- |
 | No pull-request tool, and no `gh` or not authenticated | Cut and push the branch as usual. Stop before the publish step and say why |
-| Dirty tree | If scoped commits are already authorized, commit only those changes; otherwise ask: commit first, stash, or abort. Preserve unrelated work. If that commit will be pushed, or a PR is already open on the branch, run the [CI mirror](#ci-mirror) first and push only when it is green |
+| Dirty tree | Commit only authorized scoped changes; otherwise resolve the index boundary with the user. Preserve unrelated work. Apply [CI mirror](#ci-mirror) before a requested push, not merely because a local commit updates an open-PR branch |
 | No commits ahead of base | Stop; there is nothing to publish |
 | Detached HEAD | Create the standalone branch from that commit (step 3), then continue on it |
 

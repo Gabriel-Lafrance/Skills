@@ -33,7 +33,7 @@ Option b bolts a special case onto the foundation, and the third currency repeat
 
 ## 3. Two builds, in order
 
-1. **Refactor.** Remove the hardcoded value first ([keep-it-simple.md](../keep-it-simple.md#before-you-add), subtract first). `makeUserPay` takes a `currency`, and every current caller passes `"cad"`. Behavior is preserved. Existing tests stay green, and no new test is needed. When the user requests tickets separately, `/write-ticket` makes this its own implementation ticket (kind Refactor). It ships on its own branch: `refactor/IN-57-pass-currency-through-billing`.
+1. **Refactor.** Remove the hardcoded value first ([keep-it-simple.md](../keep-it-simple.md#before-you-add), subtract first). `makeUserPay` takes a `currency`, and every current caller passes `"cad"`. Verify preserved behavior with relevant existing billing tests and affected caller/type checks under [verification scope](../execution.md#verification-scope); broaden if the shared contract affects more paths. No new test is needed. When the user requests tickets separately, `/write-ticket` makes this its own implementation ticket (kind Refactor). It ships on its own branch: `refactor/IN-57-pass-currency-through-billing`.
 2. **Feature.** Now USD fits the seam: checkout picks the currency from the customer's country. The tests prompt offers one test: a US customer's payment through `makeUserPay` is charged in USD.
 
 ## 4. Review
