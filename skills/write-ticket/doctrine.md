@@ -48,7 +48,11 @@ Each item carries four local parts:
 - **How:** the concrete approach through relevant code, data, contracts, and constraints, with evidence pointers and material uncertainty where needed. Resolve consequential ambiguity before finalizing, while leaving ordinary coding choices to the executor.
 - **Verify:** an observable result and a suitable way to check this item's behavior or contract after implementation. Describe a future check, not a completed result. Refer to `Tests` for any proposed, accepted, or refused test and its decision source. This field neither authorizes new tests nor starts execution, migrations, deployment, or other planned work.
 
-Each item owns its local rationale and approach. Keep Structure and Foundation for shared design, Files as a path-to-item index, Already decided for shared decisions or bounded delegation, and Done when for overall acceptance. Reference those shared facts briefly where needed instead of copying them into every item. If an item is the only owner of a choice, explain it there once. Keep the ticket proportional; a short clause per part can be enough.
+Each item owns its local rationale and approach. Keep Structure and Foundation for shared design, Files as a path-to-item index, Already decided for shared decisions or bounded delegation, and Done when for overall acceptance. Reference those shared facts briefly where needed instead of copying them into every item. If an item is the only owner of a choice, explain it there once.
+
+Optimize for less ambiguity, not fewer tokens. Give substantial items numbered headings and short labeled bullets. Group related items by outcome when that helps scanning; keep item numbers stable while refining so dependencies remain clear. A small item can be compact, but do not impose word limits or reduce every item to one line. Name affected paths and public entries, concrete input/state to result behavior, and relevant edge cases with their expected results. "Handle edge cases", "follow existing patterns", and "add tests" do not settle an implementation. Identify the actual pattern or constraint and a check with observable pass criteria, using a command or manual procedure when known.
+
+Preserve exact signatures, types, payloads, values, examples, and other implementation contracts settled during grilling in fenced code beside the work they govern. Keep meaningful rationale and constraints in prose. A shared contract has one canonical block under its owning item or Structure, referenced by consumers; do not maintain competing copies. Mark illustrative examples as illustrative, and distinguish researched existing contracts from agreed changes. Do not invent a signature or private implementation to fill a block. Use a diagram where relationships, state transitions, or execution order become clearer; neither decorative diagrams nor code dumps are required for every ticket.
 
 ### Fresh-executor handoff
 
@@ -139,7 +143,7 @@ Trim fat and useless text. Chat and `/grill-me` hold the interview trail. The ti
 
 ## Apply
 
-Show the complete draft in chat. If a tracker write was requested, create or update through its capability or gh without asking again for that authorization. Return actual parent and child URLs, kind, applied metadata, and stack order. Draft-only returns the body, not invented URLs. For split work, include the copyable whole-stack request from the reference; it is a future request, not current build or shipping permission.
+Show the complete final draft once after readiness checks. If a tracker write was requested, create or update through its capability or gh without asking again for that authorization. After readback, return actual parent and child URLs, kind, applied metadata, stack order, and any incomplete write or blocker without printing the body again. Draft-only returns the body, not invented URLs. For split work, include the copyable whole-stack request from the reference in the parent draft; it is a future request, not current build or shipping permission. Follow [Working output](../rules/writing-style.md#working-output) throughout preparation.
 
 ## Anti-patterns
 

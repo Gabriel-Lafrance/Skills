@@ -74,13 +74,13 @@ Follow [recovery and completion](../rules/execution.md#recovery-and-completion),
 
 ## Progress and pause
 
-After a phase change or finished slice, post one line:
+Follow [Working output](../rules/writing-style.md#working-output). Report a meaningful finding, consequence, next step, or needed decision after substantive work. Phase changes alone do not require an update. For example:
 
 ```markdown
-**Progress:** grill ✓ · slices 1/3 · implementing `02` · next: acceptance
+The route now returns the agreed CSV attachment. The denied-account check still returns 403. Next I will verify the empty report through the same public route.
 ```
 
-For a pause, state the phase, completed slices, blocker, and next action.
+For a pause, state what is complete, the concrete blocker and its effect, and the next action or needed decision. Keep phase and slice counts only when they help explain that state; do not repeat unchanged execution tables.
 
 ## Completion summary
 

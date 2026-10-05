@@ -141,6 +141,8 @@ Once material questions are resolved, announce (do not ask) the following in a *
 4. **Rejected:** real alternatives whose exclusion explains a current decision,
    when useful. Omit when no such alternative matters; never invent one.
 
+Preserve exact agreed signatures, types, payloads, examples, and fixed values in fenced code within the relevant locked decision or handoff. Keep the reason and constraints in prose, distinguish examples from binding contracts, and reference one canonical shared contract instead of copying it. Do not replace a settled shape with vague prose or invent implementation details for a code block.
+
 Announce without a yes/no confirmation. Treat these conclusions as locked when
 announced. Reuse an existing current lock. If the user corrects one, update
 only the affected context and re-announce the revision. Ask a new Questions-only

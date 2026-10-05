@@ -64,7 +64,7 @@ Rediscover repository facts when needed. Take a user decision, waiver, invariant
 
 ### Context in chat
 
-Before starting a slice or crossing a lifecycle phase, show the relevant context in chat:
+Establish the relevant context once when starting or resuming work. At later slices or lifecycle phases, carry that context forward and report only meaningful changes, findings, check results, blockers, or the next step under [Working output](writing-style.md#working-output). Crossing a phase alone does not require another recap. Use the fuller shape below for an actual handoff, a material context change, or a user-requested recap:
 
 ```markdown
 ## Execution context
@@ -97,7 +97,7 @@ Before starting a slice or crossing a lifecycle phase, show the relevant context
 - `finding-id`: fix now | follow-up | waived
 ```
 
-Include only fields that matter to the current work. A new chat derives what it can from the authority order, then re-announces or asks only about missing user-owned decisions.
+Include only fields that matter to the current work. Keep decisions, reasons, contracts, invariants, test acceptances/refusals, and evidence available for a handoff without reprinting unchanged rows. A new chat derives what it can from the authority order, then re-announces or asks only about missing user-owned decisions. Ticket bodies follow their [conditional diagram guidance](../write-ticket/reference.md#plan-diagrams); the mandatory Before/After rule above governs execution plans, not every ticket.
 
 ## Nested capabilities
 
