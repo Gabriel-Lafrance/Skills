@@ -86,6 +86,8 @@ features/checkout/
 
 `/review` runs nested on the branch diff. The Foundation check passes: the provider area has a seam with one implementation, and currency has none because the user settled CAD only. Both accepted tests are green.
 
+[Verification scope](../execution.md#verification-scope) follows checkout through billing and the provider, including ownership and retry behavior. New payment infrastructure warrants broader integration evidence than a local guard fix; run the applicable checks and required CI, then state any remaining gaps.
+
 The ship question defaults to no. On yes, the agent opens [shipping.md](../shipping.md): branch `feature/IN-42-add-checkout-payments`, then the full PR title and body for approval before creating it.
 
 ## If a step is skipped

@@ -26,7 +26,7 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
    2. Plan.
    3. [Behavior-lock suggestion](reference.md#behavior-lock-suggestion). It waits for the user, who can refuse every test.
    4. Implement. Apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) before every slice, and [user-experience.md](../rules/user-experience.md) before every user-facing slice.
-   5. Gate: launch `/verification` and `/review` together, each in its own subagent, and judge both handoffs here.
+   5. Gate: apply [verification scope](../rules/execution.md#verification-scope) and review the changed diff. Localized low-risk work can use focused checks and review in this context. Substantial/high-risk work uses independent `/verification` and `/review` agents together when available; judge their handoffs here. Honor explicitly requested independent/full workflows.
    6. Fix mode, as needed.
 3. Write a test only for a lock the user accepted, following [testing.md](../rules/testing.md).
 4. Announce completion.

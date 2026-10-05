@@ -22,7 +22,7 @@ Same loop as [`/task`](../task/SKILL.md), with one change: the tests come first.
 4. If the user refused every test, say the work continues as plain `/task`, and follow its lifecycle from the plan.
 5. Write the accepted tests as the first slice, following [testing.md](../rules/testing.md). Run them and record the [red baseline](reference.md#red-baseline).
 6. Plan and build with the [`/task` Phase 1](../task/reference.md#phase-1-plan-and-build) steps. Each plan contract's Done when names the tests that must turn green. During the build, follow the [test rules](reference.md#test-rules).
-7. Gate: run the [`/task` gate](../task/reference.md#phase-1-plan-and-build) (`/verification` and `/review`, each in its own subagent, launched together). Add the focused run showing every accepted test green and the [fixed-test check](reference.md#fixed-test-check). Use Fix mode as in `/task`.
+7. Gate: run the scoped [`/task` gate](../task/reference.md#phase-1-plan-and-build), using independent agents when risk or an explicit workflow warrants them. Add the focused run showing every accepted test green and the [fixed-test check](reference.md#fixed-test-check). No unrelated suite is mandatory solely because tests were accepted. Use Fix mode as in `/task`.
 8. Announce completion with the `/task` [completion summary](../task/reference.md#completion-summary).
 
 ### If a parent already owns the ticket, branch, and PR

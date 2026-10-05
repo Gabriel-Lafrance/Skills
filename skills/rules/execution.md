@@ -2,7 +2,66 @@
 
 `/task`, `/task-with-tests`, and `/gabriel-mode` own their distinct build order. This file owns their common intake, handoff, remediation, and completion rules. It creates no extra phase, artifact, or agent.
 
+## Git sync only
+
+A request to fetch, merge main into a working branch, or otherwise synchronize
+Git state is operational work, not a feature build. It does not start grilling,
+planning, test proposals, or automatic review/verification subagents, even on a
+branch with an open PR. An explicitly requested review, verification, or build
+still follows its selected route.
+
+Confirm the intended branch and incoming ref, inspect status, and preserve
+unrelated working/index changes. Record the before and incoming revisions.
+Use ordinary safe Git operations; no automatic discard, force push, protected
+branch commit, or hook bypass. After incorporation, inspect the resulting Git
+state, confirm the requested revision is included, and check for unresolved
+conflicts and unexpected changes. A clean local sync then stops. Report what
+was incorporated and that application behavior was not tested.
+
+If conflict resolution changes meaningful behavior, inspect the resolved paths
+and their consumers and apply [verification scope](#verification-scope) to that
+resolution, not automatically the entire branch. Escalate for shared/high-risk
+effects or uncertainty. Purely mechanical conflicts need only applicable
+structural checks. Shipping, explicit user checks, and repository-mandated
+local hooks/checks remain applicable when requested or required.
+
+## Verification scope
+
+Select checks from changed behavior, contracts, dependency reach, failure cost,
+and uncertainty. File count, diff size, or a label such as "small bug" cannot
+establish low risk. Use known entry points, callers, suites, and CI requirements;
+research uncertainty before narrowing. Choose the scope yourself within the
+request and rules, with a short reason, not a mandatory user questionnaire.
+
+| Work and actual impact | Applicable evidence |
+| --- | --- |
+| Clean operational Git sync | Git safety, incorporation, conflict/status checks; stop under [Git sync only](#git-sync-only) |
+| Meaningful conflict resolution | Resolved behavior and relevant consumers/tests/checkers; widen for shared effects |
+| Localized bug with bounded consumers | Reproduce/check the changed behavior, relevant existing tests, and affected lint/type checks when configured; check direct regressions |
+| Docs/copy/types/config | Links, syntax, rendering or consuming checks as relevant; types/config can have broad runtime or consumer impact, so inspect that reach |
+| Auth, permissions, money, shared infrastructure/contracts, schema or migration | Broader integration and affected consumer/failure/recovery checks; full suites when coupling or uncertainty warrants them |
+| Explicit request for full verification/all suites | Inventory and run every configured suite requested, reporting unavailable checks; do not silently substitute a narrow pass |
+
+Run existing checks with supported package/path/project selection when it
+preserves their meaning. If a checker cannot be scoped safely, use its standard
+command or disclose the gap; do not invent unsupported filters. Expand after
+failures or newly discovered shared impact. Required repository checks,
+security rules, hooks, and remote CI still apply; scope selection never waives
+them or changes CI/branch protection. Running existing tests needs no new-test
+consent; writing or changing tests still follows no-unrequested-tests.md.
+
+Reuse evidence only when the relevant code, contracts, dependencies, command,
+build, configuration, and environment remain valid. A new merge/revision can
+invalidate relevant evidence; a different SHA alone does not invalidate checks
+of unchanged independent behavior. Explain retained evidence and recheck affected
+claims under [handoffs and evidence](#handoffs-and-evidence). Report actual checks
+and results, reused evidence, omitted/unavailable scope and reasons. A focused
+pass proves its bounded claim, not all application behavior or unrun suites.
+
 ## Ready-ticket preflight
+
+First classify operational sync under [Git sync only](#git-sync-only); it stops
+there rather than entering ticket execution. A build uses the preflight below.
 
 Read the requested ticket and prerequisite contracts, current Git state, relevant code and governing rules. Apply the [fresh-executor readiness bar](../write-ticket/doctrine.md#fresh-executor-handoff) to the work being executed. This reuses readiness criteria; it does not rerun the authoring checker or preparation session. Verify live entry points, schemas, callers, dependency bases and other facts needed for its items; preparation evidence is a pointer, not proof that the repository has not changed.
 
@@ -22,7 +81,7 @@ Return the bounded contribution, stable finding IDs, checks and evidence IDs tie
 
 For the selected route's combined review, use the [fresh review context](../review/contract.md#fresh-combined-review-context). Preserve its existing gate order and implementer constraints; the focused reviewer does not add a per-slice gate or acquire remediation ownership.
 
-After a change, identify which claims depend on changed code, contracts, dependencies, fixtures or environment. Invalidate that evidence and recheck the affected claims and seams. Explain why any retained evidence still applies. A scoped remediation review covers named findings, touched paths and direct regressions; broaden it when the fix changes another contract or scope. Scoped re-review never replaces whole-result acceptance. Final verification must cover the final combined tree, including all configured suites and applicable real-path checks; an earlier pass cannot certify later edits.
+After a change, identify which claims depend on changed code, contracts, dependencies, fixtures or environment. Invalidate that evidence and recheck the affected claims and seams. Explain why any retained evidence still applies. A scoped remediation review covers named findings, touched paths and direct regressions; broaden it when the fix changes another contract or scope. Scoped re-review never replaces whole-result acceptance. Final acceptance covers the combined result with applicable checks selected under [verification scope](#verification-scope), including valid retained evidence; an earlier pass cannot certify affected later edits.
 
 ## Remediation
 

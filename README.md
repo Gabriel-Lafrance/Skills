@@ -90,7 +90,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
-| **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, run all repository test suites, prove the work runs, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
+| **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, verify affected behavior, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 
 ```mermaid
@@ -106,16 +106,22 @@ flowchart LR
 
 ## What to expect
 
+[Verification](./skills/rules/execution.md#verification-scope) follows changed behavior, dependencies, and risk. A localized bug fix gets a reproduction check, relevant existing tests, and affected lint or type checks. Shared infrastructure, authentication, or migrations can warrant broader integration checks or full suites even when the diff is tiny. Documentation gets relevant link and consumer checks. Explicit requests for full verification and mandatory repository checks, security requirements, and CI still apply. Shipping reports what actually ran and any unverified scope; valid evidence is reused only for the same relevant code and context.
+
+For [Git sync alone](./skills/rules/execution.md#git-sync-only), such as merging main into your branch, the agent checks Git safety, conflicts, and incorporation, then stops after a clean sync. Meaningful conflict resolutions get checks for affected behavior. A clean merge does not prove application behavior or start the whole build pipeline.
+
 [Code organization](./skills/rules/code-structure.md#responsibility-boundaries) favors predictable domain folders, a small clear public entry, and private collaborators that own meaningful behavior. A distinct job can earn its own file even with one consumer; cohesive small code stays together. Agents use task-relevant paths, signatures, and responsibilities to find the right implementations, then verify them. Existing Structure maps or ticket pointers suffice; no new navigation tool or giant repository map is required. Reviews check responsibilities added to existing files as well as new-file placement. More files and guaranteed token savings are not the goal.
 
 [`/grill-me`](./skills/grill-me/SKILL.md) stress-tests an idea or plan in rounds. The agent researches facts first, then asks the independent decisions you can answer now, with recommendations and consequences. Upstream choices come before dependent details. Vague or partial answers get concrete follow-ups; contradictions reopen only the affected decisions. Before calling the work ready, it traces the relevant user journey, system and data flow, including failure, retry, permissions, cleanup, or rollout where they matter. Small fixes stay focused. You can stop, narrow, or defer the interview; remaining blockers stay explicit. A standalone grill ends at shared understanding unless you requested the next step.
 
 [`/write-ticket`](./skills/write-ticket/SKILL.md) turns that understanding into a ticket an executor can use without the old chat. Outcome and work come first. Substantial items have numbered headings with local **Do / Why / How / Verify** details. Agreed signatures, types, payloads, and fixed values stay in code blocks beside the owning work; consumers refer to one shared contract. Useful diagrams explain ordering or handoffs. Reasons, dependencies, blockers, and test decisions survive, while empty sections and repeated background are omitted. Backend-only work needs no UX section.
 
-[Working updates](./skills/rules/writing-style.md#working-output) report findings, consequences, decisions, blockers, checks, and next steps without repeating the full context. The complete final ticket appears once; after an authorized tracker write, the response gives links, applied metadata, relationships, and any incomplete work. Build completion reports the delivered change and verification evidence, with failed or unrun checks explicit. Planned checks and narrative inspection are not reported as executed proof. Tests still require your explicit acceptance.
+[Working updates](./skills/rules/writing-style.md#working-output) report findings, consequences, decisions, blockers, checks, and next steps without repeating the full context. The complete final ticket appears once; after an authorized tracker write, the response gives links, applied metadata, relationships, and any incomplete work. Build completion reports the delivered change and verification evidence, with failed or unrun checks explicit. Planned checks and narrative inspection are not reported as executed proof. Creating or extending tests still requires your explicit acceptance; running relevant existing tests does not.
 
 ## Common paths
 
+- Sync main into a branch: [Git sync only](./skills/rules/execution.md#git-sync-only), with a clean-sync stop
+- Verify affected behavior: `/verification`, using [verification scope](./skills/rules/execution.md#verification-scope)
 - How does this work → `/how`
 - Why is it this way → `/why`
 - Think / research → `/analyze`
@@ -132,7 +138,7 @@ flowchart LR
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
-- Run all repository tests and prove a change works in the running app (UI flow, migration, endpoint, job) → `/verification`
+- Verify changed behavior with checks matched to risk, or explicitly run full verification (UI flow, migration, endpoint, job) → `/verification`
 - Prune low-value or duplicate tests → `/test-audit`
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).

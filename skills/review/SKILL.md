@@ -30,15 +30,15 @@ dependencies. Signatures locate behavior, not prove it.
 - Reviewing a GitHub PR? Open [reference.md](reference.md) and [Asking the user](../rules/writing-style.md#asking-the-user). Skip them and you post comments nobody approved.
 - About to recommend a behavior-lock test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md) and [testing.md](../rules/testing.md). Skip them and you treat your recommendation as acceptance.
 
-Each pass reports in the review contract **review output** fence (Principles,
-Architecture, Correctness hunt, Spec matrix, plus PR extras on a GitHub PR).
+Use the review contract's scope-aware output: concise evidence for focused low-risk
+work; the full review output fence for substantial/high-risk or requested full reviews.
 
 ## Pick the target
 
 - **Local branch diff** (default): the user or a parent names a branch, ref, or
-  the current work. Results stay in chat. `/task` runs this mode as its own
-  subagent, launched together with the `/verification` subagent, and takes back
-  the review output fence.
+  the current work. Results stay in chat. `/task` selects local or independent
+  review according to risk and the requested workflow under
+  [verification scope](../rules/execution.md#verification-scope).
 - **GitHub PR**: the user gives a PR number or link. Drafts comments and asks
   one publish question. User start only.
 

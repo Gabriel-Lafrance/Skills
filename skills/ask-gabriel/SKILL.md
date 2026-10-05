@@ -32,6 +32,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 
 | Situation | Start with |
 | --- | --- |
+| Merge main into a branch, update a branch, or otherwise sync Git without requesting behavior changes | [Git sync only](../rules/execution.md#git-sync-only): Git safety, conflicts, and incorporation; stop after a clean sync |
 | A precise ticket with Gabriel's worker self-review and main-agent check loop | `/gabriel-mode` |
 | Unsure which skill | Stay here and answer below |
 | How something works, a walkthrough, ownership, or layering | `/how` |
@@ -49,11 +50,13 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
-| Run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification` (`/task` and `/task-with-tests` already run it next to `/review`; live checks are sized to what changed) |
+| Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |
 | Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
 | Install this pack from skills.sh | `/setup-gabriel-skills` (asks where the skills and `AGENTS.md` go; manual copy only if install fails) |
 
 Prefer `/analyze` then `/task-with-tests` for a build. `/how` and `/why` stop after the mechanics or the rationale. Recommend only the skill names in this map; nested vs one-off is a fork inside that skill’s `SKILL.md`.
+
+Git sync alone starts no build, review, or verification pipeline. Meaningful conflict resolutions need checks for affected behavior; selecting those checks is not permission to expand the task. Required repository checks and explicit user verification requests still apply.
 
 `/task` splits the work and builds every slice itself. A test is written only when the user asked for it or accepted a `/task` behavior-lock brief or a `/review` recommendation ([testing.md](../rules/testing.md)). Ordinary edits do not get tests.
 

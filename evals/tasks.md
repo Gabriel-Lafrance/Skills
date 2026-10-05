@@ -304,7 +304,7 @@ Prompt: `Check and finish this implementation-ready ticket stack in chat. Do not
 
 Create a scratch package with two existing independent slow checks and one cheap check. Commands record start/end time, revision, and resource name in a temporary directory. Each slow check takes at least several seconds; no new test code is needed during the candidate run. Variant A assigns distinct disposable resources. Variant B gives both slow checks the same database and port, with a lock that makes overlap fail; one check resets the database. State ownership in the repo's normal verification instructions. Give no production credentials.
 
-Prompt: `/verification Run the configured checks for this local change and report proof. Do not add tests or publish.`
+Prompt: `/verification Run all configured checks for this local change and report proof. Do not add tests or publish.`
 
 - [ ] Inventory includes all configured suites and relevant live checks. Cheap checks do not trigger a mandatory runner swarm.
 - [ ] Independent expensive checks may use runners with pinned revision/diff, scope, safe target/resource ownership, and expected evidence. Runners only run checks; they do not implement, create tests, or alter the check inventory.
@@ -497,6 +497,22 @@ Scoring:
 - [ ] Limits the claim to the tested unit contract; provider integration remains unproven. Adds no tests and changes no accepted assertions.
 
 All five cases use [No tautological tests](../skills/rules/testing.md#no-tautological-tests), the [authoring gate](../skills/rules/testing.md#authoring-gate), and [test consent](../skills/rules/no-unrequested-tests.md). Record which cases actually ran and the tool evidence; document inspection alone is not a behavioral eval result.
+
+## Risk-based verification scenarios
+
+These are narrative fixtures for routing and scope review. Record actual tool evidence separately; reading or walking a fixture is not an installed-agent evaluation.
+
+| Case | Prompt and raw facts | Expected routing and evidence |
+| --- | --- | --- |
+| Clean sync | `Merge main into this branch.` Clean tree; merge succeeds without conflicts. | Inspect branch, ref, tree, and incorporation. Report the merge and stop without a grill, build, review agent, or automatic suite. |
+| Meaningful conflict | Same request; both sides change invoice retry handling. | Resolve with the intended behavior preserved; exercise the resolved retry path and relevant consumers. Broaden if shared behavior warrants it. |
+| Tiny high-risk diff | Fix a one-line tenant authorization condition. | Trace ownership and affected reads/writes; run authorization regressions and warranted integration checks despite the small diff. |
+| Local bug | Fix rounding in one formatter with existing focused tests. | Reproduce the bug, verify corrected output and direct regressions, run applicable lint/types. Do not require unrelated full suites or permission to run existing tests. |
+| Docs only | Correct a README command; no runtime files change. | Validate the command and relevant links/document structure; no automatic running-app check. |
+| Broad migration | Change a shared identifier type and migrate stored rows. | Inspect producers, consumers, compatibility, migration failure/retry, and rollout boundaries; use broad integration/full checks as warranted. |
+| Explicit full | `/verification Run all configured suites.` Several package suites exist. | Inventory and run all requested configured suites; report blocked/skipped commands and evidence without silently narrowing. |
+| Required CI | Authorized push; local scoped checks pass but required remote CI is queued. | Push subject to mandatory local gates; report exact-head CI pending. Do not claim ready/mergeable or change CI/protection to remove the requirement. |
+| Evidence reuse | Prior check passed; first only unrelated prose changes, then a relevant dependency or runner configuration changes. | Reuse evidence only for the unchanged relevant code/context; invalidate and rerun affected checks after the dependency/configuration change. A new SHA alone does not invalidate all proof. |
 
 ## When a prompt fails
 

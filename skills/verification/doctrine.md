@@ -2,11 +2,11 @@
 
 ## Job
 
-Prove finished work does what was asked by running all configured repository tests and exercising the real artifact, the way a manual QA tester and a backend engineer would.
+Prove the bounded changed behavior with applicable tests and real-path evidence, expanding for dependency reach, risk, or an explicit full-verification request.
 
 ## Owns
 
-How far to drive the live change, the full repository test run, proof standards, safe targets, outcomes, evidence handling, and upkeep of `docs/verification.md` in the app.
+Selection and execution of relevant checks, proof standards, safe targets, outcomes, evidence handling, and upkeep of `docs/verification.md` in the app.
 
 ## Does not own
 
@@ -20,13 +20,18 @@ How far to drive the live change, the full repository test run, proof standards,
 
 ### Scope to the change
 
-Every change gets the repository's full test run. The work decides how much live driving is needed.
+Apply the shared [verification scope](../rules/execution.md#verification-scope)
+and [Git sync only](../rules/execution.md#git-sync-only) rules. Select tests,
+lint/type/consuming checks, and live paths together from affected behavior and
+dependency risk. A local fix gets reproduction, relevant existing checks, and
+direct regressions; a tiny authorization change can require broader integration.
+Full suites remain appropriate for cross-cutting changes, uncertain coupling,
+or an explicit full request. No runtime effect means no unrelated app drive.
 
-- Derive live checks from what was done: the diff, the slices, the Done when items, and the rules that must stay true. Discover the full test inventory separately.
-- Drive only the live layers the change touched. A couple of new UI elements get a pass on that view: they render, they respond, nothing shifts, no new console errors. The repository test run still includes backend suites when present.
-- Go one layer wider only where the change crosses a boundary. A new button that calls a new endpoint gets the click, the request, and the stored row.
-- A copy or styling change gets the full test run plus one look at the running page. A change with no runtime effect (types, comments, docs, tests only) gets the full test run and the build or command that consumes it, and says so.
-- The [ways to verify](reference.md#ways-to-verify) are a menu for live checks, not rows to complete. Name the live layers left untouched in the handoff instead of exercising them. The [repository test suites](reference.md#repository-test-suites) are all run when available.
+Go wider where a boundary or failure could change the outcome: a button using
+a changed endpoint may need the click, request, and stored row. The
+[ways to verify](reference.md#ways-to-verify) are a menu, not mandatory rows.
+Explain excluded scope and evidence limits without a large checklist.
 
 ### Proof standards
 
@@ -38,7 +43,7 @@ Every change gets the repository's full test run. The work decides how much live
 - For a dry-run or test mode, observe what it actually skips (network, files, git refs) and ignore its name.
 - A bug fix gets a control: show the old failure on the base commit or with the fix reverted when that is cheap, then the pass on the change.
 - When a check fails, suspect the observation first (wrong port, stale build, cached page), then the product.
-- The subagent that drives did not write the change. The coordinator reads its evidence before accepting its verdict.
+- An independent drive subagent did not write the change. The coordinator reads its evidence before accepting its verdict. Local focused checks remain allowed by the scope policy.
 - A passing suite proves its assertions passed, not that every changed user path works. A failed suite remains failed even when its failure predates the change; identify a known baseline only with evidence.
 
 ### Safe targets
@@ -57,7 +62,12 @@ Every change gets the repository's full test run. The work decides how much live
 | `failed` | Evidence shows wrong behavior. Becomes a Fix backlog input |
 | `inconclusive` | Suite could not run or live check could not be driven. Name the missing prerequisite (auth, seed data, env var, browser, provider sandbox) and the command or route attempted |
 
-The run is `verified` only when every discovered test suite and required live check is verified. A suite that cannot run is `inconclusive`; a suite that runs and fails is `failed`. Report `no test suites found` when the repository defines none. An unperformed check is never a pass.
+The bounded run is `verified` only when selected required checks have valid
+passing evidence, including justified reused evidence. A selected check that
+cannot run is `inconclusive`; one that runs and fails is `failed`. Unselected
+suites are reported as not run/outside scope, never passed. An explicit full run
+requires every configured suite requested. Say `no test suites found` only after
+checking that the repository defines none.
 
 ### Isolated runners
 
@@ -67,7 +77,7 @@ Each runner receives the pinned revision and diff identity, assigned check IDs a
 
 Parallel runners need isolated ports, data, browser sessions, and other mutable resources. Declare ownership before launch. If checks share state or cannot isolate, serialize them; do not assume distinct commands are independent. Runners stop only resources assigned to and started by their run. The coordinator accounts for leftover resources and retains evidence before cleanup.
 
-Pin checks to the same result. If code, build, configuration, or relevant environment changes during a run, apply [recovery and completion](../rules/execution.md#recovery-and-completion) and rerun invalidated checks. Never combine stale observations into a current pass. Delegation does not narrow the full repository suite inventory or the required combined live outcome.
+Pin checks to the result and relevant context. If code, build, configuration, or relevant environment changes during a run, apply [recovery and completion](../rules/execution.md#recovery-and-completion) and rerun invalidated checks. Never combine stale observations into a current pass. Delegation does not narrow the selected required checks or an explicitly requested full inventory.
 
 ### Evidence
 
@@ -85,14 +95,14 @@ The [handoff](reference.md#handoff) in chat.
 
 ## Apply
 
-Run on user start, or when the active execution skill reaches verification, as an independent subagent following that skill's ordering. Run all repository test suites and size live checks to the change ([scope](#scope-to-the-change)). Return failures to the active orchestrator, which alone owns remediation dispatch.
+Run on user start or the execution skill's selected gate, following its ordering and [scope](#scope-to-the-change). Use independent agents where that route or actual risk warrants them; focused low-risk checks can remain in the current context. Return failures to the active orchestrator, which owns remediation dispatch.
 
 ## Anti-patterns
 
 - Declaring a changed live flow `verified` from tests, type checks, a build, or reading the code alone
-- Skipping existing suites because their package or layer was not changed
+- Narrowing by file count or package alone despite shared impact, required checks, or a full request
 - Replacing a check that could not run with a weaker one and calling it a pass
-- The author of the change judging its own run
+- Skipping required independent evidence for substantial/high-risk work or an explicitly selected workflow
 - Editing product code or tests during the run
 - Writing the recipe, or editing it, without the user's yes
 - Driving production or shared data

@@ -120,13 +120,14 @@ from `dev` is its own ref: the push does not update `dev`, so it does not
 take `dev`'s protection. Steps live in
 [`skills/rules/shipping.md`](../skills/rules/shipping.md#process).
 
-Before a push that opens a PR, or a commit or push on a branch that already
-has an open PR, run that repo's CI in your environment and fix failures
-first. A red push spends CI for nothing. This pack itself has no lint or
-test CI; app repos that have their own lint and test scripts do, and the
-check is the mirror in
-[`skills/rules/shipping.md`](../skills/rules/shipping.md#ci-mirror). Do not
-run that suite on a commit you are not pushing. Never skip hooks
+Before shipping, run applicable local checks under
+[verification scope](../skills/rules/execution.md#verification-scope), fix
+failures, and satisfy the repository's required checks and CI. A full local
+CI mirror is needed when explicitly required or warranted by the affected
+behavior and risk, not for every commit or PR update. This pack's configured
+checks still apply to changes to the pack. A clean operational merge follows
+[Git sync only](../skills/rules/execution.md#git-sync-only) and stops after
+Git safety, conflict, and incorporation checks. Never skip hooks
 (`--no-verify`) unless you were asked to.
 
 Open a PR against `main` using the pull request template:

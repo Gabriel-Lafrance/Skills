@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.8.0 -->
+<!-- gabriel-skills-agents v2.9.0 -->
 
 # Gabriel skills
 
@@ -22,7 +22,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
-| Run all repository tests and prove the running app, a migration, an endpoint, or a job does what was asked | `verification/SKILL.md` |
+| Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Look into, investigate, or research a bug, an idea, or a question before building | `analyze/SKILL.md` |
@@ -32,6 +32,8 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Pick a skill, or is unsure what to do next | `ask-gabriel/SKILL.md` |
 
 Skip the matching skill and you will improvise a weaker version of a workflow that already exists.
+
+**Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" opens `rules/execution.md#git-sync-only`, not a build skill. Check Git safety, conflicts, and incorporation; a clean sync stops there. Meaningful conflict resolutions get checks scoped to their affected behavior under `rules/execution.md#verification-scope`. Do not start the build, review, and verification pipeline from a sync alone.
 
 **When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md`.** It is the map: its journeys show the full path for common work, step by step.
 
@@ -57,10 +59,10 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Touch identity, login, ownership, tenants, roles, admin paths, permissions, payments, refunds, or any write a client can call | hide a button and call it a lock, so a caller who skips the UI still writes | `rules/code-structure.md` (Authority) |
 | Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
 | Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions between phases | `rules/planning.md`, `grill-me/doctrine.md` |
-| Start or resume ticket execution, delegate a slice, or dispatch fixes | reopen settled decisions, dispatch the same fix twice, or trust stale evidence | `rules/execution.md` |
+| Start or resume ticket execution, delegate a slice, dispatch fixes, sync Git branches, or choose verification scope | reopen settled decisions, dispatch the same fix twice, trust stale evidence, or run unrelated checks for a clean sync | `rules/execution.md` |
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
-| Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip the CI mirror | `rules/shipping.md`, `rules/shipping-templates.md` |
+| Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip applicable verification and required CI | `rules/shipping.md`, `rules/shipping-templates.md` |
 | Lint, format, touch CI or editor settings, or verify a change | rerun a ritual lint instead of reading the terminals | `rules/tooling.md` |
 | Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
 | Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
