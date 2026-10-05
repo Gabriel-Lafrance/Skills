@@ -35,6 +35,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 ### Research rules
 
 - Refresh the applicable execution context: ask, outcome, non-goals, area, ticket/PR, fixed point, and any settled rules.
+- Use [selective navigation](../rules/main-context.md#selective-navigation): locate task-relevant paths and public signatures/responsibilities first, then inspect the implementations and callers that establish the answer. Reuse a current Structure map or handoff; an obvious local path needs no map.
 - Rediscover the relevant code, and which parts match a pack example and which are debt. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
 - Trace the affected flow far enough to explain the proposed change: inputs and their meaning, transformations or state transitions, writes, readers, and side effects as relevant. Read actual schemas, public contracts, and callers when they constrain behavior. Follow a dependency only when it could change the recommendation; this is not a full-system audit or a mandatory migration checklist.
@@ -60,6 +61,11 @@ Trace representative callers and their current tests. Look for ordering the
 caller must coordinate, repeated policy, pass-through abstractions, or tests
 that reach into private details. Name the observed burden and its sources;
 a new service file or an extra layer does not prove a deeper boundary.
+Also inspect responsibilities accumulating in changed existing files, using
+[responsibility boundaries](../rules/code-structure.md#responsibility-boundaries).
+For a proposed extraction, show what the caller stops knowing, how a reader
+finds the owner, and where a concrete change to that job lands. Keep cohesive
+behavior whole when a split would only add hops or force readers across files.
 
 Recommend retaining the current shape, a small justified behavior-preserving
 prefactor, or a material boundary change. Show the proposed owner/public entry,

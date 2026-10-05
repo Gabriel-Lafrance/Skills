@@ -1,5 +1,7 @@
 # Attribution
 
+Architecture and navigation refinements use original wording informed by [Matt Pocock's architecture investigation](https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md) (friction, deep public boundaries, and change locality; [MIT](https://github.com/mattpocock/skills/blob/main/LICENSE), copyright 2026 Matt Pocock) and [Aider's repository map documentation](https://aider.chat/docs/repomap.html) (relevant paths, symbols, and signatures before implementation detail), checked on 2026-10-05. No upstream text, automatic map, report workflow, or tooling dependency is vendored; this pack uses its existing scoped chat handoffs and authorization rules.
+
 Grill guidance uses original wording informed by [Matt Pocock's grilling skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md), checked on 2026-10-05: prerequisite-aware rounds, environment fact lookup, recommendations, and recomputing dependent choices after replies. [MIT](https://github.com/mattpocock/skills/blob/main/LICENSE), copyright 2026 Matt Pocock. No upstream text or tool-specific workflow is vendored. This pack retains its existing announce-only lock, test permissions, and user control over stopping or deferring.
 
 Ticket and working-output guidance uses original wording informed by these methods, checked on 2026-10-05. No upstream template or workflow is vendored; runtime rules are self-contained.

@@ -12,6 +12,7 @@ Before done:
 
 - [ ] `structure:services`: no feature copies or reaches inside another service's domain
 - [ ] `structure:deep-public-surface`: a caller needs no call order or edge-case knowledge
+- [ ] `structure:responsibility-boundaries`: changed existing files as well as new files have coherent jobs; relevant behavior is discoverable without unrelated implementation reads
 - [ ] `structure:primitives`: an existing primitive was checked before writing a new one
 - [ ] `structure:prior-mistakes`: required moves done, optional ones recorded, no known-wrong shape extended
 - [ ] `structure:folders` / `structure:collaborating-parts`: every new file sits in a folder that owns its concern; entry, collaborators, one leaf, nothing deeper
@@ -43,6 +44,42 @@ Hide orchestration behind one deep entry: a simple interface over rich behavior.
 | Narrow function | Pure transform, clear input and output |
 
 The signature is obvious at a glance (not necessarily a TypeScript `interface`). Push helpers, parsers, adapters and edge-case branches down into collaborators so callers never see them. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating. A deep entry is not a pass-through chain ([`quality:light-to-read`](code-quality.md#light-to-read)).
+
+## Responsibility boundaries
+
+Look for the existing owner before adding a file or service. Use the domain's
+names and the established layout when it fits these rules. Extract behavior
+from a growing file when a distinct responsibility, dependency boundary,
+lifecycle, or confirmed variation has its own reason to change, and separating
+it improves understanding or change ownership. A private collaborator can be
+worthwhile with one consumer: CSV rendering can own escaping and row encoding
+while its export entry owns authorization and orchestration. Duplication and
+file size are not prerequisites, and size alone is not justification.
+
+Keep tightly coupled steps, trivial guards, and short cohesive behavior together.
+Reject one-function-file sprawl, renaming wrappers, and fragmented abstractions
+that make a reader reconstruct one operation across files. Keep a small clear
+public entry; callers use that entry, while rendering, transport, or lifecycle
+details stay in its private collaborators or existing owning services. Do not
+export private internals just to make them easy to find.
+
+Before an extraction, name the responsibility and what its caller stops knowing.
+Then check retrieval and change locality: from the domain name and public
+signature, can a reader locate the relevant behavior without reading unrelated
+implementations? For a concrete change to that responsibility, does the change
+land with its owner rather than forcing unrelated modules to coordinate?
+Verify this against actual callers and dependencies, not a hypothetical future
+variant or a promise of token savings. If the split only moves complexity or
+adds pass-through hops, keep the cohesive shape or merge shallow pieces.
+
+Colocate relevant existing tests and assets with their owner where the framework
+and repository layout allow it. Preserve test discovery and consent under
+[no-unrequested-tests.md](no-unrequested-tests.md); organization creates no
+permission to add tests. Record a justified move in the existing Structure
+card, with preserved behavior and checks under [prior mistakes](#prior-mistakes).
+Routine private placement is an implementer choice. Ask only when ownership,
+public contract, scope, or behavior has a consequential unresolved choice.
+Examples: [meaningful extraction](code-structure-examples.md#meaningful-extraction-with-one-consumer).
 
 ## Primitives
 

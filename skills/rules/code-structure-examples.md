@@ -36,6 +36,57 @@ await sendReceiptEmail(session.id);
 
 **Good:** `await makeUserPay({ userId, cents, reason: "checkout" });` with session, ledger, and receipt inside `billing.ts`.
 
+## Meaningful extraction with one consumer
+
+**Bad:** `report-export.ts` coordinates authorization and report loading, but
+also encodes CSV rows and holds storage SDK calls, upload cleanup, and expiry
+handling. Appending another integration there makes CSV changes require reading
+transport/lifecycle code. Renaming those chunks `csvHelper` and `storageHelper`
+without hiding their rules from the caller does not fix the boundary.
+
+**Good:** retain one public report-export entry; give distinct behavior a named
+private owner. Suppose research confirms export owns its storage integration
+and there is no existing shared storage service to reuse:
+
+```text
+services/report-export/
+  report-export.ts       # public exportReport(input): authorize, load, coordinate, return artifact
+  csv-renderer.ts        # private: CSV header, escaping, row encoding
+  export-storage.ts      # private: SDK translation, artifact write and cleanup lifecycle
+  report-export.test.ts  # relevant existing/accepted public-entry checks, if repo convention fits
+```
+
+Features call `exportReport`, not `renderCsv` then `upload` then `cleanup`.
+The renderer may have only this consumer; it earns its file by owning encoding
+behavior, not by being reused twice. Its header, escaping, and row steps stay
+together instead of becoming `header.ts`, `escape-cell.ts`, and `row.ts` files
+that force readers to reconstruct the same operation. Storage details remain
+behind the owning integration. If a storage service already owns that work,
+call its public API rather than create a rival export-storage implementation.
+Related contract types or cohesive public operations may stay beside the entry;
+unrelated jobs do not become extra exports there.
+
+**Retrieval check:** a CSV escaping question leads from `exportReport` to
+`csv-renderer.ts`; only the relevant entry/caller and renderer need inspection.
+An SDK-specific change lands in the storage owner and its affected boundary
+checks, without changing CSV encoding. Verify the real data and failure contracts
+still fit before calling the move behavior-preserving. A split that leaves the
+caller coordinating partial cleanup or reading all internals has not earned
+its extra files. The example is illustrative, not permission to add tests.
+
+**Keep whole:** an existing small `renderCsv(rows)` whose header, escaping, and
+row iteration share one formatting contract needs no new folders or wrappers
+for an empty-header fix. Length, function count, and file count do not decide
+the boundary; responsibilities and reader/caller burden do.
+
+**Navigate selectively:** for that fix, start at the known renderer signature,
+inspect its implementation and the caller that constrains its output, and use
+the existing relevant checks. For an unfamiliar export flow, a compact existing
+handoff can point to `report-export.ts` (public operation), `csv-renderer.ts`
+(encoding), and the storage owner (artifact lifecycle). Expand only if their
+callers, schema, or dependency evidence changes the answer. Neither task needs
+a new repository index or unrelated billing/auth implementation dumps.
+
 ## Prior mistakes are not sacred (move, don't copy)
 
 **Bad:** checkout already calls Stripe directly; the agent copies that into upgrade "to match."

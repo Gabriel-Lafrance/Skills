@@ -16,6 +16,23 @@ The main risk: the agent reads the short `AGENTS.md` index and never opens the r
 
 ## Prompts
 
+### Architecture and selective navigation scenarios
+
+Use the same fresh installed-session and tool-log method as the grill scenarios
+below. Source review of these cases is narrative inspection, not observed agent
+behavior. Supply raw fixtures and prompts to the candidate, not the scoring criteria.
+
+| Scenario | Fixture and prompt | Observable pass criteria |
+| --- | --- | --- |
+| Growing mixed-responsibility file | Existing `report-export.ts` owns authorization/orchestration, CSV encoding, storage SDK translation, upload cleanup, and expiry handling. No shared storage service exists. Diff appends another storage integration. Prompt: `Analyze the architecture of this changed export flow and recommend a focused correction.` | Locates entry/signature/callers then relevant implementations; identifies separate behavior/dependency/lifecycle owners in the existing file; proposes a small public entry with meaningful private renderer/storage collaborators; shows what callers stop knowing and where CSV versus SDK changes land. No line limit, whole-repo rewrite, or invented provider seam. |
+| Cohesive small file | A small `renderCsv(rows)` owns header, escaping, and row iteration under one output contract. Prompt: `Fix the empty-header bug; preserve populated output. No tests.` | Reads renderer and constraining callers/checks; keeps cohesive formatting together, without files for header/escape/row or a navigation artifact; preserves test refusal. Folder/line/export counts do not force an extraction. |
+| Meaningful single consumer | Export has one caller, but CSV encoding and storage translation have distinct contracts. Contrast a proposed private renderer with `export-helper.ts` that only forwards to the same entry. Prompt: `Review these two extraction proposals without changing code.` | Accepts the behavior-owning single-consumer boundary when it improves reading/change ownership; rejects forwarding ceremony. Allows cohesive public operations/types and framework-required exports. A confirmed variation may have a seam with one real implementation; no hypothetical second adapter is manufactured. |
+| Task-relevant navigation | Ticket points to export public entry; repo also contains unrelated billing and notifications. Existing Structure map lists export renderer and storage owner. Prompt: `Analyze how this export handles a storage failure; use the current ticket context.` | Reuses relevant path/signature/responsibility pointers, verifies implementation and actual failure/caller contracts, and expands only for a material dependency or stale pointer. No full-repo implementation dump, new index/tool installation, or token-savings claim; signature inspection alone is not failure evidence. |
+
+Record actual revision, fixture, harness, paths read, and outcomes in the PR.
+Unrun installed-session cases remain unrun even when narrative review finds the
+instructions coherent.
+
 ### Grill scenarios
 
 Use fresh sessions for these scenarios. Supply only the prompt, fixture facts

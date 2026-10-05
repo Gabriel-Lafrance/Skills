@@ -8,6 +8,12 @@ category: Code
 
 Review a shipped diff (local branch or open GitHub PR) on the Standards and Spec axes with evidence-backed findings.
 
+For either target, use [selective navigation](../rules/main-context.md#selective-navigation)
+to locate touched paths, public signatures, responsibilities, and relevant
+callers, then read the implementations needed to judge the change. A small
+named-file or PR review needs no repository map; widen only for material
+dependencies. Signatures locate behavior, not prove it.
+
 ## Read when
 
 - Reviewing a touched user flow? Open [user-experience.md](../rules/user-experience.md), the ticket's interaction requirements, and `docs/design.md` when present. Judge interactions within Standards and Spec using [interaction review](doctrine.md#interaction-review).
