@@ -26,11 +26,13 @@ This is a menu for live checks, not a checklist. The full [repository test suite
 
 ### You added or changed UI
 
-- Open the changed view and walk the flow from its entry route to the result. Reload and confirm the result stuck.
+- Start at the real entry point with representative company, selection, recommendation, or draft context. Walk the changed flow to its result and execute the next meaningful action; verify expected prefilled/carried data remains available and editable. Reload after a successful write and confirm the result stuck.
 - Click each control you added or rewired. It should navigate, send a request, change the page, open a dialog, or move focus; one that does nothing is dead ([snippet](#dead-control-probe)).
 - Watch the page settle from load through the first interaction when you touched layout, loading, images, or fonts. Measure layout shift and name the element that moved; above 0.1 is a problem ([snippet](#layout-shift-probe)).
 - Keep the console and network panel open. A new error, unhandled rejection, or failed request (4xx or 5xx) the flow did not intend is a finding.
 - Force the states you touched: loading, empty, error, disabled, success. Compare them with `docs/design.md`.
+- On a failed write, check that edits survive and recovery/retry works. Cancel or go back and verify the intended prior context and focus return. An opened dialog or editor with missing known inputs fails the interaction contract.
+- When screenshot capture is available, inspect representative settled states at relevant viewports against the existing product: primary action prominence, component reuse, typography, spacing, density, and clipping. Report concrete discrepancies; do not substitute a screenshot for exercising behavior. Report unavailable browser or capture evidence explicitly. Source grep and mocked-only success cannot replace the real flow.
 - Click the primary action twice fast when it writes: one row, one charge, one message.
 - Resize to mobile (390 wide) and desktop (1440 wide) when you changed layout or styling: no horizontal scroll, clipped text, or overlap.
 - Tab through the controls you added: reachable in order, focus visible, Enter and Space activate, Escape closes dialogs ([`ux:quality-floor`](../rules/user-experience.md#quality-floor)).

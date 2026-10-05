@@ -10,6 +10,7 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 
 ## Read when
 
+- Investigating a touched user flow, visible action, or UX complaint? Open [user-experience.md](../rules/user-experience.md#action-and-continuation) and inspect the current entry point, context, continuation, and existing design before recommending controls. Backend-only work skips this.
 - About to research, even when the ask looks like a single file? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), [doctrine.md](doctrine.md), and the [execution context](../rules/planning.md#execution-context). Skip them and the memo recommends a fix the rules reject.
 - About to search widely or read large files? Open [main-context.md](../rules/main-context.md). Skip it and raw search output buries the analysis.
 - About to ask the user anything? Open [Asking the user](../rules/writing-style.md#asking-the-user). Skip it and you ask what the repo already answers.
