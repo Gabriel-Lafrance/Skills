@@ -6,7 +6,7 @@ category: General
 
 # Grill Me
 
-Discover product, behavioral, code quality, and code structure decisions through batched Questions, and keep locked decisions and rules that must stay true visible in the execution context.
+Stress-test the request until its consequential decisions fit together across the affected flow. Research facts, question weak answers, and carry concrete contracts and honest remaining gaps into the execution context.
 
 ## Read when
 
@@ -33,16 +33,22 @@ Discover product, behavioral, code quality, and code structure decisions through
    Surface consequential choices affecting behavior, data, contracts, delivery
    boundaries, dependencies, and authority. The parent derives child count,
    order, and file lanes from the settled choices.
-4. If consequential user-owned choices remain, send a **Questions-only** batch
+4. Map choices and their prerequisites using the doctrine's
+   [decision rounds](doctrine.md#decision-rounds). If consequential user-owned choices remain, send a **Questions-only** batch
    (no Locked heading). Each question names one concrete choice, the relevant
    evidence or uncertainty, realistic alternatives, a recommendation with its
    reason, and practical consequences. Follow decision dependencies and ask
-   each choice once. Wait for the reply. If everything is settled, omit Questions.
+   the independent choices that can be answered now. Wait for the reply.
+   If everything is settled, omit Questions.
 5. Put answers, their reasons, rules that must stay true, corrections, and
    researched ownership paths directly in the execution context. Ask another
-   batch only if a reply or new evidence exposes an unresolved consequential
-   tradeoff. Missing template categories do not justify another interview.
-6. When material Questions are settled, announce
+   batch for an incomplete answer, contradiction, or newly exposed consequential
+   tradeoff. Apply [answer pressure](doctrine.md#answer-pressure); a topic mentioned
+   or recommendation offered is not a settled decision. Missing template
+   categories do not justify another interview.
+6. Apply the [readiness check](doctrine.md#readiness-check) to the affected flow.
+   Honor [pause, defer, and stop](doctrine.md#pause-defer-and-stop) without claiming
+   unresolved work is ready. When material Questions are settled, announce
    **Locked in (tell me if this is wrong)** in a **separate** announce-only
    message. Include meaningful non-goals, derived split, and shared
    understanding. Put the corrected line-by-line intent restatement there,

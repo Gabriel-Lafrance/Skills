@@ -1,5 +1,7 @@
 # Attribution
 
+Grill guidance uses original wording informed by [Matt Pocock's grilling skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md), checked on 2026-10-05: prerequisite-aware rounds, environment fact lookup, recommendations, and recomputing dependent choices after replies. [MIT](https://github.com/mattpocock/skills/blob/main/LICENSE), copyright 2026 Matt Pocock. No upstream text or tool-specific workflow is vendored. This pack retains its existing announce-only lock, test permissions, and user control over stopping or deferring.
+
 Ticket and working-output guidance uses original wording informed by these methods, checked on 2026-10-05. No upstream template or workflow is vendored; runtime rules are self-contained.
 
 - [Superpowers writing-plans](https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md): specify affected files, interfaces, fixed values, and observable verification instead of leaving consequential choices implicit.

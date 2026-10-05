@@ -25,8 +25,11 @@ about to be written, whether or not the harness calls it a plan mode:
    practical consequences, recommendation, and reason. Follow dependencies,
    with no fixed topic order or mandatory rival, exclusion, or owner question.
    If no consequential choice remains, omit Questions.
-4. Incorporate the answers and their reasons. Ask again only for a new material
-   gap. Announce conclusions in a **separate** **Locked in (tell me if this is
+4. Incorporate the answers and their reasons. Apply the grill's
+   [answer pressure](../grill-me/doctrine.md#answer-pressure) and
+   [readiness check](../grill-me/doctrine.md#readiness-check): clarify incomplete
+   answers, expose contradictions, and trace relevant success and failure paths
+   before claiming readiness. Announce conclusions in a **separate** **Locked in (tell me if this is
    wrong)** message, or reuse a current lock that already covers them. Preserve
    the plain-English line-by-line intent restatement. Record useful exclusions
    and real rejected alternatives without inventing them.
@@ -35,7 +38,8 @@ about to be written, whether or not the harness calls it a plan mode:
    later require a new Questions-only batch; researched facts do not.
 
 Trivial asks (typo or pure rename) skip the grill. Honor an explicit request to
-skip grilling or plan immediately. Reuse decisions from this chat or a
+skip grilling or plan immediately under [pause, defer, and stop](../grill-me/doctrine.md#pause-defer-and-stop),
+keeping assumptions and blocked portions explicit. Reuse decisions from this chat or a
 [whole-stack ticket handoff](../task/doctrine.md#whole-stack-ticket-handoff);
 ask only about newly discovered consequential gaps. A fully settled request
 needs no redundant Questions batch.
