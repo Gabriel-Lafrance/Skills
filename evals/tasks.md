@@ -16,6 +16,44 @@ The main risk: the agent reads the short `AGENTS.md` index and never opens the r
 
 ## Prompts
 
+### Architecture and selective navigation scenarios
+
+Use the same fresh installed-session and tool-log method as the grill scenarios
+below. Source review of these cases is narrative inspection, not observed agent
+behavior. Supply raw fixtures and prompts to the candidate, not the scoring criteria.
+
+| Scenario | Fixture and prompt | Observable pass criteria |
+| --- | --- | --- |
+| Growing mixed-responsibility file | Existing `report-export.ts` owns authorization/orchestration, CSV encoding, storage SDK translation, upload cleanup, and expiry handling. No shared storage service exists. Diff appends another storage integration. Prompt: `Analyze the architecture of this changed export flow and recommend a focused correction.` | Locates entry/signature/callers then relevant implementations; identifies separate behavior/dependency/lifecycle owners in the existing file; proposes a small public entry with meaningful private renderer/storage collaborators; shows what callers stop knowing and where CSV versus SDK changes land. No line limit, whole-repo rewrite, or invented provider seam. |
+| Cohesive small file | A small `renderCsv(rows)` owns header, escaping, and row iteration under one output contract. Prompt: `Fix the empty-header bug; preserve populated output. No tests.` | Reads renderer and constraining callers/checks; keeps cohesive formatting together, without files for header/escape/row or a navigation artifact; preserves test refusal. Folder/line/export counts do not force an extraction. |
+| Meaningful single consumer | Export has one caller, but CSV encoding and storage translation have distinct contracts. Contrast a proposed private renderer with `export-helper.ts` that only forwards to the same entry. Prompt: `Review these two extraction proposals without changing code.` | Accepts the behavior-owning single-consumer boundary when it improves reading/change ownership; rejects forwarding ceremony. Allows cohesive public operations/types and framework-required exports. A confirmed variation may have a seam with one real implementation; no hypothetical second adapter is manufactured. |
+| Task-relevant navigation | Ticket points to export public entry; repo also contains unrelated billing and notifications. Existing Structure map lists export renderer and storage owner. Prompt: `Analyze how this export handles a storage failure; use the current ticket context.` | Reuses relevant path/signature/responsibility pointers, verifies implementation and actual failure/caller contracts, and expands only for a material dependency or stale pointer. No full-repo implementation dump, new index/tool installation, or token-savings claim; signature inspection alone is not failure evidence. |
+
+Record actual revision, fixture, harness, paths read, and outcomes in the PR.
+Unrun installed-session cases remain unrun even when narrative review finds the
+instructions coherent.
+
+### Grill scenarios
+
+Use fresh sessions for these scenarios. Supply only the prompt, fixture facts
+through files, and the follow-up replies when reached. Criteria are for the
+evaluator, not hints for the candidate. Reviewing these scenarios against the
+skill text is narrative inspection; only an installed scratch-session run with
+tool logs counts as observed agent behavior.
+
+| Scenario | Fixture and user prompt/replies | Observable pass criteria |
+| --- | --- | --- |
+| Vague feature | Existing team membership and invite routes. Prompt: `Grill me on making team invites automatic and secure.` First reply: `Just handle errors and make it seamless.` | Reads existing routes/authority; distinguishes facts and choices; asks prerequisite-aware numbered rounds with reasons; turns vague replies into concrete actor/result/recovery choices; does not lock merely because security and errors were mentioned. |
+| Multi-system flow | UI requests export, API creates a job, worker writes storage and notifies by external provider. Provider may accept before timing out. Prompt: `Grill this export flow before we ticket it.` | Traces success and timeout/partial completion across actual boundaries; establishes authority and delivery model before dependent job policies; probes relevant retry identity, duplicate effects, permission change, cleanup and compatibility; useful diagram identifies owners/ordering; remaining blockers prevent a ready lock. Does not require unrelated payment or UI redesign decisions. |
+| Exact contract and conflict | Existing caller expects a string from `renderReport`. User settles `renderReport(input: ReportInput): Promise<string>` and exact empty output `id,total\n`. Later reply: `For no rows, return null. Keep the agreed signature.` | Researches caller/type; exposes incompatibility with the chosen signature and empty value; asks which governs; revisits only affected dependents; preserves the corrected canonical fenced contract and exact output in handoff, with reasons. Does not silently widen the type or treat the example as approval of other behavior. |
+| Small backend fix | Existing authorized CSV renderer omits headers for empty input; populated output is correct. Prompt: `Grill the fix: empty CSV must be exactly id,total followed by a newline; leave populated output alone. No tests.` | Inspects renderer/callers; may have no questions if settled; bounds readiness to exact output and relevant existing behavior; no UI/queue/rollout checklist; preserves test refusal and distinguishes planned checks from executed evidence. |
+| Defer and stop | During multi-system scenario reply: `Defer retention; Maya will decide before enabling the worker. Stop grilling now and hand off what we have.` | Stops questions; returns settled choices plus retention's owner, decision point, and blocked activation/dependents; does not declare whole flow ready, invent retention, write tests, or start implementation. A separately narrowed independent slice may be ready with its own bounds. |
+
+For partial replies, score whether only answered choices settle. For already
+settled input, score whether research/readiness replaces redundant interviewing.
+Record the tested revision, harness, fixture, tool evidence, actual result, and
+unrun cases in the PR; do not infer a behavioral pass from this table.
+
 ### 1. Delete an order
 
 Prompt: `Add a Convex mutation to delete an order.`

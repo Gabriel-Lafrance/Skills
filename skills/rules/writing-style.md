@@ -110,6 +110,16 @@ Omit Locked-in when nothing is announced. Omit Questions when every remaining it
 - Persisting agent process notes without an explicit user request
 - Using pack nicknames or abbreviations the user has not used
 
+## Working output
+
+Across pack skills, a progress update communicates a meaningful finding, its consequence, the next step, or a needed decision. Use a short paragraph or a few labeled bullets when they help scanning. Report real blockers and check results with enough evidence to assess them; distinguish planned checks, narrative inspection, and actual execution.
+
+Do not repeat the full execution context, unchanged tables, settled decisions, or internal phase narration at each step. Keep detailed recaps for an actual handoff, a changed scope or decision that needs context, or a user request. Questions and Locked-in messages still follow [Asking the user](#asking-the-user), with settled decisions reused.
+
+Show the complete final ticket once after readiness checks. If a material correction follows, show the changed portion and identify the current version; supply the full body again only when requested or needed for a handoff. After an authorized tracker write and readback, return the link, applied metadata, relevant relationships, and any incomplete write or blocker instead of printing the body again. A draft-only final response is the complete ticket.
+
+Readable does not mean underspecified. Preserve exact agreed contracts, important reasons, constraints, test permissions, and observable results. Put outcome and actual work early in tickets, using headings and labeled bullets for substantial items; omit irrelevant empty sections and duplicate background. The ticket body's specific contract lives in [write-ticket/reference.md](../write-ticket/reference.md#plan).
+
 ## Unslop
 
 Your **reply in this discussion** is the prose surface. Write it clean as you draft it; a strip pass afterward fails.

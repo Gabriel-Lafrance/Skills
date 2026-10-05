@@ -58,7 +58,7 @@ For the shipped diff, check each named principle in [code-quality.md](../rules/c
 | **Keep it simple (KISS)** | New ceremony without evidence it is required for Done when / rules that must stay true. A seam (a named extension point where a new variant plugs in) on a named area of modularity is evidence | Slightly overbuilt but still correct |
 | **Keep jobs apart (SoC)** | UI/feature owns Stripe, JWT, email, or mixed jobs in one unit | Mild mixing with a clear later split |
 | **One altitude (SLAP)** | One function both coordinates and does low-level detail in a way that hides bugs | Long but still readable |
-| **Light to read (Minimize reader load)** | New one-caller wrapper, pass-through layer, or hidden state a reader must hold to say where a value comes from | A deep entry that hides real work |
+| **Light to read (Minimize reader load)** | New one-caller wrapper that only forwards or renames, pass-through layer, or hidden state a reader must hold to say where a value comes from | Evidenced reader burden outside the required change; a useful behavior-owning collaborator alone is no finding |
 | **Read or write, not both (CQS)** | A read also writes, or a command hides writes behind a "get" | Mild naming oddity on an otherwise correct command/query |
 | **Fail fast (Fail Fast)** | Invalid input accepted past the boundary into partial side effects, or a re-check inside after the boundary already parsed | Late check that still prevents bad writes |
 | **Leave it cleaner (Boy Scout Rule)** | Diff copies or extends a known-wrong shape in the touched area | Cleanup opportunity not required for this change |
@@ -88,14 +88,21 @@ Cite `quality:honest-names` on findings. Naming alignment is part of the Standar
 
 ### Folder placement
 
-On every `initial` or `full-rescan` Standards pass, walk **new files** in the shipped diff against `structure:folders`:
+On every `initial` or `full-rescan` Standards pass, walk **new files** against `structure:folders` and introduced responsibilities in **changed existing files** against [responsibility boundaries](../rules/code-structure.md#responsibility-boundaries):
 
 1. Related new files must sit in a named owning folder, not as mixed siblings of unrelated code in `src/`, `app/`, `convex/`, or a route folder that already holds a different slice.
 2. A new concern gets a folder even for the first file, before five siblings exist.
 3. Reject `quality:never-nest` and `quality:keep-it-simple` as defenses. Never-nest is control flow.
 4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`structure:prior-mistakes`).
 
-Cite `structure:folders`. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
+Check whether the diff appends an independent job to an existing owner or
+fragments cohesive work into shallow files. Name the actual responsibility,
+dependencies, and caller burden. Apply the retrieval/change-locality check;
+do not fail a cohesive file on length or export count alone. Meaningful private
+single-consumer collaborators and cohesive/framework exports follow the
+canonical rules. Routine placement does not require another interview.
+
+Cite `structure:folders` for placement and `structure:responsibility-boundaries` for incoherent jobs or shallow fragmentation. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
 
 ### Env reuse
 

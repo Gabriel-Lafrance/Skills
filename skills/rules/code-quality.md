@@ -97,12 +97,23 @@ Six checks (keep it simple, light to read, fail fast, subtract first, safe to re
 | **Reuse env vars** | none | See [Reuse env vars](#reuse-env-vars) |
 | **No dead code** | none | Delete unused files, exports and dependencies instead of ignoring them. How to check: [static-checks.md](../review/static-checks.md#knip-no-dead-code) |
 | **Throw at boundaries** | Exceptions at boundaries | Catch only to recover, translate, add context or clean up. Signal failure by throwing, not with `{ success: false }` / Result bags |
-| **One export per file** | none | One component or main export |
+| **One export per file** | none | One primary responsibility, usually one component or main export; [cohesive exports](#cohesive-exports) keep related public operations and framework-required exports together |
 | **Static imports** | none | Static `import` only, not dynamic `import()` |
 | **Comments** | none | Only to summarize big or complex functions |
 | **Cite a sibling** | none | The pack's examples beat the app's existing code, on shape and on naming. Copy an app sibling only if it matches the rules and a named example (say which). Otherwise build from the example; the old code is debt ([`structure:prior-mistakes`](code-structure.md#prior-mistakes)). Framework requirements (route file names, Convex function rules) are not app habits and still apply. When an existing service owns a job, call or extend it |
 | **OOP depth cap** | Composition over deep inheritance | At most **two** levels (`PaymentMethod` ← `CardPayment`); compose instead of a third |
 | **Plain language** | none | Replies follow [writing-style.md](writing-style.md#unslop) |
+
+## Cohesive exports
+
+The rule prevents unrelated public responsibilities sharing a file, not a
+literal export-count limit. A domain entry may expose closely related operations
+and their contract types; framework entry files may keep required exports.
+Keep that public surface small and clear, with implementation collaborators
+private to its owner. Do not split cohesive operations into one-function files
+or add barrel/pass-through exports merely to satisfy a count. Separate exports
+when their behavior, dependencies, or reasons to change belong to different
+owners ([responsibility boundaries](code-structure.md#responsibility-boundaries)).
 
 ## Reuse env vars
 

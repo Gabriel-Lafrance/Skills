@@ -74,13 +74,13 @@ Follow [recovery and completion](../rules/execution.md#recovery-and-completion),
 
 ## Progress and pause
 
-After a phase change or finished slice, post one line:
+Follow [Working output](../rules/writing-style.md#working-output). Report a meaningful finding, consequence, next step, or needed decision after substantive work. Phase changes alone do not require an update. For example:
 
 ```markdown
-**Progress:** grill ✓ · slices 1/3 · implementing `02` · next: acceptance
+The route now returns the agreed CSV attachment. The denied-account check still returns 403. Next I will verify the empty report through the same public route.
 ```
 
-For a pause, state the phase, completed slices, blocker, and next action.
+For a pause, state what is complete, the concrete blocker and its effect, and the next action or needed decision. Keep phase and slice counts only when they help explain that state; do not repeat unchanged execution tables.
 
 ## Completion summary
 
@@ -168,13 +168,14 @@ On a Locked correction or unanswered question, revise or wait.
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Find the relevant paths. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (write it first if missing).
+**Explore and shape.** Use [selective navigation](../rules/main-context.md#selective-navigation) to find the task's paths, public signatures, and owners before reading the relevant implementations. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (write it first if missing).
 
 **Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating the outcome and the concrete approach needed to preserve settled choices; leave routine implementation details to the executor. If the split changes, re-announce it before implementing. Keep plans in chat. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to the grill before implementing.
 
 **Implement.** Build ready frontier slices one at a time, in dependency order. User-facing slices (screens, components, styling, visible copy) apply user-experience.md and `docs/design.md`. For each slice:
 
 1. Stay in its lane and follow its contract and structure excerpt. Create the owning folder before its files. Do a required behavior-preserving move before feature code and show the old behavior still holds.
+   Check [responsibility boundaries](../rules/code-structure.md#responsibility-boundaries) in changed existing files too. Record justified extraction in the current Structure map; keep cohesive small behavior whole. Private placement needs no new user decision unless ownership, contract, scope, or behavior changes consequentially.
 2. Reuse existing services and one-job helpers. If the slice seems to need a new shared API, service, or lane, mark it `blocked` and name the smallest option.
 3. Gather slice-local evidence only: existing terminal output first, then one narrow command if needed.
 4. No tests in a product slice. Each accepted lock is its own test slice ([testing.md](../rules/testing.md)) after the public entry exists.

@@ -1,5 +1,15 @@
 # Attribution
 
+Architecture and navigation refinements use original wording informed by [Matt Pocock's architecture investigation](https://github.com/mattpocock/skills/blob/main/skills/engineering/improve-codebase-architecture/SKILL.md) (friction, deep public boundaries, and change locality; [MIT](https://github.com/mattpocock/skills/blob/main/LICENSE), copyright 2026 Matt Pocock) and [Aider's repository map documentation](https://aider.chat/docs/repomap.html) (relevant paths, symbols, and signatures before implementation detail), checked on 2026-10-05. No upstream text, automatic map, report workflow, or tooling dependency is vendored; this pack uses its existing scoped chat handoffs and authorization rules.
+
+Grill guidance uses original wording informed by [Matt Pocock's grilling skill](https://github.com/mattpocock/skills/blob/main/skills/productivity/grilling/SKILL.md), checked on 2026-10-05: prerequisite-aware rounds, environment fact lookup, recommendations, and recomputing dependent choices after replies. [MIT](https://github.com/mattpocock/skills/blob/main/LICENSE), copyright 2026 Matt Pocock. No upstream text or tool-specific workflow is vendored. This pack retains its existing announce-only lock, test permissions, and user control over stopping or deferring.
+
+Ticket and working-output guidance uses original wording informed by these methods, checked on 2026-10-05. No upstream template or workflow is vendored; runtime rules are self-contained.
+
+- [Superpowers writing-plans](https://github.com/obra/superpowers/blob/main/skills/writing-plans/SKILL.md): specify affected files, interfaces, fixed values, and observable verification instead of leaving consequential choices implicit.
+- [spec-kit tasks template](https://github.com/github/spec-kit/blob/main/templates/tasks-template.md): group work by outcome and use item IDs to make dependencies readable.
+- [GSD summary template](https://github.com/gsd-build/get-shit-done/blob/main/get-shit-done/templates/summary.md): lead summaries with delivered outcomes, evidence, decisions, and remaining work.
+
 Provenance for maintainers, not agent workflow instructions. The UX integration uses original wording and selectively synthesizes the ideas below; no upstream skill, checklist, or implementation is vendored. Sources were checked on 2026-10-03.
 
 - [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/.claude/skills/ui-ux-pro-max/SKILL.md) and [UX guidelines](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/src/ui-ux-pro-max/data/ux-guidelines.csv): scoped retrieval, redundant entry, control semantics, and feedback. [MIT](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/477bcb28c9812b385cb51a4605ddf30d7b2266e2/LICENSE), copyright 2024 Next Level Builder.

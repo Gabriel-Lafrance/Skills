@@ -181,7 +181,7 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 | `any` or Convex `v.any` on a public surface | types tell the truth (make illegal states unrepresentable) |
 | Unused files, exports, or dependencies in the diff | `quality:no-dead-code` |
 | Dynamic `import()` | `quality:static-imports` |
-| New file with more than one main export | `quality:one-export-per-file` |
+| Unrelated exported responsibilities sharing a changed file, excluding cohesive public operations/types and framework-required exports | `quality:one-export-per-file` ([cohesive exports](../rules/code-quality.md#cohesive-exports)) |
 | Class or interface chain deeper than two | `quality:oop-depth-cap` |
 | Magic policy number at a call site that should be a named invariant | `quality:keep-it-simple` |
 

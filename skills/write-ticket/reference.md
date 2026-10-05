@@ -33,156 +33,165 @@ Discover real options first: Linear priorities and members from its capability, 
 
 ## Locked in message
 
-Send the complete draft with no Questions. For an authorized write, use this draft after resolving missing metadata. Draft-only stays in chat. Draft text must already be final-version clean.
+Show the complete final body once, with no Questions, after readiness checks. It is the Locked-in draft; do not prepend a second summary repeating Outcome, Done when, Tests, or decisions. For an authorized write, use this body after resolving missing metadata. Draft-only returns this body as the final response. Use a brief changed-decision announcement earlier when needed under [Working output](../rules/writing-style.md#working-output).
 
-```markdown
+````markdown
 ## Locked in (tell me if this is wrong)
-**Kind:** Feature | Tweak | Bug | Refactor | Chore
-**Outcome:** …
-**Done when:** …
-**Tests:** <check and proposed | accepted | refused status, with decision source> | none
-**Out of scope:** … | _none_
-**Rejected:** <live alternative or exclusion and reason, when useful> | _none_
-**Start here:** `path` - `symbol` | _unknown_
-**Delivery:** one PR | parent with <N> child PRs
-**Stack:** <ordered children and PR bases> | _none_
-```
+<complete Plan body below, including delivery and children when split>
+````
 
 ## Bodies
 
-Keep these headings as written. Use `_none` or `_unknown` only where the template allows it. Draft text must already be final-version clean before write ([Final-version description](doctrine.md#final-version-description)).
+Use the headings below for relevant content, with Outcome and Work items first. Keep Kind as metadata rather than a standalone section. Retain Done when and Tests, including explicit refusals or `none: no tests specified`. Omit optional sections and rows that add no information instead of filling them with `_none`, `_unchanged`, or `_unknown`. Preserve meaningful exclusions, rationale, constraints, evidence, and bounded delegation. Missing material facts are readiness gaps, not empty placeholders. Draft text must already be final-version clean before write ([Final-version description](doctrine.md#final-version-description)).
 
 ### Plan
 
-A coding agent can implement from this body alone. For split work, the parent uses this body for the shared design and overall outcome; each child uses it for its own bounded outcome. Add the [stack handoff](#stack-handoff) to the parent and the child coordination fields to each child.
+A coding agent can implement from this body alone. For split work, the parent uses this body for shared design and the overall outcome; each child uses it for its bounded outcome. Add the [stack handoff](#stack-handoff) to the parent and coordination fields to each child.
 
 ````markdown
-## Kind
-Feature
+**Kind:** Feature | Tweak | Bug | Refactor | Chore
 
 ## Outcome
 - <who benefits and the observable outcome>
-- <why this matters, grounded in the user's intent and relevant evidence>
-
-## Diagram
-
-#### Before
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Stripe[Stripe]
-```
-
-#### After
-
-```mermaid
-flowchart LR
-  UI[Checkout UI] --> Billing[billing.makeUserPay]
-  Billing --> Stripe[Stripe]
-```
-
-## Rules that must stay true
-- Rule 1: …
-
-## Structure
-- Caller contract: <owner/public entry; inputs, outcomes/errors, observable ordering and invariants> | _unchanged_
-- Hidden work: <responsibilities/dependencies callers no longer coordinate; where changes stay local> | _unchanged_
-- Caller before/after: <representative usage or pointer to Snippets> | _unchanged_
-- Verification seam: <public behavior and dependency strategy; remaining integration evidence> | _unchanged_
-- Folders: …
-- Public API: …
-- Abstraction: … | _none_
-- One-job helpers: … | _none_
-- Deep module: … | _none_
-
-## Foundation
-- <area of modularity> → <seam and pattern> + <first real implementation> | _none: Tweak, Bug, or Chore_
-- <area the conversation ruled out> → no seam
-- Extends existing seam: <seam> | _none_
-- Next change this makes small: <request> → <one new file + one registration>
-
-## Files
-- `path/to/file` - `symbol` - <work item number>
-
-## UX/UI
-- Entry and context: <user goal, starting route/state, and known data>
-- Actions by state: <primary action and purpose; keep/combine/defer/remove decisions where relevant>
-- Continuation: <prefilled/carried data, editable result, and next meaningful action>
-- Recovery: <relevant loading/empty/error/cancel/retry behavior and preserved edits/context>
-- Presentation: <existing component/token/page references; concrete hierarchy and relevant responsive/keyboard expectations>
+- <why this matters, grounded in intent and relevant evidence>
 
 ## Work items
-1. <meaningful change or outcome>
-   - Depends on: <item number and required contract/state> | independent
-   - Do: <specific change and resulting behavior>
-   - Why: <reason for this change and chosen approach, with relevant evidence>
-   - How: <concrete code/data/contract approach and constraints; cite shared context briefly>
-   - Verify: <observable expected result and planned check; reference Tests for test status>
-2. <next meaningful change or outcome, when needed>
-   - Depends on: <item number and required contract/state> | independent
-   - Do: .
-   - Why: .
-   - How: .
-   - Verify: .
 
-## Snippets
-<short snippets only where a wrong guess would make the implementer ask>
+### 1. <meaningful change or outcome>
+
+- **Depends on:** <item number and required contract/state> | independent
+- **Do:** <specific change and resulting behavior>
+- **Why:** <reason for this change and chosen approach, with relevant evidence>
+- **How:** <affected paths/public entries, concrete input/state to result behavior, named edge cases and constraints; reference shared context>
+- **Verify:** <planned command or procedure and observable pass criteria; reference Tests for permission>
+
+<fenced exact agreed contract beside this item when needed; shared contracts appear once and consumers reference their owner>
+
+### 2. <next meaningful outcome, only when needed>
+
+- **Depends on:** <item 1 and the specific contract/state it supplies> | independent
+- **Do:** .
+- **Why:** .
+- **How:** .
+- **Verify:** .
 
 ## Done when
-- [ ] …
-
-## Out of scope
-- … | _none_
-
-## Start here
-- `path/to/file` - `symbol`
+- [ ] <overall observable acceptance>
 
 ## Tests
 - <behavior lock or end-to-end; public entry and what it proves>: proposed | accepted | refused
 - Decision source: <user instruction or recorded decision link; required for accepted/refused>
 or `none: no tests specified`
-
-## Already decided
-- Rejected: <live alternative or exclusion and reason, when useful> | _none_
-- <shared material decision: chosen behavior or shape, reason, evidence or uncertainty, and constraints; refer to item numbers for item-owned decisions>
-- <explicitly delegated choice, its bounds, decision owner, and why discretion is acceptable> | _none_
 ````
 
-- `## Foundation`: a seam is a named extension point where a new variant plugs in.
-- `## Structure`: shared design only; item-specific approaches belong in Work items. Use `_none` on rows the change does not need. A one-line fix still names the file. The owner path is still named.
-- `## UX/UI`: include only for touched user flows; omit for backend-only work. Keep it compact and specific to the changed interaction, not a questionnaire or screen catalog. Omit irrelevant states. Keep each item's Do/Why/How/Verify local, referring to this shared contract instead of copying it. Apply [action and continuation](../rules/user-experience.md#action-and-continuation).
-- `## Outcome`: keep the outcome and reason on short separate lines. Include only the evidence needed to understand the current goal, with specific source pointers; do not copy the analysis memo.
-- `## Work items`: follow the [implementation-item contract](doctrine.md#implementation-items). Use as many items as meaningful outcomes require, including one for a small change. Order dependencies before consumers and identify the supplied contract or state. Each item needs local Do, Why, How, and Verify; brief references can carry shared context, but cannot replace an item's specific reason and approach. Leave routine coding choices open. These items are not linked subissues or permission to execute.
-- `## Files`: a compact path-to-item index, not a second implementation plan. `## Done when` states overall acceptance; each item's Verify states its local observable check without duplicating the whole acceptance list.
-- `## Already decided`: keep shared decisions, useful live exclusions, and bounded delegation here; item-owned decisions and reasons stay in their items. Preserve relevant evidence and uncertainty in historical inferences. A live rejected alternative belongs only when it prevents a credible mistake; `_none` is allowed. Explicit delegation names the choice, bounds, owner, and reason; an omitted decision is not delegated.
-- `## Snippets`: `_none` only when Rules, Structure, and Work items already settle every hard choice.
-- `## Tests`: use this authorization format for every Plan, including a single PR. Record each test's status and settled decision source; quote the relevant user instruction when no durable link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed.
+Optional sections follow the work and acceptance, only when they carry relevant content:
 
-For a material public boundary, fill the caller and verification rows in Structure
-from [analysis](../analyze/doctrine.md#public-boundary-investigation); reference
-them from local How/Verify instead of copying. For a small change that preserves
-the contract, collapse those rows to `Boundary: unchanged` without an architecture
-exercise. Foundation continues to name only confirmed areas of modularity.
+- `## Diagram`: use the [diagram guidance](#plan-diagrams). A diagram specific to one item may sit beside that item instead.
+- `## Rules that must stay true`: shared invariants with stable IDs, referenced from the owning items.
+- `## Structure`: shared design only. For a material public boundary, record the owner/public entry, inputs, outcomes/errors, ordering, invariants, hidden caller work, representative before/after caller, and verification seam from [analysis](../analyze/doctrine.md#public-boundary-investigation). Use one canonical fenced block for an exact shared contract; reference it from local How/Verify. For a small change preserving a boundary, name its relevant constraints in the item and omit an empty architecture section.
+- `## Foundation`: confirmed areas of modularity, their named seams, first real implementation, and next change made small. Name the existing seam being extended when applicable. Omit when the work needs no seam; do not invent future variants.
+- `## Files` and `## Start here`: useful path-to-item index or entry pointer when paths are not already clear in the items. They are not a second plan.
+- `## UX/UI`: include only for touched user flows, omitting irrelevant states. Record entry/context, purposeful actions by state, carried or editable data and next action, relevant recovery behavior, and existing presentation/component references. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Backend-only work omits this section.
+- `## Out of scope`: meaningful exclusions that prevent credible mistakes.
+- `## Already decided`: shared material decisions with reasons, evidence, uncertainty, and constraints; useful rejected alternatives; explicit delegation with choice, bounds, owner, and reason. Item-owned decisions stay in the items. An omitted decision is not delegated.
+
+Follow the [implementation-item contract](doctrine.md#implementation-items). Use numbered headings and short labeled bullets for substantial items; group by outcome when useful. Order prerequisites before consumers and name the contract or state each dependency supplies. Numbering alone is not a dependency or PR boundary. One focused item is enough for a small change. Keep local Do/Why/How/Verify; a file list or global rationale cannot replace them. Leave ordinary coding choices open. These items are not linked subissues or permission to execute.
+
+Preserve exact agreed signatures, types, payloads, examples, and values in fenced blocks beside their owning item or in Structure for a shared contract. Keep one canonical copy, referenced by consumers. Do not move contracts to a detached Snippets dump, replace meaningful prose with code, invent design to fill a block, or impose arbitrary word limits. Distinguish researched existing contracts, agreed changes, and illustrative examples. The body must resolve material behavior and contract ambiguity without sending the executor back to the old chat.
+
+Tests retain their authorization format in every parent, child, or single-PR body. Quote the relevant user instruction when no durable decision link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed. `none` means no tests specified, not a refusal inferred from silence. Verify describes future checks, not evidence that they ran.
 
 ### Worked work items
 
-Illustrative excerpt, not repository facts: assume research found `ExportService.render` returns CSV bytes for an authorized account, `downloadReport` serves the existing report download route, and the report screen has a download action and error display. The user settled that this route will download those bytes; no new tests are authorized. The real ticket must use researched paths and preserve the actual test decision source in Tests.
+The following are illustrative, not repository facts or approved designs. Real tickets use researched paths and the user's actual decision source.
+
+#### Small backend bug
 
 ```markdown
+**Kind:** Bug
+
+## Outcome
+CSV callers get a header row for an empty report instead of a zero-byte download, so the existing importer can read the column names.
+
 ## Work items
-1. Return the CSV download from the existing route
-   - Depends on: independent; uses the existing authorized-account contract of ExportService.render.
-   - Do: Make downloadReport return the rendered CSV as an attachment.
-   - Why: The settled design reuses the existing download route, so callers keep the same entry point.
-   - How: In downloadReport, pass the account from the existing authorization boundary to ExportService.render; send its bytes with text/csv and an attachment filename. Preserve the route's current access-denial behavior.
-   - Verify: After implementation, check that an authorized download contains the service's CSV bytes and attachment headers, and denied access still returns the existing denial response. Use existing checks or a safe manual request; see Tests for the new-test constraint.
-2. Connect the report screen to the download
-   - Depends on: item 1 supplies the CSV attachment response at the existing route.
-   - Do: Make the report screen's download action request that route.
-   - Why: Users need the report from the screen where they select it; using the route preserves the settled authorization boundary.
-   - How: Point the screen's existing download action at downloadReport and use the existing error display when the request fails. Leave CSV rendering in ExportService.
-   - Verify: After implementation, activate the action for an authorized account and inspect the saved CSV; a failed request shows the existing error display. This is a planned manual check, not evidence that it has run.
+
+### 1. Preserve CSV headers when there are no rows
+
+- **Depends on:** independent.
+- **Do:** Make `ExportService.render` in `src/export/service.ts` return `id,total\n` for an empty report; populated reports keep their existing header and rows.
+- **Why:** The importer needs the schema even when the account has no data; the renderer already owns CSV formatting.
+- **How:** Emit the existing `id,total` header before iterating rows. Preserve the renderer's account authorization and current escaping for commas and quotes. Change no route or public signature.
+- **Verify:** After implementation, call the public renderer for an authorized empty account and inspect the exact bytes `id,total\n`; compare a populated report with the existing output and confirm a denied account still fails. Use existing checks or a safe manual call; see Tests.
+
+## Done when
+- [ ] Empty authorized reports contain the header; populated CSV and access denial keep their current behavior.
+
+## Tests
+- New automated empty-report test: refused.
+- Decision source: user said "Use the existing checks and manual calls; don't add tests."
 ```
+
+#### Multiple items with an agreed contract and useful diagram
+
+Assume the user settled this exact contract and route behavior during grilling, and research confirmed the named entry points. The renderer is the single owner of the shared contract; the route consumes it.
+
+````markdown
+**Kind:** Feature
+
+## Outcome
+Authorized report callers can download CSV from the existing report route without coordinating authorization and rendering themselves.
+
+## Work items
+
+### 1. Expose the authorized CSV renderer
+
+- **Depends on:** independent; reuses the existing account authority boundary.
+- **Do:** Add `render` in `src/export/service.ts` with the agreed contract below.
+- **Why:** The service owns authorization and CSV formatting so every caller gets the same rules.
+- **How:** Reject a caller outside the account with the existing `AccessDenied` error before reading report rows. Return UTF-8 CSV bytes, including `id,total\n` for no rows, and the filename `report.csv`. Keep provider details inside the service.
+- **Verify:** After implementation, use the public entry for populated, empty, and denied accounts. Inspect bytes and filename; denial must happen before row access. See Tests for the proposed lock and its unsettled permission.
+
+Agreed shared contract (canonical copy):
+
+```typescript
+type CsvDownload = { bytes: Uint8Array; filename: "report.csv" };
+render(account: AuthorizedAccount): Promise<CsvDownload>;
+```
+
+### 2. Return the attachment from the existing route
+
+- **Depends on:** item 1 supplies `render` and `CsvDownload`.
+- **Do:** Make `downloadReport` in `src/routes/report.ts` serve the renderer's bytes as an attachment.
+- **Why:** Existing callers keep their route while the service owns account access and formatting.
+- **How:** Resolve the account through the existing route boundary and consume item 1's contract. Send `Content-Type: text/csv; charset=utf-8` and `Content-Disposition: attachment; filename="report.csv"`. Map `AccessDenied` to the existing 403 response; other failures use the existing route error handler. Do not duplicate the row query or authorization policy in the route.
+- **Verify:** After implementation, request the route as an allowed and denied caller; inspect the exact headers, CSV body (including the empty case), and unchanged 403 response. This is a planned manual check, not a pass.
+
+## Done when
+- [ ] The existing route returns the agreed CSV attachment for allowed accounts and preserves 403 for denied accounts.
+
+## Tests
+- Behavior lock through `render`: empty report and denial before row access, proposed (awaiting user decision).
+
+## Diagram
+
+```mermaid
+sequenceDiagram
+  participant Route as downloadReport
+  participant Service as ExportService.render
+  participant Rows as Report rows
+  Route->>Service: AuthorizedAccount
+  Service->>Service: Check account access
+  alt Access allowed
+    Service->>Rows: Read rows
+    Rows-->>Service: Rows or empty list
+    Service-->>Route: CsvDownload
+    Route-->>Route: Send CSV attachment
+  else Access denied
+    Service-->>Route: AccessDenied
+    Route-->>Route: Existing 403 response
+  end
+```
+````
 
 ## Stack handoff
 
@@ -223,14 +232,14 @@ Example: an export feature could have A add a working export service, B add the 
 
 ## Plan diagrams
 
-Start from the analysis mermaid. Embed a real `mermaid` fence with real repo names: modules, people, request flow.
+Use a diagram when it makes relationships, state transitions, or execution order clearer than prose. Start from the relevant analysis mermaid when available. Embed a real `mermaid` fence with researched names. Preserve the settled flow; do not invent design to justify a picture. Omit Diagram when it adds no information.
 
 | Situation | Picture |
 | --- | --- |
-| New path | One flowchart of the intended path (like the After fence above, under `## Diagram` with no Before/After subheads) |
-| A change to an existing flow | Before and After, same node ids |
+| New path with useful relationships to show | One flowchart of the intended path (under `## Diagram` with no Before/After subheads) |
+| A change to an existing flow best explained visually | Before and After, same node ids |
 | Race, ordering, double-submit, or concurrency | Sequence of the failing interleave, then the expected order |
-| Typo, copy, or one-line chore | No picture. Under Diagram, say why. |
+| Small local change with no useful flow or state relationship | Omit Diagram |
 
 ### Race
 
@@ -279,4 +288,4 @@ For a split Plan:
 2. Create the parent if needed, then create missing child Plan tickets in dependency order. Inherit the parent priority unless the plan gives a reason to differ. Use a child's own work kind (for example, Refactor before Feature). Inherit an assignee only when that person owns the whole set; otherwise leave the child unassigned. New children start in Todo.
 3. Use the tracker's native parent/subissue and dependency relationships when available. Otherwise create real issues with explicit parent, child, and blocker links in their bodies and a linked checklist in the parent. Describe this fallback accurately; an inline checklist alone is not a set of created subissues.
 4. Replace draft keys with returned IDs and URLs, derive branch names from those child IDs, and update the parent stack table and child links. Check that there are no dependency cycles, that each PR base supplies its prerequisites, and that every parent done-when item has an owner.
-5. Read back the saved bodies and relationships. Report the parent, children, order, and whole-stack request. If a write or relation fails, return the created URLs and the unfinished step; inspect those records before retrying so a partial run does not duplicate tickets.
+5. Read back the saved bodies and relationships. Return links, kind, applied metadata, parent/child relationships, and stack order where relevant. Do not print complete bodies or the whole-stack request again. Single-ticket writes use the same link-and-metadata handoff under [Working output](../rules/writing-style.md#working-output). If a write or relation fails, return the created URLs and the unfinished step; inspect those records before retrying so a partial run does not duplicate tickets.
