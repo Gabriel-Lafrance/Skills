@@ -1,6 +1,6 @@
 # Keep judgment in the main context
 
-**Open this when:** you are about to search a codebase, read a large file, dig through logs or long command output, or make many mechanical edits.
+**Open this when:** you are about to spawn any subagent, search a codebase, read a large file, dig through logs or long command output, or make many mechanical edits.
 **Skip it and you will:** make worse decisions for the rest of the session.
 
 ## Rule
