@@ -23,7 +23,7 @@ The section shape is adapted from poteto's [pstack](https://github.com/backnotpr
 
 - Read only. Do not edit code, open a ticket, or start `/task`.
 - Judgment stays in this chat. Bulk reading goes to readonly explorers that return a short result.
-- Harness-agnostic. When the harness allows model choice, use a strong reasoning model for synthesis. Do not hardcode a vendor or a model slug.
+- Use the shared [roles and selection policy](../rules/main-context.md#subagent-roles): explorers gather evidence; analyzers synthesize only as deeply as the actual uncertainty requires. Routine lookups do not require a strong reasoning model.
 
 ## Process
 

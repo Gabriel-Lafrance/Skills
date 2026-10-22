@@ -16,6 +16,7 @@ dependencies. Signatures locate behavior, not prove it.
 
 ## Read when
 
+- Selecting a reviewer: open the shared [roles and selection policy](../rules/main-context.md#subagent-roles), including [task affinity](../rules/main-context.md#task-affinity). Honor the code-review provider preference and select effort separately from scope and risk; disclose unavailable routing.
 - Reviewing a touched user flow? Open [user-experience.md](../rules/user-experience.md), the ticket's interaction requirements, and `docs/design.md` when present. Judge interactions within Standards and Spec using [interaction review](doctrine.md#interaction-review).
 - About to read a large diff, search the codebase, or wade through long output? Open [main-context.md](../rules/main-context.md). Skip it and noise crowds out your judgment of the findings.
 - About to judge Standards on any `initial` or `full-rescan`, or on new PR follow-up surface, however small the diff? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you pass code the rules reject.
