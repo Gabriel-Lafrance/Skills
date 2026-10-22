@@ -14,6 +14,8 @@ Keep decisions, talking with the user, and judging results in the main context. 
 
 Ask the subagent for a short result (paths, snippets, a summary), not a dump. Check what it returns before you pass its conclusions on.
 
+For each subagent, choose the least costly capable available model and lowest sufficient reasoning effort: lightweight models with low reasoning for simple lookups and mechanical changes, stronger models or deeper reasoning for complex analysis, debugging, or architecture. Escalate only as needed. Use only overrides the harness supports; if unavailable, do not claim they were set.
+
 When the harness has no subagent, do the work with narrow reads (a search with a precise pattern, a line range) instead of whole files.
 
 ## Selective navigation
