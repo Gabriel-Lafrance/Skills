@@ -30,7 +30,7 @@ The evidence tiers are adapted from poteto's [pstack](https://github.com/backnot
 1. Name the decision you are explaining: a shape, a name, or a rejected alternative.
 2. Read the code that embodies it. Record paths and symbols.
 3. Run source control on those paths: `git log`, `git blame`, and `gh` for recent commits and pull requests. This category always runs.
-4. Only then cover the other categories below. Parallel lookups are fine after the anchor. When the harness allows model choice, use a strong reasoning model to separate found facts from inferences. Do not hardcode a vendor or a model slug.
+4. Only then cover the other categories below. Parallel lookups are fine after the anchor. Use the shared [roles and selection policy](../rules/main-context.md#subagent-roles): explorers retrieve history; analyzers judge the evidence. Choose effort from the actual uncertainty, not the label "research".
 5. Standalone, write the answer below. Nested, follow
    [nested capabilities](../rules/planning.md#nested-capabilities) and return
    the bounded decision rationale without a full standalone answer. Preserve
