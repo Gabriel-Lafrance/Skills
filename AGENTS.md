@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.9.0 -->
+<!-- gabriel-skills-agents v2.9.1 -->
 
 # Gabriel skills
 
@@ -46,7 +46,7 @@ Each bold line is the rule and holds on every turn. The file holds the detail an
 1. **Keep it simple (KISS): the most result from the least code. Delete before you add. A new concern gets its own folder. No `utils` or `helpers` dumps.** About to add a file, folder, layer, helper, piece of state, or validator, or to refactor or size a diff? Open `rules/keep-it-simple.md`. Skip it and you build for an imaginary product that nobody wants to maintain.
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
 3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
-4. **Keep judgment in the main context: hand searching, large reads, noisy output, and bulk edits to a subagent that returns a short result.** About to search the codebase or read a large file or log? Open `rules/main-context.md`. Skip it and noise fills your context.
+4. **Keep judgment in the main context: hand searching, large reads, noisy output, and bulk edits to a subagent that returns a short result. For each subagent, choose the least costly capable available model and lowest sufficient reasoning effort; escalate only as needed, using only overrides the harness supports.** Before spawning any subagent, searching the codebase, or reading a large file or log, read `rules/main-context.md`. Skip it and noise fills your context.
 
 ## Read when
 
