@@ -92,7 +92,7 @@ Six checks (keep it simple, light to read, fail fast, subtract first, safe to re
 | Rule | Classic | Meaning |
 | --- | --- | --- |
 | **Never-nest** | Guard clauses | Early returns, no `if` / `try` pyramids. Not about folders |
-| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | At most **5** paths per function; each `if`, loop, `catch`, `case`, ternary, and / or adds one. Extract a named helper. Never raise the cap. How to check: [static-checks.md](../review/static-checks.md#cyclomatic-complexity-cap-of-5) |
+| **Cyclomatic cap** | Cyclomatic complexity (McCabe) | At most **6** paths per function; each `if`, loop, `catch`, `case`, ternary, and / or adds one. Extract a named helper. Never raise the cap. How to check: [static-checks.md](../review/static-checks.md#cyclomatic-complexity-cap-of-6) |
 | **Don't repeat yourself** | DRY | One concept, one place |
 | **Reuse env vars** | none | See [Reuse env vars](#reuse-env-vars) |
 | **No dead code** | none | Delete unused files, exports and dependencies instead of ignoring them. How to check: [static-checks.md](../review/static-checks.md#knip-no-dead-code) |

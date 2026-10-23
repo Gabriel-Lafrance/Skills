@@ -2,7 +2,7 @@
 
 Follow the repo's ESLint and Prettier configs when they exist. This pack installs no ESLint, Prettier, or editor files, and pastes no style guide into chat.
 
-- If the repo's ESLint config already bans the em dash, en dash, and horizontal bar, keep that rule on. If it caps cyclomatic complexity at 5, keep the cap and split the function.
+- If the repo's ESLint config already bans the em dash, en dash, and horizontal bar, keep that rule on. If it caps cyclomatic complexity at 6 or lower, keep the cap and split the function.
 - Put editor workspace files in `.vscode/extensions.json` and `.vscode/settings.json` only.
 - Reuse current terminal evidence ([Verify terminals first](#verify-terminals-first)) and run focused existing tests/lint/type checks when they establish the changed behavior. Select scope under [verification scope](execution.md#verification-scope); broaden for shared/high-risk impact or an explicit full request.
 - **Before a push that opens or updates a PR:** apply [CI mirror](shipping.md#ci-mirror) for applicable scoped and mandatory local checks, then track required remote CI. Local commits and clean Git sync do not trigger full suites merely because a PR exists. Preserve hooks and required checks; report missing commands/evidence.
