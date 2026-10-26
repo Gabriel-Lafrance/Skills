@@ -211,7 +211,7 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 | --- | --- |
 | Nested control-flow pyramids | `quality:never-nest` |
 | New related files as mixed siblings with no owning folder | `structure:folders` |
-| A function with more than five independent paths (cyclomatic complexity (McCabe)) | `quality:cyclomatic-cap` |
+| A function with more than six independent paths (cyclomatic complexity (McCabe)) | `quality:cyclomatic-cap` |
 | Copy-paste twin of a concept already in the repo | `quality:dont-repeat-yourself` |
 | New env var whose job an existing var does (`FRONTEND_URL` while `SITE_URL` exists) | `quality:reuse-env` |
 | `{ success: false }` / Result bags for expected failure (fail fast (Fail Fast)) | `quality:throw-at-boundaries` |
