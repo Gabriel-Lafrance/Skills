@@ -16,6 +16,9 @@ The main risk: the agent reads the short `AGENTS.md` index and never opens the r
 
 ## Prompts
 
+PR watching, review budgets, intent-aware takeover, delegation lifecycle and
+harness-first selection have additional [focused cases](pr-lifecycle.md).
+
 ### Architecture and selective navigation scenarios
 
 Use the same fresh installed-session and tool-log method as the grill scenarios

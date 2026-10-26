@@ -34,5 +34,6 @@ Topic files, named in the Read when table:
 - [testing.md](testing.md): when an accepted test is worth writing, the authoring gate, junk patterns, the retention bar, what a good test looks like, the lock brief, the test comment, and the handoff
 - [shipping.md](shipping.md): branch safety, scoped pre-push/required checks, remote CI reporting, the create tool, and the branch-and-push process
 - [shipping-templates.md](shipping-templates.md): ship questions and announcements, the PR Change diagram rule, and the PR title and body template
-- [tooling.md](tooling.md): focused lint/type/test checks, terminal evidence, and applicable shipping checks
+- [tooling.md](tooling.md): harness-first discovery, browser permissions/fallbacks, focused checks and terminal evidence
+- [pr-lifecycle.md](pr-lifecycle.md): parent-owned watching, latest-head readiness, cleanup and intent-aware takeover
 - [principles.md](principles.md): steering vocabulary for a design, verification, or delegation judgment. One-line rule, when to open it, and a pointer to the file that owns the detail
