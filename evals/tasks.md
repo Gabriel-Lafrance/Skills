@@ -89,9 +89,9 @@ Rules it needs: `rules/planning.md`, `rules/writing-style.md` (Asking the user),
 
 ### 4. Review the branch
 
-Prompt: `Review my current branch.` (make a branch with a function over 5 paths and one unused export)
+Prompt: `Review my current branch.` (make a branch with a function over 6 paths and one unused export)
 
-- [ ] Runs the Knip and complexity 5 check, or explains why it cannot.
+- [ ] Runs the Knip and complexity 6 check, or explains why it cannot.
 - [ ] Labels each finding Fix now or Follow-up.
 - [ ] Talks in plain words and cites principles as plain (Classic), for example keep jobs apart (SoC).
 

@@ -80,7 +80,7 @@ return await chargeWithRetry(user, input);
 ## Cyclomatic cap
 
 **Bad:** one `priceOrder` with an empty check, a loop, an `if / else if` on item kind, a coupon `if`, and a ternary floor.
-**Good:** each function stays at five paths or fewer.
+**Good:** each function stays at six paths or fewer.
 
 ```typescript
 function priceOrder(order: Order): number {
