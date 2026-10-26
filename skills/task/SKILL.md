@@ -10,6 +10,8 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 
 ## Read when
 
+- Starting web services or debugging a browser preview? Open [development-server logs](../rules/dev-server-logs.md) before launch; reuse running services.
+
 - About to search the codebase, read a large file, or wade through long output? Open [main-context.md](../rules/main-context.md).
 - About to grill? Open [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
 - About to grill or plan a Feature? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and the first provider is hardcoded into every caller, so the next ticket is a rewrite.
