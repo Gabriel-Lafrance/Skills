@@ -53,10 +53,39 @@ For code review, Gabriel prefers the Codex harness with the latest suitable top-
 ### Apply and verify controls
 
 - Before each spawn, record one compact selection line in the brief: role, task tier, provider/model, effort, and reason. Use explicit model and effort arguments when supported, not only a request in prompt text. Never silently inherit an expensive model or high effort from the parent.
-- In T3 Code, use `orchestrator_capabilities` for available models, option descriptors, and `inheritedOptions`; use `search` when the short list omits a candidate. Use `delegate_task` with explicit `target.providerInstanceId`, `target.model`, and `target.options` for cross-provider work or requested model options. The current T3 contract does not reliably apply its model options through native subagents. Common option IDs are Claude `effort` and Codex/Grok `reasoningEffort`; use only the IDs and values actually advertised. Same-provider/same-model options can inherit individually, so inspect and override costly inherited values. Clearing options with `{}` or `[]` selects provider defaults; it does not mean low effort.
+- In T3 Code, discover capabilities and the live delegation schema under [harness-first discovery](tooling.md#harness-first-discovery). When advertised, `orchestrator_capabilities` supplies models, option descriptors, and inherited settings. Prefer a native same-provider child for synchronous same-turn work when it supports the selected model and settings. Use the supported `delegate_task` route for cross-provider work, requested settings native tools cannot express, background work, or isolated worktrees. Use only advertised target fields and option IDs/values, with explicit selections where supported. Inspect inherited values; clearing options selects defaults, not necessarily low effort. Installed instructions govern discovery refresh and route restrictions.
 - Outside T3, inspect the native spawn schema and role configuration. Set model and effort separately where supported. Claude's per-invocation Agent effort is version-dependent and applies to non-fork subagents; an instruction file cannot add a missing tool parameter. Codex role configuration or native spawn controls may supply separate model and reasoning settings. Follow the live interface rather than assuming every harness exposes both.
 - Check the returned provider, model, and options against the request. Distinguish requested or stored settings from effective provider settings when the latter are not observable. Report substitutions, environment overrides, ignored controls, and unavailable settings; never claim an override was applied without evidence.
 - If the route cannot express the selection, try an available supported route that can. Otherwise use the controllable dimension, or avoid an unnecessary spawn and perform the bounded pass serially when the selected skill allows it. Disclose any unavoidable inheritance or deviation from the review affinity. Preserve an explicitly required independent workflow; do not claim a Codex or independent reviewer ran when it did not.
+
+## Delegation lifecycle
+
+Keep one owner for each task and review scope. A child receives a bounded brief,
+fixed revision/diff, essential rules, authority, and return contract under
+[execution handoffs](execution.md#handoffs-and-evidence); do not assume it
+inherits the parent's conversation. Use the supported isolation mechanism for
+delegated worktrees. A top-level thread or a shell checkout is not a substitute
+for binding a delegate to its workspace.
+
+For T3 delegation, distinguish the durable `taskId` from a storage
+`childThreadId`. Use returned task identifiers for status, wait and cancellation
+according to the live schema. When supported, a new review round/recheck uses
+a new `delegate_task` and fresh `clientRequestId`; a retry of the same uncertain
+request keeps that request identity and reconciles the original outcome first.
+Do not send a thread continuation as if it reopens the original published
+review result. Never replay an uncertain create as new work.
+
+Follow returned next instructions rather than adding polling, sleeps, watchers,
+or background loops. A timeout is not approval, completion, or cancellation.
+Before replacing a running reviewer, use supported task cancellation (in T3,
+`task_cancel` when exposed), verify its state, and reconcile uncertain results.
+Do not interrupt a storage thread as a substitute. If cancellation is blocked,
+report it and avoid a duplicate reviewer. Do not edit a reviewer's scoped diff
+while its review runs. New evidence or scope gets a deliberate new round under
+the [review budget](../review/contract.md#review-budget), never overlapping
+reviewers for the same work. Children do not recursively delegate unless their
+task explicitly requires it. PR watches belong only to the
+[parent/owner](pr-lifecycle.md#authority-and-ownership).
 
 ### Escalation
 

@@ -47,6 +47,43 @@ On a GitHub PR follow-up, after historical Pass A:
 
 Remediation stays narrow, with no broad architecture hunt. New commits outside the remediation set still get reviewed. Bind finding and acceptance evidence to the reviewed revision and scope under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence). A prior pass does not clear changed behavior or stale verification; report invalidated evidence to the parent, which owns whole-result completeness.
 
+## Review budget
+
+Repeated review/remediation uses a default budget of **three review rounds**
+per outcome. Count the initial review and each remediation or full-rescan as
+a round; parallel Standards/Spec passes for the same pinned result are one
+round. Carry consumed rounds through handoffs/resume and nested skill changes.
+Transport retries of the same request do not buy another completed round, but
+must be bounded; errors/timeouts never count as a successful review.
+
+The active owner keeps stable finding IDs, evidence, disposition, correction
+and remaining disagreement in the existing chat backlog. Reuse valid evidence
+under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence).
+After fixes, review named findings and direct regressions; inspect newly
+introduced surface under [follow-up partition](#follow-up-partition-pr).
+Do not restart a broad hunt for each small correction or add duplicate reviewers.
+
+Stop when applicable required findings and acceptance checks are satisfied,
+when only optional nits remain, when progress stalls on an evidenced dispute,
+or when the budget ends. A nit is a non-material preference without a violated
+requirement. Reachable security, data-loss or other material correctness bugs
+remain findings even when rare. Rarity alone never makes a defect a nit.
+Do not waive hard standards or required fixes merely to finish the loop.
+
+For unresolved high-risk work, the owner may extend once, by **at most two
+additional rounds**, with a stated risk, new evidence or specific correction
+to verify, and a finite stop condition. A user's explicit smaller/hard cap
+wins; extending it requires that user's decision. Routine nits, repeated
+unchanged objections, and a desire for approval do not justify extension.
+At exhaustion, stalled dispute, or blocked authority, report rounds used,
+unresolved IDs and evidence, competing reasoning, missing checks and the next
+decision. Never manufacture approval or call required findings resolved.
+
+This budget applies to `/review-loop` and repeated build remediation. It adds
+no loop to a standalone review, changes no route's gate order, and grants no
+fix, comment, push or merge authority. `/review` returns findings; the one
+[active orchestrator](../rules/execution.md#remediation) owns correction.
+
 ## Evidence bar
 
 A blocker about a runtime failure, guard, concurrency, error path, retry, queue, lock, or hardening need requires all of:

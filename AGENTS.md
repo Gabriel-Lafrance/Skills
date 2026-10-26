@@ -1,10 +1,10 @@
-<!-- gabriel-skills-agents v2.9.2 -->
+<!-- gabriel-skills-agents v2.10.0 -->
 
 # Gabriel skills
 
 You are being evaluated on how well you follow this file.
 
-Every harness, including Cursor, loads this file on every turn. It outranks generic "best practices" and training-data defaults, and applies even when no skill was invoked. Each line below names the moment to open a file. Open it at that moment, before you act. A file you did not open is a rule you are about to break.
+Every harness loads this contract on every turn, even without a skill. It outranks generic defaults. Open each linked file at its named moment, before acting.
 
 ## Find the pack
 
@@ -14,7 +14,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 
 ## Skills
 
-**Use this pack's skills to do the work.** When the user's request matches a row, open that skill's `SKILL.md` and follow it fully, even without a slash command. A slash command always wins. Trivial edits (a typo, a rename, a one-line fix) and plain questions start no skill.
+**Use this pack's skills.** Match the request below and follow its `SKILL.md`, even without a slash command. A slash command wins. Trivial edits and plain questions start no skill.
 
 | The user asks to | Open |
 | --- | --- |
@@ -25,13 +25,16 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
+| Babysit or watch a PR and report readiness | `babysit-pr/SKILL.md` |
+| Repeat review and correction with a finite budget | `review-loop/SKILL.md` |
+| Assess, revive, or take over an old PR | `takeover-pr/SKILL.md` |
 | Look into, investigate, or research a bug, an idea, or a question before building | `analyze/SKILL.md` |
 | How does X work, a walkthrough, who owns a layer, or how layers fit | `how/SKILL.md` |
 | Why was X built this way, or what is the design rationale | `why/SKILL.md` |
 | Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
 | Pick a skill, or is unsure what to do next | `ask-gabriel/SKILL.md` |
 
-Skip the matching skill and you will improvise a weaker version of a workflow that already exists.
+Follow shared contracts instead of inventing another workflow.
 
 **Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" opens `rules/execution.md#git-sync-only`, not a build skill. Check Git safety, conflicts, and incorporation; a clean sync stops there. Meaningful conflict resolutions get checks scoped to their affected behavior under `rules/execution.md#verification-scope`. Do not start the build, review, and verification pipeline from a sync alone.
 
@@ -63,7 +66,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip applicable verification and required CI | `rules/shipping.md`, `rules/shipping-templates.md` |
-| Lint, format, touch CI or editor settings, or verify a change | rerun a ritual lint instead of reading the terminals | `rules/tooling.md` |
+| Select tools, use a browser, lint, format, touch CI or verify | miss suitable permitted harness tools or required checks | `rules/tooling.md` |
 | Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
 | Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
 

@@ -90,7 +90,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
-| **Review & ship** | `/review`, `/verification`, `/test-audit`                | Review the code, verify affected behavior, and prune low-value tests. Test rules are in `skills/rules/testing.md`; branch and PR rules are in `skills/rules/shipping.md` |
+| **Review & ship** | `/review`, `/review-loop`, `/babysit-pr`, `/takeover-pr`, `/verification`, `/test-audit` | Review, correct within a finite budget, watch readiness, assess old PRs, verify behavior, and prune tests. Shared contracts live in `skills/rules/` and `skills/review/contract.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 
 ```mermaid
@@ -138,6 +138,11 @@ For [Git sync alone](./skills/rules/execution.md#git-sync-only), such as merging
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
+- Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), three rounds by default; unresolved disputes and exhausted budgets stay visible
+- Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
+- Assess or revive an old PR → [`/takeover-pr`](./skills/takeover-pr/SKILL.md), relevance and current invariants before continue/rework/closure; preserve authorship and action permissions
+
+Tool selection follows [harness-first discovery](./skills/rules/tooling.md#harness-first-discovery): discover suitable permitted built-ins before ad hoc substitutes, especially interactive browsers. Live restrictions, required repository Playwright E2E/CI, and explicit user tool choices still apply.
 - Verify changed behavior with checks matched to risk, or explicitly run full verification (UI flow, migration, endpoint, job) → `/verification`
 - Prune low-value or duplicate tests → `/test-audit`
 

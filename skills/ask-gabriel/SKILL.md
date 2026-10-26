@@ -48,6 +48,10 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Linear ticket → build | `/task-with-tests` with the ticket. Ship with those same rules |
 | Pressure a decision, direction, or structure | `/grill-me` |
 | Review local branch vs main, or an open GitHub PR | `/review` |
+| Watch a PR until checks/reviews change | `/babysit-pr`, parent-owned watch and latest-head report |
+| Repeat review and authorized fixes within a finite budget | `/review-loop` |
+| Assess or revive an old PR against current intent | `/takeover-pr` |
+| Choose browser or other tools | [Harness-first discovery](../rules/tooling.md#harness-first-discovery) |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
 | Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |

@@ -60,6 +60,16 @@ Reply like: 1a
 
 Title shape: `[IN-1234] Short imperative summary` or `[#42] Short imperative summary`.
 
+### Problem and outcome first
+
+Open the body with the concrete user/system problem and resulting behavior in
+one or two sentences. Explain why the change matters before implementation
+details. Use a trigger and before/after result when helpful; do not invent a
+bug for maintenance work. Then keep the existing type/ticket, What changed,
+diagram, How to QA, Notes and closing risk assessment. Match detail to the
+diff. QA states actual evidence separately from planned or unrun checks;
+problem-first prose never replaces verification or publishing authorization.
+
 ### Change diagram
 
 Every PR body has a **high-level** Mermaid diagram of what changed: modules, actors, and request/data flow, not every function or file.
@@ -116,6 +126,8 @@ Scale detail to the change. A scoped copy fix may need one short sentence per fi
 Start from the base template, then apply the row for the locked type. A row's checkboxes replace the base `- [ ] Expected: …` line.
 
 ````markdown
+<Concrete problem and resulting behavior.>
+
 ## Type
 <Feature | Tweak | Bug | Refactor | Chore>
 

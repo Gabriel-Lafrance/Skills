@@ -1,3 +1,5 @@
+<!-- Open with the concrete problem and resulting behavior, then implementation and QA evidence. -->
+
 ## What changed
 
 -

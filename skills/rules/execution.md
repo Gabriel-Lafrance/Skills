@@ -87,6 +87,12 @@ After a change, identify which claims depend on changed code, contracts, depende
 
 Review owns stable findings and their evidence. The active orchestrator alone adjudicates them, maintains the fix backlog, and dispatches work. Standalone `/review` stops after its findings unless fixes were requested.
 
+Repeated correction and re-review follows the shared
+[review budget](../review/contract.md#review-budget). Preserve that budget and
+stable findings across skill handoffs; exhaustion or an unresolved dispute is
+a reported blocker, not approval. PR monitoring and old-PR relevance use
+[PR lifecycle](pr-lifecycle.md); operational sync remains Git sync only.
+
 For an actionable finding set, the orchestrator requests `/analyze` review-remediation once when cause, impact or correction needs investigation, reusing an existing adequate analysis rather than triggering a second dispatch from review. Promote the selected set once for the current evidence and fix decision, explicitly naming finding IDs with their correction, touch surface, non-goals, acceptance and owner under the user's existing authorization. If that authorization does not cover fixes, ask before implementing. New scope, waivers and changed test assertions still need the user's decision.
 
 Fix mode is a bounded slice of the current outcome. Prefer the smallest authoritative correction; no new product discovery, optional cleanup or test suggestion. Return findings to their responsible worker where the selected route uses workers. Recheck under [Handoffs and evidence](#handoffs-and-evidence), then the route's gate order. Reanalyze only when new evidence or a failed approach changes the diagnosis. A blocked or declined required fix stays blocking unless the user explicitly waives it by name.
