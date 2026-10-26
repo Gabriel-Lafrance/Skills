@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.10.0 -->
+<!-- gabriel-skills-agents v2.10.1 -->
 
 # Gabriel skills
 
@@ -64,7 +64,7 @@ Topic files. Open each at the moment in the first column, once per session unles
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip applicable verification and required CI | `rules/shipping.md`, `rules/shipping-templates.md` |
-| Select tools, use a browser, lint, format, touch CI or verify | miss suitable permitted harness tools or required checks | `rules/tooling.md` |
+| Select tools, use a browser, start/debug a web project, lint, format, touch CI or verify | miss suitable permitted harness tools, accessible logs or required checks | `rules/tooling.md` |
 | Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
 | Write any chat reply or file, name a principle like KISS or SoC, or ask the user anything | write an em dash, an acronym-only "SoC violation", or ask what the repo already answers | `rules/writing-style.md` |
 

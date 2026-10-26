@@ -27,6 +27,12 @@ local hooks/checks remain applicable when requested or required.
 
 ## Verification scope
 
+When the work starts or debugs a web project, apply
+[accessible development-server logs](dev-server-logs.md) before launching
+services. Reuse existing orchestration and output; keep log viewers separate
+from server startup and cleanup. This does not authorize an otherwise unneeded
+app launch for a documentation or Git task.
+
 Select checks from changed behavior, contracts, dependency reach, failure cost,
 and uncertainty. File count, diff size, or a label such as "small bug" cannot
 establish low risk. Use known entry points, callers, suites, and CI requirements;

@@ -26,6 +26,11 @@ a tool from an upstream example. Do not globally ban Playwright: preserve
 repository-owned Playwright E2E, required CI, and explicit user tool selection.
 A browser inspection cannot substitute for those suites.
 
+For web startup or preview debugging, use
+[accessible development-server logs](dev-server-logs.md): reuse services,
+capture actual output, prefer native terminals, and offer an OS-aware log-only
+viewer or remote fallback when needed. Opening logs never restarts the app.
+
 ## Repository tooling
 
 - If the repo's ESLint config already bans the em dash, en dash, and horizontal bar, keep that rule on. If it caps cyclomatic complexity at 6 or lower, keep the cap and split the function.
