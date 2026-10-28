@@ -222,11 +222,12 @@ check_plugin_versions() {
 # Each skill must be routable: in the AGENTS.md Skills table, the README, and /ask-gabriel.
 # rules/ is not a workflow; setup is user-started only; the router does not list itself.
 check_skill_registries() {
-  local file name
+  local file name skills_table
+  skills_table=$(awk '/^## Skills[ \t]*$/ { inside = 1; next } inside && /^## / { exit } inside && /^\|/' AGENTS.md)
   for file in skills/*/SKILL.md; do
     name=$(basename "$(dirname "$file")")
     [[ "$name" == rules ]] && continue
-    [[ "$name" == setup-gabriel-skills ]] || grep -qF "\`$name/SKILL.md\`" AGENTS.md ||
+    [[ "$name" == setup-gabriel-skills ]] || grep -qF "\`$name/SKILL.md\`" <<<"$skills_table" ||
       fail "AGENTS.md Skills table does not list $name/SKILL.md"
     grep -qE "/$name([^a-z-]|$)" README.md || fail "README.md does not mention /$name"
     [[ "$name" == ask-gabriel ]] || grep -qE "/$name([^a-z-]|$)" skills/ask-gabriel/SKILL.md ||

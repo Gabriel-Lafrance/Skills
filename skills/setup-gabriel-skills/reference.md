@@ -21,7 +21,7 @@ Read the disk and print a short list.
 
 ## Questions
 
-After Verify, one batch. Wait, and install after they reply. Shape: [Asking the user](../rules/writing-style.md#asking-the-user).
+After Verify, one batch. Wait, and install after they reply. Send it as written: it needs no rule file that setup has not installed yet.
 
 ```markdown
 ## Questions
