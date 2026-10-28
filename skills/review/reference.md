@@ -1,9 +1,8 @@
 # Review reference: GitHub PR
 
 PR mode only. Use this after review triage; on follow-ups, complete Pass A
-first. Shared review requirements are in
-[contract.md](contract.md); PR decisions are in
-[doctrine.md](doctrine.md).
+first. Shared review requirements and PR decisions are in
+[contract.md](contract.md).
 
 GitHub reads and writes use the harness pull-request / GitHub tool when the
 harness has one; otherwise `gh` or `gh api`.

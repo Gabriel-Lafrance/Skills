@@ -104,8 +104,9 @@ check_description_length() {
 
 check_no_dashes() {
   local hits
+  # Byte patterns for U+2013, U+2014, U+2015, so BSD grep (no -P) finds them too.
   hits=$(repo_files | tr '\n' '\0' |
-    xargs -0 grep -nIP '[\x{2013}\x{2014}\x{2015}]' -- 2>/dev/null || true)
+    LC_ALL=C xargs -0 grep -nI -e $'\xe2\x80\x93' -e $'\xe2\x80\x94' -e $'\xe2\x80\x95' -- 2>/dev/null || true)
   [[ -z "$hits" ]] && return 0
   while IFS= read -r hit; do
     fail "dash character at ${hit%%:*}:$(cut -d: -f2 <<<"$hit")"
@@ -128,12 +129,13 @@ frontmatter_fields() {
 }
 
 check_skill_frontmatter() {
-  local file folder fields
+  local file folder name desc
   for file in skills/*/SKILL.md; do
     folder=$(basename "$(dirname "$file")")
-    mapfile -t fields < <(frontmatter_fields "$file")
-    [[ "${fields[0]:-}" == "$folder" ]] || fail "$file: frontmatter name '${fields[0]:-}' is not '$folder'"
-    [[ "${fields[1]:-0}" == 1 ]] || fail "$file: frontmatter description is missing or empty"
+    name='' desc=''
+    { IFS= read -r name || true; IFS= read -r desc || true; } < <(frontmatter_fields "$file")
+    [[ "$name" == "$folder" ]] || fail "$file: frontmatter name '$name' is not '$folder'"
+    [[ "$desc" == 1 ]] || fail "$file: frontmatter description is missing or empty"
   done
 }
 
@@ -205,20 +207,38 @@ check_links() {
 }
 
 check_plugin_versions() {
-  local plugin=.cursor-plugin/plugin.json market=.cursor-plugin/marketplace.json want mismatched
+  local plugin=.cursor-plugin/plugin.json want file mismatched
   want=$(jq -er '.version' "$plugin") || { fail "$plugin does not parse or has no version"; return 0; }
-  jq -er '.metadata.version // .plugins[0].version' "$market" >/dev/null ||
-    { fail "$market does not parse or has no version"; return 0; }
-  mismatched=$(jq -r --arg want "$want" \
-    '.metadata.version, .plugins[]?.version | select(. != null and . != $want)' "$market")
-  [[ -z "$mismatched" ]] || fail "$market has version(s) $(echo $mismatched) but $plugin has $want"
+  for file in .cursor-plugin/marketplace.json .claude-plugin/plugin.json \
+    .claude-plugin/marketplace.json .agents/plugins/marketplace.json; do
+    mismatched=$(jq -r --arg want "$want" '
+      [.version, .metadata.version, .plugins[]?.version] | map(select(. != null)) |
+      if length == 0 then "none" else map(select(. != $want)) | join(" ") end' "$file") ||
+      { fail "$file does not parse"; continue; }
+    [[ -z "$mismatched" ]] || fail "$file has version(s) $mismatched but $plugin has $want"
+  done
+}
+
+# Each skill must be routable: in the AGENTS.md Skills table, the README, and /ask-gabriel.
+# rules/ is not a workflow; setup is user-started only; the router does not list itself.
+check_skill_registries() {
+  local file name
+  for file in skills/*/SKILL.md; do
+    name=$(basename "$(dirname "$file")")
+    [[ "$name" == rules ]] && continue
+    [[ "$name" == setup-gabriel-skills ]] || grep -qF "\`$name/SKILL.md\`" AGENTS.md ||
+      fail "AGENTS.md Skills table does not list $name/SKILL.md"
+    grep -qE "/$name([^a-z-]|$)" README.md || fail "README.md does not mention /$name"
+    [[ "$name" == ask-gabriel ]] || grep -qE "/$name([^a-z-]|$)" skills/ask-gabriel/SKILL.md ||
+      fail "skills/ask-gabriel/SKILL.md does not route to /$name"
+  done
 }
 
 main() {
   local check
   for check in check_agents_size check_agents_marker check_read_when_files check_section_files \
     check_no_dashes check_skill_frontmatter check_description_length check_links \
-    check_plugin_versions; do
+    check_plugin_versions check_skill_registries; do
     echo "== $check"
     "$check"
   done

@@ -1,6 +1,6 @@
 # Keep judgment in the main context
 
-**Open this when:** you are about to spawn any subagent, search a codebase, read a large file, dig through logs or long command output, or make many mechanical edits.
+**Open this when:** you are about to search a codebase, read a large file, or dig through logs or long command output ([Rule](#rule) and [Selective navigation](#selective-navigation) are enough), or about to spawn any subagent or make many mechanical edits (the whole file).
 **Skip it and you will:** make worse decisions for the rest of the session.
 
 ## Rule
@@ -17,6 +17,27 @@ Ask the subagent for a short result (paths, snippets, a summary), not a dump. Ch
 Choose the [role](#subagent-roles), [task tier](#model-and-effort-selection), and supported execution settings separately. A role names the job, not a fixed model or reasoning level.
 
 When the harness has no subagent, do the work with narrow reads (a search with a precise pattern, a line range) instead of whole files.
+
+## Selective navigation
+
+Start from the task's domain terms, known entry, ticket pointers, or changed
+paths. Locate candidate files and symbols, then inspect the relevant public
+signatures, responsibilities, and direct callers before loading implementations.
+Read the owning implementation and relevant schemas, tests, or integrations to
+verify behavior; a signature is a navigation clue, not proof. Follow additional
+dependencies only when they can affect the decision or observable result.
+
+For a broad or unfamiliar flow, carry a compact path / signature / responsibility
+sketch in the existing chat handoff, Structure map, or optional Files / Start here
+section. Include only the task's owners and meaningful dependency edges; verify
+live pointers before editing. Reuse it while current instead of rediscovering
+the same boundary. An obvious local edit needs only its entry pointer.
+
+Do not load a whole-repository map by default, add a navigation tool dependency,
+or create an index/document merely to perform a small task. Avoid duplicating
+volatile implementation details in maps. A search or scout returns relevant
+pointers and conclusions, not every match or unrelated source file. Widen the
+search when the current pointers are incomplete or evidence contradicts them.
 
 ## Subagent roles
 
@@ -35,7 +56,7 @@ These are reusable brief roles, not installed agent definitions or a mandatory s
 
 ## Model and effort selection
 
-Discover the available provider instances, exact model IDs, supported option keys and values, defaults, and inherited settings before selecting a child. Reuse discovery while current; refresh on a capability mismatch. Do not invent model equivalences or rank models by brand, release name, or the word "fast". Use current capability evidence and documented cost or configured preferences; when prices or rankings are unknown, say so instead of claiming a cheapest or best model.
+Select from the models, options, and inherited settings the spawn tool or capability listing actually reports; where it reports nothing, say so. Refresh on a capability mismatch. Do not invent model equivalences or rank models by brand, release name, or the word "fast". Use current capability evidence and documented cost or configured preferences; when prices or rankings are unknown, say so instead of claiming a cheapest or best model.
 
 | Task tier | Evidence from the actual job | Starting selection |
 | --- | --- | --- |
@@ -48,7 +69,7 @@ Effort labels are model-specific, not equal budgets across providers. "Research"
 
 ### Task affinity
 
-For code review, Gabriel prefers the Codex harness with the latest suitable top-tier OpenAI model available to the account. This is a user preference, not a universal benchmark claim or a rule to pick the newest release of any tier. Resolve the eligible tier and latest suitable model from the live catalog plus current provider documentation or configured rankings. If the ranking cannot be verified, identify the uncertainty; do not label an arbitrary model "best". Choose review effort from scope and risk using the table, not automatically `xhigh`. Other roles remain provider-neutral unless the user supplies a preference or a concrete capability requires one.
+For code review, Gabriel prefers the Codex harness with the latest suitable top-tier OpenAI model available to the account. This is a user preference, not a universal benchmark claim or a rule to pick the newest release of any tier. Pick from the live catalog; if it does not show which model is the latest top tier, say so instead of labeling one "best". Choose review effort from scope and risk using the table, not automatically `xhigh`. Other roles remain provider-neutral unless the user supplies a preference or a concrete capability requires one.
 
 ### Apply and verify controls
 
@@ -92,27 +113,6 @@ task explicitly requires it. PR watches belong only to the
 Start at the lowest tier that fits the job, subject to the review affinity or an explicit user selection. To escalate, name the unmet requirement and evidence: unresolved contradictory sources, a failed correctness check, or reasoning the lower tier could not complete. Change one model or effort step at a time when practical, with a bounded retry and a checkable stopping condition. After an unsuccessful escalation, return the remaining blocker to the parent rather than launching an unbounded ladder. Missing credentials, unavailable tools, and network failures are not reasons to buy deeper reasoning. A clearly difficult job can start higher with its evidence recorded; `xhigh`, `max`, or equivalent is never a blanket default.
 
 This policy guides agents; it does not enforce spending limits. Hard defaults, validation, budget limits, or rejection of missing/over-budget settings require orchestration controls outside this Markdown pack.
-
-## Selective navigation
-
-Start from the task's domain terms, known entry, ticket pointers, or changed
-paths. Locate candidate files and symbols, then inspect the relevant public
-signatures, responsibilities, and direct callers before loading implementations.
-Read the owning implementation and relevant schemas, tests, or integrations to
-verify behavior; a signature is a navigation clue, not proof. Follow additional
-dependencies only when they can affect the decision or observable result.
-
-For a broad or unfamiliar flow, carry a compact path / signature / responsibility
-sketch in the existing chat handoff, Structure map, or optional Files / Start here
-section. Include only the task's owners and meaningful dependency edges; verify
-live pointers before editing. Reuse it while current instead of rediscovering
-the same boundary. An obvious local edit needs only its entry pointer.
-
-Do not load a whole-repository map by default, add a navigation tool dependency,
-or create an index/document merely to perform a small task. Avoid duplicating
-volatile implementation details in maps. A search or scout returns relevant
-pointers and conclusions, not every match or unrelated source file. Widen the
-search when the current pointers are incomplete or evidence contradicts them.
 
 ## Check
 

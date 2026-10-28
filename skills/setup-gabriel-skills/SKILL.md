@@ -14,7 +14,7 @@ This skill does not install ESLint, Prettier, or editor files.
 
 ## Read when
 
-- Every run: open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [doctrine.md](doctrine.md). Skip them and you write files this skill must not touch.
+- Every run: open [doctrine.md](doctrine.md). Skip it and you write files this skill must not touch.
 - At a step that links a section? Open [reference.md](reference.md). Skip it and you overwrite someone else's `AGENTS.md` or create a harness home.
 - About to talk to or ask the user? Open the [Plain language](../rules/writing-style.md#plain-language) and [Asking the user](../rules/writing-style.md#asking-the-user) sections of writing-style.md. Skip them and the scope question has no recommendation.
 

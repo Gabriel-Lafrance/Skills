@@ -78,7 +78,7 @@ Keep `description` on one line. Ono's Add a skill card prints the rest of that l
 
 `category` is the one chip on that card. Use the chip names as written: Code, Data, Design, Documents, General, Web.
 
-Every workflow skill triggers from what the user asks, so its `description` must name those requests ("Use when the user asks to write, file, or draft a ticket"). The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. Only [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md) and [`rules`](./skills/rules/SKILL.md) keep `disable-model-invocation: true`. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
+Every workflow skill triggers from what the user asks, so its `description` must name those requests ("Use when the user asks to write, file, or draft a ticket"). The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. Only [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md) and [`rules`](./skills/rules/SKILL.md) keep `disable-model-invocation: true`; a skill that waits for approval before acting (like `test-audit`) still triggers from the request. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
 
 ## Shared rules
 
@@ -118,9 +118,9 @@ npx skills@latest add . --list
 
 ## Add a command
 
-Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on index is [`AGENTS.md`](./AGENTS.md) for every harness, including Cursor; the rule text lives in `skills/rules/`. Do not add a `CLAUDE.md` in the pack or an app.
+Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on index is [`AGENTS.md`](./AGENTS.md) for every harness, including Cursor; the rule text lives in `skills/rules/`. Do not add a `CLAUDE.md` to the pack. In an app, setup writes only a one-line `@AGENTS.md` pointer in `CLAUDE.md`; never copy rule text into it.
 - **Command:** `commands/<name>.md`. Do not create a command with the same name as an existing skill unless they share one job (today: `setup-gabriel-skills` only).
-- This pack does not copy ESLint, Prettier, or editor files into an app. Missing `docs/design.md` is written from the routes in code before UI work ([`ux:initialization`](./skills/rules/user-experience.md#initialization)), not by copying a stub from this pack. `/setup-gabriel-skills` does not write that file.
+- This pack does not copy ESLint, Prettier, or editor files into an app. Missing `docs/design.md` is offered before UI work and written from the routes in code when the user says yes ([`ux:initialization`](./skills/rules/user-experience.md#initialization)), not by copying a stub from this pack. `/setup-gabriel-skills` does not write that file.
 
 ## Conventions
 
@@ -158,6 +158,8 @@ npx skills@latest update -g -y
 Use `-a claude` or `-a cursor` alone when you only need one harness.
 
 After you push, `npx skills` users refresh with `update`. The skills.sh on-ramp is [`setup-gabriel-skills`](https://skills.sh/gabriel-lafrance/skills/setup-gabriel-skills). While developing the pack itself, list from the repo root with `npx skills@latest add . --list`.
+
+The skills.sh repo page still lists retired names (`goal`, `orchestrate`, `create-plan`, `setup-toolkit`) from older installs. Those folders are retired; `/setup-gabriel-skills` deletes old copies that link to the pack. `/goal` is [`/task`](./skills/task/SKILL.md). `/setup-toolkit` is [`/setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md). `/code-review` and `/pr-review` were merged into [`/review`](./skills/review/SKILL.md). `/taste` and `/architecture` were removed: their examples live in [`skills/rules/`](./skills/rules/SKILL.md). `/trackers` and `/design` were removed: `/task` reads a ticket or PR directly, and the UI and UX rules live in [`user-experience.md`](./skills/rules/user-experience.md). `/create-test` was removed: how tests are written lives in [`testing.md`](./skills/rules/testing.md). The old `pack-shared` folder was folded into [`skills/rules/`](./skills/rules/SKILL.md) (asking and plain language in `writing-style.md`, execution context in `planning.md`, ship steps in `shipping.md`); the review contract moved into `/review`.
 
 ### Cursor plugin / marketplace
 

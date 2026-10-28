@@ -19,7 +19,7 @@ This checklist is enough for a small change. Open a section below only when a ro
 - [ ] `quality:verify-terminals-first` ([tooling.md](tooling.md#verify-terminals-first))
 - [ ] Structure matches [code-structure.md](code-structure.md)
 
-Run it before acceptance evidence and `/review`; fix a failed box first. `/review` Standards treats violations as **hard** unless the repo's own instructions contradict. `/task` done when for structure or UI includes: entry point, folder map, no Result bags, legal Convex names, jobs apart, identity on public writes, validated args.
+Run it before acceptance evidence and `/review`; fix a failed box first. `/review` Standards treats violations as **hard**; repository instructions can add constraints but not weaken these. `/task` done when for structure or UI includes: entry point, folder map, no Result bags, legal Convex names, jobs apart, identity on public writes, validated args.
 
 ## Keep it simple
 

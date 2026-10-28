@@ -62,7 +62,7 @@ Every pack skill that needs a decision follows this section. Link here instead o
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
 5. Wait for decisions before acting. Settled decisions stay settled.
 6. Look up repository and tool facts instead of asking the user for them.
-7. Ask only for unresolved consequential user-owned choices. Research facts, reuse settled decisions, and own ordinary implementation details. Material choices affect behavior, contracts, data meaning or integrity, authority, compatibility, transition safety, scope, or cost, even within the same files. List settled facts outside Questions.
+7. Ask only for unresolved consequential user-owned choices. Research facts, reuse settled decisions, and own ordinary implementation details. What makes a choice material is defined in [What to discover](../grill-me/doctrine.md#what-to-discover). List settled facts outside Questions.
 8. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
 9. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
 

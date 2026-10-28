@@ -49,7 +49,7 @@ UI and UX do / don't for this product.
 
 ## Initialization
 
-`ux:initialization`. If `docs/design.md` is missing when implementing UI, write it first, then continue. Read-only investigation, ticket preparation, and review inspect existing product evidence and name the missing file without writing it. `/setup-gabriel-skills` does not write it.
+`ux:initialization`. If `docs/design.md` is missing when implementing UI, name the missing file in chat and offer to write it with the steps below. Write it only when the user says yes; otherwise continue from the existing UI code. Read-only investigation, ticket preparation, and review inspect existing product evidence and name the missing file without writing it. `/setup-gabriel-skills` does not write it.
 
 1. Discover **every** route from the app router in code alone (no browser, login, or screenshots).
 2. Read those routes and the existing UI. Look for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).

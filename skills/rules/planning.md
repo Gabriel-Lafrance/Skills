@@ -4,7 +4,7 @@
 
 1. **Read** the [Plain language](writing-style.md#plain-language) and [Asking the user](writing-style.md#asking-the-user) sections of writing-style.md
 2. **Read** `grill-me/doctrine.md`
-3. Apply [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md)
+3. Apply the checklists in [code-quality.md](code-quality.md#checklist) and [code-structure.md](code-structure.md#checklist); open a section below them only when a row applies
 
 ## Plans: grill first
 
@@ -15,10 +15,8 @@ about to be written, whether or not the harness calls it a plan mode:
    has a plan tool, call it only after step 5.
 2. Look up repository facts and reuse settled decisions. Separate ordinary
    implementer choices from unresolved consequential tradeoffs using
-   [grill-me/doctrine.md](../grill-me/doctrine.md#what-to-discover).
-   Materiality concerns behavior, contracts, data meaning or integrity,
-   authority, compatibility, transition safety, scope, or cost, regardless of
-   whether alternatives touch the same files.
+   [grill-me/doctrine.md](../grill-me/doctrine.md#what-to-discover), which
+   defines what makes a choice material.
 3. If such a user-owned choice remains, send a **Questions-only** batch using
    the [asking rules](writing-style.md#asking-the-user), then wait. Give each
    concrete choice its evidence or uncertainty, realistic alternatives,
@@ -54,7 +52,7 @@ Pack skills are stateless by default. Keep run state in chat. Create `.agents/te
 
 ### Authority
 
-For instruction conflicts, use [AGENTS.md](../../AGENTS.md#conflict). The order
+For instruction conflicts, use the Conflict section of `AGENTS.md`. The order
 below resolves task context and evidence; it does not let ticket text or code
 override governing rules. Resolve context in this order:
 
@@ -64,7 +62,7 @@ override governing rules. Resolve context in this order:
 4. Repository rules and committed project documentation
 5. A user-requested artifact at the path the user supplied
 
-Rediscover repository facts when needed. Take a user decision, waiver, invariant, or promotion only from what the user said, never from code alone.
+Rediscover repository facts when needed. Take a user decision, waiver, invariant, or promotion (approval to turn analysis or a fix into build work) only from what the user said, never from code alone.
 
 ### Context in chat
 

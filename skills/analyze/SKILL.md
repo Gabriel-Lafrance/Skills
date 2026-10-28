@@ -18,7 +18,7 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 ## Contract
 
 - Rediscover repository, ticket, PR, and diff facts from their live sources.
-- Keep user decisions, rules, areas, and promotion state visible in the execution context, and take them from the user, not from code.
+- Keep user decisions, rules, areas, and promotion state (whether the user approved turning this analysis into a build or ticket, see [Apply](doctrine.md#apply)) visible in the execution context, and take them from the user, not from code.
 - Return the analysis memo in chat only, and keep state in the execution context.
 - Save a memo only when the user explicitly requests it and approves the destination.
 
@@ -31,22 +31,11 @@ If the user only wants how something works (a walkthrough, who owns a layer, how
 1. Establish or refresh the relevant execution context and normalize the ask.
    When a parent already locked Done when and rules that must stay true,
    reuse them without re-grilling product intent.
-2. Investigate the affected flow using the doctrine's [research rules](doctrine.md#research-rules). Derive consequential choices from actual inputs, state changes, writes, and consumers where relevant. Separate facts, settled decisions, ordinary implementer choices, and unresolved tradeoffs before recommending a design.
-   For meaningful feature or boundary changes, or observed architecture friction, apply [public boundary investigation](doctrine.md#public-boundary-investigation) before the parent decomposes the work. Small changes that keep the contract need no architecture exercise.
-   For any parent, follow [nested capabilities](../rules/planning.md#nested-capabilities) and return the relevant
-   facts, conclusions, source pointers, and uncertainty directly into the
-   parent conversation. Use [bounded scouts](doctrine.md#bounded-research-scouts) only for independently uncertain boundaries. Reuse current evidence; no separate
-   standard memo is required in nested mode.
-   When understanding the existing mechanics would materially change the
-   analysis, use [`/how`](../how/SKILL.md) for that bounded flow or owner.
-   When a concrete historical design question could change the scope or
-   constraints, use [`/why`](../why/SKILL.md) with its full evidence contract.
-   Reuse current outputs instead of repeating those investigations. Carry
-   their relevant conclusions, source pointers, and uncertainty into the memo.
-   `/how` describes the existing system; it does not choose the new design.
-   `/why` explains evidenced rationale; the user's desired benefit still comes
-   from the user. Neither replaces this memo's impact and risk judgment or
-   starts another interview.
+2. Investigate the affected flow with the doctrine's [research rules](doctrine.md#research-rules). Separate facts, settled decisions, ordinary implementer choices, and unresolved tradeoffs before recommending a design.
+   - Meaningful feature or boundary change, or observed architecture friction: apply [public boundary investigation](doctrine.md#public-boundary-investigation). Small changes that keep the contract skip it.
+   - An independently uncertain boundary: use a [bounded scout](doctrine.md#bounded-research-scouts).
+   - Existing mechanics or history could change the analysis: use [`/how`](../how/SKILL.md) or [`/why`](../why/SKILL.md) for that bounded question and carry its conclusions, sources, and uncertainty into the memo. Neither chooses the new design or starts another interview.
+   - Under a parent: return facts, conclusions, source pointers, and uncertainty under [nested capabilities](../rules/planning.md#nested-capabilities), with no standard memo.
 3. Standalone, post the doctrine memo. Lead with a Mermaid diagram.
    Include an inline execution seed when the work is buildable.
 

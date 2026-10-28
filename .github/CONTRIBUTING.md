@@ -36,9 +36,10 @@ git clone https://github.com/Gabriel-Lafrance/Skills.git
 cd Skills
 ```
 
-There is no build step. Edit skill markdown, then smoke-check:
+There is no build step. Edit skill markdown, then run the pack check (the same script CI runs; it works with the macOS system bash) and smoke-check:
 
 ```bash
+bash .github/scripts/check-pack.sh
 npx skills@latest add . --list
 ```
 
