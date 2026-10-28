@@ -6,7 +6,7 @@ Cite keys use the `ux:` prefix. Each key below is a heading in this file.
 
 `ux:user-facing`. These rules apply to user-facing work: screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files). They apply even when `docs/design.md` is silent. Supporting non-UI files in the same area still follow [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md). A typo in a non-UI file is out of scope.
 
-Apply these rules while investigating, preparing tickets, building, and reviewing touched user flows. `/review` checks them within Standards and Spec; there is no separate Design axis or skill. Backend-only work with no changed user interaction needs no UX section or design questions. If the UI contradicts `docs/design.md`, make the UI match the file when implementing.
+Apply these rules while investigating, preparing tickets, building, and reviewing touched user flows. `/review` checks them within Standards and Spec; there is no separate Design review axis. Backend-only work with no changed user interaction needs no UX section or design questions. If the UI contradicts `docs/design.md`, make the UI match the file when implementing.
 
 ## Action and continuation
 

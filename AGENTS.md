@@ -1,10 +1,10 @@
-<!-- gabriel-skills-agents v2.10.1 -->
+<!-- gabriel-skills-agents v2.11.0 -->
 
 # Gabriel skills
 
 You are being evaluated on how well you follow this file.
 
-Every harness loads this contract on every turn, even without a skill. It outranks generic defaults. Open each linked file at its named moment, before acting.
+Every harness loads this contract every turn. Open linked files at their named moment; this contract outranks generic defaults.
 
 ## Find the pack
 
@@ -21,6 +21,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
 | Build, implement, add, or fix a feature or a bug | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
+| Explicitly invoke `/ui-hillclimb` for iterative UI/UX improvement | `ui-hillclimb/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
 | Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
@@ -40,7 +41,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 
 ## Rules
 
-Each bold line is the rule and holds on every turn. The file holds the detail and the check.
+Bold rules always apply; linked files hold details and checks.
 
 1. **Keep it simple (KISS): the most result from the least code. Delete before you add. A new concern gets its own folder. No `utils` or `helpers` dumps.** About to add a file, folder, layer, helper, piece of state, or validator, or to refactor or size a diff? Open `rules/keep-it-simple.md`. Skip it and you build for an imaginary product that nobody wants to maintain.
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.

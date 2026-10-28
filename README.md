@@ -82,7 +82,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Six kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
+Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, and `/review` are Code. `/ui-hillclimb` is Design. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
@@ -90,6 +90,7 @@ Six kinds. **Guide** informs; everything else moves work forward. Card categorie
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task-with-tests`, `/task`, `/gabriel-mode`              | Implement end-to-end. `/task-with-tests` is the default; `/task` has no tests-first phase. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
+| **Improve UI**    | [`/ui-hillclimb`](./skills/ui-hillclimb/SKILL.md) | Explicit invocation only: separate visual-and-experience reviewer and implementer, bounded correction rounds, live evidence through `/verification` |
 | **Review & ship** | `/review`, `/review-loop`, `/babysit-pr`, `/takeover-pr`, `/verification`, `/test-audit` | Review, correct within a finite budget, watch readiness, assess old PRs, verify behavior, and prune tests. Shared contracts live in `skills/rules/` and `skills/review/contract.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 
