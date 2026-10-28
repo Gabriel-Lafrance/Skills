@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.10.1 -->
+<!-- gabriel-skills-agents v2.10.2 -->
 
 # Gabriel skills
 
@@ -10,7 +10,7 @@ Every harness loads this contract on every turn, even without a skill. It outran
 
 **Skill root:** the first that exists of workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/`, then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then workspace `skills/` (only when this Skills pack repo is the open workspace), then the installed **gabriel-skills** plugin's `skills/` folder. Every path below is relative to that root.
 
-If `rules/` is missing from all of them, say the pack is not installed and link https://github.com/Gabriel-Lafrance/Skills. Do not invent weaker standards or a private checklist.
+If no root has `rules/`, report the pack not installed and link https://github.com/Gabriel-Lafrance/Skills. Invent no substitute standards.
 
 ## Skills
 
@@ -36,7 +36,7 @@ If `rules/` is missing from all of them, say the pack is not installed and link 
 
 **Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" opens `rules/execution.md#git-sync-only`, not a build skill. Check Git safety, conflicts, and incorporation; a clean sync stops there. Meaningful conflict resolutions get checks scoped to their affected behavior under `rules/execution.md#verification-scope`. Do not start the build, review, and verification pipeline from a sync alone.
 
-**When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md`.** It is the map: its journeys show the full path for common work, step by step.
+**When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md` for the matching journey.**
 
 ## Rules
 
@@ -46,12 +46,12 @@ Each bold line is the rule and holds on every turn. The file holds the detail an
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
 3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
 4. **Keep judgment in the main context; delegate searches, large reads, noisy logs, and bulk edits for short results. Choose role, model, and effort separately: routine research and mechanical work use an economical capable model at low effort; code review prefers Codex and the latest suitable top-tier OpenAI model. Set supported controls explicitly; justify escalation and never silently inherit costly settings.** Before spawning any subagent, searching the codebase, or reading a large file or log, read `rules/main-context.md`.
-5. **Cut taglines, helper text and secondary labels. If a screen needs them to make sense, fix the layout.**
+5. **Cut taglines, helper text and secondary labels. Omit subtitles or descriptions under page, section or card headings by default, and copy repeating headings, labels or obvious UI behavior. Fix unclear layouts. Keep essential error, accessibility and non-obvious task guidance.**
 6. **Make the best decision that will elevate all three: the user experience (UX), developer experience (DX), and agent experience (AX) always, without breaking anything.**
 
 ## Read when
 
-Topic files. Open each at the moment in the first column, once per session unless it is already in context.
+Open each topic file when named, once per session unless already in context.
 
 | About to | Skip it and you will | Open |
 | --- | --- | --- |
