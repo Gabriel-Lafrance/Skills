@@ -119,11 +119,11 @@ Fix now: a toolbar of equal-weight buttons, or settings that list every expert t
 
 ## Don't tell the obvious
 
-`ux:no-obvious`. Say only what the screen does not already show.
+`ux:no-obvious`. Say only what the screen does not already show. Omit subtitles or descriptions under page, section or card headings by default, and copy repeating headings, labels or obvious UI behavior.
 
 With no API keys, show the create action and leave out "No API key", "You haven't created a key yet", and "Get started by creating your first key." The blank list plus the button is the message. The same holds for drafts, teammates, and any "none yet".
 
-Still say what is not obvious: an error, a permission wall, a search or filter with zero hits ("No drafts match 'invoice'."), a cost, an irreversible side effect. A permission wall that looks like a blank create screen is Fix now.
+Still say what is not obvious: an error, a permission wall, a search or filter with zero hits ("No drafts match 'invoice'."), a cost, an irreversible side effect. Keep essential accessibility and non-obvious task guidance. A permission wall that looks like a blank create screen is Fix now.
 
 ## Professional craft
 
