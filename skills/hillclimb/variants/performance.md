@@ -36,6 +36,11 @@ number from a repeatable measurement.
 - Run each side at least five times under the same conditions, unless the user
   sets another count or one run is costly; state the count. Report the median
   and the spread (minimum to maximum), never a single run.
+- Guard against drift between batches (background load, thermal throttling, a
+  warming cache). Interleave baseline and candidate runs when both builds can
+  run side by side; otherwise rerun the baseline after the candidate. If the
+  repeated baseline moved by more than its spread, the comparison is
+  inconclusive.
 - Profile before proposing a fix: a flame graph, trace, query plan, network
   waterfall or bundle analysis names where the time or bytes go. A finding
   with no measured hotspot is a hypothesis, not a finding.
@@ -59,8 +64,9 @@ number from a repeatable measurement.
 
 ## Keep or reject
 
-Keep a candidate when its median beats the baseline's by more than the larger
-of the two spreads, or meets the target the user set, and every guard holds.
+Keep a candidate when the drift check passes, its median beats the baseline's
+by more than the larger of the two spreads, or meets the target the user set,
+and every guard holds.
 Reject it when:
 
 - Behavior changes: existing tests fail, outputs differ, errors are swallowed,

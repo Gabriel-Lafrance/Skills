@@ -44,8 +44,9 @@ Pick one variant per run:
 3. A goal that fits two variants gets one question: which runs first, with a
    recommendation for the one with the stronger evidence of cost. Offer the
    other as the next run; one run never mixes two keep bars.
-4. A goal no variant fits: say so and name the closest variant. Do not invent a
-   lens mid-run.
+4. A goal no variant fits: stop before the baseline and say so. Name the
+   closest variant only as an option the user can take by restating the goal.
+   Never run the closest variant anyway or invent a lens mid-run.
 
 Say the chosen variant and the reason in the run's first message.
 
