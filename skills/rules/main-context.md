@@ -1,6 +1,6 @@
 # Keep judgment in the main context
 
-**Open this when:** you are about to search a codebase, read a large file, or dig through logs or long command output ([Rule](#rule) and [Selective navigation](#selective-navigation) are enough), or about to spawn any subagent or make many mechanical edits (the whole file).
+**Open this when:** you are about to search a codebase, read a large file, or dig through logs or long command output ([Rule](#rule) and [Selective navigation](#selective-navigation) are enough), or about to spawn any subagent, hand off a steer, or make many mechanical edits (the whole file).
 **Skip it and you will:** make worse decisions for the rest of the session.
 
 ## Rule
@@ -19,6 +19,24 @@ Ask the subagent for a short result (paths, snippets, a summary), not a dump. Ch
 Choose the [role](#subagent-roles), [task tier](#model-and-effort-selection), and supported execution settings separately. A role names the job, not a fixed model or reasoning level.
 
 When the harness has no subagent, do the work with narrow reads (a search with a precise pattern, a line range) instead of whole files.
+
+## Steers
+
+A steer is a message the user sends while you are still working. When it asks for something unrelated to the current work, such as fixing a button on another screen or changing a line of copy, hand it to a subagent right away and keep going. Do not make the user wait for the current task to finish first.
+
+Delegate a steer when all of these hold:
+
+- It does not change the current task's goal, decisions, or files.
+- It is small and clear: a trivial edit or a bounded fix whose done state fits in one line, with no user decision left open.
+- Its files do not overlap the files the current task is editing.
+
+Keep it in the main context when it corrects or redirects the current work, needs a user decision or a skill's interview, touches the same files, or is big enough to be its own task. Finish the current step, then handle it or ask.
+
+For a delegated steer:
+
+- Brief the child with the steer in the user's words, known paths, the rules that apply (code quality and structure, user experience for UI, no unaccepted tests), and a short return: changed files, what changed, and the check it ran. Pick the role and tier as below; most steers are routine or standard. Run it in the background where the harness supports it.
+- Tell the user in one line that it is handed off, then continue the current work.
+- The child does not commit, push, or start other agents. When it returns, check its diff and evidence, then report it apart from the main task, naming its files so the user can commit or split it on its own.
 
 ## Selective navigation
 
