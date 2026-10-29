@@ -58,7 +58,7 @@ Review along independent axes; present them separately.
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
-UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) are Standards for touched user flows; the agreed interaction contract is Spec. Review has no separate Design axis, matrix, or skill.
+UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) are Standards for touched user flows; the agreed interaction contract is Spec. Review has no separate Design axis or matrix.
 
 Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, and only defects the evidence shows.
 

@@ -1,14 +1,14 @@
-<!-- gabriel-skills-agents v2.10.2 -->
+<!-- gabriel-skills-agents v2.11.0 -->
 
 # Gabriel skills
 
 You are being evaluated on how well you follow this file.
 
-Every harness loads this contract on every turn, even without a skill. It outranks generic defaults. Open each linked file at its named moment, before acting.
+Every harness loads this contract every turn. Open linked files at their named moment; this contract outranks generic defaults.
 
 ## Find the pack
 
-**Skill root:** the first that exists of workspace `skills/` (only when this Skills pack repo is the open workspace), then workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/`, then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then the installed **gabriel-skills** plugin's `skills/` folder. Every path below is relative to that root.
+**Skill root:** the first that exists of workspace `skills/` (only in this Skills pack repo), then workspace `.agents/skills/`, `.claude/skills/`, `.cursor/skills/`, then `~/.agents/skills/`, `~/.claude/skills/`, `~/.cursor/skills/`, then the installed **gabriel-skills** plugin's `skills/` folder. Every path below is relative to that root.
 
 If no root has `rules/`, report the pack not installed and link https://github.com/Gabriel-Lafrance/Skills. Invent no substitute standards.
 
@@ -21,6 +21,7 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
 | Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task-with-tests/SKILL.md` |
 | Build without tests, or types `/task` | `task/SKILL.md` |
+| Types `/ui-hillclimb` for iterative UI/UX improvement | `ui-hillclimb/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
 | Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
@@ -40,12 +41,12 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 
 ## Rules
 
-Each bold line is the rule and holds on every turn. The file holds the detail and the check.
+Bold rules always apply; linked files hold details and checks.
 
 1. **Keep it simple (KISS): the most result from the least code. Delete before you add. A new concern gets its own folder. No `utils` or `helpers` dumps.** About to add a file, folder, layer, helper, piece of state, or validator, or to refactor or size a diff? Open `rules/keep-it-simple.md`. Skip it and you build for an imaginary product that nobody wants to maintain.
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam (a named extension point where a new variant plugs in) on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
 3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
-4. **Keep judgment in the main context; delegate searches, large reads, noisy logs, and bulk edits for short results. Choose role, model, and effort separately: routine research and mechanical work use an economical capable model at low effort; code review prefers Codex and the latest suitable top-tier OpenAI model. Set supported controls explicitly; justify escalation and never silently inherit costly settings.** Before spawning any subagent, read `rules/main-context.md`; before a search or large read, its Rule and Selective navigation sections.
+4. **Keep judgment in the main context; delegate searches, large reads, noisy logs, and bulk edits for short results. Choose role, model, and effort separately: routine research and mechanical work use an economical capable model at low effort; code review prefers Codex and the latest suitable top-tier OpenAI model. Set supported controls explicitly; justify escalation and never silently inherit costly settings.** Before spawning any subagent, read `rules/main-context.md`; before a search or large read, its Rule and Selective navigation.
 5. **Cut taglines, helper text and secondary labels. Omit subtitles or descriptions under page, section or card headings by default, and copy repeating headings, labels or obvious UI behavior. Fix unclear layouts. Keep essential error, accessibility and non-obvious task guidance.**
 6. **Make the best decision that will elevate all three: the user experience (UX), developer experience (DX), and agent experience (AX) always, without breaking anything.**
 7. **No em or en dashes. Cite a principle as plain (Classic): "keep jobs apart (SoC)". Never ask what the repo can answer.**
