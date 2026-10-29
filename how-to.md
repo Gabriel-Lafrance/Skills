@@ -70,7 +70,7 @@ Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the 
 name: skill-name          # matches folder name
 description: Third person. WHAT it does and WHEN to use it. One line, 60 words or fewer.
 category: Code            # one of Code, Data, Design, Documents, General, Web
-disable-model-invocation: true   # setup-gabriel-skills, rules, explicit-only ui-hillclimb
+disable-model-invocation: true   # setup-gabriel-skills, rules, explicit-only hillclimb
 ---
 ```
 
@@ -78,7 +78,7 @@ Keep `description` on one line. Ono's Add a skill card prints the rest of that l
 
 `category` is the one chip on that card. Use the chip names as written: Code, Data, Design, Documents, General, Web.
 
-Every workflow skill triggers from what the user asks, so its `description` must name those requests ("Use when the user asks to write, file, or draft a ticket"). The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md), [`rules`](./skills/rules/SKILL.md) and explicit-only [`ui-hillclimb`](./skills/ui-hillclimb/SKILL.md) keep `disable-model-invocation: true`. UI hillclimb also sets `policy.allow_implicit_invocation: false` in its supported Codex metadata. A skill that waits for approval before acting (like `test-audit`) still triggers from the request. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
+Every workflow skill triggers from what the user asks, so its `description` must name those requests ("Use when the user asks to write, file, or draft a ticket"). The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md), [`rules`](./skills/rules/SKILL.md) and explicit-only [`hillclimb`](./skills/hillclimb/SKILL.md) keep `disable-model-invocation: true`. Hillclimb also sets `policy.allow_implicit_invocation: false` in its supported Codex metadata. A skill that waits for approval before acting (like `test-audit`) still triggers from the request. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
 
 ## Shared rules
 
@@ -100,7 +100,7 @@ Every workflow skill triggers from what the user asks, so its `description` must
 
 Only [`/verification`](./skills/verification/SKILL.md) manually drives the browser, migrations, endpoints, and jobs, and captures screenshots or traces. Its checks follow [verification scope](./skills/rules/execution.md#verification-scope), including all configured suites when explicitly requested or warranted by risk. Build workflows select applicable review and verification under that policy; `/gabriel-mode` accepts worker self-reviews and the combined review before its applicable verification. Verification may delegate independent expensive checks to isolated runners, while its parent owns coverage and verdict. Follow [evidence validity](./skills/rules/execution.md#handoffs-and-evidence) after fixes; reuse proof only when the relevant code and context still match. Every other skill stays on the diff, path walks, and terminal output except when running applicable automated checks. Evidence files live outside the repo and are never committed. PR bodies stay text and summarize actual checks and unverified scope.
 
-[`/ui-hillclimb`](./skills/ui-hillclimb/SKILL.md) is an explicitly invoked improvement orchestrator. Its separate visual-and-experience reviewer uses `/verification` for baseline/candidate rendered-flow evidence and rereviews focused fixes from its implementer. It does not add another browser owner or Design review axis.
+[`/hillclimb`](./skills/hillclimb/SKILL.md) is an explicitly invoked improvement orchestrator. It picks one variant per run from the goal (UI and experience, or performance); its separate reviewer uses `/verification` for baseline and candidate evidence and rereviews focused fixes from its implementer. It does not add another browser owner or review axis. A new variant is one file in [`skills/hillclimb/variants/`](./skills/hillclimb/variants/) with the same sections as the others, plus one row in the skill's Variants table.
 
 [Git sync only](./skills/rules/execution.md#git-sync-only) bypasses build, review, and verification pipelines: check Git safety, conflicts, and incorporation, then stop after a clean sync. Meaningful conflict resolutions require affected-behavior checks. This does not change repository hooks, security rules, or required CI.
 

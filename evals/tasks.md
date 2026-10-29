@@ -19,8 +19,8 @@ The main risk: the agent reads the short `AGENTS.md` index and never opens the r
 PR watching, review budgets, intent-aware takeover, delegation lifecycle and
 harness-first selection have additional [focused cases](pr-lifecycle.md).
 
-Explicit UI/UX review-and-correction loops have
-[UI hillclimb scenarios](ui-hillclimb.md).
+Explicit review-and-improve loops have
+[hillclimb scenarios](hillclimb.md).
 
 ### Architecture and selective navigation scenarios
 
