@@ -55,13 +55,13 @@ Done when every reported gap is restored or rejected with source evidence, and e
 
 ## 7. Product defects
 
-A baseline failure that survives into a keeper is a bug report. Report it with evidence and wait. Fix it only when the user says yes, at its owner, as a separate commit. Prove the fix through the real user flow, with a **control** run that reverts the fix and shows the old behavior. Record unrelated product problems as follow-ups instead of fixing them in the campaign.
+A baseline failure that survives into a keeper is a bug report. Report it with evidence and wait. Fix it only when the user says yes, at its owner, as a separate commit. Prove the fix through the real user flow with [`/verification`](../verification/SKILL.md), including a **control** run that reverts the fix and shows the old behavior. Record unrelated product problems as follow-ups instead of fixing them in the campaign.
 
 Done when each approved fix has a failing control and a passing candidate on the same harness, and every other defect is reported.
 
 ## 8. Reconcile and hand off
 
-Campaigns outlive many commits on the base branch. Merge the base branch instead of rebasing a long campaign. When the base branch modified a file the campaign deleted, keep the deletion, port the new contract into the keeper, and confirm every new regression test the base branch added still has a home. Rerun the whole subsystem suite and repeat end-to-end proof on the merged head.
+Campaigns outlive many commits on the base branch. Merge the base branch instead of rebasing a long campaign. When the base branch modified a file the campaign deleted, keep the deletion, port the new contract into the keeper, and confirm every new regression test the base branch added still has a home. Rerun the whole subsystem suite and repeat the end-to-end proof through `/verification` on the merged head.
 
 Review tooling may show a truncated file list on a diff this large. Record decisions about compatibility flags in the PR notes instead of editing gates.
 

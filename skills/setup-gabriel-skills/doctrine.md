@@ -20,7 +20,7 @@ Verifying current installs, installing or updating the rest of this pack with `n
 
 ## Bars
 
-1. **Verify, then ask, then install.** Look up skill roots and harness homes first. Print those facts. Then one Questions batch: where the skills and `AGENTS.md` go (this repo, this repo and user level, or user level only). Wait. Follow [Asking the user](../rules/writing-style.md#asking-the-user).
+1. **Verify, then ask, then install.** Look up skill roots and harness homes first. Print those facts. Then one Questions batch: where the skills and `AGENTS.md` go (this repo, this repo and user level, or user level only). Wait. Use the [scope question](reference.md#questions) as written.
 2. **Skills and rules together.** For each chosen scope, install the pack when `rules/code-quality.md` is missing, and update a stale copy with the commands in [reference.md](reference.md#pack-skills). Skip the skills command when this workspace is the Skills pack. `rules/` is one of those skill folders.
 3. **Place the contract from its source.** Copy `AGENTS.md` from the pack root when this workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. It must contain `gabriel-skills-agents`. A file with that marker may be refreshed. Every other instructions file only gets a pointer line. Details: [reference.md](reference.md#place-agentsmd).
 4. **Manual install is the way out, not the first path.** Offer it only after the skills command or the `AGENTS.md` place could not be done. One question. Yes: link [the repo](https://github.com/Gabriel-Lafrance/Skills) and list destinations for the harnesses in use. No: say setup failed and stop. Leave files that already landed in place.

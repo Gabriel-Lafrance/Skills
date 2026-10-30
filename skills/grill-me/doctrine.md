@@ -11,7 +11,7 @@ What to discover, rules that must stay true, interview rules, and the Locked in 
 ## Does not own
 
 - Code quality and structure bars: cite `quality:*` and `structure:*`
-- Plans and implementation: the selected execution skill under [AGENTS routing](../../AGENTS.md#skills)
+- Plans and implementation: the selected execution skill under the Skills table in `AGENTS.md`
 - Numbered parent process: [`SKILL.md`](SKILL.md)
 
 ## Bars

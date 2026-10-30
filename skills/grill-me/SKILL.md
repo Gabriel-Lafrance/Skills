@@ -71,7 +71,7 @@ selected execution skill continues its current lifecycle.
 ### If this is a user one-off
 
 Stop after shared understanding unless the user explicitly asks for the next
-step. For an authorized build use [AGENTS routing](../../AGENTS.md#skills):
+step. For an authorized build use the Skills table in `AGENTS.md`:
 
 - Structure needed: `/analyze`, then the selected execution skill.
 - Ready to build: `/task-with-tests` by default; `/task` for an explicit

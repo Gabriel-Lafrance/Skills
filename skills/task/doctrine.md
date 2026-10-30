@@ -43,7 +43,7 @@ When independent gates apply, launch both in one step and judge their handoffs h
 | Grill | `/grill-me` |
 | Code quality | **[code-quality.md](../rules/code-quality.md) always** (grill and every implement slice) |
 | Structure | **[code-structure.md](../rules/code-structure.md) always** (grill and every implement slice). For a typo or pure rename, apply it and keep the existing structure |
-| UX source of truth | [user-experience.md](../rules/user-experience.md) and `docs/design.md` when the slice is user-facing UI. Write `docs/design.md` first if it is missing (`ux:initialization`) |
+| UX source of truth | [user-experience.md](../rules/user-experience.md) and `docs/design.md` when the slice is user-facing UI. If it is missing, offer to write it (`ux:initialization`) |
 | Split | [Slice split](reference.md#slice-split) when multiple slices help |
 | Plan contract | Issue [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Judge | `/analyze` for how, impact, and risk |
@@ -65,7 +65,7 @@ Track these rows in the execution context or a short progress message. Declare c
 | `/grill-me` | For unresolved material choices | Reuse a ready ticket lock under the shared preflight |
 | Code quality rules | **Yes** | During the grill and every implement slice |
 | Code structure rules | **Yes** | During the grill and every implement slice, even for a one-file fix |
-| User experience | If UI | Apply [user-experience.md](../rules/user-experience.md). Write `docs/design.md` first if it is missing |
+| User experience | If UI | Apply [user-experience.md](../rules/user-experience.md). If `docs/design.md` is missing, offer to write it |
 | Slice split | If multi-slice | Announce inline slices ([reference.md](reference.md#slice-split)) |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | Non-UI slices | If non-UI | Built by this loop; update **Current slices** after each |

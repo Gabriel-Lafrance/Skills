@@ -39,7 +39,7 @@ Facts come from live repository, ticket, PR, and diff evidence. User decisions, 
 - Rediscover the relevant code, and which parts match a pack example and which are debt. Identify entrypoints, constraints, likely touch surface, existing tests, and the smallest coherent interface or service boundary.
 - Find facts before judging them. Judge how, impact, risk, and files touched only from paths and snippets you actually read.
 - Trace the affected flow far enough to explain the proposed change: inputs and their meaning, transformations or state transitions, writes, readers, and side effects as relevant. Read actual schemas, public contracts, and callers when they constrain behavior. Follow a dependency only when it could change the recommendation; this is not a full-system audit or a mandatory migration checklist.
-- Compare the intended outcome with that flow. Identify choices whose alternatives change behavior, contracts, data meaning or integrity, authority, compatibility, transition safety, scope, or cost. Alternatives can touch exactly the same files and still require a consequential decision. A list of affected files alone does not establish the design.
+- Compare the intended outcome with that flow. Identify consequential choices ([what makes a choice material](../grill-me/doctrine.md#what-to-discover)). A list of affected files alone does not establish the design.
 - Separate researched facts with source pointers, settled user or parent decisions, ordinary implementer choices within those constraints, and unresolved consequential tradeoffs. Resolve factual gaps independently and reuse settled decisions. Choose ordinary details without an interview. For each unresolved consequential choice, explain the evidence or uncertainty, realistic alternatives, recommendation and reason, and practical consequences; return only user-owned choices to the grill.
 - Synthesize the proposed design here: connect each material choice to the affected flow, its reason, and the invariants or uncertainty that constrain it. `/how` supplies existing mechanics and `/why` supplies evidenced history; neither owns the new design. Preserve useful exclusions when they prevent a credible implementation mistake, without inventing a rival or interviewing obvious boundaries.
 - Apply the rules in [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) on every run. Prefer the pack's examples over the app's existing shapes, and behavior-preserving moves over copying debt.
@@ -240,7 +240,7 @@ A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return th
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
-Use the [AGENTS routing](../../AGENTS.md#skills) on an authorized standalone
+Use the Skills table in `AGENTS.md` on an authorized standalone
 promotion: `/task-with-tests` by default, `/task` for an explicit command or
 no-tests request. Carry settled decisions and test acceptance/refusal sources
 through the [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight).

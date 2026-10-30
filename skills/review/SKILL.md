@@ -17,13 +17,13 @@ dependencies. Signatures locate behavior, not prove it.
 ## Read when
 
 - Selecting a reviewer: open the shared [roles and selection policy](../rules/main-context.md#subagent-roles), including [task affinity](../rules/main-context.md#task-affinity). Honor the code-review provider preference and select effort separately from scope and risk; disclose unavailable routing.
-- Reviewing a touched user flow? Open [user-experience.md](../rules/user-experience.md), the ticket's interaction requirements, and `docs/design.md` when present. Judge interactions within Standards and Spec using [interaction review](doctrine.md#interaction-review).
+- Reviewing a touched user flow? Open [user-experience.md](../rules/user-experience.md), the ticket's interaction requirements, and `docs/design.md` when present. Judge interactions within Standards and Spec using [interaction review](contract.md#interaction-review).
 - About to read a large diff, search the codebase, or wade through long output? Open [main-context.md](../rules/main-context.md). Skip it and noise crowds out your judgment of the findings.
 - About to judge Standards on any `initial` or `full-rescan`, or on new PR follow-up surface, however small the diff? Open [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md). Skip them and you pass code the rules reject.
 - Reviewing a Feature diff? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and you pass a Feature that hardcodes what the plan said would vary.
-- Every run: open [doctrine.md](doctrine.md) and the [review contract](contract.md). Skip them and the output fence and axes come out wrong.
+- Every run: open the [review contract](contract.md). Skip it and the output fence and axes come out wrong.
 - At a combined-result gate: use the [fresh review context](contract.md#fresh-combined-review-context). Keep the selected route's gate order and worker self-review intact.
-- Reviewing tests or using their results to support an important claim: apply [test claim review](doctrine.md#test-claim-review), including the canonical testing rules.
+- Reviewing tests or using their results to support an important claim: apply [test claim review](contract.md#test-claim-review), including the canonical testing rules.
 - Unsure how to check Knip or the cyclomatic cap? Open [static-checks.md](static-checks.md). Skip it and you guess at a number.
 - A parent supplied the handoff? Open the [execution context](../rules/planning.md#execution-context). Skip it and you re-ask settled decisions.
 - Unsure whether a finding meets the evidence bar or how to word it? Open [examples.md](examples.md). Skip it and you ship a finding with no evidence.
@@ -43,21 +43,7 @@ work; the full review output fence for substantial/high-risk or requested full r
 - **GitHub PR**: the user gives a PR number or link. Drafts comments and asks
   one publish question. User start only.
 
-## Modes
-
-Select the shared review mode deliberately:
-
-- `initial` reviews the complete shipped diff with a Standards pass and a
-  Spec pass.
-- `remediation` receives named finding IDs, the fix diff, touched direct paths,
-  and direct callers only. Verify those findings and regressions in that
-  surface only.
-- `full-rescan` requires an explicit request (or material scope expansion) to
-  re-open full-review depth after a meaningful change.
-
-Apply `review:axes`, `review:blocker-vs-follow-up`, `review:naming-alignment`,
-`review:folder-placement`, `review:env-reuse`, and the review contract evidence
-bar. On a GitHub PR, also apply the `review:*` PR extras.
+Select the review [mode](contract.md#modes) (`initial`, `remediation`, or `full-rescan`) deliberately.
 
 ## Local branch diff
 
@@ -93,8 +79,8 @@ invoke analysis, promote, or launch a second fix lifecycle.
 ### If this is a user one-off
 
 Report the disposition in chat and stop. If the user requested fixes, hand
-the findings and that authorization to an explicitly selected execution
-orchestrator using [AGENTS routing](../../AGENTS.md#skills); it owns the
+the findings and that authorization to [`/review-loop`](../review-loop/SKILL.md)
+with a one-round budget; it owns the
 [remediation flow](../rules/execution.md#remediation).
 
 ## GitHub PR
@@ -109,6 +95,6 @@ orchestrator using [AGENTS routing](../../AGENTS.md#skills); it owns the
 3. With no prior finding thread, run the shared contract's `initial` review.
 4. On every follow-up, complete **Pass A** first, then **Pass B**
    ([reference.md](reference.md#follow-up-passes)). Use `full-rescan` only
-   under the condition in Modes.
+   under the condition in [Modes](contract.md#modes).
 5. Show drafts, ask one publish question, apply the stale-head guard, then post
    only after approval ([reference.md](reference.md)).

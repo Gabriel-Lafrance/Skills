@@ -38,10 +38,12 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | How something works, a walkthrough, ownership, or layering | `/how` |
 | Why it was built this way, or the design rationale | `/why` |
 | Fuzzy idea / research before a build | `/analyze` |
-| Bug / something broken | `/analyze` → `/task-with-tests` when buildable |
+| Bug to investigate before anyone asks for a fix | `/analyze` → `/task-with-tests` when buildable |
+| Fix a bug | `/task-with-tests` |
+| Audit or assess existing code or a whole repo, with no diff | `/analyze` |
 | Build until X is true | `/task-with-tests` (the default build; the user may refuse every test) |
 | Build with no tests at all | `/task` |
-| Coding style / is this clean? | `/review` (it applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)). The steering list is [principles.md](../rules/principles.md), not a skill |
+| Coding style / is this diff clean? | `/review` (it applies [code-quality.md](../rules/code-quality.md); snippets in [code-quality-examples.md](../rules/code-quality-examples.md)). The steering list is [principles.md](../rules/principles.md), not a skill |
 | Structure / folders / services / data shape | `/analyze`, then `/task-with-tests` (both apply [code-structure.md](../rules/code-structure.md); shapes in [code-structure-examples.md](../rules/code-structure-examples.md)) |
 | Need a final implementation-ready Linear/GitHub ticket | `/write-ticket` |
 | Ship a branch or pull request | [shipping.md](../rules/shipping.md) |
@@ -53,6 +55,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Assess or revive an old PR against current intent | `/takeover-pr` |
 | Choose browser or other tools | [Harness-first discovery](../rules/tooling.md#harness-first-discovery) |
 | Build a screen / frontend, or update the app UX source of truth | `/task-with-tests` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
+| Explicitly invoke a bounded review-and-improve loop on a UI journey or a slow path | [`/hillclimb`](../hillclimb/SKILL.md), only when named by the user; it picks the UI or performance variant from the goal. Ordinary UI or speed-up work keeps its existing route |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
 | Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |
 | Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |

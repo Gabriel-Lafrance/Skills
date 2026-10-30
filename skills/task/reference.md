@@ -30,7 +30,7 @@ One per slice, in chat, after the Locked in message. It is not a file.
 
 ## User experience
 - <For touched user flows only: carry the ticket's UX/UI contract or derive a compact one from [action and continuation](../rules/user-experience.md#action-and-continuation). Name entry/context, useful actions by state, carried inputs, result/next action, recovery, and existing component/hierarchy/responsive expectations.>
-- **File:** `docs/design.md` present | missing (write it first when implementing UI)
+- **File:** `docs/design.md` present | missing (offer to write it when implementing UI)
 
 ## Rules that must stay true
 | ID | Role | How we enforce it | How we check it |
@@ -168,7 +168,7 @@ On a Locked correction or unanswered question, revise or wait.
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Use [selective navigation](../rules/main-context.md#selective-navigation) to find the task's paths, public signatures, and owners before reading the relevant implementations. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (write it first if missing).
+**Explore and shape.** Use [selective navigation](../rules/main-context.md#selective-navigation) to find the task's paths, public signatures, and owners before reading the relevant implementations. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (offer to write it if missing).
 
 **Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating the outcome and the concrete approach needed to preserve settled choices; leave routine implementation details to the executor. If the split changes, re-announce it before implementing. Keep plans in chat. Then run the [behavior-lock suggestion](#behavior-lock-suggestion); phase is `locks` while it is open, and a corrected rule returns to the grill before implementing.
 

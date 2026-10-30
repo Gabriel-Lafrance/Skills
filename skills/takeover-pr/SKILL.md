@@ -21,7 +21,7 @@ Carry the updated intent in the existing
    boundary. Stop if the request was assessment only or a material decision
    blocks continuation; follow [asking rules](../rules/writing-style.md#asking-the-user).
 4. For authorized work, hand the updated intent and pinned scope to the selected
-   build skill via [AGENTS routing](../../AGENTS.md#skills). Reuse its readiness,
+   build skill via the Skills table in `AGENTS.md`. Reuse its readiness,
    checks, review and shipping contracts rather than copying their orchestration.
 5. Report the resulting diff, source credit, checks and remaining blockers.
    Watch only if requested, with the existing parent as sole owner under

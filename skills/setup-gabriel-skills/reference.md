@@ -4,7 +4,7 @@ Load with [SKILL.md](SKILL.md). Install skills with `npx skills`. Place `AGENTS.
 
 ## Resolve the skill root
 
-Resolve the skill root using [AGENTS.md, Find the pack](../../AGENTS.md#find-the-pack), including workspace, user, pack-repository, and installed-plugin locations. That section owns the search order; do not substitute a home-only lookup. Use the resolved root for this skill's sibling rules and other skills.
+Resolve the skill root using the Find the pack section of `AGENTS.md`, including workspace, user, pack-repository, and installed-plugin locations. That section owns the search order; do not substitute a home-only lookup. Use the resolved root for this skill's sibling rules and other skills.
 
 This workspace is the Skills pack when a parent directory holds both an `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-gabriel-skills/`.
 
@@ -21,7 +21,7 @@ Read the disk and print a short list.
 
 ## Questions
 
-After Verify, one batch. Wait, and install after they reply. Shape: [Asking the user](../rules/writing-style.md#asking-the-user).
+After Verify, one batch. Wait, and install after they reply. Send it as written: it needs no rule file that setup has not installed yet.
 
 ```markdown
 ## Questions
@@ -94,8 +94,8 @@ Only touch a home that already exists. Never create one.
 | Harness | Home | What to do |
 | --- | --- | --- |
 | Codex | `$CODEX_HOME` when set, else `~/.codex/` | `AGENTS.md` missing or a pack copy: write the source. Someone else's file: append `Follow https://github.com/Gabriel-Lafrance/Skills/blob/main/AGENTS.md.` |
-| Claude Code | `~/.claude/` | Pointer line `@AGENTS.md` in `~/.claude/CLAUDE.md`, by the repo rule above |
-| Gemini CLI | `~/.gemini/` | Pointer line `@AGENTS.md` in `~/.gemini/GEMINI.md`, same rule |
+| Claude Code | `~/.claude/` | `~/.claude/AGENTS.md` by the Codex rule, then pointer line `@AGENTS.md` in `~/.claude/CLAUDE.md`, by the repo rule above |
+| Gemini CLI | `~/.gemini/` | `~/.gemini/AGENTS.md` by the Codex rule, then pointer line `@AGENTS.md` in `~/.gemini/GEMINI.md`, same rule |
 | Cursor | `~/.cursor/` | No user-level `AGENTS.md`. Skills still install under `~/.cursor/skills/`. Say the repo file is what Cursor reads |
 
 ## Manual install
@@ -136,6 +136,8 @@ Skills, including `rules/`, are the `skills/` folders in that repo. Copy each sk
 | This repo | Claude Code | workspace root `AGENTS.md`, plus `@AGENTS.md` in `CLAUDE.md` |
 | This repo | Gemini CLI | workspace root `AGENTS.md`, plus `@AGENTS.md` in `GEMINI.md` |
 | User level | Codex | `$CODEX_HOME/AGENTS.md` or `~/.codex/AGENTS.md` |
+| User level | Claude Code | `~/.claude/AGENTS.md`, plus `@AGENTS.md` in `~/.claude/CLAUDE.md` |
+| User level | Gemini CLI | `~/.gemini/AGENTS.md`, plus `@AGENTS.md` in `~/.gemini/GEMINI.md` |
 | User level | Cursor | no user-level file; Cursor reads the repo `AGENTS.md` |
 
 Tell them to keep any `AGENTS.md` that is not this pack's. After they confirm the files are in place, re-check the paths and report what you can see. If the files are still missing, setup failed.
@@ -146,7 +148,7 @@ Older versions of this pack left files that nothing reads now. Delete only these
 
 - **Old Claude copy** (b or c): if `~/.claude/gabriel-skills/AGENTS.md` contains `gabriel-skills-agents`, delete it, and remove the `@~/.claude/gabriel-skills/AGENTS.md` line from `~/.claude/CLAUDE.md` when present. Remove `~/.claude/gabriel-skills/` only if it is then empty. A file there without the marker stays.
 - **Old Cursor pointer:** delete `gabriel-skills/follow-agents.mdc` under `~/.cursor/rules` (b or c) or the app `.cursor/rules` (a or b) when it exists. Leave every other Cursor rule and hook.
-- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, or `just-do-it` only when its `SKILL.md` links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). A folder with one of those names that does not link to the pack is the user's own skill and stays.
+- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, `just-do-it`, `goal`, `create-plan`, `orchestrate`, `repair`, or `validate` only when one of its `.md` files links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). Many retired folders have no `SKILL.md`, so check every `.md` file in the folder. A folder with one of those names that does not link to the pack is the user's own skill and stays.
 
 Setup never writes `.cursor/rules`, an `.mdc` file, `.cursor/hooks.json`, ESLint, Prettier, or `.vscode` files.
 

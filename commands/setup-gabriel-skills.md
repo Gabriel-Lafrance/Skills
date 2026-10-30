@@ -7,4 +7,4 @@ description: Install this pack's skills and place AGENTS.md for the harness in u
 
 Follow the `/setup-gabriel-skills` skill in this pack (`skills/setup-gabriel-skills/SKILL.md`).
 
-Apply `rules/code-quality.md` and `rules/code-structure.md` this turn, then execute that skill. The skill installs the skills, including `rules/`, and places `AGENTS.md`. This command does not grow a second copy of those steps. Do not write ESLint or Prettier.
+Execute that skill. It installs the skills, including `rules/`, and places `AGENTS.md`. This command does not grow a second copy of those steps. Do not write ESLint or Prettier.
