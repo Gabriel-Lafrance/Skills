@@ -15,8 +15,9 @@ Orchestrate one verifiable outcome end to end. Plans stay inline in chat unless 
 - About to search the codebase, read a large file, or wade through long output? Open [main-context.md](../rules/main-context.md).
 - About to grill? Open [doctrine.md](doctrine.md) and the [execution context](../rules/planning.md#execution-context).
 - About to grill or plan a Feature? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and the first provider is hardcoded into every caller, so the next ticket is a rewrite.
-- At a step that names a section? Open [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship Questions).
+- At a step that names a section? Open [reference.md](reference.md) (lifecycle, plan contract, behavior locks, ship offer).
 - About to ask the user anything? Open [Asking the user](../rules/writing-style.md#asking-the-user).
+- About to report progress or completion? Open [Plain language](../rules/writing-style.md#plain-language).
 - About to write a test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md), then [testing.md](../rules/testing.md).
 - About to commit, push, or open a PR from this chat? Open [shipping.md](../rules/shipping.md). Skip it and you push to `main`, open a PR nobody approved, or track `origin/main`.
 
@@ -41,9 +42,9 @@ Return a completion summary plus evidence envelope to the parent. The parent han
 
 ### If this chat owns shipping
 
-After all gates pass, follow [shipping.md](../rules/shipping.md) when the user already authorized shipping, including an explicit request for stacked PRs. Otherwise offer [ship Questions](reference.md#ship-questions) and wait for yes.
+After all gates pass, follow [shipping.md](../rules/shipping.md) when the user already authorized shipping, including an explicit request for stacked PRs. Otherwise end with the [ship offer](reference.md#ship-offer) and wait for the user's reply.
 
 ## Anti-patterns
 
-- Asking ship Questions, pushing, or opening a PR when a parent owns shipping
+- Offering to ship, pushing, or opening a PR when a parent owns shipping
 - Suggesting a test before the Locked in message, or writing a test the user did not accept

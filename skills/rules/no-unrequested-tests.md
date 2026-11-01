@@ -18,7 +18,10 @@ Write a test only when the user has accepted that lock:
 - they explicitly asked for it, or
 - they answered yes on a `/task` [behavior-lock brief](../task/reference.md#behavior-lock-suggestion) after the grill's Locked in message (each brief cites a grilled rule; every brief has a no; silence and a parent taking `recommended` are not acceptance), or
 - they answered yes on a `/task-with-tests` [tests prompt](../task-with-tests/reference.md#tests-prompt) after the grill's Locked in message (same rules as a `/task` brief), or
-- they said yes after `/review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift).
+- they said yes after `/review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift), or
+- they gave a blanket yes ("do all the tests"), which accepts each test the grilled rules call for; list them in the final report.
+
+A blanket no ("no tests until the MVP") refuses every test for this work and every child brief until the user lifts it. Stop offering tests.
 
 Only an accepted lock writes tests. A `/task` suggestion or a `/review` recommendation becomes acceptance when the user answers. `/task` build slices and other build steps leave test files alone. This binds every skill.
 

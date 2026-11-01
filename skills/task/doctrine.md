@@ -113,7 +113,7 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Output
 
-**Complete when:** the checklist and [shared completion contract](../rules/execution.md#recovery-and-completion) pass, including both gate handoffs. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise ship under existing authorization, or offer ship Questions when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
+**Complete when:** the checklist and [shared completion contract](../rules/execution.md#recovery-and-completion) pass, including both gate handoffs. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip the ship offer. Otherwise ship under existing authorization, or end with the ship offer when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
 
 **Pause:** stop work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context. Delete a user-requested artifact only when the user asks.
 
@@ -121,7 +121,7 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions only when shipping is not already authorized ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
+Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, end with the ship offer only when shipping is not already authorized ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
 
 ## Anti-patterns
 

@@ -31,7 +31,7 @@ Same as `/task`: return the completion summary and evidence to the parent, which
 
 ### If this chat owns shipping
 
-Same as `/task`: after all gates pass, ship when already authorized; otherwise offer [ship Questions](../task/reference.md#ship-questions).
+Same as `/task`: after all gates pass, ship when already authorized; otherwise end with the [ship offer](../task/reference.md#ship-offer).
 
 ## Anti-patterns
 

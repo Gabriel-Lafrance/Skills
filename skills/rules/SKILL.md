@@ -13,7 +13,7 @@ Not a user skill: never recommend `/rules`. This folder exists so `npx skills` i
 
 The Rules section and the Read when table in `AGENTS.md` are the source for when to open each file.
 
-One file per rule, named in the `AGENTS.md` Rules section:
+One file for each `AGENTS.md` rule that needs more than its bold line:
 
 - [keep-it-simple.md](keep-it-simple.md): least code for the result, subtract first, light to read, a folder per concern instead of `utils` dumps
 - [strong-foundation.md](strong-foundation.md): a strong first iteration with a seam (a named extension point where a new variant plugs in) on each area of modularity, scaled to the work and the context
@@ -29,8 +29,9 @@ Topic files, named in the Read when table:
 - [code-structure.md](code-structure.md): code structure rules (`structure:*` cite keys), services, primitives (one-job helpers), folders, cheap reads, authority (the server enforces), the Structure card
 - [code-structure-examples.md](code-structure-examples.md): good and bad shapes for code-structure.md
 - [planning.md](planning.md): reads before planning, grill first, the Before/After change diagram, and the in-chat execution context (authority order, context template, optional persistence)
+- [execution.md](execution.md): Git sync only, verification scope, ready-ticket preflight, handoffs and evidence, remediation, recovery and completion
 - [user-experience.md](user-experience.md): every UI and UX rule (`ux:*` cite keys), React and UI, `docs/design.md` as the app UX source of truth, copy, locale, quality floor
-- [writing-style.md](writing-style.md): no em dash, plain language and plain (Classic) principle names, asking the user (Questions and Locked-in templates), and the Unslop rules for chat replies
+- [writing-style.md](writing-style.md): no em dash, plain language and plain (Classic) principle names, asking the user (the ask bar, Questions and Locked-in templates), the final report, and the Unslop rules for chat replies
 - [testing.md](testing.md): when an accepted test is worth writing, the authoring gate, junk patterns, the retention bar, what a good test looks like, the lock brief, the test comment, and the handoff
 - [shipping.md](shipping.md): branch safety, scoped pre-push/required checks, remote CI reporting, the create tool, and the branch-and-push process
 - [shipping-templates.md](shipping-templates.md): ship questions and announcements, the PR Change diagram rule, and the PR title and body template

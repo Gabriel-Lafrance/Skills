@@ -84,10 +84,12 @@ For a pause, state what is complete, the concrete blocker and its effect, and th
 
 ## Completion summary
 
-After both gate handoffs are in, report the outcome in chat:
+After both gate handoffs are in, report the outcome in chat as a [final report](../rules/writing-style.md#final-report):
 
 ```markdown
-# ✅ Task complete: <short title>
+✅ **Done: <short title>**
+**State:** <what works, what was checked, where the change lives>
+**Next:** <one step and who owns it>
 
 ## What changed
 - …
@@ -105,30 +107,17 @@ After both gate handoffs are in, report the outcome in chat:
 ## Behavior locks
 - <none offered | Rule N accepted, file, command | Rule N refused>
 
-## Manual next steps
-- <none | user action>
 ```
 
 Apply the shared [remediation](../rules/execution.md#remediation) and [completion](../rules/execution.md#recovery-and-completion) contracts. Include stable acceptance, finding and evidence IDs and the checked revision/diff.
 
-## Ship questions
+## Ship offer
 
-Use this section only when this chat owns shipping and shipping is not already authorized. If the user already asked to ship, including the whole stack, follow [shipping.md](../rules/shipping.md) without this question. Otherwise ask once after the completion summary; default is no:
-
-```markdown
-## Questions
-Reply like: 1b
-
-1. Ship this work?
-   - a) yes: cut a branch, commit, push, and draft a PR for your approval
-   - b) no: leave the changes uncommitted ← recommended
-```
-
-Wait. On yes, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. Under a parent that owns shipping, return the completion evidence to the parent instead.
+Use this only when this chat owns shipping and shipping is not already authorized. If the user already asked to ship, including the whole stack, follow [shipping.md](../rules/shipping.md). Otherwise ask nothing: the completion report's **Next** line says where the work lives and offers it, such as "Uncommitted. Reply `ship` for a branch, commit, and draft PR." On that reply, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. Under a parent that owns shipping, return the completion evidence to the parent instead.
 
 ## Behavior-lock suggestion
 
-Run after the Locked in message, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Skip it during an open grill, for a trivial change, and in Fix mode.
+Run after the Locked in message, once the inline plan names the public entry. The bar is the [Behavior locks table](doctrine.md#behavior-locks) in the doctrine. Skip it during an open grill, for a trivial change, in Fix mode, and when the user asked to build without tests, which refuses every test.
 
 Carry forward explicit acceptances and refusals with their decision source. Offer only unsettled tests; if none remain, proceed without a prompt. For a whole-stack run, batch unsettled choices across children once.
 

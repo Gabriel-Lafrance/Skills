@@ -88,7 +88,7 @@ features/checkout/
 
 [Verification scope](../execution.md#verification-scope) follows checkout through billing and the provider, including ownership and retry behavior. New payment infrastructure warrants broader integration evidence than a local guard fix; run the applicable checks and required CI, then state any remaining gaps.
 
-The ship question defaults to no. On yes, the agent opens [shipping.md](../shipping.md): branch `feature/IN-42-add-checkout-payments`, then the full PR title and body for approval before creating it.
+The final report offers shipping without asking. When the user replies `ship`, the agent opens [shipping.md](../shipping.md): branch `feature/IN-42-add-checkout-payments`, then the full PR title and body for approval before creating it.
 
 ## If a step is skipped
 

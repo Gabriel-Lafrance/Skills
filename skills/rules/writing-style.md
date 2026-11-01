@@ -60,11 +60,13 @@ Every pack skill that needs a decision follows this section. Link here instead o
 2. Number items and provide lettered options when the choice is discrete.
 3. Mark one recommended option with `recommended`.
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
-5. Wait for decisions before acting. Settled decisions stay settled.
+5. Wait for answers to the questions you ask, except as item 9 allows. Settled decisions stay settled.
 6. Look up repository and tool facts instead of asking the user for them.
-7. Ask only for unresolved consequential user-owned choices. Research facts, reuse settled decisions, and own ordinary implementation details. What makes a choice material is defined in [What to discover](../grill-me/doctrine.md#what-to-discover). List settled facts outside Questions.
-8. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
-9. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
+7. **Ask only hard, ambiguous choices.** A question needs all three: the evidence does not point to one answer, the options trade off something only the user can weigh (scope, money, product direction, taste, or a risk they own), and a wrong guess is costly to undo. If you would recommend an option and expect the user to take it, decide it instead and list it under **Decided for you** in the [final report](#final-report). Research facts, reuse settled decisions, and own ordinary implementation details. [What to discover](../grill-me/doctrine.md#what-to-discover) defines a consequential choice. A run with no questions is normal. List settled facts outside Questions.
+8. **Standing instructions stay settled.** A stance the user states for the work ("no tests until the MVP", "ask me before picking a model", "not shipping yet") applies to every later step and goes into every child brief. Never ask it again. If you cannot apply one, such as a setting only the user can change, say so once.
+9. **Never stall on a reversible choice when the user is out of reach.** In a background or delegated run, or after the user says they are away, take the option that changes the least and can be undone, list it under Decided for you, and keep going. Wait only for what is irreversible or outward-facing: publishing, deleting, spending, credentials, production data, or a choice the user reserved. No test is written without acceptance, so the default there is none.
+10. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
+11. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
 
 Keep out-of-scope items, plan split, shared understanding, rules that must stay true, and user overrides visible in the current [execution context](planning.md#execution-context), in chat. Save them to a file only when the user requests a durable artifact and approves its destination.
 
@@ -106,6 +108,9 @@ Omit Locked-in when nothing is announced. Omit Questions when every remaining it
 - Optioned choices without a recommendation
 - `Reply like:` with descriptions, invalid letters, commas, or multiple rows
 - Asking about a fact the repository or tools can answer
+- Asking a choice you would recommend and expect the user to accept
+- Asking again about a stance the user already stated
+- Stalling a background run on a reversible choice
 - Asking yes/no for out of scope, plan split, or shared understanding
 - Persisting agent process notes without an explicit user request
 - Using pack nicknames or abbreviations the user has not used
@@ -114,11 +119,44 @@ Omit Locked-in when nothing is announced. Omit Questions when every remaining it
 
 Across pack skills, a progress update communicates a meaningful finding, its consequence, the next step, or a needed decision. Use a short paragraph or a few labeled bullets when they help scanning. Report real blockers and check results with enough evidence to assess them; distinguish planned checks, narrative inspection, and actual execution.
 
-Do not repeat the full execution context, unchanged tables, settled decisions, or internal phase narration at each step. Keep detailed recaps for an actual handoff, a changed scope or decision that needs context, or a user request. Questions and Locked-in messages still follow [Asking the user](#asking-the-user), with settled decisions reused.
+Do not repeat the full execution context, unchanged tables, settled decisions, or internal phase narration at each step, and do not post a line per step ("Now reading X"). End every run with the [final report](#final-report). Keep detailed recaps for an actual handoff, a changed scope or decision that needs context, or a user request. Questions and Locked-in messages still follow [Asking the user](#asking-the-user), with settled decisions reused.
 
 Show the complete final ticket once after readiness checks. If a material correction follows, show the changed portion and identify the current version; supply the full body again only when requested or needed for a handoff. After an authorized tracker write and readback, return the link, applied metadata, relevant relationships, and any incomplete write or blocker instead of printing the body again. A draft-only final response is the complete ticket.
 
 Readable does not mean underspecified. Preserve exact agreed contracts, important reasons, constraints, test permissions, and observable results. Put outcome and actual work early in tickets, using headings and labeled bullets for substantial items; omit irrelevant empty sections and duplicate background. The ticket body's specific contract lives in [write-ticket/reference.md](../write-ticket/reference.md#plan).
+
+## Final report
+
+The user often runs many threads at once and comes back after being away. Every message that ends a run (finished, blocked, waiting on the user, or handing back from background work) opens with three lines that tell them, without scrolling, whether this thread needs them, what is true now, and what happens next. A quick answer to a plain question skips it.
+
+```markdown
+✅ **Done: <the job, in the user's words>**
+**State:** <what is true now: what works, what was checked, and where the change lives>
+**Next:** <one step and who owns it>
+
+### What changed
+- <behavior or file, one line each>
+
+### Checks
+- <check>: <result>
+- Not checked: <what, and why>
+
+### Decided for you
+- <choice>: <what was picked and why; how to get the other option>
+
+### How to see it
+- <link, URL, path, or command>
+```
+
+- **Status mark:** `✅ Done` when the outcome is met and nothing needs the user; `🟡 Needs you` when only the user can unblock it; `⛔ Blocked` when something outside the user's reply stops it (name it and what would clear it); `⏳ Running` when background work continues (name what it waits on).
+- **State before story.** No cause analysis or narrative above the three lines.
+- **State** always says where the work lives: uncommitted, committed locally (short SHA), pushed, or the PR link.
+- **Next** is one step. When the user owns it, give the exact reply or action ("Reply `ship` for a branch, commit, and draft PR"). When nothing is needed, say "Nothing needs you; this thread can be closed."
+- Sections below are optional, in this order, and omitted when empty. A skill's own template (completion summary, analysis memo, review output) goes under the three lines.
+- Keep verified and unverified apart. Never hand the user an unrun check as done.
+- Link a long draft or file instead of pasting it, unless the user asked to see it.
+- A repeat status with no change is one line: "⏳ Running: no change since <time>; nothing needs you."
+- Questions, when any, come last in the [Questions template](#questions-template) and pass the [ask bar](#asking-the-user).
 
 ## Unslop
 
@@ -165,7 +203,7 @@ Before send: **What makes this obviously generated?** Fix that.
 12. Bold only the few words that matter.
 13. Inline-header restatement is a tell ("**Performance:** Performance improved…"). A bold lead-in that adds new detail is fine.
 14. Sentence case headings in chat.
-15. Decorative emojis stay out of headings and bullets.
+15. Decorative emojis stay out of headings and bullets. The final report's status mark is not decorative.
 16. Straight quotes, not curly.
 
 #### Chat and filler

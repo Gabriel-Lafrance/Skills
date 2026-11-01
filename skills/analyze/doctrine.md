@@ -214,27 +214,15 @@ Return one section for every selected stable finding ID to the orchestrator:
 
 ## Apply
 
-For one-off analysis, if the user did not already name the next step, offer one batch:
+For one-off analysis, end with the [final report](../rules/writing-style.md#final-report) and ask nothing about the next step. Its **Next** line names the one that fits, such as "Reply `build` to carry the seed into `/task-with-tests`", or "Nothing needs you" when no build is intended. The user may reply with any of these:
 
-```markdown
-## Questions
-Reply like: 1a
-
-1. Next step for this analysis?
-   - a) Done: keep the memo in chat ← recommended when no build is intended
-   - b) Sharpen the memo
-   - c) Promote the inline seed to `/task-with-tests`
-   - d) Draft a ticket from this memo with `/write-ticket`
-   - e) Promote to `/task-with-tests` and start building
-```
-
-| Choice | Do |
+| Reply | Do |
 | --- | --- |
-| a) Done | Leave the memo and execution context visible; stop. |
-| b) Sharpen | Research only the open point, then revise the memo. |
-| c) Promote | Explicitly carry the inline seed and locked decisions into `/task-with-tests`. |
-| d) Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
-| e) Promote + start | Carry the inline seed into `/task-with-tests`, then continue through its grill or pre-cleared path. |
+| Done | Leave the memo and execution context visible; stop. |
+| Sharpen | Research only the open point, then revise the memo. |
+| Promote | Explicitly carry the inline seed and locked decisions into `/task-with-tests`. |
+| Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
+| Promote + start | Carry the inline seed into `/task-with-tests`, then continue through its grill or pre-cleared path. |
 
 A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the relevant researched context; the parent combines it with any useful `/how` or `/why` explanation and the grill's settled decisions into the final ticket. Analysis remains conversational preparation, not a required intermediate deliverable.
 

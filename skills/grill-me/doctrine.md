@@ -55,8 +55,9 @@ Keep four things separate:
   agreed outcome and constraints. Choose them and explain relevant conclusions.
 - **Unresolved consequential tradeoffs:** choices whose plausible answers
   change behavior, contracts, data meaning or integrity, authority,
-  compatibility, transition safety, scope, or cost. Ask the user when that
-  tradeoff needs their judgment and the existing decisions do not settle it.
+  compatibility, transition safety, scope, or cost. Ask the user only when
+  it passes the [ask bar](../rules/writing-style.md#asking-the-user) and the
+  existing decisions do not settle it; otherwise choose it and record it.
 
 Materiality does not depend on changing different files. Two implementations
 in the same function can treat missing data differently, preserve different

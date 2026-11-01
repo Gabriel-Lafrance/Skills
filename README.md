@@ -68,7 +68,7 @@ Install **gabriel-skills** from **Customize → Marketplace** (public listing or
 
 If you previously pasted gold standards into a harness text box, remove that paste. `AGENTS.md` is the one copy.
 
-The end-to-end build orchestrator is [`/task`](./skills/task/SKILL.md). This pack used `/goal` for that job; Cursor now owns `/goal`, so use `/task` instead. For an already precise ticket, [`/gabriel-mode`](./skills/gabriel-mode/SKILL.md) coordinates workers that implement and review their own slices, with the main agent checking each result and the combined change before verification. It stops at a ready-for-PR assessment.
+The default build skill is [`/task-with-tests`](./skills/task-with-tests/SKILL.md); [`/task`](./skills/task/SKILL.md) is the same loop without the tests-first phase. `/task` replaced this pack's old `/goal`, which Cursor now owns. For an already precise ticket, [`/gabriel-mode`](./skills/gabriel-mode/SKILL.md) coordinates workers that implement and review their own slices, with the main agent checking each result and the combined change before verification. It stops at a ready-for-PR assessment.
 
 All three build entry points share a [ready-ticket preflight](./skills/rules/execution.md#ready-ticket-preflight): check current code, reuse settled decisions and test consent, and reopen only new material gaps. `/write-ticket` checks nontrivial final drafts with a fresh reader before handoff. The active orchestrator owns remediation and final acceptance; research, review, and verification return bounded evidence.
 
@@ -89,7 +89,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, `/review`, and `/hillclimb` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
+Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/task-with-tests`, `/gabriel-mode`, `/hillclimb`, `/review`, `/review-loop`, `/verification`, `/test-audit`, `/babysit-pr`, and `/takeover-pr` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
@@ -124,7 +124,7 @@ For [Git sync alone](./skills/rules/execution.md#git-sync-only), such as merging
 
 [`/write-ticket`](./skills/write-ticket/SKILL.md) turns that understanding into a ticket an executor can use without the old chat. Outcome and work come first. Substantial items have numbered headings with local **Do / Why / How / Verify** details. Agreed signatures, types, payloads, and fixed values stay in code blocks beside the owning work; consumers refer to one shared contract. Useful diagrams explain ordering or handoffs. Reasons, dependencies, blockers, and test decisions survive, while empty sections and repeated background are omitted. Backend-only work needs no UX section.
 
-[Working updates](./skills/rules/writing-style.md#working-output) report findings, consequences, decisions, blockers, checks, and next steps without repeating the full context. The complete final ticket appears once; after an authorized tracker write, the response gives links, applied metadata, relationships, and any incomplete work. Build completion reports the delivered change and verification evidence, with failed or unrun checks explicit. Planned checks and narrative inspection are not reported as executed proof. Creating or extending tests still requires your explicit acceptance; running relevant existing tests does not.
+Every run ends with a [final report](./skills/rules/writing-style.md#final-report) that leads with status, state, and the next step. [Working updates](./skills/rules/writing-style.md#working-output) report findings, consequences, decisions, blockers, checks, and next steps without repeating the full context. The complete final ticket appears once; after an authorized tracker write, the response gives links, applied metadata, relationships, and any incomplete work. Build completion reports the delivered change and verification evidence, with failed or unrun checks explicit. Planned checks and narrative inspection are not reported as executed proof. Creating or extending tests still requires your explicit acceptance; running relevant existing tests does not.
 
 ## Common paths
 

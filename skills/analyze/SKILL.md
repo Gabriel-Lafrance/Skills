@@ -14,6 +14,7 @@ Investigate a task, idea, ticket, PR, or review-fix backlog and return an eviden
 - About to research, even when the ask looks like a single file? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), [doctrine.md](doctrine.md), and the [execution context](../rules/planning.md#execution-context). Skip them and the memo recommends a fix the rules reject.
 - About to search widely or read large files? Open [main-context.md](../rules/main-context.md). Skip it and raw search output buries the analysis.
 - About to ask the user anything? Open [Asking the user](../rules/writing-style.md#asking-the-user). Skip it and you ask what the repo already answers.
+- About to post the memo? Open [Plain language](../rules/writing-style.md#plain-language). Skip it and the memo reads like pack jargon.
 
 ## Contract
 
@@ -56,10 +57,9 @@ and any next step, including when it already has implementation authorization.
 
 ### If this is a user one-off
 
-Ask one batch for real unknowns, then offer the explicit hand-off choices
-in [doctrine.md](doctrine.md#apply) (Done / Sharpen / Promote / Write ticket /
-Promote + start). Ask those Questions unless the user already named the next
-step, and work without a parent brief.
+Ask only hard, ambiguous unknowns, then end with the final report. Its Next
+line offers the [hand-off](doctrine.md#apply) that fits; promote only on the
+user's reply. Work without a parent brief.
 
 ## Anti-patterns
 

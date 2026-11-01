@@ -20,7 +20,7 @@ skills/
   rules/                 # rule files AGENTS.md points to (NOT user-invoked)
     SKILL.md             # required so npx skills installs this folder
     keep-it-simple.md, strong-foundation.md, no-unrequested-tests.md, main-context.md
-                         # one file per rule in the AGENTS.md Rules section
+                         # a file for each AGENTS.md rule that needs detail
     principles.md          # steering vocabulary; detail stays in the file that owns it
     journeys/            # one piece of work followed through skills and rules; /ask-gabriel is the map
     code-quality.md      # code quality rules (quality:* cite keys), named principles, mechanical rules
@@ -29,7 +29,7 @@ skills/
     code-structure-examples.md # good vs bad shapes for code-structure.md
     planning.md          # grill first, Before/After change diagram, in-chat execution context
     user-experience.md   # every UI and UX rule (ux:*), React and UI, docs/design.md contract
-    writing-style.md     # plain language, asking the user, Unslop
+    writing-style.md     # plain language, asking the user, final report, Unslop
     testing.md           # how an accepted test is written
     shipping.md          # branch names, shipping rules, create tool, applicable checks and required CI
     shipping-templates.md # ship questions, PR Change diagram, PR body template
@@ -84,14 +84,15 @@ The `description` is how a model decides to open the skill. Open it with the tri
 
 - **Plain language:** every skill that talks to the user links the [Plain language](./skills/rules/writing-style.md#plain-language) section of `writing-style.md`. Chat uses ordinary words. Named principles use **plain (Classic)**, for example `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (a bare Rule 1) stays banned.
 - **Unslop:** chat replies follow the **Unslop** section of [`skills/rules/writing-style.md`](./skills/rules/writing-style.md#unslop). Not a user skill. Do not add `/unslop`. `/setup-gabriel-skills` places `AGENTS.md`. It does not rewrite it from memory.
-- **Standards:** every pack skill except `/ask-gabriel` links and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
-- **Asking:** every skill that needs decisions links the [Asking the user](./skills/rules/writing-style.md#asking-the-user) section of `writing-style.md`: batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
+- **Standards:** every pack skill that writes or judges code links and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
+- **Final report:** every run ends with the [final report](./skills/rules/writing-style.md#final-report): status, state, and next step first, with the skill's own template under it.
+- **Asking:** ask only hard, ambiguous choices. Every skill that needs decisions links the [Asking the user](./skills/rules/writing-style.md#asking-the-user) section of `writing-style.md`: batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
 - **Execution context:** parent orchestrators link the [Execution context](./skills/rules/planning.md#execution-context) section of `planning.md`, keep outcome, decisions, rules that must stay true, scope, and handoff visible in chat. Do not create agent-owned runtime trees.
 - **Execution handoffs:** reuse [execution.md](./skills/rules/execution.md) for ready-ticket preflight, evidence, remediation, recovery, and completion. The chosen build skill owns its execution sequence; the active orchestrator owns dispatch and acceptance. Nested capabilities follow [planning.md](./skills/rules/planning.md#nested-capabilities), returning bounded updates to their parent.
 - **Review:** `/review` keeps its [contract](./skills/review/contract.md) for evidence, modes, finding records, the review output fence, correctness hunt, and severity mapping.
 - **PR workflows:** `/babysit-pr` and `/takeover-pr` reuse [PR lifecycle](./skills/rules/pr-lifecycle.md); `/review-loop` reuses [review budget](./skills/review/contract.md#review-budget) and execution remediation. Keep these entries thin. Tool selection uses [harness-first discovery](./skills/rules/tooling.md#harness-first-discovery); delegation lifecycle stays in [main-context.md](./skills/rules/main-context.md#delegation-lifecycle).
-- **PR ship:** every agent that creates a GitHub PR follows [`skills/rules/shipping.md`](./skills/rules/shipping.md): the harness pull-request tool when it has one, otherwise `gh`, a standalone branch that does not track `dev`, applicable verification, and required CI. Select local checks by [behavior, dependencies, and risk](./skills/rules/execution.md#verification-scope); a full local CI mirror is required only when the repository or user requires it, or the risk warrants it.
+- **PR ship:** every agent that creates a GitHub PR follows [`skills/rules/shipping.md`](./skills/rules/shipping.md): the harness pull-request tool when it has one, otherwise `gh`, a standalone branch that does not track `dev`, `main`, or `master`, applicable verification, and required CI. Select local checks by [behavior, dependencies, and risk](./skills/rules/execution.md#verification-scope); a full local CI mirror is required only when the repository or user requires it, or the risk warrants it.
 - **Ticket stacks:** `/write-ticket` defaults larger work to a parent and PR-sized child tickets with dependencies and explicit PR bases. Use its [stack handoff](./skills/write-ticket/reference.md#stack-handoff) for a single request to implement all children; builds follow the [whole-stack handoff](./skills/task/doctrine.md#whole-stack-ticket-handoff) and [stack shipping rules](./skills/rules/shipping.md#stacked-pull-requests).
 - **Do not** put shared rules at `skills/*.md`: they will not install.
 - **Tests:** tests require the user's acceptance under [`no-unrequested-tests.md`](./skills/rules/no-unrequested-tests.md). [`/test-audit`](./skills/test-audit/SKILL.md) only prunes and repairs existing tests after the user approves the evidence. Reuse accepted and refused decisions with their sources from the [ready-ticket preflight](./skills/rules/execution.md#ready-ticket-preflight); changing execution entry point does not reset consent. For newly proposed tests, the owning build skill asks and waits. [`/review`](./skills/review/SKILL.md) may recommend a lock, never write it unasked. `/task` build slices, `/analyze`, and `/write-ticket` do not write tests.
@@ -183,7 +184,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 - Do **not** add a root `rules/` folder, a `.mdc` file, or a `.cursor/rules` copy. Rule text lives only in `skills/rules/`.
 - Do **not** paste `AGENTS.md` into a User Rules box.
-- Rule text lives in `skills/rules/`: one file per rule in the `AGENTS.md` Rules section, and one file per topic in the Read when table. `AGENTS.md` is only the index: a short intro, how to find the pack, the Rules section (each line states the rule in bold, then the moment, the file, and the mistake), the **Read when** table, and the Conflict line. Change a rule in its `skills/rules/` file. Do not grow `AGENTS.md` back into the full rulebook, and keep it under 8,192 bytes.
+- Rule text lives in `skills/rules/`: one file for each `AGENTS.md` rule that needs more than its bold line, and one file per topic in the Read when table. `AGENTS.md` is only the index: a short intro, how to find the pack, the Rules section (each line states the rule in bold, then the moment, the file, and the mistake), the **Read when** table, and the Conflict line. Change a rule in its `skills/rules/` file. Do not grow `AGENTS.md` back into the full rulebook, and keep it under 8,192 bytes.
 - Every pointer, in `AGENTS.md` and in a skill's Read when list, names the action the agent is about to take, the file, and the mistake it makes without that file.
 - Do **not** copy the code quality or code structure rules into a skill doctrine. The Unslop catalog lives in `skills/rules/writing-style.md` because it is not a user skill.
 - When the index or the Rules section changes, edit root `AGENTS.md`. There is no second copy.
