@@ -1,6 +1,6 @@
 ---
 name: write-ticket
-description: Develop an implementation-ready Linear or GitHub ticket in one conversation, using analysis and grilling to settle intent and context. Draft in chat or write when requested; split into linked subissues when real PR boundaries help. Never inside /task.
+description: Use when the user asks to write, file, open, draft, refine, or split an implementation-ready Linear or GitHub ticket or issue. Drafts in chat unless asked to write it, and splits into linked subissues when real PR boundaries help. Never runs inside /task.
 category: Documents
 ---
 

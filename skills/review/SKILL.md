@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a local branch diff or an open GitHub pull request against the pack standards and the spec, with evidence-backed findings. Use when the user asks to review, check, or audit a branch, a diff, or a PR.
+description: Use when the user asks to review, check, or audit a branch, a diff, or a PR, or when a build skill reaches its review gate. Reports evidence-backed findings against the pack standards and the spec. Repeated review and fix rounds go to review-loop.
 category: Code
 ---
 

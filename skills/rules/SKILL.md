@@ -1,6 +1,6 @@
 ---
 name: rules
-description: Rule files the always-on AGENTS.md index points to. Not user-invoked. Other skills link here so the rules install with npx skills.
+description: Never invoke directly. Holds the rule files that AGENTS.md and other skills link to; open one only when AGENTS.md or a skill names it. Ships as a skill so the rules install with npx skills.
 category: Documents
 disable-model-invocation: true
 ---

@@ -1,6 +1,6 @@
 ---
 name: verification
-description: Verify finished work with checks selected by affected behavior, dependencies, and risk. Run full suites when warranted or explicitly requested, and exercise relevant real paths. Use when the user asks to prove a change works or a build skill starts verification.
+description: Use when the user asks to verify or prove a change works, to run all repository tests, or to prove the running app, a migration, an endpoint, or a job works, or when a build skill reaches its verification gate. Picks checks by affected behavior and risk.
 category: Code
 ---
 

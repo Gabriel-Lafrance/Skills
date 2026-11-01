@@ -1,6 +1,6 @@
 ---
 name: gabriel-mode
-description: Orchestrate an already precise ticket through test and coding subagents, each reviewing its own contribution before the main agent judges it. Use when the user invokes /gabriel-mode. Finish with combined review, verification, and a ready-for-PR assessment.
+description: Use when the user invokes /gabriel-mode, or asks to run an already precise ticket through worker subagents with main-agent review of each slice. Ends at a ready-for-PR assessment. An unclear ticket goes to write-ticket first; an ordinary build goes to task-with-tests.
 category: Code
 ---
 

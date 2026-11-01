@@ -68,7 +68,7 @@ Numbered how-to lives in `SKILL.md`. Nested vs one-off (who ships, who asks the 
 ```yaml
 ---
 name: skill-name          # matches folder name
-description: Third person. WHAT it does and WHEN to use it. One line, 60 words or fewer.
+description: WHEN to use it first, then only what separates it from a neighbor. One line, 60 words or fewer.
 category: Code            # one of Code, Data, Design, Documents, General, Web
 disable-model-invocation: true   # setup-gabriel-skills, rules, explicit-only hillclimb
 ---
@@ -78,7 +78,7 @@ Keep `description` on one line. Ono's Add a skill card prints the rest of that l
 
 `category` is the one chip on that card. Use the chip names as written: Code, Data, Design, Documents, General, Web.
 
-Every workflow skill triggers from what the user asks, so its `description` must name those requests ("Use when the user asks to write, file, or draft a ticket"). The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md), [`rules`](./skills/rules/SKILL.md) and explicit-only [`hillclimb`](./skills/hillclimb/SKILL.md) keep `disable-model-invocation: true`. Hillclimb also sets `policy.allow_implicit_invocation: false` in its supported Codex metadata. A skill that waits for approval before acting (like `test-audit`) still triggers from the request. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
+The `description` is how a model decides to open the skill. Open it with the trigger, naming the user's requests ("Use when the user asks to write, file, or draft a ticket"), or "Use only when" for explicit-only skills. Then add only what steers the choice: where a near miss goes instead, or what the skill never does. Leave the process to `SKILL.md`. The Skills table in `AGENTS.md` maps the same requests for harnesses that ignore descriptions; keep the two in step. [`setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md), [`rules`](./skills/rules/SKILL.md) and explicit-only [`hillclimb`](./skills/hillclimb/SKILL.md) keep `disable-model-invocation: true`. Hillclimb also sets `policy.allow_implicit_invocation: false` in its supported Codex metadata. A skill that waits for approval before acting (like `test-audit`) still triggers from the request. A build request goes to `/task-with-tests`; plain `/task` runs only when the user types it or asks to skip tests.
 
 ## Shared rules
 

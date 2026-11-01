@@ -1,6 +1,6 @@
 ---
 name: test-audit
-description: Audit existing tests for low value (tests that restate source, duplicate stronger proof, couple to implementation, or keep test-only production hooks alive), report evidence, wait for approval, then prune one coherent batch. Campaign mode covers one subsystem. Use when the user asks to audit, prune, sweep, or clean up tests.
+description: Use when the user asks to audit, prune, sweep, or clean up existing tests, or to find low-value ones. Reports evidence and waits for approval before deleting or changing any test. Not for writing new tests.
 category: Code
 ---
 

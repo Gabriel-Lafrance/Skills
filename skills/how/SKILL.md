@@ -1,6 +1,6 @@
 ---
 name: how
-description: Answers how a system works as a senior onboarding model covering overview, concepts, flow, where code lives, and gotchas. Use when the user asks how something works, wants a walkthrough, or asks about ownership or layering. Does not write tickets or code.
+description: Use when the user asks how something works, wants a walkthrough, or asks who owns a layer or how layers fit together. Answers in chat; writes no tickets or code. Questions about why it was built this way go to why.
 category: Documents
 ---
 

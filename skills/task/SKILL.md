@@ -1,6 +1,6 @@
 ---
 name: task
-description: Stateless end-to-end build loop for one verifiable outcome, with no tests-first phase. Use only when the user types /task or asks to build without tests. Any other build request goes to /task-with-tests.
+description: Use only when the user types /task or asks to build without tests. Runs the task-with-tests build loop without the tests-first phase. Every other build request goes to task-with-tests.
 category: Code
 ---
 

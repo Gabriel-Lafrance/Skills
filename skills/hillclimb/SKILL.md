@@ -1,6 +1,6 @@
 ---
 name: hillclimb
-description: Run only when the user explicitly invokes hillclimb to improve one scoped target, such as a UI journey or a slow path, through separate reviewer and implementation agents. Picks the variant (UI and experience, or performance) from the goal, owns a finite round budget, and keeps only changes the evidence supports. Never auto-starts for ordinary UI or speed-up work.
+description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped target, such as a UI journey or a slow path, over a finite round budget. Never start it for ordinary UI polish or speed-up requests; those go to task-with-tests.
 category: Code
 disable-model-invocation: true
 ---

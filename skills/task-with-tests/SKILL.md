@@ -1,6 +1,6 @@
 ---
 name: task-with-tests
-description: Default build skill. After the grill locks, proposes tests, writes only the ones the user accepts before any code, then builds until they pass. Use when the user asks to build, implement, add, or fix a feature or bug. The user may refuse every test.
+description: Default build skill. Use when the user asks to build, implement, add, or fix a feature or a bug, refactor, upgrade, speed something up, or resume a build. Proposes tests first and writes only the ones the user accepts. A request to skip tests, or /task, goes to task.
 category: Code
 ---
 

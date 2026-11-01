@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: Stateless analysis returned in chat. Use when the user asks to look into, investigate, research, or explain a bug, an idea, or a question before anything is built, or nested under write-ticket or review remediation. Does not write tickets or code.
+description: Use when the user asks to look into, investigate, or research a bug, an idea, or a question before anything is built, or to audit or assess existing code or a repo. Also runs nested under write-ticket or review remediation. Returns findings in chat; writes no tickets or code.
 category: Documents
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: ask-gabriel
-description: Router and map of this pack. Use when the user asks which skill to run, or when the agent is unsure which skill, rule, or path applies. Points to the journey that shows the full path.
+description: Use when the user asks which skill to run or is unsure what to do next, or when the agent is unsure which skill, rule, or path applies. Points to the matching journey instead of doing the work.
 category: General
 ---
 
