@@ -25,7 +25,7 @@ flowchart LR
 Reply like: 1a
 
 1. Currency is hardcoded as CAD in `billing.ts` and `stripe-provider.ts`. How should USD land?
-   - a) split: first a Refactor that passes a currency through `makeUserPay` with CAD everywhere (no behavior change), then the Feature that adds USD recommended
+   - a) split: first a Refactor that passes a currency through `makeUserPay` with CAD everywhere (no behavior change), then the Feature that adds USD ← recommended
    - b) add a USD branch inside `billing.ts`
 ```
 

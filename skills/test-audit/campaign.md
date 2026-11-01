@@ -33,17 +33,17 @@ Done when every declaration in the area has a mark and an evidence line.
 
 The ledger is input, not the edit list. A second read-only pass looks for the redundant **layer**: several suites replaying the same shared logic through one mocked collaborator, next to a stronger real-boundary suite. Name the **keeper** suite for each contract. Prefer the real transport boundary with a fake network over a mocked collaborator. Correct any ledger errors this pass finds.
 
-Post the area plans and one Questions batch ([Asking the user](../rules/writing-style.md#asking-the-user)). Wait for approval before step 5.
+Post the area plans in chat and continue to step 5.
 
-Done when each area plan names its retired files, its keeper per contract, the assertions to carry into keepers, and the test-only production hooks it unlocks, and the user approved the plans.
+Done when each area plan names its retired files, its keeper per contract, the assertions to carry into keepers, and the test-only production hooks it unlocks.
 
 ## 5. Cutover
 
 Edit area by area. Serialize changes to shared harnesses and support files through one owner. With each area, remove the test-only production hooks it unlocks: injection parameters, getters, reset exports, and indirection layers. Register moved suites in CI routing and test inventories. Update any shrink-only line-cap baselines.
 
-If the campaign found a mistake worth a durable test-ownership rule, propose the line for the subsystem's `AGENTS.md`. Write it only when the user says yes.
+If the campaign found a mistake worth a durable test-ownership rule, offer the line for the subsystem's `AGENTS.md` in the final report's Next line.
 
-Done when every approved area plan is applied and each area's keepers pass.
+Done when every area plan is applied and each area's keepers pass.
 
 ## 6. Preservation review
 
@@ -55,7 +55,7 @@ Done when every reported gap is restored or rejected with source evidence, and e
 
 ## 7. Product defects
 
-A baseline failure that survives into a keeper is a bug report. Report it with evidence and wait. Fix it only when the user says yes, at its owner, as a separate commit. Prove the fix through the real user flow with [`/verification`](../verification/SKILL.md), including a **control** run that reverts the fix and shows the old behavior. Record unrelated product problems as follow-ups instead of fixing them in the campaign.
+A baseline failure that survives into a keeper is a bug report. Report it with evidence and keep going. Fix it only on the user's reply, at its owner, as a separate commit. Prove the fix through the real user flow with [`/verification`](../verification/SKILL.md), including a **control** run that reverts the fix and shows the old behavior. Record unrelated product problems as follow-ups instead of fixing them in the campaign.
 
 Done when each approved fix has a failing control and a passing candidate on the same harness, and every other defect is reported.
 

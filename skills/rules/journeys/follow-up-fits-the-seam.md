@@ -28,7 +28,7 @@ Only real product questions remain:
 Reply like: 1a
 
 1. Who sees PayPal at checkout?
-   - a) every customer, next to the card option recommended
+   - a) every customer, next to the card option ← recommended
    - b) only customers who choose it in settings
 ```
 

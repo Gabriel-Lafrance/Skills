@@ -28,10 +28,10 @@ flowchart LR
 Reply like: 1a 2a
 
 1. Will there be more than one payment provider?
-   - a) yes: Stripe now, PayPal asked for by two customers recommended
+   - a) yes: Stripe now, PayPal asked for by two customers ← recommended
    - b) no: Stripe only
 2. Will checkout charge in more than one currency?
-   - a) no: CAD only for the next year recommended
+   - a) no: CAD only for the next year ← recommended
    - b) yes
 ```
 

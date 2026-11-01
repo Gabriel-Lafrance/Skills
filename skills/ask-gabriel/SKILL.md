@@ -58,7 +58,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Explicitly invoke a bounded review-and-improve loop on a UI journey or a slow path | [`/hillclimb`](../hillclimb/SKILL.md), only when named by the user; it picks the UI or performance variant from the goal. Ordinary UI or speed-up work keeps its existing route |
 | Lock complex behavior with tests | `/task-with-tests` proposes tests after the grill and you can refuse every one. Ask for a test directly, or say yes when `/review` recommends a lock. Either way the agent follows [testing.md](../rules/testing.md) |
 | Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |
-| Audit, prune, or clean up existing tests | `/test-audit` (reports evidence and waits for approval before deleting; campaign mode covers a whole subsystem) |
+| Audit, prune, or clean up existing tests | `/test-audit` (prunes one evidenced batch and reports how to restore it; campaign mode covers a whole subsystem) |
 | Install this pack from skills.sh | `/setup-gabriel-skills` (asks where the skills and `AGENTS.md` go; manual copy only if install fails) |
 
 Prefer `/analyze` then `/task-with-tests` for a build. `/how` and `/why` stop after the mechanics or the rationale. Recommend only the skill names in this map; nested vs one-off is a fork inside that skill’s `SKILL.md`.

@@ -58,15 +58,16 @@ Every pack skill that needs a decision follows this section. Link here instead o
 
 1. Batch known independent unresolved consequential choices into one message. Follow decision dependencies; defer a dependent choice when its alternatives need an earlier answer.
 2. Number items and provide lettered options when the choice is discrete.
-3. Mark one recommended option with `recommended`.
+3. Mark one option `← recommended` at the end of its line.
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
-5. Wait for answers to the questions you ask, except as item 9 allows. Settled decisions stay settled.
-6. Look up repository and tool facts instead of asking the user for them.
-7. **Ask only hard, ambiguous choices.** A question needs all three: the evidence does not point to one answer, the options trade off something only the user can weigh (scope, money, product direction, taste, or a risk they own), and a wrong guess is costly to undo. If you would recommend an option and expect the user to take it, decide it instead and list it under **Decided for you** in the [final report](#final-report). Research facts, reuse settled decisions, and own ordinary implementation details. [What to discover](../grill-me/doctrine.md#what-to-discover) defines a consequential choice. A run with no questions is normal. List settled facts outside Questions.
-8. **Standing instructions stay settled.** A stance the user states for the work ("no tests until the MVP", "ask me before picking a model", "not shipping yet") applies to every later step and goes into every child brief. Never ask it again. If you cannot apply one, such as a setting only the user can change, say so once.
-9. **Never stall on a reversible choice when the user is out of reach.** In a background or delegated run, or after the user says they are away, take the option that changes the least and can be undone, list it under Decided for you, and keep going. Wait only for what is irreversible or outward-facing: publishing, deleting, spending, credentials, production data, or a choice the user reserved. No test is written without acceptance, so the default there is none.
-10. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
-11. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
+5. **Every question goes in the block.** Anything the user must answer, including a yes/no or "should I start X?", goes in the `## Questions` block at the very end of the message: never in prose, a summary, or "still open" bullets. No block means nothing waits on the user. Write the block in Markdown and end the turn; do not use a harness question tool that pauses the run, since a paused background run stalls until someone answers.
+6. Wait for answers to the questions you ask, except as item 10 allows. Settled decisions stay settled.
+7. Look up repository and tool facts instead of asking the user for them.
+8. **Ask only hard, ambiguous choices.** A question needs all three: the evidence does not point to one answer, the options trade off something only the user can weigh (scope, money, product direction, taste, or a risk they own), and a wrong guess is costly to undo. If you would recommend an option and expect the user to take it, decide it instead and list it under **Decided for you** in the [final report](#final-report). Research facts, reuse settled decisions, and own ordinary implementation details. [What to discover](../grill-me/doctrine.md#what-to-discover) defines a consequential choice. A run with no questions is normal. List settled facts outside Questions.
+9. **Standing instructions stay settled.** A stance the user states for the work ("no tests until the MVP", "ask me before picking a model", "not shipping yet") applies to every later step and goes into every child brief. Never ask it again. If you cannot apply one, such as a setting only the user can change, say so once.
+10. **Never stall on a reversible choice when the user is out of reach.** In a background or delegated run, or after the user says they are away, take the option that changes the least and can be undone, list it under Decided for you, and keep going. Wait only for what is irreversible or outward-facing: publishing, deleting, spending, credentials, production data, or a choice the user reserved. No test is written without acceptance, so the default there is none.
+11. **Send Questions only while Questions remain.** Locked-in goes in a separate message. Record agent-owned conclusions in the [execution context](planning.md#execution-context), and keep the `## Locked in (tell me if this is wrong)` block out of the ask.
+12. After material Questions are settled (or when the turn is announce-only), announce agent-owned conclusions in a separate **Locked in (tell me if this is wrong)** message, or reuse a current parent lock. Each question states the concrete choice, evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
 
 Keep out-of-scope items, plan split, shared understanding, rules that must stay true, and user overrides visible in the current [execution context](planning.md#execution-context), in chat. Save them to a file only when the user requests a durable artifact and approves its destination.
 
@@ -79,7 +80,7 @@ When asking the user, use this shape only (no Locked-in heading):
 Reply like: 1a 2c
 
 1. <concrete open choice, relevant evidence or uncertainty>?
-   - a) <option, consequence, and reason> recommended
+   - a) <option, consequence, and reason> ← recommended
    - b) <realistic alternative and consequence>
    - c) Other: say what you want
 ```
@@ -108,6 +109,8 @@ Omit Locked-in when nothing is announced. Omit Questions when every remaining it
 - Optioned choices without a recommendation
 - `Reply like:` with descriptions, invalid letters, commas, or multiple rows
 - Asking about a fact the repository or tools can answer
+- A question in prose, a summary, or a "still open" bullet instead of the block
+- A harness question tool that pauses the run
 - Asking a choice you would recommend and expect the user to accept
 - Asking again about a stance the user already stated
 - Stalling a background run on a reversible choice
@@ -156,7 +159,7 @@ The user often runs many threads at once and comes back after being away. Every 
 - Keep verified and unverified apart. Never hand the user an unrun check as done.
 - Link a long draft or file instead of pasting it, unless the user asked to see it.
 - A repeat status with no change is one line: "⏳ Running: no change since <time>; nothing needs you."
-- Questions, when any, come last in the [Questions template](#questions-template) and pass the [ask bar](#asking-the-user).
+- `🟡 Needs you` always ends with the [Questions template](#questions-template), and no other status has one. Its questions pass the [ask bar](#asking-the-user).
 
 ## Unslop
 

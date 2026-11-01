@@ -28,7 +28,7 @@ After Verify, one batch. Wait, and install after they reply. Send it as written:
 Reply like: 1a
 
 1. Where should this pack's skills and AGENTS.md go?
-   - a) This repo recommended
+   - a) This repo ← recommended
    - b) This repo and user-level (every repo on this machine)
    - c) User-level only
 ```
@@ -109,7 +109,7 @@ Ask once. Wait.
 Reply like: 1a
 
 1. I could not install the skills and rules. Try a manual install?
-   - a) yes recommended
+   - a) yes ← recommended
    - b) no
 ```
 
