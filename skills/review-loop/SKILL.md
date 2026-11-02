@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: Use when the user asks for repeated review and correction of a branch or PR with a finite budget. Reuses review findings and execution remediation; defaults to three rounds and reports unresolved disputes or exhausted budget.
+description: Use when the user asks for repeated review and correction rounds on a branch or PR within a finite budget, three rounds by default. A single review pass goes to review.
 category: Code
 ---
 

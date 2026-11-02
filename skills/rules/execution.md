@@ -1,6 +1,6 @@
 # Shared execution contracts
 
-`/task`, `/task-with-tests`, and `/gabriel-mode` own their distinct build order. This file owns their common intake, handoff, remediation, and completion rules. It creates no extra phase, artifact, or agent.
+`/task` and `/gabriel-mode` own their distinct build order. This file owns their common intake, handoff, remediation, and completion rules. It creates no extra phase, artifact, or agent.
 
 ## Git sync only
 

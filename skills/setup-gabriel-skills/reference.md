@@ -28,7 +28,7 @@ After Verify, one batch. Wait, and install after they reply. Send it as written:
 Reply like: 1a
 
 1. Where should this pack's skills and AGENTS.md go?
-   - a) This repo recommended
+   - a) This repo ← recommended
    - b) This repo and user-level (every repo on this machine)
    - c) User-level only
 ```
@@ -109,7 +109,7 @@ Ask once. Wait.
 Reply like: 1a
 
 1. I could not install the skills and rules. Try a manual install?
-   - a) yes recommended
+   - a) yes ← recommended
    - b) no
 ```
 
@@ -148,7 +148,7 @@ Older versions of this pack left files that nothing reads now. Delete only these
 
 - **Old Claude copy** (b or c): if `~/.claude/gabriel-skills/AGENTS.md` contains `gabriel-skills-agents`, delete it, and remove the `@~/.claude/gabriel-skills/AGENTS.md` line from `~/.claude/CLAUDE.md` when present. Remove `~/.claude/gabriel-skills/` only if it is then empty. A file there without the marker stays.
 - **Old Cursor pointer:** delete `gabriel-skills/follow-agents.mdc` under `~/.cursor/rules` (b or c) or the app `.cursor/rules` (a or b) when it exists. Leave every other Cursor rule and hook.
-- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, `just-do-it`, `goal`, `create-plan`, `orchestrate`, `repair`, or `validate` only when one of its `.md` files links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). Many retired folders have no `SKILL.md`, so check every `.md` file in the folder. A folder with one of those names that does not link to the pack is the user's own skill and stays.
+- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, `just-do-it`, `goal`, `create-plan`, `orchestrate`, `repair`, `validate`, or `task-with-tests` only when one of its `.md` files links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). Many retired folders have no `SKILL.md`, so check every `.md` file in the folder. A folder with one of those names that does not link to the pack is the user's own skill and stays.
 
 Setup never writes `.cursor/rules`, an `.mdc` file, `.cursor/hooks.json`, ESLint, Prettier, or `.vscode` files.
 

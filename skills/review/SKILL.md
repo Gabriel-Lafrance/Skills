@@ -1,6 +1,6 @@
 ---
 name: review
-description: Review a local branch diff or an open GitHub pull request against the pack standards and the spec, with evidence-backed findings. Use when the user asks to review, check, or audit a branch, a diff, or a PR.
+description: Use when the user asks to review, check, or audit a branch, a diff, or a PR, or when a build skill reaches its review gate. Reports evidence-backed findings against the pack standards and the spec. Repeated review and fix rounds go to review-loop.
 category: Code
 ---
 
@@ -29,7 +29,7 @@ dependencies. Signatures locate behavior, not prove it.
 - Unsure whether a finding meets the evidence bar or how to word it? Open [examples.md](examples.md). Skip it and you ship a finding with no evidence.
 - About to write a user-facing finding? Open [Plain language](../rules/writing-style.md#plain-language). Skip it and the author gets a rule slug instead of a fix.
 - Reviewing a GitHub PR? Open [reference.md](reference.md) and [Asking the user](../rules/writing-style.md#asking-the-user). Skip them and you post comments nobody approved.
-- About to recommend a behavior-lock test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md) and [testing.md](../rules/testing.md). Skip them and you treat your recommendation as acceptance.
+- About to recommend a test? Open [no-unrequested-tests.md](../rules/no-unrequested-tests.md) and [testing.md](../rules/testing.md). Skip them and you treat your recommendation as acceptance.
 
 Use the review contract's scope-aware output: concise evidence for focused low-risk
 work; the full review output fence for substantial/high-risk or requested full reviews.

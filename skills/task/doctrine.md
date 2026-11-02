@@ -6,7 +6,7 @@ Autonomous loop toward one verifiable completion condition. Stay in **Agent mode
 
 ## Owns
 
-The no-tests-first build order, behavior-lock suggestion, lookup table and skill checklist. Common intake, handoffs, remediation and completion belong to [execution.md](../rules/execution.md). The agent running `/task` builds every slice itself, one at a time.
+The build order, lookup table and skill checklist. Common intake, handoffs, remediation and completion belong to [execution.md](../rules/execution.md). The agent running `/task` builds every slice itself, one at a time.
 
 ## Does not own
 
@@ -14,7 +14,7 @@ The no-tests-first build order, behavior-lock suggestion, lookup table and skill
 - UI and UX rules and `docs/design.md`: [user-experience.md](../rules/user-experience.md)
 - Review findings and evidence: `/review`; disposition and dispatch: the active orchestrator under [remediation](../rules/execution.md#remediation)
 - Verification method and scope: `/verification`
-- How tests are written: [testing.md](../rules/testing.md), and only for briefs the user accepted
+- Tests: `/verification` proposes and writes them under [testing.md](../rules/testing.md)
 - Numbered lifecycle: [`reference.md`](reference.md#lifecycle) · [`SKILL.md`](SKILL.md)
 
 ## Bars
@@ -23,7 +23,7 @@ Use the shared [execution context](../rules/planning.md#execution-context) as th
 
 **Rules that must stay true.** Every behavioral rule locked during the grill becomes a numbered rule (Rule 1, Rule 2) in the execution context, with its enforcement and verification. The user can mark a statement as a preference, example, or non-binding idea instead.
 
-**Lock before plans.** Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse a complete ticket lock; `/grill-me` settles only unresolved consequential choices. Assign each recorded rule to a slice or `all`, with its observable enforcement and verification. Send behavior-lock briefs only after that lock and the public entry are known.
+**Lock before plans.** Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse a complete ticket lock; `/grill-me` settles only unresolved consequential choices. Assign each recorded rule to a slice or `all`, with its observable enforcement and verification.
 
 **Quality bar.** Apply [verification scope](../rules/execution.md#verification-scope)
 before selecting checks and orchestration. Review the actual changed diff and
@@ -48,7 +48,7 @@ When independent gates apply, launch both in one step and judge their handoffs h
 | Plan contract | Issue [inline plan contracts](reference.md#inline-plan-contract) in chat |
 | Judge | `/analyze` for how, impact, and risk |
 | Build | This loop builds every slice itself; user-facing slices apply [user-experience.md](../rules/user-experience.md) ([Implement](reference.md#phase-1-plan-and-build)) |
-| Tests | After the Locked in message, suggest locks that cite a grilled rule ([reference.md](reference.md#behavior-lock-suggestion)). The user may refuse every test. Accepted briefs follow [testing.md](../rules/testing.md) |
+| Tests | None in build slices; `/verification` proposes the checks worth coding ([testing.md](../rules/testing.md)) |
 | Bug mid-build | Scoped Fix mode (or `/analyze` → continue this task) |
 | Review remediation | Active orchestrator follows [remediation](../rules/execution.md#remediation) |
 | Gate out | Scoped verification and review; independent subagents together when risk or the requested workflow calls for them |
@@ -69,7 +69,6 @@ Track these rows in the execution context or a short progress message. Declare c
 | Slice split | If multi-slice | Announce inline slices ([reference.md](reference.md#slice-split)) |
 | Inline plan contracts | Yes | One or more [plan contracts](reference.md#inline-plan-contract) in chat |
 | Non-UI slices | If non-UI | Built by this loop; update **Current slices** after each |
-| Behavior locks | When a complex public rule exists | After the plan names the public entry. Wait for the answer. Refusing every test is a complete answer |
 | `/verification` | Yes | Selected checks and acceptance evidence; independent subagent when the quality bar above applies |
 | `/review` | Yes | Standards and Spec, no Design axis; independent subagent when the quality bar above applies |
 
@@ -89,31 +88,17 @@ Read a ticket or PR as plain context. Change its status, comment, assignee, or s
 
 ### Whole-stack ticket handoff
 
-Applies to `/task` and `/task-with-tests` when the user asks to implement all children of a parent Plan. A request for one child stays scoped to that child and its prerequisite context.
+Applies to `/task` when the user asks to implement all children of a parent Plan. A request for one child stays scoped to that child and its prerequisite context.
 
 1. Read the parent and every child, their dependencies, existing branches/PRs, and recorded decisions. Carry the stack table into Current slices. Reuse completed work on resume. Resolve missing contracts or cycles before building affected children; the PR base must contain every prerequisite.
 2. Keep one branch and PR per child when shipping is requested, using the [stack shipping rules](../rules/shipping.md#stacked-pull-requests). Establish each child's branch from its recorded base before editing so sibling changes never accumulate into one PR. Implement ready children in dependency order; an unmerged predecessor branch is a valid base. Without shipping authorization, preserve the child boundaries in local work and ask once before committing or publishing.
-3. Apply the normal build lifecycle to each child. Carry forward explicit test acceptances and refusals with their decision source. Batch unresolved test choices across the stack once; a Plan's proposed tests or a request to build all children do not authorize new tests. `/task-with-tests` writes accepted tests first within each child and makes them green before that child's PR.
+3. Apply the normal build lifecycle to each child. Carry forward explicit test decisions with their source; a Plan's proposed tests or a request to build all children do not authorize new tests.
 4. Run `/verification` and `/review` for each child against its own base, retaining evidence for its checks. Fix failures before building dependent children. Continue through the authorized set without a new start or shipping question for each child. A genuine blocker pauses its dependents and is reported with the remaining work.
 5. Run the parent's final checks against a tree containing all required children and name the checked commit. Use a disposable local integration tree when independent branches need checking together. Report child ticket, branch, PR, base, and evidence for the whole stack. Complete only when every child and the parent checks are accounted for. Creating PRs does not mean they are merged or the parent ticket is closed.
 
-### Behavior locks
-
-Suggest tests only from grilled rules that must stay true, using the [testing.md](../rules/testing.md#when-a-test-is-worth-writing) bar. Detail and the question template are in [reference.md](reference.md#behavior-lock-suggestion).
-
-| Rule | Meaning |
-| --- | --- |
-| Wait for the Locked in message | No brief until the Locked in message is sent and the plan names the public entry. A typo, rename, or other trivial change offers nothing. When skip-grill applies because the rules are already specific, suggest from those rules |
-| Cite a grilled rule | Why and What come from that rule's observable outcome. A brief with no rule is invalid |
-| Same bar as [testing.md](../rules/testing.md#when-a-test-is-worth-writing) | Offer a complex public surface that can silently drift: authorization, ownership, safe-to-retry, a domain rule, a facade, a stateful class, or a complex hook. Skip a thin wrapper, formatter, UI chrome, generated code, types-only file, coverage target, and tautology |
-| The user chooses | One Questions batch. Every brief has a no. Silence is not yes. A parent does not take `recommended` |
-| A correction reopens the rule | "That is not the behavior" updates the rule and discards briefs that cited it. Build from the corrected rule |
-| Written by testing.md | An accepted brief is a test slice after the public entry exists, written by following [testing.md](../rules/testing.md) |
-| A refusal sticks | `/review` re-offers that claim only when the shipped public contract differs |
-
 ## Output
 
-**Complete when:** the checklist and [shared completion contract](../rules/execution.md#recovery-and-completion) pass, including both gate handoffs. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip ship Questions. Otherwise ship under existing authorization, or offer ship Questions when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
+**Complete when:** the checklist and [shared completion contract](../rules/execution.md#recovery-and-completion) pass, including both gate handoffs. Announce the completion summary in chat ([reference.md](reference.md#completion-summary)). Under a parent that owns shipping, return the completion evidence to it and skip the ship offer. Otherwise ship under existing authorization, or end with the ship offer when none exists. Commit, open a PR, archive, or write a summary artifact only when the user asks.
 
 **Pause:** stop work and leave the current phase and next action visible in chat. **Clear:** end the in-chat context. Delete a user-requested artifact only when the user asks.
 
@@ -121,7 +106,7 @@ Suggest tests only from grilled rules that must stay true, using the [testing.md
 
 ## Apply
 
-Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, offer ship Questions only when shipping is not already authorized ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
+Run the [lifecycle](reference.md#lifecycle). If this chat owns shipping, end with the ship offer only when shipping is not already authorized ([SKILL.md](SKILL.md)). If a parent already owns the ticket, branch, and PR, return evidence to that parent.
 
 ## Anti-patterns
 

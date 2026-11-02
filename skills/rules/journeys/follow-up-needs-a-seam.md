@@ -7,7 +7,7 @@ Billing is the example domain; the vendor is not the point. The path and the sha
 
 ```mermaid
 flowchart LR
-  ask[User: charge in USD] --> build[task-with-tests]
+  ask[User: charge in USD] --> build[task]
   build --> spot[CAD hardcoded, no seam]
   spot --> refactor[Refactor: add the currency seam, behavior preserved]
   refactor --> feature[Feature: add USD on the seam]
@@ -16,7 +16,7 @@ flowchart LR
 
 ## 1. Route and spot the gap
 
-"Should pay in USD" asks for a change: open `task-with-tests/SKILL.md`. While finding siblings, the agent sees `"cad"` hardcoded in `billing.ts` and in `stripe-provider.ts`. Currency was settled as CAD only during preparation, so no seam exists. This is a Feature that fits no seam where one should now exist ([Scale to the work](../strong-foundation.md#scale-to-the-work)).
+"Should pay in USD" asks for a change: open `task/SKILL.md`. While finding siblings, the agent sees `"cad"` hardcoded in `billing.ts` and in `stripe-provider.ts`. Currency was settled as CAD only during preparation, so no seam exists. This is a Feature that fits no seam where one should now exist ([Scale to the work](../strong-foundation.md#scale-to-the-work)).
 
 ## 2. Grill the split
 
@@ -25,7 +25,7 @@ flowchart LR
 Reply like: 1a
 
 1. Currency is hardcoded as CAD in `billing.ts` and `stripe-provider.ts`. How should USD land?
-   - a) split: first a Refactor that passes a currency through `makeUserPay` with CAD everywhere (no behavior change), then the Feature that adds USD recommended
+   - a) split: first a Refactor that passes a currency through `makeUserPay` with CAD everywhere (no behavior change), then the Feature that adds USD ← recommended
    - b) add a USD branch inside `billing.ts`
 ```
 
@@ -34,7 +34,7 @@ Option b bolts a special case onto the foundation, and the third currency repeat
 ## 3. Two builds, in order
 
 1. **Refactor.** Remove the hardcoded value first ([keep-it-simple.md](../keep-it-simple.md#before-you-add), subtract first). `makeUserPay` takes a `currency`, and every current caller passes `"cad"`. Verify preserved behavior with relevant existing billing tests and affected caller/type checks under [verification scope](../execution.md#verification-scope); broaden if the shared contract affects more paths. No new test is needed. When the user requests tickets separately, `/write-ticket` makes this its own implementation ticket (kind Refactor). It ships on its own branch: `refactor/IN-57-pass-currency-through-billing`.
-2. **Feature.** Now USD fits the seam: checkout picks the currency from the customer's country. The tests prompt offers one test: a US customer's payment through `makeUserPay` is charged in USD.
+2. **Feature.** Now USD fits the seam: checkout picks the currency from the customer's country. `/verification` proposes one test: a US customer's payment through `makeUserPay` is charged in USD.
 
 ## 4. Review
 

@@ -159,17 +159,7 @@ How an agent launches, drives, and checks this app.
 
 ### Proposing recipe edits
 
-At the end of a run, list each edit as a bullet with the reason, then ask:
-
-```markdown
-## Questions
-Reply like: 1a
-
-1. Save these edits to `docs/verification.md`?
-   - a) yes, all ← recommended
-   - b) some: say which
-   - c) no
-```
+At the end of a run, list each edit as a bullet with the reason. The report's **Next** line offers them ("Reply `recipe` to save these edits"); nothing waits.
 
 ## Handoff
 
@@ -193,6 +183,7 @@ Use stable check IDs and acceptance mappings from [handoffs and evidence](../rul
 - **Resources and cleanup:** <owned processes/data, cleanup completed or remaining>
 - **Live layers not exercised:** <layers the change did not touch, in one line>
 - **Failed:** <each with the smallest repro, or none>
+- **Tests worth keeping:** <the [proposal](../rules/testing.md#proposal), tests written with file and command, or none>
 - **Inconclusive:** <each with the missing prerequisite, or none>
 - **Recipe edits proposed:** <list, or none>
 ```

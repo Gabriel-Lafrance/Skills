@@ -1,6 +1,6 @@
 ---
 name: why
-description: Answers why code is shaped this way with evidence tiers (found, inferred, unknown) and the sources consulted, including empty searches. Use when the user asks why something was built this way or wants the design rationale. Does not write tickets or code.
+description: Use when the user asks why something was built this way or what the design rationale is. Answers in chat with sources and found, inferred, or unknown evidence; writes no tickets or code. Questions about how it works go to how.
 category: Documents
 ---
 

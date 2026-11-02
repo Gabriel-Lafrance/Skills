@@ -1,6 +1,6 @@
 # Testing
 
-How tests are written in this pack. No skill writes new tests: when a test is accepted, the agent follows this file. [`/test-audit`](../test-audit/SKILL.md) prunes and repairs existing tests against the same bar.
+How tests are written in this pack. A test is a verification step written as code, so it can run again on every change. [`/verification`](../verification/SKILL.md) owns writing them: it proposes the checks worth keeping and writes the ones the user names. [`/test-audit`](../test-audit/SKILL.md) prunes and repairs existing tests against the same bar.
 
 Parts of the authoring gate, junk patterns, and retention bar are adapted from [openclaw test-audit](https://github.com/openclaw/openclaw/tree/main/.agents/skills/test-audit) (MIT).
 
@@ -14,9 +14,13 @@ Only after the user accepted it, as defined in [no-unrequested-tests.md](no-unre
 
 ## When a test is worth writing
 
-Lock a complex hook, domain rule, facade, stateful class, or a real regression whose public behavior could silently drift. Prefer it when review named authorization, ownership, or safe-to-retry writes with no durable lock. Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and [tautological tests](#no-tautological-tests). If the target is trivial, say so and stop.
+A test earns its place when it repeats a verification that matters: a real user flow or a real boundary that could break without anyone noticing. Pick the highest layer that proves it:
 
-`/task-with-tests` uses a looser bar: one test per grilled rule with an observable outcome, still skipping tautologies, UI chrome, formatters, generated code, and types-only code ([tests prompt](../task-with-tests/reference.md#tests-prompt)).
+1. **End to end:** the user's flow through the running app (browser, CLI, or API client) against local or disposable services.
+2. **Integration:** one real boundary (an endpoint, mutation, job, webhook, migration, or query) against the real database or runtime, faking only the outside network.
+3. **Unit:** only for logic that is hard to get right and must always return the right value, such as an obscure math function (tax rounding, a scheduling formula, a scoring curve). Changing it safely needs every case pinned. Say why no higher layer fits.
+
+Skip thin wrappers, formatters, UI chrome, generated code, types-only files, coverage targets, and [tautological tests](#no-tautological-tests). If nothing qualifies, propose nothing.
 
 ## No tautological tests
 
@@ -35,7 +39,7 @@ An independently mandated static or source contract is not a tautology. For exam
 | Grep for a private `authorize()` call and declare access denied | Invoke the real public operation as the prohibited caller and observe denial with no protected effect |
 | Copy a constant's current value into an assertion without another source of truth | Assert a real emitted protocol field equals the value required by the independently cited protocol; a wrong wire value fails even if private code is renamed |
 
-Finding an existing tautology is not permission to delete tests or change accepted assertions. Report it to the owning workflow and preserve [test consent](no-unrequested-tests.md) and its remediation gates.
+Finding an existing tautology is not permission to delete tests or change accepted assertions. Report it to the owning workflow and preserve [test consent](no-unrequested-tests.md).
 
 ## Authoring gate
 
@@ -48,7 +52,7 @@ An accepted test still passes this gate before it lands. Answer four questions, 
 
 Then check it against every [junk pattern](#junk-patterns). A tautological test always fails the gate. Use the [retention bar](#retention-bar) to distinguish independently grounded contract checks from superficially similar implementation mirrors, not to excuse a tautology. A test that breaks under a behavior-preserving refactor asserts implementation, not behavior. Rewrite it at the owning boundary before it lands.
 
-A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A setup failure is not that red baseline. If the pre-fix run is unavailable, report the missing evidence; do not claim the test reproduced the bug. One regression at the owner covers the bug, not a replay at every layer the scenario crosses.
+A bug regression test must fail on the pre-fix code for the intended reason and pass after the fix at the owner. A setup failure does not count as that failure. If the pre-fix run is unavailable, report the missing evidence; do not claim the test reproduced the bug. One regression at the owner covers the bug, not a replay at every layer the scenario crosses.
 
 ## Junk patterns
 
@@ -88,40 +92,34 @@ Static or slow is not a reason to delete. A test that looks like implementation 
 | Lock observable behavior | Invariants and public contracts, not internals |
 | Public entry | Exercise the public entry point. Mock only true external boundaries (network, clock, storage, authentication) |
 | Name the invariant | Every test title states it |
-| Approve first | Before writing, the user approves concise **Why**, **What**, and **How** statements for each main claim. A `/task` brief or `/task-with-tests` prompt item is already approved when the user answered yes on that line |
-| Cite the grilled rule | A lock that came from `/task` names the rule that must stay true it locks (Rule N). No rule, no test |
-| Small set | Core outcome, critical guard, meaningful edge, and the known regression when the brief named one. A few scenarios over combinatorial or snapshot theater |
+| Named by the user | Written only after the user named it from a [proposal](#proposal) or asked for it |
+| Cite the rule | When the work has a rule that must stay true (Rule N), the test names it |
+| Small set | Core outcome, critical guard, meaningful edge, and the known regression when the proposal named one. A few scenarios over combinatorial or snapshot theater |
 | Reuse the repo | Use its runner, layout, fixtures, and helpers instead of a new framework |
 | Focused run | Run the focused test file or filter. Widen only when that is inconclusive or the user asks |
-| Code quality and structure | Helpers throw on setup failure (`quality:throw-at-boundaries`); comments summarize the approved lock (`quality:comments`); exercise the service or deep-module public API, not internals (`structure:deep-public-surface`) |
+| Code quality and structure | Helpers throw on setup failure (`quality:throw-at-boundaries`); comments summarize the proposal (`quality:comments`); exercise the service or deep-module public API, not internals (`structure:deep-public-surface`) |
 
-## Lock brief
+## Proposal
 
-Batch every known main claim in one message ([Asking the user](writing-style.md#asking-the-user)) and wait. Every brief has a no. Write tests once each brief is approved.
+`/verification` lists the tests worth keeping in its report and keeps going; nothing waits for an answer. Number them, highest layer first:
 
 ```markdown
-## Lock brief: <symbol>
-- Why: <risk if behavior changes>
-- What: <observable contract or invariant>
-- How: <public entry, setup, and assertion>
-
-## Questions
-Reply like: 1a
-
-1. Approve this lock brief?
-   - a) yes ← recommended
-   - b) no, say what to change
+### Tests worth keeping
+1. **E2E: a double submit charges once** (Rule 2). Why: a double click could charge twice. What: one charge per retry key. How: submit checkout twice in the browser and assert one charge in the Stripe test log.
+2. **Integration: only the owner can refund** (Rule 3). Why: a caller could refund someone else's payment. What: a non-owner is rejected. How: call `refundPayment` as a non-owner and assert the rejection and no refund row.
 ```
+
+The report's **Next** line says how to keep them: "Reply `tests 1 2` to write them."
 
 ## Required test comment
 
-Put the approved three lines on each main test, in the repository's comment style:
+Put the proposal's three lines on each main test, in the repository's comment style:
 
 ```ts
 /**
- * Why: <approved why>
- * What: <approved what>
- * How: <approved how>
+ * Why: <why>
+ * What: <what>
+ * How: <how>
  */
 it("states the locked behavior", () => {
   // Assert an observable result.
@@ -130,21 +128,19 @@ it("states the locked behavior", () => {
 
 ## Process
 
-1. Name the behavior to lock and the outside change it should catch.
-2. Find the public export and nearby tests. If the runner or layout is unclear, ask once.
+1. Start from a verification that passed, or a reproduced bug, and the rule it proves.
+2. Pick the [highest layer](#when-a-test-is-worth-writing) that proves it, and find the repository's runner, layout, and nearby tests. If the runner is unclear, look it up in CI configuration and manifests.
 3. Run the [authoring gate](#authoring-gate).
-4. Draft every needed Why / What / How brief, batch them for approval, and wait.
-5. If `/task` or `/task-with-tests` already collected that approval, reuse it. Require the grilled rule id on each of those briefs. If the user corrected the rule after approval, stop and return the brief to the skill that collected it.
-6. Write the tests from the approved Why / What / How through the named public entry. Keep the set small, put the approved comment on each main test, and leave refactoring out of the change.
-7. Run the focused test, not the whole suite. Check the result against the approved claim.
-8. If the focused test fails on existing behavior, stop and report it. Change production code only at a user request. Under `/task-with-tests` the tests come before the code, so a failure is the expected [red baseline](../task-with-tests/reference.md#red-baseline): record it, and the build turns it green.
-9. Report with the handoff below.
+4. If the user has not named or asked for this test, add it to the [proposal](#proposal) and stop there.
+5. Write it through the real entry with the proposal's Why / What / How as its comment. Keep the set small and leave refactoring out of the change.
+6. Run the focused test, not the whole suite. A failure on existing behavior is a bug report: report it, and change production code only at a user request.
+7. Report with the handoff below.
 
 ### Handoff
 
 ```markdown
-## Behavior locks
-- **Claim:** <approved Why / What / How>
+## Tests written
+- **Claim:** <Why / What / How>
 - **Files:** <changed test files>
 - **Verification:** `<command>`: pass | fail
 - **Break signal:** <outside edit that makes this test fail>

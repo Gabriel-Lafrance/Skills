@@ -29,7 +29,7 @@ Understand the need, intended outcome and reason, affected behavior and states, 
 
 For a consequential user choice that remains open, state the concrete decision, evidence or uncertainty, realistic alternatives, recommended choice and reason, and practical consequences. Order questions by their dependencies and impact on the design. Preserve exclusions or rejected alternatives only when they prevent a credible mistake; no invented rival, wrong-if statement, or owner question is required. Discover owners from code where possible.
 
-For a Feature, establish what will vary or multiply, then the seam for each confirmed area or the existing seam being extended, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work). Settle hard implementation choices and test decisions (none, behavior lock, end-to-end, or both, what each proves, and whether the user accepts it). Reuse decisions already made rather than interviewing once for the problem and again for the solution.
+For a Feature, establish what will vary or multiply, then the seam for each confirmed area or the existing seam being extended, scaled by [strong-foundation.md](../rules/strong-foundation.md#scale-to-the-work). Settle hard implementation choices and test decisions (none, or e2e, integration, or unit, what each proves, and whether the user accepts it). Reuse decisions already made rather than interviewing once for the problem and again for the solution.
 
 ### Analyze
 

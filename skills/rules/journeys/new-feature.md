@@ -9,7 +9,7 @@ Billing is the example domain; the vendor is not the point. The path and the sha
 flowchart LR
   ask[User asks for a ticket] --> research[Research and clarify in chat]
   research --> plan[write-ticket: final ticket]
-  plan --> build[task-with-tests]
+  plan --> build[task]
   build --> review[review]
   review --> ship[shipping.md]
 ```
@@ -28,10 +28,10 @@ flowchart LR
 Reply like: 1a 2a
 
 1. Will there be more than one payment provider?
-   - a) yes: Stripe now, PayPal asked for by two customers recommended
+   - a) yes: Stripe now, PayPal asked for by two customers ← recommended
    - b) no: Stripe only
 2. Will checkout charge in more than one currency?
-   - a) no: CAD only for the next year recommended
+   - a) no: CAD only for the next year ← recommended
    - b) yes
 ```
 
@@ -66,11 +66,11 @@ The final ticket preserves the outcome and why it matters, relevant evidence, th
 
 ## 4. Build
 
-The user says "build IN-42". "Build" matches the Skills table: open `task-with-tests/SKILL.md`.
+The user says "build IN-42". "Build" matches the Skills table: open `task/SKILL.md`.
 
 1. **Grill.** The ticket already settled the foundation, so no new areas question. The Locked in message names the public entry: `billing.makeUserPay`.
-2. **Tests prompt.** One test per rule, each with a no. The user accepts both. They are written first and fail (the red baseline).
-3. **Plan and slices.** Slice 1 builds the service and the seam. Slice 2 wires checkout to `makeUserPay`. Before each slice the agent opens [keep-it-simple.md](../keep-it-simple.md): one registry object, no provider factory, no currency seam.
+2. **Plan and slices.** Slice 1 builds the service and the seam. Slice 2 wires checkout to `makeUserPay`. Before each slice the agent opens [keep-it-simple.md](../keep-it-simple.md): one registry object, no provider factory, no currency seam.
+3. **Tests.** `/task` writes none. After verifying, `/verification` lists "Tests worth keeping": 1. end to end, a customer pays once; 2. integration, `makeUserPay` denies a caller who does not own the order. The user replies `tests 1 2` and `/verification` writes both.
 
 ```text
 services/billing/
@@ -84,11 +84,11 @@ features/checkout/
 
 ## 5. Review and ship
 
-`/review` runs nested on the branch diff. The Foundation check passes: the provider area has a seam with one implementation, and currency has none because the user settled CAD only. Both accepted tests are green.
+`/review` runs nested on the branch diff. The Foundation check passes: the provider area has a seam with one implementation, and currency has none because the user settled CAD only. The tests the user named are green.
 
 [Verification scope](../execution.md#verification-scope) follows checkout through billing and the provider, including ownership and retry behavior. New payment infrastructure warrants broader integration evidence than a local guard fix; run the applicable checks and required CI, then state any remaining gaps.
 
-The ship question defaults to no. On yes, the agent opens [shipping.md](../shipping.md): branch `feature/IN-42-add-checkout-payments`, then the full PR title and body for approval before creating it.
+The final report offers shipping without asking. When the user replies `ship`, the agent opens [shipping.md](../shipping.md): branch `feature/IN-42-add-checkout-payments`, then the full PR title and body for approval before creating it.
 
 ## If a step is skipped
 

@@ -6,7 +6,7 @@ Review a shipped diff (a local branch or an open GitHub PR) for quality and whet
 
 ## Owns
 
-Inputs, modes, the two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, evidence bar, finding record, the review output fence, the Correctness hunt, baseline defects, severity mapping, when to recommend a behavior-lock test, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
+Inputs, modes, the two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, evidence bar, finding record, the review output fence, the Correctness hunt, baseline defects, severity mapping, when to recommend a test, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
 
 ## Does not own
 
@@ -371,13 +371,13 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 
 Severity has only these three levels, with no `important` middle. A GitHub PR review posts only `Blocking` or `Nit`. Adapters use this map without re-explaining it.
 
-## Behavior-lock recommendation
+## Test recommendation
 
-After an `initial` or `full-rescan` review, recommend a behavior-lock test only for a complex architectural boundary with externally observable behavior and no durable lock (authorization, ownership, safe-to-retry writes). Tell the user, and write no tests. If the user says yes, the test is written by following [testing.md](../rules/testing.md). Skip a claim the user accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief.
+After an `initial` or `full-rescan` review, recommend a test only for a complex boundary with externally observable behavior and no durable test (authorization, ownership, safe-to-retry writes), at the highest layer per [testing.md](../rules/testing.md#when-a-test-is-worth-writing). Tell the user, and write no tests. If the user says yes, `/verification` writes it. Skip a test the user already accepted or refused in a `/verification` report, unless the shipped public contract changed.
 
 ## Apply
 
-After an initial review or full rescan, recommend a behavior-lock test only per the [review contract](#behavior-lock-recommendation) rule. Tell the user why the lock matters. Skip a claim the user already accepted or refused in the current `/task` lock batch, unless the shipped public contract differs from that brief. This skill recommends only; if the user says yes, the test is written by following [testing.md](../rules/testing.md).
+After an initial review or full rescan, recommend a test only per the [review contract](#test-recommendation) rule. Tell the user why the test matters. Skip a test the user already accepted or refused in a `/verification` report, unless the shipped public contract changed. This skill recommends only; if the user says yes, `/verification` writes it.
 
 For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output. Running the app, a browser, or screenshots is [`/verification`](../verification/SKILL.md); when its handoff exists, cite its evidence in Spec matrix rows.
 

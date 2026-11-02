@@ -1,6 +1,6 @@
 ---
 name: takeover-pr
-description: Use when the user explicitly asks to assess, revive, or take over an old PR. Check semantic relevance and current invariants before recommending continue, rework, or closure; implement and publish only within authorized scope.
+description: Use only when the user explicitly asks to assess, revive, or take over an old PR. Checks whether it still fits current code before recommending continue, rework, or closure; implements and publishes only within authorized scope.
 category: Code
 ---
 

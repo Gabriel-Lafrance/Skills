@@ -87,8 +87,8 @@ Establish the relevant context once when starting or resuming work. At later sli
 | --- | --- | --- | --- |
 | Rule 1 | … | … | … |
 
-### Behavior locks
-- <none | waiting on the user | Rule N accepted | Rule N refused>
+### Tests
+- <none | proposed by /verification | Test N accepted | Test N refused>
 
 ### Current slices
 | Slice | Status | Scope / acceptance | Dependencies |

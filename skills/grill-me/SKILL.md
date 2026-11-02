@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Stateless interview that pressures each decision that would change the plan, then locks the result in chat. Use when the user asks to be grilled, to challenge or stress-test an idea, or to settle decisions before a plan.
+description: Use when the user asks to be grilled, to challenge or stress-test an idea, or to settle decisions before a plan. Build and ticket skills also run it for unresolved choices. Interviews, then locks the decisions in chat; writes no code.
 category: General
 ---
 
@@ -74,5 +74,4 @@ Stop after shared understanding unless the user explicitly asks for the next
 step. For an authorized build use the Skills table in `AGENTS.md`:
 
 - Structure needed: `/analyze`, then the selected execution skill.
-- Ready to build: `/task-with-tests` by default; `/task` for an explicit
-  command or no-tests request. Carry settled decisions and test refusals.
+- Ready to build: `/task`. Carry settled decisions and test refusals.

@@ -1,6 +1,6 @@
 ---
 name: write-ticket
-description: Develop an implementation-ready Linear or GitHub ticket in one conversation, using analysis and grilling to settle intent and context. Draft in chat or write when requested; split into linked subissues when real PR boundaries help. Never inside /task.
+description: Use when the user asks to write, file, open, draft, refine, or split an implementation-ready Linear or GitHub ticket or issue. Drafts in chat unless asked to write it, and splits into linked subissues when real PR boundaries help. Never runs inside /task.
 category: Documents
 ---
 
@@ -14,6 +14,7 @@ Develop the final ticket in the same chat as the research and decisions. User st
 - About to analyze or draft? Open [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [doctrine.md](doctrine.md). Skip them and the ticket plans a shape the rules reject.
 - About to grill or draft for a Feature? Open [strong-foundation.md](../rules/strong-foundation.md). Skip it and the Plan has no seams where a new variant plugs in.
 - About to ask? Open [Asking the user](../rules/writing-style.md#asking-the-user) and the relevant [reference.md](reference.md) guidance. Skip them and you ask for facts the repo or tracker already has.
+- About to draft? Open [Plain language](../rules/writing-style.md#plain-language). Skip it and the ticket needs this pack to make sense.
 - About to draft or write? Open the [Plan body](reference.md#plan), [fresh-executor handoff](doctrine.md#fresh-executor-handoff), and [final-version description](doctrine.md#final-version-description). Skip them and the ticket needs the old chat to make sense.
 
 ## Process

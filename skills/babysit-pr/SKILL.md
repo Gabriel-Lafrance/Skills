@@ -1,6 +1,6 @@
 ---
 name: babysit-pr
-description: Use when the user asks to babysit, watch, or monitor a PR until checks or reviews change, or report when it is ready. Watch and report by default; fixes and other mutations need their own authorization.
+description: Use when the user asks to babysit, watch, or monitor a PR until its checks or reviews change, or to report when it is ready. Watches and reports only; fixes and other changes need their own permission.
 category: Code
 ---
 

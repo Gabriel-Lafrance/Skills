@@ -1,12 +1,12 @@
 ---
 name: test-audit
-description: Audit existing tests for low value (tests that restate source, duplicate stronger proof, couple to implementation, or keep test-only production hooks alive), report evidence, wait for approval, then prune one coherent batch. Campaign mode covers one subsystem. Use when the user asks to audit, prune, sweep, or clean up tests.
+description: Use when the user asks to audit, prune, sweep, or clean up existing tests, or to find low-value ones. Prunes one evidenced batch without waiting for approval and reports how to restore it. Not for writing new tests.
 category: Code
 ---
 
 # Test audit
 
-Find existing tests that cost more than they protect, prove it with evidence, and remove or repair one coherent batch after the user approves. Optimize for confidence, not deletion count.
+Find existing tests that cost more than they protect, prove it with evidence, and remove or repair one coherent batch, then report it with a way to restore it. Optimize for confidence, not deletion count.
 
 Two modes share one value bar:
 
@@ -24,7 +24,7 @@ Adapted from [openclaw test-audit](https://github.com/openclaw/openclaw/tree/mai
 
 ## Contract
 
-- Discovery is read-only. Change a test, fixture, or source file only after the user approves that batch.
+- Discovery is read-only. Change tests, fixtures, or source only for the batch whose evidence is complete, and keep that batch restorable on its own.
 - This skill does not add new coverage. Moving a retained regression to its owner or repairing a vacuous assertion is part of the batch. A new test follows [testing.md](../rules/testing.md) and needs the user's acceptance.
 - A test that must change for a behavior-preserving reorganization is suspect, not automatically deletable.
 - User start only. `/task` does not nest this skill.
@@ -37,13 +37,12 @@ Before judging a candidate, read the complete test and its production owner: the
 
 ## Process
 
-1. **Scope.** Name the area and the mode. If the user named nothing, propose a scope in one Questions batch.
+1. **Scope.** Name the area and the mode. If the user named nothing, pick the area with the most likely candidates and list it under Decided for you.
 2. **Discover.** Hunt for the [junk patterns](../rules/testing.md#junk-patterns). For a broad scope, give each production owner area to a parallel read-only subagent (for example core packages, plugins or integrations, UI and apps, scripts and tooling, plus one cross-cutting pattern sweep). Ask each for short candidate rows, not file dumps. Prefer a few high-confidence candidates over a large speculative list.
 3. **Record evidence.** Fill every [candidate evidence](#candidate-evidence) field. A missing field means the candidate is not ready. Check each against the [retention bar](../rules/testing.md#retention-bar); a match is a retained false positive, not a candidate.
-4. **Ask.** Post the evidence table and one Questions batch: approve the batch, trim it, or stop. Wait.
-5. **Edit** the approved batch in the [edit shape](#edit-shape).
-6. **Validate** with the [validation](#validation) steps.
-7. **Hand off** with the [handoff](#handoff). Offer the next high-confidence batch as a separate follow-up, not folded into this one.
+4. **Edit** the batch in the [edit shape](#edit-shape), keeping it separate from other changes so it can be restored on its own.
+5. **Validate** with the [validation](#validation) steps.
+6. **Hand off** with the [handoff](#handoff). Offer the next high-confidence batch as a separate follow-up, not folded into this one.
 
 ## Candidate evidence
 
@@ -86,6 +85,7 @@ Edit source or tests only when no test watcher is running in the checkout.
 - **Proof run:** `<command>`: pass | fail
 - **Lines:** production <+/->, tests and support <+/->
 - **PR:** <link and state, or not shipped>
+- **Restore:** <exact command that brings the batch back>
 - **Next batch:** <named follow-up, or none>
 ```
 

@@ -14,7 +14,7 @@ Verifying current installs, installing or updating the rest of this pack with `n
 - Writing `.cursor/rules` or any `.mdc` file
 - Creating a harness home the user does not have
 - Rewriting `AGENTS.md` from memory
-- Behavior-lock tests ([testing.md](../rules/testing.md))
+- Tests the user accepts ([testing.md](../rules/testing.md))
 - `docs/design.md` (the agent doing UI work writes it when missing)
 - Detect and choose details: [`reference.md`](reference.md)
 

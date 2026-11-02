@@ -1,6 +1,6 @@
 ---
 name: setup-gabriel-skills
-description: Install this pack's skills and place AGENTS.md for the harness in use. If that install cannot be done, offer a manual copy.
+description: Use when the user runs /setup-gabriel-skills or asks to install, set up, or update Gabriel skills. Installs the pack's skills and places AGENTS.md for the harness in use, offering a manual copy if that fails.
 ---
 
 # Setup Gabriel skills

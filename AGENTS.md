@@ -19,11 +19,10 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 | The user asks to | Open |
 | --- | --- |
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
-| Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task-with-tests/SKILL.md` |
-| Build without tests, or types `/task` | `task/SKILL.md` |
+| Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task/SKILL.md` |
 | Types `/hillclimb` | `hillclimb/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
-| Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
+| Verify changed behavior, write or add tests, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Babysit or watch a PR and report readiness | `babysit-pr/SKILL.md` |
@@ -47,9 +46,9 @@ Bold rules always apply; linked files hold details and checks.
 2. **Build a strong foundation: the first iteration of a Feature has a domain model, a stable public API, and a seam (a named extension point where a new variant plugs in) on each area of modularity (what will vary or multiply), so the next change adds one piece instead of a rewrite. Keep it simple applies to the code inside each piece.** About to grill, plan, ticket, build, or review a Feature? Open `rules/strong-foundation.md`. Skip it and the second provider becomes a rewrite.
 3. **No tests unless the user accepted that test.** About to create or extend a test? Open `rules/no-unrequested-tests.md`. Skip it and you add tests the user has to delete.
 4. **Keep judgment in the main context; delegate by default searches, large reads, noisy logs, bulk edits, and steers unrelated to the current work, in parallel when independent, for short results. Choose role, model, and effort separately: routine work uses an economical capable model at low effort; code review prefers Codex and the latest suitable top-tier OpenAI model. Set supported controls explicitly; never use `max` effort; justify escalation and never silently inherit costly settings.** Before spawning any subagent, read `rules/main-context.md`; before a search or large read, its Rule and Selective navigation.
-5. **Cut taglines, helper text and secondary labels. Omit subtitles or descriptions under page, section or card headings by default, and copy repeating headings, labels or obvious UI behavior. Fix unclear layouts. Keep essential error, accessibility and non-obvious task guidance.**
+5. **Cut taglines, helper text and secondary labels. Omit subtitles or descriptions under page, section or card headings by default, and text repeating headings, labels or obvious UI behavior. Fix unclear layouts. Keep essential error, accessibility and non-obvious task guidance.**
 6. **Make the best decision that will elevate all three: the user experience (UX), developer experience (DX), and agent experience (AX) always, without breaking anything.**
-7. **No em or en dashes. Cite a principle as plain (Classic): "keep jobs apart (SoC)". Never ask what the repo can answer.**
+7. **No em or en dashes. Cite a principle as plain (Classic): "keep jobs apart (SoC)". Ask only hard, ambiguous choices; look up or decide the rest.**
 
 ## Read when
 
@@ -68,7 +67,7 @@ Open each topic file when named, once per session unless already in context.
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip applicable verification and required CI | `rules/shipping.md`, `rules/shipping-templates.md` |
 | Select tools, use a browser, start/debug a web project, lint, format, touch CI or verify | miss suitable permitted harness tools, accessible logs or required checks | `rules/tooling.md` |
 | Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
-| Ask the user anything, or write a reply, ticket, or PR body longer than a short status | drip questions, skip the recommendation, or sound generated | `rules/writing-style.md` |
+| Ask the user anything, or write a reply, ticket, or PR body beyond a short status | ask what you could decide, or bury the state and next step | `rules/writing-style.md` |
 
 ## Conflict
 

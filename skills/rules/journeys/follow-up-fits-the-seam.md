@@ -7,7 +7,7 @@ Billing is the example domain; the vendor is not the point. The path and the sha
 
 ```mermaid
 flowchart LR
-  ask[User: add PayPal] --> build[task-with-tests]
+  ask[User: add PayPal] --> build[task]
   build --> sibling[Sibling: stripe-provider.ts]
   sibling --> diff[One adapter plus one registry entry]
   diff --> review[review]
@@ -15,7 +15,7 @@ flowchart LR
 
 ## 1. Route
 
-"Add" matches the Skills table: open `task-with-tests/SKILL.md`. There is no ticket, so the grill works from the request and the repo ([strong-foundation.md](../strong-foundation.md#find-the-areas-of-modularity), source 3).
+"Add" matches the Skills table: open `task/SKILL.md`. There is no ticket, so the grill works from the request and the repo ([strong-foundation.md](../strong-foundation.md#find-the-areas-of-modularity), source 3).
 
 ## 2. Grill, scaled to thin context
 
@@ -28,15 +28,15 @@ Only real product questions remain:
 Reply like: 1a
 
 1. Who sees PayPal at checkout?
-   - a) every customer, next to the card option recommended
+   - a) every customer, next to the card option ← recommended
    - b) only customers who choose it in settings
 ```
 
 The Locked in message says which seam this extends and names the public entry: `billing.makeUserPay` with `provider: "paypal"`.
 
-## 3. Tests and build
+## 3. Build and test
 
-The tests prompt offers one test: a PayPal payment through `makeUserPay` creates one charge with the PayPal adapter. The user accepts it.
+`/task` builds it. `/verification` then proposes one test: a PayPal payment through `makeUserPay` creates one charge with the PayPal adapter. The user replies `tests 1` and `/verification` writes it.
 
 The whole diff:
 
