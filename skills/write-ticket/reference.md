@@ -79,7 +79,7 @@ A coding agent can implement from this body alone. For split work, the parent us
 - [ ] <overall observable acceptance>
 
 ## Tests
-- <behavior lock or end-to-end; public entry and what it proves>: proposed | accepted | refused
+- <e2e, integration, or unit; entry and what it proves>: proposed | accepted | refused
 - Decision source: <user instruction or recorded decision link; required for accepted/refused>
 or `none: no tests specified`
 ````
@@ -149,7 +149,7 @@ Authorized report callers can download CSV from the existing report route withou
 - **Do:** Add `render` in `src/export/service.ts` with the agreed contract below.
 - **Why:** The service owns authorization and CSV formatting so every caller gets the same rules.
 - **How:** Reject a caller outside the account with the existing `AccessDenied` error before reading report rows. Return UTF-8 CSV bytes, including `id,total\n` for no rows, and the filename `report.csv`. Keep provider details inside the service.
-- **Verify:** After implementation, use the public entry for populated, empty, and denied accounts. Inspect bytes and filename; denial must happen before row access. See Tests for the proposed lock and its unsettled permission.
+- **Verify:** After implementation, use the public entry for populated, empty, and denied accounts. Inspect bytes and filename; denial must happen before row access. See Tests for the proposed test and its unsettled permission.
 
 Agreed shared contract (canonical copy):
 
@@ -170,7 +170,7 @@ render(account: AuthorizedAccount): Promise<CsvDownload>;
 - [ ] The existing route returns the agreed CSV attachment for allowed accounts and preserves 403 for denied accounts.
 
 ## Tests
-- Behavior lock through `render`: empty report and denial before row access, proposed (awaiting user decision).
+- Integration through `render`: empty report and denial before row access, proposed (awaiting user decision).
 
 ## Diagram
 

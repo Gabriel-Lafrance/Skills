@@ -161,11 +161,11 @@ The ticket requires retrying `billing.makeUserPay(orderId)` without a second cha
 
 Report the missing key and the test's suppressed failure mode with path evidence under the existing finding record. A boundary fake that follows the real provider contract would expose that credible regression without asserting private helper calls. Return the finding to the orchestrator, which assigns the bounded fix to the responsible owner and renews invalidated evidence under existing consent. The reviewer neither edits the test nor launches another worker. Do not infer this defect solely from a mock's presence; a mock preserving the relevant provider semantics may be appropriate.
 
-## Behavior lock
+## Test recommendation
 
 ```markdown
-## Needs a behavior-lock test
-- `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable lock.
+## Needs a test
+- `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable test.
 ```
 
-Recommend the lock to the user and write no test files. If the user says yes, the test follows [testing.md](../rules/testing.md). If the task already refused this claim and the shipped contract matches the refused brief, omit the recommendation.
+Recommend the test to the user and write no test files. If the user says yes, `/verification` writes it. If the user already refused this test and the shipped contract is unchanged, omit the recommendation.

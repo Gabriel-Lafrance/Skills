@@ -9,14 +9,14 @@ Billing is the example domain; the vendor is not the point. The path and the sha
 flowchart LR
   ask[User reports a double charge] --> analyze[analyze]
   analyze --> handoff[Promote and start]
-  handoff --> build[task-with-tests]
+  handoff --> build[task]
   build --> review[review]
   review --> ship[shipping.md]
 ```
 
 ## 1. Route
 
-The user reports a problem and asks for no fix yet. "Investigate a bug" matches the Skills table: open `analyze/SKILL.md`. A report that says "fix it" would go straight to `task-with-tests`.
+The user reports a problem and asks for no fix yet. "Investigate a bug" matches the Skills table: open `analyze/SKILL.md`. A report that says "fix it" would go straight to `task`.
 
 ## 2. Analyze
 
@@ -29,10 +29,10 @@ The memo ends with an execution seed and the hand-off choices. The user picks Pr
 
 ## 3. Build
 
-`task-with-tests` runs with the memo as context.
+`task` runs with the memo as context.
 
 1. **Grill.** Kind is Bug, so no new seam (a named extension point where a new variant plugs in) and no areas of modularity question ([Scale to the work](../strong-foundation.md#scale-to-the-work)). The fix belongs where the key is made: one key per order, created when the order is created. The rejected rival is disabling the Pay button, which is only UI feedback ([Authority](../code-structure.md#authority)).
-2. **Tests prompt.** One test: two `makeUserPay` calls for one order from `useCheckout` create one charge. The user accepts it. It fails first, then passes after the fix.
+2. **Test.** `/task` writes none. `/verification` proposes one: two `makeUserPay` calls for one order from `useCheckout` create one charge. The user replies `tests 1`, and `/verification` writes it and confirms it fails on the pre-fix code.
 
 ## 4. Review and ship
 

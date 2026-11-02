@@ -74,5 +74,4 @@ Stop after shared understanding unless the user explicitly asks for the next
 step. For an authorized build use the Skills table in `AGENTS.md`:
 
 - Structure needed: `/analyze`, then the selected execution skill.
-- Ready to build: `/task-with-tests` by default; `/task` for an explicit
-  command or no-tests request. Carry settled decisions and test refusals.
+- Ready to build: `/task`. Carry settled decisions and test refusals.

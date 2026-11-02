@@ -266,7 +266,7 @@ Use fresh scratch repositories and sessions. Give candidates only the prompt, co
 
 ### 11. Ready ticket across execution entries
 
-Use case 7's code and turn case 9's settled record into a final ticket with two ordered items: validate the code count before calculation, then preserve single rounding at checkout. Each item includes its reason, approach, and observable result. Give explicit paths and the existing repository check command. Run `/task`, `/task-with-tests`, and `/gabriel-mode` separately with: `Implement this ticket locally. Do not commit or publish.`
+Use case 7's code and turn case 9's settled record into a final ticket with two ordered items: validate the code count before calculation, then preserve single rounding at checkout. Each item includes its reason, approach, and observable result. Give explicit paths and the existing repository check command. Run `/task` and `/gabriel-mode` separately with: `Implement this ticket locally. Do not commit or publish.`
 
 Run each entry twice: once with the recorded refusal, once replacing it with a sourced user acceptance of exactly one test: checkout rejects a fourth code before charging. Include an existing test runner in the accepted fixture.
 

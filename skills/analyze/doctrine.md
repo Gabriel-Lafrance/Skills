@@ -214,23 +214,22 @@ Return one section for every selected stable finding ID to the orchestrator:
 
 ## Apply
 
-For one-off analysis, end with the [final report](../rules/writing-style.md#final-report) and ask nothing about the next step. Its **Next** line names the one that fits, such as "Reply `build` to carry the seed into `/task-with-tests`", or "Nothing needs you" when no build is intended. The user may reply with any of these:
+For one-off analysis, end with the [final report](../rules/writing-style.md#final-report) and ask nothing about the next step. Its **Next** line names the one that fits, such as "Reply `build` to carry the seed into `/task`", or "Nothing needs you" when no build is intended. The user may reply with any of these:
 
 | Reply | Do |
 | --- | --- |
 | Done | Leave the memo and execution context visible; stop. |
 | Sharpen | Research only the open point, then revise the memo. |
-| Promote | Explicitly carry the inline seed and locked decisions into `/task-with-tests`. |
+| Promote | Explicitly carry the inline seed and locked decisions into `/task`. |
 | Write ticket | Hand the in-chat memo to `/write-ticket`; no saved artifact needed. |
-| Promote + start | Carry the inline seed into `/task-with-tests`, then continue through its grill or pre-cleared path. |
+| Promote + start | Carry the inline seed into `/task`, then continue through its grill or pre-cleared path. |
 
 A `/write-ticket` parent owns the next step. See [SKILL.md](SKILL.md). Return the relevant researched context; the parent combines it with any useful `/how` or `/why` explanation and the grill's settled decisions into the final ticket. Analysis remains conversational preparation, not a required intermediate deliverable.
 
 Never promote from an implication, a code change, or a previous artifact. Optional persistence follows the shared [destination-approval rule](../rules/planning.md#optional-persistence).
 
 Use the Skills table in `AGENTS.md` on an authorized standalone
-promotion: `/task-with-tests` by default, `/task` for an explicit command or
-no-tests request. Carry settled decisions and test acceptance/refusal sources
+promotion: `/task`. Carry settled decisions and test acceptance/refusal sources
 through the [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight).
 A promotion offer grants no implementation authority. Nested remediation
 dispatch belongs only to the [active orchestrator](../rules/execution.md#remediation).

@@ -1,6 +1,6 @@
 ---
 name: hillclimb
-description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped target, such as a UI journey or a slow path, over a finite round budget. Never start it for ordinary UI polish or speed-up requests; those go to task-with-tests.
+description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped target, such as a UI journey or a slow path, over a finite round budget. Never start it for ordinary UI polish or speed-up requests; those go to task.
 category: Code
 disable-model-invocation: true
 ---

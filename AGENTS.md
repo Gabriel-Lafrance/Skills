@@ -19,11 +19,10 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 | The user asks to | Open |
 | --- | --- |
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
-| Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task-with-tests/SKILL.md` |
-| Build without tests, or types `/task` | `task/SKILL.md` |
+| Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task/SKILL.md` |
 | Types `/hillclimb` | `hillclimb/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
-| Verify changed behavior, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
+| Verify changed behavior, write or add tests, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Babysit or watch a PR and report readiness | `babysit-pr/SKILL.md` |

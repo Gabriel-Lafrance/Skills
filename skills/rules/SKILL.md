@@ -32,7 +32,7 @@ Topic files, named in the Read when table:
 - [execution.md](execution.md): Git sync only, verification scope, ready-ticket preflight, handoffs and evidence, remediation, recovery and completion
 - [user-experience.md](user-experience.md): every UI and UX rule (`ux:*` cite keys), React and UI, `docs/design.md` as the app UX source of truth, copy, locale, quality floor
 - [writing-style.md](writing-style.md): no em dash, plain language and plain (Classic) principle names, asking the user (the ask bar, Questions and Locked-in templates), the final report, and the Unslop rules for chat replies
-- [testing.md](testing.md): when an accepted test is worth writing, the authoring gate, junk patterns, the retention bar, what a good test looks like, the lock brief, the test comment, and the handoff
+- [testing.md](testing.md): when an accepted test is worth writing, the authoring gate, junk patterns, the retention bar, what a good test looks like, the test proposal, the test comment, and the handoff
 - [shipping.md](shipping.md): branch safety, scoped pre-push/required checks, remote CI reporting, the create tool, and the branch-and-push process
 - [shipping-templates.md](shipping-templates.md): ship questions and announcements, the PR Change diagram rule, and the PR title and body template
 - [tooling.md](tooling.md): harness-first discovery, browser permissions/fallbacks, focused checks and terminal evidence

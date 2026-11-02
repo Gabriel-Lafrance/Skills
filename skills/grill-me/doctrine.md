@@ -277,8 +277,8 @@ Save a durable record only when the user asks and approves its destination.
 Follow [nested capabilities](../rules/planning.md#nested-capabilities). A standalone grill stops after shared understanding unless the user requested the next step. For an authorized next step after the Locked in message:
 
 - Parent is `/write-ticket` → return the locked context to it (`/task` stays unstarted).
-- Structure still needs a decision → `/analyze`, then `/task-with-tests`.
-- Ready to build → `/task-with-tests`, carrying the inline execution context. Plain `/task` for an explicit command or when the user asked to skip tests. Preserve prior test refusals in either route.
+- Structure still needs a decision → `/analyze`, then `/task`.
+- Ready to build → `/task`, carrying the inline execution context. Preserve prior test refusals.
 
 ## Anti-patterns
 
