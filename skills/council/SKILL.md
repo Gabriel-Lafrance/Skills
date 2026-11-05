@@ -79,7 +79,7 @@ proposed conclusion, completed work and reported results.
 7. **Recheck within budget.** The panel and its challenger on one pinned result
    consume one shared review round, not one round per member or phase. The
    challenge adds no separate allowance. When iterating, use the parent's
-   remaining allowance, or the shared three-round default; never start a second
+   remaining allowance, or the shared five-round default; never start a second
    counter when entering council. Reserve a round to review a correction before
    dispatching it. Later rounds check named findings, changed code and direct
    regressions under the review contract. Stop at the outcome, stalled dispute,

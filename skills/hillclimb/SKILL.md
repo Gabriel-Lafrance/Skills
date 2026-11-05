@@ -84,14 +84,14 @@ bypassing that ownership. The implementer changes only the parent-promoted
 finding set, returns its bounded diff and checks, and does not gather evidence
 or dispatch another loop. No scoped edits while review runs.
 
-Default budget: **three review rounds**, including initial review and focused
+Default budget: **five review rounds**, including initial review and focused
 rereviews. This is configurable, not a user-chosen number. Charge a round at
 dispatch, including rejected candidates and failed/replaced review attempts.
 One implementation batch belongs to the current round; restarting/replacing
 that batch consumes another round. Reserve a remaining round to review its
 result before dispatching a correction. Carry spent allowance across delegates,
 retries, resume and rejected changes. Use the shared budget's stopping and
-justified finite-extension rules; never reset it by changing agents or skills.
+user-approved continuation rules; never reset it by changing agents or skills.
 
 ## Process
 

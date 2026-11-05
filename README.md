@@ -148,7 +148,7 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
 - Review a branch or a PR → `/review`
 - Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md), adapted from tstack; three providers followed by a Sol 6.1 xhigh [challenger](./skills/council/challenger.md) checking the work, results and applicable skills, within the existing round budget
 - Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel. Evaluation uses an existing scorer; authoring new tests or evals still needs acceptance
-- Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), three rounds by default; unresolved disputes and exhausted budgets stay visible
+- Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), five rounds by default; unresolved required work ends with a choice to stop or authorize up to three more rounds
 - Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
 - Assess or revive an old PR → [`/takeover-pr`](./skills/takeover-pr/SKILL.md), relevance and current invariants before continue/rework/closure; preserve authorship and action permissions
 
