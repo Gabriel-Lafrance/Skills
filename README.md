@@ -89,7 +89,7 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/gabriel-mode`, `/hillclimb`, `/review`, `/review-loop`, `/verification`, `/test-audit`, `/babysit-pr`, and `/takeover-pr` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
+Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/gabriel-mode`, `/hillclimb`, `/council`, `/review`, `/review-loop`, `/verification`, `/test-audit`, `/babysit-pr`, and `/takeover-pr` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
 
 | Job               | Skills                                                   | Purpose               |
 | ----------------- | -------------------------------------------------------- | --------------------- |
@@ -97,8 +97,8 @@ Seven kinds. **Guide** informs; everything else moves work forward. Card categor
 | **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
 | **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
 | **Build**         | `/task`, `/gabriel-mode`                                  | Implement end-to-end. `/task` is the default and writes no tests. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
-| **Improve**       | [`/hillclimb`](./skills/hillclimb/SKILL.md) | Explicit invocation only: picks a variant (UI and experience, or performance) from the goal, runs a separate reviewer and implementer in bounded rounds with evidence through `/verification`, and keeps only changes the evidence supports |
-| **Review & ship** | `/review`, `/review-loop`, `/babysit-pr`, `/takeover-pr`, `/verification`, `/test-audit` | Review, correct within a finite budget, watch readiness, assess old PRs, verify behavior, and prune tests. Shared contracts live in `skills/rules/` and `skills/review/contract.md` |
+| **Improve**       | [`/hillclimb`](./skills/hillclimb/SKILL.md) | Explicit invocation only: picks UI, performance, or evaluation from the goal, runs a separate reviewer (or requested council) and implementer in bounded rounds with evidence through `/verification`, and keeps only supported improvements |
+| **Review & ship** | `/review`, `/review-loop`, [`/council`](./skills/council/SKILL.md), `/babysit-pr`, `/takeover-pr`, `/verification`, `/test-audit` | Review, correct within a finite budget, watch readiness, assess old PRs, verify behavior, and prune tests. Shared contracts live in `skills/rules/` and `skills/review/contract.md` |
 | **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
 
 ```mermaid
@@ -146,6 +146,8 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
+- Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md), adapted from tstack; three providers followed by a Sol 6.1 xhigh [challenger](./skills/council/challenger.md) checking the work, results and applicable skills, within the existing round budget
+- Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel. Evaluation uses an existing scorer; authoring new tests or evals still needs acceptance
 - Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), three rounds by default; unresolved disputes and exhausted budgets stay visible
 - Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
 - Assess or revive an old PR → [`/takeover-pr`](./skills/takeover-pr/SKILL.md), relevance and current invariants before continue/rework/closure; preserve authorship and action permissions

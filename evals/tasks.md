@@ -14,6 +14,13 @@ The main risk: the agent reads the short `AGENTS.md` index and never opens the r
 6. Note which rule files the agent opened. Use the tool log, not the agent's claim.
 7. Record the results in the PR description of the change you are testing. There is no results file.
 
+## Executable behavioral cases
+
+The [behavioral runner](behavioral/README.md) prepares fresh installed-pack
+sessions, freezes source and grader identities, and scores six cases across
+train and holdout splits. It does not invoke models; run prompts through the
+native harness and retain tool traces outside the repository.
+
 ## Prompts
 
 PR watching, review budgets, intent-aware takeover, delegation lifecycle and

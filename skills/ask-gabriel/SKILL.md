@@ -51,10 +51,11 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Review local branch vs main, or an open GitHub PR | `/review` |
 | Watch a PR until checks/reviews change | `/babysit-pr`, parent-owned watch and latest-head report |
 | Repeat review and authorized fixes within a finite budget | `/review-loop` |
+| Ask for a council or a panel of models to review, compare alternatives, or give feedback | [`/council`](../council/SKILL.md), independent judgments from multiple providers; the current owner adjudicates and keeps the shared budget |
 | Assess or revive an old PR against current intent | `/takeover-pr` |
 | Choose browser or other tools | [Harness-first discovery](../rules/tooling.md#harness-first-discovery) |
 | Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
-| Explicitly invoke a bounded review-and-improve loop on a UI journey or a slow path | [`/hillclimb`](../hillclimb/SKILL.md), only when named by the user; it picks the UI or performance variant from the goal. Ordinary UI or speed-up work keeps its existing route |
+| Explicitly invoke a bounded review-and-improve loop on a UI journey, slow path, or evaluation target | [`/hillclimb`](../hillclimb/SKILL.md), only when named by the user; it picks UI, performance, or evaluation from the goal; a requested council fills the reviewer slot. Ordinary edits keep their existing route |
 | Write or add tests | `/verification` proposes "Tests worth keeping" in its report; reply `tests 1`, or say yes when `/review` recommends a test. It follows [testing.md](../rules/testing.md) |
 | Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |
 | Audit, prune, or clean up existing tests | `/test-audit` (prunes one evidenced batch and reports how to restore it; campaign mode covers a whole subsystem) |

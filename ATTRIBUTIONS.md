@@ -10,6 +10,20 @@ contracts. No upstream orchestration script or full skill is vendored. The
 upstream [MIT license notice](third-party/tstack-LICENSE.txt) is retained
 separately from runtime instructions.
 
+Council is adapted from [tstack council at 1085050](https://github.com/t3dotgg/tstack/blob/1085050f3baed1ac724caa4a8166145fb2ac88af/skills/council/SKILL.md),
+checked against current `main` on 2026-11-04. It retains the three-provider
+panel, independent read-only feedback, ratings and round reporting. Our version
+uses the pack's model/effort policy, finite budget, evidence and finding rules,
+test consent, and explicit authority for corrections and PR writes. The existing
+tstack MIT notice above covers this adaptation; no full upstream skill is
+vendored. Current upstream has no standalone hillclimb skill.
+
+The Evaluation variant and UI comparison refinements also draw on Theo's
+[Agents Sucked At UI (Until Today)](https://www.youtube.com/watch?v=xq0eB8vxeqk),
+published 2026-11-03: subjective comparisons, reference/target-score bias, and
+correctness-first optimization followed by reducing instruction context. These
+are original instructions for this pack; no transcript or evaluator is copied.
+
 T3 adaptation facts were checked against
 [orchestration instructions](https://github.com/pingdotgg/t3code/blob/e762f09e265b31607261ead2b4517c467ff59c28/packages/provider-core/src/server/orchestrationInstructions.ts),
 [MCP lifecycle documentation](https://github.com/pingdotgg/t3code/blob/e762f09e265b31607261ead2b4517c467ff59c28/docs/orchestration-v2/orchestrator-mcp-server.md),
