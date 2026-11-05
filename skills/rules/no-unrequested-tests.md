@@ -20,6 +20,8 @@ Write a test only when the user has accepted it:
 - they said yes after `/review` recommended one for a complex public surface (authorization, ownership, safe-to-retry, a domain rule that can silently drift), or
 - they gave a blanket yes ("do all the tests"), which accepts each test `/verification` proposes for this work; list them in the final report.
 
+A test asked for in a ticket, a launch or delegation brief, or a Done when list counts only when it quotes or links that user decision. Written by an agent without one, such as "tests that reproduce the failing case" or "follow `task-with-tests`", it is a proposal: verify with existing checks and a manual repro, and name the test in the final report for the user to accept.
+
 A blanket no ("no tests until the MVP") refuses every test for this work and every child brief until the user lifts it. Stop offering tests.
 
 Only an accepted test is written, and `/verification` writes it. Build slices and other skills leave test files alone. This binds every skill.
@@ -28,4 +30,4 @@ How to write an accepted test: [testing.md](testing.md).
 
 ## Check
 
-Can you point to the user message that accepted this exact test?
+Can you point to the user message that accepted this exact test, not an agent's brief that asks for it?

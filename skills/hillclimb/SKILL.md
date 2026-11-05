@@ -1,6 +1,6 @@
 ---
 name: hillclimb
-description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped target, such as a UI journey or a slow path, over a finite round budget. Never start it for ordinary UI polish or speed-up requests; those go to task.
+description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped UI, performance, or evaluation target over a finite round budget. Never start it for ordinary polish, speed-up, or skill-editing requests; those go to task.
 category: Code
 disable-model-invocation: true
 ---
@@ -34,13 +34,16 @@ rewrite, or a new review axis.
 | --- | --- | --- |
 | UI and experience | How a journey looks and feels to use: alignment, hierarchy, clutter, friction, states | [variants/ui.md](variants/ui.md) |
 | Performance | Speed, size, or resource use of a named path: load time, latency, throughput, bundle size, memory, query or build time | [variants/performance.md](variants/performance.md) |
+| Evaluation | Behavior against a pinned evaluator, optionally followed by reducing cost or instruction size while preserving its requirements | [variants/evaluation.md](variants/evaluation.md) |
 
 Pick one variant per run:
 
 1. A variant the user names wins (`/hillclimb performance on checkout`).
 2. Otherwise match the goal, and how the user will judge it, to each variant's
    **Picks it** section. "Feels cramped" or "too many clicks" is UI; "slow",
-   "p95" or "bundle too big" is Performance.
+   "p95" or "bundle too big" is Performance. Passing behavioral cases, choosing
+   tools correctly, or shrinking instructions while preserving eval results is
+   Evaluation.
 3. A goal that fits two variants gets one question: which runs first, with a
    recommendation for the one with the stronger evidence of cost. Offer the
    other as the next run; one run never mixes two keep bars.
@@ -65,6 +68,13 @@ hardcoded models. If separate agents are unavailable, report the blocked
 workflow; do not claim the requested independent loop ran through a single
 agent.
 
+When the user asks for a council, use [council](../council/SKILL.md) for the
+reviewer slot. The parent supplies the same `/verification` evidence to each
+read-only member and adjudicates the panel's findings. Council replaces the
+single reviewer, not the implementer or evidence owner. Reuse the parent round
+counter and the chosen variant's keep bar; do not launch nested review loops.
+Without a council request, retain the single reviewer.
+
 The reviewer judges the variant's evidence, reports stable
 [finding records](../review/contract.md#finding-record), and rereviews fixes.
 All running of the app, browser driving, screenshots and measurements belong to
@@ -74,14 +84,14 @@ bypassing that ownership. The implementer changes only the parent-promoted
 finding set, returns its bounded diff and checks, and does not gather evidence
 or dispatch another loop. No scoped edits while review runs.
 
-Default budget: **three review rounds**, including initial review and focused
+Default budget: **five review rounds**, including initial review and focused
 rereviews. This is configurable, not a user-chosen number. Charge a round at
 dispatch, including rejected candidates and failed/replaced review attempts.
 One implementation batch belongs to the current round; restarting/replacing
 that batch consumes another round. Reserve a remaining round to review its
 result before dispatching a correction. Carry spent allowance across delegates,
 retries, resume and rejected changes. Use the shared budget's stopping and
-justified finite-extension rules; never reset it by changing agents or skills.
+user-approved continuation rules; never reset it by changing agents or skills.
 
 ## Process
 

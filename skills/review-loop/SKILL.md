@@ -1,6 +1,6 @@
 ---
 name: review-loop
-description: Use when the user asks for repeated review and correction rounds on a branch or PR within a finite budget, three rounds by default. A single review pass goes to review.
+description: Use when the user asks for repeated review and correction rounds on a branch or PR within a finite budget, five rounds by default. A single review pass goes to review.
 category: Code
 ---
 
@@ -27,6 +27,8 @@ Keep the budget and backlog in the existing
    then use focused remediation review and review new surface as required.
 5. Apply the budget's stopping rules after every round. Report rounds used,
    resolved and unresolved IDs, disagreements, checks and evidence limits.
+   At five-round exhaustion with required work remaining, end with the shared
+   budget's choice to stop or authorize up to three more rounds, then wait.
    Completion is a verdict on the checked scope, never automatic approval,
    comment publication, push or merge.
 

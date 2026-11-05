@@ -182,7 +182,7 @@ Add the first four rows to the PR extras table in the [review output](#review-ou
 
 ## Review budget
 
-Repeated review/remediation uses a default budget of **three review rounds**
+Repeated review/remediation uses a default budget of **five review rounds**
 per outcome. Count the initial review and each remediation or full-rescan as
 a round; parallel Standards/Spec passes for the same pinned result are one
 round. Carry consumed rounds through handoffs/resume and nested skill changes.
@@ -203,14 +203,24 @@ requirement. Reachable security, data-loss or other material correctness bugs
 remain findings even when rare. Rarity alone never makes a defect a nit.
 Do not waive hard standards or required fixes merely to finish the loop.
 
-For unresolved high-risk work, the owner may extend once, by **at most two
-additional rounds**, with a stated risk, new evidence or specific correction
-to verify, and a finite stop condition. A user's explicit smaller/hard cap
-wins; extending it requires that user's decision. Routine nits, repeated
-unchanged objections, and a desire for approval do not justify extension.
 At exhaustion, stalled dispute, or blocked authority, report rounds used,
 unresolved IDs and evidence, competing reasoning, missing checks and the next
 decision. Never manufacture approval or call required findings resolved.
+
+When the five-round default is exhausted and required findings or acceptance
+checks remain unresolved, end that report with a choice under
+[Asking the user](../rules/writing-style.md#asking-the-user): stop with the
+unresolved handoff, or continue for **at most three additional review rounds**.
+Name the proposed correction or new evidence to check, the requested number
+of rounds (one to three), and the finite stop condition. Wait for the user's
+choice before dispatching more work; continuation is never automatic.
+Only one extension is available per outcome, for a default maximum of eight
+rounds. Carry its authorization and consumed rounds through handoffs/resume
+and nested skills. Stop earlier when the stopping rules apply, and hand back
+at the extended limit without offering another extension. Routine nits,
+repeated unchanged objections, and a desire for approval do not justify more
+rounds. A user's explicit different budget or hard cap wins; extending that
+cap requires the user's decision.
 
 This budget applies to `/review-loop` and repeated build remediation. It adds
 no loop to a standalone review, changes no route's gate order, and grants no

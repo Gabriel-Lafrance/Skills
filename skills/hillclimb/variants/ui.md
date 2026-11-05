@@ -34,8 +34,28 @@ the rendered flow.
 - Comparable means the same data, viewport, build and meaningful states.
   Candidate evidence covers touched keyboard/focus, responsive,
   loading/empty/error, cancel/retry and continuation paths.
-- No invented numerical UX score, real-user preference or conversion claim from
-  screenshots or reviewer opinion.
+- A reviewer may give a subjective rating under the judgment method below.
+  Never present it as measured UX, real-user preference or conversion evidence.
+
+### Subjective judgment
+
+No programmatic score is required. Compare the baseline and candidate on the
+named task: which is better, why, and what regressed? A requested
+[council](../../council/SKILL.md) supplies independent judgments of the same
+rendered evidence. If ratings out of 10 are used, freeze the rubric and report
+the reasons and each member's rating; do not average away a required defect.
+
+Pin any user-supplied reference designs and keep them unchanged across rounds.
+Match comparable tasks and states; references inform quality, not permission
+to replace the product's identity. Show baseline and candidate without winner
+labels, randomize presentation order where practical, and withhold previous
+ratings and target scores from fresh reviewers. Preserve essential context,
+constraints and factual finding records needed for a focused rereview.
+
+An unchanged reference receiving different ratings is evidence of judgment
+drift. Recheck borderline gains against the same anchors; if the claimed
+improvement depends only on shifting numbers, mark it inconclusive. A rating
+target never overrides the rendered task evidence or regression guards below.
 
 ## Lens
 
