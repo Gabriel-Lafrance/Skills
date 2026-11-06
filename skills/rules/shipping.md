@@ -37,6 +37,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 - Body: [problem and outcome first](shipping-templates.md#problem-and-outcome-first), then type, ticket, what changed, Mermaid Change diagram (Before/After for rework), How to QA, Notes. The body is text. When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes.
 - End every new or updated PR body with the [blast radius and merge danger assessment](shipping-templates.md#blast-radius-and-merge-danger), including each stacked PR. Apply it through every publication tool; keep stack and verification details above it. Refresh it against the current PR base, diff, and actual evidence before publication. It is reporting, never permission to merge.
 - Use only a real ticket. Use `/write-ticket` when the work belongs on a tracker.
+- Before a push that opens or updates a PR with code changes, pass the [review loop gate](#review-loop-gate). Nothing reaches `main` without one.
 - Before a push that opens or updates a PR, apply the [CI mirror](#ci-mirror) policy: scoped verification and repository-required local checks, valid evidence reuse, and honest remote CI status. A local commit or clean Git sync does not itself trigger a full mirror because a PR exists. Never bypass required checks or hooks.
 - Use the harness pull-request tool when it has one. Otherwise use `gh` ([Create or update the PR](#create-or-update-the-pr)).
 
@@ -67,6 +68,22 @@ A user request such as "implement all children and open stacked PRs" authorizes 
 - Review and describe only the child's delta against its actual PR base. Run its CI mirror on the resulting tree. Link its child ticket, parent ticket, prerequisite PRs, and position in the stack in Notes. Each PR must pass its checks before later children are included.
 - Reuse existing child PRs on resume. If a predecessor changes, refresh affected descendants and recheck their diffs and gates before reporting completion. After an ancestor merges, confirm the descendant base and diff before retargeting; follow the existing prohibition on force-pushes.
 - Return a table of child tickets, PR URLs, branches, and bases. Leave PRs open for review. A blocked child blocks its dependents; report completed PRs and remaining work without calling the whole stack complete.
+
+## Review loop gate
+
+Every code change reaches `main` through a review loop. Before a push that
+opens or updates a PR with code changes, run [`/review-loop`](../review-loop/SKILL.md)
+on the branch diff against the PR base, with the current owner's correction
+authority. Push only after it ends clean; otherwise report its open findings
+and stop. Before a merge into `main`, confirm a review loop covers the current
+head; if not, run it first. Merging still needs the user's approval.
+
+- **Code changes** are any edits to tracked files: code, config, tests, docs
+  and instructions.
+- **Skip it** for a [Git sync](execution.md#git-sync-only) merge that adds no
+  conflict edits of your own, and for PR title, body or metadata edits.
+- **Reuse it:** a loop that already covers the exact diff counts. A later
+  change gets a focused round on what changed, not a full restart.
 
 ## CI mirror
 
@@ -138,13 +155,14 @@ The same trap exists for `main` and `master`.
    From a remote ref, add `--no-track` to `git switch -c` or `git checkout -b`. Never `git branch --set-upstream-to` `origin/dev`, `origin/main`, `origin/master`, or the default branch. End on the new branch: `git branch --show-current` prints `<new-branch>`.
 
    Reuse a local branch only when it already holds the intended commits and its upstream is unset or `origin/<new-branch>`. If `@{upstream}` is `origin/dev`, `origin/main`, or `origin/master`, run `git branch --unset-upstream` before any push. If the current branch is `dev`, `main`, or `master`, create the standalone branch before any commit. Rename only a disposable local branch that holds the intended commits, and only when upstream stays unset or `origin/<new-branch>`.
-4. Unless the user asked for local-only work, check that `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or `origin/master`, stop. Then push the new name only:
+4. Before pushing code changes, pass the [review loop gate](#review-loop-gate).
+5. Unless the user asked for local-only work, check that `git rev-parse --abbrev-ref --symbolic-full-name @{upstream}` is unset or `origin/<new-branch>`. If it is `origin/dev`, `origin/main`, or `origin/master`, stop. Then push the new name only:
 
    ```bash
    git push -u origin HEAD:refs/heads/<new-branch>
    ```
 
-5. Never force-push. Never `git push` with no refspec while upstream is `origin/dev`, `origin/main`, or `origin/master`. If git suggests `git push origin HEAD:dev`, `HEAD:main`, or `HEAD:master`, do not run it.
+6. Never force-push. Never `git push` with no refspec while upstream is `origin/dev`, `origin/main`, or `origin/master`. If git suggests `git push origin HEAD:dev`, `HEAD:main`, or `HEAD:master`, do not run it.
 
 ### 4. Ask whether to draft and publish
 

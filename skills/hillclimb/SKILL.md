@@ -163,10 +163,9 @@ user-approved continuation rules; never reset it by changing agents or skills.
    the change from round 0, kept/fixed-forward/rejected changes, stable unresolved findings,
    comparable evidence, limitations, remaining candidate changes and next
    decision. Never claim a perfect/pristine pass because the budget ended.
-7. **Review loop before any PR push.** Before the run's changes are pushed to a
-   PR, run one [`/review-loop`](../review-loop/SKILL.md) on the final diff,
-   automatically, with this run's correction authority. It is the only Sol
-   review for the whole run and has its own round budget. Push only after it
-   ends clean, or report its open findings and stop. A push the user asks for
-   mid-run runs it first. Pushing still needs
+7. **Review loop before any PR push.** Before the run's changes are pushed,
+   pass the [review loop gate](../rules/shipping.md#review-loop-gate)
+   automatically on the final diff, with this run's correction authority. It
+   is the only Sol review for the whole run and has its own round budget. A
+   push the user asks for mid-run passes it first. Pushing still needs
    [shipping authorization](../rules/shipping.md); no automatic merge or deploy.
