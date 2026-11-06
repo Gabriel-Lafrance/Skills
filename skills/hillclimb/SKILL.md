@@ -14,6 +14,9 @@ rewrite, or a new review axis.
 
 ## Read when
 
+Read these once per run. After a context compaction, reread only what is no
+longer in context, not the whole list each round.
+
 - Every run: [code quality](../rules/code-quality.md),
   [code structure](../rules/code-structure.md), and the chosen
   [variant](#variants) file, including its Read when list.
@@ -117,7 +120,10 @@ user-approved continuation rules; never reset it by changing agents or skills.
    or server. Preserve repository Playwright, benchmark and CI checks. When a
    capture route fails, try the next permitted one (for UI in T3 Code, the
    preview tools, then a direct capture from the running server) before calling
-   evidence blocked. If it is still blocked, report inconclusive/static-only
+   evidence blocked. Round 0 settles one capture command, preferring a capture
+   script the repository already has, and records it in the execution context;
+   every later round reuses it. Drop a route for the run after it times out
+   twice. If it is still blocked, report inconclusive/static-only
    findings and stop the affected loop; do not bypass restrictions or invent a
    pass. Apply the
    variant's Lens to the bounded target, not the whole app.

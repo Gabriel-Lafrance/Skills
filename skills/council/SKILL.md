@@ -23,13 +23,13 @@ for council members only.
 | --- | --- | --- | --- | --- |
 | Claude | `claude-opus-5-5` | `effort` | `xhigh` | `high` |
 | Codex | `gpt-6.1-sol` | `reasoningEffort` | `xhigh` | `high` |
-| Grok | `grok-4.7` | `reasoningEffort` | `xhigh` | not on panel |
+| Grok | `grok-4.7` | `reasoningEffort` | `xhigh` | `high` |
 | Muse | `muse-wonder-full-1.0` | `reasoningEffort` | `xhigh` | `high` |
 
-**Assessment** is a standalone council and a hillclimb's round 0: all four
-rate the current state. **Hillclimb rerating** is every later hillclimb round:
-Grok leaves, and its round 0 rating stays in the report. Record the roster,
-model IDs and efforts in the execution context so they survive compaction.
+**Assessment** is a standalone council and a hillclimb's round 0.
+**Hillclimb rerating** is every later hillclimb round. All four rate in both
+phases. Record the roster, model IDs and efforts in the execution context so
+they survive compaction.
 
 Never substitute a sibling (Sonnet, Haiku, Fable, Astra, Terra, Grok Fast,
 Muse Wonder, Spark) or the parent's model. Set effort explicitly on every
@@ -86,7 +86,9 @@ start every member through `delegate_task` with `target.model` and
    correctness or user preference. A missing rating is `no score`, never an
    inferred value. Ratings cannot clear a required finding or replace the
    variant's evidence and keep bar.
-5. **Form a proposed conclusion.** Check the actual evidence, combine duplicates under
+5. **Form a proposed conclusion.** Check each member's claims against the
+   actual evidence as that member returns, not after the last one, so the
+   challenger can start as soon as the panel is complete. Combine duplicates under
    stable IDs, and record agree/fix, disagree with evidence, or follow-up.
    Preserve dissent and missing evidence; majority votes and score averages
    cannot waive a required fix. Prepare the proposed verdict and bounded
