@@ -76,7 +76,7 @@ independent loop ran through a single agent.
 When the user asks for a council, use [council](../council/SKILL.md) for the
 reviewer slot: its assessment panel rates round 0 and its rerating panel rates
 every later round. Skip the council's challenger in every round: Sol review
-runs once, as `/review-loop` on the final diff before the PR merges. The parent
+runs once, as `/review-loop` on the final diff before any PR push. The parent
 supplies the
 same `/verification` evidence to each read-only member and adjudicates the
 panel's findings. Council replaces the single reviewer, not the implementer or
@@ -163,7 +163,10 @@ user-approved continuation rules; never reset it by changing agents or skills.
    the change from round 0, kept/fixed-forward/rejected changes, stable unresolved findings,
    comparable evidence, limitations, remaining candidate changes and next
    decision. Never claim a perfect/pristine pass because the budget ended.
-   The next step before merging is one [`/review-loop`](../review-loop/SKILL.md)
-   on the final diff; it is the only Sol review pass for the whole run.
-   Shipping follows existing [authorization and gates](../rules/shipping.md);
-   no automatic merge/deploy.
+7. **Review loop before any PR push.** Before the run's changes are pushed to a
+   PR, run one [`/review-loop`](../review-loop/SKILL.md) on the final diff,
+   automatically, with this run's correction authority. It is the only Sol
+   review for the whole run and has its own round budget. Push only after it
+   ends clean, or report its open findings and stop. A push the user asks for
+   mid-run runs it first. Pushing still needs
+   [shipping authorization](../rules/shipping.md); no automatic merge or deploy.
