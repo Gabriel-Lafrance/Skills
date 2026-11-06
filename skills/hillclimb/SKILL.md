@@ -75,7 +75,9 @@ independent loop ran through a single agent.
 
 When the user asks for a council, use [council](../council/SKILL.md) for the
 reviewer slot: its assessment panel rates round 0 and its rerating panel rates
-every later round, each followed by its challenger. The parent supplies the
+every later round. Skip the council's challenger in every round: Sol review
+runs once, as `/review-loop` on the final diff before the PR merges. The parent
+supplies the
 same `/verification` evidence to each read-only member and adjudicates the
 panel's findings. Council replaces the single reviewer, not the implementer or
 evidence owner. Reuse the parent round counter and the chosen variant's keep
@@ -144,8 +146,8 @@ user-approved continuation rules; never reset it by changing agents or skills.
    hypothesis, it meets the variant's keep bar, and required regression checks
    pass. **Fix forward** when the reviewers prefer the candidate and the only
    blocker is a bounded, evidenced defect in the candidate's own change: fix it
-   in the same round, then run a focused recheck by the challenger and the
-   members who raised it on fresh `/verification` evidence. The recheck belongs
+   in the same round, then run a focused recheck by the members who raised it
+   on fresh `/verification` evidence. The recheck belongs
    to the current round, so the final round may fix forward too. Fix forward
    once per round; revert when the defect is structural, the fix fails its
    recheck or a second blocker appears. Otherwise safely undo only
@@ -161,5 +163,7 @@ user-approved continuation rules; never reset it by changing agents or skills.
    the change from round 0, kept/fixed-forward/rejected changes, stable unresolved findings,
    comparable evidence, limitations, remaining candidate changes and next
    decision. Never claim a perfect/pristine pass because the budget ended.
+   The next step before merging is one [`/review-loop`](../review-loop/SKILL.md)
+   on the final diff; it is the only Sol review pass for the whole run.
    Shipping follows existing [authorization and gates](../rules/shipping.md);
    no automatic merge/deploy.

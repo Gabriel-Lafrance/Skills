@@ -99,6 +99,7 @@ start every member through `delegate_task` with `target.model` and
    job done, the validity of the results and compliance with those skills.
    The owner adjudicates its objections with evidence, then chooses corrections
    under existing authority and [test consent](../rules/no-unrequested-tests.md).
+   Inside a hillclimb, skip this step; its Sol review runs once before merge.
    Standalone feedback ends here unless the user also requested corrections
    or iteration. Nested council returns findings to its parent, which owns
    dispatch and acceptance; it never starts another build or review loop.
