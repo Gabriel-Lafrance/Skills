@@ -7,10 +7,35 @@ category: Code
 # Council
 
 Adapted from Theo's [tstack council](https://github.com/t3dotgg/tstack/blob/1085050f3baed1ac724caa4a8166145fb2ac88af/skills/council/SKILL.md).
-Bring three independent delegates together for the user's request. The parent
-owns the decision; delegates supply evidence and disagreements, not write or
-shipping authority. Then run the [Sol challenger](challenger.md) against the
-proposed conclusion, completed work and reported results.
+Bring the [panel](#panel) together for the user's request. The parent owns the
+decision; delegates supply evidence and disagreements, not write or shipping
+authority. Then run the [Sol challenger](challenger.md) against the proposed
+conclusion, completed work and reported results.
+
+## Panel
+
+Gabriel's panel is the primary models below. This is an explicit user
+selection: it overrides the tier table in
+[model and effort selection](../rules/main-context.md#model-and-effort-selection)
+for council members only.
+
+| Provider | Model | Effort key | Assessment | Hillclimb rerating |
+| --- | --- | --- | --- | --- |
+| Claude | `claude-opus-5-5` | `effort` | `xhigh` | `high` |
+| Codex | `gpt-6.1-sol` | `reasoningEffort` | `xhigh` | `high` |
+| Grok | `grok-4.7` | `reasoningEffort` | `xhigh` | `high` |
+| Muse | `muse-wonder-full-1.0` | `reasoningEffort` | `xhigh` | `high` |
+
+**Assessment** is a standalone council and a hillclimb's round 0.
+**Hillclimb rerating** is every later hillclimb round. All four rate in both
+phases. Record the roster, model IDs and efforts in the execution context so
+they survive compaction.
+
+Never substitute a sibling (Sonnet, Haiku, Fable, Astra, Terra, Grok Fast,
+Muse Wonder, Spark) or the parent's model. Set effort explicitly on every
+member: Muse's catalog default is `max`, which is never allowed. In T3 Code,
+start every member through `delegate_task` with `target.model` and
+`target.options`, not a model request in prompt text.
 
 ## Read when
 
@@ -38,14 +63,13 @@ proposed conclusion, completed work and reported results.
    Address known issues and relevant checks before an audit only when fixes
    are already authorized. A feedback-only request stays read-only. Skip fixes
    to an implementation the user wants replaced. Do not import unrelated work.
-2. **Select the panel.** Honor user-named members and established project
-   preferences. Otherwise select one suitable model from each of three
-   different providers. Choose model and effort separately under the shared
-   selection policy; do not prescribe high effort for every job. Record the
-   harness, provider, model, requested settings and observable effective settings.
-   Multiple sessions of one model are not provider diversity. If a named member
-   or three providers cannot be reached, report the missing capability; do not
-   silently substitute, shrink the panel, or claim a full council ran.
+2. **Select the panel.** Use the [panel](#panel) members and efforts for
+   the phase unless the user names others for this run. Confirm each model and
+   its effort option in the live catalog. Record the harness, provider, model, requested settings and
+   observable effective settings. Multiple sessions of one model are not
+   provider diversity. If a member cannot be reached, report the missing
+   capability; do not silently substitute, shrink the panel, or claim a full
+   council ran.
 3. **Ask independently.** Start members in parallel through the supported
    native or cross-provider route. Give each the same factual brief, pinned
    evidence, rules, test consent and bounded return contract. Use fresh context;
@@ -62,7 +86,9 @@ proposed conclusion, completed work and reported results.
    correctness or user preference. A missing rating is `no score`, never an
    inferred value. Ratings cannot clear a required finding or replace the
    variant's evidence and keep bar.
-5. **Form a proposed conclusion.** Check the actual evidence, combine duplicates under
+5. **Form a proposed conclusion.** Check each member's claims against the
+   actual evidence as that member returns, not after the last one, so the
+   challenger can start as soon as the panel is complete. Combine duplicates under
    stable IDs, and record agree/fix, disagree with evidence, or follow-up.
    Preserve dissent and missing evidence; majority votes and score averages
    cannot waive a required fix. Prepare the proposed verdict and bounded
@@ -73,6 +99,7 @@ proposed conclusion, completed work and reported results.
    job done, the validity of the results and compliance with those skills.
    The owner adjudicates its objections with evidence, then chooses corrections
    under existing authority and [test consent](../rules/no-unrequested-tests.md).
+   Inside a hillclimb, skip this step; its Sol review runs once before any PR push.
    Standalone feedback ends here unless the user also requested corrections
    or iteration. Nested council returns findings to its parent, which owns
    dispatch and acceptance; it never starts another build or review loop.

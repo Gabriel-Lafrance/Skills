@@ -11,9 +11,9 @@ upstream [MIT license notice](third-party/tstack-LICENSE.txt) is retained
 separately from runtime instructions.
 
 Council is adapted from [tstack council at 1085050](https://github.com/t3dotgg/tstack/blob/1085050f3baed1ac724caa4a8166145fb2ac88af/skills/council/SKILL.md),
-checked against current `main` on 2026-11-04. It retains the three-provider
+checked against current `main` on 2026-11-04. It retains the multi-provider
 panel, independent read-only feedback, ratings and round reporting. Our version
-uses the pack's model/effort policy, finite budget, evidence and finding rules,
+uses a fixed four-provider xhigh panel, finite budget, evidence and finding rules,
 test consent, and explicit authority for corrections and PR writes. The existing
 tstack MIT notice above covers this adaptation; no full upstream skill is
 vendored. Current upstream has no standalone hillclimb skill.

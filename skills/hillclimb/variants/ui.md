@@ -24,7 +24,8 @@ the rendered flow.
 
 - Reviewer: the shared `reviewer` role, judging rendered evidence as a
   **visual-and-experience reviewer**.
-- Implementer: the shared `designer` role for UI code.
+- Implementer: the shared `designer` role for UI code, done by the parent by
+  default.
 
 ## Evidence
 
@@ -75,8 +76,8 @@ Judge a premium, sleek, comfortable result within the product's own identity:
 
 ## Keep or reject
 
-Keep a candidate when the rendered comparison shows the named friction resolved
-and every guard holds. Reject it when it:
+Keep a numbered change when the rendered comparison shows its named friction
+resolved and every guard holds. Fix or drop it when it:
 
 - Weakens keyboard/focus, accessibility, reduced motion, or data and state
   continuity through loading, error, empty, cancel or retry.
@@ -85,3 +86,10 @@ and every guard holds. Reject it when it:
 - Removes meaningful structure, a necessary confirmation, or expert capability.
 
 A prettier screenshot does not excuse a harder task or a hidden regression.
+
+## Report
+
+Each kept round and the final report show baseline and candidate side by side
+with numbered highlights on every changed region, and one line per number
+saying what changed and why. The user should not have to hunt for the
+difference.

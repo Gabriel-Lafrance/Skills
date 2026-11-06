@@ -4,27 +4,41 @@ Follow the repo's ESLint and Prettier configs when they exist. This pack install
 
 ## Harness-first discovery
 
-Before selecting a tool, inspect the live harness instructions, exposed tools,
-and supported discovery mechanism. Reuse current discovery; refresh after a
-capability mismatch. Prefer a suitable available **and permitted** built-in
-tool over an ad hoc third-party substitute. Availability is not permission.
-Honor explicit user tool choices and access restrictions; do not invent tool
-names, fields, permissions, or bypass a denial through another interface.
+The ADE (T3 Code, Claude Code, Codex, Cursor) and its MCP servers usually
+already have a tool for the job. A hand-built route (a Playwright script, `curl`
+against an API, `open`, a screenshot script, a scraped CLI, a new package) is
+the fallback, never the first move.
 
-For interactive browser work, discover the harness browser first rather than
-reflexively installing or launching ad hoc Playwright. In T3 Code, installed
-live instructions govern preview use: some versions restrict it to requested
-browser work or a named page/tab and forbid using it to verify one's own edits.
-Do not infer broader permission from this pack. Public source research can use
-permitted fetch/search without starting an interactive browser.
+Before any route that reaches outside the code:
 
-When a built-in tool cannot perform the authorized task, state the concrete
-gap (missing capability, unsupported operation, unavailable tool, or permission
-boundary), then use a suitable permitted fallback or report the blocker.
-Discover late-loaded tools only through supported live mechanisms. Never guess
-a tool from an upstream example. Do not globally ban Playwright: preserve
-repository-owned Playwright E2E, required CI, and explicit user tool selection.
-A browser inspection cannot substitute for those suites.
+1. **Name the job** in one or two words: browser, preview, screenshot, PR,
+   CI, logs, deploy, database, ticket, docs, other agent, thread, secret.
+2. **Search the harness for it.** Scan the tools listed this turn, then the
+   deferred tool names in system reminders, and load matches through the
+   supported loader (in Claude Code, `ToolSearch` with the keyword, such as
+   `preview` or `pull request`). Check the MCP servers listed this session,
+   including ones still connecting, and the skills listing.
+3. **Use the most direct match.** One tool call beats a script that does the
+   same thing. Follow the harness's own instructions for that tool.
+4. **Fall back only with a named gap:** no matching tool, unsupported
+   operation, tool error, or permission boundary. Say the gap in one line, then
+   use the simplest permitted fallback or report the blocker.
+
+Do this once per job per session and reuse the result; search again after a
+tool error or capability mismatch. Never invent tool names or fields, and never
+guess a tool from an upstream example.
+
+**Browser in T3 Code.** When the user asks to open, view, click through, record
+or screenshot a page, use T3's `preview_*` tools (load them first if deferred),
+not Playwright, the system browser or a screenshot script. Follow T3's installed
+instructions on when preview is allowed; where they forbid preview unasked, for
+example to check your own edit, that limit stands. Public source research uses
+permitted fetch or search, not a browser.
+
+Availability is not permission. Honor explicit user tool choices and access
+restrictions, and never bypass a denial through another interface. Do not
+globally ban Playwright: keep repository-owned Playwright E2E, required CI, and
+explicit user tool choices. A browser inspection cannot replace those suites.
 
 For web startup or preview debugging, use
 [accessible development-server logs](dev-server-logs.md): reuse services,
