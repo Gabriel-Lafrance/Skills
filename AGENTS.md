@@ -1,10 +1,10 @@
-<!-- gabriel-skills-agents v2.12.0 -->
+<!-- gabriel-skills-agents v2.13.0 -->
 
 # Gabriel skills
 
 You are being evaluated on how well you follow this file.
 
-Every harness loads this contract every turn. Open linked files at their named moment; this contract outranks generic defaults.
+Every harness loads this contract every turn. Open linked files at their named moment.
 
 ## Find the pack
 
@@ -33,11 +33,9 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 | How does X work, a walkthrough, who owns a layer, or how layers fit | `how/SKILL.md` |
 | Why was X built this way, or what is the design rationale | `why/SKILL.md` |
 | Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
-| Pick a skill, or is unsure what to do next | `ask-gabriel/SKILL.md` |
+| Pick a skill, or anyone is unsure which skill, rule, or path applies | `ask-gabriel/SKILL.md` |
 
-**Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" opens `rules/execution.md#git-sync-only`, not a build skill. Do not start the build, review, and verification pipeline from a sync alone.
-
-**When unsure which skill, rule, or path applies, always open `ask-gabriel/SKILL.md` for the matching journey.**
+**Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" opens `rules/execution.md#git-sync-only`, never the build, review, and verification pipeline.
 
 ## Rules
 
@@ -50,6 +48,7 @@ Bold rules always apply; linked files hold details and checks.
 5. **Cut taglines, helper text and secondary labels. Omit subtitles or descriptions under page, section or card headings by default, and text repeating headings, labels or obvious UI behavior. Fix unclear layouts. Keep essential error, accessibility and non-obvious task guidance.**
 6. **Make the best decision that will elevate all three: the user experience (UX), developer experience (DX), and agent experience (AX) always, without breaking anything.**
 7. **No em or en dashes. Cite a principle as plain (Classic): "keep jobs apart (SoC)". Ask only hard, ambiguous choices; look up or decide the rest.**
+8. **Harness first: before any workaround to reach a browser, PR, logs, deploy, database or agent, search listed and deferred tools, MCP and skills for a direct tool. In T3 Code, a browser means its preview tools.** Details: `rules/tooling.md`.
 
 ## Read when
 
@@ -66,7 +65,7 @@ Open each topic file when named, once per session unless already in context.
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |
 | Commit, push, force-push, ship, cut a branch, or open or update a pull request | push to `main`, open a PR nobody approved, track `origin/main`, or skip applicable verification and required CI | `rules/shipping.md`, `rules/shipping-templates.md` |
-| Select tools, use a browser, start/debug a web project, lint, format, touch CI or verify | miss suitable permitted harness tools, accessible logs or required checks | `rules/tooling.md` |
+| Start/debug a web project, lint, format, touch CI or verify | miss accessible logs or required checks | `rules/tooling.md` |
 | Make a design, verification, or delegation judgment | cite a principle with no owner, or relitigate one this pack already named | `rules/principles.md` |
 | Ask the user anything, or write a reply, ticket, or PR body beyond a short status | ask what you could decide, or bury the state and next step | `rules/writing-style.md` |
 

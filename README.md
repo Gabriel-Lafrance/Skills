@@ -146,7 +146,7 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
 - Review a branch or a PR → `/review`
-- Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md), adapted from tstack; three providers followed by a Sol 6.1 xhigh [challenger](./skills/council/challenger.md) checking the work, results and applicable skills, within the existing round budget
+- Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md), adapted from tstack; Opus 5.5, Sol 6.1, Grok 4.7 and Muse Wonder Full 1.0 at xhigh, followed by a Sol 6.1 xhigh [challenger](./skills/council/challenger.md) checking the work, results and applicable skills, within the existing round budget
 - Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel. Evaluation uses an existing scorer; authoring new tests or evals still needs acceptance
 - Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), five rounds by default; unresolved required work ends with a choice to stop or authorize up to three more rounds
 - Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
@@ -154,7 +154,7 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
 
 - Prune low-value or duplicate tests → `/test-audit`
 
-Tool selection follows [harness-first discovery](./skills/rules/tooling.md#harness-first-discovery): discover suitable permitted built-ins before ad hoc substitutes, especially interactive browsers. Live restrictions, required repository Playwright E2E/CI, and explicit user tool choices still apply.
+Tool selection follows [harness-first discovery](./skills/rules/tooling.md#harness-first-discovery): before any script or workaround, agents search the harness's listed tools, deferred tools, MCP servers and skills for a direct tool, such as T3's preview tools for a browser. Live restrictions, required repository Playwright E2E/CI, and explicit user tool choices still apply.
 
 Skill details live under [`skills/`](./skills/). Pack maintenance: [how-to.md](./how-to.md).
 

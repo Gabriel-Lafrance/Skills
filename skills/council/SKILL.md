@@ -7,10 +7,30 @@ category: Code
 # Council
 
 Adapted from Theo's [tstack council](https://github.com/t3dotgg/tstack/blob/1085050f3baed1ac724caa4a8166145fb2ac88af/skills/council/SKILL.md).
-Bring three independent delegates together for the user's request. The parent
-owns the decision; delegates supply evidence and disagreements, not write or
-shipping authority. Then run the [Sol challenger](challenger.md) against the
-proposed conclusion, completed work and reported results.
+Bring the [panel](#panel) together for the user's request. The parent owns the
+decision; delegates supply evidence and disagreements, not write or shipping
+authority. Then run the [Sol challenger](challenger.md) against the proposed
+conclusion, completed work and reported results.
+
+## Panel
+
+Gabriel's default panel is the four primary models below, each at **xhigh**. This is
+an explicit user selection: it overrides the tier table in
+[model and effort selection](../rules/main-context.md#model-and-effort-selection)
+for council members only.
+
+| Provider | Model | Effort setting |
+| --- | --- | --- |
+| Claude | `claude-opus-5-5` | `effort: "xhigh"` |
+| Codex | `gpt-6.1-sol` | `reasoningEffort: "xhigh"` |
+| Grok | `grok-4.7` | `reasoningEffort: "xhigh"` |
+| Muse | `muse-wonder-full-1.0` | `reasoningEffort: "xhigh"` |
+
+Never substitute a sibling (Sonnet, Haiku, Fable, Astra, Terra, Grok Fast,
+Muse Wonder, Spark) or the parent's model. Set effort explicitly on every
+member: Muse's catalog default is `max`, which is never allowed. In T3 Code,
+start every member through `delegate_task` with `target.model` and
+`target.options`, not a model request in prompt text.
 
 ## Read when
 
@@ -38,14 +58,13 @@ proposed conclusion, completed work and reported results.
    Address known issues and relevant checks before an audit only when fixes
    are already authorized. A feedback-only request stays read-only. Skip fixes
    to an implementation the user wants replaced. Do not import unrelated work.
-2. **Select the panel.** Honor user-named members and established project
-   preferences. Otherwise select one suitable model from each of three
-   different providers. Choose model and effort separately under the shared
-   selection policy; do not prescribe high effort for every job. Record the
-   harness, provider, model, requested settings and observable effective settings.
-   Multiple sessions of one model are not provider diversity. If a named member
-   or three providers cannot be reached, report the missing capability; do not
-   silently substitute, shrink the panel, or claim a full council ran.
+2. **Select the panel.** Use the four [panel](#panel) members unless the user
+   names others for this run. Confirm each model and its `xhigh` option in the
+   live catalog. Record the harness, provider, model, requested settings and
+   observable effective settings. Multiple sessions of one model are not
+   provider diversity. If a member cannot be reached, report the missing
+   capability; do not silently substitute, shrink the panel, or claim a full
+   council ran.
 3. **Ask independently.** Start members in parallel through the supported
    native or cross-provider route. Give each the same factual brief, pinned
    evidence, rules, test consent and bounded return contract. Use fresh context;
