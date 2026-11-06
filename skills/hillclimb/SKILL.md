@@ -135,24 +135,30 @@ user-approved continuation rules; never reset it by changing agents or skills.
    twice. If it is still blocked, report inconclusive/static-only
    findings and stop the affected loop; do not bypass restrictions or invent a
    pass. Apply the
-   variant's Lens to the bounded target, not the whole app. After each reviewer
-   records its blind rating, give it the target score and ask for the moves it
-   would take to reach it, sized by [change size](#change-size), not only for
-   defects.
-3. **Promote the round's changes.** The parent selects the highest-impact
-   evidenced findings and an observable improvement hypothesis for each. Reuse
-   stable IDs and remediate once. The implementer makes them as **numbered
-   changes** at the round's [change size](#change-size), each undoable on its
-   own, and records which files and hunks belong to each number. The same
-   numbers label the highlighted before/after. Give a delegated implementer
-   allowed paths, unchanged behavior, evidence, rollback boundary and checks.
-   Use existing tests, and preserve
+   variant's Lens to the bounded target, not the whole app.
+
+   **After every blind rating**, this round and each later one, give the
+   reviewer the target score and ask for two short lists, sized by
+   [change size](#change-size): up to three things that drive its rating down,
+   each with evidence (where, and what it costs the user), and up to three
+   changes that would raise it most, each with the expected effect. The parent
+   merges the lists across reviewers and ranks them by agreement and impact.
+3. **Promote the round's changes.** The parent selects the highest-ranked
+   items from the merged lists, checks their evidence, and states an observable
+   improvement hypothesis for each. Reuse stable IDs and remediate once. The
+   implementer makes them as **numbered changes** at the round's
+   [change size](#change-size), each undoable on its own, and records which
+   files and hunks belong to each number. The same numbers label the
+   highlighted before/after. Give a delegated implementer allowed paths,
+   unchanged behavior, evidence, rollback boundary and checks. Use existing
+   tests, and preserve
    [new-test consent](../rules/no-unrequested-tests.md). Do not recursively run
    `/task` or a whole `/review-loop` for every correction.
 4. **Compare and rereview.** Freeze the candidate diff. `/verification` gathers
    candidate evidence under the same conditions as the baseline. Then the
    reviewer checks named fixes, direct regressions and the variant's guards,
-   reviewing new surface under the shared partition. Full rescans require
+   reviewing new surface under the shared partition, then rates the result
+   blind and returns the two lists from step 2. Full rescans require
    material scope change or explicit request. Distinguish observation, judgment
    and unknowns; make no claim the variant's Evidence section rules out.
 5. **The reviewers decide each change.** Every reviewer, or council member,
