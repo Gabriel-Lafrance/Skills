@@ -55,7 +55,7 @@ What one rule means in code (a Before/After, a pattern's folder tree): [code-qua
 | Assess or revive an old PR against current intent | `/takeover-pr` |
 | Choose browser or other tools | [Harness-first discovery](../rules/tooling.md#harness-first-discovery) |
 | Build a screen / frontend, or update the app UX source of truth | `/task` (it applies [user-experience.md](../rules/user-experience.md) and `docs/design.md`) |
-| Explicitly invoke a bounded review-and-improve loop on a UI journey, slow path, or evaluation target | [`/hillclimb`](../hillclimb/SKILL.md), only when named by the user; it picks UI, performance, or evaluation from the goal; a requested council fills the reviewer slot. Ordinary edits keep their existing route |
+| Raise a UI journey, slow path, or evaluation target to a score or goal over rated rounds | [`/hillclimb`](../hillclimb/SKILL.md), with or without the slash; it picks UI, performance, or evaluation from the goal; a requested council fills the reviewer slot. Ordinary edits keep their existing route |
 | Write or add tests | `/verification` proposes "Tests worth keeping" in its report; reply `tests 1`, or say yes when `/review` recommends a test. It follows [testing.md](../rules/testing.md) |
 | Verify changed behavior, or explicitly run all existing tests and QA the running app, a migration, an endpoint, or a job | `/verification`, scoped by [behavior and risk](../rules/execution.md#verification-scope); an explicit full-verification request runs all configured suites |
 | Audit, prune, or clean up existing tests | `/test-audit` (prunes one evidenced batch and reports how to restore it; campaign mode covers a whole subsystem) |

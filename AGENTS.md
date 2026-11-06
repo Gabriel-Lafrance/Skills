@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.13.0 -->
+<!-- gabriel-skills-agents v2.14.0 -->
 
 # Gabriel skills
 
@@ -20,7 +20,7 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 | --- | --- |
 | Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
 | Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task/SKILL.md` |
-| Types `/hillclimb` | `hillclimb/SKILL.md` |
+| Hillclimb or iterate to a target score | `hillclimb/SKILL.md` |
 | Ask for a council | `council/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
 | Verify changed behavior, write or add tests, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
@@ -52,7 +52,7 @@ Bold rules always apply; linked files hold details and checks.
 
 ## Read when
 
-Open each topic file when named, once per session unless already in context.
+Open each topic file once per session, when named.
 
 | About to | Skip it and you will | Open |
 | --- | --- | --- |

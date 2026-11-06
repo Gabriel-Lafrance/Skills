@@ -1,14 +1,14 @@
 ---
 name: hillclimb
-description: Use only when the user types /hillclimb or explicitly asks to hillclimb one scoped UI, performance, or evaluation target over a finite round budget. Never start it for ordinary polish, speed-up, or skill-editing requests; those go to task.
+description: Use when the user asks to hillclimb, or to raise one UI, performance, or evaluation target to a score or goal over repeated rated rounds, such as "get this page to 9/10" or "iterate until it passes". A one-off polish, speed-up, or fix goes to task.
 category: Code
-disable-model-invocation: true
 ---
 
 # Hillclimb
 
-User start only, by name in the thread. Creating or discussing this skill does
-not authorize edits to an application. One run improves one target through
+Start it when the request matches the description, with or without the slash
+command. Creating or discussing this skill does not authorize edits to an
+application. One run improves one target through
 reviewed, evidenced rounds. Inside that target nothing is off limits, including
 a full redesign or rewrite when the [change size](#change-size) calls for it.
 The rest of the app, new doctrine and new review axes stay out.
