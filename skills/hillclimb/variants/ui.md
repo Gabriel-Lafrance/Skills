@@ -24,7 +24,8 @@ the rendered flow.
 
 - Reviewer: the shared `reviewer` role, judging rendered evidence as a
   **visual-and-experience reviewer**.
-- Implementer: the shared `designer` role for UI code.
+- Implementer: the shared `designer` role for UI code, done by the parent by
+  default.
 
 ## Evidence
 
@@ -85,3 +86,10 @@ and every guard holds. Reject it when it:
 - Removes meaningful structure, a necessary confirmation, or expert capability.
 
 A prettier screenshot does not excuse a harder task or a hidden regression.
+
+## Report
+
+Each kept round and the final report show baseline and candidate side by side
+with numbered highlights on every changed region, and one line per number
+saying what changed and why. The user should not have to hunt for the
+difference.

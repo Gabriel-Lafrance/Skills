@@ -14,17 +14,22 @@ conclusion, completed work and reported results.
 
 ## Panel
 
-Gabriel's default panel is the four primary models below, each at **xhigh**. This is
-an explicit user selection: it overrides the tier table in
+Gabriel's panel is the primary models below. This is an explicit user
+selection: it overrides the tier table in
 [model and effort selection](../rules/main-context.md#model-and-effort-selection)
 for council members only.
 
-| Provider | Model | Effort setting |
-| --- | --- | --- |
-| Claude | `claude-opus-5-5` | `effort: "xhigh"` |
-| Codex | `gpt-6.1-sol` | `reasoningEffort: "xhigh"` |
-| Grok | `grok-4.7` | `reasoningEffort: "xhigh"` |
-| Muse | `muse-wonder-full-1.0` | `reasoningEffort: "xhigh"` |
+| Provider | Model | Effort key | Assessment | Hillclimb rerating |
+| --- | --- | --- | --- | --- |
+| Claude | `claude-opus-5-5` | `effort` | `xhigh` | `high` |
+| Codex | `gpt-6.1-sol` | `reasoningEffort` | `xhigh` | `high` |
+| Grok | `grok-4.7` | `reasoningEffort` | `xhigh` | not on panel |
+| Muse | `muse-wonder-full-1.0` | `reasoningEffort` | `xhigh` | `high` |
+
+**Assessment** is a standalone council and a hillclimb's round 0: all four
+rate the current state. **Hillclimb rerating** is every later hillclimb round:
+Grok leaves, and its round 0 rating stays in the report. Record the roster,
+model IDs and efforts in the execution context so they survive compaction.
 
 Never substitute a sibling (Sonnet, Haiku, Fable, Astra, Terra, Grok Fast,
 Muse Wonder, Spark) or the parent's model. Set effort explicitly on every
@@ -58,9 +63,9 @@ start every member through `delegate_task` with `target.model` and
    Address known issues and relevant checks before an audit only when fixes
    are already authorized. A feedback-only request stays read-only. Skip fixes
    to an implementation the user wants replaced. Do not import unrelated work.
-2. **Select the panel.** Use the four [panel](#panel) members unless the user
-   names others for this run. Confirm each model and its `xhigh` option in the
-   live catalog. Record the harness, provider, model, requested settings and
+2. **Select the panel.** Use the [panel](#panel) members and efforts for
+   the phase unless the user names others for this run. Confirm each model and
+   its effort option in the live catalog. Record the harness, provider, model, requested settings and
    observable effective settings. Multiple sessions of one model are not
    provider diversity. If a member cannot be reached, report the missing
    capability; do not silently substitute, shrink the panel, or claim a full
