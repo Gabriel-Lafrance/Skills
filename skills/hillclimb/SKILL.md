@@ -135,9 +135,10 @@ user-approved continuation rules; never reset it by changing agents or skills.
    twice. If it is still blocked, report inconclusive/static-only
    findings and stop the affected loop; do not bypass restrictions or invent a
    pass. Apply the
-   variant's Lens to the bounded target, not the whole app. Ask each reviewer
-   for the moves it would take to reach the target score, sized by
-   [change size](#change-size), not only for defects.
+   variant's Lens to the bounded target, not the whole app. After each reviewer
+   records its blind rating, give it the target score and ask for the moves it
+   would take to reach it, sized by [change size](#change-size), not only for
+   defects.
 3. **Promote the round's changes.** The parent selects the highest-impact
    evidenced findings and an observable improvement hypothesis for each. Reuse
    stable IDs and remediate once. The implementer makes them as **numbered
