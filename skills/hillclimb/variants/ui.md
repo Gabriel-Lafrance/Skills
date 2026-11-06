@@ -63,7 +63,7 @@ target never overrides the rendered task evidence or regression guards below.
 Judge a premium, sleek, comfortable result within the product's own identity:
 
 - Alignment, consistent spacing/padding, typography and hierarchy: cite the
-  affected rendered state and task impact rather than imposing a new aesthetic.
+  affected rendered state and task impact. Keep the brand and design tokens.
 - Restrained surfaces and grouping: flag nested-card clutter without deleting
   meaningful structure or expert capability.
 - No new modals unless the user asks. Flag friction in existing modals and scope

@@ -9,8 +9,9 @@ disable-model-invocation: true
 
 User start only, by name in the thread. Creating or discussing this skill does
 not authorize edits to an application. One run improves one target through
-reviewed, evidenced rounds; it is not a new doctrine, a general redesign, a
-rewrite, or a new review axis.
+reviewed, evidenced rounds. Inside that target nothing is off limits, including
+a full redesign or rewrite when the [change size](#change-size) calls for it.
+The rest of the app, new doctrine and new review axes stay out.
 
 ## Read when
 
@@ -61,6 +62,12 @@ Each variant file has the same sections: **Picks it**, **Read when**,
 file in `variants/` with those sections plus one row in the table above; the
 loop below does not change.
 
+## Change size
+
+The lower the score, the bigger the changes often need to be. Size each round
+from the latest rating, or from the distance to the target when the variant
+has no ratings.
+
 ## Ownership and limits
 
 The parent owns scope, authority, round count, finding dispositions, handoffs
@@ -109,8 +116,8 @@ user-approved continuation rules; never reset it by changing agents or skills.
    owners. Name the target, the conditions the variant's Evidence section
    requires, and success and regression criteria. Default to scoped autonomous
    corrections within this invocation; honor proposal-first or narrower
-   authority. In proposal-first, show findings and a focused fix, then wait for
-   its approval before implementation. When ratings are used, record the
+   authority. In proposal-first, show findings and the round's proposed
+   changes, then wait for approval before implementation. When ratings are used, record the
    user's target score and acceptable floor (such as 10, 9.5 acceptable) as a
    stop condition; without one, the budget and keep bar decide. Do not infer merge, deployment, external
    communications or unrelated redesign permission.
@@ -128,15 +135,17 @@ user-approved continuation rules; never reset it by changing agents or skills.
    twice. If it is still blocked, report inconclusive/static-only
    findings and stop the affected loop; do not bypass restrictions or invent a
    pass. Apply the
-   variant's Lens to the bounded target, not the whole app.
+   variant's Lens to the bounded target, not the whole app. Ask each reviewer
+   for the moves it would take to reach the target score, sized by
+   [change size](#change-size), not only for defects.
 3. **Promote the round's changes.** The parent selects the highest-impact
    evidenced findings and an observable improvement hypothesis for each. Reuse
    stable IDs and remediate once. The implementer makes them as **numbered
-   changes**, one per finding, each small enough to undo on its own, and
-   records which files and hunks belong to each number. The same numbers label
-   the highlighted before/after. Give a delegated implementer allowed paths,
-   unchanged behavior, evidence, rollback boundary and checks. Use
-   existing tests, and preserve
+   changes** at the round's [change size](#change-size), each undoable on its
+   own, and records which files and hunks belong to each number. The same
+   numbers label the highlighted before/after. Give a delegated implementer
+   allowed paths, unchanged behavior, evidence, rollback boundary and checks.
+   Use existing tests, and preserve
    [new-test consent](../rules/no-unrequested-tests.md). Do not recursively run
    `/task` or a whole `/review-loop` for every correction.
 4. **Compare and rereview.** Freeze the candidate diff. `/verification` gathers
