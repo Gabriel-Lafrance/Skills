@@ -76,8 +76,8 @@ Judge a premium, sleek, comfortable result within the product's own identity:
 
 ## Keep or reject
 
-Keep a candidate when the rendered comparison shows the named friction resolved
-and every guard holds. Reject it when it:
+Keep a numbered change when the rendered comparison shows its named friction
+resolved and every guard holds. Fix or drop it when it:
 
 - Weakens keyboard/focus, accessibility, reduced motion, or data and state
   continuity through loading, error, empty, cancel or retry.

@@ -95,7 +95,7 @@ does not gather evidence or dispatch another loop. No scoped edits while review 
 
 Default budget: **five review rounds**, including initial review and focused
 rereviews. This is configurable, not a user-chosen number. Charge a round at
-dispatch, including rejected candidates and failed/replaced review attempts.
+dispatch, including dropped changes and failed/replaced review attempts.
 One implementation batch belongs to the current round; restarting/replacing
 that batch consumes another round. Reserve a remaining round to review its
 result before dispatching a correction. Carry spent allowance across delegates,
@@ -129,10 +129,13 @@ user-approved continuation rules; never reset it by changing agents or skills.
    findings and stop the affected loop; do not bypass restrictions or invent a
    pass. Apply the
    variant's Lens to the bounded target, not the whole app.
-3. **Promote one focused correction.** The parent selects the highest-impact
-   evidenced finding/root cause and an observable improvement hypothesis.
-   Reuse stable IDs and remediate once. Give the separate implementer allowed
-   paths, unchanged behavior, evidence, rollback boundary and checks. Use
+3. **Promote the round's changes.** The parent selects the highest-impact
+   evidenced findings and an observable improvement hypothesis for each. Reuse
+   stable IDs and remediate once. The implementer makes them as **numbered
+   changes**, one per finding, each small enough to undo on its own, and
+   records which files and hunks belong to each number. The same numbers label
+   the highlighted before/after. Give a delegated implementer allowed paths,
+   unchanged behavior, evidence, rollback boundary and checks. Use
    existing tests, and preserve
    [new-test consent](../rules/no-unrequested-tests.md). Do not recursively run
    `/task` or a whole `/review-loop` for every correction.
@@ -142,25 +145,33 @@ user-approved continuation rules; never reset it by changing agents or skills.
    reviewing new surface under the shared partition. Full rescans require
    material scope change or explicit request. Distinguish observation, judgment
    and unknowns; make no claim the variant's Evidence section rules out.
-5. **Keep or reject.** Retain a correction only when evidence supports its
-   hypothesis, it meets the variant's keep bar, and required regression checks
-   pass. **Fix forward** when the reviewers prefer the candidate and the only
-   blocker is a bounded, evidenced defect in the candidate's own change: fix it
-   in the same round, then run a focused recheck by the members who raised it
-   on fresh `/verification` evidence. The recheck belongs
-   to the current round, so the final round may fix forward too. Fix forward
-   once per round; revert when the defect is structural, the fix fails its
-   recheck or a second blocker appears. Otherwise safely undo only
-   that candidate's owned changes, including its partial delegated changes,
+5. **The reviewers decide each change.** Every reviewer, or council member,
+   gives each numbered change a verdict: **keep**, **fix** (with the defect
+   and its evidence) or **drop** (with the reason). The parent tallies them
+   and checks the evidence behind each fix or drop:
+   - Most say keep, and no one shows an evidenced break of the variant's keep
+     bar or guards: keep it.
+   - Anyone shows such a break: fix it forward in this round, then the members
+     who raised it recheck it on fresh `/verification` evidence. Drop it if
+     the fix fails that recheck. A majority never overrides the evidence.
+   - Most say drop: undo only that change.
+   - A tie: the parent decides and states why; dissent stays in the report.
+
+   A round is never discarded as a whole; kept changes stay while dropped ones
+   go. The rechecks belong to the current round, so the final round may fix
+   forward too. When the variant's evidence cannot separate the changes (one
+   measurement for the whole round), the round is one change. Undo safely:
+   only a dropped change's owned hunks, including partial delegated changes,
    preserving accepted work and user edits. Never hard-reset or restore whole
    files over unrelated work. Concurrent changes invalidate affected evidence:
    reconcile before writing/reversing, and stop if ownership cannot be separated.
    A blocked comparison is inconclusive, not an improvement. Keep an unverified
-   candidate only on explicit user direction and report that limit.
+   change only on explicit user direction and report that limit.
 6. **Stop and hand off.** Stop at the scoped outcome or target score, budget
    exhaustion, no worthwhile evidenced improvement, stalled dispute or blocker.
    Report the variant, rounds used, a rating table by member and round with
-   the change from round 0, kept/fixed-forward/rejected changes, stable unresolved findings,
+   the change from round 0, each numbered change with its verdicts and outcome
+   (kept, fixed, dropped), stable unresolved findings,
    comparable evidence, limitations, remaining candidate changes and next
    decision. Never claim a perfect/pristine pass because the budget ended.
 7. **Review loop before any PR push.** Before the run's changes are pushed,
