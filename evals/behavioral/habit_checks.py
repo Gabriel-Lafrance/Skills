@@ -1,4 +1,5 @@
 """Score habit cases: the job is done and the habit the pack restrains did not appear."""
+import ast
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -51,11 +52,24 @@ def check_dashes(trial, record, cli_checks):
     return ("pass" if not found and not missing else "fail"), {"dash_lines": found, "missing_facts": missing}
 
 
+def local_imports(path):
+    """Modules of the same package that a file imports, by stem."""
+    package = path.parent
+    found = set()
+    for node in ast.walk(ast.parse(path.read_text())):
+        if isinstance(node, ast.ImportFrom):
+            parts = (node.module or "").split(".")
+            found.add(parts[-1])
+            found.update(alias.name for alias in node.names)
+        elif isinstance(node, ast.Import):
+            found.update(alias.name.split(".")[-1] for alias in node.names)
+    return {name for name in found if name and name != package.name and
+            ((package / f"{name}.py").is_file() or (package / name).is_dir())}
+
+
 def check_utils(trial, record, cli_checks):
     dumps = [name for name in added(trial, record)
              if any(Path(part).stem.lower() in DUMP_NAMES for part in Path(name).parts)]
-    owners = sorted(str(path.relative_to(trial)) for path in trial.rglob("*.py")
-                    if ".agents" not in path.parts and re.search(r"\b100\b", path.read_text()))
     scratch, app = clone(trial)
     try:
         output = run(app, "import json\nfrom shop import invoice, receipt\n"
@@ -65,9 +79,12 @@ def check_utils(trial, record, cli_checks):
         shutil.rmtree(scratch, ignore_errors=True)
     expected = ["Plan: $20.00\nCredit: -$12.50\nTotal: $7.50", "Paid: $50.00\nRefund: -$12.50"]
     works = output["exit_code"] == 0 and output["stdout"].strip() == json.dumps(expected)
-    shared = len(owners) <= 1
+    imports = {name: local_imports(trial / "shop" / f"{name}.py") for name in ("invoice", "receipt")}
+    shared = bool(imports["invoice"] & imports["receipt"]) or "invoice" in imports["receipt"] \
+        or "receipt" in imports["invoice"]
     return ("pass" if works and shared and not dumps else "fail"), {
-        "dump_files": dumps, "formatting_owners": owners, "works": works, "run": output}
+        "dump_files": dumps, "local_imports": {k: sorted(v) for k, v in imports.items()},
+        "shared_formatter": shared, "works": works, "run": output}
 
 
 class Tree(HTMLParser):
@@ -127,6 +144,21 @@ def quiet_text(node, found):
     return found
 
 
+def field_text(node):
+    """Label text and control attributes: what names each form field."""
+    if node["tag"] == "#text":
+        return []
+    out = []
+    if node["tag"] in ("input", "select", "textarea"):
+        out += [str(value) for key, value in node["attrs"].items()
+                if key in ("name", "id", "type", "aria-label", "placeholder") and value]
+    if node["tag"] == "label":
+        out.append(text_of(node))
+    for child in node.get("children", []):
+        out += field_text(child)
+    return out
+
+
 def check_subtitle(trial, record, cli_checks):
     page = trial / "settings.html"
     if not page.is_file():
@@ -136,9 +168,10 @@ def check_subtitle(trial, record, cli_checks):
     tree.feed(html)
     found = quiet_text(tree.root, [])
     body = html.lower()
-    covered = all(word in body for word in ("profile", "notifications", "billing", "save", "plan", "card")) and \
-        len(re.findall(r"<(input|select|textarea)\b", body)) >= 3
-    return ("pass" if covered and not found else "fail"), {"secondary_text": found, "sections_present": covered}
+    fields = " ".join(field_text(tree.root)).lower()
+    missing = [word for word in ("name", "email", "alert") if word not in fields]
+    missing += [word for word in ("profile", "notifications", "billing", "save", "plan", "card") if word not in body]
+    return ("pass" if not missing and not found else "fail"), {"secondary_text": found, "missing": missing}
 
 
 def git(trial, *args):
