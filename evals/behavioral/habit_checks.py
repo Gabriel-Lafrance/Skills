@@ -1,5 +1,4 @@
 """Score habit cases: the job is done and the habit the pack restrains did not appear."""
-import ast
 from html.parser import HTMLParser
 import json
 from pathlib import Path
@@ -52,19 +51,25 @@ def check_dashes(trial, record, cli_checks):
     return ("pass" if not found and not missing else "fail"), {"dash_lines": found, "missing_facts": missing}
 
 
-def local_imports(path):
-    """Modules of the same package that a file imports, by stem."""
-    package = path.parent
+SHARED_PROBE = """
+import inspect, json
+from shop import invoice, receipt
+
+
+def helpers(module):
     found = set()
-    for node in ast.walk(ast.parse(path.read_text())):
-        if isinstance(node, ast.ImportFrom):
-            parts = (node.module or "").split(".")
-            found.add(parts[-1])
-            found.update(alias.name for alias in node.names)
-        elif isinstance(node, ast.Import):
-            found.update(alias.name.split(".")[-1] for alias in node.names)
-    return {name for name in found if name and name != package.name and
-            ((package / f"{name}.py").is_file() or (package / name).is_dir())}
+    for name, value in vars(module).items():
+        if inspect.ismodule(value) and value.__name__.startswith("shop"):
+            found |= {id(f) for n, f in vars(value).items() if inspect.isfunction(f) and n != "render"}
+        elif inspect.isfunction(value) and name != "render":
+            found.add(id(value))
+    return found
+
+
+print(json.dumps({"rendered": [invoice.render([["Plan", 2000], ["Credit", -1250]]),
+                               receipt.render(5000, -1250)],
+                  "shared": bool(helpers(invoice) & helpers(receipt))}))
+"""
 
 
 def check_utils(trial, record, cli_checks):
@@ -72,19 +77,18 @@ def check_utils(trial, record, cli_checks):
              if any(Path(part).stem.lower() in DUMP_NAMES for part in Path(name).parts)]
     scratch, app = clone(trial)
     try:
-        output = run(app, "import json\nfrom shop import invoice, receipt\n"
-                          "print(json.dumps([invoice.render([['Plan', 2000], ['Credit', -1250]]),"
-                          " receipt.render(5000, -1250)]))")
+        output = run(app, SHARED_PROBE)
     finally:
         shutil.rmtree(scratch, ignore_errors=True)
     expected = ["Plan: $20.00\nCredit: -$12.50\nTotal: $7.50", "Paid: $50.00\nRefund: -$12.50"]
-    works = output["exit_code"] == 0 and output["stdout"].strip() == json.dumps(expected)
-    imports = {name: local_imports(trial / "shop" / f"{name}.py") for name in ("invoice", "receipt")}
-    shared = bool(imports["invoice"] & imports["receipt"]) or "invoice" in imports["receipt"] \
-        or "receipt" in imports["invoice"]
+    try:
+        result = json.loads(output["stdout"]) if output["exit_code"] == 0 else {}
+    except ValueError:
+        result = {}
+    works = result.get("rendered") == expected
+    shared = result.get("shared") is True
     return ("pass" if works and shared and not dumps else "fail"), {
-        "dump_files": dumps, "local_imports": {k: sorted(v) for k, v in imports.items()},
-        "shared_formatter": shared, "works": works, "run": output}
+        "dump_files": dumps, "shared_formatter": shared, "works": works, "run": output}
 
 
 class Tree(HTMLParser):
@@ -144,19 +148,48 @@ def quiet_text(node, found):
     return found
 
 
-def field_text(node):
-    """Label text and control attributes: what names each form field."""
+TOGGLES = {"checkbox", "radio"}
+
+
+def controls_in(node):
     if node["tag"] == "#text":
         return []
-    out = []
-    if node["tag"] in ("input", "select", "textarea"):
-        out += [str(value) for key, value in node["attrs"].items()
-                if key in ("name", "id", "type", "aria-label", "placeholder") and value]
-    if node["tag"] == "label":
-        out.append(text_of(node))
+    found = [node] if node["tag"] in ("input", "select", "textarea") else []
     for child in node.get("children", []):
-        out += field_text(child)
-    return out
+        found += controls_in(child)
+    return found
+
+
+def named_controls(root):
+    """Each form control with the words that name it: its own attributes and its label."""
+    controls = controls_in(root)
+    names = {id(c): " ".join(str(v) for k, v in c["attrs"].items()
+                             if k in ("name", "id", "aria-label", "placeholder") and v) for c in controls}
+    by_id = {c["attrs"].get("id"): c for c in controls if c["attrs"].get("id")}
+
+    def labels(node):
+        if node["tag"] == "#text":
+            return
+        if node["tag"] == "label":
+            owned = controls_in(node)
+            target = by_id.get(node["attrs"].get("for"))
+            if target is not None and all(target is not c for c in owned):
+                owned.append(target)
+            for control in owned:
+                names[id(control)] += " " + text_of(node)
+        for child in node.get("children", []):
+            labels(child)
+
+    labels(root)
+    return [(c, names[id(c)].lower()) for c in controls]
+
+
+def missing_fields(root):
+    named = named_controls(root)
+    missing = [word for word in ("name", "email") if not any(word in words for _, words in named)]
+    toggle = any("alert" in words and (c["tag"] == "select" or c["attrs"].get("type", "").lower() in TOGGLES
+                                       or c["attrs"].get("role") == "switch") for c, words in named)
+    return missing + ([] if toggle else ["alert toggle"])
 
 
 def check_subtitle(trial, record, cli_checks):
@@ -168,8 +201,7 @@ def check_subtitle(trial, record, cli_checks):
     tree.feed(html)
     found = quiet_text(tree.root, [])
     body = html.lower()
-    fields = " ".join(field_text(tree.root)).lower()
-    missing = [word for word in ("name", "email", "alert") if word not in fields]
+    missing = missing_fields(tree.root)
     missing += [word for word in ("profile", "notifications", "billing", "save", "plan", "card") if word not in body]
     return ("pass" if not missing and not found else "fail"), {"secondary_text": found, "missing": missing}
 
