@@ -56,11 +56,13 @@ import inspect, json
 from shop import invoice, receipt
 
 
-def helpers(module):
+def helpers(module, seen=None):
+    seen = set() if seen is None else seen
+    seen.add(module.__name__)
     found = set()
     for name, value in vars(module).items():
-        if inspect.ismodule(value) and value.__name__.startswith("shop"):
-            found |= {id(f) for n, f in vars(value).items() if inspect.isfunction(f) and n != "render"}
+        if inspect.ismodule(value) and value.__name__.startswith("shop") and value.__name__ not in seen:
+            found |= helpers(value, seen)
         elif inspect.isfunction(value) and name != "render":
             found.add(id(value))
     return found
@@ -154,7 +156,8 @@ TOGGLES = {"checkbox", "radio"}
 def controls_in(node):
     if node["tag"] == "#text":
         return []
-    found = [node] if node["tag"] in ("input", "select", "textarea") else []
+    found = [node] if node["tag"] in ("input", "select", "textarea") or \
+        node["attrs"].get("role") in ("switch", "checkbox") else []
     for child in node.get("children", []):
         found += controls_in(child)
     return found
@@ -188,7 +191,7 @@ def missing_fields(root):
     named = named_controls(root)
     missing = [word for word in ("name", "email") if not any(word in words for _, words in named)]
     toggle = any("alert" in words and (c["tag"] == "select" or c["attrs"].get("type", "").lower() in TOGGLES
-                                       or c["attrs"].get("role") == "switch") for c, words in named)
+                                       or c["attrs"].get("role") in ("switch", "checkbox")) for c, words in named)
     return missing + ([] if toggle else ["alert toggle"])
 
 
