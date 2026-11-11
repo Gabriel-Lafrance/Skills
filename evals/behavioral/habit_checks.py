@@ -56,12 +56,18 @@ import inspect, json
 from shop import invoice, receipt
 
 
+RENDERERS = {"shop.invoice", "shop.receipt"}
+
+
 def helpers(module, seen=None):
-    seen = set() if seen is None else seen
+    # Helpers a renderer reaches, never through the package into the other renderer.
+    top = seen is None
+    seen = set() if top else seen
     seen.add(module.__name__)
     found = set()
     for name, value in vars(module).items():
-        if inspect.ismodule(value) and value.__name__.startswith("shop") and value.__name__ not in seen:
+        if (inspect.ismodule(value) and value.__name__.startswith("shop") and value.__name__ not in seen
+                and (top or value.__name__ not in RENDERERS)):
             found |= helpers(value, seen)
         elif inspect.isfunction(value) and name != "render":
             found.add(id(value))
