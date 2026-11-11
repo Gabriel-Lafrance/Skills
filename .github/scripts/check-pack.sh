@@ -198,7 +198,7 @@ BUDGETS=(
   "build-start|7519|AGENTS.md skills/task/SKILL.md skills/task/reference.md $RULES/execution.md $RULES/code-quality.md $RULES/code-structure.md"
   "build-full|25931|AGENTS.md skills/task/SKILL.md skills/task/reference.md $RULES/execution.md $RULES/code-quality.md $RULES/code-structure.md $RULES/strong-foundation.md $RULES/planning.md $RULES/user-experience.md $RULES/main-context.md $RULES/writing-style.md $RULES/keep-it-simple.md $RULES/testing.md $RULES/no-unrequested-tests.md skills/task/doctrine.md skills/verification/SKILL.md skills/verification/doctrine.md skills/verification/reference.md skills/review/SKILL.md skills/review/contract.md"
   "review-start|9353|AGENTS.md skills/review/SKILL.md skills/review/contract.md $RULES/code-quality.md $RULES/code-structure.md"
-  "pack-total|54837|@pack"
+  "pack-total|54852|@pack"
 )
 
 # Prints the files of one journey; @pack means AGENTS.md plus every skills markdown file.

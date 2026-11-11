@@ -54,7 +54,7 @@ def changed_immutable(trial, record, case):
     if case.kind == "habit":
         initial, current = record["initial_files"], inventory(trial)
         return [name for name in {"AGENTS.md", "prompt.txt", "records.json"}
-                if current.get(name) != initial[name]] + sorted(
+                if current.get(name) != initial.get(name)] + sorted(
             name for name in set(initial) | set(current)
             if name.startswith(".agents/") and current.get(name) != initial.get(name))
     allowed = {"decision": {"result.json"},

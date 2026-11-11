@@ -70,7 +70,7 @@ context is too full to hold the change. If a separate reviewer is unavailable,
 report the blocked workflow; never claim the independent loop ran through a
 single agent.
 
-When the user asks for a council, use [council](../council/SKILL.md) for the
+When the user asks for a council on a rated variant, use [council](../council/SKILL.md) for the
 reviewer slot: its assessment panel rates round 0 and its rerating panel rates
 every later round. Skip the council's challenger in every round: [Sol review](../council/challenger.md)
 runs once, as `/review-loop` on the final diff before any PR push. The parent

@@ -41,6 +41,8 @@ Files opened on the first step of the 20 routing cases: Haiku 27, Luna 48, Ember
 - Only the 2 Muse reruns ran on the final hash. It differs from the guard hash by the restored routing sentence, which is the round 3 text Ember passed.
 - Ember chose `ask-gabriel` for `route-why` in 1 of 3 runs before round 3 and 2 of 3 here; the sample cannot say whether the reworded line caused it.
 - At least one of Luna's "no result file" misses wrote to the session's starting folder instead of the trial folder, which points at the trial wrapper more than the model.
+- After review, the habit checks also require the job itself: the retry facts in the doc, the repaired CLI behind the report, the settings fields, and one owner of the money formatting; a text-only `div` under a heading now counts as a subtitle. Rescoring every saved run with the stricter checks changed no result.
+- The review restored two lines (bounded log retention, and the council rule applying to rated hillclimb variants); the pack is 54,852 words.
 - The habit checks are heuristics: a sentence after a heading counts as a subtitle unless it holds a control, a colon or under three words.
 
 ## 2026-11-09: hillclimb round 3, small models and simpler rules

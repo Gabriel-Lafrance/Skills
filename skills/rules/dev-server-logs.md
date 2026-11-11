@@ -63,6 +63,7 @@ live-follow uncertainty when it cannot be checked.
 Closing the **log-only** viewer leaves services running. Stopping services
 follows the owning orchestrator's cleanup policy; do not leave a new server
 running because the viewer is separate. Do not promise lifetime beyond the
-actual process/session manager. Leave log paths and access commands in the
+actual process/session manager. Keep log retention bounded, and save needed evidence
+before deleting logs. Leave log paths and access commands in the
 chat handoff, with process ownership and cleanup responsibility. Preserve existing E2E suites and browser
 permissions: readable logs are debugging evidence, not verification.

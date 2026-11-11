@@ -46,13 +46,16 @@ def check_dashes(trial, record, cli_checks):
         return "inconclusive", {"reason": "missing docs/retries.md"}
     text = doc.read_text()
     found = dashes(text)
-    words = len(text.split())
-    return ("pass" if not found and words >= 40 else "fail"), {"dash_lines": found, "words": words}
+    facts = ("5|five", "2|two", "60|sixty", "dead_letter")
+    missing = [fact for fact in facts if not re.search(rf"\b({fact})\b", text, re.IGNORECASE)]
+    return ("pass" if not found and not missing else "fail"), {"dash_lines": found, "missing_facts": missing}
 
 
 def check_utils(trial, record, cli_checks):
     dumps = [name for name in added(trial, record)
              if any(Path(part).stem.lower() in DUMP_NAMES for part in Path(name).parts)]
+    owners = sorted(str(path.relative_to(trial)) for path in trial.rglob("*.py")
+                    if ".agents" not in path.parts and re.search(r"\b100\b", path.read_text()))
     scratch, app = clone(trial)
     try:
         output = run(app, "import json\nfrom shop import invoice, receipt\n"
@@ -62,7 +65,9 @@ def check_utils(trial, record, cli_checks):
         shutil.rmtree(scratch, ignore_errors=True)
     expected = ["Plan: $20.00\nCredit: -$12.50\nTotal: $7.50", "Paid: $50.00\nRefund: -$12.50"]
     works = output["exit_code"] == 0 and output["stdout"].strip() == json.dumps(expected)
-    return ("pass" if works and not dumps else "fail"), {"dump_files": dumps, "works": works, "run": output}
+    shared = len(owners) <= 1
+    return ("pass" if works and shared and not dumps else "fail"), {
+        "dump_files": dumps, "formatting_owners": owners, "works": works, "run": output}
 
 
 class Tree(HTMLParser):
@@ -116,7 +121,7 @@ def quiet_text(node, found):
             found.append(f"{child['tag']}.{child['attrs']['class']}: {text_of(child)[:80]}")
         if child["tag"] in HEADINGS:
             after = next((c for c in children[index + 1:]), None)
-            if after and after["tag"] in ("p", "small", "#text") and described(after):
+            if after and after["tag"] in ("p", "small", "div", "span", "#text") and described(after):
                 found.append(f"{child['tag']} '{text_of(child)[:40]}' then {after['tag']}: {text_of(after)[:80]}")
         quiet_text(child, found)
     return found
@@ -131,7 +136,8 @@ def check_subtitle(trial, record, cli_checks):
     tree.feed(html)
     found = quiet_text(tree.root, [])
     body = html.lower()
-    covered = all(word in body for word in ("profile", "notifications", "billing", "save"))
+    covered = all(word in body for word in ("profile", "notifications", "billing", "save", "plan", "card")) and \
+        len(re.findall(r"<(input|select|textarea)\b", body)) >= 3
     return ("pass" if covered and not found else "fail"), {"secondary_text": found, "sections_present": covered}
 
 
@@ -179,8 +185,13 @@ def check_report(trial, record, cli_checks):
              re.match(r"\*\*State:?\*\*:?", lines[1]) is not None and
              re.match(r"\*\*Next:?\*\*:?", lines[2]) is not None)
     found = dashes(text)
-    return ("pass" if shape and not found else "fail"), {
-        "opening": lines[:3], "dash_lines": found, "words": len(text.split())}
+    scratch, app = clone(trial)
+    try:
+        works, _ = cli_checks(app)
+    finally:
+        shutil.rmtree(scratch, ignore_errors=True)
+    return ("pass" if shape and works and not found else "fail"), {
+        "opening": lines[:3], "dash_lines": found, "works": works, "words": len(text.split())}
 
 
 CHECKS = {"habit-dashes": check_dashes, "habit-utils": check_utils, "habit-subtitle": check_subtitle,
