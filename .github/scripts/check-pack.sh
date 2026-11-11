@@ -4,6 +4,7 @@
 set -euo pipefail
 
 export LC_ALL=C.UTF-8
+source "$(dirname "${BASH_SOURCE[0]}")/lib.sh"
 cd "$(git rev-parse --show-toplevel)"
 
 failures=0
@@ -83,17 +84,6 @@ check_section_files() {
   done
 }
 
-# Prints the frontmatter description text, plain or as a folded or literal block.
-frontmatter_description() {
-  awk '
-    NR > 1 && $0 == "---" { exit }
-    in_block && /^[ \t]+[^ \t]/ { print; next }
-    { in_block = 0 }
-    /^description:[ \t]*[>|][-+]?[ \t]*$/ { in_block = 1; next }
-    /^description:/ { sub(/^description:[ \t]*/, ""); print }
-  ' "$1"
-}
-
 check_description_length() {
   local file words
   for file in skills/*/SKILL.md; do
@@ -111,21 +101,6 @@ check_no_dashes() {
   while IFS= read -r hit; do
     fail "dash character at ${hit%%:*}:$(cut -d: -f2 <<<"$hit")"
   done <<<"$hits"
-}
-
-# Prints two lines from the YAML frontmatter: the name, then 1 if a description
-# has text. Prints nothing when the frontmatter is missing or unclosed.
-frontmatter_fields() {
-  awk '
-    NR == 1 && $0 != "---" { exit }
-    NR > 1 && $0 == "---" { done = 1; exit }
-    want_block && /^[ \t]+[^ \t]/ { desc = 1 }
-    { want_block = 0 }
-    /^name:/ { name = $0; sub(/^name:[ \t]*/, "", name); gsub(/["\047]/, "", name) }
-    /^description:[ \t]*[>|][-+]?[ \t]*$/ { want_block = 1; next }
-    /^description:[ \t]*[^ \t]/ { desc = 1 }
-    END { if (done) printf "%s\n%d\n", name, desc }
-  ' "$1"
 }
 
 check_skill_frontmatter() {
@@ -206,6 +181,50 @@ check_links() {
   done < <(repo_files | grep '\.md$')
 }
 
+# Every backticked path.md#anchor in AGENTS.md must name a file under skills/ with that heading.
+check_agents_anchors() {
+  local ref
+  while IFS= read -r ref; do
+    [[ -f "skills/${ref%%#*}" ]] || { fail "AGENTS.md names skills/$ref, but the file does not exist"; continue; }
+    heading_slugs "skills/${ref%%#*}" | grep -qxF -- "${ref#*#}" ||
+      fail "AGENTS.md names skills/$ref, but that file has no such heading"
+  done < <(grep -o '`[^` ]*\.md#[^` ]*`' AGENTS.md | tr -d '`')
+}
+
+# Word budgets for what an agent reads on one journey. Words, not lines, so rewrapping cannot move
+# the number. Raise a cap only with a stated reason (how-to.md).
+RULES=skills/rules
+BUDGETS=(
+  "build-start|7519|AGENTS.md skills/task/SKILL.md skills/task/reference.md $RULES/execution.md $RULES/code-quality.md $RULES/code-structure.md"
+  "build-full|25931|AGENTS.md skills/task/SKILL.md skills/task/reference.md $RULES/execution.md $RULES/code-quality.md $RULES/code-structure.md $RULES/strong-foundation.md $RULES/planning.md $RULES/user-experience.md $RULES/main-context.md $RULES/writing-style.md $RULES/keep-it-simple.md $RULES/testing.md $RULES/no-unrequested-tests.md skills/task/doctrine.md skills/verification/SKILL.md skills/verification/doctrine.md skills/verification/reference.md skills/review/SKILL.md skills/review/contract.md"
+  "review-start|9353|AGENTS.md skills/review/SKILL.md skills/review/contract.md $RULES/code-quality.md $RULES/code-structure.md"
+  "pack-total|54837|@pack"
+)
+
+# Prints the files of one journey; @pack means AGENTS.md plus every skills markdown file.
+budget_files() {
+  if [[ "$1" == @pack ]]; then
+    echo AGENTS.md
+    repo_files | grep '^skills/.*\.md$'
+  else
+    tr ' ' '\n' <<<"$1"
+  fi
+}
+
+check_read_budgets() {
+  local entry name cap files file total
+  for entry in "${BUDGETS[@]}"; do
+    IFS='|' read -r name cap files <<<"$entry"
+    total=0
+    while IFS= read -r file; do
+      [[ -f "$file" ]] || { fail "read budget $name lists $file, which does not exist"; continue; }
+      total=$((total + $(wc -w <"$file")))
+    done < <(budget_files "$files")
+    echo "$name: $total words (cap $cap)"
+    ((total <= cap)) || fail "read budget $name is $total words (cap: $cap)"
+  done
+}
+
 check_plugin_versions() {
   local plugin=.cursor-plugin/plugin.json want file mismatched
   want=$(jq -er '.version' "$plugin") || { fail "$plugin does not parse or has no version"; return 0; }
@@ -219,27 +238,25 @@ check_plugin_versions() {
   done
 }
 
-# Each skill must be routable: in the AGENTS.md Skills table, the README, and /ask-gabriel.
-# rules/ is not a workflow; setup is user-started only; the router does not list itself.
+# Each skill must be routable: in the AGENTS.md Skills table, and in the generated README catalog.
+# rules/ is not a workflow; setup is user-started only.
 check_skill_registries() {
   local file name skills_table
   skills_table=$(awk '/^## Skills[ \t]*$/ { inside = 1; next } inside && /^## / { exit } inside && /^\|/' AGENTS.md)
   for file in skills/*/SKILL.md; do
     name=$(basename "$(dirname "$file")")
-    [[ "$name" == rules ]] && continue
-    [[ "$name" == setup-gabriel-skills ]] || grep -qF "\`$name/SKILL.md\`" <<<"$skills_table" ||
+    [[ "$name" == rules || "$name" == setup-gabriel-skills ]] && continue
+    grep -qF "\`$name/SKILL.md\`" <<<"$skills_table" ||
       fail "AGENTS.md Skills table does not list $name/SKILL.md"
-    grep -qE "/$name([^a-z-]|$)" README.md || fail "README.md does not mention /$name"
-    [[ "$name" == ask-gabriel ]] || grep -qE "/$name([^a-z-]|$)" skills/ask-gabriel/SKILL.md ||
-      fail "skills/ask-gabriel/SKILL.md does not route to /$name"
   done
+  bash "$(dirname "${BASH_SOURCE[0]}")/build-readme-skills.sh" --check || fail "README.md skills catalog is stale"
 }
 
 main() {
   local check
-  for check in check_agents_size check_agents_marker check_read_when_files check_section_files \
+  for check in check_agents_size check_agents_marker check_read_when_files check_section_files check_agents_anchors \
     check_no_dashes check_skill_frontmatter check_description_length check_links \
-    check_plugin_versions check_skill_registries; do
+    check_plugin_versions check_skill_registries check_read_budgets; do
     echo "== $check"
     "$check"
   done

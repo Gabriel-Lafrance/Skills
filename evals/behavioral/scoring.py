@@ -8,6 +8,7 @@ import sys
 import tempfile
 
 from cases import CASES
+from habit_checks import score_habit
 from run_store import digest, inventory
 
 CASE_BY_ID = {case.id: case for case in CASES}
@@ -50,6 +51,12 @@ def test_sensitive(directory, original):
 
 
 def changed_immutable(trial, record, case):
+    if case.kind == "habit":
+        initial, current = record["initial_files"], inventory(trial)
+        return [name for name in {"AGENTS.md", "prompt.txt", "records.json"}
+                if current.get(name) != initial[name]] + sorted(
+            name for name in set(initial) | set(current)
+            if name.startswith(".agents/") and current.get(name) != initial.get(name))
     allowed = {"decision": {"result.json"},
                "cli-no-tests": {"export.py"},
                "cli-accepted-test": {"export.py"}}[case.kind]
@@ -75,8 +82,15 @@ def valid_decision(result):
     return all((isinstance(rationale, str), bool(rationale), "action" in result))
 
 
+def normalized_action(action):
+    if not isinstance(action, str):
+        return None
+    action = action.strip().lower()
+    return action.removeprefix("/").rsplit(":", 1)[-1]
+
+
 def matches_decision(result, case):
-    if result["action"] != case.expected:
+    if normalized_action(result["action"]) != case.expected:
         return False
     if case.id == "panel-blocker":
         return {"id": "auth-owner", "disposition": "fix"} in result.get("findings", [])
@@ -117,14 +131,16 @@ def score_trial(root, record):
     case = CASE_BY_ID[record["case"]]
     trial = root / record["directory"]
     output = {"case": case.id, "repeat": record["repeat"], "split": case.split,
-              "evidence_kind": "code-effect-e2e" if case.kind.startswith("cli") else "decision-interpretation",
+              "evidence_kind": {"cli-no-tests": "code-effect-e2e", "cli-accepted-test": "code-effect-e2e",
+                                "habit": "artifact-habit"}.get(case.kind, "decision-interpretation"),
               "rule_source": case.rule}
     try:
         mutations = changed_immutable(trial, record, case)
         if mutations:
             return dict(output, status="fail", evidence={"immutable_files_changed": mutations})
-        status, evidence = (score_cli(trial, record, case, root)
-                            if case.kind.startswith("cli") else decision(trial, case))
+        status, evidence = (score_cli(trial, record, case, root) if case.kind.startswith("cli")
+                            else score_habit(trial, record, case.id, cli_checks)
+                            if case.kind == "habit" else decision(trial, case))
         return dict(output, status=status, evidence=evidence)
     except (OSError, ValueError, TypeError, subprocess.TimeoutExpired) as error:
         return dict(output, status="inconclusive", evidence={"error": str(error)})
@@ -148,7 +164,7 @@ def score(root):
     results = [score_trial(root, record) for record in metadata["trials"]]
     counts = {state: sum(r["status"] == state for r in results)
               for state in ("pass", "fail", "inconclusive")}
-    return {"identities": identities, "observed_settings": metadata["observed_settings"],
+    return {"identities": identities, "pack": metadata.get("pack", True), "observed_settings": metadata["observed_settings"],
             "denominator": len(results), "counts": counts,
             "pass_rate": counts["pass"] / len(results), "results": results,
             "limits": "Decision artifacts do not prove real council, browser or hillclimb execution. "

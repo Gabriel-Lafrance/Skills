@@ -1,41 +1,20 @@
 ---
 name: rules
-description: Never invoke directly. Holds the rule files that AGENTS.md and other skills link to; open one only when AGENTS.md or a skill names it. Ships as a skill so the rules install with npx skills.
+description: Never invoke directly. Holds the rule files AGENTS.md and skills link to; open one only when they name it.
 category: Documents
 disable-model-invocation: true
 ---
 
 # Pack rules
 
-Not a user skill: never recommend `/rules`. This folder exists so `npx skills` installs the rules next to every other skill (`../rules/...`). Root-level `skills/*.md` files are **not** installed.
+Never recommend `/rules`.
 
 ## Read when
 
-The Rules section and the Read when table in `AGENTS.md` are the source for when to open each file.
+`AGENTS.md` says when to open each file it names. The rest:
 
-One file for each `AGENTS.md` rule that needs more than its bold line:
-
-- [keep-it-simple.md](keep-it-simple.md): least code for the result, subtract first, light to read, a folder per concern instead of `utils` dumps
-- [strong-foundation.md](strong-foundation.md): a strong first iteration with a seam (a named extension point where a new variant plugs in) on each area of modularity, scaled to the work and the context
-- [no-unrequested-tests.md](no-unrequested-tests.md): no test unless the user accepted it
-- [main-context.md](main-context.md): keep judgment in the main context, hand noisy work to a subagent
-
-Journeys, listed in [`/ask-gabriel`](../ask-gabriel/SKILL.md#journeys): [journeys/](journeys/new-feature.md) holds one file per journey, each following one piece of billing work through the skills and rules.
-
-Topic files, named in the Read when table:
-
-- [code-quality.md](code-quality.md): code quality rules (`quality:*` cite keys), named principles, mechanical rules, reuse env vars, naming
-- [code-quality-examples.md](code-quality-examples.md): good and bad snippets for code-quality.md
-- [code-structure.md](code-structure.md): code structure rules (`structure:*` cite keys), services, primitives (one-job helpers), folders, cheap reads, authority (the server enforces), the Structure card
-- [code-structure-examples.md](code-structure-examples.md): good and bad shapes for code-structure.md
-- [planning.md](planning.md): reads before planning, grill first, the Before/After change diagram, and the in-chat execution context (authority order, context template, optional persistence)
-- [execution.md](execution.md): Git sync only, verification scope, ready-ticket preflight, handoffs and evidence, remediation, recovery and completion
-- [user-experience.md](user-experience.md): every UI and UX rule (`ux:*` cite keys), React and UI, `docs/design.md` as the app UX source of truth, copy, locale, quality floor
-- [writing-style.md](writing-style.md): no em dash, plain language and plain (Classic) principle names, asking the user (the ask bar, Questions and Locked-in templates), the final report, and the Unslop rules for chat replies
-- [testing.md](testing.md): when an accepted test is worth writing, the authoring gate, junk patterns, the retention bar, what a good test looks like, the test proposal, the test comment, and the handoff
-- [shipping.md](shipping.md): branch safety, scoped pre-push/required checks, remote CI reporting, the create tool, and the branch-and-push process
-- [shipping-templates.md](shipping-templates.md): ship questions and announcements, the PR Change diagram rule, and the PR title and body template
-- [tooling.md](tooling.md): harness-first discovery, browser permissions/fallbacks, focused checks and terminal evidence
+- [convex.md](convex.md): in a repo with a `convex/` folder, for Convex naming, folders, queries, validators, and terminals
+- [t3-code.md](t3-code.md): in T3 Code, before browser preview, delegation, or a PR watch
 - [dev-server-logs.md](dev-server-logs.md): accessible service output, OS-aware log-only viewers, remote fallback, visibility evidence and lifecycle
 - [pr-lifecycle.md](pr-lifecycle.md): parent-owned watching, latest-head readiness, cleanup and intent-aware takeover
-- [principles.md](principles.md): steering vocabulary for a design, verification, or delegation judgment. One-line rule, when to open it, and a pointer to the file that owns the detail
+- [journeys/](journeys/new-feature.md): one file per journey, listed in [`/ask-gabriel`](../ask-gabriel/SKILL.md#journeys), each following one piece of billing work through the skills and rules

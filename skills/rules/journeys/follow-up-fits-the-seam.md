@@ -1,7 +1,5 @@
 # Journey: a follow-up that fits the seam
 
-Billing is the example domain; the vendor is not the point. The path and the shapes here beat the app's existing code. Copy an app sibling only when it matches the same shape ([cite a sibling](../code-quality.md#mechanical-rules)). A seam is a named extension point where a new variant plugs in.
-
 **The user says:** "Add PayPal as a payment option." No ticket, just the chat message.
 **Comes after:** [a new Feature on a strong foundation](new-feature.md). **If it does not fit:** [a follow-up that needs a seam first](follow-up-needs-a-seam.md).
 
@@ -15,13 +13,13 @@ flowchart LR
 
 ## 1. Route
 
-"Add" matches the Skills table: open `task/SKILL.md`. There is no ticket, so the grill works from the request and the repo ([strong-foundation.md](../strong-foundation.md#find-the-areas-of-modularity), source 3).
+Open `task/SKILL.md`. With no ticket, the grill works from the request and the repo ([strong-foundation.md](../strong-foundation.md#find-the-areas-of-modularity), source 3).
 
 ## 2. Grill, scaled to thin context
 
-The agent finds the sibling first: `services/billing/providers.ts` already has a registry, and `stripe-provider.ts` implements `PaymentProvider`. Both match the Adapter and registry trees in [Foundation patterns](../code-structure-examples.md#foundation-patterns-folder-trees), so this sibling may be copied, and the agent says which tree it matches. That makes this a Feature that fits an existing seam ([Scale to the work](../strong-foundation.md#scale-to-the-work)). Extend it. Add no new foundation and ask no areas of modularity question.
+Find the sibling first: `services/billing/providers.ts` already has a registry, and `stripe-provider.ts` implements `PaymentProvider`. Both match the Adapter and registry trees in [Foundation patterns](../code-structure-examples.md#foundation-patterns-folder-trees), so copy this sibling and say which tree it matches. This is a Feature that fits an existing seam ([Scale to the work](../strong-foundation.md#scale-to-the-work)), so extend it and ask no areas of modularity question.
 
-Only real product questions remain:
+Only product questions remain:
 
 ```markdown
 ## Questions
@@ -36,7 +34,7 @@ The Locked in message says which seam this extends and names the public entry: `
 
 ## 3. Build and test
 
-`/task` builds it. `/verification` then proposes one test: a PayPal payment through `makeUserPay` creates one charge with the PayPal adapter. The user replies `tests 1` and `/verification` writes it.
+`/task` builds it. `/verification` proposes one test: a PayPal payment through `makeUserPay` creates one charge with the PayPal adapter. The user replies `tests 1` and `/verification` writes it.
 
 The whole diff:
 
@@ -48,14 +46,14 @@ features/checkout/
   payment-options.tsx   # PayPal option
 ```
 
-`billing.ts` and `use-checkout.ts` do not change. That is the foundation paying off.
+`billing.ts` and `use-checkout.ts` do not change.
 
 ## 4. Review
 
-`/review` runs the Foundation check, step 5: the diff adds a collaborator and its registration. If `billing.ts` had grown `if (provider === "paypal")`, that would be a blocker: a special case inside the foundation instead of a new piece.
+`/review` runs the Foundation check, step 5: the diff adds a collaborator and its registration. Had `billing.ts` grown `if (provider === "paypal")`, that is a blocker: a special case inside the foundation instead of a new piece.
 
 ## If a step is skipped
 
-- No sibling lookup: the agent writes PayPal calls inside checkout, next to a seam that already exists.
-- Copying a sibling that matches no example: had checkout called Stripe directly, copying it would add a second direct vendor call. Build from the Adapter tree instead.
-- An areas of modularity question anyway: the user answers something the repo already answers.
+- No sibling lookup: PayPal calls land inside checkout, next to a seam that already exists.
+- Copying a sibling that matches no example: had checkout called Stripe directly, copying it adds a second direct vendor call. Build from the Adapter tree instead.
+- An areas of modularity question anyway: the user answers what the repo already answers.

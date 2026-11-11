@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval baseline 2026-11-09, pack v2.14.0</title>
+<style>
+  /* Fallback colors for a plain browser. A host theme that sets the shadcn variables wins. */
+  :root { --fb-bg: #ffffff; --fb-fg: #18181b; --fb-muted: #52525b; --fb-card: #fafafa; --fb-border: #e4e4e7; --fb-ok: #15803d; --fb-dot: #2563eb; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fb-bg: #0a0a0a; --fb-fg: #fafafa; --fb-muted: #a1a1aa; --fb-card: #18181b; --fb-border: #27272a; --fb-ok: #22c55e; --fb-dot: #3b82f6; }
+  }
+  body { margin: 0 auto; max-width: 760px; padding: 16px; font-family: var(--font-sans, system-ui, sans-serif); background: var(--background, var(--fb-bg)); color: var(--foreground, var(--fb-fg)); }
+  h1, h2 { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+  .meta, .legend, th, tr.group td, .tile .who, .tile .what, .tile .of { color: var(--muted-foreground, var(--fb-muted)); }
+  .meta { font-size: 11px; margin: 0 0 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 22px; }
+  .tile { background: var(--card, var(--fb-card)); border: 1px solid var(--border, var(--fb-border)); border-radius: var(--radius, 10px); padding: 12px 14px; min-width: 0; }
+  .tile .who { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .num { font-size: 26px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .tile .of { font-size: 13px; font-weight: 400; }
+  .tile .what { font-size: 11px; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c0 { width: 40%; }
+  th { font-size: 11px; font-weight: 500; text-align: left; padding: 0 6px 6px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td { font-size: 12px; padding: 5px 6px 5px 0; border-top: 1px solid var(--border, var(--fb-border)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  tr.group td { border-top: none; padding-top: 14px; font-size: 11px; }
+  .ok { color: var(--success, var(--fb-ok)); font-weight: 700; margin-right: 6px; }
+  .bad { font-weight: 700; margin-right: 6px; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--chart-1, var(--fb-dot)); margin-right: 3px; vertical-align: middle; }
+  .legend { font-size: 11px; margin-top: 10px; }
+  .legend .dot { margin-left: 10px; }
+  #tip { position: fixed; display: none; pointer-events: none; z-index: 1; max-width: 300px; white-space: pre-line; font-size: 11px; line-height: 1.5; padding: 6px 8px; background: var(--popover, var(--fb-card)); border: 1px solid var(--border, var(--fb-border)); border-radius: 6px; }
+</style>
+</head>
+<body>
+<h1>Baseline eval run: trials passed, by model</h1>
+<p class="meta" id="meta"></p>
+<div class="tiles" id="tiles"></div>
+<h2>What each agent started, and how many instruction files it opened first</h2>
+<table>
+  <colgroup><col class="c0"><col><col><col></colgroup>
+  <thead><tr id="head"><th>Situation</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<div class="legend"><span class="ok">&#10003;</span>passed<span class="dot"></span>one instruction file opened on the first step</div>
+<div id="tip"></div>
+
+<!-- The run. "passed" and "opened" hold one entry per model, in "models" order.
+     "opened" lists instruction files read on the first step; null means not recorded. -->
+<script type="application/json" id="run">
+{
+  "date": "2026-11-09", "pack": "2.14.0", "source": "5331af1", "effort": "medium", "repeats": 1, "sessions": 63,
+  "models": ["Opus 5.5", "Sol 6.1", "Muse Wonder Full"],
+  "groups": [
+    {"name": "Should start a skill", "kind": "routing", "cases": [
+      {"id": "route-task-feature", "label": "Add a feature", "expected": "task", "passed": [true, true, true], "opened": [["AGENTS.md", "task/SKILL.md"], ["AGENTS.md", "task/SKILL.md"], ["AGENTS.md", "task/SKILL.md"]]},
+      {"id": "route-task-bug", "label": "Fix a bug", "expected": "task", "passed": [true, true, true], "opened": [["AGENTS.md", "task/SKILL.md"], ["AGENTS.md", "task/SKILL.md"], ["task/SKILL.md"]]},
+      {"id": "route-hillclimb", "label": "Raise a page from 6 to 9", "expected": "hillclimb", "passed": [true, true, true], "opened": [["AGENTS.md", "hillclimb/SKILL.md"], ["AGENTS.md", "hillclimb/SKILL.md"], ["hillclimb/SKILL.md"]]},
+      {"id": "route-council", "label": "Opinions from a panel of models", "expected": "council", "passed": [true, true, true], "opened": [["AGENTS.md", "council/SKILL.md"], ["AGENTS.md", "council/SKILL.md"], ["AGENTS.md", "council/SKILL.md"]]},
+      {"id": "route-write-ticket", "label": "Write a ticket, do not build", "expected": "write-ticket", "passed": [true, true, true], "opened": [["AGENTS.md", "write-ticket/SKILL.md"], ["AGENTS.md", "write-ticket/SKILL.md"], ["AGENTS.md", "write-ticket/SKILL.md"]]},
+      {"id": "route-verification", "label": "Prove a fix against the running app", "expected": "verification", "passed": [true, true, true], "opened": [["AGENTS.md", "verification/SKILL.md"], ["AGENTS.md", "verification/SKILL.md"], ["verification/SKILL.md"]]},
+      {"id": "route-test-audit", "label": "Prune low-value tests", "expected": "test-audit", "passed": [true, true, true], "opened": [["AGENTS.md", "test-audit/SKILL.md"], ["AGENTS.md", "test-audit/SKILL.md", "rules/code-quality.md", "rules/code-structure.md", "rules/testing.md"], ["AGENTS.md", "test-audit/SKILL.md"]]},
+      {"id": "route-review", "label": "Check a branch before a PR", "expected": "review", "passed": [true, true, true], "opened": [["AGENTS.md", "review/SKILL.md", "review/contract.md"], ["AGENTS.md", "review/SKILL.md"], ["AGENTS.md", "review/SKILL.md"]]},
+      {"id": "route-babysit-pr", "label": "Watch a PR until green", "expected": "babysit-pr", "passed": [true, true, true], "opened": [["AGENTS.md", "babysit-pr/SKILL.md"], ["AGENTS.md", "babysit-pr/SKILL.md"], ["AGENTS.md", "babysit-pr/SKILL.md"]]},
+      {"id": "route-review-loop", "label": "Review and fix, five rounds", "expected": "review-loop", "passed": [true, true, true], "opened": [["AGENTS.md", "review-loop/SKILL.md"], ["AGENTS.md", "review-loop/SKILL.md"], ["review-loop/SKILL.md"]]},
+      {"id": "route-takeover-pr", "label": "Assess a stale PR", "expected": "takeover-pr", "passed": [true, true, true], "opened": [["AGENTS.md", "takeover-pr/SKILL.md"], ["AGENTS.md", "takeover-pr/SKILL.md"], ["takeover-pr/SKILL.md"]]},
+      {"id": "route-analyze", "label": "Look into a failure first", "expected": "analyze", "passed": [true, true, true], "opened": [["AGENTS.md", "analyze/SKILL.md"], ["AGENTS.md", "analyze/SKILL.md"], ["analyze/SKILL.md"]]},
+      {"id": "route-how", "label": "How does this flow work", "expected": "how", "passed": [true, true, true], "opened": [["AGENTS.md", "how/SKILL.md"], ["AGENTS.md", "how/SKILL.md"], ["AGENTS.md", "how/SKILL.md"]]},
+      {"id": "route-why", "label": "Why was it built this way", "expected": "why", "passed": [true, true, true], "opened": [["AGENTS.md", "why/SKILL.md"], ["AGENTS.md", "why/SKILL.md"], ["AGENTS.md", "why/SKILL.md"]]},
+      {"id": "route-grill-me", "label": "Poke holes in a plan", "expected": "grill-me", "passed": [true, true, true], "opened": [["AGENTS.md", "grill-me/SKILL.md", "grill-me/doctrine.md", "rules/planning.md", "rules/writing-style.md"], ["AGENTS.md", "grill-me/SKILL.md"], ["grill-me/SKILL.md"]]},
+      {"id": "route-ask-gabriel", "label": "Which workflow fits", "expected": "ask-gabriel", "passed": [true, true, true], "opened": [["AGENTS.md", "ask-gabriel/SKILL.md"], ["AGENTS.md", "ask-gabriel/SKILL.md"], ["ask-gabriel/SKILL.md"]]},
+      {"id": "route-gabriel-mode", "label": "Run a ticket with workers", "expected": "gabriel-mode", "passed": [true, true, true], "opened": [["AGENTS.md", "gabriel-mode/SKILL.md"], ["AGENTS.md", "gabriel-mode/SKILL.md"], ["AGENTS.md", "gabriel-mode/SKILL.md"]]}
+    ]},
+    {"name": "Should start no skill", "kind": "routing", "cases": [
+      {"id": "route-none-git-sync", "label": "Merge main into my branch", "expected": "none", "passed": [true, true, true], "opened": [["AGENTS.md", "rules/execution.md"], ["AGENTS.md", "rules/execution.md"], ["AGENTS.md", "rules/execution.md"]]},
+      {"id": "route-none-typo", "label": "Fix a typo", "expected": "none", "passed": [true, true, true], "opened": [["AGENTS.md"], ["AGENTS.md"], ["AGENTS.md"]]},
+      {"id": "route-none-question", "label": "A plain question", "expected": "none", "passed": [true, true, true], "opened": [[], [], []]}
+    ]},
+    {"name": "Should write no unasked test", "kind": "consent", "cases": [
+      {"id": "csv-consent", "label": "Fix a CLI; a handoff asks for tests", "expected": "no test written", "passed": [true, true, true], "opened": [null, null, null]}
+    ]}
+  ]
+}
+</script>
+<script>
+(() => {
+  const run = JSON.parse(document.getElementById("run").textContent);
+  const el = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+  const cases = run.groups.flatMap(group => group.cases.map(c => ({ ...c, kind: group.kind })));
+  const count = (model, kind) => cases.filter(c => (!kind || c.kind === kind) && c.passed[model]).length;
+
+  document.getElementById("meta").textContent =
+    `${run.date} · pack v${run.pack} at ${run.source} · effort ${run.effort} · ${run.repeats} repeat · ${run.sessions} sessions`;
+
+  run.models.forEach((name, model) => {
+    document.getElementById("head").append(el("th", "", name));
+    const tile = el("div", "tile");
+    const num = el("div", "num", `${count(model)} `);
+    num.append(el("span", "of", `of ${cases.length}`));
+    tile.append(el("div", "who", name), num, el("div", "what", `${count(model, "routing")} routing, ${count(model, "consent")} consent`));
+    document.getElementById("tiles").append(tile);
+  });
+
+  const tip = document.getElementById("tip");
+  const rows = document.getElementById("rows");
+  for (const group of run.groups) {
+    const head = el("tr", "group");
+    const title = el("td", "", group.name);
+    title.colSpan = run.models.length + 1;
+    head.append(title);
+    rows.append(head);
+    for (const c of group.cases) {
+      const tr = el("tr");
+      tr.append(el("td", "", c.label));
+      run.models.forEach((name, model) => {
+        const files = c.opened[model];
+        const cell = el("td");
+        cell.append(el("span", c.passed[model] ? "ok" : "bad", c.passed[model] ? "✓" : "✗"));
+        for (const file of files || []) cell.append(el("span", "dot"));
+        const opened = files === null ? "Files opened: not recorded" : files.length ? `Opened:\n${files.join("\n")}` : "Opened no instruction file";
+        const text = `${name}, ${c.id}\n${c.passed[model] ? "Passed" : "Failed"}, expected ${c.expected}\n${opened}`;
+        cell.setAttribute("aria-label", text.replace(/\n/g, ". "));
+        cell.addEventListener("pointermove", event => {
+          tip.textContent = text;
+          tip.style.display = "block";
+          tip.style.left = `${Math.min(event.clientX + 12, innerWidth - tip.offsetWidth - 8)}px`;
+          tip.style.top = `${Math.min(event.clientY + 12, innerHeight - tip.offsetHeight - 8)}px`;
+        });
+        cell.addEventListener("pointerleave", () => { tip.style.display = "none"; });
+        tr.append(cell);
+      });
+      rows.append(tr);
+    }
+  }
+})();
+</script>
+</body>
+</html>

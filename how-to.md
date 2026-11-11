@@ -22,6 +22,9 @@ skills/
     keep-it-simple.md, strong-foundation.md, no-unrequested-tests.md, main-context.md
                          # a file for each AGENTS.md rule that needs detail
     principles.md          # steering vocabulary; detail stays in the file that owns it
+    execution.md         # ready-ticket preflight, evidence, remediation, verification scope, Git sync
+    pr-lifecycle.md      # PR watching and takeover, shared by /babysit-pr and /takeover-pr
+    dev-server-logs.md   # reading dev server logs while verifying
     journeys/            # one piece of work followed through skills and rules; /ask-gabriel is the map
     code-quality.md      # code quality rules (quality:* cite keys), named principles, mechanical rules
     code-quality-examples.md   # good vs bad snippets for code-quality.md
@@ -34,6 +37,8 @@ skills/
     shipping.md          # branch names, shipping rules, create tool, applicable checks and required CI
     shipping-templates.md # ship questions, PR Change diagram, PR body template
     tooling.md           # lint, format, CI, verify terminals first
+    convex.md            # Convex-only detail; opened when the repo has a convex/ folder
+    t3-code.md           # T3 Code tool mechanics; opened when running in T3 Code
   review/                # /review: a local branch diff or an open GitHub PR
     contract.md          # review evidence, modes, finding record, output fence, severity
   setup-gabriel-skills/   # installs skills, including rules/, and places AGENTS.md
@@ -42,8 +47,11 @@ skills/
     doctrine.md          # optional: durable rules (fixed H2 schema)
     examples.md          # optional: good vs bad
     reference.md         # optional: deep detail (progressive disclosure)
+evals/                   # behavioral evals for the rule text (see evals/behavioral/README.md)
+.github/
+  scripts/               # check-pack.sh (CI), build-readme-skills.sh, set-version.sh
 LICENSE
-README.md                # install + user-facing catalog
+README.md                # install + user-facing catalog (skills table is generated)
 how-to.md                # this file
 ```
 
@@ -84,7 +92,7 @@ The `description` is how a model decides to open the skill. Open it with the tri
 
 - **Plain language:** every skill that talks to the user links the [Plain language](./skills/rules/writing-style.md#plain-language) section of `writing-style.md`. Chat uses ordinary words. Named principles use **plain (Classic)**, for example `keep this simple (KISS)`. Never acronym-only (`SoC violation`) and never the paraphrase without the classic name. Pack jargon (a bare Rule 1) stays banned.
 - **Unslop:** chat replies follow the **Unslop** section of [`skills/rules/writing-style.md`](./skills/rules/writing-style.md#unslop). Not a user skill. Do not add `/unslop`. `/setup-gabriel-skills` places `AGENTS.md`. It does not rewrite it from memory.
-- **Standards:** every pack skill that writes or judges code links and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
+- **Standards:** every skill that writes, plans, or judges code links and applies [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) on every run. `/ask-gabriel` stays thin and does not restate those rules.
 - **Final report:** every run ends with the [final report](./skills/rules/writing-style.md#final-report): status, state, and next step first, with the skill's own template under it.
 - **Asking:** ask only hard, ambiguous choices. Every skill that needs decisions links the [Asking the user](./skills/rules/writing-style.md#asking-the-user) section of `writing-style.md`: batch Questions, mark `recommended`, one-row `Reply like: 1a 2b 3c` (codes only, no descriptions). Do not add skill-specific freeform grill exceptions.
 - **Process:** numbered how-to lives in that skill’s `SKILL.md`. Nested vs one-off is a short fork in that file, not a second process file.
@@ -101,9 +109,9 @@ The `description` is how a model decides to open the skill. Open it with the tri
 
 Only [`/verification`](./skills/verification/SKILL.md) manually drives the browser, migrations, endpoints, and jobs, and captures screenshots or traces. Its checks follow [verification scope](./skills/rules/execution.md#verification-scope), including all configured suites when explicitly requested or warranted by risk. Build workflows select applicable review and verification under that policy; `/gabriel-mode` accepts worker self-reviews and the combined review before its applicable verification. Verification may delegate independent expensive checks to isolated runners, while its parent owns coverage and verdict. Follow [evidence validity](./skills/rules/execution.md#handoffs-and-evidence) after fixes; reuse proof only when the relevant code and context still match. Every other skill stays on the diff, path walks, and terminal output except when running applicable automated checks. Evidence files live outside the repo and are never committed. PR bodies stay text and summarize actual checks and unverified scope.
 
-[`/hillclimb`](./skills/hillclimb/SKILL.md) is an improvement orchestrator the model starts when a request matches its description, with or without the slash. It picks one variant per run from the goal (UI and experience, performance, or evaluation); its separate reviewer (or council) rates the current state as round 0 using `/verification` evidence, then rerates each focused change the main agent makes; each round is a set of numbered changes, and the reviewers vote keep, fix or drop on each, so a round is never discarded as a whole. No challenger runs during rounds; one automatic `/review-loop` on the final diff before any PR push is the run's only Sol review. With a council, round 0 runs all four models at xhigh and later rounds rerate at high. It does not add another browser owner or review axis. A new variant is one file in [`skills/hillclimb/variants/`](./skills/hillclimb/variants/) with the same sections as the others, plus one row in the skill's Variants table.
+[`/hillclimb`](./skills/hillclimb/SKILL.md): a new variant is one file in [`skills/hillclimb/variants/`](./skills/hillclimb/variants/) with the same sections as the others, plus one row in the skill's Variants table.
 
-[`/council`](./skills/council/SKILL.md) adapts tstack's independent multi-provider panel: Claude Opus 5.5, Codex GPT-6.1 Sol, Grok 4.7 and Muse Wonder Full 1.0, each at xhigh. Its [challenger](./skills/council/challenger.md), Codex GPT-6.1 Sol at xhigh, checks the completed work, raw results and skill compliance after the independent panel. The owner adjudicates; the pass adds no round allowance or provider-diversity vote. Council runs standalone for feedback or fills hillclimb's reviewer slot when requested, sharing the parent budget and evidence. The variant owns what counts as better; council owns independent judgments. UI ratings are labeled subjective. Evaluation freezes an existing scorer and its cases; it does not authorize creating tests or evals.
+[`/council`](./skills/council/SKILL.md): the panel's models and effort live in that skill and its [challenger](./skills/council/challenger.md); change them there only.
 
 [Git sync only](./skills/rules/execution.md#git-sync-only) bypasses build, review, and verification pipelines: check Git safety, conflicts, and incorporation, then stop after a clean sync. Meaningful conflict resolutions require affected-behavior checks. This does not change repository hooks, security rules, or required CI.
 
@@ -113,7 +121,7 @@ Only [`/verification`](./skills/verification/SKILL.md) manually drives the brows
 2. Add `doctrine.md` / `examples.md` / `reference.md` only when progressive disclosure helps (bars vs examples vs deep detail). Every `doctrine.md` follows the [skill file layout](./.github/CONTRIBUTING.md#skill-file-layout): Job, Owns, Does not own, Bars, Output, Apply, Anti-patterns, in that order. Process steps go in `SKILL.md`, not doctrine. Code quality and code structure rules live in [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md), not in a skill doctrine.
 3. Link the Asking the user section of `rules/writing-style.md` if the skill asks the user anything. Link `rules/code-quality.md` and `rules/code-structure.md` in the Read when list of any skill that writes or judges code. Link the Plain language section of `rules/writing-style.md` if the skill talks to the user.
 4. Wire discovery:
-   - User-facing → [`README.md`](./README.md) catalog + [`ask-gabriel`](./skills/ask-gabriel/SKILL.md) on-ramps.
+   - User-facing → add a row to the Skills table in [`AGENTS.md`](./AGENTS.md); that table is the hand-written routing source. The README catalog is generated from each `SKILL.md`: run `bash .github/scripts/build-readme-skills.sh` after changing a description or category (CI runs it with `--check`). `ask-gabriel` needs no row.
    - Inner step → only the orchestrator `SKILL.md` / doctrine that should call it (do not put it on the README as a typical entry).
 5. Smoke-check locally:
 
@@ -140,6 +148,18 @@ Do not add a root or `.cursor/rules` folder or a `.mdc` file. The always-on inde
 - Do not add Cursor-only rules. The code quality and code structure rules live in `skills/rules/code-quality.md` and `skills/rules/code-structure.md`, with their examples beside them. Do not keep a second copy in a skill doctrine.
 - Do not add ESLint or Prettier to **this** markdown repo. This pack does not ship them.
 - There is one `AGENTS.md`, at the pack root. Do not keep a second copy inside a skill.
+
+## Read budgets
+
+`check-pack.sh` caps the words an agent reads on each journey (`build-start`, `build-full`, `review-start`, `pack-total`). It counts words, not lines, so rewrapping a paragraph cannot move the number. The caps and file lists live in the `BUDGETS` table in `.github/scripts/check-pack.sh`. When a cap fails, cut or move text. Raise a cap only with a reason stated in the PR. Stack and harness detail goes in its own rule file (`convex.md`, `t3-code.md`) with one pointer at the point of use, not in a shared rule.
+
+## Evals
+
+Before cutting or moving rule text, run the smoke split in [`evals/behavioral/README.md`](./evals/behavioral/README.md) and compare against the baseline.
+
+## Release
+
+Bump the version everywhere with `bash .github/scripts/set-version.sh X.Y.Z`. It writes the five plugin manifests and the first line of `AGENTS.md`; `check-pack.sh` fails if they drift.
 
 ## Publish / install
 
@@ -182,7 +202,7 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 
 ### Contract
 
-[`AGENTS.md`](./AGENTS.md) is the always-on index for every harness, including Cursor and including chats that never invoke a skill. It tells agents which file in [`skills/rules/`](./skills/rules/SKILL.md) to open for which job. [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) are the code quality and code structure rules. Every skill except `/ask-gabriel` links them in its Read when list.
+[`AGENTS.md`](./AGENTS.md) is the always-on index for every harness, including Cursor and including chats that never invoke a skill. It tells agents which file in [`skills/rules/`](./skills/rules/SKILL.md) to open for which job. [`skills/rules/code-quality.md`](./skills/rules/code-quality.md) and [`skills/rules/code-structure.md`](./skills/rules/code-structure.md) are the code quality and code structure rules. Every skill that writes, plans, or judges code links them in its Read when list.
 
 - Do **not** add a root `rules/` folder, a `.mdc` file, or a `.cursor/rules` copy. Rule text lives only in `skills/rules/`.
 - Do **not** paste `AGENTS.md` into a User Rules box.
@@ -190,5 +210,5 @@ Plugin components (folder discovery, or explicit paths in `plugin.json`):
 - Every pointer, in `AGENTS.md` and in a skill's Read when list, names the action the agent is about to take, the file, and the mistake it makes without that file.
 - Do **not** copy the code quality or code structure rules into a skill doctrine. The Unslop catalog lives in `skills/rules/writing-style.md` because it is not a user skill.
 - When the index or the Rules section changes, edit root `AGENTS.md`. There is no second copy.
-- Do **not** add a `CLAUDE.md` in the pack or the app.
-- `npx skills` does not install root `AGENTS.md` by itself. `/setup-gabriel-skills` places that file from the pack root or from GitHub. Cursor reads the repo file. Do not add a project `CLAUDE.md`.
+- Do **not** add a `CLAUDE.md` to the pack. In an app, setup writes only a one-line `@AGENTS.md` pointer in `CLAUDE.md`; rule text is never copied there.
+- `npx skills` does not install root `AGENTS.md` by itself. `/setup-gabriel-skills` places that file from the pack root or from GitHub. Cursor reads the repo file.

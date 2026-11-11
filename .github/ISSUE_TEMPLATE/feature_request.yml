@@ -27,7 +27,7 @@ body:
       label: Area
       options:
         - Guide (/ask-gabriel)
-        - Clarify (/grill-me, /analyze)
+        - Clarify (/grill-me)
         - Specify (/write-ticket)
         - Build (/task)
         - Review and ship (/review, testing and shipping rules)

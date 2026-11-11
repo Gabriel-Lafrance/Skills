@@ -1,12 +1,5 @@
 # Review reference: GitHub PR
 
-PR mode only. Use this after review triage; on follow-ups, complete Pass A
-first. Shared review requirements and PR decisions are in
-[contract.md](contract.md).
-
-GitHub reads and writes use the harness pull-request / GitHub tool when the
-harness has one; otherwise `gh` or `gh api`.
-
 ## Follow-up passes
 
 ### Pass A (historical finding adjudication)
@@ -17,7 +10,6 @@ On any follow-up, Pass A precedes new review work:
    and pages, including resolved threads and issue-specific conversation
    fallbacks. Ignore old summary noise.
 2. Associate each with its stable internal finding ID and its GitHub thread.
-   The GitHub thread, not a local registry or artifact, is the durable record.
 3. Assess its current state as addressed, partial, unanswered, outdated, or
    disputed.
 4. List correctly resolved or genuinely moot findings as no-action in chat. Ask
@@ -36,10 +28,8 @@ After Pass A completes on a follow-up:
 2. Run shared-contract `remediation` over addressed findings, their
    changed/touched surface, and direct callers.
 3. Separately run `initial`-depth review (Standards + Spec) over **newly
-   introduced** files and hunks in that partition that are outside the
-   remediation set, with the same principles checklist, Architecture sweep, and
-   Correctness hunt. Cover every independent new surface, including new
-   unrelated commits.
+   introduced** files and hunks in that partition outside the remediation set.
+   Cover every independent new surface, including unrelated commits.
 4. Promote the whole follow-up to `full-rescan` only when the user explicitly
    requests it or materially expands the review scope.
 
@@ -64,10 +54,9 @@ Blocking: | Nit:
 **Why not lighter:** <only for a coordination-heavy fix>
 ```
 
-Use only `Blocking:` or `Nit:`. The **Finding** id must match the shared
-finding record and stays stable across follow-ups. Cite a rule briefly when it
-makes the issue clear, prefer the strongest inline location, and avoid em
-dashes. The body is the finding, not a pointer to other comments.
+The **Finding** id matches the shared finding record. Cite a rule briefly when it
+makes the issue clear and prefer the strongest inline location. The body is
+the finding, not a pointer to other comments.
 
 ## Draft display
 
@@ -81,8 +70,8 @@ Each draft becomes its own PR comment. No summary comment will be posted.
 <full final comment body>
 ```
 
-Severity is already decided. If there are no new public drafts and no unresolved
-Blocking prior remains, ask once whether to approve the PR:
+With no new public drafts and no unresolved Blocking prior, ask once whether
+to approve the PR:
 
 ```markdown
 ## Questions
@@ -104,9 +93,6 @@ Reply like: 1a
    - a) yes: post each as its own PR comment ← recommended
    - b) no: say what to change, drop, or rewrite
 ```
-
-On a revision request, show the revised full drafts before asking that same
-single publish question again.
 
 ## Posting
 

@@ -1,7 +1,5 @@
 # Review examples
 
-Findings stay in chat and retain stable IDs across review and remediation. List every evidenced defect on an initial review or full rescan; disposition prevents optional cleanup from becoming default fix scope.
-
 ## Evidence-backed finding
 
 ```markdown
@@ -30,21 +28,13 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| Keep it simple (KISS) | clear | |
 | Keep jobs apart (SoC) | finding | `standards-keep-jobs-apart-checkout-stripe` |
-| One altitude (SLAP) | clear | |
-| Light to read (Minimize reader load) | clear | |
-| Read or write, not both (CQS) | clear | |
-| Fail fast (Fail Fast) | clear | |
 | Leave it cleaner (Boy Scout Rule) | finding | same as keep-jobs-apart: copied wrong sibling |
-| Subtract first (Subtract before you add) | clear | |
 | Related together (Cohesion / Law of Demeter) | finding | reaches Stripe instead of billing API |
 | Safe to retry (Idempotency) | finding | bypasses billing retry safety |
-| Say what happens (explicit over implicit) | clear | |
-| No surprises (PoLA) | clear | |
-| Honest names (intention-revealing names) | clear | |
 | Trust the server (never trust the client) | finding | UI path skips the billing write lock |
 | Types tell the truth (make illegal states unrepresentable) | none | no new public contract |
+| <each other principle, one row each> | clear | |
 
 ## Architecture sweep
 | Check | Status | Note |
@@ -77,7 +67,7 @@ This maps to **Fix now**. A one-call-site formatting extraction with no violated
 | Secrets in the diff | clear | |
 ```
 
-This is the **review output** fence (findings + Principles + Architecture + Correctness hunt). The Spec pass adds the Spec matrix. A GitHub PR review also returns the four PR extras rows in this same fence (body vs diff, historical thread, migration/backfill, breaking public API). Secrets stay in the Correctness hunt. A Standards result is incomplete if it omits those tables, or that marks every row `clear` without having inspected the diff.
+A full Standards result that omits these tables, or marks every row `clear` without inspecting the diff, is incomplete.
 
 ## Honest names / stale path after rename
 
@@ -90,7 +80,7 @@ This is the **review output** fence (findings + Principles + Architecture + Corr
   - **Fix:** Rename file + primary export/locals to the payment-intent names and update imports in the same change.
 ```
 
-This is **Fix now**. The Standards pass must run naming alignment; skipping it is a defect in the review, not a later pass. Remediation is not clear until both path and symbols match.
+This is **Fix now**.
 
 ## New files dumped in a mixed parent
 
@@ -103,7 +93,7 @@ This is **Fix now**. The Standards pass must run naming alignment; skipping it i
   - **Fix:** Create `src/orders/` (and `src/orders/components/` for the card); move the new files so no mixed siblings remain in `src/`.
 ```
 
-This is **Fix now**. `quality:never-nest` and `quality:keep-it-simple` are not a defense. Pre-existing flats this PR did not add to stay Follow-up unless a required move is in scope.
+This is **Fix now**.
 
 ## New env synonym for an existing job
 
@@ -116,7 +106,7 @@ This is **Fix now**. `quality:never-nest` and `quality:keep-it-simple` are not a
   - **Fix:** Read `SITE_URL`. Delete `FRONTEND_URL`. If a library wants another name, map in code from `SITE_URL`.
 ```
 
-This is **Fix now**. Matching is by job and value, not by the name the agent first thought of. Untouched historical aliases this PR did not add stay Follow-up unless a required move is in scope.
+This is **Fix now**.
 
 ## Missing identity on a public write
 
@@ -130,8 +120,6 @@ This is **Fix now**. Matching is by job and value, not by the name the agent fir
   - **Fix:** `requireUser` in the mutation; load the cart; reject if `cart.userId !== user._id`; take amount from stored cart state.
 ```
 
-This meets the evidence bar: a public write with no identity check is a reachable trigger. Mark it a blocker, not an Optional nit.
-
 ## Evidence versus speculation
 
 **Finding:** A public mutation accepts `orderId` and reaches a write without checking ownership. The trigger, path walk, and impact support a smallest fix: enforce ownership at the mutation boundary.
@@ -142,24 +130,18 @@ This meets the evidence bar: a public write with no identity check is a reachabl
 
 ## Review modes
 
-One review pass. Drop restatements of the same finding (`standards-keep-jobs-apart-checkout-stripe`). A new evidenced defect such as `standards-checkout-half-move` belongs in that same pass if the diff shows it.
-
-After a fix, `remediation` checks the named IDs, fix diff, touched direct paths, and direct callers. It does not turn a valuable adjacent cleanup into a new full-review finding. New surface receives initial-depth review; material scope expansion or an explicit request triggers `full-rescan`.
+After a fix, `remediation` does not turn a valuable adjacent cleanup into a new full-review finding.
 
 ## Remediation handoff
 
 Review returns `standards-billing-authority-checkout` with evidence to the
-[active orchestrator](../rules/execution.md#remediation). If the cause or fix
-needs investigation, that owner invokes `/analyze` once for this ID, then
-adjudicates and dispatches the bounded fix using the existing authorization.
-A standalone review with no requested fixes stops. A waiver remains a user
-decision tied to the same ID, never proof that the issue is fixed.
+[active orchestrator](../rules/execution.md#remediation), which owns any investigation and the fix.
 
 ## Green test with a hidden failure
 
 The ticket requires retrying `billing.makeUserPay(orderId)` without a second charge. The test calls that public entry twice, but its provider mock deduplicates on `orderId` even when the production caller omits the provider's idempotency key. The green assertion proves the mock's policy. Inspecting the caller and provider contract shows that production retries can charge twice.
 
-Report the missing key and the test's suppressed failure mode with path evidence under the existing finding record. A boundary fake that follows the real provider contract would expose that credible regression without asserting private helper calls. Return the finding to the orchestrator, which assigns the bounded fix to the responsible owner and renews invalidated evidence under existing consent. The reviewer neither edits the test nor launches another worker. Do not infer this defect solely from a mock's presence; a mock preserving the relevant provider semantics may be appropriate.
+Report the missing key and the test's suppressed failure mode with path evidence in a finding record. A boundary fake that follows the real provider contract would expose the regression without asserting private helper calls. A mock's presence alone is no defect; one that preserves the relevant provider semantics may be appropriate.
 
 ## Test recommendation
 
@@ -167,5 +149,3 @@ Report the missing key and the test's suppressed failure mode with path evidence
 ## Needs a test
 - `billing.makeUserPay`: its externally observable authorization and idempotency behavior lacks a durable test.
 ```
-
-Recommend the test to the user and write no test files. If the user says yes, `/verification` writes it. If the user already refused this test and the shipped contract is unchanged, omit the recommendation.

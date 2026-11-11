@@ -1,16 +1,12 @@
 ---
 name: babysit-pr
-description: Use when the user asks to babysit, watch, or monitor a PR until its checks or reviews change, or to report when it is ready. Watches and reports only; fixes and other changes need their own permission.
+description: Use when the user asks to babysit, watch, or monitor a PR until its checks or reviews change. Watches and reports only.
 category: Code
 ---
 
 # Babysit a PR
 
-Every run applies [code quality](../rules/code-quality.md),
-[code structure](../rules/code-structure.md), and
-[Plain language](../rules/writing-style.md#plain-language).
-Before a decision, use [Asking the user](../rules/writing-style.md#asking-the-user).
-Keep ownership and evidence in the existing
+Keep ownership and evidence in the
 [execution context](../rules/planning.md#execution-context).
 
 1. Identify repository, PR and parent/owner. Read
@@ -25,6 +21,3 @@ Keep ownership and evidence in the existing
    and apply [latest-head readiness](../rules/pr-lifecycle.md#latest-head-readiness).
 5. Cleanly unwatch before questions, handoff or completion. Report head, actual
    checks/reviews, blockers, readiness and cleanup state. Default stop unmerged.
-
-When nested, return to the existing parent; do not create another watcher,
-review dispatcher, or shipping lifecycle.
