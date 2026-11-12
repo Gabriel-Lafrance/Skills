@@ -1,10 +1,8 @@
 # Setup Gabriel skills reference
 
-Load with [SKILL.md](SKILL.md). Install skills with `npx skills`. Place `AGENTS.md` verbatim from the pack file or the raw GitHub URL, and write no lint files.
-
 ## Resolve the skill root
 
-Resolve the skill root using the Find the pack section of `AGENTS.md`, including workspace, user, pack-repository, and installed-plugin locations. That section owns the search order; do not substitute a home-only lookup. Use the resolved root for this skill's sibling rules and other skills.
+Resolve the skill root by the Find the pack section of `AGENTS.md`, never a home-only lookup. Use it for this skill's sibling rules and other skills.
 
 This workspace is the Skills pack when a parent directory holds both an `AGENTS.md` with `gabriel-skills-agents` and `skills/setup-gabriel-skills/`.
 
@@ -21,7 +19,7 @@ Read the disk and print a short list.
 
 ## Questions
 
-After Verify, one batch. Wait, and install after they reply. Send it as written: it needs no rule file that setup has not installed yet.
+After Verify, send this as written, and install only after they reply.
 
 ```markdown
 ## Questions
@@ -33,11 +31,11 @@ Reply like: 1a
    - c) User-level only
 ```
 
-If they pick c, say that Cursor has no user-level `AGENTS.md`, so Cursor in this repo will not see the rules until the repo has that file.
+If they pick c, say that Cursor has no user-level `AGENTS.md`, so Cursor in this repo sees no rules until the repo has that file.
 
 ## Pack skills
 
-`npx skills add gabriel-lafrance/skills@setup-gabriel-skills` copies only this skill. This step lands the rest of the pack, including `rules/`, for each chosen scope. Skip it when the workspace is the Skills pack. That skip is success, not a failure.
+`npx skills add gabriel-lafrance/skills@setup-gabriel-skills` copies only this skill. Install the rest of the pack, including `rules/`, for each chosen scope. Skip this when the workspace is the Skills pack. That skip is success, not a failure.
 
 A scope is current when `rules/code-quality.md` exists in it. A scope with pack skills but no `rules/code-quality.md` is stale: update it.
 
@@ -52,11 +50,11 @@ npx skills@latest add gabriel-lafrance/skills --all
 npx skills@latest update
 ```
 
-`--all` installs every skill into every harness the CLI sees, with no prompt. If a command fails (no network, old Node, permission), record the failure and continue to [Place AGENTS.md](#place-agentsmd). Land skill folders only through the command. Offer the manual copy only after both this step and the `AGENTS.md` place have been tried.
+`--all` installs every skill into every harness the CLI sees, with no prompt. If a command fails, record the failure and continue to [Place AGENTS.md](#place-agentsmd). Land skill folders only through the command. Offer the manual copy only after both this step and the `AGENTS.md` place have been tried.
 
 ## Place AGENTS.md
 
-Do this for the scopes they chose. Touch only harnesses in use.
+Only for the chosen scopes and harnesses in use.
 
 **Source:** the pack root `AGENTS.md` when the workspace is the Skills pack. Otherwise fetch `https://raw.githubusercontent.com/Gabriel-Lafrance/Skills/main/AGENTS.md`. The bytes must contain `gabriel-skills-agents`. If the fetch fails or the marker is missing, record a failure and write no substitute from memory.
 
@@ -100,8 +98,6 @@ Only touch a home that already exists. Never create one.
 
 ## Manual install
 
-Run this section only when the skills command failed or `AGENTS.md` could not be placed. The Skills-pack skip alone does not qualify.
-
 Ask once. Wait.
 
 ```markdown
@@ -144,13 +140,11 @@ Tell them to keep any `AGENTS.md` that is not this pack's. After they confirm th
 
 ## Clean up old installs
 
-Older versions of this pack left files that nothing reads now. Delete only these, only in the scopes they chose. Skip cleanup when setup has already failed.
+Delete only these, only in the chosen scopes. Skip cleanup when setup has already failed.
 
 - **Old Claude copy** (b or c): if `~/.claude/gabriel-skills/AGENTS.md` contains `gabriel-skills-agents`, delete it, and remove the `@~/.claude/gabriel-skills/AGENTS.md` line from `~/.claude/CLAUDE.md` when present. Remove `~/.claude/gabriel-skills/` only if it is then empty. A file there without the marker stays.
 - **Old Cursor pointer:** delete `gabriel-skills/follow-agents.mdc` under `~/.cursor/rules` (b or c) or the app `.cursor/rules` (a or b) when it exists. Leave every other Cursor rule and hook.
-- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, `just-do-it`, `goal`, `create-plan`, `orchestrate`, `repair`, `validate`, or `task-with-tests` only when one of its `.md` files links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). Many retired folders have no `SKILL.md`, so check every `.md` file in the folder. A folder with one of those names that does not link to the pack is the user's own skill and stays.
-
-Setup never writes `.cursor/rules`, an `.mdc` file, `.cursor/hooks.json`, ESLint, Prettier, or `.vscode` files.
+- **Retired skill folders:** in each skill root this run installs into, delete a folder named `setup-toolkit`, `pack-shared`, `create-test`, `code-review`, `pr-review`, `implement`, `split-task`, `trackers`, `design`, `taste`, `architecture`, `publish`, `just-do-it`, `goal`, `create-plan`, `orchestrate`, `repair`, `validate`, `task-with-tests`, `analyze`, `how`, or `why` only when one of its `.md` files links to a pack file (`../pack-shared/`, `../rules/`, or `gabriel-skills`). Check every `.md` file, since many retired folders have no `SKILL.md`. A folder with one of those names that does not link to the pack is the user's own skill and stays.
 
 ## Report
 
@@ -159,10 +153,6 @@ End with one line per action: path or command, then **installed**, **updated**, 
 ## Done when
 
 - Verify printed its facts, and scope was asked once
-- Pack skills, including `rules/`, went only to the chosen scopes, or the manual copy was accepted and the paths were re-checked
-- `AGENTS.md` was placed or pointed only for the chosen scopes and harnesses in use
-- A foreign instructions file was not overwritten
-- No harness home was created
-- No lint or editor file was written
-- A failed install that they declined to do by hand ends as **failed**
-- The report lists every action and reason
+- Only the chosen scopes and harnesses in use changed, or the manual copy was accepted and the paths were re-checked
+- No foreign instructions file was overwritten, no harness home created, and no lint or editor file written
+- The report lists every action and reason, ending **failed** when they declined the manual copy

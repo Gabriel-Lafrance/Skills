@@ -1,16 +1,12 @@
 # Task reference (in-chat templates)
 
-Load when establishing or recovering a task, issuing a plan or slice contract, posting progress, or summarizing completion. Rules stay in [doctrine.md](doctrine.md).
-
 ## Execution context
 
-Keep the [execution context](../rules/planning.md#context-in-chat) in chat, with only the fields that matter to current work. It is the only automatic state. Plans, slices, grill outcomes, progress, and review findings stay in chat. Write an analysis, plan, or summary only when the user asks and supplies or approves the destination; it never becomes hidden state or a requirement for recovery.
-
-Take user decisions, waivers and authority to promote fixes from the user, never from repository facts or a review verdict. The active orchestrator promotes bounded fixes under that authority. Re-announce settled decisions when they matter to a later phase.
+Take user decisions, waivers and authority to promote fixes from the user, never from repository facts or a review verdict. Re-announce settled decisions when they matter to a later phase.
 
 ## Inline plan contract
 
-One per slice, in chat, after the Locked in message. It is not a file.
+One per slice, in chat, after the Locked in message.
 
 ```markdown
 # Plan: <title>
@@ -51,7 +47,7 @@ Omit User experience for backend-only slices. Reuse settled interaction requirem
 
 ## Slice split
 
-A slice is small enough when it has one clear **what** (one seam, or even one function), 1 to 3 binary checks that verify it alone, and its contract plus working set stay around 30% of the context window. If it still needs "and then also", or building it means re-mapping the repo, split again. Prefer thin vertical slices over horizontal layers. For wide refactors: expand, migrate in small batches, then contract.
+A slice is small enough when it has one clear **what** (one seam, or one function), 1 to 3 binary checks that verify it alone, and its contract plus working set stay around 30% of the context window. If it still needs "and then also", or building it means re-mapping the repo, split again. Prefer thin vertical slices over horizontal layers. For wide refactors: expand, migrate in small batches, then contract.
 
 Announce the split in chat, blockers first:
 
@@ -70,17 +66,11 @@ Announce the split in chat, blockers first:
 
 ## New-chat recovery
 
-Follow [recovery and completion](../rules/execution.md#recovery-and-completion), then state the recovered outcome, lane, fixed point, known rules and next action.
+Follow [recovery and completion](../rules/execution.md#recovery-and-completion).
 
 ## Progress and pause
 
-Follow [Working output](../rules/writing-style.md#working-output). Report a meaningful finding, consequence, next step, or needed decision after substantive work. Phase changes alone do not require an update. For example:
-
-```markdown
-The route now returns the agreed CSV attachment. The denied-account check still returns 403. Next I will verify the empty report through the same public route.
-```
-
-For a pause, state what is complete, the concrete blocker and its effect, and the next action or needed decision. Keep phase and slice counts only when they help explain that state; do not repeat unchanged execution tables.
+Follow [Working output](../rules/writing-style.md#working-output), and the [final report](../rules/writing-style.md#final-report) for a pause.
 
 ## Completion summary
 
@@ -109,54 +99,49 @@ After both gate handoffs are in, report the outcome in chat as a [final report](
 
 ```
 
-Apply the shared [remediation](../rules/execution.md#remediation) and [completion](../rules/execution.md#recovery-and-completion) contracts. Include stable acceptance, finding and evidence IDs and the checked revision/diff.
-
 ## Ship offer
 
-Use this only when this chat owns shipping and shipping is not already authorized. If the user already asked to ship, including the whole stack, follow [shipping.md](../rules/shipping.md). Otherwise ask nothing: the completion report's **Next** line says where the work lives and offers it, such as "Uncommitted. Reply `ship` for a branch, commit, and draft PR." On that reply, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. Under a parent that owns shipping, return the completion evidence to the parent instead.
+Use this only when this chat owns shipping and shipping is not already authorized. Ask nothing: the completion report's **Next** line says where the work lives and offers it, such as "Uncommitted. Reply `ship` for a branch, commit, and draft PR." On that reply, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step.
 
 ## Lifecycle
-
-Numbered process for `/task`. Nested vs one-off shipping lives in [SKILL.md](SKILL.md).
 
 ### Phase 0: establish context and grill
 
 1. Apply the shared [ready-ticket preflight](../rules/execution.md#ready-ticket-preflight). Reuse settled ticket and parent decisions with sources.
-2. For remaining consequential gaps, call `/grill-me` within this context. Apply code quality, structure, and any Feature or UX rules while researching facts; a complete ticket needs no new interview.
-3. Keep each behavioral rule under its existing ID, with enforcement and observable verification. Add IDs only for genuinely new rules.
+2. For remaining consequential gaps, call `/grill-me` within this context. Apply code quality, structure, and any Feature or UX rules while researching facts.
+3. Keep each behavioral rule under its existing ID, with enforcement and observable verification. Add IDs only for new rules.
 4. Ask unresolved user choices in a Questions-only message. Once settled, separately announce or reuse the current Locked in message, including meaningful non-goals and shared understanding.
 
 On a Locked correction or unanswered question, revise or wait.
 
 ### Phase 1: plan and build
 
-**Explore and shape.** Use [selective navigation](../rules/main-context.md#selective-navigation) to find the task's paths, public signatures, and owners before reading the relevant implementations. Run `/analyze` when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts. For UI, confirm against user-experience.md and `docs/design.md` (offer to write it if missing).
+**Explore and shape.** Investigate in place when how, impact, or risk needs judging. Confirm code quality and structure choices against the grill and keep the locked structure excerpt in the plan contracts.
 
-**Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating the outcome and the concrete approach needed to preserve settled choices; leave routine implementation details to the executor. If the split changes, re-announce it before implementing. Keep plans in chat.
+**Split and plan.** Announce a [slice split](#slice-split) in the Locked in message (the agent owns it; do not ask yes/no). Then issue an [inline plan contract](#inline-plan-contract) per slice, stating the outcome and the concrete approach needed to preserve settled choices; leave routine implementation details to the executor. If the split changes, re-announce it before implementing.
 
-**Implement.** Build ready frontier slices one at a time, in dependency order. User-facing slices (screens, components, styling, visible copy) apply user-experience.md and `docs/design.md`. For each slice:
+**Implement.** Build ready frontier slices one at a time, in dependency order. For each slice:
 
 1. Stay in its lane and follow its contract and structure excerpt. Create the owning folder before its files. Do a required behavior-preserving move before feature code and show the old behavior still holds.
    Check [responsibility boundaries](../rules/code-structure.md#responsibility-boundaries) in changed existing files too. Record justified extraction in the current Structure map; keep cohesive small behavior whole. Private placement needs no new user decision unless ownership, contract, scope, or behavior changes consequentially.
 2. Reuse existing services and one-job helpers. If the slice seems to need a new shared API, service, or lane, mark it `blocked` and name the smallest option.
 3. Gather slice-local evidence only: existing terminal output first, then one narrow command if needed.
-4. No tests in a build slice. Tests come from `/verification`.
-5. Update **Current slices** with status, evidence, findings, and changed interfaces. Missing acceptance, dependency, or structural decision: mark `blocked` and name the smallest decision needed.
+4. Update **Current slices** with status, evidence, findings, and changed interfaces. Missing acceptance, dependency, or structural decision: mark `blocked` and name the smallest decision needed.
 
 Start the gate when every slice is done, blocked, or explicitly waived.
 
 **Verification and review gate.**
 
-1. Select check scope and orchestration under [verification scope](../rules/execution.md#verification-scope). Focused low-risk work can run relevant checks and diff review in this context. For substantial/high-risk work, launch two independent agents together when available:
-   - `/verification`: give it Done when, invariants, affected seams, slices, diff, selected scope, and valid prior evidence. It runs applicable tests/checks and relevant live paths ([scope](../verification/doctrine.md#scope-to-the-change)); full suites follow actual risk or an explicit request.
-   - `/review`: use the [fresh combined-review context](../review/contract.md#fresh-combined-review-context), pinned to the same tree. It reviews the diff for Standards and Spec without the implementation conversation or a prewritten verdict.
+1. Select check scope and orchestration under [verification scope](../rules/execution.md#verification-scope). For substantial or high-risk work, launch two independent agents together when available:
+   - `/verification`: give it Done when, invariants, affected seams, slices, diff, selected scope, and valid prior evidence. It runs applicable checks and relevant live paths ([scope](../verification/doctrine.md#scope-to-the-change)).
+   - `/review`: use the [fresh combined-review context](../review/contract.md#fresh-combined-review-context), pinned to the same tree, without the implementation conversation or a prewritten verdict.
 
-   If an independent gate applies but subagents are unavailable, run serially and disclose that limit. Preserve explicit independent/worker workflows. Clean operational Git sync bypasses this build gate.
+   If subagents are unavailable, run serially and disclose that limit.
 2. Use the shared [handoff and evidence contract](../rules/execution.md#handoffs-and-evidence). Read the actual evidence before accepting a verdict.
-3. Use the verification handoff as the acceptance evidence. Mark each criterion verified, failed, or inconclusive. An unperformed check is not a pass.
+3. Mark each criterion verified, failed, or inconclusive from the verification handoff. An unperformed check is not a pass.
 4. Put each `/review` finding and each failed verification check in the **Fix backlog** as `fix now`, `follow-up`, or `waived`. An inconclusive check names its missing prerequisite and blocks completion until it is driven or waived by name. Ask any proposed `docs/verification.md` edits in the next Questions batch.
-5. As active orchestrator, apply [remediation](../rules/execution.md#remediation) once for selected findings. Enter bounded Fix mode under existing user authorization, or ask if it does not cover those fixes.
+5. Apply [remediation](../rules/execution.md#remediation) once for selected findings. Enter bounded Fix mode under existing user authorization, or ask if it does not cover those fixes.
 
 ### Fix mode (review remediation only)
 
-Follow shared [remediation](../rules/execution.md#remediation). Retain the outcome, promote only bounded fixes, and preserve test consent. Recheck invalidated evidence and review the remediation; final acceptance covers the combined result with selected applicable checks and valid retained evidence, not an automatic rerun of every suite.
+Follow shared [remediation](../rules/execution.md#remediation).

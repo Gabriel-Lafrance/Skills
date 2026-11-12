@@ -1,16 +1,12 @@
 ---
 name: review-loop
-description: Use when the user asks for repeated review and correction rounds on a branch or PR within a finite budget, five rounds by default. A single review pass goes to review.
+description: Use when the user asks for repeated review and correction rounds on a branch or PR, five rounds by default. A single pass goes to review.
 category: Code
 ---
 
 # Review loop
 
-Every run applies [code quality](../rules/code-quality.md),
-[code structure](../rules/code-structure.md), and
-[Plain language](../rules/writing-style.md#plain-language).
-Before a decision, use [Asking the user](../rules/writing-style.md#asking-the-user).
-Keep the budget and backlog in the existing
+Keep the budget and backlog in the
 [execution context](../rules/planning.md#execution-context).
 
 1. Identify the pinned diff/base, outcome, current owner and authorized actions.
@@ -25,12 +21,6 @@ Keep the budget and backlog in the existing
    return findings to the one owner. PR comments retain `/review`'s publish gate.
 4. Adjudicate once and fix only within authority. Recheck affected acceptance,
    then use focused remediation review and review new surface as required.
-5. Apply the budget's stopping rules after every round. Report rounds used,
-   resolved and unresolved IDs, disagreements, checks and evidence limits.
-   At five-round exhaustion with required work remaining, end with the shared
-   budget's choice to stop or authorize up to three more rounds, then wait.
-   Completion is a verdict on the checked scope, never automatic approval,
-   comment publication, push or merge.
-
-When nested, this is the current owner's bounded review/remediation phase,
-not another build orchestrator or a new reviewer per worker slice.
+5. Apply the review budget's stopping, reporting and extension rules after
+   every round, and also report resolved IDs. Completion is a verdict on the
+   checked scope, never automatic approval, comment publication, push or merge.

@@ -265,7 +265,7 @@ Prompt: `Turn this decision record into the final implementation ticket in chat.
 - [ ] Keeps shared invariants and the test refusal/source once, referring to them where useful rather than repeating the entire rationale, file list, and acceptance checklist for every item. Routine naming and filename choices remain delegated.
 - [ ] A second fresh executor receives only the final ticket, not this fixture decision record, and can explain each item's action, reason, approach, expected evidence, and dependencies without choosing a different data meaning or unsafe cutover.
 
-Rules these cases need: `analyze/doctrine.md`, `grill-me/doctrine.md`, `write-ticket/doctrine.md`, `write-ticket/reference.md`, `rules/writing-style.md`.
+Rules these cases need: `grill-me/doctrine.md`, `write-ticket/doctrine.md`, `write-ticket/reference.md`, `rules/writing-style.md`.
 
 ## Ownership and handoff evals
 
@@ -326,7 +326,7 @@ Prompt: `/verification Run all configured checks for this local change and repor
 
 ### 16. Standalone and nested capabilities
 
-Use case 8's files plus a real Git commit explaining why the receipt snapshot was introduced. Run separate standalone `/how` and `/why` questions, standalone `/analyze` on the removal proposal, and `/write-ticket` on the same proposal. Give the nested session no prepared memo.
+Use case 8's files plus a real Git commit explaining why the receipt snapshot was introduced. Ask one how question and one why question with no skill, ask for an investigation of the removal proposal with no skill, and run `/write-ticket` on the same proposal. Give the nested session no prepared memo.
 
 - [ ] Standalone skills retain their useful outputs: current mechanics for how, evidence-labelled Found/Inferred/Unknown rationale for why, and analysis synthesis for analyze.
 - [ ] Write-ticket owns the preparation conversation. Nested capability calls answer bounded questions and return evidence or decision updates without restarting a standalone full-template lifecycle, issuing a second final ticket, or repeating the same investigation.
@@ -335,7 +335,7 @@ Use case 8's files plus a real Git commit explaining why the receipt snapshot wa
 
 ### 17. Conditional research scouts
 
-Extend case 8 with an independently maintained notification API: request schema uses `recipient`, an adapter maps it from receipt output, and a retry worker stores the mapped request for later sending. Add an existing `/how` evidence handoff identifying those files and the adapter's current behavior. Prompt: `Analyze removing the stored order email before we draft a ticket. We have not decided whether pending retries should use corrected contact details.`
+Extend case 8 with an independently maintained notification API: request schema uses `recipient`, an adapter maps it from receipt output, and a retry worker stores the mapped request for later sending. Add an existing evidence handoff on how it works, identifying those files and the adapter's current behavior. Prompt: `Analyze removing the stored order email before we draft a ticket. We have not decided whether pending retries should use corrected contact details.`
 
 - [ ] Parent scopes independently uncertain data/API boundaries. When parallel research is warranted, each scout receives a locked outcome, specific boundary/question, existing evidence, and a stopping condition.
 - [ ] Scouts report schemas, callers, readers/writers, transitions, constraints and source evidence relevant to their question, distinguishing facts from inference. Existing how evidence is reused and refreshed as needed, not duplicated by a full second investigation.

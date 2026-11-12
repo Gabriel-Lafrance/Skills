@@ -89,26 +89,24 @@ The contract and the skills work in any harness. There is no Cursor-only ruleset
 
 ## Skills
 
-Seven kinds. **Guide** informs; everything else moves work forward. Card categories: `/task`, `/gabriel-mode`, `/hillclimb`, `/council`, `/review`, `/review-loop`, `/verification`, `/test-audit`, `/babysit-pr`, and `/takeover-pr` are Code. `/analyze`, `/how`, `/why`, and `/write-ticket` are Documents. `/ask-gabriel`, `/grill-me`, and `/setup-gabriel-skills` are General.
-
-| Job               | Skills                                                   | Purpose               |
-| ----------------- | -------------------------------------------------------- | --------------------- |
-| **Guide**         | `/ask-gabriel`                                           | Route to the next skill |
-| **Clarify**       | `/grill-me`, `/analyze`, `/how`, `/why`                  | Intent, research, mechanics, and rationale |
-| **Specify**       | `/write-ticket`                                          | Prepare a final implementation-ready ticket through research and conversation |
-| **Build**         | `/task`, `/gabriel-mode`                                  | Implement end-to-end. `/task` is the default and writes no tests. `/gabriel-mode` coordinates reviewed worker slices from a precise ticket |
-| **Improve**       | [`/hillclimb`](./skills/hillclimb/SKILL.md) | Starts with or without the slash: picks UI, performance, or evaluation from the goal, rates the current state with a separate reviewer (or requested council), has the main agent make numbered changes per round, sized to the gap from the target, lets the reviewers keep, fix or drop each change with evidence through `/verification`, and keeps only supported improvements |
-| **Review & ship** | `/review`, `/review-loop`, [`/council`](./skills/council/SKILL.md), `/babysit-pr`, `/takeover-pr`, `/verification`, `/test-audit` | Review, correct within a finite budget, watch readiness, assess old PRs, verify behavior, and prune tests. Shared contracts live in `skills/rules/` and `skills/review/contract.md` |
-| **Toolkit**       | `/setup-gabriel-skills`                                  | Install this pack's skills and place `AGENTS.md`. Manual copy only if that install fails |
-
-```mermaid
-flowchart LR
-  clarify[Clarify] --> build[Build]
-  specify[Specify] --> build
-  guide[Guide] -.-> build
-  toolkit[Toolkit] -.-> build
-  build --> ship[Review and ship]
-```
+<!-- skills:start -->
+| Skill | Category | Description |
+| --- | --- | --- |
+| [`/babysit-pr`](./skills/babysit-pr/SKILL.md) | Code | Use when the user asks to babysit, watch, or monitor a PR until its checks or reviews change. Watches and reports only. |
+| [`/council`](./skills/council/SKILL.md) | Code | Use when the user asks for a council or a panel of models to review code, compare alternatives, or give feedback. |
+| [`/gabriel-mode`](./skills/gabriel-mode/SKILL.md) | Code | Use when the user invokes /gabriel-mode or asks to run a precise ticket through worker subagents with main-agent review of each slice. An unclear ticket goes to write-ticket; an ordinary build goes to task. |
+| [`/hillclimb`](./skills/hillclimb/SKILL.md) | Code | Use when the user asks to hillclimb, or to raise one UI, performance, or evaluation target to a score or goal over repeated rounds, such as "get this page to 9/10". A one-off polish, speed-up, or fix goes to task. |
+| [`/review`](./skills/review/SKILL.md) | Code | Use when the user asks to review, check, or audit a branch, a diff, or a PR, or a build reaches its review gate. Repeated review and fix rounds go to review-loop. |
+| [`/review-loop`](./skills/review-loop/SKILL.md) | Code | Use when the user asks for repeated review and correction rounds on a branch or PR, five rounds by default. A single pass goes to review. |
+| [`/takeover-pr`](./skills/takeover-pr/SKILL.md) | Code | Use only when the user explicitly asks to assess, revive, or take over an old PR. Checks it against current code before recommending continue, rework, or closure. |
+| [`/task`](./skills/task/SKILL.md) | Code | Default build skill. Use when the user asks to build, implement, add, or fix a feature or a bug, refactor, upgrade, speed something up, or resume a build. Writes no tests. |
+| [`/test-audit`](./skills/test-audit/SKILL.md) | Code | Use when the user asks to audit, prune, sweep, or clean up existing tests, or to find low-value ones. Not for writing new tests. |
+| [`/verification`](./skills/verification/SKILL.md) | Code | Use when the user asks to verify or prove a change works, to write or add tests, to run all repository tests, or to prove the running app, a migration, an endpoint, or a job, or a build reaches its verification gate. |
+| [`/write-ticket`](./skills/write-ticket/SKILL.md) | Documents | Use when the user asks to write, file, open, draft, refine, or split an implementation-ready Linear or GitHub ticket or issue. Drafts in chat unless asked to write it. Never runs inside /task. |
+| [`/ask-gabriel`](./skills/ask-gabriel/SKILL.md) | General | Use when the user or the agent is unsure which skill, rule, or path applies. Points to the path; does not do the work. |
+| [`/grill-me`](./skills/grill-me/SKILL.md) | General | Use when the user asks to be grilled, to challenge or stress-test an idea, or to settle decisions before a plan. Interviews and locks decisions in chat; writes no code. |
+| [`/setup-gabriel-skills`](./skills/setup-gabriel-skills/SKILL.md) | General | Use when the user runs /setup-gabriel-skills or asks to install, set up, or update Gabriel skills. |
+<!-- skills:end -->
 
 **Unsure which to run?** Start with [`/ask-gabriel`](./skills/ask-gabriel/SKILL.md).
 
@@ -130,29 +128,19 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
 
 - Sync main into a branch: [Git sync only](./skills/rules/execution.md#git-sync-only), with a clean-sync stop
 - Verify affected behavior: `/verification`, using [verification scope](./skills/rules/execution.md#verification-scope)
-- How does this work → `/how`
-- Why is it this way → `/why`
-- Think / research → `/analyze`
-- Fuzzy intent → `/grill-me`
 - Idea to keep → capture it in chat; a rough note does not create a ticket
-- Understand a problem → `/analyze`; use `/how` for mechanics and `/why` for rationale
 - Implementation-ready ticket → `/write-ticket` researches, restates the intent, and settles decisions before writing the final ticket. Then use `/task` or explicitly choose `/gabriel-mode` for its worker review loop
 - Big task with small PRs → `/write-ticket` creates a parent with reviewable child tickets, dependencies, and PR bases. Then ask: "Implement all children of <parent URL> and open stacked draft PRs." One request covers the stack; each child keeps its own checks and review.
-- Build now → `/task`
 - Add tests for finished work → `/verification` proposes them; reply `tests 1`
 - Build a screen → `/task` (applies [`user-experience.md`](./skills/rules/user-experience.md) and `docs/design.md`)
-- This pack on a new machine → `/setup-gabriel-skills`
 - Ship a PR → [`skills/rules/shipping.md`](./skills/rules/shipping.md) (any agent, including a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
-- Review a branch or a PR → `/review`
 - Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md), adapted from tstack; Opus 5.5, Sol 6.1, Grok 4.7 and Muse Wonder Full 1.0 at xhigh, followed by a Sol 6.1 xhigh [challenger](./skills/council/challenger.md) checking the work, results and applicable skills, within the existing round budget
-- Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel. Evaluation uses an existing scorer; authoring new tests or evals still needs acceptance
+- Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel on UI or performance. Evaluation is judged by an existing scorer, with no reviewer or council; authoring new tests or evals still needs acceptance
 - Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), five rounds by default; unresolved required work ends with a choice to stop or authorize up to three more rounds
 - Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
 - Assess or revive an old PR → [`/takeover-pr`](./skills/takeover-pr/SKILL.md), relevance and current invariants before continue/rework/closure; preserve authorship and action permissions
-
-- Prune low-value or duplicate tests → `/test-audit`
 
 Tool selection follows [harness-first discovery](./skills/rules/tooling.md#harness-first-discovery): before any script or workaround, agents search the harness's listed tools, deferred tools, MCP servers and skills for a direct tool, such as T3's preview tools for a browser. Live restrictions, required repository Playwright E2E/CI, and explicit user tool choices still apply.
 

@@ -1,6 +1,6 @@
 ---
 name: test-audit
-description: Use when the user asks to audit, prune, sweep, or clean up existing tests, or to find low-value ones. Prunes one evidenced batch without waiting for approval and reports how to restore it. Not for writing new tests.
+description: Use when the user asks to audit, prune, sweep, or clean up existing tests, or to find low-value ones. Not for writing new tests.
 category: Code
 ---
 
@@ -17,15 +17,14 @@ Adapted from [openclaw test-audit](https://github.com/openclaw/openclaw/tree/mai
 
 ## Read when
 
-- Every run: [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md), and [testing.md](../rules/testing.md). The mandatory [No tautological tests](../rules/testing.md#no-tautological-tests) rule, [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar) live there, not here.
-- Throughout: keep judgment in the main context and hand large reads to a subagent ([main-context.md](../rules/main-context.md)). Discovery and ledgers are subagent work.
-- Before asking the user anything: [Asking the user](../rules/writing-style.md#asking-the-user). Findings follow [Plain language](../rules/writing-style.md#plain-language).
-- Running checks: [tooling.md](../rules/tooling.md). Shipping: [shipping.md](../rules/shipping.md).
+- Before discovery: [testing.md](../rules/testing.md). Its [No tautological tests](../rules/testing.md#no-tautological-tests), [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar) own the judgment.
+- Before editing production or test-support code: [code-quality.md](../rules/code-quality.md), [code-structure.md](../rules/code-structure.md).
+- Discovery and ledgers are subagent work.
 
 ## Contract
 
 - Discovery is read-only. Change tests, fixtures, or source only for the batch whose evidence is complete, and keep that batch restorable on its own.
-- This skill does not add new coverage. Moving a retained regression to its owner or repairing a vacuous assertion is part of the batch. A new test follows [testing.md](../rules/testing.md) and needs the user's acceptance.
+- This skill adds no new coverage. Moving a retained regression to its owner or repairing a vacuous assertion is part of the batch. A new test needs [the user's acceptance](../rules/no-unrequested-tests.md).
 - A test that must change for a behavior-preserving reorganization is suspect, not automatically deletable.
 - User start only. `/task` does not nest this skill.
 
@@ -33,16 +32,16 @@ Adapted from [openclaw test-audit](https://github.com/openclaw/openclaw/tree/mai
 
 A test earns its maintenance cost by protecting behavior, a credible regression, or an independently meaningful contract.
 
-Before judging a candidate, read the complete test and its production owner: the entry point, callers, callees, sibling implementations, overlapping tests, CI routing, and relevant history. Read the root and scoped `AGENTS.md` files first. When the test claims dependency-backed behavior, read the dependency source or types directly.
+Before judging a candidate, read the complete test and its production owner: the entry point, callers, callees, sibling implementations, overlapping tests, CI routing, and relevant history. When the test claims dependency-backed behavior, read the dependency source or types directly.
 
 ## Process
 
 1. **Scope.** Name the area and the mode. If the user named nothing, pick the area with the most likely candidates and list it under Decided for you.
-2. **Discover.** Hunt for the [junk patterns](../rules/testing.md#junk-patterns). For a broad scope, give each production owner area to a parallel read-only subagent (for example core packages, plugins or integrations, UI and apps, scripts and tooling, plus one cross-cutting pattern sweep). Ask each for short candidate rows, not file dumps. Prefer a few high-confidence candidates over a large speculative list.
+2. **Discover.** Hunt for the [junk patterns](../rules/testing.md#junk-patterns). For a broad scope, give each production owner area to a parallel read-only subagent (for example core packages, plugins or integrations, UI and apps, scripts and tooling, plus one cross-cutting pattern sweep). Ask each for short candidate rows.
 3. **Record evidence.** Fill every [candidate evidence](#candidate-evidence) field. A missing field means the candidate is not ready. Check each against the [retention bar](../rules/testing.md#retention-bar); a match is a retained false positive, not a candidate.
-4. **Edit** the batch in the [edit shape](#edit-shape), keeping it separate from other changes so it can be restored on its own.
+4. **Edit** the batch in the [edit shape](#edit-shape), separate from other changes.
 5. **Validate** with the [validation](#validation) steps.
-6. **Hand off** with the [handoff](#handoff). Offer the next high-confidence batch as a separate follow-up, not folded into this one.
+6. **Hand off** with the [handoff](#handoff).
 
 ## Candidate evidence
 
@@ -60,9 +59,8 @@ Before judging a candidate, read the complete test and its production owner: the
 
 - One coherent owner-boundary batch per change.
 - Delete obsolete test-only exports, globals, wrappers, and dead production paths outright, leaving no aliases.
-- Move retained regressions to their canonical owner.
 - Fold repeated package or dependency assertions into one generic contract.
-- Prefer a net-negative production line count. Add no replacement tests that restate the same implementation. Leave an uncertain candidate alone instead of cleaning it up to raise the deletion count.
+- Prefer a net-negative production line count. Add no replacement tests that restate the same implementation.
 
 ## Validation
 
@@ -91,6 +89,4 @@ Edit source or tests only when no test watcher is running in the checkout.
 
 ## Anti-patterns
 
-- Deleting a test because it is static, slow, or looks like implementation, without proving another test owns the contract
-- Deleting a test that fails on the current code instead of treating it as a possible bug
 - Pasting whole test files into chat instead of evidence rows

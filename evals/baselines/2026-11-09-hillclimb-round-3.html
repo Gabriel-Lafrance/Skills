@@ -1,0 +1,1148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval run 2026-11-09, hillclimb round 3</title>
+<style>
+  /* Fallback colors for a plain browser. A host theme that sets the shadcn variables wins. */
+  :root { --fb-bg: #ffffff; --fb-fg: #18181b; --fb-muted: #52525b; --fb-card: #fafafa; --fb-border: #e4e4e7; --fb-ok: #15803d; --fb-dot: #2563eb; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fb-bg: #0a0a0a; --fb-fg: #fafafa; --fb-muted: #a1a1aa; --fb-card: #18181b; --fb-border: #27272a; --fb-ok: #22c55e; --fb-dot: #3b82f6; }
+  }
+  body { margin: 0 auto; max-width: 760px; padding: 16px; font-family: var(--font-sans, system-ui, sans-serif); background: var(--background, var(--fb-bg)); color: var(--foreground, var(--fb-fg)); }
+  h1, h2 { font-size: 13px; font-weight: 600; margin: 0 0 10px; }
+  .meta, .legend, th, tr.group td, .tile .who, .tile .what, .tile .of { color: var(--muted-foreground, var(--fb-muted)); }
+  .meta { font-size: 11px; margin: 0 0 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 22px; }
+  .tile { background: var(--card, var(--fb-card)); border: 1px solid var(--border, var(--fb-border)); border-radius: var(--radius, 10px); padding: 12px 14px; min-width: 0; }
+  .tile .who { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tile .num { font-size: 26px; font-weight: 600; line-height: 1.2; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .tile .of { font-size: 13px; font-weight: 400; white-space: nowrap; }
+  .tile .what { font-size: 11px; margin-top: 2px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  col.c0 { width: 40%; }
+  th { font-size: 11px; font-weight: 500; text-align: left; padding: 0 6px 6px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td { font-size: 12px; padding: 5px 6px 5px 0; border-top: 1px solid var(--border, var(--fb-border)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  tr.group td { border-top: none; padding-top: 14px; font-size: 11px; }
+  .ok { color: var(--success, var(--fb-ok)); font-weight: 700; margin-right: 6px; }
+  .bad { font-weight: 700; margin-right: 6px; }
+  .dot { display: inline-block; box-sizing: border-box; width: 7px; height: 7px; border-radius: 50%; background: var(--chart-1, var(--fb-dot)); margin-right: 3px; vertical-align: middle; }
+  .dot.gone { background: transparent; border: 1.5px solid var(--muted-foreground, var(--fb-muted)); opacity: 0.55; }
+  .legend { font-size: 11px; margin-top: 10px; line-height: 1.8; }
+  .legend .dot { margin-left: 10px; }
+  #tip { position: fixed; display: none; pointer-events: none; z-index: 1; max-width: 300px; white-space: pre-line; font-size: 11px; line-height: 1.5; padding: 6px 8px; background: var(--popover, var(--fb-card)); border: 1px solid var(--border, var(--fb-border)); border-radius: 6px; }
+</style>
+</head>
+<body>
+<h1>Hillclimb round 3: small models, instruction files opened on the first step</h1>
+<p class="meta" id="meta"></p>
+<div class="tiles" id="tiles"></div>
+<h2>What each agent started, and how many instruction files it opened first</h2>
+<table>
+  <colgroup><col class="c0"><col><col><col></colgroup>
+  <thead><tr id="head"><th>Situation</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<div class="legend"><span class="ok">&#10003;</span>passed<span class="dot"></span>one instruction file opened on the first step<span class="dot gone"></span>opened before this round, not now</div>
+<div id="tip"></div>
+
+<!-- The run. "passed", "opened" and "was" hold one entry per model, in "models" order.
+     "opened" lists instruction files read on the first step; null means not recorded.
+     "was" is the same list from the baseline run; null means the case did not run there. -->
+<script type="application/json" id="run">
+{
+ "date": "2026-11-09",
+ "source": "working tree on 5331af1, source hash 7a4125ad1873",
+ "baseline": "the round 2 pack, source hash aa0fa35e43d5",
+ "effort": "high",
+ "repeats": 1,
+ "sessions": "197 sessions, 86 before and 111 after",
+ "words": {
+  "now": 54836,
+  "was": 61685
+ },
+ "models": [
+  "Haiku 5.5",
+  "Luna 6",
+  "Ember 1.0"
+ ],
+ "groups": [
+  {
+   "name": "Should start a skill",
+   "cases": [
+    {
+     "id": "route-task-feature",
+     "label": "Add a feature",
+     "expected": "task",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ],
+      [
+       "task/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "task/SKILL.md"
+      ],
+      [
+       "rules/execution.md",
+       "task/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-task-bug",
+     "label": "Fix a bug",
+     "expected": "task",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "task/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ],
+      [
+       "task/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/execution.md",
+       "task/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "task/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-hillclimb",
+     "label": "Raise a page from 6 to 9",
+     "expected": "hillclimb",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      false,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "hillclimb/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "hillclimb/SKILL.md"
+      ],
+      [
+       "hillclimb/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "hillclimb/SKILL.md"
+      ],
+      null,
+      [
+       "AGENTS.md",
+       "hillclimb/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-council",
+     "label": "Opinions from a panel of models",
+     "expected": "council",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "council/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "council/SKILL.md",
+       "rules/main-context.md",
+       "rules/planning.md"
+      ],
+      [
+       "AGENTS.md",
+       "council/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "council/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "council/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "council/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-write-ticket",
+     "label": "Write a ticket, do not build",
+     "expected": "write-ticket",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "write-ticket/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "write-ticket/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "write-ticket/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "write-ticket/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/planning.md",
+       "rules/strong-foundation.md",
+       "rules/writing-style.md",
+       "write-ticket/SKILL.md"
+      ],
+      [
+       "write-ticket/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-verification",
+     "label": "Prove a fix against the running app",
+     "expected": "verification",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "verification/SKILL.md"
+      ],
+      [
+       "verification/SKILL.md",
+       "verification/doctrine.md"
+      ],
+      [
+       "AGENTS.md",
+       "verification/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "verification/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "verification/SKILL.md",
+       "verification/doctrine.md"
+      ],
+      [
+       "verification/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-test-audit",
+     "label": "Prune low-value tests",
+     "expected": "test-audit",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "test-audit/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/testing.md",
+       "test-audit/SKILL.md"
+      ],
+      [
+       "test-audit/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "test-audit/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/testing.md",
+       "test-audit/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "test-audit/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-review",
+     "label": "Check a branch before a PR",
+     "expected": "review",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "review/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "review/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "review/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "review/SKILL.md",
+       "review/contract.md"
+      ],
+      [
+       "AGENTS.md",
+       "review/SKILL.md",
+       "review/contract.md",
+       "rules/main-context.md"
+      ],
+      [
+       "review/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-babysit-pr",
+     "label": "Watch a PR until green",
+     "expected": "babysit-pr",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "babysit-pr/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "babysit-pr/SKILL.md",
+       "rules/execution.md",
+       "rules/pr-lifecycle.md",
+       "rules/tooling.md"
+      ],
+      [
+       "AGENTS.md",
+       "babysit-pr/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "babysit-pr/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "babysit-pr/SKILL.md",
+       "rules/execution.md",
+       "rules/pr-lifecycle.md",
+       "rules/tooling.md"
+      ],
+      [
+       "babysit-pr/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-review-loop",
+     "label": "Review and fix, five rounds",
+     "expected": "review-loop",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "review-loop/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "review-loop/SKILL.md",
+       "review/SKILL.md",
+       "review/contract.md",
+       "rules/execution.md",
+       "rules/planning.md"
+      ],
+      [
+       "review-loop/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "review-loop/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "review-loop/SKILL.md",
+       "review/SKILL.md",
+       "review/contract.md",
+       "rules/code-quality.md",
+       "rules/code-structure.md",
+       "rules/execution.md",
+       "rules/planning.md",
+       "rules/writing-style.md"
+      ],
+      [
+       "review-loop/SKILL.md",
+       "review/SKILL.md",
+       "review/contract.md",
+       "rules/execution.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-takeover-pr",
+     "label": "Assess a stale PR",
+     "expected": "takeover-pr",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "takeover-pr/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/execution.md",
+       "rules/pr-lifecycle.md",
+       "takeover-pr/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "takeover-pr/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "takeover-pr/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "rules/execution.md",
+       "rules/pr-lifecycle.md",
+       "takeover-pr/SKILL.md"
+      ],
+      [
+       "takeover-pr/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-grill-me",
+     "label": "Poke holes in a plan",
+     "expected": "grill-me",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "grill-me/SKILL.md",
+       "grill-me/doctrine.md"
+      ],
+      [
+       "AGENTS.md",
+       "grill-me/SKILL.md",
+       "grill-me/doctrine.md",
+       "rules/strong-foundation.md"
+      ],
+      [
+       "grill-me/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "grill-me/SKILL.md",
+       "grill-me/doctrine.md"
+      ],
+      [
+       "AGENTS.md",
+       "grill-me/SKILL.md",
+       "grill-me/doctrine.md",
+       "rules/planning.md",
+       "rules/strong-foundation.md"
+      ],
+      [
+       "grill-me/SKILL.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-ask-gabriel",
+     "label": "Which workflow fits",
+     "expected": "ask-gabriel",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "ask-gabriel/SKILL.md"
+      ],
+      [
+       "rules/writing-style.md",
+       "AGENTS.md",
+       "ask-gabriel/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "ask-gabriel/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "ask-gabriel/SKILL.md"
+      ],
+      [
+       "ask-gabriel/SKILL.md"
+      ],
+      [
+       "ask-gabriel/SKILL.md",
+       "rules/journeys/new-feature.md",
+       "rules/writing-style.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-gabriel-mode",
+     "label": "Run a ticket with workers",
+     "expected": "gabriel-mode",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md",
+       "gabriel-mode/SKILL.md"
+      ],
+      [
+       "gabriel-mode/SKILL.md",
+       "rules/execution.md",
+       "rules/planning.md",
+       "task/SKILL.md",
+       "task/doctrine.md",
+       "task/reference.md"
+      ],
+      [
+       "AGENTS.md",
+       "gabriel-mode/SKILL.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md",
+       "gabriel-mode/SKILL.md"
+      ],
+      [
+       "AGENTS.md",
+       "gabriel-mode/SKILL.md",
+       "rules/execution.md",
+       "rules/planning.md",
+       "task/SKILL.md",
+       "task/doctrine.md",
+       "task/reference.md"
+      ],
+      [
+       "gabriel-mode/SKILL.md"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Should start no skill: a request to investigate, assess or explain",
+   "cases": [
+    {
+     "id": "route-analyze",
+     "label": "Look into a failure first",
+     "expected": "none",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      []
+     ],
+     "was": [
+      [
+       "rules/tooling.md"
+      ],
+      [
+       "AGENTS.md"
+      ],
+      []
+     ]
+    },
+    {
+     "id": "route-how",
+     "label": "How does this flow work",
+     "expected": "none",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ]
+     ],
+     "was": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ]
+     ]
+    },
+    {
+     "id": "route-why",
+     "label": "Why was it built this way",
+     "expected": "none",
+     "passed": [
+      true,
+      false,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      false
+     ],
+     "opened": [
+      [],
+      null,
+      [
+       "AGENTS.md"
+      ]
+     ],
+     "was": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md",
+       "ask-gabriel/SKILL.md"
+      ]
+     ],
+     "notes": [
+      null,
+      "No result.json on this repeat. Both reruns passed.",
+      null
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Should start no skill",
+   "cases": [
+    {
+     "id": "route-none-git-sync",
+     "label": "Merge main into my branch",
+     "expected": "none",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ],
+      []
+     ]
+    },
+    {
+     "id": "route-none-typo",
+     "label": "Fix a typo",
+     "expected": "none",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      false,
+      true
+     ],
+     "opened": [
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ],
+      []
+     ],
+     "was": [
+      [
+       "AGENTS.md"
+      ],
+      null,
+      [
+       "AGENTS.md"
+      ]
+     ],
+     "notes": [
+      null,
+      "Final pack: 3 of 3 repeats pass. Before the last AGENTS.md edit it started task in 2 of 3.",
+      null
+     ]
+    },
+    {
+     "id": "route-none-question",
+     "label": "A plain question",
+     "expected": "none",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      [],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ]
+     ],
+     "was": [
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ],
+      [
+       "AGENTS.md"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Decisions and repairs inside a skill",
+   "cases": [
+    {
+     "id": "csv-consent",
+     "label": "Fix a CLI; a handoff asks for tests",
+     "expected": "no test written",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      false,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "id": "csv-accepted-test",
+     "label": "Fix a CLI; the user accepted one test",
+     "expected": "the accepted test written",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "id": "panel-blocker",
+     "label": "Council: two 9/10 ratings and one blocker",
+     "expected": "fix",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "id": "aggregate-regression",
+     "label": "Hillclimb: score up, a required guard down",
+     "expected": "reject",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "id": "shared-budget",
+     "label": "Review budget spent, a fresh council proposed",
+     "expected": "stop",
+     "passed": [
+      true,
+      true,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ]
+    },
+    {
+     "id": "rating-drift",
+     "label": "Hillclimb: the unchanged reference rose too",
+     "expected": "inconclusive",
+     "passed": [
+      true,
+      false,
+      true
+     ],
+     "wasPassed": [
+      true,
+      true,
+      true
+     ],
+     "opened": [
+      null,
+      null,
+      null
+     ],
+     "was": [
+      null,
+      null,
+      null
+     ],
+     "notes": [
+      null,
+      "No result.json on this repeat. 1 of 2 reruns passed; the other also wrote no file.",
+      null
+     ]
+    }
+   ]
+  }
+ ]
+}
+</script>
+<script>
+(() => {
+  const run = JSON.parse(document.getElementById("run").textContent);
+  const el = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  };
+  const cases = run.groups.flatMap(group => group.cases);
+  const total = (model, key) => cases.reduce((sum, c) => sum + ((c[key] && c[key][model]) || []).length, 0);
+  const tile = (who, value, was, what) => {
+    const node = el("div", "tile");
+    const num = el("div", "num", `${value} `);
+    num.append(el("span", "of", `was ${was}`));
+    node.append(el("div", "who", who), num, el("div", "what", what));
+    document.getElementById("tiles").append(node);
+  };
+
+  document.getElementById("meta").textContent =
+    `${run.date} · ${run.source} · compared with ${run.baseline} · effort ${run.effort} · ${run.sessions}`;
+
+  run.models.forEach((name, model) => {
+    document.getElementById("head").append(el("th", "", name));
+    const passed = cases.filter(c => c.passed[model]).length;
+    tile(name, total(model, "opened"), total(model, "was"), `files opened · ${passed} of ${cases.length} cases pass, was ${cases.filter(c => c.wasPassed[model]).length}`);
+  });
+  tile("Pack size", run.words.now.toLocaleString("en-US"), run.words.was.toLocaleString("en-US"), "words in skills/");
+
+  const tip = document.getElementById("tip");
+  const rows = document.getElementById("rows");
+  for (const group of run.groups) {
+    const head = el("tr", "group");
+    const title = el("td", "", group.name);
+    title.colSpan = run.models.length + 1;
+    head.append(title);
+    rows.append(head);
+    for (const c of group.cases) {
+      const tr = el("tr");
+      tr.append(el("td", "", c.label));
+      run.models.forEach((name, model) => {
+        const files = c.opened[model];
+        const was = c.was ? c.was[model] : null;
+        const cell = el("td");
+        cell.append(el("span", c.passed[model] ? "ok" : "bad", c.passed[model] ? "✓" : "✗"));
+        for (const file of files || []) cell.append(el("span", "dot"));
+        for (let gone = (was || []).length - (files || []).length; gone > 0; gone--) cell.append(el("span", "dot gone"));
+        const opened = files === null ? "Files opened: not recorded" : files.length ? `Opened:\n${files.join("\n")}` : "Opened no instruction file";
+        const before = c.was === null ? "Not run in the baseline" : was === null ? "Baseline files: not recorded" : was.length ? `Baseline opened:\n${was.join("\n")}` : "Baseline opened no instruction file";
+        const note = c.notes && c.notes[model] ? `\n${c.notes[model]}` : "";
+        const text = `${name}, ${c.id}\n${c.passed[model] ? "Passed" : "Did not pass"}, expected ${c.expected}\n${opened}\n${before}${note}`;
+        cell.setAttribute("aria-label", text.replace(/\n/g, ". "));
+        cell.addEventListener("pointermove", event => {
+          tip.textContent = text;
+          tip.style.display = "block";
+          tip.style.left = `${Math.min(event.clientX + 12, innerWidth - tip.offsetWidth - 8)}px`;
+          tip.style.top = `${Math.min(event.clientY + 12, innerHeight - tip.offsetHeight - 8)}px`;
+        });
+        cell.addEventListener("pointerleave", () => { tip.style.display = "none"; });
+        tr.append(cell);
+      });
+      rows.append(tr);
+    }
+  }
+})();
+</script>
+</body>
+</html>

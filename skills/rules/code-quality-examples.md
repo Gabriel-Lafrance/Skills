@@ -18,9 +18,6 @@ const user = await requireUser(input.userId);
 if (!user.canOrder) throw new Error("Cannot order");
 ```
 
-**Bad:** `interface NotifierStrategy` + empty `abstract class BaseNotifier` + `ConsoleNotifier` for one `console.log`.
-**Good:** `async function notifyUser(msg: string) { console.log(msg); }`. Big features still get one seam + one impl ([reference.md](code-quality.md#futureproofing)).
-
 ## Named principles (spot checks)
 
 | Principle | Bad | Good |
@@ -41,19 +38,11 @@ if (!user.canOrder) throw new Error("Cannot order");
 
 ## Deep vs shallow module
 
-**Bad:** the caller orchestrates internals.
-
-```typescript
-const items = await loadCart(userId);
-new CartStore().setItems(applyTax(items));
-```
-
-**Good:** `const cart = useCart(userId);`
+See [Deep vs shallow service API](code-structure-examples.md#deep-vs-shallow-service-api) and [Entry point hides collaborators](code-structure-examples.md#entry-point-hides-collaborators).
 
 ## Entropy / broken window
 
-**Bad:** `features/upgrade/upgrade.ts` calls `stripe.checkout.sessions.create(...)` because checkout did.
-**Good:** move Stripe into `services/billing/billing.ts`; upgrade calls `makeUserPay({ userId, cents, reason: "upgrade" })` (`structure:prior-mistakes`).
+See [Prior mistakes are not sacred](code-structure-examples.md#prior-mistakes-are-not-sacred-move-dont-copy).
 
 ## Never-nest
 
@@ -91,12 +80,12 @@ function priceOrder(order: Order): number {
 ## Reuse env vars
 
 **Bad:** `SITE_URL` exists; the agent runs `npx convex env set FRONTEND_URL ...` and reads `process.env.FRONTEND_URL`.
-**Good:** `const origin = process.env.SITE_URL;`. A client prefix uses `NEXT_PUBLIC_SITE_URL`, not `NEXT_PUBLIC_FRONTEND_URL`. A library that wants `FRONTEND_URL` gets it mapped in code.
+**Good:** `const origin = process.env.SITE_URL;`. A client prefix uses `NEXT_PUBLIC_SITE_URL`.
 
 ## Dead code
 
 **Bad:** `export function formatLegacyReceipt()` with no callers survives refactors.
-**Good:** delete it. Version control remembers.
+**Good:** delete it.
 
 ## Decoration lock
 
@@ -124,8 +113,6 @@ function parseConfig(raw: string): Config {
 | Area | Good | Bad |
 | --- | --- | --- |
 | App UI | `features/orders/components/order-summary.tsx` | `OrderSummary.tsx` beside five unrelated siblings |
-| Convex names | `convex/orders.ts`, `convex/orderActions.ts` | `convex/order-actions.ts`, `convex/order_actions.ts` |
-| Convex folders | Second billing file goes in `convex/billing/` | `convex/billingStripe.ts` beside `convex/billing.ts` |
 
 ## Speculative ceremony (tiny work)
 
@@ -134,13 +121,11 @@ function parseConfig(raw: string): Config {
 
 ## Foundation first (big features)
 
-**Bad:** `StripeOnly` hardcoded at every call site; PayPal forces a rewrite.
-**Good:** day one, a `PaymentMethod` seam + `StripePayment` behind a stable `charge()`. The next provider is a new collaborator.
+See [Foundation seam (big service)](code-structure-examples.md#foundation-seam-big-service).
 
 ## Smart responsibility
 
-**Bad:** `Logger.log` also posts to Slack and calls `analytics.track`.
-**Good:** `Logger.log` only logs; the orchestrator calls Slack and analytics.
+See the Keep jobs apart row in [Named principles](#named-principles-spot-checks).
 
 ## OOP depth
 
@@ -154,12 +139,12 @@ function parseConfig(raw: string): Config {
 
 ## Small leaks
 
-**Bad:** `getUser()` returns the raw database row, and three features read `row.stripe_customer_id` directly. Renaming the column now touches every feature.
+**Bad:** `getUser()` returns the raw database row, and three features read `row.stripe_customer_id`.
 **Good:** `getUser()` returns a `User` with `billingCustomerId`. The column name stays inside the service.
 
 ## Observed usage only
 
-**Bad:** the first webhook handler validates twelve event types "in case", with retry-on-startup and a schema migration for events nobody sends yet.
+**Bad:** the first webhook handler validates twelve event types "in case", with retry-on-startup and a schema migration for events nobody sends.
 **Good:** handle the two events the product uses today. An unknown event is logged and ignored.
 
 ## A seam nobody confirmed
@@ -175,5 +160,4 @@ function parseConfig(raw: string): Config {
 
 ## Verify
 
-**Bad:** `npm run lint && tsc --noEmit && npm test` after every edit.
-**Good:** read the running frontend and `convex dev` terminals; dig deeper only if they show errors.
+See [Verify terminals first](tooling.md#verify-terminals-first).

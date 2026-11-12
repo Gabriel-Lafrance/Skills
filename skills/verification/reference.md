@@ -2,48 +2,45 @@
 
 ## Tools
 
-Use what the harness and repo already have, in this order:
+After the harness's own tools ([harness first](../rules/tooling.md#harness-first-discovery)), use in this order:
 
-1. The harness browser tool (for example Cursor's browser or a Chrome integration) for interactive UI checks.
-2. The repo's own end-to-end harness (Playwright, Cypress, a PTY or expect script, a seed command).
-3. A scratch Playwright script run with `npx` from the OS temp directory. Do not add a dependency to the app. Use the project's browser installation when available; if a required browser cannot be installed safely, report the check as inconclusive.
-4. `curl` or the framework CLI for endpoints, the database client for rows, the queue or scheduler CLI for jobs, and the process logs.
+1. The repo's own end-to-end harness (Playwright, Cypress, a PTY or expect script, a seed command).
+2. A scratch Playwright script run with `npx` from the OS temp directory. Add no dependency to the app. Use the project's browser installation when available; if a required browser cannot be installed safely, report the check as inconclusive.
 
 Convex apps: drive functions with `npx convex run` against the dev deployment and read `npx convex logs`. Convex MCP is allowed during a `/verification` run ([Verify terminals first](../rules/tooling.md#verify-terminals-first) lists this exception).
 
 ## Repository test suites
 
-Select suites under [verification scope](../rules/execution.md#verification-scope). Inspect the relevant recipe, manifests, CI and runner configuration to identify affected tests and consumers. For broad/full verification, inventory all configured suites across packages. If a standard runner finds relevant tests but no script names them, use its documented command. Lint, type checks, and builds are not test suites unless they execute tests.
+Select suites under [verification scope](../rules/execution.md#verification-scope). If a standard runner finds relevant tests but no script names them, use its documented command. Lint, type checks, and builds are not test suites unless they execute tests.
 
-- Use supported package/path/project filters for bounded checks when dependency coverage remains adequate. Full verification uses every configured project/browser requested; a root aggregate may cover child suites. Check its coverage and run omitted required suites. Do not run the same suite twice merely because two scripts name it, or invent a filter that silently drops affected consumers.
-- Use the repository's toolchain and documented setup. Reuse safe local services, create disposable test data when needed, and run suites that do not depend on a failed suite even if one exits nonzero. Never redirect a test command to production or shared staging.
-- Record each suite's working directory, exact command, exit code, test counts, skips, and a short failure excerpt or log path. A command that runs and fails is `failed`. A suite blocked by missing credentials, browser setup, data, or an unsafe target is `inconclusive`; name what is missing and the command attempted. Do not replace it with a narrower command and call the full suite passed.
+- Use supported package/path/project filters for bounded checks when dependency coverage remains adequate. Full verification uses every configured project/browser requested; a root aggregate may cover child suites. Check its coverage and run omitted required suites. Do not run the same suite twice because two scripts name it, or invent a filter that silently drops affected consumers.
+- Reuse safe local services, create disposable test data when needed, and run suites that do not depend on a failed suite even if one exits nonzero.
 - If no tests or test commands exist after the inventory, record `no test suites found`. Do not add test files, install new test tooling, or change runner configuration during verification.
 
 ## Ways to verify
 
-This is a menu, not a checklist. Select [repository test suites](#repository-test-suites) and live checks together from affected behavior and risk. Pick the moves that establish the bounded claim; unrelated layers stay unrun. Go wider for crossed boundaries or shared impact: a button using a changed endpoint may need the click, request, and stored row.
+Pick the moves that establish the bounded claim; unrelated layers stay unrun.
 
 ### You added or changed UI
 
-- Start at the real entry point with representative company, selection, recommendation, or draft context. Walk the changed flow to its result and execute the next meaningful action; verify expected prefilled/carried data remains available and editable. Reload after a successful write and confirm the result stuck.
+- Start at the real entry point with representative company, selection, recommendation, or draft context. Walk the changed flow to its result and execute the next meaningful action; verify expected prefilled or carried data remains available and editable. Reload after a successful write and confirm the result stuck.
 - Click each control you added or rewired. It should navigate, send a request, change the page, open a dialog, or move focus; one that does nothing is dead ([snippet](#dead-control-probe)).
 - Watch the page settle from load through the first interaction when you touched layout, loading, images, or fonts. Measure layout shift and name the element that moved; above 0.1 is a problem ([snippet](#layout-shift-probe)).
-- Keep the console and network panel open. A new error, unhandled rejection, or failed request (4xx or 5xx) the flow did not intend is a finding.
+- A new console error, unhandled rejection, or unintended 4xx or 5xx request is a finding.
 - Force the states you touched: loading, empty, error, disabled, success. Compare them with `docs/design.md`.
-- On a failed write, check that edits survive and recovery/retry works. Cancel or go back and verify the intended prior context and focus return. An opened dialog or editor with missing known inputs fails the interaction contract.
-- When screenshot capture is available, inspect representative settled states at relevant viewports against the existing product: primary action prominence, component reuse, typography, spacing, density, and clipping. Report concrete discrepancies; do not substitute a screenshot for exercising behavior. Report unavailable browser or capture evidence explicitly. Source grep and mocked-only success cannot replace the real flow.
+- On a failed write, check that edits survive and retry works. Cancel or go back and verify the prior context and focus return. An opened dialog or editor with missing known inputs fails the interaction contract.
+- When screenshot capture is available, inspect representative settled states at relevant viewports against the existing product: primary action prominence, component reuse, typography, spacing, density, and clipping. Report concrete discrepancies. A screenshot does not replace exercising behavior.
 - Click the primary action twice fast when it writes: one row, one charge, one message.
 - Resize to mobile (390 wide) and desktop (1440 wide) when you changed layout or styling: no horizontal scroll, clipped text, or overlap.
 - Tab through the controls you added: reachable in order, focus visible, Enter and Space activate, Escape closes dialogs ([`ux:quality-floor`](../rules/user-experience.md#quality-floor)).
 - Use back, forward, and a deep link when you changed routing or guards. Signed out, a protected route redirects.
-- Read the visible text you changed against `docs/design.md` and the locale files: no raw keys or placeholders.
+- Changed visible text shows no raw keys or placeholders.
 
 ### You added or changed an endpoint, mutation, or action
 
 - Call it with a real session and read the status, the body, and the stored row.
 - Send bad input: it is rejected at the door with no side effect.
-- Call it signed out, and as another user against someone else's resource: both are rejected on the server (hard rule 4 in `AGENTS.md`).
+- Call it signed out, and as another user against someone else's resource: both are rejected on the server ([`structure:authority`](../rules/code-structure.md#authority)).
 - Repeat the same request when it claims to be safe to retry: one effect.
 
 ### You added a migration, schema change, or backfill
@@ -74,11 +71,11 @@ This is a menu, not a checklist. Select [repository test suites](#repository-tes
 
 ### You fixed a bug
 
-- Reproduce the old failure on the base commit, or with the fix reverted when that is cheap. Then show the same steps pass on the change.
+- Show the [control](doctrine.md#proof-standards): the old failure, then the pass on the change.
 
 ## Drive snippets
 
-Scratch scripts only. Run them from the OS temp directory; never commit them.
+Scratch scripts, run from the OS temp directory.
 
 ### Layout shift probe
 
@@ -126,7 +123,7 @@ for (const control of await controls.all()) {
 
 ## Recipe template
 
-`docs/verification.md` in the app. Written or edited only after the user says yes. Every section comes from what a run actually did; no placeholders.
+Written or edited only after the user says yes. Every section comes from what a run actually did; no placeholders.
 
 ```markdown
 # Verification
@@ -159,11 +156,11 @@ How an agent launches, drives, and checks this app.
 
 ### Proposing recipe edits
 
-At the end of a run, list each edit as a bullet with the reason. The report's **Next** line offers them ("Reply `recipe` to save these edits"); nothing waits.
+List each edit as a bullet with the reason. The report's **Next** line offers them ("Reply `recipe` to save these edits"); nothing waits.
 
 ## Handoff
 
-Use stable check IDs and acceptance mappings from [handoffs and evidence](../rules/execution.md#handoffs-and-evidence), including delegated runner results. Reconcile the selected inventory before sending this handoff. Focused work can use a short scope, results, and gaps paragraph; use the tables for multiple checks or a full verification request.
+Use stable check IDs and acceptance mappings from [handoffs and evidence](../rules/execution.md#handoffs-and-evidence), including delegated runner results. Focused work can use a short scope, results, and gaps paragraph; use the tables for multiple checks or a full verification request.
 
 ```markdown
 ## Verification: <verified | failed | inconclusive>

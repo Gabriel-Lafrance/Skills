@@ -16,10 +16,10 @@ Pack layout and authoring rules live in [`how-to.md`](../how-to.md). Standards
 for how agents should work live in
 [`skills/rules/code-quality.md`](../skills/rules/code-quality.md) and
 [`skills/rules/code-structure.md`](../skills/rules/code-structure.md), with
-examples beside them. Every skill links both files. Chat
+examples beside them. Every skill that writes, plans, or judges code links both files. Chat
 replies follow [`skills/rules/writing-style.md`](../skills/rules/writing-style.md). Do not paste `AGENTS.md` into a
-User Rules box, and do not add a project `CLAUDE.md`. `/setup-gabriel-skills`
-installs the other skills and places `AGENTS.md` where the harness reads it. It does not write ESLint or Prettier.
+User Rules box. `/setup-gabriel-skills` writes only a one-line
+`@AGENTS.md` pointer in an app's `CLAUDE.md`, never rule text. It installs the other skills and places `AGENTS.md` where the harness reads it. It does not write ESLint or Prettier.
 
 ## Before you start
 
@@ -36,7 +36,7 @@ git clone https://github.com/Gabriel-Lafrance/Skills.git
 cd Skills
 ```
 
-There is no build step. Edit skill markdown, then run the pack check (the same script CI runs; it works with the macOS system bash) and smoke-check:
+There is no build step. Edit skill markdown, then run the pack check (the same script CI runs; it works with the macOS system bash) and smoke-check. After changing a skill description or category, run `bash .github/scripts/build-readme-skills.sh` to regenerate the README catalog.
 
 ```bash
 bash .github/scripts/check-pack.sh
@@ -95,13 +95,8 @@ Output.
    `ux:*` links still resolve.
 2. If the **Read when** index or the Rules section changes, edit root
    [`AGENTS.md`](../AGENTS.md). There is no second copy.
-3. Bump the version in
-   [`.cursor-plugin/plugin.json`](../.cursor-plugin/plugin.json),
-   [`.cursor-plugin/marketplace.json`](../.cursor-plugin/marketplace.json),
-   [`.claude-plugin/plugin.json`](../.claude-plugin/plugin.json),
-   [`.claude-plugin/marketplace.json`](../.claude-plugin/marketplace.json),
-   [`.agents/plugins/marketplace.json`](../.agents/plugins/marketplace.json),
-   and the first line of `AGENTS.md` (`<!-- gabriel-skills-agents v2.4.2 -->`)
+3. Bump the version with `bash .github/scripts/set-version.sh X.Y.Z`. It
+   updates the five plugin manifests and the first line of `AGENTS.md`
    together.
 4. There is no changelog file. The PR description is the changelog: say what
    changed and why, so a user sent to the merged PRs can follow it.
