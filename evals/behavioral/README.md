@@ -114,6 +114,9 @@ compute budgets. Do not assume that a provider route selects a particular paid
 account: disclose unavailable account/usage attribution instead of claiming
 that every subscription was charged.
 
+Results go stale as models change, so `evals/results.md` and `evals/baselines/`
+stay local and Git ignores them. Rerun the matrix instead of reading old scores.
+
 Score each run with its frozen evaluator. Report pass/fail/inconclusive and the
 full intended denominator per provider/model, plus per-case results. Keep
 unavailable, blocked and unrun targets visible; missing trials never become
