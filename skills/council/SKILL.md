@@ -13,28 +13,26 @@ proposed conclusion, completed work and reported results.
 
 ## Panel
 
-The panel is the models below, an explicit user selection that overrides the
-tier table in
-[model and effort selection](../rules/main-context.md#model-and-effort-selection)
-for council members only.
+This roster overrides [default model selection](../rules/main-context.md#model-and-effort-selection)
+for council members.
 
-| Provider | Model | Effort key | Assessment | Hillclimb rerating |
+| Provider | Model family | Effort key | Assessment | Hillclimb rerating |
 | --- | --- | --- | --- | --- |
-| Claude | `claude-opus-5-5` | `effort` | `xhigh` | `high` |
-| Codex | `gpt-6.1-sol` | `reasoningEffort` | `xhigh` | `high` |
-| Grok | `grok-4.7` | `reasoningEffort` | `xhigh` | `high` |
-| Muse | `muse-wonder-full-1.0` | `reasoningEffort` | `xhigh` | `high` |
+| Claude | Opus | `effort` | `xhigh` | `high` |
+| Codex | Sol | `reasoningEffort` | `xhigh` | `high` |
+| Grok | Grok | `reasoningEffort` | `xhigh` | `high` |
+| Muse | Wonder Full | `reasoningEffort` | `xhigh` | `high` |
 
-**Assessment** is a standalone council and a hillclimb's round 0.
-**Hillclimb rerating** is every later hillclimb round. All four rate in both
-phases. Record the roster, model IDs and efforts in the execution context so
-they survive compaction.
+All four rate every round. **Assessment** covers standalone councils and
+hillclimb round 0. **Hillclimb rerating** covers later rounds.
 
-Never substitute a sibling (Sonnet, Haiku, Fable, Astra, Terra, Grok Fast,
-Muse Wonder, Spark) or the parent's model. Set effort explicitly on every
-member: Muse's catalog default is `max`, which is never allowed. In T3 Code,
-start every member through `delegate_task` with `target.model` and
-`target.options`, not a model request in prompt text.
+Resolve the latest available release of each named family from the live
+catalog at run start. Require support for the requested effort. If release
+order or support is unclear, report the gap. Never silently substitute an
+older release or sibling variant, including Grok Fast or Muse Wonder.
+Keep the resolved IDs fixed across rounds. In T3 Code, pass each exact ID
+and explicit effort through `delegate_task` using `target.model` and `target.options`.
+Never inherit the catalog's effort default.
 
 ## Read when
 
@@ -53,13 +51,10 @@ start every member through `delegate_task` with `target.model` and
    Address known issues and relevant checks before an audit only when fixes
    are already authorized. A feedback-only request stays read-only. Skip fixes
    to an implementation the user wants replaced. Do not import unrelated work.
-2. **Select the panel.** Use the [panel](#panel) members and efforts for
-   the phase unless the user names others for this run. Confirm each model and
-   its effort option in the live catalog. Record the harness, provider, model,
-   requested settings and observable effective settings. Multiple sessions of
-   one model are not provider diversity. If a member cannot be reached, report
-   the missing capability; never silently substitute, shrink the panel, or
-   claim a full council ran.
+2. **Select the panel.** Apply [panel](#panel) defaults unless the user overrides
+   them. Record the harness, provider, exact model ID, requested effort and
+   observable effective settings in the execution context. Report any missing
+   member and mark the council incomplete.
 3. **Ask independently.** Start members in parallel through the supported
    native or cross-provider route. Give each the same factual brief, pinned
    evidence, rules, test consent and bounded return contract. Use fresh context;

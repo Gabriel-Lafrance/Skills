@@ -1,22 +1,15 @@
 # Adversarial challenger
 
-The user may omit the pass or override its
-settings.
-
 ## Model and routing
 
-The challenger is **Codex GPT-6.1 Sol at xhigh**, the user's explicit choice
-for this role only; it does not raise other members' effort.
+Use the **latest available Codex Sol at xhigh** under the [panel selection rules](SKILL.md#panel).
+Reuse the run's default Sol selection when available. Otherwise resolve Sol
+from the live catalog. The user may omit this pass or override its settings.
 
-In T3 Code,
-use `delegate_task` with `target.model: "gpt-6.1-sol"` and
-`target.options.reasoningEffort: "xhigh"`, not a model request in prompt text
-alone. Outside T3, use a supported route that can express both settings.
-Report unavailable or unverifiable controls; never silently substitute another
-model or effort. Distinguish requested or returned configuration from observed
-effective settings.
-
-Use a fresh context even if Sol was a panel member.
+In T3 Code, pass the resolved ID as `target.model` and set
+`target.options.reasoningEffort: "xhigh"` through `delegate_task`.
+Elsewhere use a route that supports both controls. Record requested and
+observable effective settings. Report unavailable controls. Use a fresh context.
 
 ## Brief and scope
 

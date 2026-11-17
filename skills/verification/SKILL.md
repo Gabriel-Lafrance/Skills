@@ -1,6 +1,6 @@
 ---
 name: verification
-description: Use when the user asks to verify or prove a change works, to write or add tests, to run all repository tests, or to prove the running app, a migration, an endpoint, or a job, or a build reaches its verification gate.
+description: Use when the user asks to verify or prove a change works, to write or add tests, to run all repository tests, to prove the running app, a migration, an endpoint, or a job, or to audit the verification recipe and feature map, or a build reaches its verification gate.
 category: Code
 ---
 
@@ -8,7 +8,7 @@ category: Code
 
 It also owns writing tests ([testing.md](../rules/testing.md)).
 
-Proof standards and the recipe shape are adapted from pstack's [create-verification-skill](https://github.com/backnotprop/pstack/tree/main/skills/create-verification-skill), [maintain-verification-skill](https://github.com/backnotprop/pstack/tree/main/skills/maintain-verification-skill), and [prove-it-works](https://github.com/backnotprop/pstack/tree/main/skills/principle-prove-it-works) (MIT). The no-fallback rule and the saved recipe follow Claude Code's [`/verify`](https://code.claude.com/docs/en/skills).
+Proof standards, the recipe and feature map shape, and the maintenance pass are adapted from pstack's [create-verification-skill](https://github.com/cursor/plugins/tree/b4a4f6151b8e77f8d71045f09f553a733cf0ed37/pstack/skills/create-verification-skill), [maintain-verification-skill](https://github.com/cursor/plugins/tree/b4a4f6151b8e77f8d71045f09f553a733cf0ed37/pstack/skills/maintain-verification-skill), and [prove-it-works](https://github.com/cursor/plugins/tree/b4a4f6151b8e77f8d71045f09f553a733cf0ed37/pstack/skills/principle-prove-it-works) (MIT). The no-fallback rule and the saved recipe follow Claude Code's [`/verify`](https://code.claude.com/docs/en/skills).
 
 ## Read when
 
@@ -34,8 +34,21 @@ Proof standards and the recipe shape are adapted from pstack's [create-verificat
 7. **Judge.** Reconcile every suite and live check against the inventory and pinned target, then mark each verified, failed, or inconclusive ([outcomes](doctrine.md#outcomes)). Read delegated evidence yourself.
 8. **Code what is worth keeping.** For each verified check that guards a rule likely to break silently and has no test yet, add it to the [proposal](../rules/testing.md#proposal), end to end first. Write only accepted tests ([no unrequested tests](../rules/no-unrequested-tests.md)), following [testing.md](../rules/testing.md); otherwise propose and keep going.
 9. **Cleanup.** Stop only what this run started. Evidence survives cleanup.
-10. **Recipe upkeep.** [Propose recipe edits](doctrine.md#recipe) and keep going. Write them when the user replies.
+10. **Recipe upkeep.** [Propose recipe edits](doctrine.md#recipe) and keep going. Write them when the user replies. When the user asks to audit the recipe or feature map itself, run the [maintenance pass](#maintenance-pass) instead of steps 1 to 9.
 11. **Hand off** with the [handoff](reference.md#handoff).
+
+When a change touches ordering, retries, concurrency, or a state machine and no test can reach the breaking case, say so in the handoff and name [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) and [`/statechart`](../statechart/SKILL.md) as the way to prove it. Both need their own user start; never generate a formal check from here unasked. When the repo already has a project-local formal verify skill covering the changed code, run it as one of the selected checks.
+
+## Maintenance pass
+
+Check `docs/verification.md` and its feature files against source and live behavior. Report **blocked** for incomplete coverage, with the exact blocker. After full coverage, report **clean** if no corrections are needed or **changed** if corrections are confirmed. For each correction, say whether it was applied or awaits consent. Edits are limited to recipe, feature files, and recipe-owned harness scripts.
+
+1. **Check the index.** If no recipe exists, offer a normal run. Include legacy inline Features entries in coverage and propose moving them to feature files. Record broken or duplicate entries.
+2. **Source wave.** One read-only scout per feature, launched together when delegation is available. Each explains how the feature works from source, flags likely drift with citations, and returns one concise live recipe. Scouts never drive the app and never edit.
+3. **Reconcile.** Require a source summary per feature. Merge overlapping recipes into as few app states as practical. Spot-check cited drift; do not re-prove clean claims. Sweep recent churn for user-facing surfaces missing from the map, and require a concrete source path before calling one missing.
+4. **Live pass.** Required even when source looks clean. The coordinator owns all driving, exercises every feature at least once, and holds the [live-pass invariants](reference.md#maintenance-pass-detail): doctor again after anything surprising, evidence checked at its named place after every cleanup, nothing a drive started outlives the drive. A feature that cannot be reached is `inconclusive` under [outcomes](doctrine.md#outcomes), with the concrete prerequisite and the route attempted.
+5. **Triage.** Propose corrections for doc drift and harness gaps. Try harness corrections in scratch and re-drive before counting them as proven. Apply persistent corrections only with recipe-write consent. Report product gaps without documenting them as expected behavior.
+6. **Report.** Outcome, features covered, unreachable prerequisites, confirmed drift, and product gaps, in the [handoff](reference.md#handoff) shape. Keep run notes in a scratch location; never commit them.
 
 ## If a parent already owns the next step
 
