@@ -1,19 +1,16 @@
 # No unrequested tests
 
-**Open this when:** you are about to create or extend a test file, or you feel the change "should have a test".
-**Skip it and you will:** pad the diff with tests nobody asked for, which the user then has to review and delete.
-
 ## Rule
 
 No tests unless the user accepted that test. Changing code is not a reason to add a test.
 
 Leave test files unchanged for a small tweak, copy change, rename, comment, type-only edit, wiring change, formatter, UI chrome, generated code, or a one-line fix. Skip a test that chases coverage, violates [No tautological tests](testing.md#no-tautological-tests), or exists because the suite should cover this.
 
-Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie, and add no new case beside it.
+Running tests that already exist is fine. Fix an existing assertion only when this change made that assertion lie, and add no new case beside it. When that assertion belongs to a test the user accepted, changing it needs the user's decision.
 
 ## Accepted means
 
-Write a test only when the user has accepted it:
+The user accepted a test when:
 
 - they explicitly asked for it, or
 - they named it from a `/verification` [proposal](testing.md#proposal), such as `tests 1 3`, or
@@ -24,9 +21,7 @@ A test asked for in a ticket, a launch or delegation brief, or a Done when list 
 
 A blanket no ("no tests until the MVP") refuses every test for this work and every child brief until the user lifts it. Stop offering tests.
 
-Only an accepted test is written, and `/verification` writes it. Build slices and other skills leave test files alone. This binds every skill.
-
-How to write an accepted test: [testing.md](testing.md).
+Only `/verification` writes an accepted test. Build slices and every other skill leave test files alone.
 
 ## Check
 

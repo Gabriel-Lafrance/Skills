@@ -1,10 +1,10 @@
 # Test-pruning campaign
 
-Campaign mode prunes one subsystem's whole test surface in one PR: one package, plugin, integration, or core area. The value bar, candidate evidence, edit shape, and validation in [SKILL.md](SKILL.md) apply to every area (step 2 defines it). This file adds the order of work. Each step ends on its done-when line. Start the next step only after that line holds.
+The value bar, candidate evidence, edit shape, and validation in [SKILL.md](SKILL.md) apply to every area. Start each step only after the previous step's done-when line holds.
 
 ## 1. Baseline
 
-Pin a base commit. Record the subsystem's test and test-support line counts and every test file's pass or fail state at that commit. Keep baseline failures in their own list: they are often real product bugs, not stale tests.
+Pin a base commit. Record the subsystem's test and test-support line counts and every test file's pass or fail state at that commit. Keep baseline failures in their own list: they are often real product bugs.
 
 Done when every in-scope test file has a recorded baseline result.
 
@@ -16,7 +16,7 @@ Done when every test file and scenario the subsystem owns belongs to exactly one
 
 ## 3. Read-only ledger per area
 
-Give each area to its own read-only subagent. It reads every assigned test in full, including parameter tables, plus the production owners and their entry points, callers, history, and CI routing. Each test declaration goes into a written **ledger** with one mark. A table-driven test is one declaration unless its rows need different marks; then mark each row.
+Give each area to its own read-only subagent. It reads each assigned test in full, including parameter tables, per the [value bar](SKILL.md#value-bar). Each test declaration goes into a written **ledger** with one mark. A table-driven test is one declaration unless its rows need different marks; then mark each row.
 
 | Mark | Meaning | Must name |
 | --- | --- | --- |
@@ -31,9 +31,9 @@ Done when every declaration in the area has a mark and an evidence line.
 
 ## 4. Layer plan per area
 
-The ledger is input, not the edit list. A second read-only pass looks for the redundant **layer**: several suites replaying the same shared logic through one mocked collaborator, next to a stronger real-boundary suite. Name the **keeper** suite for each contract. Prefer the real transport boundary with a fake network over a mocked collaborator. Correct any ledger errors this pass finds.
+The ledger is input, not the edit list. A second read-only pass looks for the redundant **layer**: several suites replaying the same shared logic through one mocked collaborator, next to a stronger real-boundary suite. Name the **keeper** suite for each contract. Correct any ledger errors this pass finds.
 
-Post the area plans in chat and continue to step 5.
+Post the area plans in chat and continue without waiting.
 
 Done when each area plan names its retired files, its keeper per contract, the assertions to carry into keepers, and the test-only production hooks it unlocks.
 
@@ -47,7 +47,7 @@ Done when every area plan is applied and each area's keepers pass.
 
 ## 6. Preservation review
 
-Before claiming completion, have independent reviewer subagents compare deleted coverage against the keepers, one reviewer per boundary group. They look for contracts that lost their only proof. They also look for new assertions that cannot fail, such as a rejection row the production code never reaches.
+Before claiming completion, have independent reviewer subagents compare deleted coverage against the keepers, one reviewer per boundary group. They look for contracts that lost their only proof. They also look for new assertions that cannot fail.
 
 For each restored contract, make one deliberate **mutation** of the production owner and confirm the keeper goes red. Then restore the source byte for byte.
 
@@ -61,9 +61,9 @@ Done when each approved fix has a failing control and a passing candidate on the
 
 ## 8. Reconcile and hand off
 
-Campaigns outlive many commits on the base branch. Merge the base branch instead of rebasing a long campaign. When the base branch modified a file the campaign deleted, keep the deletion, port the new contract into the keeper, and confirm every new regression test the base branch added still has a home. Rerun the whole subsystem suite and repeat the end-to-end proof through `/verification` on the merged head.
+Merge the base branch instead of rebasing a long campaign. When the base branch modified a file the campaign deleted, keep the deletion, port the new contract into the keeper, and confirm every new regression test the base branch added still has a home. Rerun the whole subsystem suite and repeat the end-to-end proof through `/verification` on the merged head.
 
-Review tooling may show a truncated file list on a diff this large. Record decisions about compatibility flags in the PR notes instead of editing gates.
+Record decisions about compatibility flags in the PR notes instead of editing gates.
 
 Hand off with the [SKILL.md handoff](SKILL.md#handoff), plus:
 

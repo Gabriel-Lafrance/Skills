@@ -1,32 +1,30 @@
 # Evaluation variant
 
-A [hillclimb](../SKILL.md) variant. The shared loop, budget and ownership stay
-in the skill; this file defines the evaluator and what counts as better.
+A [hillclimb](../SKILL.md) variant.
 
 ## Picks it
 
 The goal is behavior against a programmatic evaluator: correct tool selection,
-instruction adherence, extraction accuracy, or another scored outcome.
-It also covers reducing tokens or cost while preserving evaluator requirements.
-An ordinary latency or bundle-size target stays in Performance.
+instruction adherence, extraction accuracy, or another scored outcome, or
+reducing tokens or cost while preserving evaluator requirements. An ordinary
+latency or bundle-size target stays in Performance.
 
 ## Read when
 
-- Creating or extending eval cases, a test harness or a committed scorer:
-  [test consent](../../rules/no-unrequested-tests.md) and
-  [testing](../../rules/testing.md). An optimization request does not authorize
-  that test work. Use existing evaluations; if none can establish the outcome,
-  return a scoped proposal and stop before baseline or candidate edits.
+- Creating or extending eval cases, a test harness or a committed scorer: an
+  optimization request does not authorize that test work, which needs
+  [test consent](../../rules/no-unrequested-tests.md). Use existing
+  evaluations; if none can establish the outcome, return a scoped proposal and
+  stop before baseline or candidate edits.
 - Optimizing skills in this pack: [manual eval method](https://github.com/Gabriel-Lafrance/Skills/blob/6c2735ff407385ed805e6d5c698eecc204552b0a/evals/tasks.md#how-to-run).
-  Reading instructions or simulating a decision does not establish actual
-  tool use or behavior in an installed harness.
 
 ## Roles
 
-- Reviewer: the shared `reviewer` role, checking evaluator validity, case-level
-  results and the diff. A requested council fills the same reviewer slot.
-- Implementer: the shared `implementer` role, editing only the target, not its
-  evaluator, expected outcomes or scoring criteria.
+- Judge: the pinned evaluator. Its results are the assessment, so this variant
+  starts no reviewer and no council.
+- Parent: runs the evaluator, checks its validity before the baseline, and
+  makes the changes in the shared `implementer` role, editing only the target,
+  not its evaluator, expected outcomes or scoring criteria.
 
 ## Evidence
 
@@ -34,16 +32,16 @@ An ordinary latency or bundle-size target stays in Performance.
   independent expected outcomes, score direction, required per-case guards,
   target, environment, model/harness settings, repeat count and noise rule.
   Pin an existing held-out case set when available; otherwise disclose the
-  absence of evidence for generalization. An LLM judge's rating remains
+  absence of evidence for generalization. An LLM judge's rating stays
   subjective even when a script collects it.
-- `/verification` executes baseline and candidate under the same conditions.
-  Keep raw per-case outcomes and failures alongside aggregates, counts and
-  settings actually observed. Missing or skipped cases are not passes.
+- Run baseline and candidate with the pinned command under the same
+  conditions. Keep raw per-case outcomes and failures alongside aggregates,
+  counts and settings actually observed. Missing or skipped cases are not
+  passes.
 - For nondeterministic evaluations, repeat each side at least three times
   unless the user sets another count or runs are costly; state the count and
-  report variation. Set the comparison rule before candidate edits. A gain
-  inside the observed noise is inconclusive, not an improvement.
-- Freeze the evaluator and case expectations during optimization. An invalid
+  report variation. Set the comparison rule before candidate edits.
+- An invalid
   evaluator is a blocker: correct it only under separate authority and
   re-establish baseline for all affected comparisons.
 - Scope claims to the evaluated cases, models and harnesses. Do not claim a

@@ -1,18 +1,18 @@
 # Code structure
 
-Cite keys use the `structure:` prefix. Each key is a heading in this file.
+Cite keys: `structure:` plus a heading in this file.
 
-These rules apply on every non-trivial change. For a typo or pure rename, applying them means keeping the structure. Process: explore, Structure card, implement, check. Examples: [code-structure-examples.md](code-structure-examples.md).
+For a typo or pure rename, keep the structure. Examples: [code-structure-examples.md](code-structure-examples.md). A Convex repo (a `convex/` folder exists) also applies [convex.md](convex.md).
 
 ## Checklist
 
-This checklist is enough for a small change. Open a section below only when a row applies.
+Enough for a small change. Open a section only when its row applies.
 
 Before done:
 
 - [ ] `structure:services`: no feature copies or reaches inside another service's domain
 - [ ] `structure:deep-public-surface`: a caller needs no call order or edge-case knowledge
-- [ ] `structure:responsibility-boundaries`: changed existing files as well as new files have coherent jobs; relevant behavior is discoverable without unrelated implementation reads
+- [ ] `structure:responsibility-boundaries`: changed and new files have coherent jobs; behavior is findable without unrelated implementation reads
 - [ ] `structure:primitives`: an existing primitive was checked before writing a new one
 - [ ] `structure:prior-mistakes`: required moves done, optional ones recorded, no known-wrong shape extended
 - [ ] `structure:folders` / `structure:collaborating-parts`: every new file sits in a folder that owns its concern; entry, collaborators, one leaf, nothing deeper
@@ -22,7 +22,7 @@ Before done:
 
 ## Services
 
-A **service** owns one domain concern (auth, billing, notifications, search) behind a small public API. Features call it and leave its domain to it.
+A **service** owns one domain concern (auth, billing, notifications, search) behind a small public API. Features call it.
 
 | Do | Don't |
 | --- | --- |
@@ -30,7 +30,7 @@ A **service** owns one domain concern (auth, billing, notifications, search) beh
 | Product verbs (`makeUserPay`, `requireUser`, `sendReceipt`) | `runStripeCheckoutSessionHelper` |
 | Features import only the public API; SDK, Stripe, DB helpers stay inside | Features importing internals (`billing-stripe`), or a `utils/payments.ts` with no contract |
 
-Create a service when the concern is an independent domain or the goal plans growth. For bounded local behavior, keep the direct shape until it has its own owner, real duplication, or a locked rule that needs a boundary. Anti-pattern: checkout, upgrade and invoices each with their own Stripe path.
+Create a service when the concern is an independent domain or the goal plans growth. Keep bounded local behavior direct until it has its own owner, real duplication, or a locked rule that needs a boundary.
 
 ## Deep public surface
 
@@ -43,81 +43,48 @@ Hide orchestration behind one deep entry: a simple interface over rich behavior.
 | Class | Stateful domain behavior, shared lifecycle (often the service) |
 | Narrow function | Pure transform, clear input and output |
 
-The signature is obvious at a glance (not necessarily a TypeScript `interface`). Push helpers, parsers, adapters and edge-case branches down into collaborators so callers never see them. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating. A deep entry is not a pass-through chain ([`quality:light-to-read`](code-quality.md#light-to-read)).
+The signature is obvious at a glance. Push helpers, parsers, adapters and edge-case branches down into collaborators callers never see. Anti-pattern: **shallow modules** whose params, options or leaked steps leave callers orchestrating.
 
 ## Responsibility boundaries
 
-Look for the existing owner before adding a file or service. Use the domain's
-names and the established layout when it fits these rules. Extract behavior
-from a growing file when a distinct responsibility, dependency boundary,
-lifecycle, or confirmed variation has its own reason to change, and separating
-it improves understanding or change ownership. A private collaborator can be
-worthwhile with one consumer: CSV rendering can own escaping and row encoding
-while its export entry owns authorization and orchestration. Duplication and
-file size are not prerequisites, and size alone is not justification.
+Find the existing owner before adding a file or service. Use the domain's names and the established layout when it fits these rules. Extract when a distinct responsibility, dependency boundary, lifecycle, or confirmed variation has its own reason to change. One consumer can justify a private collaborator; size alone never justifies a split. Before extracting, name the responsibility and what its caller stops knowing, then test it against actual callers, not a hypothetical variant or token savings: can a reader find the behavior from the domain name and public signature without reading unrelated code, and does a change to it land with its owner alone? If the split only moves complexity or adds pass-through hops, keep the cohesive shape or merge the shallow pieces.
 
-Keep tightly coupled steps, trivial guards, and short cohesive behavior together.
-Reject one-function-file sprawl, renaming wrappers, and fragmented abstractions
-that make a reader reconstruct one operation across files. Keep a small clear
-public entry; callers use that entry, while rendering, transport, or lifecycle
-details stay in its private collaborators or existing owning services. Do not
-export private internals just to make them easy to find.
+Keep tightly coupled steps, trivial guards, and short cohesive behavior together. Reject one-function files, renaming wrappers, and fragments that make a reader rebuild one operation across files. Callers use a small public entry; rendering, transport, and lifecycle details stay private or in existing owning services. Do not export internals to make them easy to find.
 
-Before an extraction, name the responsibility and what its caller stops knowing.
-Then check retrieval and change locality: from the domain name and public
-signature, can a reader locate the relevant behavior without reading unrelated
-implementations? For a concrete change to that responsibility, does the change
-land with its owner rather than forcing unrelated modules to coordinate?
-Verify this against actual callers and dependencies, not a hypothetical future
-variant or a promise of token savings. If the split only moves complexity or
-adds pass-through hops, keep the cohesive shape or merge shallow pieces.
-
-Colocate relevant existing tests and assets with their owner where the framework
-and repository layout allow it. Preserve test discovery and consent under
-[no-unrequested-tests.md](no-unrequested-tests.md); organization creates no
-permission to add tests. Record a justified move in the existing Structure
-card, with preserved behavior and checks under [prior mistakes](#prior-mistakes).
-Routine private placement is an implementer choice. Ask only when ownership,
-public contract, scope, or behavior has a consequential unresolved choice.
-Examples: [meaningful extraction](code-structure-examples.md#meaningful-extraction-with-one-consumer).
+Colocate relevant existing tests and assets with their owner where the framework allows, and keep test discovery working; consent stays under [no-unrequested-tests.md](no-unrequested-tests.md). Record a justified move on the Structure card under [prior mistakes](#prior-mistakes). Routine private placement is the implementer's choice; ask only about a consequential unresolved choice of ownership, public contract, scope, or behavior. Examples: [meaningful extraction](code-structure-examples.md#meaningful-extraction-with-one-consumer).
 
 ## Primitives
 
-A **primitive** is small code with one specific job, strong enough that callers never redo it, composable without brittle coupling, and reusable on its own. Primitives live inside services and deep modules, never as a rival top-level layer.
+A **primitive** is small code with one job, strong enough that callers never redo it, composable, and reusable on its own. Primitives live inside services and deep modules, never as a rival top-level layer.
 
-1. Explore **this** repo first and reuse what exists, rather than a catalog from training data.
-2. Call a primitive wherever its job recurs; a fork at a call site, in a feature, or in a sibling helper duplicates it.
+1. Explore **this** repo first and reuse what exists.
+2. Call a primitive wherever its job recurs; a fork at a call site, feature, or sibling helper duplicates it.
 3. Place a new one inside the owning service or deep module (or a shared layer they compose), not a `utils` bag.
-
-Anti-patterns: wrappers that only rename; helpers that answer many questions.
 
 ## Prior mistakes
 
 Wrong existing layout (wrong folder, duplicated domain logic, feature-forked service, rule-breaking sibling) is debt, not a template.
 
-- Build from the matching example ([code-structure-examples.md](code-structure-examples.md)), or a sibling that already matches one ([`quality:cite-a-sibling`](code-quality.md#mechanical-rules)). Most existing code does not match.
 - Move only when the goal or a named finding requires it (relocate, extract the public API, rewire callers, delete the dead path). Otherwise record a follow-up.
-- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test waits for a user-accepted lock (a `/task` suggestion after the grill's Locked in message, or a `/review` recommendation) and follows [testing.md](testing.md).
-- Unsure the move preserves behavior? Research callers and observable behavior first. Ask in the next `/grill-me` Questions batch only if an unresolved consequential behavior choice remains.
+- Name the old observable behavior and how you prove it holds (existing tests, path walk, terminals). A new test follows [no-unrequested-tests.md](no-unrequested-tests.md#accepted-means).
 - Record the move under **Moves / corrections** on the Structure card before coding; mid-implement, patch the plan first.
-- When a clear move preserves behavior, recommend it over "leave it where it is", while building as well as at `/review`.
+- Recommend a clear behavior-preserving move over "leave it where it is", while building and at `/review`.
 
 ## Folders
 
-Propose the folder map, then create the owning folder before the files, even for the first file of a new concern. Never-nest and keep it simple govern code only, so the owning folder stays.
+Propose the folder map, then create the owning folder before the files, even for the first file of a new concern. Never-nest and keep it simple govern code, not this folder.
 
 1. Follow the examples' layout. Mirror an app folder only when it matches an example; a nearby flat dump is not a convention.
 2. `services/<concern>/` for shared domain APIs; feature folders for UI and orchestration that call them. If no convention fits, create a feature or domain folder.
 3. Colocate what changes together; nest non-entry collaborators one level down (`components/`, `hooks/`). Separate what changes for different reasons.
-4. Name files per `quality:naming-files`, and name the concept (often a service, or a primitive inside one) instead of `utils.ts` / `helpers.ts`.
-5. **Convex:** a one-file concern may stay `convex/billing.ts` if that is the repo pattern. A second file moves the cluster into `convex/billing/` (no root `billingStripe.ts`), and `convex/billing.ts` and `convex/billing/` never coexist.
-6. **App Router:** `page.tsx`, `layout.tsx`, `route.ts` stay in the route folder; other slice files nest there or in a feature folder.
+4. Name files per `quality:naming-files`.
+5. **App Router:** `page.tsx`, `layout.tsx`, `route.ts` stay in the route folder; other slice files nest there or in a feature folder.
 
 Only root files at the root (`package.json`, `tsconfig.json`, `docs/design.md`). Patching a file already in the right folder needs no new folder.
 
 ## Collaborating parts
 
-Inside the owning folder: public entry, then collaborators, then at most one leaf folder. That nesting is required; adjust names to the repo. Nest only layers that hold files (bad: `services/billing/stripe/v2/internal/`).
+Inside the owning folder: public entry, then collaborators, then at most one leaf folder. Names follow the repo. Nest only layers that hold files (bad: `services/billing/stripe/v2/internal/`).
 
 ```text
 services/billing/
@@ -130,8 +97,6 @@ features/checkout/      # UI + orchestration. Calls makeUserPay
     checkout-form.tsx
 ```
 
-Convex uses the file naming in [code-quality.md](code-quality.md#naming-and-files) (`billing.ts`, not `billing-actions.ts`), and exposes a small set of queries, mutations and actions. Only the owning Convex file holds Stripe or auth logic.
-
 ## Cheap reads
 
 Compute on write, store the result, read the stored value.
@@ -140,8 +105,8 @@ Compute on write, store the result, read the stored value.
 | --- | --- |
 | Sum, average or count all rows per render or query | Store `total`, `count`, `avg` on a parent row or summary table |
 | Build charts from raw events on the client | Pre-aggregate on write; the UI reads the summary |
-| `.filter` scans, or `collect()` then reduce | `.withIndex` on filter and sort fields |
-| Unbounded `.collect()` on a growing table | Paginate or aggregate |
+| Scan rows, then filter or reduce in code | Query an index on filter and sort fields |
+| Unbounded read of a growing table | Paginate or aggregate |
 | N+1 lookups for list views | Batch, or denormalize list fields |
 
 Update the aggregate **in the same mutation** that inserts, patches or deletes the child (an order insert also bumps `users.orderCount`). Recompute on read only for provably tiny, bounded data. A one-off admin script may full-scan if it says so, never in product paths.
@@ -155,11 +120,11 @@ A query or reactive read returns the same result for the same data: no clock, ra
 | `Date.now()` in a query to expire rows | Store `status` on write or in a scheduled mutation; `now` only for display, never authorization |
 | A query that calls an external API | An action fetches, a mutation writes, the query reads |
 
-Public queries, mutations and actions declare argument and return validators that match the real contract, with specific types instead of `v.any()`.
+Public queries, mutations and actions declare argument and return validators that match the real contract, with specific types instead of a catch-all.
 
 ## Authority
 
-The server enforces identity, ownership, money, and permissions. UI checks, such as a disabled button, are only feedback. Lock the service write (mutation, action, server handler).
+The server enforces identity, ownership, money, and permissions. A disabled button is only feedback. Lock the service write (mutation, action, server handler).
 
 | Check | Rule |
 | --- | --- |
@@ -217,6 +182,4 @@ Present before writing code, and in the plan contract under `/task`:
 - Next change this makes small: <request> → <one new file + one registration>
 ```
 
-Research the existing owners, callers, and write boundaries before asking structure questions. Reuse settled decisions and make ordinary implementer choices directly. Batch the remaining consequential choices using `/grill-me` ([Asking the user](writing-style.md#asking-the-user)); give the evidence, realistic alternatives, recommendation, and practical consequences. Different behavior, data meaning, or authority in the same files is still a material choice. A folder preference alone does not justify a question. Ask a later batch only when new evidence exposes a material unresolved choice.
-
-Hand off: Structure card, then `/task`. `/review` fails scale anti-patterns, duplicated services, mixed-parent dumps and missing write authority.
+Research existing owners, callers, and write boundaries before asking. Batch only consequential structure choices through `/grill-me` ([Asking the user](writing-style.md#asking-the-user)): different behavior, data meaning, or authority in the same files is one; a folder preference alone is not. Ask a later batch only when new evidence exposes one.

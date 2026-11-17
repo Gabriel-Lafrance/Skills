@@ -1,10 +1,6 @@
 # Shipping templates
 
-Question, announcement, and pull request body templates for [shipping.md](shipping.md). The rules and steps that use them live there.
-
 ## Questions and announcements
-
-Shapes follow [Asking the user](writing-style.md#asking-the-user).
 
 Type and ticket:
 
@@ -62,13 +58,10 @@ Title shape: `[IN-1234] Short imperative summary` or `[#42] Short imperative sum
 
 ### Problem and outcome first
 
-Open the body with the concrete user/system problem and resulting behavior in
-one or two sentences. Explain why the change matters before implementation
-details. Use a trigger and before/after result when helpful; do not invent a
-bug for maintenance work. Then keep the existing type/ticket, What changed,
-diagram, How to QA, Notes and closing risk assessment. Match detail to the
-diff. QA states actual evidence separately from planned or unrun checks;
-problem-first prose never replaces verification or publishing authorization.
+Open the body with the concrete user or system problem and resulting behavior
+in one or two sentences, before implementation details. Do not invent a bug for
+maintenance work. QA states actual evidence separately from planned or unrun
+checks.
 
 ### Change diagram
 
@@ -79,11 +72,9 @@ Every PR body has a **high-level** Mermaid diagram of what changed: modules, act
 | **New** (new capability, net-new path, additive tweak/chore) | One diagram under `## Change diagram` |
 | **Rework** (refactor, structural move, bug that changes the flow) | `### Before` and `### After` under `## Change diagram` |
 
-- Omit the section only when the diff is truly diagram-hostile (typo-only) and say why in Notes.
-- Keep node labels short. Use `flowchart`, `sequenceDiagram`, or `graph`, whichever is clearest.
-- Name real modules, services, or routes from the diff, and only those.
-- For Before/After, keep the same node ids so the delta is obvious.
-- Put the diagram after **What changed** and before **How to QA**.
+- Omit the section only when the diff is diagram-hostile (typo-only), and say why in Notes.
+- Name only real modules, services, or routes from the diff.
+- For Before/After, keep the same node ids.
 
 Rework example:
 
@@ -112,14 +103,14 @@ flowchart LR
 
 End every new or updated PR description with `## Blast radius and merge danger`, after Notes and any stack or verification details. Use it for every publication tool, the repository template, and each PR in a stack. Assess the actual delta against that PR's base and the current checked result; refresh the assessment when either changes.
 
-Adapted from the door and blast-radius framing in [Matt Pocock's pinned PR skill](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/pr/SKILL.md). Keep this pack's existing body, test-approval, verification, and shipping gates.
+Adapted from the door and blast-radius framing in [Matt Pocock's pinned PR skill](https://github.com/mattpocock/skills/blob/d81f3a183412e71a5b1e84ca21bc1a35eea03a60/skills/engineering/pr/SKILL.md). This pack's body, test-approval, verification, and shipping gates still apply.
 
-- **Blast radius:** Name affected surfaces, users or callers, and meaningful dependencies. Explain relevant behavior, data, security, or rollout consequences. File count alone is not impact; do not invent unrelated hazards.
-- **Door:** Choose two-way, one-way, mixed, or unknown from the actual rollback path and its limits. A code revert does not necessarily restore deleted data, undo external effects, clear persistent state, or recover older consumers.
-- **Evidence and remaining checks:** State what was actually verified and its limits, referring to How to QA or Notes without copying logs. Identify residual unknowns and required rollout or human checks, with an owner when known. Planned checks are not passes.
-- **Merge danger:** Give a concise judgment with the evidence and conditions that justify it. Green CI alone does not establish low danger or operational readiness. Avoid unsupported safe/none boilerplate. This assessment never grants merge permission or replaces existing gates.
+- **Blast radius:** Name affected surfaces, users or callers, and meaningful dependencies, with relevant behavior, data, security, or rollout consequences. File count alone is not impact; do not invent unrelated hazards.
+- **Door:** Choose two-way, one-way, mixed, or unknown from the actual rollback path and its limits. A code revert may not restore deleted data, undo external effects, clear persistent state, or recover older consumers.
+- **Evidence and remaining checks:** State what was actually verified and its limits, referring to How to QA or Notes without copying logs. Name residual unknowns and required rollout or human checks, with an owner when known. Planned checks are not passes.
+- **Merge danger:** Give a concise judgment with the evidence and conditions behind it. Green CI alone does not establish low danger or operational readiness. No unsupported safe/none boilerplate. This assessment never grants merge permission or replaces existing gates.
 
-Scale detail to the change. A scoped copy fix may need one short sentence per field; a destructive migration needs its actual compatibility, recovery, and rollout limits. When evidence is missing, say what is unknown instead of guessing.
+Scale detail to the change: a copy fix may need one sentence per field; a destructive migration needs its compatibility, recovery, and rollout limits. When evidence is missing, say what is unknown.
 
 ### Body template
 

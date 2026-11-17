@@ -1,10 +1,8 @@
 # Write Ticket reference
 
-Load when drafting the final body, gathering missing tracker metadata, or writing. `/grill-me` owns the decisions. Preparation stays in chat.
-
 ## Metadata batch
 
-Use only for an authorized tracker write when priority, assignee, or tracker is still unknown after the draft. Take status from the default below and write without asking "write this?".
+Only for an authorized tracker write when priority, assignee, or tracker is still unknown after the draft.
 
 ```markdown
 ## Questions
@@ -33,7 +31,7 @@ Discover real options first: Linear priorities and members from its capability, 
 
 ## Locked in message
 
-Show the complete final body once, with no Questions, after readiness checks. It is the Locked-in draft; do not prepend a second summary repeating Outcome, Done when, Tests, or decisions. For an authorized write, use this body after resolving missing metadata. Draft-only returns this body as the final response. Use a brief changed-decision announcement earlier when needed under [Working output](../rules/writing-style.md#working-output).
+Do not prepend a summary repeating Outcome, Done when, Tests, or decisions. Announce a changed decision earlier, briefly, under [Working output](../rules/writing-style.md#working-output).
 
 ````markdown
 ## Locked in (tell me if this is wrong)
@@ -42,11 +40,11 @@ Show the complete final body once, with no Questions, after readiness checks. It
 
 ## Bodies
 
-Use the headings below for relevant content, with Outcome and Work items first. Keep Kind as metadata rather than a standalone section. Retain Done when and Tests, including explicit refusals or `none: no tests specified`. Omit optional sections and rows that add no information instead of filling them with `_none`, `_unchanged`, or `_unknown`. Preserve meaningful exclusions, rationale, constraints, evidence, and bounded delegation. Missing material facts are readiness gaps, not empty placeholders. Draft text must already be final-version clean before write ([Final-version description](doctrine.md#final-version-description)).
+Use the headings below for relevant content, Outcome and Work items first. Kind is metadata, not a section. Always keep Done when and Tests, including explicit refusals or `none: no tests specified`. Omit optional sections and rows that add nothing instead of filling them with `_none`, `_unchanged`, or `_unknown`. Keep meaningful exclusions, rationale, constraints, evidence, and bounded delegation. A missing material fact is a readiness gap, not a placeholder.
 
 ### Plan
 
-A coding agent can implement from this body alone. For split work, the parent uses this body for shared design and the overall outcome; each child uses it for its bounded outcome. Add the [stack handoff](#stack-handoff) to the parent and coordination fields to each child.
+A coding agent can implement from this body alone. For split work, the parent uses it for shared design and the overall outcome; each child for its bounded outcome. Add the [stack handoff](#stack-handoff) to the parent and coordination fields to each child.
 
 ````markdown
 **Kind:** Feature | Tweak | Bug | Refactor | Chore
@@ -84,26 +82,24 @@ A coding agent can implement from this body alone. For split work, the parent us
 or `none: no tests specified`
 ````
 
-Optional sections follow the work and acceptance, only when they carry relevant content:
+Optional sections follow, only when they carry relevant content:
 
-- `## Diagram`: use the [diagram guidance](#plan-diagrams). A diagram specific to one item may sit beside that item instead.
+- `## Diagram`: use the [diagram guidance](#plan-diagrams). A diagram for one item may sit beside that item instead.
 - `## Rules that must stay true`: shared invariants with stable IDs, referenced from the owning items.
-- `## Structure`: shared design only. For a material public boundary, record the owner/public entry, inputs, outcomes/errors, ordering, invariants, hidden caller work, representative before/after caller, and verification seam from [analysis](../analyze/doctrine.md#public-boundary-investigation). Use one canonical fenced block for an exact shared contract; reference it from local How/Verify. For a small change preserving a boundary, name its relevant constraints in the item and omit an empty architecture section.
-- `## Foundation`: confirmed areas of modularity, their named seams, first real implementation, and next change made small. Name the existing seam being extended when applicable. Omit when the work needs no seam; do not invent future variants.
-- `## Files` and `## Start here`: useful path-to-item index or entry pointer when paths are not already clear in the items. They are not a second plan.
-- `## UX/UI`: include only for touched user flows, omitting irrelevant states. Record entry/context, purposeful actions by state, carried or editable data and next action, relevant recovery behavior, and existing presentation/component references. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Backend-only work omits this section.
+- `## Structure`: shared design only. For a material public boundary, record what the [public boundary investigation](doctrine.md#public-boundary-investigation) settles: owner/public entry, contract, hidden caller work, before/after caller, and verification seam, with one canonical fenced block for an exact shared contract. A small change preserving a boundary names its constraints in the item and omits this section.
+- `## Foundation`: confirmed areas of modularity, their named seams, first real implementation, and next change made small. Name the existing seam being extended when applicable. Omit when the work needs no seam; invent no future variants.
+- `## Files` and `## Start here`: path-to-item index or entry pointer when the items do not already make paths clear. Not a second plan.
+- `## UX/UI`: only for touched user flows, omitting irrelevant states. Record entry/context, purposeful actions by state, carried or editable data and next action, relevant recovery behavior, and existing presentation/component references. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Backend-only work omits it.
 - `## Out of scope`: meaningful exclusions that prevent credible mistakes.
 - `## Already decided`: shared material decisions with reasons, evidence, uncertainty, and constraints; useful rejected alternatives; explicit delegation with choice, bounds, owner, and reason. Item-owned decisions stay in the items. An omitted decision is not delegated.
 
-Follow the [implementation-item contract](doctrine.md#implementation-items). Use numbered headings and short labeled bullets for substantial items; group by outcome when useful. Order prerequisites before consumers and name the contract or state each dependency supplies. Numbering alone is not a dependency or PR boundary. One focused item is enough for a small change. Keep local Do/Why/How/Verify; a file list or global rationale cannot replace them. Leave ordinary coding choices open. These items are not linked subissues or permission to execute.
+Work items follow the [implementation-item contract](doctrine.md#implementation-items); they are not linked subissues or permission to execute. Exact contracts never go in a detached Snippets dump.
 
-Preserve exact agreed signatures, types, payloads, examples, and values in fenced blocks beside their owning item or in Structure for a shared contract. Keep one canonical copy, referenced by consumers. Do not move contracts to a detached Snippets dump, replace meaningful prose with code, invent design to fill a block, or impose arbitrary word limits. Distinguish researched existing contracts, agreed changes, and illustrative examples. The body must resolve material behavior and contract ambiguity without sending the executor back to the old chat.
-
-Tests retain their authorization format in every parent, child, or single-PR body. Quote the relevant user instruction when no durable decision link exists, rather than saying "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints, and leave unsettled tests proposed. `none` means no tests specified, not a refusal inferred from silence. Verify describes future checks, not evidence that they ran.
+Every parent, child, or single-PR body keeps this Tests format. Quote the user's instruction when no durable decision link exists, rather than "approved earlier". Listing a test never authorizes writing it. Keep refused tests visible as permission constraints; leave unsettled tests proposed. `none` means no tests specified, not a refusal inferred from silence.
 
 ### Worked work items
 
-The following are illustrative, not repository facts or approved designs. Real tickets use researched paths and the user's actual decision source.
+Illustrative, not repository facts or approved designs. Real tickets use researched paths and the user's actual decision source.
 
 #### Small backend bug
 
@@ -133,7 +129,7 @@ CSV callers get a header row for an empty report instead of a zero-byte download
 
 #### Multiple items with an agreed contract and useful diagram
 
-Assume the user settled this exact contract and route behavior during grilling, and research confirmed the named entry points. The renderer is the single owner of the shared contract; the route consumes it.
+Assume the user settled this contract and route behavior during grilling, and research confirmed the entry points. The renderer owns the shared contract; the route consumes it.
 
 ````markdown
 **Kind:** Feature
@@ -195,7 +191,7 @@ sequenceDiagram
 
 ## Stack handoff
 
-For a single PR, add `## Delivery` with `One PR` and the reason no split helps. For a split Plan, add the following to the parent and apply the [stack contract check](doctrine.md#stack-contract-check). Use draft keys (`A`, `B`) until the tracker returns IDs, then replace them with real links throughout the parent and children.
+For a single PR, add `## Delivery` with `One PR` and why no split helps. For a split Plan, add the following to the parent and apply the [stack contract check](doctrine.md#stack-contract-check). Use draft keys (`A`, `B`) until the tracker returns IDs, then replace them with real links throughout the parent and children.
 
 ```markdown
 ## Delivery
@@ -226,13 +222,11 @@ Add this coordination block to each child's Plan:
 - Safe intermediate state: <why this child works before later children land>
 ```
 
-Each child's `## Tests` uses the common Plan format above for the check and its authorization. When refining an older Plan with `## Test decisions`, carry those statuses and sources into `## Tests` instead of maintaining two copies. When splitting an existing Plan, do not infer acceptance from its test list. Keep any unresolved decisions visible in the parent handoff.
-
-Example: an export feature could have A add a working export service, B add the download endpoint on A, and C wire the UI on B. Each child has its own checks; the parent owns the final download flow. An unrelated settings cleanup stays outside this stack. Shared prerequisites precede their consumers; a PR base must already contain all code that child needs.
+When refining an older Plan with `## Test decisions`, move those statuses and sources into `## Tests`; keep one copy. When splitting an existing Plan, do not infer acceptance from its test list. Keep unresolved decisions visible in the parent handoff.
 
 ## Plan diagrams
 
-Use a diagram when it makes relationships, state transitions, or execution order clearer than prose. Start from the relevant analysis mermaid when available. Embed a real `mermaid` fence with researched names. Preserve the settled flow; do not invent design to justify a picture. Omit Diagram when it adds no information.
+Use a diagram when it makes relationships, state transitions, or execution order clearer than prose. Start from an existing investigation mermaid when available. Embed a real `mermaid` fence with researched names. Preserve the settled flow; invent no design to justify a picture.
 
 | Situation | Picture |
 | --- | --- |
@@ -276,16 +270,14 @@ sequenceDiagram
 
 ## Tracker write
 
-Write only when the user requested a tracker create or update. Set the kind label when it exists; do not add stage headings or stage labels. Leave unrelated existing labels alone, including legacy stage labels unless the user requests their removal.
+Write only when the user requested a tracker create or update. Set the kind label when it exists; add no stage headings or stage labels. Leave unrelated existing labels alone, including legacy stage labels unless the user asks to remove them.
 
-The description you write is the final version a reader needs. Delete canceled ideas, superseded decisions, demoted alternatives, strikethrough, and "was X / now Y". Do not patch that archaeology into the body.
-
-On a material update, comment the previous description once when it would otherwise be lost, then replace it. A smaller refine rewrites the affected sections. Never leave old and new wording in the description.
+Every write follows [final-version description](doctrine.md#final-version-description), including the one-time comment of a material prior body.
 
 For a split Plan:
 
 1. Read existing children and dependency links first. Reuse matching children when refining or resuming; do not recreate them or reset their status. Preserve the existing parent ID and history.
-2. Create the parent if needed, then create missing child Plan tickets in dependency order. Inherit the parent priority unless the plan gives a reason to differ. Use a child's own work kind (for example, Refactor before Feature). Inherit an assignee only when that person owns the whole set; otherwise leave the child unassigned. New children start in Todo.
-3. Use the tracker's native parent/subissue and dependency relationships when available. Otherwise create real issues with explicit parent, child, and blocker links in their bodies and a linked checklist in the parent. Describe this fallback accurately; an inline checklist alone is not a set of created subissues.
-4. Replace draft keys with returned IDs and URLs, derive branch names from those child IDs, and update the parent stack table and child links. Check that there are no dependency cycles, that each PR base supplies its prerequisites, and that every parent done-when item has an owner.
-5. Read back the saved bodies and relationships. Return links, kind, applied metadata, parent/child relationships, and stack order where relevant. Do not print complete bodies or the whole-stack request again. Single-ticket writes use the same link-and-metadata handoff under [Working output](../rules/writing-style.md#working-output). If a write or relation fails, return the created URLs and the unfinished step; inspect those records before retrying so a partial run does not duplicate tickets.
+2. Create the parent if needed, then missing child Plan tickets in dependency order. Inherit the parent priority unless the plan gives a reason to differ. Use a child's own work kind (for example, Refactor before Feature). Inherit an assignee only when that person owns the whole set; otherwise leave the child unassigned. New children start in Todo.
+3. Use the tracker's native parent/subissue and dependency relationships when available. Otherwise create real issues with explicit parent, child, and blocker links in their bodies and a linked checklist in the parent, and describe this fallback accurately. An inline checklist alone is not a set of created subissues.
+4. Replace draft keys with returned IDs and URLs, derive branch names from those child IDs, and update the parent stack table and child links.
+5. Read back and report as in [SKILL.md](SKILL.md) step 7, plus parent/child relationships; do not print the whole-stack request again. If a write or relation fails, return the created URLs and the unfinished step; inspect those records before retrying so a partial run does not duplicate tickets.

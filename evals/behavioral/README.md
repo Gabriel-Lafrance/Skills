@@ -1,7 +1,7 @@
 # Skill behavior evaluations
 
 This stdlib Python runner prepares disposable installed-pack sessions and scores
-six independently specified cases. It never invokes a model. Run each prompt
+six independently specified cases, a 20-case `smoke` routing split and a six-case `habit` split. It never invokes a model. Run each prompt
 through the native harness in a fresh session, with its cwd set to that trial.
 Give the candidate only its own directory, prompt and installed rules. Restrict
 its tools to that directory when supported. The grader and sibling directories
@@ -12,6 +12,15 @@ filesystem alone is not a security boundary against a deliberately cheating agen
 python3 evals/behavioral/cli.py prepare --source "$PWD" --output /tmp/skills-baseline-new --split train --repeats 3
 python3 /tmp/skills-baseline-new/evaluator/cli.py score /tmp/skills-baseline-new
 ```
+
+`--cases a,b,c` keeps only those case ids after the `--split` filter; an unknown id is an
+error. `--no-pack` creates trials without `AGENTS.md` or `.agents/skills` and records
+`"pack": false` in `run.json` and the `score` output. It only means something where the
+harness loads no user-level install of the pack, for example `~/.claude/AGENTS.md` or
+`~/.codex/AGENTS.md`.
+
+An orchestrating agent starts one fresh child per trial through the harness (in T3 Code,
+`delegate_task`), giving it only the trial directory and prompt.
 
 `prepare` prints every candidate cwd and prompt path. `--source` is a repository
 or exported snapshot containing root `AGENTS.md` and `skills/`. It copies that
@@ -43,6 +52,19 @@ read of a linked rule, or full optimization loop. Inspect native tool logs for
 those claims and for instruction reading. Rationales are retained for review;
 the scorer checks presence, not semantic quality.
 
+`habit` holds six cases that bait a habit the pack restrains: an em or en dash in a written doc (`habit-dashes`), a `utils` or `helpers` file (`habit-utils`), a sentence under a heading (`habit-subtitle`), an unasked commit (`habit-commit`), edits outside the asked file (`habit-scope`) and a final report without the status, State and Next lines (`habit-report`). Each also checks the job works. Fixtures live in `habits/`; checks live in `habit_checks.py`.
+
+`smoke` holds 20 routing cases (`route-*`): the user message is the only variable, and
+`result.json` names the skill the agent started (`none` if no skill). A pass proves a
+self-reported first step with the right skill name (`task`, `/task` and
+`gabriel-skills:task` all count as `task`). It does not prove the agent then follows the
+skill; check native tool logs for that.
+
+`python3 evaluator/cli.py summary <run_root> [<run_root> ...] --labels a,b,c` scores each
+root with the same rules as `score` and prints one Markdown table: a row per case, a column
+per label, and a totals row. A cell is `pass`, `fail (got <action>)` or `inconclusive` for
+one repeat, and `pass/fail/inconclusive` counts otherwise.
+
 Freeze this evaluator before baseline. Optimize only against `train`; reserve
 `holdout` for the frozen final candidate and disclose that these public source
 cases cannot establish unseen-task generalization. Three repeats per side are
@@ -56,11 +78,11 @@ model variability.
 
 ## Cross-model and subscription coverage
 
-The benchmark roster is the user's main drivers only: **Claude Opus 5.5,
-GPT-6.1 Sol, Muse Wonder Full 1.0, and Grok 4.7**. All four benchmark candidates
-use explicitly requested **low** effort: Claude `effort: "low"`; Codex, Muse
-and Grok `reasoningEffort: "low"`. Muse's model is `muse-wonder-full-1.0`;
-never inherit its catalog's max default.
+Use the latest available releases of **Claude Opus, Codex Sol, Muse Wonder Full,
+and Grok**, following the [model resolution rules](../../skills/council/SKILL.md#panel).
+Freeze the exact IDs across repeats and both sides of each comparison. All four
+candidates explicitly request **low** effort. Set Claude's `effort` to `"low"`
+and set `reasoningEffort` to `"low"` for Codex, Muse and Grok.
 
 The goal is to measure whether the required behavior holds with limited
 deliberation. Do not rescue failures by increasing effort or treating a
@@ -91,6 +113,9 @@ observable; similarly named effort settings across providers are not equal
 compute budgets. Do not assume that a provider route selects a particular paid
 account: disclose unavailable account/usage attribution instead of claiming
 that every subscription was charged.
+
+Results go stale as models change, so `evals/results.md` and `evals/baselines/`
+stay local and Git ignores them. Rerun the matrix instead of reading old scores.
 
 Score each run with its frozen evaluator. Report pass/fail/inconclusive and the
 full intended denominator per provider/model, plus per-case results. Keep

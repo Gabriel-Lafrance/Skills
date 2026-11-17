@@ -21,8 +21,7 @@ features/upgrade/       # same call, reason: "upgrade"
 
 ## Reuse env vars
 
-**Bad:** `process.env.FRONTEND_URL` when `SITE_URL` already holds the site URL.
-**Good:** `process.env.SITE_URL` (`quality:reuse-env`).
+See [Reuse env vars](code-quality-examples.md#reuse-env-vars).
 
 ## Deep vs shallow service API
 
@@ -38,15 +37,13 @@ await sendReceiptEmail(session.id);
 
 ## Meaningful extraction with one consumer
 
-**Bad:** `report-export.ts` coordinates authorization and report loading, but
-also encodes CSV rows and holds storage SDK calls, upload cleanup, and expiry
-handling. Appending another integration there makes CSV changes require reading
-transport/lifecycle code. Renaming those chunks `csvHelper` and `storageHelper`
-without hiding their rules from the caller does not fix the boundary.
+**Bad:** `report-export.ts` coordinates authorization and loading, and also
+encodes CSV rows and holds storage SDK calls, upload cleanup, and expiry, so a
+CSV change means reading transport code. Renaming chunks `csvHelper` and
+`storageHelper` without hiding their rules from the caller fixes nothing.
 
-**Good:** retain one public report-export entry; give distinct behavior a named
-private owner. Suppose research confirms export owns its storage integration
-and there is no existing shared storage service to reuse:
+**Good:** one public entry; distinct behavior gets a named private owner. Here
+export owns its storage integration and no shared storage service exists:
 
 ```text
 services/report-export/
@@ -57,40 +54,25 @@ services/report-export/
 ```
 
 Features call `exportReport`, not `renderCsv` then `upload` then `cleanup`.
-The renderer may have only this consumer; it earns its file by owning encoding
-behavior, not by being reused twice. Its header, escaping, and row steps stay
-together instead of becoming `header.ts`, `escape-cell.ts`, and `row.ts` files
-that force readers to reconstruct the same operation. Storage details remain
-behind the owning integration. If a storage service already owns that work,
-call its public API rather than create a rival export-storage implementation.
-Related contract types or cohesive public operations may stay beside the entry;
-unrelated jobs do not become extra exports there.
+The renderer earns its file by owning encoding, not by reuse. Its header,
+escaping, and row steps stay together, not split into `header.ts`,
+`escape-cell.ts`, and `row.ts`. If a storage service already owns that work,
+call its public API instead of a rival `export-storage.ts`. The test file is
+illustrative, not permission to add tests.
 
 **Retrieval check:** a CSV escaping question leads from `exportReport` to
-`csv-renderer.ts`; only the relevant entry/caller and renderer need inspection.
-An SDK-specific change lands in the storage owner and its affected boundary
-checks, without changing CSV encoding. Verify the real data and failure contracts
-still fit before calling the move behavior-preserving. A split that leaves the
-caller coordinating partial cleanup or reading all internals has not earned
-its extra files. The example is illustrative, not permission to add tests.
+`csv-renderer.ts` alone. An SDK change lands in the storage owner without
+touching CSV encoding. A split that leaves the caller
+coordinating partial cleanup has not earned its files.
 
-**Keep whole:** an existing small `renderCsv(rows)` whose header, escaping, and
-row iteration share one formatting contract needs no new folders or wrappers
-for an empty-header fix. Length, function count, and file count do not decide
-the boundary; responsibilities and reader/caller burden do.
-
-**Navigate selectively:** for that fix, start at the known renderer signature,
-inspect its implementation and the caller that constrains its output, and use
-the existing relevant checks. For an unfamiliar export flow, a compact existing
-handoff can point to `report-export.ts` (public operation), `csv-renderer.ts`
-(encoding), and the storage owner (artifact lifecycle). Expand only if their
-callers, schema, or dependency evidence changes the answer. Neither task needs
-a new repository index or unrelated billing/auth implementation dumps.
+**Keep whole:** a small `renderCsv(rows)` whose header, escaping, and rows share
+one formatting contract needs no new folders or wrappers for an empty-header
+fix.
 
 ## Prior mistakes are not sacred (move, don't copy)
 
 **Bad:** checkout already calls Stripe directly; the agent copies that into upgrade "to match."
-**Good:** move Stripe into `services/billing/billing.ts` (`makeUserPay`), point both features at it, delete the old path. Prove old behavior holds (tests, path walk, terminals). Do not recommend "leave checkout as-is" when the move is clear.
+**Good:** move Stripe into `services/billing/billing.ts` (`makeUserPay`), point both features at it, delete the old path.
 
 ## Folders before files
 
@@ -117,10 +99,7 @@ src/orders/
 ```
 
 **Bad:** `convex/billingStripe.ts` beside `convex/billing.ts`.
-**Good:** move the cluster to `convex/billing/billing.ts` (public) + `convex/billing/stripe.ts` (private). Never keep both `billing.ts` and `billing/`.
-
-**Bad:** `services/billing/stripe/v2/internal/helpers/`.
-**Good:** owning folder + public entry + collaborators + at most one leaf folder.
+**Good:** move the cluster to `convex/billing/billing.ts` (public) + `convex/billing/stripe.ts` (private).
 
 ## Entry point hides collaborators
 
@@ -183,9 +162,9 @@ The next provider is a new file behind the seam.
 
 ## Foundation patterns (folder trees)
 
-One tree per pattern [strong-foundation.md](strong-foundation.md#build-it) names. Each ships with one real implementation. Pick the pattern that matches the area of modularity; do not stack them.
+One tree per pattern [strong-foundation.md](strong-foundation.md#build-it) names, each with one real implementation. Pick the pattern that matches the area of modularity; do not stack them.
 
-**Adapter:** an outside vendor varies (payment, email, storage provider). Each adapter turns one vendor's API into the app's interface.
+**Adapter:** an outside vendor varies (payment, email, storage provider).
 
 ```text
 services/email/
@@ -194,7 +173,7 @@ services/email/
   resend-sender.ts       # adapter for the first vendor
 ```
 
-**Strategy:** a rule or algorithm varies (pricing, tax, ranking). Same inputs, different decision.
+**Strategy:** a rule or algorithm varies (pricing, tax, ranking).
 
 ```text
 services/pricing/
@@ -228,12 +207,11 @@ services/orders/
 
 ## OOP depth
 
-**Bad:** `AbstractPayment` > `BaseCard` > `StripeCard` > `StripeCardV2`.
-**Good:** `PaymentMethod` <- `StripePayment`, or compose a client inside one class (two levels max).
+See [OOP depth](code-quality-examples.md#oop-depth).
 
 ## Scalability N/A (when it's fine)
 
-**OK:** a one-off admin script collects under 100 `featureFlags` rows. Never copy that into a user-facing dashboard.
+See [Cheap reads](code-structure.md#cheap-reads).
 
 ## Authority lives on the write
 

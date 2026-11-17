@@ -1,22 +1,19 @@
 ---
 name: setup-gabriel-skills
-description: Use when the user runs /setup-gabriel-skills or asks to install, set up, or update Gabriel skills. Installs the pack's skills and places AGENTS.md for the harness in use, offering a manual copy if that fails.
+description: Use when the user runs /setup-gabriel-skills or asks to install, set up, or update Gabriel skills.
 category: General
 disable-model-invocation: true
 ---
 
 # Setup Gabriel skills
 
-Install this pack's skills, including `rules/`, and place `AGENTS.md` where the harness already reads it. User start only, never nested under `/task`. Install this skill with
+User start only, never nested under `/task`. Install this skill with
 `npx skills@latest add gabriel-lafrance/skills@setup-gabriel-skills -g -y`, then run it.
-
-This skill does not install ESLint, Prettier, or editor files.
 
 ## Read when
 
-- Every run: open [doctrine.md](doctrine.md). Skip it and you write files this skill must not touch.
-- At a step that links a section? Open [reference.md](reference.md). Skip it and you overwrite someone else's `AGENTS.md` or create a harness home.
-- About to ask the user? Use the [scope question](reference.md#questions) as written; it already carries the recommendation. Once `rules/` is installed, later messages follow [Plain language](../rules/writing-style.md#plain-language). Skip it and the scope question has no recommendation.
+- Every run: [doctrine.md](doctrine.md).
+- Before asking the user: the [scope question](reference.md#questions) as written. Once `rules/` is installed, later messages follow [Plain language](../rules/writing-style.md#plain-language).
 
 ## Process
 
@@ -33,7 +30,3 @@ This skill does not install ESLint, Prettier, or editor files.
    ([reference.md](reference.md#clean-up-old-installs)).
 7. Report every install, update, delete, skip, or failure, with the reason
    ([reference.md](reference.md#report)).
-
-## Anti-patterns
-
-- Writing a `.cursor/rules` or `.mdc` copy

@@ -5,3 +5,7 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# Eval results are rerun as models change; keep them local
+evals/baselines/
+evals/results.md

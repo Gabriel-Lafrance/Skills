@@ -1,30 +1,26 @@
 # User experience
 
-Cite keys use the `ux:` prefix. Each key below is a heading in this file.
-
 ## User-facing work
 
-`ux:user-facing`. These rules apply to user-facing work: screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files). They apply even when `docs/design.md` is silent. Supporting non-UI files in the same area still follow [code-quality.md](code-quality.md) and [code-structure.md](code-structure.md). A typo in a non-UI file is out of scope.
-
-Apply these rules while investigating, preparing tickets, building, and reviewing touched user flows. `/review` checks them within Standards and Spec; there is no separate Design review axis. Backend-only work with no changed user interaction needs no UX section or design questions. If the UI contradicts `docs/design.md`, make the UI match the file when implementing.
+`ux:user-facing`. Apply these rules to screens, components, styling, visible copy, client interaction, and any string a person reads (including locale files), even when `docs/design.md` is silent, while investigating, preparing tickets, building, and reviewing touched user flows. Backend-only work with no changed user interaction gets no UX section or design questions. When implementing, make UI that contradicts `docs/design.md` match the file.
 
 ## Action and continuation
 
-`ux:action-and-continuation`. Before choosing controls, name the user's goal, what the product already knows at the entry point, the primary action and why it belongs, its meaningful result, and the next useful step. Follow the touched path far enough to know whether the user can finish. A button that opens a dialog is not sufficient if that dialog loses the context needed to continue.
+`ux:action-and-continuation`. Before choosing controls, name the user's goal, what the product already knows at the entry point, the primary action and why it belongs, its result, and the next useful step. Follow the touched path until you know the user can finish.
 
-- Keep an action with a distinct user purpose. Combine duplicates, defer actions until their state makes them useful, and remove controls that add no outcome. Preserve useful expert actions one level down; simplicity is not deleting supported capability. Make a label interactive only when it performs a useful action; status alone is not a button.
-- Carry known company, selection, recommendation, filters, and draft data into the next step when relevant. Prefill known values for inspection and editing; do not make users re-enter them. Do not guess uncertain or consequential inputs.
-- Define the useful action in each relevant state, including loading, empty, error, cancel, and retry. Failed writes preserve edits and offer recovery. Cancel/back returns to a sensible prior context; deliberate discard follows the product's existing convention. Success tells the truth and prepares the continuation without performing an unauthorized action.
-- Inspect `docs/design.md` when present, existing tokens and components, and representative nearby pages before proposing a variant. Reuse the incumbent hierarchy, typography, spacing, density, labels, and interaction patterns. Name any needed departure and its reason. Investigate only the unresolved interaction or visual concern. Prefer familiar operational patterns that fit the product over a new style.
-- Infer ordinary interaction details from the agreed outcome and current product. Ask only about consequential choices that evidence cannot settle, such as an uncertain recipient, irreversible action, or changed scope. Do not ask the user to design every control.
+- Keep an action with a distinct user purpose. Combine duplicates, defer actions until their state makes them useful, and remove controls that add no outcome ([First glance](#first-glance) keeps expert actions one level down). A label is interactive only when it performs a useful action; status alone is not a button.
+- Carry known company, selection, recommendation, filters, and draft data into the next step. Prefill known values for editing; never make users re-enter them. Do not guess uncertain or consequential inputs.
+- Define the useful action in each state: loading, empty, error, cancel, retry. Failed writes preserve edits and offer recovery. Cancel/back returns to a sensible prior context; deliberate discard follows the product's convention. Success tells the truth and prepares the continuation without performing an unauthorized action.
+- Before proposing a variant, inspect `docs/design.md`, existing tokens and components, and nearby pages, and reuse their hierarchy, typography, spacing, density, labels, and interaction patterns over a new style. Name any departure and its reason.
+- Infer ordinary interaction details from the agreed outcome and current product. Ask only about consequential choices evidence cannot settle, such as an uncertain recipient, irreversible action, or changed scope.
 
-For example, "Create from this recommendation" opens an editable draft seeded with the current company and recommendation. A failed save keeps edits; cancel returns to the recommendation in its prior state. A beautiful empty editor fails that contract.
+For example, "Create from this recommendation" opens an editable draft seeded with the current company and recommendation. A failed save keeps edits; cancel returns to the recommendation in its prior state. An empty editor fails that contract.
 
 ## Source of truth
 
 `ux:source-of-truth`. The only path is **`docs/design.md`** at the workspace root. It is a short **Do** / **Don't** list for this product's UI and UX and nothing else (no screen catalog, component encyclopedia, architecture, data model, API notes, per-route happy path, or second design file).
 
-One bullet is one UI/UX rule, with a short why when it is not obvious. Identity, exceptions, and patterns are bullets, not headings. Merge duplicates. Keep this file's own rules out of it. If the file is already a catalog, distill it to Do / Don't the next time you touch it: keep the user's likes and dislikes, delete agent dumps.
+One bullet is one UI/UX rule, with a short why when not obvious. Identity, exceptions, and patterns are bullets, not headings. Merge duplicates. Keep this file's own rules out of it. If the file is a catalog, distill it to Do / Don't the next time you touch it: keep the user's likes and dislikes, delete agent dumps.
 
 ### Heading skeleton
 
@@ -49,10 +45,10 @@ UI and UX do / don't for this product.
 
 ## Initialization
 
-`ux:initialization`. If `docs/design.md` is missing when implementing UI, name the missing file in chat and offer to write it with the steps below. Write it only when the user says yes; otherwise continue from the existing UI code. Read-only investigation, ticket preparation, and review inspect existing product evidence and name the missing file without writing it. `/setup-gabriel-skills` does not write it.
+`ux:initialization`. If `docs/design.md` is missing when implementing UI, name it in chat and offer to write it with the steps below. Write it only when the user says yes; otherwise continue from the existing UI code. Read-only investigation, ticket preparation, and review name the missing file without writing it. `/setup-gabriel-skills` does not write it.
 
 1. Discover **every** route from the app router in code alone (no browser, login, or screenshots).
-2. Read those routes and the existing UI. Look for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).
+2. Read those routes and the existing UI for repeating rules: what everyone needs first, where extra actions hide, what the product refuses, how words work (landing vs app vs docs), and look (color roles and hex, type, density from tokens, theme, CSS).
 3. Write the short Do / Don't list from what the code proves. Name runtime-only behavior as a gap in chat.
 
 | Stack signal | Where to look |
@@ -63,19 +59,19 @@ UI and UX do / don't for this product.
 | Expo / RN Router | `app/**` routes excluding `_layout`-only files |
 | Other | The repo's existing router table |
 
-Never overwrite an existing `docs/design.md` with a blank template. A partial route inventory is not complete.
+Never overwrite an existing `docs/design.md` with a blank template.
 
 ## Blend edits
 
-`ux:blend-edits`. The user may add or remove Do / Don't bullets. The next run treats those bullets as truth. Deleted bullets stay deleted, and the file is the only copy.
+`ux:blend-edits`. Treat the user's added or removed Do / Don't bullets as truth; never restore a deleted bullet.
 
-When implementing a UX complaint, update `docs/design.md` in the same turn. When the user says the UX is bad, too many clicks, too much typing, or wants a different interaction, add or edit a bullet and match the UI. Read-only investigation, ticket preparation, and review carry the proposed bullet in their existing output for the implementer; they do not write the file. The same holds when the user changes how design is done (for example, "skip the confirm on destructive actions" replaces the confirm Do). Edit the bullet as well as the component when implementing. A written Do or Don't that asks for a slower or denser path is not a defect.
+When implementing a UX complaint (bad UX, too many clicks, too much typing, a different interaction), add or edit a bullet in `docs/design.md` and match the UI in the same turn. The same holds when the user changes how design is done ("skip the confirm on destructive actions" replaces the confirm Do). Read-only investigation, ticket preparation, and review carry the proposed bullet in their output for the implementer; they do not write the file. A written Do or Don't that asks for a slower or denser path is not a defect.
 
 Add or tighten a bullet only when this turn observed a new UI/UX rule, the user stated a preference, or the user changed how design is done.
 
 ## Smallest details
 
-`ux:smallest-details`. Excellence is usually a small, specific thing: the control that is ready when needed, the label that matches the job, the state that does not strand the person, the extra click that should not exist. Judge and build at that grain. "Fine" is not done while a smaller friction remains.
+`ux:smallest-details`. "Fine" is not done while a small friction remains: a control not ready when needed, a label that misses the job, a state that strands the person, an extra click.
 
 ## Identity
 
@@ -85,11 +81,11 @@ Look and feel come from the first source that specifies them:
 2. Existing tokens, theme, or CSS variables in the repo
 3. What the user stated this turn
 
-If none exist, ask the user and name the gap instead of picking a palette "to get started."
+If none exist, ask the user and name the gap; do not pick a palette "to get started."
 
 ## Experience
 
-`ux:experience`. Product exceptions (slower money flow, extra confirm) live as Do / Don't bullets.
+`ux:experience`.
 
 | Rule | Meaning | Fix now |
 | --- | --- | --- |
@@ -106,7 +102,7 @@ Power shortcuts, command palettes, and optimistic polish are Follow-up, not Fix 
 
 ## First glance
 
-`ux:first-glance`. Show only what every user needs at first glance. Put the rest one level down on the same screen. This is the UI version of a deep public surface (`structure:deep-public-surface`).
+`ux:first-glance`. Show only what every user needs at first glance. Put the rest one level down on the same screen.
 
 | Rule | Meaning |
 | --- | --- |
@@ -115,31 +111,30 @@ Power shortcuts, command palettes, and optimistic polish are Follow-up, not Fix 
 | **Same screen** | Keep a related action on this screen, one level down, instead of another page, wizard, or mode |
 | **Both audiences** | A beginner finishes without hunting. An expert reaches the rest in one more click |
 
-Fix now: a toolbar of equal-weight buttons, or settings that list every expert toggle beside "Display name". "Simplifying" by deleting expert controls is also wrong: hide them one level down instead.
+Fix now: a toolbar of equal-weight buttons, or settings that list every expert toggle beside "Display name". Deleting expert controls to "simplify" is also wrong: hide them one level down.
 
 ## Don't tell the obvious
 
 `ux:no-obvious`. Say only what the screen does not already show. Omit subtitles or descriptions under page, section or card headings by default, and text that repeats headings, labels or obvious UI behavior.
 
-With no API keys, show the create action and leave out "No API key", "You haven't created a key yet", and "Get started by creating your first key." The blank list plus the button is the message. The same holds for drafts, teammates, and any "none yet".
+With no API keys, show the create action and leave out "No API key", "You haven't created a key yet", and "Get started by creating your first key." The blank list plus the button is the message. The same holds for any "none yet".
 
 Still say what is not obvious: an error, a permission wall, a search or filter with zero hits ("No drafts match 'invoice'."), a cost, an irreversible side effect. Keep essential accessibility and non-obvious task guidance. A permission wall that looks like a blank create screen is Fix now.
 
 ## Professional craft
 
-`ux:professional-craft`. Ship finished UI in the same turn. The first pass looks like a designer completed it, not a draft to restyle later. Do the design work in thinking, then ship once:
+`ux:professional-craft`. Ship finished UI in the same turn: the first pass looks designer-completed, not a draft to restyle later. Do the design work in thinking, then ship once:
 
-1. Name the screen's single job, the identity source ([Identity](#identity)), and what the words are for ([UI copy](#ui-copy)).
-2. List the color, type, density, and motion roles that identity already uses. New UI reuses them, in one system.
-3. Decide empty, loading, error, disabled, and success for every control you own.
-4. Name the first glance and what sits one level down.
-5. Cut decoration that does not serve the job. When motion exists, use one restrained motion beat instead of scattered entrance animations.
+1. Name the screen's single job, its identity source ([Identity](#identity)), and what the words are for ([UI copy](#ui-copy)).
+2. Reuse the color, type, density, and motion roles that identity already uses, in one system.
+3. Decide empty, loading, error, disabled, and success for every control you own, and what sits at first glance versus one level down.
+4. Cut decoration that does not serve the job. Use at most one restrained motion beat, not scattered entrance animations.
 
-When the app already has a look, match it, even if it is quiet (navy and a serif stays navy and a serif). When the user states a new identity, avoid AI-default looks: cream and terracotta serif, near-black and acid green, purple-on-white gradients, Inter or Roboto-only stacks. Landing first viewport follows [React and UI](#react-and-ui).
+When the app already has a look, match it, even if it is quiet (navy and a serif stays navy and a serif). When the user states a new identity, avoid AI-default looks: cream and terracotta serif, near-black and acid green, purple-on-white gradients, Inter or Roboto-only stacks.
 
 ## UI copy
 
-`ux:ui-copy`. Interface words are design material. Name the surface before you write.
+`ux:ui-copy`. Name the surface before you write.
 
 | Surface | Job of the words |
 | --- | --- |
@@ -150,7 +145,7 @@ When the app already has a look, match it, even if it is quiet (navy and a serif
 
 - Controls are verbs the person recognizes: "Save changes", not "Submit"; "Invite teammate", not "Create user".
 - One word through the flow: "Publish" yields "Published", not "Success".
-- Match this product's existing copy and `docs/design.md` voice bullets. A sentence that could sit on any other product ("Unlock the power of", "Welcome to your dashboard", "Seamlessly") is filler. Rewrite it.
+- Match this product's existing copy and `docs/design.md` voice bullets. Rewrite a sentence that could sit on any other product ("Unlock the power of", "Welcome to your dashboard", "Seamlessly").
 - Every input has a visible label; a placeholder is only a hint.
 
 Chat unslop covers discussion text only: a landing that sells is correct. Docs that sell ("Supercharge your stack with real-time webhook magic") and app chrome that pitches are Fix now.
@@ -161,14 +156,14 @@ Chat unslop covers discussion text only: a landing that sells is correct. Docs t
 
 1. Name the job in one ordinary sentence ("the person removes a photo's background"). Drop the source phrasing.
 2. Reuse the repo's locale term for that job if one exists. Otherwise use what real products in that locale print.
-3. Read it as speech. Would a speaker say this to a colleague? If not, rewrite.
+3. Read it as speech. If a speaker would not say it to a colleague, rewrite.
 4. Keep one term on the button, title, empty state, and success.
 
-English "Background remover" is not French "Suppresseur de fond": that glues dictionary hits into a noun no speaker uses. French product UI says "Détourage", "Retirer l'arrière-plan", or "Enlever le fond". The reverse holds: "Détourage" becomes "Remove background", not "Detourage" (unless it is a kept brand name). Reuse the locale file's term when it already names the job, and rewrite machine output even when it is "technically equivalent".
+English "Background remover" is not French "Suppresseur de fond", a noun no speaker uses. French product UI says "Détourage", "Retirer l'arrière-plan", or "Enlever le fond". The reverse holds: "Détourage" becomes "Remove background", not "Detourage" (unless it is a kept brand name). Rewrite machine output even when it is "technically equivalent".
 
 ## Quality floor
 
-`ux:quality-floor`. Every user-facing slice meets these, even when `docs/design.md` never mentions them.
+`ux:quality-floor`. Every user-facing slice meets these, even when `docs/design.md` is silent.
 
 | Check | Fix now when | Follow-up when |
 | --- | --- | --- |
@@ -186,12 +181,9 @@ English "Background remover" is not French "Suppresseur de fond": that glues dic
 
 - **Mobile first**, then widen.
 - One component per file (`quality:one-export-per-file`). Keep components thin: complexity lives in a hook or class behind the entry.
-- Marketing and landing UI avoid AI-default looks: purple-on-white gradients, cream and terracotta serif, flat single-color voids, card-heavy heroes, pill clusters, emoji decoration.
+- Marketing and landing UI avoid the [AI-default looks](#professional-craft), flat single-color voids, card-heavy heroes, pill clusters, and emoji decoration.
 - Landing first viewport: brand, one headline, one line, CTA, one dominant image, and only those.
 
 ## Anti-patterns
 
-- Inventing a new product workflow or visual identity without evidence, or treating ordinary interaction details as permission to reopen settled decisions
-- Growing `docs/design.md` into hundreds of lines or a catalog when a short Do / Don't list would do
-- Asking whether a rule miss here is optional instead of applying it while building
-- Treating "the UI looks fine" as done while extra clicks, keystrokes, or pointer travel remain
+- Inventing a workflow or visual identity without evidence, reopening settled decisions over ordinary details, or asking whether a rule here is optional instead of applying it

@@ -2,31 +2,27 @@
 
 ## Job
 
-Review a shipped diff (a local branch or an open GitHub PR) for quality and whether it matches the request. `/review` owns findings and posting; the [active orchestrator](../rules/execution.md#remediation) owns remediation dispatch. There is no Design-review skill and no Design axis.
+Review a shipped diff (a local branch or an open GitHub PR) for quality and whether it matches the request.
 
 ## Owns
 
-Inputs, modes, the two axes (Standards vs Spec), blocker vs follow-up judgment per principle, naming alignment, folder placement, env-var reuse, static checks, PR extras, evidence bar, finding record, the review output fence, the Correctness hunt, baseline defects, severity mapping, when to recommend a test, and the PR publish decision (Pass A/B, stale-head guard, one-topic comments, one publish question).
+Every section below, including the PR publish decision.
 
 ## Does not own
 
 - Code quality and structure bars: cite `quality:*` and `structure:*`
-- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md) owns them; review applies them within Standards and Spec
+- UX rules and `docs/design.md`: [`../rules/user-experience.md`](../rules/user-experience.md)
 - Remediation adjudication, analysis requests, and fix dispatch: [active orchestrator](../rules/execution.md#remediation)
 - How an accepted test is written: [`../rules/testing.md`](../rules/testing.md)
 - Numbered steps: [`SKILL.md`](SKILL.md); PR drafting, Pass A/B, and posting steps: [`reference.md`](reference.md)
 
 ## Inputs
 
-Pin a fixed point and inspect the diff. Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied. Hidden review files are never a source.
+Spec comes from the current user request, ticket, PR body, committed repository docs, and execution context a parent supplied, never from hidden review files.
 
 ### Fresh combined review context
 
-The existing combined-result reviewer starts in fresh context. Give it the pinned base, current revision and working-diff boundary, ticket/spec and acceptance IDs, settled decisions, relevant caller pointers, applicable standards, test consent and safety/permission constraints. Include factual check results with their checked revision and limits. Do not forward the implementation conversation, worker self-review verdicts, or a prewritten conclusion. The reviewer reads the actual diff and callers and forms its own Standards and Spec findings.
-
-This focuses the existing combined review; it adds no reviewer to each slice and does not replace an implementing worker's self-review or the main agent's independent acceptance. Keep essential architecture, acceptance, safety and permission constraints available to implementers. Fresh context is a review boundary, not permission to withhold governing rules from workers.
-
-The reviewer returns findings to the active orchestrator. It gains no write, commit, fix-dispatch or shipping authority. Named remediation findings and their evidence remain valid inputs for a scoped re-review. If fresh context is unavailable, report that limit and follow the selected route's existing fallback without claiming an independent pass ran.
+Start the existing combined-result reviewer in fresh context. Give it the pinned base, current revision and working-diff boundary, ticket/spec and acceptance IDs, settled decisions, relevant caller pointers, applicable standards, test consent, safety and permission constraints, and factual check results with their checked revision and limits. Do not forward the implementation conversation, worker self-review verdicts, or a prewritten conclusion; named remediation findings and their evidence stay valid inputs for a scoped re-review. The reviewer returns findings only, with no write, commit, fix-dispatch or shipping authority. If fresh context is unavailable, report that limit and follow the selected route's fallback without claiming an independent pass ran.
 
 ## Modes
 
@@ -38,50 +34,43 @@ The reviewer returns findings to the active orchestrator. It gains no write, com
 
 ### Follow-up partition (PR)
 
-On a GitHub PR follow-up, after historical Pass A:
-
-1. Partition `previousReviewedHead..currentHead`.
-2. Apply `remediation` to the addressed-findings code in that range.
-3. Apply `initial` depth to **newly introduced** files/hunks in that range outside the remediation set.
-4. Use `full-rescan` only on explicit user request or material scope expansion.
-
-Remediation stays narrow, with no broad architecture hunt. New commits outside the remediation set still get reviewed. Bind finding and acceptance evidence to the reviewed revision and scope under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence). A prior pass does not clear changed behavior or stale verification; report invalidated evidence to the parent, which owns whole-result completeness.
+On a follow-up, partition `previousReviewedHead..currentHead`: `remediation` for addressed findings, `initial` depth for **newly introduced** files and hunks outside that set. Use `full-rescan` only on explicit user request or material scope expansion. On a GitHub PR this is [Pass B](reference.md#follow-up-passes), after Pass A. Bind evidence to the reviewed revision under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence).
 
 ## Bars
 
-Each review key names the section below with the same title (`review:axes`, `review:blocker-vs-follow-up`, `review:naming-alignment`, `review:folder-placement`, `review:env-reuse`, `review:foundation`), except the last four (`review:body-vs-diff`, `review:historical-thread`, `review:migration-backfill`, `review:breaking-public-api`), which are sections of "PR extras".
+`review:axes`, `review:blocker-vs-follow-up`, `review:naming-alignment`, `review:folder-placement`, `review:env-reuse`, and `review:foundation` name the same-titled sections below; `review:body-vs-diff`, `review:historical-thread`, `review:migration-backfill`, and `review:breaking-public-api` name rows of PR extras.
 
 ### Axes
 
-Review along independent axes; present them separately.
+Review along two independent axes.
 
 - **Standards:** maintainability, architecture, repository conventions, and reachable bugs in the shipped diff (Correctness hunt).
 - **Spec:** whether the shipped change satisfies the user request, ticket, PR, and accepted requirements.
 
 UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) are Standards for touched user flows; the agreed interaction contract is Spec. Review has no separate Design axis or matrix.
 
-Use an A+ exam bar: report every evidenced defect on an initial review or full rescan; there is **no findings cap**. Review strictly but factually: assess the diff and reachable behavior, not the author. Thoroughness means stronger path walks and better evidence, and only defects the evidence shows.
+Report every evidenced defect on an initial review or full rescan, with **no findings cap**, and nothing the evidence does not show.
 
-Resolve instruction conflicts through the Conflict section of `AGENTS.md`. Review these Standards sources:
+Standards sources:
 
 1. [code-quality.md](../rules/code-quality.md) (`quality:*` rules)
 2. [code-structure.md](../rules/code-structure.md) (`structure:*` rules)
-3. Repository rules and committed project documentation (additional constraints)
-4. Optional project standards when present (no particular standards file is required)
-5. Baseline defects in the review contract
+3. Repository rules and committed project documentation
+4. Project standards when present
+5. Baseline defects below
 6. For touched user flows, [user-experience.md](../rules/user-experience.md) and the product's `docs/design.md` when present
 
 Treat the first two sources as **hard** unless explicitly overridden by the user. Repository rules cannot weaken them. Redo Standards output that skipped either section.
 
 ### Interaction review
 
-For touched user flows, trace the real entry and known context through each changed action to its useful result and continuation. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Cite concrete redundant effort, required data re-entry, lost edits/state, unprepared continuation, or hierarchy/component reuse violations as defects under the existing finding and severity rules. Distinguish product conventions and accepted tradeoffs from personal aesthetic preferences. A working click or attractive screenshot alone does not prove the flow meets the contract.
+For touched user flows, trace the real entry and known context through each changed action to its useful result and continuation. Apply [action and continuation](../rules/user-experience.md#action-and-continuation). Cite concrete redundant effort, required data re-entry, lost edits/state, unprepared continuation, or hierarchy/component reuse violations as defects. Distinguish product conventions and accepted tradeoffs from personal aesthetic preferences. A working click or attractive screenshot alone does not prove the flow meets the contract.
 
-Use source and existing evidence for the path walk; cite `/verification` browser and screenshot evidence when available. Missing live evidence remains a named gap, not an invented pass or defect. Review does not start another design workflow or ask backend-only work for UI decisions.
+Walk the path from source and existing evidence. Missing live evidence is a named gap, not an invented pass or defect. Review starts no design workflow and asks backend-only work for no UI decisions.
 
 ### Blocker vs follow-up
 
-For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite the principle as **plain (Classic)** (`keep jobs apart (SoC)`) and the cite key in the finding **Rule** field when violated. Always pair the plain phrase with the classic name. The user-facing sentence must still explain the problem in ordinary words ([Plain language](../rules/writing-style.md#plain-language)).
+For the shipped diff, check each named principle in [code-quality.md](../rules/code-quality.md#named-principles). Cite a violation as **plain (Classic)** (`keep jobs apart (SoC)`) with its cite key in notes and the **Rule** field, and explain it in ordinary words ([Plain language](../rules/writing-style.md#plain-language)).
 
 | Principle | Blocker when | Follow-up when |
 | --- | --- | --- |
@@ -101,20 +90,15 @@ For the shipped diff, check each named principle in [code-quality.md](../rules/c
 | **Trust the server (never trust the client)** | Public write trusts the client or a UI-only guard; identity or ownership missing | Extra client check that duplicates a real server lock |
 | **Types tell the truth (make illegal states unrepresentable)** | New public surface uses `any`, skips validators, marks required data optional, allows a contradictory field bag, mixes branded ids, casts to silence the checker, or matches a variant in a way that still compiles when a case is added | Local private helper loosely typed but not on a boundary |
 
-Treat a concrete hard-standard or named-principle violation introduced or extended in the touched area as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup remains a **Follow-up**. That changes only when it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is necessary to clear a named finding. A public write without identity or ownership is a blocker candidate, not a nit.
+Treat a concrete hard-standard or named-principle violation introduced or extended in the touched area as a blocker candidate (especially `quality:fail-fast`, `quality:safe-to-retry`, `quality:trust-the-server`, `quality:related-together` through internals, `quality:honest-names` after a rename, and `quality:types-tell-the-truth` on a public surface). A useful cleanup stays a **Follow-up** unless it violates the spec or a rule that must stay true, causes a correctness or security defect, regresses behavior, or is needed to clear a named finding.
 
-Prefer a direct guard at the state-owning boundary over extra coordination. Request an `if` only for a reachable invalid state or a missing authoritative invariant. Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up. Request retries only for an evidenced transient external failure with an idempotent, bounded operation. Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior. Report a failure only with evidence, not because it "might fail someday".
+Prefer a direct guard at the state-owning boundary over extra coordination. Request an `if` only for a reachable invalid state or a missing authoritative invariant. Request `try/catch` only where it recovers, translates, adds actionable context, or cleans up. Request retries only for an evidenced transient external failure with an idempotent, bounded operation. Request queues, locks, or other coordination only when evidence shows a direct authority cannot preserve the needed behavior.
 
 ### Naming alignment
 
-On every `initial` or `full-rescan` Standards pass, after the principles checklist, walk the shipped diff for **stale names after rename/scope change**:
+On every `initial` or `full-rescan` Standards pass, after the principles checklist, walk the shipped diff for **stale names after a rename or scope change**. When responsibility moved, the file path and folder, exports and primary symbols (functions, classes, types, React components, Convex handlers), imports and locals must name the current job, renamed in the same change (rename `checkout-total.ts` once it owns payment-intent logic). A half-move that updates content but keeps the old path, or the reverse, is a defect.
 
-1. **File paths:** if responsibility moved (new domain word in symbols, comments, ticket, or hunks), the filename/folder must match (rename `checkout-total.ts` once it owns payment-intent logic).
-2. **Exports and primary symbols:** exported functions, classes, types, React components, and Convex handlers must match the current job; rename in the same change as the scope shift.
-3. **Call sites and variables:** update imports, identifiers, and locals that still describe the old concept when the touched area changed meaning.
-4. **Half-moves:** a move/rename that updates content but keeps the old path (or the reverse) is a defect, not a style preference.
-
-Cite `quality:honest-names` on findings. Naming alignment is part of the Standards pass, not a later pass. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface, not only one of them.
+Cite `quality:honest-names`. Remediation of an honest-names finding must clear the path **and** the symbols in the named surface.
 
 ### Folder placement
 
@@ -125,28 +109,21 @@ On every `initial` or `full-rescan` Standards pass, walk **new files** against `
 3. Reject `quality:never-nest` and `quality:keep-it-simple` as defenses. Never-nest is control flow.
 4. Pre-existing mixed siblings left untouched are Follow-up unless the goal or a named finding requires a move (`structure:prior-mistakes`).
 
-Check whether the diff appends an independent job to an existing owner or
-fragments cohesive work into shallow files. Name the actual responsibility,
-dependencies, and caller burden. Apply the retrieval/change-locality check;
-do not fail a cohesive file on length or export count alone. Meaningful private
-single-consumer collaborators and cohesive/framework exports follow the
-canonical rules. Routine placement does not require another interview.
+Check whether the diff appends an independent job to an existing owner or fragments cohesive work into shallow files. Name the actual responsibility, dependencies, and caller burden. Apply the retrieval/change-locality check; never fail a cohesive file on length or export count alone. Routine placement needs no interview.
 
-Cite `structure:folders` for placement and `structure:responsibility-boundaries` for incoherent jobs or shallow fragmentation. A shipped-diff folder-map miss is **Fix now**. Relocating untouched old flats is Follow-up unless required.
+Cite `structure:folders` for placement and `structure:responsibility-boundaries` for incoherent jobs or shallow fragmentation. A shipped-diff folder-map miss is **Fix now**.
 
 ### Env reuse
 
 On every `initial` or `full-rescan` Standards pass, walk **new environment variables** in the shipped diff against `quality:reuse-env`:
 
-1. Inventory names already in `.env.example`, committed `.env*` templates, and `process.env` / `import.meta.env` usages in the repo (and the platform env list when the diff sets dashboard/CLI vars).
-2. A new name whose **job or value** an existing var already holds (`FRONTEND_URL` while `SITE_URL` exists) is a finding. Cite `quality:reuse-env`.
-3. Mapping in code from the existing name is correct. Duplicating the value under a synonym is not. A required platform prefix must use the existing name (`NEXT_PUBLIC_SITE_URL`), not a third synonym.
+A new name whose **job or value** an existing var already holds (`FRONTEND_URL` while `SITE_URL` exists) is a finding.
 
 A shipped-diff synonym is **Fix now**. Untouched historical aliases left in files the diff did not add are Follow-up unless the goal or a named finding requires a move.
 
 ### Foundation
 
-On every `initial` or `full-rescan` Standards pass on a Feature diff, check it against `quality:strong-foundation` ([strong-foundation.md](../rules/strong-foundation.md)):
+On every `initial` or `full-rescan` Standards pass on a Feature diff, apply `quality:strong-foundation` ([strong-foundation.md](../rules/strong-foundation.md)):
 
 1. Take the areas of modularity from the spec: the ticket's `## Foundation`, `## Areas of modularity`, or settled decisions, the Structure card, or the grill's Locked in message.
 2. An area the spec named that ships hardcoded (no seam, the first provider inlined at callers, an `if` or `switch` on the variant) is a **blocker**.
@@ -158,17 +135,17 @@ Cite `quality:strong-foundation`. A Tweak, Bug, or Chore diff with no named area
 
 ### Test claim review
 
-When changed tests or existing tests support an important acceptance claim, apply the mandatory [No tautological tests](../rules/testing.md#no-tautological-tests) rule, [authoring gate](../rules/testing.md#authoring-gate), [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar). For each such claim, inspect the real public entry and assertion: what plausible wrong behavior would fail this test, do its mocks suppress the relevant failure modes, and would a behavior-preserving refactor survive? Trace setup, dependencies and assertions instead of treating a green result as proof. Record the concrete answer and evidence limit in the relevant Spec matrix row; use the existing finding record for a defect.
+When changed or existing tests support an important acceptance claim, judge them under [No tautological tests](../rules/testing.md#no-tautological-tests), [authoring gate](../rules/testing.md#authoring-gate), [junk patterns](../rules/testing.md#junk-patterns), and [retention bar](../rules/testing.md#retention-bar), tracing the real public entry, setup, mocks and assertion; a green result is not proof. Record the answer and evidence limit in the Spec matrix row; use the finding record for a defect.
 
-Judge mocks by which behavior they remove from observation, including policy, ordering, persistence and failures the owner must handle. A mock at a true external boundary can still hide the claimed behavior. Recommend the smallest correction at its owning boundary under the [test consent rules](../rules/no-unrequested-tests.md); review grants no permission to add a test, change an accepted assertion or delete an existing contract test. An unrun check or insufficient artifact is an evidence gap, not an invented defect. See the [mock example](examples.md#green-test-with-a-hidden-failure).
+Judge mocks by which behavior they remove from observation, including policy, ordering, persistence and failures the owner must handle. A mock at a true external boundary can still hide the claimed behavior. Recommend the smallest correction at its owning boundary under the [test consent rules](../rules/no-unrequested-tests.md); review grants no permission to add a test, change an accepted assertion or delete an existing contract test. An unrun check or insufficient artifact is an evidence gap, not a defect. See the [mock example](examples.md#green-test-with-a-hidden-failure).
 
 ### Static checks
 
-On `initial` or `full-rescan`, assess dead code and the complexity cap on the changed surface and affected callers. Select existing static commands under [verification scope](../rules/execution.md#verification-scope); reuse valid evidence and run broad Knip only when required or justified by reachability/dependency changes. A local behavior fix need not install a checker or scan the whole repository. See [static-checks.md](static-checks.md), cite `quality:no-dead-code` and `quality:cyclomatic-cap`, and report evidence limits. Introduced defects are **Fix now**; untouched baseline defects are Follow-up. Operational Git sync does not automatically start this review.
+On `initial` or `full-rescan`, assess dead code and the complexity cap on the changed surface and affected callers. Select existing static commands under [verification scope](../rules/execution.md#verification-scope); reuse valid evidence and run broad Knip only when required or justified by reachability/dependency changes. See [static-checks.md](static-checks.md), cite `quality:no-dead-code` and `quality:cyclomatic-cap`, and report evidence limits. Introduced defects are **Fix now**; untouched baseline defects are Follow-up.
 
 ### PR extras
 
-On a GitHub PR, the shared hunt already covers secrets. The review **must** also inspect:
+On a GitHub PR, also inspect:
 
 | Extra | Blocker when | Otherwise |
 | --- | --- | --- |
@@ -182,50 +159,17 @@ Add the first four rows to the PR extras table in the [review output](#review-ou
 
 ## Review budget
 
-Repeated review/remediation uses a default budget of **five review rounds**
-per outcome. Count the initial review and each remediation or full-rescan as
-a round; parallel Standards/Spec passes for the same pinned result are one
-round. Carry consumed rounds through handoffs/resume and nested skill changes.
-Transport retries of the same request do not buy another completed round, but
-must be bounded; errors/timeouts never count as a successful review.
+Repeated review/remediation uses a default budget of **five review rounds** per outcome. The initial review and each remediation or full-rescan count as a round; parallel Standards/Spec passes on one pinned result are one round. Carry consumed rounds through handoffs, resume, and nested skills. Bound transport retries of the same request; they buy no round, and errors or timeouts never count as a successful review.
 
-The active owner keeps stable finding IDs, evidence, disposition, correction
-and remaining disagreement in the existing chat backlog. Reuse valid evidence
-under [handoffs and evidence](../rules/execution.md#handoffs-and-evidence).
-After fixes, review named findings and direct regressions; inspect newly
-introduced surface under [follow-up partition](#follow-up-partition-pr).
-Do not restart a broad hunt for each small correction or add duplicate reviewers.
+After fixes, review only named findings, direct regressions, and new surface under [follow-up partition](#follow-up-partition-pr). Never restart a broad hunt per small correction or add duplicate reviewers.
 
-Stop when applicable required findings and acceptance checks are satisfied,
-when only optional nits remain, when progress stalls on an evidenced dispute,
-or when the budget ends. A nit is a non-material preference without a violated
-requirement. Reachable security, data-loss or other material correctness bugs
-remain findings even when rare. Rarity alone never makes a defect a nit.
-Do not waive hard standards or required fixes merely to finish the loop.
+Stop when required findings and acceptance checks are satisfied, when only nits remain, when progress stalls on an evidenced dispute, or when the budget ends. A nit is a non-material preference without a violated requirement. Reachable security, data-loss or other material correctness bugs remain findings even when rare. Never waive hard standards or required fixes to finish the loop.
 
-At exhaustion, stalled dispute, or blocked authority, report rounds used,
-unresolved IDs and evidence, competing reasoning, missing checks and the next
-decision. Never manufacture approval or call required findings resolved.
+At exhaustion, stalled dispute, or blocked authority, report rounds used, unresolved IDs and evidence, competing reasoning, missing checks and the next decision. Never manufacture approval or call required findings resolved.
 
-When the five-round default is exhausted and required findings or acceptance
-checks remain unresolved, end that report with a choice under
-[Asking the user](../rules/writing-style.md#asking-the-user): stop with the
-unresolved handoff, or continue for **at most three additional review rounds**.
-Name the proposed correction or new evidence to check, the requested number
-of rounds (one to three), and the finite stop condition. Wait for the user's
-choice before dispatching more work; continuation is never automatic.
-Only one extension is available per outcome, for a default maximum of eight
-rounds. Carry its authorization and consumed rounds through handoffs/resume
-and nested skills. Stop earlier when the stopping rules apply, and hand back
-at the extended limit without offering another extension. Routine nits,
-repeated unchanged objections, and a desire for approval do not justify more
-rounds. A user's explicit different budget or hard cap wins; extending that
-cap requires the user's decision.
+When the five rounds end with required findings or acceptance checks unresolved, end that report with a choice under [Asking the user](../rules/writing-style.md#asking-the-user): stop with the unresolved handoff, or continue for **at most three additional review rounds**. Name the correction or new evidence to check, the rounds requested (one to three), and the stop condition. Wait for the user's choice before dispatching more work; continuation is never automatic. One extension per outcome, for a default maximum of eight rounds; carry its authorization with the consumed rounds. At the extended limit hand back without offering another extension. Nits, repeated unchanged objections, and a desire for approval never justify more rounds. A user's explicit budget or hard cap wins; extending it requires the user's decision.
 
-This budget applies to `/review-loop` and repeated build remediation. It adds
-no loop to a standalone review, changes no route's gate order, and grants no
-fix, comment, push or merge authority. `/review` returns findings; the one
-[active orchestrator](../rules/execution.md#remediation) owns correction.
+This budget applies to `/review-loop` and repeated build remediation. It adds no loop to a standalone review, changes no gate order, and grants no fix, comment, push or merge authority.
 
 ## Evidence bar
 
@@ -248,8 +192,6 @@ These **are** reachable triggers, not theory:
 - A `catch` that swallows or logs-and-continues at a boundary that should fail
 - A secret, token, or private key in the shipped diff
 
-Report only evidenced failures, and recommend coordination machinery only with evidence that a direct guard is insufficient.
-
 ## Finding record
 
 Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout-place-order`).
@@ -268,19 +210,17 @@ Fold sites with the same root cause and fix shape into one record; different roo
 
 ## Output
 
-**Standards pass** (`initial` / `full-rescan`): apply [code-quality.md](../rules/code-quality.md) and [code-structure.md](../rules/code-structure.md) this turn. Scope static checks under [static-checks.md](static-checks.md). Inspect the relevant Principles, naming, Architecture, Correctness, and Baseline concerns across the changed surface and affected consumers. A small diff does not excuse missing a consequential authorization or data-integrity concern.
-
-Cite principles as **plain (Classic)** (`keep jobs apart (SoC)`) in notes and in the finding **Rule** field, always with both names. User-facing notes are ordinary sentences ([Plain language](../rules/writing-style.md#plain-language)).
+**Standards pass** (`initial` / `full-rescan`): cover the changed surface and affected consumers with the Bars above and the tables below. A small diff does not excuse missing a consequential authorization or data-integrity concern.
 
 **Spec pass**: cover each Done-when item, rule that must stay true, user-visible state the diff touches (enabled, disabled, loading, empty, error), and named unchanged behavior. Use one Spec matrix row per item in the full output, or equivalent concise evidence in focused output. With no spec, say so and add no rows; Standards still runs the Correctness hunt.
 
-Cover every independent part of the diff. For focused low-risk work, report scope, findings, relevant checks, and evidence limits concisely; do not manufacture empty tables. Substantial/high-risk work or an explicitly requested full review uses the output below. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect. One pass: no second adversarial pass, no hunt re-inspect. Secrets stay in the Correctness hunt, not PR extras.
+Cover every independent part of the diff. For focused low-risk work, report scope, findings, relevant checks, and evidence limits concisely; do not manufacture empty tables. Substantial/high-risk work or an explicitly requested full review uses the output below. Mark each row `clear`, `finding` (with id), or `none` when the check has nothing to inspect. One pass: no second adversarial pass, no hunt re-inspect.
 
-Return the [review output](#review-output) fence, including the four PR extras rows on a GitHub PR. Use the shared finding record; IDs remain stable across follow-up discussion. Map shared severity with the contract table, without re-explaining it.
+Return the [review output](#review-output) fence with finding records and the [severity mapping](#severity-mapping); IDs stay stable across follow-ups.
 
 **Local branch diff:** show Fix now, Follow-up, and Optional nit in chat after an initial review or full rescan. A user can explicitly waive a named finding in chat; that is a decision, not proof that the issue is fixed.
 
-**GitHub PR:** show every full new draft in chat before posting, then ask exactly one publish question for the batch. With no drafts and no unresolved blocker, ask once whether to approve. A `blocker` becomes **Blocking**; a `follow-up` or `nit` becomes **Nit** only when a public comment is useful, otherwise it stays in chat. Public comment severities are **Blocking** and **Nit** only. Post findings only, one comment per root-cause topic, with no summary, announcement, index, or pass-status comment. On a follow-up, Pass A precedes new review work, then Pass B; the stale-head guard runs before any publish. Steps and comment shape: [reference.md](reference.md).
+**GitHub PR:** show every full new draft in chat before posting, then ask exactly one publish question for the batch. With no drafts and no unresolved blocker, ask once whether to approve. Post findings only, one comment per root-cause topic, with no summary, announcement, index, or pass-status comment. On a follow-up, Pass A precedes new review work, then Pass B; the stale-head guard runs before any publish. Steps and comment shape: [reference.md](reference.md).
 
 ### Review output
 
@@ -291,22 +231,7 @@ Return the [review output](#review-output) fence, including the four PR extras r
 ## Principles sweep
 | Principle | Status | Note |
 | --- | --- | --- |
-| Keep it simple (KISS) | clear \| finding | … |
-| Keep jobs apart (SoC) | clear \| finding | … |
-| One altitude (SLAP) | clear \| finding | … |
-| Light to read (Minimize reader load) | clear \| finding | … |
-| Read or write, not both (CQS) | clear \| finding | … |
-| Fail fast (Fail Fast) | clear \| finding | … |
-| Leave it cleaner (Boy Scout Rule) | clear \| finding | … |
-| Subtract first (Subtract before you add) | clear \| finding | … |
-| Related together (Cohesion / Law of Demeter) | clear \| finding | … |
-| Safe to retry (Idempotency) | clear \| finding \| none | … |
-| Say what happens (explicit over implicit) | clear \| finding | … |
-| No surprises (PoLA) | clear \| finding | … |
-| Honest names (intention-revealing names) | clear \| finding | … |
-| Trust the server (never trust the client) | clear \| finding \| none | … |
-| Types tell the truth (make illegal states unrepresentable) | clear \| finding \| none | … |
-| Don't repeat yourself (DRY) | clear \| finding \| none | … |
+| <one row per principle in Blocker vs follow-up, then Don't repeat yourself (DRY)> | clear \| finding \| none | … |
 
 ## Architecture sweep
 | Check | Status | Note |
@@ -354,7 +279,7 @@ Return the [review output](#review-output) fence, including the four PR extras r
 
 ### Baseline defects (Standards, after the tables)
 
-Each of these in the shipped diff is a finding, cited by key and spoken **plain (Classic)**. Identity on public writes and clock/randomness in queries are covered by the Correctness hunt and Architecture sweep above.
+Each of these in the shipped diff is a finding, cited by key and spoken **plain (Classic)**.
 
 | Defect | Key |
 | --- | --- |
@@ -379,36 +304,30 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 | `follow-up` | Follow-up | Chat-only by default; `Nit` only when a PR comment is useful |
 | `nit` | Optional nit | `Nit` only when useful |
 
-Severity has only these three levels, with no `important` middle. A GitHub PR review posts only `Blocking` or `Nit`. Adapters use this map without re-explaining it.
+Use only these three severities.
 
 ## Test recommendation
 
-After an `initial` or `full-rescan` review, recommend a test only for a complex boundary with externally observable behavior and no durable test (authorization, ownership, safe-to-retry writes), at the highest layer per [testing.md](../rules/testing.md#when-a-test-is-worth-writing). Tell the user, and write no tests. If the user says yes, `/verification` writes it. Skip a test the user already accepted or refused in a `/verification` report, unless the shipped public contract changed.
+After an `initial` or `full-rescan` review, recommend a test only for a complex boundary with externally observable behavior and no durable test (authorization, ownership, safe-to-retry writes), at the highest layer per [testing.md](../rules/testing.md#when-a-test-is-worth-writing). Tell the user why the test matters. Skip a test the user already accepted or refused in a `/verification` report, unless the shipped public contract changed. Consent: [no unrequested tests](../rules/no-unrequested-tests.md).
 
 ## Apply
 
-After an initial review or full rescan, recommend a test only per the [review contract](#test-recommendation) rule. Tell the user why the test matters. Skip a test the user already accepted or refused in a `/verification` report, unless the shipped public contract changed. This skill recommends only; if the user says yes, `/verification` writes it.
-
-For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output. Running the app, a browser, or screenshots is [`/verification`](../verification/SKILL.md); when its handoff exists, cite its evidence in Spec matrix rows.
+For UI changes, apply [React and UI](../rules/user-experience.md#react-and-ui) and `docs/design.md` (`ux:source-of-truth`). Judge UI from the diff and existing terminal/test output. Running the app, a browser, or screenshots belongs to [`/verification`](../verification/SKILL.md); cite its evidence in Spec matrix rows when it exists.
 
 **Local branch diff:**
 
-- Remediation stays narrow: it is not a broad architecture hunt and does not reopen the full initial review. Upgrade it to a full rescan only on an explicit request or material scope expansion.
-- Return findings to the [active orchestrator](../rules/execution.md#remediation), which owns adjudication, any bounded analysis, and fix dispatch. Review never promotes or dispatches fixes. A standalone review stops unless fixes were requested; then hand off explicitly under [SKILL.md](SKILL.md#if-this-is-a-user-one-off).
-- If Fix now is empty, end the review without starting a fix loop. Do not write external tracker or PR updates in this mode.
+- If Fix now is empty, end the review without starting a fix loop. Write no external tracker or PR updates in this mode.
 
 **GitHub PR:**
 
-- This mode is a user start, outside `/task`. After publishing, start a local fix or `/task` lifecycle only when the user asks.
+- After publishing, start a local fix or `/task` lifecycle only when the user asks.
 - Review is stateless. Re-run the shared hunts on the GitHub diff even when a local review already judged the branch.
-- Durable specification sources are the PR title/body, linked ticket, and user-approved committed repository documentation. Follow the shared [execution context](../rules/planning.md#execution-context): rediscover facts from the PR and repository instead of depending on local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
-- A linked GitHub issue or Linear ticket is **read-only** context. Post only on the PR, never on the ticket or Linear.
-- Use the harness pull-request / GitHub tool for GitHub reads and writes when the harness has one; otherwise use `gh` or `gh api`.
+- Spec sources are the PR title/body, linked ticket, and user-approved committed docs. Rediscover facts from the PR and repository under [execution context](../rules/planning.md#execution-context), never from local `/task`, workspace, cache, temp, registry, or review-snapshot artifacts.
+- A linked GitHub issue or Linear ticket is **read-only** context. Post only on the PR.
 - Prepare and publish the review from chat and tool calls alone, with no helper scripts or repository files.
-- Keep the shared finding ID internally and reuse the matching GitHub thread for an existing issue, instead of duplicating an open finding as a new comment.
+- Reuse the matching GitHub thread for an existing finding instead of posting a duplicate.
 
 ## Anti-patterns
 
 - Skipping the Spec pass, Pass A, or new-surface review because the Standards pass looked clean
 - Treating Follow-ups or Optional nits as default fix scope
-- Adding a second adversarial review or hunt re-inspect after the Standards and Spec passes

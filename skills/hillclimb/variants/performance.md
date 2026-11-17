@@ -1,7 +1,6 @@
 # Performance variant
 
-A [hillclimb](../SKILL.md) variant. The shared loop, budget and ownership stay
-in the skill; this file only says what to measure and what counts as better.
+A [hillclimb](../SKILL.md) variant.
 
 ## Picks it
 
@@ -15,8 +14,8 @@ number from a repeatable measurement.
 - A cache, batch, memo or precomputed value that spans users, tenants, roles or
   permissions: [Authority](../../rules/code-structure.md#authority).
 - A new committed benchmark or performance test:
-  [no-unrequested-tests.md](../../rules/no-unrequested-tests.md). It needs the
-  same consent as any new test; a throwaway measurement command does not.
+  [no-unrequested-tests.md](../../rules/no-unrequested-tests.md). A throwaway
+  measurement command needs no consent.
 
 ## Roles
 
@@ -43,9 +42,9 @@ number from a repeatable measurement.
   inconclusive.
 - Profile before proposing a fix: a flame graph, trace, query plan, network
   waterfall or bundle analysis names where the time or bytes go. A finding
-  with no measured hotspot is a hypothesis, not a finding.
-- No claim of production impact, user-perceived speed or cost savings from a
-  local measurement, and no carrying one machine's numbers to another.
+  with no measured hotspot is a hypothesis.
+- Never claim production impact, user-perceived speed or cost savings from a
+  local measurement, or carry one machine's numbers to another.
 
 ## Lens
 
