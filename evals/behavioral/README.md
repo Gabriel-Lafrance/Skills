@@ -78,11 +78,11 @@ model variability.
 
 ## Cross-model and subscription coverage
 
-The benchmark roster is the user's main drivers only: **Claude Opus 5.5,
-GPT-6.1 Sol, Muse Wonder Full 1.0, and Grok 4.7**. All four benchmark candidates
-use explicitly requested **low** effort: Claude `effort: "low"`; Codex, Muse
-and Grok `reasoningEffort: "low"`. Muse's model is `muse-wonder-full-1.0`;
-never inherit its catalog's max default.
+Use the latest available releases of **Claude Opus, Codex Sol, Muse Wonder Full,
+and Grok**, following the [model resolution rules](../../skills/council/SKILL.md#panel).
+Freeze the exact IDs across repeats and both sides of each comparison. All four
+candidates explicitly request **low** effort. Set Claude's `effort` to `"low"`
+and set `reasoningEffort` to `"low"` for Codex, Muse and Grok.
 
 The goal is to measure whether the required behavior holds with limited
 deliberation. Do not rescue failures by increasing effort or treating a

@@ -1,5 +1,29 @@
 # Attribution
 
+The formal verification skills and the verification upgrades are adapted from
+[pstack at b4a4f61](https://github.com/cursor/plugins/tree/b4a4f6151b8e77f8d71045f09f553a733cf0ed37/pstack)
+(MIT, copyright 2026 Lauren Tan), checked on 2026-11-16. The upstream
+[MIT license notice](skills/statechart/LICENSE.txt) ships with the engine.
+
+- `statechart`: the TLA+ checking and chart process, its report and render
+  detail, and the chart engine in `skills/statechart/scripts/`, which is the
+  one verbatim copy in this pack: 29 source files copied byte for byte,
+  launcher executable bit kept. The upstream `scripts/test/` corpus (377
+  files, about 3.6 MB) is not vendored; how to run it and re-vendor lives in
+  `skills/statechart/reference.md`. Skill text is rewritten to this pack's
+  anatomy and stays explicit-start (`disable-model-invocation: true`).
+- `create-formal-verification-skill` and
+  `maintain-formal-verification-skill`: adapted with light edits. Generated
+  project skills land in the skill root the target repo already uses instead
+  of upstream's fixed `.cursor/skills/` path.
+- `verification`: proof standards, the recipe, the per-feature map, and the
+  maintenance pass now cite the same pinned upstream
+  (`create-verification-skill`, `maintain-verification-skill`,
+  `principle-prove-it-works`) in place of the earlier mirror links. The
+  feature map lives at `docs/verification/features/` in the app instead of
+  inside a generated skill, and maintenance corrections stay behind this
+  pack's recipe-write consent.
+
 PR lifecycle and harness refinements use original wording informed by
 [t3dotgg/tstack at 7de017b](https://github.com/t3dotgg/tstack/tree/7de017b3fc9d50c03cf3ecb98fb71e0ca65a78bd/skills),
 checked on 2026-10-26: `babysit-pr` (parent-owned watch and cleanup), `sol-loop`

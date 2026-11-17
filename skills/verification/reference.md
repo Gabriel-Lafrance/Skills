@@ -73,6 +73,11 @@ Pick the moves that establish the bounded claim; unrelated layers stay unrun.
 
 - Show the [control](doctrine.md#proof-standards): the old failure, then the pass on the change.
 
+### You changed ordering, retries, concurrency, or a state machine
+
+- Run the repo's project-local formal verify skill when one covers the changed code, and read a TLA+ result with [`/statechart`](../statechart/SKILL.md).
+- When no such check exists and tests cannot reach the breaking order, record that gap as inconclusive scope, not as a pass. Name [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) in the handoff; it needs its own user start.
+
 ## Drive snippets
 
 Scratch scripts, run from the OS temp directory.
@@ -132,7 +137,8 @@ How an agent launches, drives, and checks this app.
 
 ## Launch
 - Command, ports, env vars, seed data, sign-in for the test user
-- Ready when: <log line, port answering, prompt>
+- Starts usable from an empty data dir, migrations and seed included
+- Ready when: <usable signal on the driven path, not just a port answering>
 
 ## Doctor
 - One read-only check: process up, right build, port is ours, sign-in works
@@ -151,12 +157,47 @@ How an agent launches, drives, and checks this app.
 - What to stop and reset. Evidence stays
 
 ## Features
-- <Feature>: how to reach it (user point of view), how to drive it, what end state proves it works, gotchas
+- [<Feature>](./verification/features/<feature>.md): <one line: what it covers>
 ```
+
+Each feature file in `docs/verification/features/` opens with one paragraph on the user-visible behavior, then exactly four sections. Keep implementation detail out; name only user paths, stable handles, required state, commands, and observable proof.
+
+```markdown
+# <Feature>
+
+<What the user can do and see, in one paragraph.>
+
+## Sub-features
+- `<feature-id>` <one line per behavior>
+
+## How to get to it (user POV)
+- <Every user entry point>
+
+## Driving it with <harness>
+Preconditions: <state each recipe needs first>
+- **<Action>.** <What the user does.> Run `<exact command or steps>`. <Observable result that proves it.>
+
+## Gotchas
+- <Trap that wastes or invalidates a run>
+```
+
+Seed the top 3 to 5 user-facing features from routes, commands, menus, or docs. If seed data lacks a precondition a journey needs, the journey reports a failure and the reason goes in that feature's Gotchas. Never weaken the journey to make it pass.
 
 ### Proposing recipe edits
 
 List each edit as a bullet with the reason. The report's **Next** line offers them ("Reply `recipe` to save these edits"); nothing waits.
+
+## Maintenance pass detail
+
+The numbered workflow lives in [SKILL.md](SKILL.md#maintenance-pass). This is the fine print for its live pass.
+
+Follow the recipe's own launch model: one long-lived instance driven serially for servers and UIs, or a fresh isolated session per drive for short-lived CLIs. Hold three invariants the whole pass, whatever fails:
+
+1. Never drive an instance you have not health-checked since it last did something surprising: doctor before the first drive, on each fresh session where sessions are the unit, and after any failed drive. When doctor cannot see the failure (a wedged UI state on a healthy process), reset to a known state or relaunch rather than hoping.
+2. Evidence captured so far survives every cleanup, checked at its named location, not assumed.
+3. Nothing a drive started outlives that drive's usefulness: clean failed-iteration residue whether the session is stuck, exited, or shared. On a shared instance, clean the residue, not the instance.
+
+A doctor failure caused by recipe drift is drift: fix it in the correction list and retry once, restarting only what the fix invalidated, before calling the pass blocked. An unreachable feature stays `inconclusive` under [outcomes](doctrine.md#outcomes), never a pass by another name; its evidence is the concrete prerequisite (auth, entitlement, OS, external state) and the route attempted. If the map omits that prerequisite, that omission is drift. A harness fix follows the helpers rule: scripts executable, invocation written in the recipe. Final teardown happens after the last drive, re-proofs included; evidence stays.
 
 ## Handoff
 

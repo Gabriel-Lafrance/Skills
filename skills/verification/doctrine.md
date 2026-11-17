@@ -11,6 +11,7 @@ Selection and execution of relevant checks, proof standards, safe targets, outco
 ## Does not own
 
 - Code quality, structure, and Spec judged from the diff: `/review`
+- Exhaustive ordering or every-input proof: [`/create-formal-verification-skill`](../create-formal-verification-skill/SKILL.md) and [`/statechart`](../statechart/SKILL.md). This skill names the need and runs an existing project-local formal check; it never generates one unasked
 - UI and UX rules: [user-experience.md](../rules/user-experience.md) and `docs/design.md`
 - Writing tests: [testing.md](../rules/testing.md). A drive script is scratch, not a test file
 - Fixing what fails: the parent's Fix mode, or the user
@@ -30,6 +31,9 @@ Go wider where a boundary or failure could change the outcome: a button using a 
 - Mock only where a production boundary already isolates the external system (payment provider sandbox, email catcher).
 - For a dry-run or test mode, observe what it actually skips (network, files, git refs) and ignore its name.
 - A bug fix gets a control: show the old failure on the base commit or with the fix reverted when that is cheap, then the pass on the change.
+- A new harness, script, or check that has never been seen failing proves little. Show it catching a break, such as the fix reverted or a guard removed, before trusting its pass.
+- Ready means usable, not just answering. A database health check can pass while its init scripts are still running; a server can answer before its first real page works. Prove readiness on the path the checks will drive.
+- Proved against a stand-in for the real target (a container for a fresh machine, a local stack for a remote one): list every setup step the stand-in did that the target will not. Those steps stay unverified until a run on the real target covers them.
 - When a check fails, suspect the observation first (wrong port, stale build, cached page), then the product.
 - A passing suite proves its assertions passed, not that every changed user path works. A failed suite stays failed even when its failure predates the change; claim a known baseline only with evidence.
 
@@ -66,7 +70,7 @@ If code, build, configuration, or relevant environment changes during a run, app
 
 ### Recipe
 
-`docs/verification.md` in the app is the saved recipe: Launch, Doctor, Tests, Drive, Evidence, Cleanup, and a feature map ([template](reference.md#recipe-template)). A run proposes edits when it inferred working launch or test commands with no recipe, a step drifted, or a changed feature is missing from the map. Product regressions are reported, never written into the recipe as expected behavior.
+`docs/verification.md` in the app is the saved recipe: Launch, Doctor, Tests, Drive, Evidence, Cleanup, and the feature map index ([template](reference.md#recipe-template)). The map itself is one file per feature in `docs/verification/features/`, each with the same four sections: Sub-features, How to get to it (user POV), Driving it, Gotchas. Seed the top 3 to 5 user-facing features; a proof that drives one convenient entry point is incomplete when the map lists others. A run proposes edits when it inferred working launch or test commands with no recipe, a step drifted, or a changed feature is missing from the map. Product regressions are reported, never written into the recipe as expected behavior. Keeping the whole map honest as the app changes is the [maintenance pass](SKILL.md#maintenance-pass): the unit of rigor is the feature, covered from source and live, ending clean, changed, or blocked.
 
 ## Output
 

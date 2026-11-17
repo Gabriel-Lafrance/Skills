@@ -1,4 +1,4 @@
-<!-- gabriel-skills-agents v2.15.0 -->
+<!-- gabriel-skills-agents v2.16.0 -->
 
 # Gabriel skills
 
@@ -16,21 +16,23 @@ If no root has `rules/`, report the pack not installed and link https://github.c
 
 | The user asks to | Open |
 | --- | --- |
-| Run `/gabriel-mode`, or use Gabriel's worker and main-agent review loop on a precise ticket | `gabriel-mode/SKILL.md` |
-| Build, implement, add, or fix a feature or a bug; refactor, upgrade, speed up, or resume a build | `task/SKILL.md` |
+| Run `/gabriel-mode`, Gabriel's worker review loop on a precise ticket | `gabriel-mode/SKILL.md` |
+| Build, implement, add, or fix a feature or a bug; refactor, upgrade, or resume a build | `task/SKILL.md` |
 | Hillclimb or iterate to a target score | `hillclimb/SKILL.md` |
 | Ask for a council | `council/SKILL.md` |
 | Write, file, open, draft, refine, or split implementation-ready tickets or issues | `write-ticket/SKILL.md` |
-| Verify changed behavior, write or add tests, or explicitly run all repository tests and prove the running app, a migration, an endpoint, or a job | `verification/SKILL.md` |
+| Verify changed behavior, write or add tests, run all repository tests, prove the running app, or audit the recipe | `verification/SKILL.md` |
+| Run `/statechart` to draw and check a flow or state machine | `statechart/SKILL.md` |
+| Create or maintain a formal check tests cannot reach | `create-formal-verification-skill/SKILL.md`, `maintain-formal-verification-skill/SKILL.md` |
 | Audit, prune, or clean up existing tests | `test-audit/SKILL.md` |
 | Review, check, or audit a branch, a diff, or a PR | `review/SKILL.md` |
 | Babysit or watch a PR and report readiness | `babysit-pr/SKILL.md` |
 | Repeat review and correction with a finite budget | `review-loop/SKILL.md` |
 | Assess, revive, or take over an old PR | `takeover-pr/SKILL.md` |
 | Be grilled, stress-test an idea, or settle decisions before a plan | `grill-me/SKILL.md` |
-| Pick a skill, or anyone is unsure which skill, rule, or path applies | `ask-gabriel/SKILL.md` |
+| Pick a skill, or unsure which skill, rule, or path applies | `ask-gabriel/SKILL.md` |
 
-**Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" starts no skill and no review or verification pipeline. Sync safely, confirm the result, stop. A conflict that changes behavior opens `rules/execution.md#git-sync-only`.
+**Operational Git sync is its own path.** "Merge main into my branch" or "bring my branch up to date" starts no skill and no review or verification pipeline. Sync, confirm, stop. A conflict that changes behavior opens `rules/execution.md#git-sync-only`.
 
 ## Rules
 
@@ -53,10 +55,10 @@ Open each topic file once per session.
 | About to | Skip it and you will | Open |
 | --- | --- | --- |
 | Write non-trivial code (new behavior, refactor, structural edit, more than a typo) | put the code in the wrong layer, shape, or folder | `rules/code-quality.md`, `rules/code-structure.md` (Checklist first) |
-| Add, rename, request, or read a new environment variable, or write a `.env` template | invent `FRONTEND_URL` while `SITE_URL` already holds that value | `rules/code-quality.md` (Reuse env vars) |
+| Add, rename, request, or read a new environment variable, or write a `.env` template | invent `FRONTEND_URL` while `SITE_URL` holds it | `rules/code-quality.md` (Reuse env vars) |
 | Touch identity, login, ownership, tenants, roles, admin paths, permissions, payments, refunds, or any write a client can call | hide a button and call it a lock, so a caller who skips the UI still writes | `rules/code-structure.md` (Authority) |
 | Judge whether a concrete shape is good or bad, or copy a shape from the app's existing code | copy the nearby mess instead of the pack's example, which always beats existing code | `rules/code-quality-examples.md`, `rules/code-structure-examples.md` |
-| Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions between phases | `rules/planning.md`, `grill-me/doctrine.md` |
+| Write a plan for non-trivial work (in chat or a plan tool), or carry context across phases | plan on a guess, mix Questions with Locked in, skip the Before/After diagram, or lose decisions | `rules/planning.md`, `grill-me/doctrine.md` |
 | Start or resume ticket execution, delegate a slice, dispatch fixes, or choose verification scope | reopen settled decisions, dispatch the same fix twice, or trust stale evidence | `rules/execution.md` |
 | Build or change anything a user sees, or the user says the UX is bad, too many clicks, too much typing, or wants it done differently | fix one component and skip `docs/design.md`, so the next agent repeats the mistake | `rules/user-experience.md`, `docs/design.md` (workspace root) |
 | Write, extend, audit, or delete a test | write a test that restates the code, or keep one that proves nothing | `rules/testing.md` |

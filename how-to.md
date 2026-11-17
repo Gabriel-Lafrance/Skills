@@ -41,6 +41,7 @@ skills/
     t3-code.md           # T3 Code tool mechanics; opened when running in T3 Code
   review/                # /review: a local branch diff or an open GitHub PR
     contract.md          # review evidence, modes, finding record, output fence, severity
+  statechart/            # /statechart: vendored TLA+ chart engine in scripts/ (MIT, pinned; see its reference.md)
   setup-gabriel-skills/   # installs skills, including rules/, and places AGENTS.md
   <skill-name>/
     SKILL.md             # required: frontmatter + how-to
