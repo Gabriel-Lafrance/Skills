@@ -49,7 +49,7 @@ Review along two independent axes.
 
 UX rules (`ux:*` in [user-experience.md](../rules/user-experience.md)) are Standards for touched user flows; the agreed interaction contract is Spec. Review has no separate Design axis or matrix.
 
-Report every evidenced defect on an initial review or full rescan, with **no findings cap**, and nothing the evidence does not show.
+Report every evidenced defect on an initial review or full rescan, with **no findings cap**, and nothing the evidence does not show. Finding nothing is valid.
 
 Standards sources:
 
@@ -303,8 +303,6 @@ Each of these in the shipped diff is a finding, cited by key and spoken **plain 
 | `blocker` | Fix now | `Blocking` |
 | `follow-up` | Follow-up | Chat-only by default; `Nit` only when a PR comment is useful |
 | `nit` | Optional nit | `Nit` only when useful |
-
-Use only these three severities.
 
 ## Test recommendation
 

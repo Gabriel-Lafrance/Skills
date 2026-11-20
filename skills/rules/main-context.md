@@ -80,14 +80,14 @@ Select from the models, options, and inherited settings the spawn tool or capabi
 
 ### Task affinity
 
-For code review, Gabriel prefers the Codex harness with the latest suitable top-tier OpenAI model available to the account. This is a user preference, not a benchmark claim or a rule to pick the newest release of any tier. Pick from the live catalog; if it does not show which model is the latest top tier, say so instead of labeling one "best". Choose review effort from scope and risk using the table, not automatically `xhigh`. Other roles stay provider-neutral unless the user states a preference or a concrete capability requires one.
+For code review, Gabriel prefers the Codex harness with the latest suitable top-tier OpenAI model available to the account. This is a user preference, not a benchmark claim or a rule to pick the newest release of any tier. Pick from the live catalog; if it does not show which model is the latest top tier, say so instead of labeling one "best". Pick review effort from the table; only [`/review-loop`](../review-loop/SKILL.md) reviewers default to `xhigh`. Other roles stay provider-neutral unless the user states a preference or a concrete capability requires one.
 
 ### Apply and verify controls
 
 - Before each spawn, record one selection line in the brief: role, task tier, provider/model, effort, and reason. Use explicit model and effort arguments when supported, not only a request in prompt text. Never silently inherit an expensive model or high effort from the parent.
 - Discover the live spawn or delegation schema and role configuration under [harness-first discovery](tooling.md#harness-first-discovery); in T3 Code, open [t3-code.md](t3-code.md#delegation). Set model and effort separately where supported. Follow the live interface; not every harness exposes both.
 - Check the returned provider, model, and options against the request. Distinguish requested or stored settings from effective provider settings when the latter are not observable. Report substitutions, environment overrides, ignored controls, and unavailable settings; never claim an override was applied without evidence.
-- If the route cannot express the selection, try a supported route that can. Otherwise use the controllable dimension, or skip the spawn and do the bounded pass serially when the selected skill allows it. Disclose any unavoidable inheritance or deviation from the review affinity. Preserve an explicitly required independent workflow; never claim a Codex or independent reviewer ran when it did not. Never use a route that can only inherit `max`: pick one that sets effort below it, or do the bounded pass in this context and say why.
+- If the route cannot express the selection, try a supported route that can. Otherwise use the controllable dimension, or skip the spawn and do the bounded pass serially when the selected skill allows it. Disclose any unavoidable inheritance or deviation from the review affinity. Preserve an explicitly required independent workflow; never claim a Codex or independent reviewer ran when it did not.
 
 ## Delegation lifecycle
 
