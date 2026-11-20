@@ -60,24 +60,23 @@ Use the existing [execution context](planning.md#execution-context) and [slice c
 
 Return the bounded contribution, stable finding IDs, checks and evidence IDs tied to acceptance IDs, actual checked revision/diff and environment, result, and concrete blockers. Reuse IDs across fixes so old and new evidence compare; never rename an unresolved finding into a new success.
 
-For the selected route's combined review, use the [fresh review context](../review/contract.md#fresh-combined-review-context). Preserve its gate order and implementer constraints; the focused reviewer adds no per-slice gate and gains no remediation ownership.
+For the selected route's combined review, use the [fresh review context](../review/contract.md#fresh-combined-review-context). Preserve its gate order and implementer constraints; the focused reviewer adds no per-slice gate.
 
-After a change, identify which claims depend on changed code, contracts, dependencies, fixtures or environment. Invalidate that evidence and recheck the affected claims and seams. Explain why any retained evidence still applies. A scoped remediation review covers named findings, touched paths and direct regressions; broaden it when the fix changes another contract or scope. Scoped re-review never replaces whole-result acceptance. Final acceptance covers the combined result with applicable checks selected under [verification scope](#verification-scope), including valid retained evidence; an earlier pass cannot certify affected later edits.
+After a change, identify which claims depend on changed code, contracts, dependencies, fixtures or environment. Invalidate that evidence and recheck the affected claims and seams. Explain why any retained evidence still applies. A scoped remediation review covers named findings, touched paths and direct regressions; broaden it when the fix changes another contract or scope. Final acceptance covers the combined result with applicable checks selected under [verification scope](#verification-scope), including valid retained evidence; an earlier pass cannot certify affected later edits.
 
 ## Remediation
 
-Review owns stable findings and their evidence. The active orchestrator alone adjudicates them, maintains the fix backlog, and dispatches work. Standalone `/review` stops after its findings unless fixes were requested.
+Review owns stable findings and their evidence. The active orchestrator alone adjudicates them, maintains the fix backlog, and dispatches work.
 
-Repeated correction and re-review follows the shared
-[review budget](../review/contract.md#review-budget), kept with stable findings
-across skill handoffs; exhaustion or an unresolved dispute is a reported
-blocker, not approval.
+Judge each finding against the code yourself. Accept only a violated requirement or rule, or a reachable material harm under the [evidence bar](../review/contract.md#evidence-bar). Reject preference, speculation, and fixes that add code without removing real risk; report each rejected ID with a reason. It stays rejected without new evidence.
 
-When cause, impact or correction of an actionable finding set is unclear, the orchestrator investigates once per finding set, reusing an adequate existing investigation. The investigation gives, per stable finding ID, root cause, smallest fix, touch surface, uncertainty, and verification; it adds no findings, product discovery, or follow-ups. Promote the selected set once for the current evidence and fix decision, naming finding IDs with their correction, touch surface, non-goals, acceptance and owner under the user's existing authorization. If that authorization does not cover fixes, ask before implementing. New scope, waivers and changed test assertions still need the user's decision.
+Repeated correction follows the [review budget](../review/contract.md#review-budget); exhaustion or an unresolved dispute is a blocker, not approval.
+
+When cause, impact or correction of an actionable finding set is unclear, the orchestrator investigates once per finding set. The investigation gives, per stable finding ID, root cause, smallest fix, touch surface, uncertainty, and verification; it adds no findings, product discovery, or follow-ups. Promote the selected set once for the current evidence and fix decision, naming finding IDs with their correction, touch surface, non-goals, acceptance and owner under the user's existing authorization. If that authorization does not cover fixes, ask before implementing. New scope, waivers and changed test assertions still need the user's decision.
 
 Fix mode is a bounded slice of the current outcome. Prefer the smallest authoritative correction; no new product discovery, optional cleanup or test suggestion. Return findings to their responsible worker where the selected route uses workers. Recheck under [Handoffs and evidence](#handoffs-and-evidence), then the route's gate order. Reinvestigate only when new evidence or a failed approach changes the diagnosis. A blocked or declined required fix stays blocking unless the user waives it by name.
 
-Under existing authorization, deliver the corrected artifact with renewed evidence before handing the result to human review. A list of actionable comments does not complete an authorized fix. Report findings outside authorization or blocked by a required decision; never silently implement them or call them resolved.
+Under existing authorization, deliver the corrected artifact with renewed evidence before handing the result to human review. Report findings outside authorization or blocked by a required decision; never silently implement them or call them resolved.
 
 ## Recovery and completion
 
