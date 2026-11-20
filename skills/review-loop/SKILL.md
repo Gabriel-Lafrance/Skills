@@ -17,6 +17,8 @@ Keep the budget and backlog in the
    budget. Select a reviewer under
    [main-context.md](../rules/main-context.md#subagent-roles) and follow its
    [delegation lifecycle](../rules/main-context.md#delegation-lifecycle).
+   Reviewers run at `xhigh` unless the user names another effort; set it under
+   [apply and verify controls](../rules/main-context.md#apply-and-verify-controls).
 3. Run the applicable review mode on a fixed scope. Keep stable IDs and evidence;
    return findings to the one owner. PR comments retain `/review`'s publish gate.
 4. Adjudicate once and fix only within authority. Recheck affected acceptance,
