@@ -200,9 +200,9 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 - **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
   - **Rule:** Rule N | Done when item | doctrine | none
-  - **Trigger:** <who hits it, steps and expected frequency if known, for runtime risk>
+  - **Trigger:** <steps and expected frequency (or unknown) for runtime risk>
   - **Evidence:** <hunk, path walk, or signal>
-  - **Impact:** <concrete consequence in one sentence>
+  - **Impact:** <who is affected and how, in one sentence>
   - **Fix:** <smallest authoritative direction>
 ```
 

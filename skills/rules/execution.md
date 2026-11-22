@@ -70,8 +70,9 @@ The orchestrator owns the verdict, backlog and dispatch. Check each finding
 and its severity against the code and the
 [evidence bar](../review/contract.md#evidence-bar). In the backlog, record by ID
 who hits it, how often in supported use (say when unknown), the harm in one
-sentence and any requirement or hard line it crosses. Block on violated
-requirements, hard standards or reachable material harm. Unauthorized access
+sentence and any requirement or hard line it crosses. Block on unmet acceptance
+requirements, Standards violations classified as blockers under the
+[review contract](../review/contract.md#blocker-vs-follow-up), or reachable material harm. Unauthorized access
 to another user's data, lost work and unauthorized irreversible writes remain
 blockers even when rare. Other evidenced defects with minor, recoverable harm
 stay as follow-ups. Reject speculation as a basis for fixes. Record the verdict
