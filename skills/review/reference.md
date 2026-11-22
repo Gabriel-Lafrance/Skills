@@ -85,8 +85,8 @@ Reply like: 1a
    - b) no: leave no review event
 ```
 
-If an unresolved blocker remains, offer no approval option. Otherwise, when
-drafts exist, ask exactly once:
+If an unresolved blocker remains, offer no approval option. When drafts exist,
+ask exactly once:
 
 ```markdown
 ## Questions
