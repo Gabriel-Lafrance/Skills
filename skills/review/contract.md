@@ -150,7 +150,7 @@ On a GitHub PR, also inspect:
 | Extra | Blocker when | Otherwise |
 | --- | --- | --- |
 | **Body vs diff** | Done-when in the PR/ticket is unmet, or the diff ships extra product scope the body does not mention | Small leftover comment or typo |
-| **Historical thread** | A prior Blocking thread is still broken on `currentHead` | Thread is fixed or genuinely moot (Pass A) |
+| **Historical thread** | Pass A finds a blocker or leaves prior Blocking severity unresolved | Fixed, moot, or reclassified with evidence |
 | **Migration / backfill** | Schema or data change with no path for existing rows, or dual-write skipped when reads would break | Additive nullable field with a safe default |
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
 | **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Never a blocker |
@@ -163,7 +163,7 @@ Repeated review/remediation uses a default budget of **five review rounds** per 
 
 After fixes, review only named findings, direct regressions, and new surface under [follow-up partition](#follow-up-partition-pr). Never restart a broad hunt per small correction or add duplicate reviewers.
 
-Stop when required findings and acceptance checks are satisfied, when only nits remain, when progress stalls on an evidenced dispute, or when the budget ends. A nit is a non-material preference without a violated requirement. Reachable security, data-loss or other material correctness bugs remain findings even when rare. Never waive hard standards or required fixes to finish the loop.
+Stop clean when required findings are resolved or waived by the user and required acceptance checks pass. Follow-ups and nits buy no rounds. A nit is a non-material preference without a violated requirement. Stop at an evidenced impasse or when the budget ends.
 
 At exhaustion, stalled dispute, or blocked authority, report rounds used, unresolved IDs and evidence, competing reasoning, missing checks and the next decision. Never manufacture approval or call required findings resolved.
 
@@ -173,7 +173,7 @@ This budget applies to `/review-loop` and repeated build remediation. It adds no
 
 ## Evidence bar
 
-A blocker about a runtime failure, guard, concurrency, error path, retry, queue, lock, or hardening need requires all of:
+Use [severity triage](../rules/execution.md#remediation) to judge impact. Runtime and hardening blockers require:
 
 1. A reachable trigger.
 2. Concrete evidence: the diff, a path walk, a violated rule, a signal, or a directly provable exploit.
@@ -200,9 +200,9 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 - **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
   - **Rule:** Rule N | Done when item | doctrine | none
-  - **Trigger:** <required for runtime-risk findings>
+  - **Trigger:** <steps and expected frequency (or unknown) for runtime risk>
   - **Evidence:** <hunk, path walk, or signal>
-  - **Impact:** <why it matters>
+  - **Impact:** <who is affected and how, in one sentence>
   - **Fix:** <smallest authoritative direction>
 ```
 

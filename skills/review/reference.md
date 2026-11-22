@@ -11,7 +11,10 @@ On any follow-up, Pass A precedes new review work:
    fallbacks. Ignore old summary noise.
 2. Associate each with its stable internal finding ID and its GitHub thread.
 3. Assess its current state as addressed, partial, unanswered, outdated, or
-   disputed.
+   disputed. Judge severity on `currentHead` under the [evidence bar](contract.md#evidence-bar).
+   Explain any severity change in chat under the same ID. Keep prior Blocking
+   findings in the approval gate while their severity is disputed or the
+   evidence is insufficient to clear or downgrade them.
 4. List correctly resolved or genuinely moot findings as no-action in chat. Ask
    only about thread actions that need the user's decision. Wait for that
    decision before issuing a new review batch, and apply only the approved
@@ -70,7 +73,7 @@ Each draft becomes its own PR comment. No summary comment will be posted.
 <full final comment body>
 ```
 
-With no new public drafts and no unresolved Blocking prior, ask once whether
+With no new public drafts and no unresolved blocker, ask once whether
 to approve the PR:
 
 ```markdown
@@ -82,8 +85,8 @@ Reply like: 1a
    - b) no: leave no review event
 ```
 
-If a Blocking prior remains, offer no approval option. Otherwise, when drafts
-exist, ask exactly once:
+If an unresolved blocker remains, offer no approval option. When drafts exist,
+ask exactly once:
 
 ```markdown
 ## Questions
