@@ -150,7 +150,7 @@ On a GitHub PR, also inspect:
 | Extra | Blocker when | Otherwise |
 | --- | --- | --- |
 | **Body vs diff** | Done-when in the PR/ticket is unmet, or the diff ships extra product scope the body does not mention | Small leftover comment or typo |
-| **Historical thread** | A prior Blocking thread is still broken on `currentHead` | Thread is fixed or genuinely moot (Pass A) |
+| **Historical thread** | Pass A finds a blocker or leaves prior Blocking severity unresolved | Fixed, moot, or reclassified with evidence |
 | **Migration / backfill** | Schema or data change with no path for existing rows, or dual-write skipped when reads would break | Additive nullable field with a safe default |
 | **Breaking public API** | Exported contract changes with no call-site update and no mention in the PR | Internal rename with callers updated |
 | **How to QA** | Chat note only: if claimed behavior cannot be checked from the PR body and the diff is user-facing, say so in chat | Never a blocker |
@@ -173,7 +173,7 @@ This budget applies to `/review-loop` and repeated build remediation. It adds no
 
 ## Evidence bar
 
-A blocker about a runtime failure, guard, concurrency, error path, retry, queue, lock, or hardening need requires all of:
+Use [severity triage](../rules/execution.md#remediation) to judge impact. Runtime and hardening blockers require:
 
 1. A reachable trigger.
 2. Concrete evidence: the diff, a path walk, a violated rule, a signal, or a directly provable exploit.
