@@ -72,11 +72,11 @@ and its severity against the code and the
 who hits it, how often in supported use (say when unknown), the harm in one
 sentence and any requirement or hard line it crosses. Block on unmet acceptance
 requirements, Standards violations classified as blockers under the
-[review contract](../review/contract.md#blocker-vs-follow-up), or reachable material harm. Unauthorized access
-to another user's data, lost work and unauthorized irreversible writes remain
+[review contract](../review/contract.md#blocker-vs-follow-up), or reachable
+material harm. Unauthorized access to another user's data, lost work and unauthorized irreversible writes remain
 blockers even when rare. Other evidenced defects with minor, recoverable harm
 stay as follow-ups. Reject speculation as a basis for fixes. Record the verdict
-and reason. Revisit rejected or deferred findings only when new evidence
+and reason. Report rejected IDs with their reasons. Revisit rejected or deferred findings only when new evidence
 changes the verdict.
 
 Apply the [review budget](../review/contract.md#review-budget). For an unclear
