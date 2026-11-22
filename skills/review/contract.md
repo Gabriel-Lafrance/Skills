@@ -163,7 +163,7 @@ Repeated review/remediation uses a default budget of **five review rounds** per 
 
 After fixes, review only named findings, direct regressions, and new surface under [follow-up partition](#follow-up-partition-pr). Never restart a broad hunt per small correction or add duplicate reviewers.
 
-Stop when required findings and acceptance checks are satisfied, when only nits remain, when progress stalls on an evidenced dispute, or when the budget ends. A nit is a non-material preference without a violated requirement. Reachable security, data-loss or other material correctness bugs remain findings even when rare. Never waive hard standards or required fixes to finish the loop.
+Stop clean when required findings are resolved or waived by the user and required acceptance checks pass. Follow-ups and nits buy no rounds. A nit is a non-material preference without a violated requirement. Stop at an evidenced impasse or when the budget ends.
 
 At exhaustion, stalled dispute, or blocked authority, report rounds used, unresolved IDs and evidence, competing reasoning, missing checks and the next decision. Never manufacture approval or call required findings resolved.
 
@@ -200,9 +200,9 @@ Stable id grammar: `axis-rule-location` (example: `standards-never-nest-checkout
 - **<id>** · **standards|spec|cross** · **blocker|follow-up|nit**
   - **Where:** `path` (symbol or line)
   - **Rule:** Rule N | Done when item | doctrine | none
-  - **Trigger:** <required for runtime-risk findings>
+  - **Trigger:** <who hits it, steps and expected frequency if known, for runtime risk>
   - **Evidence:** <hunk, path walk, or signal>
-  - **Impact:** <why it matters>
+  - **Impact:** <concrete consequence in one sentence>
   - **Fix:** <smallest authoritative direction>
 ```
 

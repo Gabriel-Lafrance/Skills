@@ -66,17 +66,32 @@ After a change, identify which claims depend on changed code, contracts, depende
 
 ## Remediation
 
-Review owns stable findings and their evidence. The active orchestrator alone adjudicates them, maintains the fix backlog, and dispatches work.
+The orchestrator owns the verdict, backlog and dispatch. Check each finding
+and its severity against the code and the
+[evidence bar](../review/contract.md#evidence-bar). In the backlog, record by ID
+who hits it, how often in supported use (say when unknown), the harm in one
+sentence and any requirement or hard line it crosses. Block on violated
+requirements, hard standards or reachable material harm. Unauthorized access
+to another user's data, lost work and unauthorized irreversible writes remain
+blockers even when rare. Other evidenced defects with minor, recoverable harm
+stay as follow-ups. Reject speculation as a basis for fixes. Record the verdict
+and reason. Revisit rejected or deferred findings only when new evidence
+changes the verdict.
 
-Judge each finding against the code yourself. Accept only a violated requirement or rule, or a reachable material harm under the [evidence bar](../review/contract.md#evidence-bar). Reject preference, speculation, and fixes that add code without removing real risk; report each rejected ID with a reason. It stays rejected without new evidence.
+Apply the [review budget](../review/contract.md#review-budget). For an unclear
+actionable set, investigate once. Return root cause, smallest fix, touch
+surface, uncertainty and verification per ID. Keep discovery and follow-ups
+out. Promote once per decision with IDs, correction, touch surface, non-goals,
+acceptance and owner. Reinvestigate only on new evidence or a failed approach
+that changes the diagnosis.
 
-Repeated correction follows the [review budget](../review/contract.md#review-budget); exhaustion or an unresolved dispute is a blocker, not approval.
-
-When cause, impact or correction of an actionable finding set is unclear, the orchestrator investigates once per finding set. The investigation gives, per stable finding ID, root cause, smallest fix, touch surface, uncertainty, and verification; it adds no findings, product discovery, or follow-ups. Promote the selected set once for the current evidence and fix decision, naming finding IDs with their correction, touch surface, non-goals, acceptance and owner under the user's existing authorization. If that authorization does not cover fixes, ask before implementing. New scope, waivers and changed test assertions still need the user's decision.
-
-Fix mode is a bounded slice of the current outcome. Prefer the smallest authoritative correction; no new product discovery, optional cleanup or test suggestion. Return findings to their responsible worker where the selected route uses workers. Recheck under [Handoffs and evidence](#handoffs-and-evidence), then the route's gate order. Reinvestigate only when new evidence or a failed approach changes the diagnosis. A blocked or declined required fix stays blocking unless the user waives it by name.
-
-Under existing authorization, deliver the corrected artifact with renewed evidence before handing the result to human review. Report findings outside authorization or blocked by a required decision; never silently implement them or call them resolved.
+Fix within the current outcome and authorization. Ask before implementing
+unauthorized fixes, adding scope, waiving findings or changing accepted test
+assertions. Prefer the smallest authoritative correction and skip optional
+cleanup or test suggestions. Return fixes to responsible workers when the route
+uses them. Recheck under [handoffs and evidence](#handoffs-and-evidence) and the
+route's gate order before delivering to human review. Report blocked or declined
+required fixes as open blockers unless the user waives them by name.
 
 ## Recovery and completion
 

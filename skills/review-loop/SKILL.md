@@ -21,9 +21,8 @@ Keep the budget and backlog in the
    [apply and verify controls](../rules/main-context.md#apply-and-verify-controls).
 3. Run the applicable review mode on a fixed scope. Keep stable IDs and evidence;
    return findings to the one owner. PR comments retain `/review`'s publish gate.
-4. Adjudicate once under [remediation](../rules/execution.md#remediation);
-   fix only accepted findings within authority. Recheck affected acceptance,
-   then use focused remediation review and review new surface as required.
-5. Apply the review budget's stopping, reporting and extension rules after
-   every round, and also report resolved and rejected IDs. Completion is a verdict on the
-   checked scope, never automatic approval, comment publication, push or merge.
+4. Triage findings and severity under [remediation](../rules/execution.md#remediation).
+   Fix only required findings within authority. Recheck affected acceptance,
+   then review the fixes and new surface.
+5. Apply the review budget after every round. Include resolved, rejected and
+   deferred IDs in the report.
