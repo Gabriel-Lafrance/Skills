@@ -78,19 +78,20 @@ model variability.
 
 ## Cross-model and subscription coverage
 
-Use the latest available releases of **Claude Opus, Codex Sol, Muse Wonder Full,
+Use the latest available releases of **Claude Opus, Codex Sol, Gemini Neon,
 and Grok**, following the [model resolution rules](../../skills/council/SKILL.md#panel).
 Freeze the exact IDs across repeats and both sides of each comparison. All four
-candidates explicitly request **low** effort. Set Claude's `effort` to `"low"`
-and set `reasoningEffort` to `"low"` for Codex, Muse and Grok.
+candidates explicitly request **low** effort. Set Claude's `effort` to `"low"`,
+Gemini's `thought_level` to `"low"`, and `reasoningEffort` to `"low"` for Codex
+and Grok.
 
 The goal is to measure whether the required behavior holds with limited
 deliberation. Do not rescue failures by increasing effort or treating a
 higher-effort rerun as a low-effort pass. Preserve prior settings and scores:
-the earlier Muse xhigh batch is historical xhigh evidence, not evidence for
-Muse low. Its low-effort coverage remains untested until actually executed.
+earlier Muse Wonder Full batches are historical evidence, not evidence for
+Gemini Neon. Gemini Neon coverage remains untested until actually executed.
 This policy governs benchmark candidates only; it does not change council
-membership, production-agent settings or the separate Sol xhigh challenger.
+membership, production-agent settings or the separate Astra xhigh challenger.
 
 Discover availability and supported options through the live harness. Other
 catalog models, including Sonnet and Haiku, are excluded unless the user
@@ -124,7 +125,7 @@ passes. Do not pool models into one average that hides a required failure.
 Candidate acceptance requires the declared guards on every required target;
 an unavailable required target leaves cross-model acceptance inconclusive.
 Historical runs on another source or evaluator are context, not replacement
-evidence for the current matrix. The [Sol challenger](../../skills/council/challenger.md)
+evidence for the current matrix. The [Astra challenger](../../skills/council/challenger.md)
 can inspect the matrix, raw artifacts and scorer before the owner accepts the
 claims. It does not replace the model trials or rewrite their outputs.
 

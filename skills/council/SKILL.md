@@ -8,7 +8,7 @@ category: Code
 
 Adapted from Theo's [tstack council](https://github.com/t3dotgg/tstack/blob/1085050f3baed1ac724caa4a8166145fb2ac88af/skills/council/SKILL.md).
 The parent owns the decision; delegates supply evidence and disagreements, not
-write or shipping authority. Then the [Sol challenger](challenger.md) tests the
+write or shipping authority. Then the [Astra challenger](challenger.md) tests the
 proposed conclusion, completed work and reported results.
 
 ## Panel
@@ -21,7 +21,7 @@ for council members.
 | Claude | Opus | `effort` | `xhigh` | `high` |
 | Codex | Sol | `reasoningEffort` | `xhigh` | `high` |
 | Grok | Grok | `reasoningEffort` | `xhigh` | `high` |
-| Muse | Wonder Full | `reasoningEffort` | `xhigh` | `high` |
+| Antigravity | Gemini Neon | `thought_level` | `xhigh` | `high` |
 
 All four rate every round. **Assessment** covers standalone councils and
 hillclimb round 0. **Hillclimb rerating** covers later rounds.
@@ -29,7 +29,7 @@ hillclimb round 0. **Hillclimb rerating** covers later rounds.
 Resolve the latest available release of each named family from the live
 catalog at run start. Require support for the requested effort. If release
 order or support is unclear, report the gap. Never silently substitute an
-older release or sibling variant, including Grok Fast or Muse Wonder.
+older release or sibling variant, including Grok Fast or another Gemini variant.
 Keep the resolved IDs fixed across rounds. In T3 Code, pass each exact ID
 and explicit effort through `delegate_task` using `target.model` and `target.options`.
 Never inherit the catalog's effort default.
@@ -82,7 +82,7 @@ Never inherit the catalog's effort default.
    same pinned result. The
    owner adjudicates its objections with evidence, then chooses corrections
    under existing authority and [test consent](../rules/no-unrequested-tests.md).
-   Inside a hillclimb, skip this step; its Sol review runs once before any PR push.
+   Inside a hillclimb, skip this step; its Astra review runs once before any PR push.
    Standalone feedback ends here unless the user also requested corrections
    or iteration. Nested council returns findings to its parent, which owns
    dispatch and acceptance; it never starts another build or review loop.

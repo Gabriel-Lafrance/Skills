@@ -139,7 +139,7 @@ Every run ends with a [final report](./skills/rules/writing-style.md#final-repor
 - Ship a PR → [`skills/rules/shipping.md`](./skills/rules/shipping.md) (any agent, including a cloud agent). Every path that
   opens a GitHub PR follows the same ship contract: typed body and Change
   diagram.
-- Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md) uses the latest available releases of Opus, Sol, Grok and Muse Wonder Full at xhigh, followed by a Sol xhigh [challenger](./skills/council/challenger.md)
+- Ask several models for independent feedback → [`/council`](./skills/council/SKILL.md) uses the latest available releases of Opus, Sol, Grok and Gemini Neon at xhigh, followed by an Astra xhigh [challenger](./skills/council/challenger.md)
 - Hillclimb a scoped outcome → `/hillclimb UI`, `/hillclimb performance`, or `/hillclimb evaluation`; add `with a council` for a panel on UI or performance. Evaluation is judged by an existing scorer, with no reviewer or council; authoring new tests or evals still needs acceptance
 - Repeat review and authorized correction → [`/review-loop`](./skills/review-loop/SKILL.md), five rounds by default; unresolved required work ends with a choice to stop or authorize up to three more rounds
 - Watch a PR → [`/babysit-pr`](./skills/babysit-pr/SKILL.md), one parent-owned watcher, latest-head readiness, cleanup before yielding, default stop unmerged
