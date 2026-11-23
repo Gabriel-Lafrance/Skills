@@ -174,7 +174,7 @@ retries, resume and rejected changes.
    decision. Never claim a perfect/pristine pass because the budget ended.
 7. **Review loop before any PR push.** Before any push, including one the
    user asks for mid-run, pass the [review loop gate](../rules/shipping.md#review-loop-gate)
-   on the final diff with this run's correction authority. It is the run's only
-   Astra review and has its own round budget. Pushing still needs
+   on the final diff with this run's correction authority. The pre-push review
+   loop has its own round budget. Pushing still needs
    [shipping authorization](../rules/shipping.md); never merge or deploy
    automatically.
