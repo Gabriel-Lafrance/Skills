@@ -72,7 +72,7 @@ single agent.
 
 When the user asks for a council on a rated variant, use [council](../council/SKILL.md) for the
 reviewer slot: its assessment panel rates round 0 and its rerating panel rates
-every later round. Skip the council's challenger in every round: [Sol review](../council/challenger.md)
+every later round. Skip the council's challenger in every round: [Astra review](../council/challenger.md)
 runs once, as `/review-loop` on the final diff before any PR push. The parent
 gives each read-only member the same `/verification` evidence and adjudicates
 the panel's findings. Council replaces the single reviewer, not the implementer
@@ -174,7 +174,7 @@ retries, resume and rejected changes.
    decision. Never claim a perfect/pristine pass because the budget ended.
 7. **Review loop before any PR push.** Before any push, including one the
    user asks for mid-run, pass the [review loop gate](../rules/shipping.md#review-loop-gate)
-   on the final diff with this run's correction authority. It is the run's only
-   Sol review and has its own round budget. Pushing still needs
+   on the final diff with this run's correction authority. The pre-push review
+   loop has its own round budget. Pushing still needs
    [shipping authorization](../rules/shipping.md); never merge or deploy
    automatically.

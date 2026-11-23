@@ -80,7 +80,7 @@ Select from the models, options, and inherited settings the spawn tool or capabi
 
 ### Task affinity
 
-For code review, Gabriel prefers the Codex harness with the latest suitable top-tier OpenAI model available to the account. This is a user preference, not a benchmark claim or a rule to pick the newest release of any tier. Pick from the live catalog; if it does not show which model is the latest top tier, say so instead of labeling one "best". Pick review effort from the table; only [`/review-loop`](../review-loop/SKILL.md) reviewers default to `xhigh`. Other roles stay provider-neutral unless the user states a preference or a concrete capability requires one.
+Every code review and `reviewer` role, including the [council challenger](../council/challenger.md), uses the Codex harness with the latest available Astra release at `xhigh`, unless the user names another model or effort. This is Gabriel's preference, not a benchmark claim. Resolve Astra from the live catalog under the [council resolution rules](../council/SKILL.md#panel); never substitute Sol or another family. If Astra or `xhigh` is unavailable, report it instead of substituting. Other roles stay provider-neutral unless the user states a preference or a concrete capability requires one.
 
 ### Apply and verify controls
 
