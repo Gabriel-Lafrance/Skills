@@ -11,7 +11,8 @@ The user must understand every message.
 1. Write like a teammate explaining the work, not like a spec: short common words, one idea per sentence.
 2. Cite a named principle as **plain (Classic)** in the same sentence, so people can read it and models still retrieve the classic name: `We need to keep jobs apart (SoC).` Acronym-only (`SoC violation`) and plain-only both fail.
 3. Common abbreviations (API, PR, URL, Git, ID, UI) and skill names like `/task` in a next step are fine. Spell out a rule number (Rule 1) or pack nickname as a plain sentence. Pack cite keys (`quality:keep-jobs-apart`) stay in internal notes; a finding or rule ID may appear for tracking beside the plain (Classic) sentence of what is wrong and what to do.
-4. Reply in the user's language. Product, UI, and locale strings follow [`ux:spoken-locale`](user-experience.md#spoken-locale): the words speakers use for that job, not a word-for-word swap.
+4. Answer the scope asked: a compute cost question gets no maintenance cost.
+5. Reply in the user's language. Product, UI, and locale strings follow [`ux:spoken-locale`](user-experience.md#spoken-locale): the words speakers use for that job, not a word-for-word swap.
 
 ### Say this, not that
 
@@ -42,15 +43,15 @@ The user must understand every message.
 Options describe the real choice, not an internal process name.
 
 1. Batch all known independent consequential choices into one message. Defer a choice whose options depend on an earlier answer.
-2. Number items and give lettered options when the choice is discrete.
+2. Number items and give lettered options when the choice is discrete. A choice that turns on numbers gets a visual page (`html_preview`), not a text table.
 3. Mark one option `← recommended` at the end of its line.
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
 5. **Every question goes in the block.** Anything the user must answer, including a yes/no or "should I start X?", goes in the `## Questions` block at the end of the message, never in prose, a summary, or "still open" bullets. No block means nothing waits on the user. Write the block in Markdown and end the turn. Never use a harness question tool that pauses the run; a paused background run stalls until someone answers.
 6. Wait for answers to the questions you ask, except as item 10 allows. Settled decisions stay settled.
 7. Look up repository and tool facts instead of asking the user for them.
 8. **Ask only hard, ambiguous choices.** A question needs all three: the evidence does not point to one answer, the options trade off something only the user can weigh (scope, money, product direction, taste, or a risk they own), and a wrong guess is costly to undo. If you would recommend an option and expect the user to take it, decide it and list it under **Decided for you** in the [final report](#final-report). [What to discover](../grill-me/doctrine.md#what-to-discover) defines a consequential choice. A run with no questions is normal. List settled facts outside Questions.
-9. **Standing instructions stay settled.** A stance the user states for the work ("no tests until the MVP", "ask me before picking a model", "not shipping yet") applies to every later step and goes into every child brief. Never ask it again. If you cannot apply one, such as a setting only the user can change, say so once.
-10. **Never stall on a reversible choice when the user is out of reach.** In a background or delegated run, or after the user says they are away, take the option that changes the least and can be undone, list it under Decided for you, and continue. Wait only for what is irreversible or outward-facing: publishing, deleting, spending, credentials, production data, or a choice the user reserved.
+9. **Standing instructions stay settled.** A stance the user states for the work ("no tests until the MVP", "ask me before picking a model", "not shipping yet") applies to every later step and goes into every child brief. Never ask it again. If you cannot apply one, such as a setting only the user can change, say so once. A newer contradicting instruction: name the conflict once, then follow it.
+10. **Never stall on a reversible choice when the user is out of reach.** In a background or delegated run, a thread the user handed off, or after the user says they are away, ask a [`decider`](main-context.md#task-affinity), or with none take the option that changes the least and can be undone; list it under Decided for you and continue. Wait only for what is irreversible or outward-facing: publishing, deleting, spending, credentials, production data, or a choice the user reserved.
 11. **Questions and Locked in never share a message.** Once material Questions are settled, or when the turn only announces, post agent-owned conclusions under **Locked in (tell me if this is wrong)**, or reuse a current parent lock, and record them in the [execution context](planning.md#execution-context). Each question states the concrete choice, its evidence or uncertainty, realistic alternatives and consequences, and the recommendation with its reason. Do not invent alternatives or ask for obvious exclusions to fill a template.
 
 ### Questions template

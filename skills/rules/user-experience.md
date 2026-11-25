@@ -119,6 +119,8 @@ Fix now: a toolbar of equal-weight buttons, or settings that list every expert t
 
 With no API keys, show the create action and leave out "No API key", "You haven't created a key yet", and "Get started by creating your first key." The blank list plus the button is the message. The same holds for any "none yet".
 
+Remove dead UI: idle icons, always-true labels, buttons with no job.
+
 Still say what is not obvious: an error, a permission wall, a search or filter with zero hits ("No drafts match 'invoice'."), a cost, an irreversible side effect. Keep essential accessibility and non-obvious task guidance. A permission wall that looks like a blank create screen is Fix now.
 
 ## Professional craft
@@ -147,6 +149,8 @@ When the app already has a look, match it, even if it is quiet (navy and a serif
 - One word through the flow: "Publish" yields "Published", not "Success".
 - Match this product's existing copy and `docs/design.md` voice bullets. Rewrite a sentence that could sit on any other product ("Unlock the power of", "Welcome to your dashboard", "Seamlessly").
 - Every input has a visible label; a placeholder is only a hint.
+- Details go in a `?` tooltip or icon popover (about 28 words max), not inline.
+- Show, don't write: a diagram or chart beats a paragraph.
 
 Chat unslop covers discussion text only: a landing that sells is correct. Docs that sell ("Supercharge your stack with real-time webhook magic") and app chrome that pitches are Fix now.
 
@@ -158,6 +162,7 @@ Chat unslop covers discussion text only: a landing that sells is correct. Docs t
 2. Reuse the repo's locale term for that job if one exists. Otherwise use what real products in that locale print.
 3. Read it as speech. If a speaker would not say it to a colleague, rewrite.
 4. Keep one term on the button, title, empty state, and success.
+5. Keep labels one line and similar width across locales.
 
 English "Background remover" is not French "Suppresseur de fond", a noun no speaker uses. French product UI says "Détourage", "Retirer l'arrière-plan", or "Enlever le fond". The reverse holds: "Détourage" becomes "Remove background", not "Detourage" (unless it is a kept brand name). Rewrite machine output even when it is "technically equivalent".
 
@@ -173,6 +178,7 @@ English "Background remover" is not French "Suppresseur de fond", a noun no spea
 | Visible labels | Placeholder-only, or icon-only with no accessible name | Redundant label next to a named control |
 | Primary action not hover-only | The only way to act requires hover | Extra hover hint on a clickable control |
 | `prefers-reduced-motion` | New motion with no reduced alternative | Existing motion outside this change |
+| Errors stay in the app | A thrown error shows the framework's raw screen | A generic in-app error on a rare path |
 | Icons are SVG, not emoji | New UI uses emoji as a control icon | Emoji in user-generated content |
 
 ## React and UI

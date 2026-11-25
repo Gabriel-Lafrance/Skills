@@ -29,7 +29,7 @@ Any agent that cuts a branch or creates or updates a GitHub pull request follows
 
 ## Shipping rules
 
-- Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Work on a new branch.
+- Never commit to, push to, or force-push `main`, `master`, `dev`, or the default branch. Work on a new branch. Only exception: a [solo repo](#solo-repos).
 - Show the complete pull request title and body, and wait for approval before creating it unless the user already authorized publishing the [whole stack](#stacked-pull-requests).
 - A new branch is a standalone ref that never tracks a protected branch (`origin/dev`, `origin/main`, `origin/master`). Push only `HEAD:refs/heads/<new-branch>`. Steps: [Branch and push](#3-branch-and-push).
 - Body: the [body template](shipping-templates.md#body-template), ending with the [blast radius and merge danger assessment](shipping-templates.md#blast-radius-and-merge-danger). When [`/verification`](../verification/SKILL.md) ran, summarize its handoff under Notes.
@@ -48,6 +48,10 @@ EOF
 ```
 
 If a PR is already open on the branch, update its body the same way instead of opening a second PR.
+
+## Solo repos
+
+A repo whose `AGENTS.md` says `Shipping: solo, push to main` skips branches, type and ticket questions, and PRs; a chat instruction covers one run. When asked to ship, commit on the default branch, sync if behind `origin/<default>`, pass the [review loop gate](#review-loop-gate) and [CI mirror](#ci-mirror), then `git push origin HEAD:refs/heads/<default>`. Never force-push.
 
 ## Stacked pull requests
 
@@ -89,13 +93,14 @@ An authorized push may trigger configured remote CI. Report remote checks as pen
 
 ### 1. Inspect git
 
-In parallel, inspect `git status`, current branch, remotes/default base, commits ahead of base, and diff summary.
+Fetch the base, then in parallel inspect `git status`, current branch, remotes/default base, commits ahead of and behind base, and diff summary.
 
 | State | Action |
 | --- | --- |
 | No pull-request tool, and no `gh` or not authenticated | Cut and push the branch as usual. Stop before the publish step and say why |
 | Dirty tree | Commit only authorized scoped changes; otherwise resolve the index boundary with the user. Preserve unrelated work. Apply [CI mirror](#ci-mirror) before a requested push |
 | No commits ahead of base | Stop; there is nothing to publish |
+| Behind base (`origin/<base>` is not an ancestor of `HEAD`) | Sync under [Git sync only](execution.md#git-sync-only), then continue |
 | Detached HEAD | Create the standalone branch from that commit (step 3), then continue on it |
 
 ### 2. Lock type and ticket

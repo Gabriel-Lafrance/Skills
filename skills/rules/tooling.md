@@ -49,6 +49,8 @@ In order:
 1. Read existing terminal output (the IDE terminals folder, running backend and frontend logs) for push success, compile errors, HMR, and runtime stacks.
 2. If terminals are silent or missing, say so, then ask or start the **minimal** command once.
 
+Other sessions share the machine. Never stop or restart a process you did not start (no `pkill -f`), or reset, check out, clean or stash files you do not own. In a shared worktree, re-read a shared file before editing it and keep the edit additive; don't block on other agents.
+
 Read terminals instead of running these by default:
 
 - Backend MCP or CLI calls just to verify.

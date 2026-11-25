@@ -62,32 +62,43 @@ Reuse these roles instead of inventing a competing catalog:
 | `designer` | Shape or implement user-facing UI within the settled interaction contract and design rules. |
 | `reviewer` | Check a diff against its contract and standards; return evidence-backed findings. |
 | `tester` | Write only [accepted tests](no-unrequested-tests.md#accepted-means), or run the selected existing verification checks. |
+| `decider` | In a handed-off run, pick an option for a choice the user would otherwise be asked; return the pick and its reason. |
 
 Use a matching native agent type only when the live tool lists one; otherwise name the role in the brief. A role never overrides the selected skill's ownership, test consent, gate order, or independence rules. Do not spawn a worker for a trivial job to fill a role.
 
 ## Model and effort selection
 
+Only the [task affinity](#task-affinity) pins a model. Other roles use the model the user named for the run, else the session's model, never a pack pick; the tier sets their effort.
+
 Select from the models, options, and inherited settings the spawn tool or capability listing reports; where it reports nothing, say so. Refresh on a capability mismatch. Do not invent model equivalences or rank models by brand, release name, or the word "fast". Use current capability evidence and documented cost or configured preferences; when prices or rankings are unknown, say so instead of claiming a cheapest or best model.
 
-| Task tier | Evidence from the actual job | Starting selection |
+| Task tier | Evidence from the actual job | Starting effort |
 | --- | --- | --- |
-| Routine | Bounded source lookup, code search, fact extraction, simple summary, mechanical edit, or running a known command. | Economical capable model and low effort, or the lowest equivalent the model supports. Routine research starts here. |
-| Standard | Bounded inference, ordinary implementation, accepted test design, or synthesis of consistent sources. | Capable model and medium effort, or the lowest sufficient supported equivalent. |
-| Complex | Conflicting sources, uncertain root cause, cross-system constraints, difficult architecture, or consequential edge cases requiring deeper reasoning. | Stronger capability and high effort only for the named uncertainty or risk. |
+| Routine | Bounded source lookup, code search, fact extraction, simple summary, mechanical edit, or running a known command. | Low, or the lowest equivalent the model supports. Routine research starts here. |
+| Standard | Bounded inference, ordinary implementation, accepted test design, or synthesis of consistent sources. | Medium, or the lowest sufficient supported equivalent. |
+| Complex | Conflicting sources, uncertain root cause, cross-system constraints, difficult architecture, or consequential edge cases requiring deeper reasoning. | High, only for the named uncertainty or risk. |
 | Exceptional | A demonstrably hard unresolved problem that the complex tier cannot adequately address, or an equivalent difficulty established before starting. | The strongest allowed effort (such as `xhigh`) only with a concrete justification and a bounded question and stopping condition. |
 
 **Never run a subagent at `max` effort**, whatever the tier, task, or parent setting; when the parent runs at `max`, set the child's effort explicitly below it. Effort labels are model-specific, not equal budgets across providers. "Research", "read-only", "review", and "architecture" alone do not establish a tier. Split routine evidence gathering from difficult synthesis so only the latter receives deeper reasoning. If only one model is available, vary its supported effort; if effort is fixed, choose the model independently. Preserve tool, context, modality, and permission requirements.
 
 ### Task affinity
 
-Every code review and `reviewer` role, including the [council challenger](../council/challenger.md), uses the Codex harness with the latest available Astra release at `xhigh`, unless the user names another model or effort. This is Gabriel's preference, not a benchmark claim. Resolve Astra from the live catalog under the [council resolution rules](../council/SKILL.md#panel); never substitute Sol or another family. If Astra or `xhigh` is unavailable, report it instead of substituting. Other roles stay provider-neutral unless the user states a preference or a concrete capability requires one.
+Gabriel's pins, not benchmark claims; he maintains them.
+
+| Job | Model and effort |
+| --- | --- |
+| Code review, every `reviewer` role, and the [council challenger](../council/challenger.md) | Astra 6.2 at `xhigh`, Codex harness |
+| Computer or browser use, steered by the parent | Sol 6.2 at `xhigh` |
+| `decider` | Fable 5.2 at `xhigh` |
+
+A user's choice for the run wins. Resolve pins under the [council resolution rules](../council/SKILL.md#panel); if one is unavailable, report it instead of substituting.
 
 ### Apply and verify controls
 
-- Before each spawn, record one selection line in the brief: role, task tier, provider/model, effort, and reason. Use explicit model and effort arguments when supported, not only a request in prompt text. Never silently inherit an expensive model or high effort from the parent.
+- Before each spawn, record one selection line in the brief: role, task tier, provider/model, effort, and reason. Use explicit model and effort arguments when supported, not only a request in prompt text. Never silently inherit high effort from the parent.
 - Discover the live spawn or delegation schema and role configuration under [harness-first discovery](tooling.md#harness-first-discovery); in T3 Code, open [t3-code.md](t3-code.md#delegation). Set model and effort separately where supported. Follow the live interface; not every harness exposes both.
-- Check the returned provider, model, and options against the request. Distinguish requested or stored settings from effective provider settings when the latter are not observable. Report substitutions, environment overrides, ignored controls, and unavailable settings; never claim an override was applied without evidence.
-- If the route cannot express the selection, try a supported route that can. Otherwise use the controllable dimension, or skip the spawn and do the bounded pass serially when the selected skill allows it. Disclose any unavoidable inheritance or deviation from the review affinity. Preserve an explicitly required independent workflow; never claim a Codex or independent reviewer ran when it did not.
+- Check the returned provider, model, and options against the request. Distinguish requested or stored settings from effective provider settings when the latter are not observable. Report substitutions, environment overrides, ignored controls, and unavailable settings; never claim an override was applied without evidence. A child on another model than selected (such as a `Workflow` agent on the parent's) failed: cancel and relaunch it.
+- If the route cannot express the selection, try a supported route that can. Otherwise use the controllable dimension, or skip the spawn and do the bounded pass serially when the selected skill allows it. Disclose any unavoidable inheritance or deviation from the task affinity. Preserve an explicitly required independent workflow; never claim a Codex or independent reviewer ran when it did not.
 
 ## Delegation lifecycle
 
@@ -103,7 +114,7 @@ Follow returned next instructions instead of adding polling, sleeps, watchers, o
 
 ### Escalation
 
-Start at the lowest tier that fits the job, subject to the review affinity or an explicit user selection. To escalate, name the unmet requirement and evidence: unresolved contradictory sources, a failed correctness check, or reasoning the lower tier could not complete. Change one model or effort step at a time when practical, with a bounded retry and a checkable stopping condition. After an unsuccessful escalation, return the remaining blocker to the parent instead of climbing further. Missing credentials, unavailable tools, and network failures are not reasons to buy deeper reasoning. A clearly difficult job can start higher with its evidence recorded; `xhigh` or equivalent is never a blanket default.
+Start at the lowest tier that fits the job, subject to the task affinity or an explicit user selection. To escalate, name the unmet requirement and evidence: unresolved contradictory sources, a failed correctness check, or reasoning the lower tier could not complete. Change one model or effort step at a time when practical, with a bounded retry and a checkable stopping condition. After an unsuccessful escalation, return the remaining blocker to the parent instead of climbing further. Missing credentials, unavailable tools, and network failures are not reasons to buy deeper reasoning. A clearly difficult job can start higher with its evidence recorded; `xhigh` or equivalent is never a blanket default.
 
 ## Check
 

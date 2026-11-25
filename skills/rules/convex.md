@@ -20,6 +20,10 @@ A one-file concern may stay `convex/billing.ts` if that is the repo pattern. A s
 
 Argument and return validators use specific types, never `v.any()`.
 
+## Deployments and worktrees
+
+Threads in one worktree share the cloud dev deployment. With several worktrees, each extra one gets its own local deployment (`npx convex dev --local`) and port, seeded with the cloud dev env vars and data; a shared push deletes other worktrees' indexes.
+
 ## Terminals
 
 `npx convex dev` may already be running. Read its terminal for push success before any Convex check. By default, read terminals instead of running:
