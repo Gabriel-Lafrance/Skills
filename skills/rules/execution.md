@@ -94,13 +94,13 @@ uses them. Recheck under [handoffs and evidence](#handoffs-and-evidence) and the
 route's gate order before delivering to human review. Report blocked or declined
 required fixes as open blockers unless the user waives them by name.
 
-Treat a flagged problem as a sample; sweep its class.
+When the user flags a problem, fix other instances on the touched surface.
 
 ## Recovery and completion
 
 On resume, use the [context authority order](planning.md#authority), inspect actual Git state and live prerequisite contracts, recover settled user decisions with their sources, and reconcile current slice/finding status. A saved process record is a coordination aid, not authority or proof. Preserve unrelated changes and invalidate stale evidence before continuing.
 
-Update docs the change made stale. Ask before fixing drift that may be deliberate.
+Update docs the change made stale; ask about drift that may be deliberate.
 
 Complete only when every applicable acceptance item, test decision, review finding and required check is accounted for on the final result. Report passed, failed, inconclusive and unrun checks separately, with the checked revision/diff, evidence and any named user waiver. Missing access or infrastructure is a blocker, not a pass. Repeated failure means reassess the approach; pause affected work when a new user decision or prerequisite is needed.
 

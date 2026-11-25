@@ -101,7 +101,7 @@ After both gate handoffs are in, report the outcome in chat as a [final report](
 
 ## Ship offer
 
-Use this only when this chat owns shipping and shipping is not already authorized. Ask nothing: the completion report's **Next** line says where the work lives and offers it, such as "Uncommitted. Reply `ship` for a branch, commit, and draft PR." On that reply, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. A [solo repo](../rules/shipping.md#solo-repos) offers a push to `main` instead.
+Use this only when this chat owns shipping and shipping is not already authorized. Ask nothing: the completion report's **Next** line says where the work lives and offers it, such as "Uncommitted. Reply `ship` for a branch, commit, and draft PR." On that reply, follow the [Process in shipping.md](../rules/shipping.md#process) from its first step. A [solo repo](../rules/shipping.md#solo-repos) offers a push to the named default branch.
 
 ## Lifecycle
 
