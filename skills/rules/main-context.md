@@ -91,7 +91,7 @@ Gabriel's pins, not benchmark claims; he maintains them.
 | Computer or browser use, steered by the parent | Sol 6.2 at `xhigh` |
 | `decider` | Fable 5.2 at `xhigh` |
 
-A user's choice for the run wins. Resolve pins under the [council resolution rules](../council/SKILL.md#panel); if one is unavailable, report it instead of substituting.
+A user's choice for the run wins. Resolve each pin by its exact release and effort in the live catalog, never a newer or sibling release; if one is unavailable, report it instead of substituting.
 
 ### Apply and verify controls
 
@@ -114,7 +114,7 @@ Follow returned next instructions instead of adding polling, sleeps, watchers, o
 
 ### Escalation
 
-Start at the lowest tier that fits the job, subject to the task affinity or an explicit user selection. To escalate, name the unmet requirement and evidence: unresolved contradictory sources, a failed correctness check, or reasoning the lower tier could not complete. Change one model or effort step at a time when practical, with a bounded retry and a checkable stopping condition. After an unsuccessful escalation, return the remaining blocker to the parent instead of climbing further. Missing credentials, unavailable tools, and network failures are not reasons to buy deeper reasoning. A clearly difficult job can start higher with its evidence recorded; `xhigh` or equivalent is never a blanket default.
+Start at the lowest tier that fits the job, subject to the task affinity or an explicit user selection. To escalate, name the unmet requirement and evidence: unresolved contradictory sources, a failed correctness check, or reasoning the lower tier could not complete. Change one effort step at a time on the selected model; changing the model needs the user's decision. Escalate with a bounded retry and a checkable stopping condition. After an unsuccessful escalation, return the remaining blocker to the parent instead of climbing further. Missing credentials, unavailable tools, and network failures are not reasons to buy deeper reasoning. A clearly difficult job can start higher with its evidence recorded; `xhigh` or equivalent is never a blanket default.
 
 ## Check
 

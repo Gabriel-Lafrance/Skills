@@ -11,7 +11,7 @@ When the user asks to open, view, click through, record or screenshot a page, us
 - When advertised, `orchestrator_capabilities` supplies models, option descriptors, and inherited settings.
 - Prefer a native same-provider child for synchronous same-turn work when it supports the selected model and settings. Use `delegate_task` for cross-provider work, settings native tools cannot express, background work, or isolated worktrees.
 - Use only advertised target fields and option IDs/values, with explicit selections where supported. Inspect inherited values; clearing options selects defaults, not necessarily low effort.
-- A native child stalled on write permission: relaunch it as a full-access `delegate_task`. A child that died: recover its result from its thread before rerunning.
+- A native child stalled on an authorized write's permission prompt: cancel it, confirm it stopped, then relaunch it as a `delegate_task` within your own runtime mode. A child that died: recover its result from its thread before rerunning.
 - Use the durable `taskId`, not the storage `childThreadId`, for status, wait and cancellation.
 - When supported, a new review round or recheck uses a new `delegate_task` and fresh `clientRequestId`; a retry of the same uncertain request keeps that request identity and reconciles the original outcome first. A thread continuation does not reopen the original published review result.
 - Before replacing a running reviewer, use `task_cancel` when exposed and verify its state. Do not interrupt a storage thread as a substitute.

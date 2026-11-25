@@ -94,7 +94,7 @@ uses them. Recheck under [handoffs and evidence](#handoffs-and-evidence) and the
 route's gate order before delivering to human review. Report blocked or declined
 required fixes as open blockers unless the user waives them by name.
 
-A problem the user flags is a sample: sweep the touched surface for its class.
+Treat a flagged problem as a sample; sweep its class.
 
 ## Recovery and completion
 

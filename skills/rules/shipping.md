@@ -51,7 +51,7 @@ If a PR is already open on the branch, update its body the same way instead of o
 
 ## Solo repos
 
-A repo whose `AGENTS.md` says `Shipping: solo, push to main` skips branches, type and ticket questions, and PRs; a chat instruction covers one run. When asked to ship, commit on the default branch, sync if behind `origin/<default>`, pass the [review loop gate](#review-loop-gate) and [CI mirror](#ci-mirror), then `git push origin HEAD:refs/heads/<default>`. Never force-push.
+A repo whose `AGENTS.md` says `Shipping: solo, push to main` skips branches, type and ticket questions, and PRs; a chat instruction covers one run. When asked to ship, commit on the default branch, sync if behind `origin/<default>`, pass the [review loop gate](#review-loop-gate) on the diff from the fetched `origin/<default>` SHA to `HEAD`, and the [CI mirror](#ci-mirror), then `git push origin HEAD:refs/heads/<default>`. Never force-push.
 
 ## Stacked pull requests
 

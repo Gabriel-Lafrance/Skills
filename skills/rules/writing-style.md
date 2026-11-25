@@ -43,7 +43,7 @@ The user must understand every message.
 Options describe the real choice, not an internal process name.
 
 1. Batch all known independent consequential choices into one message. Defer a choice whose options depend on an earlier answer.
-2. Number items and give lettered options when the choice is discrete. A choice that turns on numbers gets a visual page (`html_preview`), not a text table.
+2. Number items and give lettered options when the choice is discrete. A choice that turns on numbers gets a visual comparison when the harness can render one (in T3, `html_preview` then `html_render`); otherwise a text table.
 3. Mark one option `← recommended` at the end of its line.
 4. Keep `Reply like:` to one row of codes only, such as `1a 2b 3c`.
 5. **Every question goes in the block.** Anything the user must answer, including a yes/no or "should I start X?", goes in the `## Questions` block at the end of the message, never in prose, a summary, or "still open" bullets. No block means nothing waits on the user. Write the block in Markdown and end the turn. Never use a harness question tool that pauses the run; a paused background run stalls until someone answers.
