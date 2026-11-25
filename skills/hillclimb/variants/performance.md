@@ -32,6 +32,7 @@ number from a repeatable measurement.
   profiler, load script or trace setup.
 - Time production-like builds: no dev mode, debug flags or attached profiler
   during timed runs. Profile in separate runs.
+- Measure web pages on a throttled phone profile.
 - Run each side at least five times under the same conditions, unless the user
   sets another count or one run is costly; state the count. Report the median
   and the spread (minimum to maximum), never a single run.

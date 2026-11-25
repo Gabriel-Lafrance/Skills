@@ -31,6 +31,7 @@ Proof standards, the recipe and feature map shape, and the maintenance pass are 
 6. **Drive.** Run each live check through the real path a user or system takes: the UI flow in a browser, the HTTP call, the CLI command, the job trigger.
    - If an execution skill started this run as an independent subagent, drive here. This subagent did not write the code.
    - For substantial or high-risk changes authored here, hand the drive to a fresh subagent with the selected checks and recipe when available. Focused low-risk checks can run here. Ask for evidence per check, not a summary; preserve an explicitly requested independent workflow.
+   - When the user will test it themselves, hand them a runbook (steps, URLs, expected result), not a credentials request.
 7. **Judge.** Reconcile every suite and live check against the inventory and pinned target, then mark each verified, failed, or inconclusive ([outcomes](doctrine.md#outcomes)). Read delegated evidence yourself.
 8. **Code what is worth keeping.** For each verified check that guards a rule likely to break silently and has no test yet, add it to the [proposal](../rules/testing.md#proposal), end to end first. Write only accepted tests ([no unrequested tests](../rules/no-unrequested-tests.md)), following [testing.md](../rules/testing.md); otherwise propose and keep going.
 9. **Cleanup.** Stop only what this run started. Evidence survives cleanup.

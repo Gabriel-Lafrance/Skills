@@ -2,10 +2,9 @@
 
 ## Model and routing
 
-Use the **latest available Codex Astra at xhigh**, the
-[review affinity](../rules/main-context.md#task-affinity). Resolve it from the
-live catalog under the [panel selection rules](SKILL.md#panel); never
-substitute Sol. The user may omit this pass or override its settings.
+Use **Codex Astra 6.2 at xhigh**, the
+[review affinity](../rules/main-context.md#task-affinity). Resolve that exact release
+from the live catalog; never substitute Sol or another release. The user may omit this pass or override its settings.
 
 In T3 Code, pass the resolved ID as `target.model` and set
 `target.options.reasoningEffort: "xhigh"` through `delegate_task`.

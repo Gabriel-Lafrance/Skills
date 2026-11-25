@@ -28,6 +28,7 @@ Pick the moves that establish the bounded claim; unrelated layers stay unrun.
 - Watch the page settle from load through the first interaction when you touched layout, loading, images, or fonts. Measure layout shift and name the element that moved; above 0.1 is a problem ([snippet](#layout-shift-probe)).
 - A new console error, unhandled rejection, or unintended 4xx or 5xx request is a finding.
 - Force the states you touched: loading, empty, error, disabled, success. Compare them with `docs/design.md`.
+- Throw an error on the changed route: the app's error boundary, not the framework's raw page, shows it.
 - On a failed write, check that edits survive and retry works. Cancel or go back and verify the prior context and focus return. An opened dialog or editor with missing known inputs fails the interaction contract.
 - When screenshot capture is available, inspect representative settled states at relevant viewports against the existing product: primary action prominence, component reuse, typography, spacing, density, and clipping. Report concrete discrepancies. A screenshot does not replace exercising behavior.
 - Click the primary action twice fast when it writes: one row, one charge, one message.
