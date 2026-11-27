@@ -87,7 +87,7 @@ Gabriel's pins, not benchmark claims; he maintains them.
 
 | Job | Model and effort |
 | --- | --- |
-| Code review (`reviewer`, `/review-loop`) | Sol 6.2 at `xhigh` |
+| Every `reviewer` role and `/review-loop` | Sol 6.2 at `xhigh` |
 | [Council challenger](../council/challenger.md) | Astra 6.2 at `xhigh` |
 | Browser or computer use, parent-steered | Sol 6.2 at `xhigh` |
 | `decider` | Fable 5.2 at `xhigh` |
