@@ -2,8 +2,8 @@
 
 ## Model and routing
 
-Use **Codex Astra 6.2 at xhigh**, the
-[review affinity](../rules/main-context.md#task-affinity). Resolve that exact release
+Use **Codex Astra 6.2 at xhigh**, its
+[task affinity](../rules/main-context.md#task-affinity) pin. Resolve that exact release
 from the live catalog; never substitute Sol or another release. The user may omit this pass or override its settings.
 
 In T3 Code, pass the resolved ID as `target.model` and set
