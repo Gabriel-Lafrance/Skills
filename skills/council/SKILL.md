@@ -82,7 +82,7 @@ Never inherit the catalog's effort default.
    same pinned result. The
    owner adjudicates its objections with evidence, then chooses corrections
    under existing authority and [test consent](../rules/no-unrequested-tests.md).
-   Inside a hillclimb, skip this step; its Astra review runs once before any PR push.
+   Inside a hillclimb, skip this step; its `/review-loop` runs once before any PR push.
    Standalone feedback ends here unless the user also requested corrections
    or iteration. Nested council returns findings to its parent, which owns
    dispatch and acceptance; it never starts another build or review loop.

@@ -18,7 +18,7 @@ Keep the budget and backlog in the
    [main-context.md](../rules/main-context.md#subagent-roles) and follow its
    [delegation lifecycle](../rules/main-context.md#delegation-lifecycle).
    Reviewers use the [review affinity](../rules/main-context.md#task-affinity)
-   (Codex Astra 6.2 at `xhigh`); set it under
+   (Codex Sol 6.2 at `xhigh`); set it under
    [apply and verify controls](../rules/main-context.md#apply-and-verify-controls).
 3. Run the applicable review mode on a fixed scope. Keep stable IDs and evidence;
    return findings to the one owner. PR comments retain `/review`'s publish gate.

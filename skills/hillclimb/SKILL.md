@@ -72,8 +72,8 @@ single agent.
 
 When the user asks for a council on a rated variant, use [council](../council/SKILL.md) for the
 reviewer slot: its assessment panel rates round 0 and its rerating panel rates
-every later round. Skip the council's challenger in every round: [Astra review](../council/challenger.md)
-runs once, as `/review-loop` on the final diff before any PR push. The parent
+every later round. Skip the council's [challenger](../council/challenger.md) in every round: `/review-loop`
+runs once on the final diff before any PR push. The parent
 gives each read-only member the same `/verification` evidence and adjudicates
 the panel's findings. Council replaces the single reviewer, not the implementer
 or evidence owner.

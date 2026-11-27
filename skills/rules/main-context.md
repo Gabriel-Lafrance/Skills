@@ -87,8 +87,9 @@ Gabriel's pins, not benchmark claims; he maintains them.
 
 | Job | Model and effort |
 | --- | --- |
-| Code review, every `reviewer` role, and the [council challenger](../council/challenger.md) | Astra 6.2 at `xhigh`, Codex harness |
-| Computer or browser use, steered by the parent | Sol 6.2 at `xhigh` |
+| Code review (`reviewer`, `/review-loop`) | Sol 6.2 at `xhigh` |
+| [Council challenger](../council/challenger.md) | Astra 6.2 at `xhigh` |
+| Browser or computer use, parent-steered | Sol 6.2 at `xhigh` |
 | `decider` | Fable 5.2 at `xhigh` |
 
 A user's choice for the run wins. Resolve each pin by its exact release and effort in the live catalog, never a newer or sibling release; if one is unavailable, report it instead of substituting.
